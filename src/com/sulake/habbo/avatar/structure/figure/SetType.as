@@ -29,7 +29,7 @@ package com.sulake.habbo.avatar.structure.figure
         public function dispose():void
         {
             var _local_1:FigurePartSet;
-            for each (_local_1 in this._partSets.Map()) {
+            for each (_local_1 in this._partSets.getValues()) {
                 _local_1.dispose();
             };
             this._partSets.dispose();
@@ -97,7 +97,7 @@ package com.sulake.habbo.avatar.structure.figure
 // IFigurePartSet = "_-5Y" (String#7773, DoABC#2)
 // ISetType = "_-Gf" (String#8011, DoABC#2)
 // FigurePartSet = "_-0fB" (String#4410, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // getPartSet = "_-72" (String#7807, DoABC#2)
 // isMandatory = "_-0Zr" (String#4295, DoABC#2)
 // paletteID = "_-0BG" (String#3784, DoABC#2)

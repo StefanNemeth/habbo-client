@@ -39,7 +39,7 @@ package com.sulake.habbo.ui.handler
         }
         public function set connection(_arg_1:IConnection):void
         {
-            this._SafeStr_7375 = new RequestSpamWallPostItMessageEvent(this.SpamWallPostItWidgetHandler);
+            this._SafeStr_7375 = new RequestSpamWallPostItMessageEvent(this.onSpamWallPostItRequest);
             this._connection = _arg_1;
             this._connection.addMessageEvent(this._SafeStr_7375);
         }
@@ -47,11 +47,11 @@ package com.sulake.habbo.ui.handler
         {
             if (!this._disposed){
                 this._disposed = true;
-                this._connection.SocketConnection(this._SafeStr_7375);
+                this._connection.removeMessageEvent(this._SafeStr_7375);
                 this._connection = null;
             };
         }
-        private function SpamWallPostItWidgetHandler(_arg_1:RequestSpamWallPostItMessageEvent):void
+        private function onSpamWallPostItRequest(_arg_1:RequestSpamWallPostItMessageEvent):void
         {
             var _local_7:String;
             if (_arg_1 == null){
@@ -63,10 +63,10 @@ package com.sulake.habbo.ui.handler
             var _local_5:String = "post_it";
             var _local_6:IItem;
             if (this._container.inventory != null){
-                _local_6 = this._container.inventory.HabboInventory(FurniModelCategory.I, _local_3);
+                _local_6 = this._container.inventory.getItemById(FurniModelCategory.I, _local_3);
             };
             if (((!((_local_6 == null))) && (!((this._container.roomEngine == null))))){
-                _local_7 = this._container.roomEngine.RoomEngine(_local_6.type);
+                _local_7 = this._container.roomEngine.getWallItemType(_local_6.type);
                 _local_5 = ((_local_7.match("vd")) ? "post_it_vd" : "post_it");
             };
             if (this._container != null){
@@ -75,7 +75,7 @@ package com.sulake.habbo.ui.handler
                 };
             };
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetSpamWallPostItEditEvent.RWSWPUE_OPEN_EDITOR, RoomWidgetSpamWallPostItFinishEditingMessage.RWSWPFEE_SEND_POSTIT_DATA]);
         }
@@ -96,11 +96,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -126,13 +126,13 @@ package com.sulake.habbo.ui.handler
 // RWE_SPAMWALL_POSTIT_WIDGET = "_-SH" (String#23335, DoABC#2)
 // RWSWPUE_OPEN_EDITOR = "_-1kX" (String#18309, DoABC#2)
 // I = "_-3-D" (String#21470, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7375 = "_-Na" (String#23149, DoABC#2)
-// SpamWallPostItWidgetHandler = "_-3Dp" (String#22027, DoABC#2)
-// HabboInventory = "_-Ap" (String#7883, DoABC#2)
-// RoomEngine = "_-0BC" (String#3783, DoABC#2)
+// onSpamWallPostItRequest = "_-3Dp" (String#22027, DoABC#2)
+// getItemById = "_-Ap" (String#7883, DoABC#2)
+// getWallItemType = "_-0BC" (String#3783, DoABC#2)
 
 

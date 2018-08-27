@@ -51,7 +51,7 @@ package com.sulake.habbo.room.object.logic.room
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectMouseEvent.ROE_MOUSE_MOVE, RoomObjectMouseEvent.ROE_MOUSE_CLICK];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -167,7 +167,7 @@ package com.sulake.habbo.room.object.logic.room
                     return;
             };
         }
-        private function RoomVisualization(_arg_1:RoomObjectRoomMaskUpdateMessage, _arg_2:IRoomObjectModelController):void
+        private function updatePlaneMasks(_arg_1:RoomObjectRoomMaskUpdateMessage, _arg_2:IRoomObjectModelController):void
         {
             var _local_5:String;
             var _local_6:XML;
@@ -180,11 +180,11 @@ package com.sulake.habbo.room.object.logic.room
                     if (_arg_1.maskCategory == RoomObjectRoomMaskUpdateMessage._SafeStr_5793){
                         _local_5 = RoomPlaneBitmapMaskData._SafeStr_5793;
                     };
-                    this._SafeStr_5763.RoomPlaneBitmapMaskParser(_arg_1.maskId, _arg_1.maskType, _arg_1.maskLocation, _local_5);
+                    this._SafeStr_5763.addMask(_arg_1.maskId, _arg_1.maskType, _arg_1.maskLocation, _local_5);
                     _local_4 = true;
                     break;
                 case RoomObjectRoomMaskUpdateMessage.RORMUM_ADD_MASK:
-                    _local_4 = this._SafeStr_5763.RoomPlaneBitmapMaskParser(_arg_1.maskId);
+                    _local_4 = this._SafeStr_5763.removeMask(_arg_1.maskId);
                     break;
             };
             if (_local_4){
@@ -220,15 +220,15 @@ package com.sulake.habbo.room.object.logic.room
                     return;
             };
         }
-        private function RoomVisualization(_arg_1:RoomObjectRoomFloorHoleUpdateMessage, _arg_2:IRoomObjectModelController):void
+        private function updateFloorHoles(_arg_1:RoomObjectRoomFloorHoleUpdateMessage, _arg_2:IRoomObjectModelController):void
         {
             switch (_arg_1.type){
                 case RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_ADD:
-                    this._planeParser.RoomEngine(_arg_1.id, _arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
+                    this._planeParser.addFloorHole(_arg_1.id, _arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
                     this._SafeStr_5770 = true;
                     return;
                 case RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_REMOVE:
-                    this._planeParser.RoomEngine(_arg_1.id);
+                    this._planeParser.removeFloorHole(_arg_1.id);
                     this._SafeStr_5770 = true;
                     return;
             };
@@ -261,7 +261,7 @@ package com.sulake.habbo.room.object.logic.room
             };
             var _local_4:RoomObjectRoomMaskUpdateMessage = (_arg_1 as RoomObjectRoomMaskUpdateMessage);
             if (_local_4 != null){
-                this.RoomVisualization(_local_4, _local_2);
+                this.updatePlaneMasks(_local_4, _local_2);
                 return;
             };
             var _local_5:RoomObjectRoomPlaneVisibilityUpdateMessage = (_arg_1 as RoomObjectRoomPlaneVisibilityUpdateMessage);
@@ -276,7 +276,7 @@ package com.sulake.habbo.room.object.logic.room
             };
             var _local_7:RoomObjectRoomFloorHoleUpdateMessage = (_arg_1 as RoomObjectRoomFloorHoleUpdateMessage);
             if (_local_7 != null){
-                this.RoomVisualization(_local_7, _local_2);
+                this.updateFloorHoles(_local_7, _local_2);
             };
             var _local_8:RoomObjectRoomColorUpdateMessage = (_arg_1 as RoomObjectRoomColorUpdateMessage);
             if (_local_8 != null){
@@ -333,7 +333,7 @@ package com.sulake.habbo.room.object.logic.room
             var _local_15:Number = _local_3.screenX;
             var _local_16:Number = _local_3.screenY;
             var _local_17:Point = new Point(_local_15, _local_16);
-            _local_7 = _arg_2.RoomGeometry(_local_17, _local_8, _local_9, _local_10);
+            _local_7 = _arg_2.getPlanePosition(_local_17, _local_8, _local_9, _local_10);
             if (_local_7 == null){
                 _local_4.setNumber(RoomObjectVariableEnum._SafeStr_5816, 0);
                 return;
@@ -427,7 +427,7 @@ package com.sulake.habbo.room.object.logic.room
 // bgOnly = "_-320" (String#21580, DoABC#2)
 // _light = "_-dT" (String#462, DoABC#2)
 // getXML = "_-2Oe" (String#6532, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // spriteTag = "_-1jr" (String#18278, DoABC#2)
@@ -460,16 +460,16 @@ package com.sulake.habbo.room.object.logic.room
 // RORUM_ROOM_WALL_UPDATE = "_-0DM" (String#14584, DoABC#2)
 // _SafeStr_5788 = "_-Nt" (String#23160, DoABC#2)
 // RORUM_ROOM_LANDSCAPE_UPDATE = "_-G8" (String#22858, DoABC#2)
-// RoomVisualization = "_-7g" (String#7817, DoABC#2)
+// updatePlaneMasks = "_-7g" (String#7817, DoABC#2)
 // _SafeStr_5791 = "_-2fX" (String#20670, DoABC#2)
 // maskCategory = "_-0Eb" (String#14628, DoABC#2)
 // _SafeStr_5793 = "_-3En" (String#22068, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-0SM" (String#15149, DoABC#2)
+// addMask = "_-0SM" (String#15149, DoABC#2)
 // maskId = "_-0KY" (String#14862, DoABC#2)
 // maskType = "_-2Ek" (String#19595, DoABC#2)
 // maskLocation = "_-0I8" (String#14763, DoABC#2)
 // RORMUM_ADD_MASK = "_-0tl" (String#16193, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-07G" (String#14336, DoABC#2)
+// removeMask = "_-07G" (String#14336, DoABC#2)
 // RORMUM_ADD_MASK = "_-0LP" (String#14892, DoABC#2)
 // _SafeStr_5801 = "_-Yf" (String#23585, DoABC#2)
 // updatePlaneVisibilities = "_-2o6" (String#21006, DoABC#2)
@@ -480,9 +480,9 @@ package com.sulake.habbo.room.object.logic.room
 // RORPVUM_FLOOR_THICKNESS = "_-2pM" (String#7067, DoABC#2)
 // _SafeStr_5808 = "_-08p" (String#14398, DoABC#2)
 // RORPPUM_WALL_THICKNESS = "_-GT" (String#8005, DoABC#2)
-// RoomVisualization = "_-1mt" (String#5796, DoABC#2)
-// RoomEngine = "_-u-" (String#8766, DoABC#2)
-// RoomEngine = "_-1hN" (String#5693, DoABC#2)
+// updateFloorHoles = "_-1mt" (String#5796, DoABC#2)
+// addFloorHole = "_-u-" (String#8766, DoABC#2)
+// removeFloorHole = "_-1hN" (String#5693, DoABC#2)
 // updateColors = "_-Fc" (String#22835, DoABC#2)
 // _SafeStr_5814 = "_-2v1" (String#21279, DoABC#2)
 // planeCount = "_-2lv" (String#20913, DoABC#2)
@@ -494,7 +494,7 @@ package com.sulake.habbo.room.object.logic.room
 // getPlaneType = "_-3BR" (String#21940, DoABC#2)
 // screenX = "_-2jN" (String#20819, DoABC#2)
 // screenY = "_-1oK" (String#18472, DoABC#2)
-// RoomGeometry = "_-eX" (String#8492, DoABC#2)
+// getPlanePosition = "_-eX" (String#8492, DoABC#2)
 // product = "_-Bd" (String#22675, DoABC#2)
 // _SafeStr_5826 = "_-rc" (String#24344, DoABC#2)
 // _SafeStr_5827 = "_-2Zy" (String#20438, DoABC#2)

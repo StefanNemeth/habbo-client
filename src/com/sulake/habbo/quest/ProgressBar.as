@@ -64,10 +64,10 @@ package com.sulake.habbo.quest
             this._SafeStr_12361 = this._SafeStr_12362;
             this._SafeStr_12360 = _arg_3;
             if (_local_4){
-                this._SafeStr_12362 = this.ProgressBar(this._SafeStr_12358);
+                this._SafeStr_12362 = this.getProgressWidth(this._SafeStr_12358);
             };
             this._SafeStr_12363 = true;
-            this.ProgressBar();
+            this.updateView();
         }
         public function set visible(_arg_1:Boolean):void
         {
@@ -76,7 +76,7 @@ package com.sulake.habbo.quest
                 _local_2.visible = _arg_1;
             };
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             var _local_7:IBitmapWrapperWindow;
             var _local_8:IBitmapWrapperWindow;
@@ -101,7 +101,7 @@ package com.sulake.habbo.quest
             if (this._SafeStr_12364 == null){
                 this._SafeStr_12364 = _local_1.bitmap.clone();
             };
-            var _local_3:int = this.ProgressBar(this._SafeStr_12358);
+            var _local_3:int = this.getProgressWidth(this._SafeStr_12358);
             if (this._SafeStr_12362 < _local_3){
                 _local_9 = Math.min(Math.abs((this._SafeStr_12362 - _local_3)), Math.abs((this._SafeStr_12361 - _local_3)));
                 this._SafeStr_12362 = Math.min(_local_3, (this._SafeStr_12362 + Math.max(1, Math.round(Math.sqrt(_local_9)))));
@@ -112,7 +112,7 @@ package com.sulake.habbo.quest
             if (_local_4){
                 _local_1.width = this._SafeStr_12364.width;
                 if (this._SafeStr_12362 < _local_3){
-                    this.ProgressBar();
+                    this.changeProgressColorFilter();
                     _local_1.bitmap.applyFilter(this._SafeStr_12364, this._SafeStr_12364.rect, new Point(0, 0), this._SafeStr_12366);
                 }
                 else {
@@ -138,13 +138,13 @@ package com.sulake.habbo.quest
         {
             return ((this._SafeStr_8017 == null));
         }
-        private function ProgressBar(_arg_1:int):int
+        private function getProgressWidth(_arg_1:int):int
         {
             return (Math.max(0, Math.round(((this._SafeStr_12355 * _arg_1) / this._SafeStr_12359))));
         }
-        private function ProgressBar():void
+        private function changeProgressColorFilter():void
         {
-            var _local_1:int = this.ProgressBar(this._SafeStr_12358);
+            var _local_1:int = this.getProgressWidth(this._SafeStr_12358);
             var _local_2:int = (_local_1 - this._SafeStr_12361);
             if (_local_2 == 0){
                 return;
@@ -175,11 +175,11 @@ package com.sulake.habbo.quest
 // _SafeStr_12364 = "_-0qc" (String#16071, DoABC#2)
 // _SafeStr_12365 = "_-2rF" (String#21128, DoABC#2)
 // _SafeStr_12366 = "_-09j" (String#14436, DoABC#2)
-// ProgressBar = "_-pK" (String#24246, DoABC#2)
-// ProgressBar = "_-e8" (String#23808, DoABC#2)
+// getProgressWidth = "_-pK" (String#24246, DoABC#2)
+// changeProgressColorFilter = "_-e8" (String#23808, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
 
 

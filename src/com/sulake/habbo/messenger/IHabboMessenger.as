@@ -6,7 +6,7 @@ package com.sulake.habbo.messenger
     public interface IHabboMessenger extends IUnknown 
     {
 
-        function IssueBrowser():Boolean;
+        function isOpen():Boolean;
         function toggleMessenger():void;
         function startConversation(_arg_1:int):void;
         function getActiveConversation():IConversation;
@@ -21,7 +21,7 @@ package com.sulake.habbo.messenger
 // setFollowingAllowed = "_-32S" (String#7358, DoABC#2)
 // setOnlineStatus = "_-0QG" (String#4097, DoABC#2)
 // IConversation = "_-1me" (String#5792, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // IHabboMessenger = "_-0EF" (String#3832, DoABC#2)
 
 

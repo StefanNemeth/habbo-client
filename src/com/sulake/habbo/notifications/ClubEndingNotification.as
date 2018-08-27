@@ -44,7 +44,7 @@ package com.sulake.habbo.notifications
                     _local_8.style = HabboIconType._SafeStr_5487;
                 };
             };
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             this._window.center();
         }
         public function get visible():Boolean
@@ -59,7 +59,7 @@ package com.sulake.habbo.notifications
             };
             this._catalog = null;
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -87,7 +87,7 @@ package com.sulake.habbo.notifications
 // CatalogPageName = "_-mv" (String#24149, DoABC#2)
 // IIconWindow = "_-1ph" (String#1764, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // _SafeStr_5487 = "_-2OW" (String#19986, DoABC#2)
 // _SafeStr_7432 = "_-22l" (String#19122, DoABC#2)

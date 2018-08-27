@@ -134,7 +134,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         override protected function getSpriteAssetName(_arg_1:int, _arg_2:int):String
         {
             var _local_7:int;
-            var _local_3:int = FurnitureVisualization(_arg_1);
+            var _local_3:int = getSize(_arg_1);
             var _local_4:String = type;
             var _local_5:String = "";
             if (_arg_2 < (spriteCount - 1)){
@@ -150,7 +150,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 _local_7 = getFrameNumber(_arg_1, _arg_2);
                 _local_4 = (_local_4 + ((((((("_" + _local_3) + "_") + _local_5) + "_") + direction) + "_") + _local_7));
             };
-            var _local_6:String = FurnitureVisualization(_arg_1, direction, _arg_2);
+            var _local_6:String = getSpriteTag(_arg_1, direction, _arg_2);
             if (((!((this._imageUrl == null))) && ((_local_6 == _SafeStr_12653)))){
                 return (((((this._imageUrl + "_") + _local_3) + "_") + object.getState(0)));
             };
@@ -168,7 +168,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 return;
             };
             var _local_3:int = object.getState(0);
-            var _local_4:int = FurnitureVisualization(_arg_1);
+            var _local_4:int = getSize(_arg_1);
             var _local_5:String = ((((this._imageUrl + "_") + _local_4) + "_") + _local_3);
             var _local_6:IGraphicAsset = assetCollection.getAsset(_local_5);
             if (_local_6 != null){
@@ -235,7 +235,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_12478 = "_-0cY" (String#15536, DoABC#2)
 // _SafeStr_12479 = "_-0Kb" (String#14864, DoABC#2)
 // updateSprites = "_-03G" (String#805, DoABC#2)
-// FurnitureVisualization = "_-00o" (String#14086, DoABC#2)
+// getSpriteTag = "_-00o" (String#14086, DoABC#2)
 // _SafeStr_12653 = "_-1r9" (String#18588, DoABC#2)
 // _SafeStr_12654 = "_-4" (String#22377, DoABC#2)
 // _SafeStr_12655 = "_-Bi" (String#22678, DoABC#2)
@@ -256,6 +256,6 @@ package com.sulake.habbo.room.object.visualization.furniture
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
 // getFrameNumber = "_-0XM" (String#436, DoABC#2)
 // getSpriteAssetName = "_-0c-" (String#590, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 
 

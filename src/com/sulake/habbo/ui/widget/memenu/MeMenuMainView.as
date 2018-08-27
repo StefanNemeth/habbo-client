@@ -60,7 +60,7 @@ package com.sulake.habbo.ui.widget.memenu
         {
             return (this._window);
         }
-        public function MeMenuMainView(_arg_1:String, _arg_2:String, _arg_3:String=null, _arg_4:String=null):void
+        public function setIconAssets(_arg_1:String, _arg_2:String, _arg_3:String=null, _arg_4:String=null):void
         {
             if (this._SafeStr_3935[_arg_1] == null){
                 return;
@@ -71,7 +71,7 @@ package com.sulake.habbo.ui.widget.memenu
             if (_arg_4 != null){
                 this._SafeStr_3935[_arg_1][1] = _arg_4;
             };
-            this.PendingImage(_arg_1, _arg_3);
+            this.setElementImage(_arg_1, _arg_3);
         }
         private function createWindow(_arg_1:String):void
         {
@@ -114,9 +114,9 @@ package com.sulake.habbo.ui.widget.memenu
                             };
                             break;
                         case "hc_icon":
-                            _local_8 = (this.MeMenuMainView() + _local_8);
+                            _local_8 = (this.getClubAssetNameBase() + _local_8);
                             if (!this._widget.isHabboClubActive){
-                                this.MeMenuMainView("hc_text", this._widget.localizations.getKey("widget.memenu.hc.join"));
+                                this.setElementText("hc_text", this._widget.localizations.getKey("widget.memenu.hc.join"));
                             }
                             else {
                                 if (this._widget.habboClubLevel == HabboClubLevelEnum._SafeStr_3939){
@@ -130,7 +130,7 @@ package com.sulake.habbo.ui.widget.memenu
                                 };
                                 this._widget.localizations.registerParameter(_local_10, "days", String(this._widget.habboClubDays));
                                 this._widget.localizations.registerParameter(_local_10, "months", String(this._widget.habboClubPeriods));
-                                this.MeMenuMainView("hc_text", this._widget.localizations.getKey(_local_10));
+                                this.setElementText("hc_text", this._widget.localizations.getKey(_local_10));
                             };
                             break;
                         case "news_icon":
@@ -139,19 +139,19 @@ package com.sulake.habbo.ui.widget.memenu
                             };
                             break;
                     };
-                    this.PendingImage(_local_4, _local_8, _local_9);
+                    this.setElementImage(_local_4, _local_8, _local_9);
                 };
             };
             _local_6 = 0;
             while (_local_6 < this._window.numChildren) {
                 _local_5 = this._window.getChildAt(_local_6);
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.MeMenuMainView);
-                _local_5.addEventListener(WindowMouseEvent.WME_OUT, this.MeMenuMainView);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseOverOrOut);
+                _local_5.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseOverOrOut);
                 _local_6++;
             };
         }
-        private function MeMenuMainView():String
+        private function getClubAssetNameBase():String
         {
             switch (this._widget.habboClubLevel){
                 case HabboClubLevelEnum._SafeStr_3942:
@@ -162,7 +162,7 @@ package com.sulake.habbo.ui.widget.memenu
             };
             return (null);
         }
-        private function PendingImage(_arg_1:String, _arg_2:String, _arg_3:Number=1):void
+        private function setElementImage(_arg_1:String, _arg_2:String, _arg_3:Number=1):void
         {
             var _local_4:IBitmapWrapperWindow = (this._window.findChildByName(_arg_1) as IBitmapWrapperWindow);
             var _local_5:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_2) as BitmapDataAsset);
@@ -181,14 +181,14 @@ package com.sulake.habbo.ui.widget.memenu
             _local_4.bitmap.copyPixels(_local_6, _local_6.rect, new Point(_local_7, _local_8));
             _local_4.blend = _arg_3;
         }
-        private function MeMenuMainView(_arg_1:String, _arg_2:String):void
+        private function setElementText(_arg_1:String, _arg_2:String):void
         {
             var _local_3:ITextWindow = (this._window.findChildByName(_arg_1) as ITextWindow);
             if (_local_3 != null){
                 _local_3.text = _arg_2;
             };
         }
-        private function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        private function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_4:Boolean;
             var _local_5:String;
@@ -199,7 +199,7 @@ package com.sulake.habbo.ui.widget.memenu
                     if (this._widget.hasEffectOn){
                         return;
                     };
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3860);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3860);
                     break;
                 case "wave":
                     if (this._widget.hasEffectOn){
@@ -236,7 +236,7 @@ package com.sulake.habbo.ui.widget.memenu
                     this._widget.hide();
                     break;
                 case "settings":
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3861);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3861);
                     break;
                 case "news":
                     if (((ExternalInterface.available) && (this._widget.isNewsEnabled))){
@@ -252,7 +252,7 @@ package com.sulake.habbo.ui.widget.memenu
                     else {
                         _local_5 = this._widget.config.getKey("link.format.credits", "/credits");
                         HabboWebTools.navigateToURL(_local_5, "habboMain");
-                        this._widget.windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.MeMenuMainView);
+                        this._widget.windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.onAlertClicked);
                     };
                     this._widget.hide();
                     break;
@@ -261,11 +261,11 @@ package com.sulake.habbo.ui.widget.memenu
             };
             HabboTracking.getInstance().trackEventLog("MeMenu", "click", _local_3);
         }
-        private function MeMenuMainView(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClicked(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
-        private function MeMenuMainView(_arg_1:WindowMouseEvent):void
+        private function onMouseOverOrOut(_arg_1:WindowMouseEvent):void
         {
             var _local_5:Array;
             var _local_6:String;
@@ -296,14 +296,14 @@ package com.sulake.habbo.ui.widget.memenu
                     };
                     break;
                 case "hc":
-                    _local_7 = this.MeMenuMainView();
+                    _local_7 = this.getClubAssetNameBase();
                     break;
             };
             _local_4 = (_local_3 + "_icon");
             _local_5 = this._SafeStr_3935[_local_4];
             if (_local_5 != null){
                 _local_6 = (_local_7 + _local_5[_local_8]);
-                this.PendingImage(_local_4, _local_6);
+                this.setElementImage(_local_4, _local_6);
             };
         }
 
@@ -332,25 +332,25 @@ package com.sulake.habbo.ui.widget.memenu
 // RWOCM_CLUB_MAIN = "_-1FR" (String#17091, DoABC#2)
 // _SafeStr_3860 = "_-1SH" (String#17592, DoABC#2)
 // _SafeStr_3861 = "_-1HH" (String#17161, DoABC#2)
-// MeMenuWidget = "_-0hX" (String#15729, DoABC#2)
-// MeMenuMainView = "_-27e" (String#19316, DoABC#2)
+// changeView = "_-0hX" (String#15729, DoABC#2)
+// setIconAssets = "_-27e" (String#19316, DoABC#2)
 // isHabboClubActive = "_-0Ta" (String#15193, DoABC#2)
 // habboClubDays = "_-1Et" (String#17066, DoABC#2)
 // habboClubPeriods = "_-2O9" (String#19972, DoABC#2)
 // habboClubLevel = "_-03V" (String#14181, DoABC#2)
 // isNewsEnabled = "_-3-L" (String#21475, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
 // trackEventLog = "_-0ML" (String#14927, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // _SafeStr_3935 = "_-NY" (String#23147, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
-// MeMenuMainView = "_-0p0" (String#16014, DoABC#2)
-// MeMenuMainView = "_-0kv" (String#15862, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
+// getClubAssetNameBase = "_-0p0" (String#16014, DoABC#2)
+// setElementText = "_-0kv" (String#15862, DoABC#2)
 // _SafeStr_3939 = "_-2gR" (String#20706, DoABC#2)
-// MeMenuMainView = "_-2jC" (String#20811, DoABC#2)
+// onMouseOverOrOut = "_-2jC" (String#20811, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _SafeStr_3942 = "_-0G0" (String#14684, DoABC#2)
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
-// MeMenuMainView = "_-16I" (String#16709, DoABC#2)
+// onAlertClicked = "_-16I" (String#16709, DoABC#2)
 
 

@@ -57,7 +57,7 @@ package com.sulake.habbo.sound.trax
                         };
                         _local_15 = int(_local_14[0]);
                         _local_16 = int(_local_14[1]);
-                        _local_12.TraxChannel(new TraxChannelItem(_local_15, _local_16));
+                        _local_12.addChannelItem(new TraxChannelItem(_local_15, _local_16));
                         _local_13++;
                     };
                     this._channels.push(_local_12);
@@ -80,7 +80,7 @@ package com.sulake.habbo.sound.trax
                 _local_3 = (this._channels[_local_2] as TraxChannel);
                 _local_4 = 0;
                 while (_local_4 < _local_3.itemCount) {
-                    _local_5 = _local_3.GroupItem(_local_4);
+                    _local_5 = _local_3.getItem(_local_4);
                     if (_local_1.indexOf(_local_5.id) == -1){
                         _local_1.push(_local_5.id);
                     };
@@ -109,10 +109,10 @@ package com.sulake.habbo.sound.trax
 // TraxData = "_-kA" (String#8604, DoABC#2)
 // TraxChannelItem = "_-0kh" (String#4515, DoABC#2)
 // TraxChannel = "_-2yL" (String#7246, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // _channels = "_-5V" (String#22443, DoABC#2)
 // _SafeStr_6117 = "_-1T7" (String#17630, DoABC#2)
-// TraxChannel = "_-0xc" (String#16337, DoABC#2)
+// addChannelItem = "_-0xc" (String#16337, DoABC#2)
 // channels = "_-2lP" (String#20897, DoABC#2)
 // getSampleIds = "_-1c-" (String#17971, DoABC#2)
 // itemCount = "_-1fH" (String#18108, DoABC#2)

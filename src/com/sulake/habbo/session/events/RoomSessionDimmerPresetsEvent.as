@@ -28,12 +28,12 @@ package com.sulake.habbo.session.events
         {
             this._selectedPresetId = _arg_1;
         }
-        public function RoomWidgetDimmerUpdateEvent(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
+        public function storePreset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
         {
             var _local_5:RoomSessionDimmerPresetsEventPresetItem = new RoomSessionDimmerPresetsEventPresetItem(_arg_1, _arg_2, _arg_3, _arg_4);
             this._presets[(_arg_1 - 1)] = _local_5;
         }
-        public function RoomWidgetDimmerUpdateEvent(_arg_1:int):RoomSessionDimmerPresetsEventPresetItem
+        public function getPreset(_arg_1:int):RoomSessionDimmerPresetsEventPresetItem
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this._presets.count)))){
                 return (null);
@@ -50,7 +50,7 @@ package com.sulake.habbo.session.events
 // RSDPE_PRESETS = "_-3B3" (String#21925, DoABC#2)
 // selectedPresetId = "_-0Pr" (String#15055, DoABC#2)
 // presetCount = "_-Gt" (String#22886, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0k4" (String#15834, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0rG" (String#16096, DoABC#2)
+// storePreset = "_-0k4" (String#15834, DoABC#2)
+// getPreset = "_-0rG" (String#16096, DoABC#2)
 
 

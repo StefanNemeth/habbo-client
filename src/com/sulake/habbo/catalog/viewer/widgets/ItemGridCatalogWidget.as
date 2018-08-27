@@ -172,11 +172,11 @@ package com.sulake.habbo.catalog.viewer.widgets
         protected function createGridItem(_arg_1:Offer):void
         {
             var _local_2:IWindowContainer = (page.viewer.catalog.windowManager.buildFromXML(this._SafeStr_10422) as IWindowContainer);
-            this._SafeStr_10421.IItemGridWindow(_local_2);
+            this._SafeStr_10421.addGridItem(_local_2);
             _arg_1.productContainer.view = _local_2;
             _arg_1.productContainer.setClubIconLevel(_arg_1.clubLevel);
             if ((page.viewer.catalog as HabboCatalog).isDraggable(_arg_1)){
-                (_arg_1.productContainer as IGridItem).ProductGridItem(true);
+                (_arg_1.productContainer as IGridItem).setDraggable(true);
             };
             if (_arg_1.pricingModel == Offer._SafeStr_4888){
                 this._SafeStr_10423++;
@@ -223,7 +223,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // SetExtraPurchaseParameterEvent = "_-2sO" (String#7128, DoABC#2)
 // CatalogWidgetInitPurchaseEvent = "_-2yJ" (String#7244, DoABC#2)
 // _session = "_-32Q" (String#627, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // onDragAndDropDone = "_-05o" (String#3681, DoABC#2)
 // _SafeStr_4888 = "_-2gY" (String#20713, DoABC#2)
 // pricingModel = "_-1Lx" (String#17355, DoABC#2)
@@ -232,7 +232,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
 // setClubIconLevel = "_-09M" (String#3745, DoABC#2)
-// ProductGridItem = "_-2tF" (String#7142, DoABC#2)
+// setDraggable = "_-2tF" (String#7142, DoABC#2)
 // startDragAndDrop = "_-Di" (String#7945, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 // populateItemGrid = "_-2Ws" (String#892, DoABC#2)

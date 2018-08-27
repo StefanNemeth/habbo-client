@@ -54,7 +54,7 @@ package com.sulake.habbo.friendbar.view.tabs
             this.conceal();
             this._selected = true;
         }
-        public function ITab(_arg_1:Boolean):void
+        public function deselect(_arg_1:Boolean):void
         {
             this._selected = false;
         }
@@ -81,7 +81,7 @@ package com.sulake.habbo.friendbar.view.tabs
         {
             this._exposed = false;
         }
-        protected function WelcomeScreenController(_arg_1:WindowMouseEvent):void
+        protected function onMouseClick(_arg_1:WindowMouseEvent):void
         {
             if (((this.disposed) || (this.recycled))){
                 return;
@@ -93,7 +93,7 @@ package com.sulake.habbo.friendbar.view.tabs
                 _SafeStr_11014.selectTab(this, true);
             };
         }
-        protected function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        protected function onMouseOver(_arg_1:WindowMouseEvent):void
         {
             if (((this.disposed) || (this.recycled))){
                 return;
@@ -102,7 +102,7 @@ package com.sulake.habbo.friendbar.view.tabs
                 this.expose();
             };
         }
-        protected function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        protected function onMouseOut(_arg_1:WindowMouseEvent):void
         {
             if (((((this.disposed) || (this.recycled))) || ((this._window == null)))){
                 return;
@@ -133,10 +133,10 @@ package com.sulake.habbo.friendbar.view.tabs
 // IHabboFriendBarData = "_-1hC" (String#5689, DoABC#2)
 // Tab = "_-Cd" (String#930, DoABC#2)
 // TextCropper = "_-58" (String#22425, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 // _SafeStr_9007 = "_-iG" (String#2163, DoABC#2)
 // _SafeStr_9008 = "_-hz" (String#2162, DoABC#2)
 // _recycled = "_-2vB" (String#1963, DoABC#2)

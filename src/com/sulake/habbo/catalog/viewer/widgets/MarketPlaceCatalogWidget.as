@@ -61,7 +61,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 this._SafeStr_10514 = null;
             };
             if (this._SafeStr_10515){
-                this._SafeStr_10515.removeEventListener(TimerEvent.TIMER, this.MarketPlaceCatalogWidget);
+                this._SafeStr_10515.removeEventListener(TimerEvent.TIMER, this.onPopulationTimer);
                 this._SafeStr_10515 = null;
             };
         }
@@ -73,13 +73,13 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (this.marketPlace == null){
                 return (false);
             };
-            this.marketPlace.MarketPlaceLogic(this);
+            this.marketPlace.registerVisualization(this);
             this.displayMainView();
             return (true);
         }
         public function listUpdatedNotify():void
         {
-            this.MarketPlaceCatalogWidget();
+            this.hideDetails();
             this.updateList();
         }
         public function updateStats():void
@@ -107,7 +107,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!_local_4){
                 return;
             };
-            var _local_5:ISelectableWindow = _local_4.ISelectorWindow();
+            var _local_5:ISelectableWindow = _local_4.getSelected();
             if (!_local_5){
                 return;
             };
@@ -162,18 +162,18 @@ package com.sulake.habbo.catalog.viewer.widgets
                 return;
             };
             window.addChild(page.viewer.catalog.windowManager.buildFromXML(_local_1));
-            window.procedure = this.MarketPlaceCatalogWidget;
+            window.procedure = this.onWidgetEvent;
             this._itemList = (window.findChildByName("offer_list") as IItemListWindow);
-            this.MarketPlaceCatalogWidget("search_advanced");
+            this.selectSearchCategory("search_advanced");
         }
-        private function MarketPlaceCatalogWidget(_arg_1:String):void
+        private function selectSearchCategory(_arg_1:String):void
         {
             var _local_5:String;
             var _local_2:ISelectorWindow = (_window.findChildByName("search_selector") as ISelectorWindow);
             if (_local_2 == null){
                 return;
             };
-            var _local_3:ISelectableWindow = _local_2.ISelectorWindow(_arg_1);
+            var _local_3:ISelectableWindow = _local_2.getSelectableByName(_arg_1);
             if (_local_3 == null){
                 return;
             };
@@ -204,14 +204,14 @@ package com.sulake.habbo.catalog.viewer.widgets
             var _local_6:IWindowContainer = (this.createWindow(_local_5) as IWindowContainer);
             _local_4.addChild(_local_6);
             _local_4.rectangle = _local_6.rectangle;
-            this.MarketPlaceCatalogWidget();
+            this.resizeOfferList();
             var _local_7:IDropMenuWindow = (_window.findChildByName("sort_dropmenu") as IDropMenuWindow);
             if (_local_7 != null){
-                _local_7.populate(this.MarketPlaceCatalogWidget(this._SafeStr_10512));
+                _local_7.populate(this.getSortKeys(this._SafeStr_10512));
                 _local_7.selection = 0;
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:Array):Array
+        private function getSortKeys(_arg_1:Array):Array
         {
             var _local_3:int;
             var _local_2:Array = [];
@@ -235,7 +235,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             return (page.viewer.catalog.windowManager.buildFromXML(_local_3));
         }
-        private function MarketPlaceCatalogWidget():void
+        private function resizeOfferList():void
         {
             if (!_window){
                 return;
@@ -244,7 +244,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             var _local_2:IWindowContainer = (_window.findChildByName("offer_list_container") as IWindowContainer);
             _local_2.height = (_local_1.height - _local_2.y);
         }
-        private function MarketPlaceCatalogWidget(_arg_1:int, _arg_2:int=-1, _arg_3:int=-1):void
+        private function updateStatusDisplay(_arg_1:int, _arg_2:int=-1, _arg_3:int=-1):void
         {
             var _local_6:String;
             var _local_4:ICoreLocalizationManager = this.marketPlace.localization;
@@ -285,7 +285,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (((!(this.marketPlace)) || (!(window)))){
                 return;
             };
-            var _local_1:Map = this.marketPlace.MarketPlaceLogic();
+            var _local_1:Map = this.marketPlace.latestOffers();
             if (!_local_1){
                 return;
             };
@@ -294,7 +294,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!this._itemList){
                 return;
             };
-            this._itemList.IItemListWindow();
+            this._itemList.destroyListItems();
             if (!this._SafeStr_10514){
                 _local_4 = this.getAssetXML("marketplace_offers_item");
                 if (!_local_4){
@@ -313,25 +313,25 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (_local_3 == null){
                 return;
             };
-            this.MarketPlaceCatalogWidget(this._SafeStr_10509, _local_3.length, _local_2);
+            this.updateStatusDisplay(this._SafeStr_10509, _local_3.length, _local_2);
             if (!this._SafeStr_10515){
                 this._SafeStr_10515 = new Timer(25);
-                this._SafeStr_10515.addEventListener(TimerEvent.TIMER, this.MarketPlaceCatalogWidget);
+                this._SafeStr_10515.addEventListener(TimerEvent.TIMER, this.onPopulationTimer);
             };
             this._SafeStr_10516 = 0;
-            this.MarketPlaceCatalogWidget();
+            this.populateList();
             this._SafeStr_10515.start();
         }
-        private function MarketPlaceCatalogWidget(_arg_1:TimerEvent):void
+        private function onPopulationTimer(_arg_1:TimerEvent):void
         {
             if (!this._SafeStr_10515){
                 return;
             };
-            if (this.MarketPlaceCatalogWidget()){
+            if (this.populateList()){
                 this._SafeStr_10515.stop();
             };
         }
-        private function MarketPlaceCatalogWidget():Boolean
+        private function populateList():Boolean
         {
             if (!this._offers){
                 return (true);
@@ -383,7 +383,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 _local_6.text = _local_8;
             };
             if (_arg_1.image == null){
-                _local_9 = this.MarketPlaceCatalogWidget(_arg_1.furniId, _arg_1.furniType, _arg_1.stuffData);
+                _local_9 = this.getFurniImageResult(_arg_1.furniId, _arg_1.furniType, _arg_1.stuffData);
                 if (((!((_local_9 == null))) && (!((_local_9.data == null))))){
                     _arg_1.image = (_local_9.data as BitmapData);
                     _arg_1.imageCallback = _local_9.id;
@@ -401,7 +401,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
             this._itemList.addListItem(_local_2);
-            _local_2.procedure = this.MarketPlaceCatalogWidget;
+            _local_2.procedure = this.onOfferListEvent;
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
@@ -413,7 +413,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 return;
             };
             var _local_3:Array = [];
-            if (this._itemList.IItemListWindow(_arg_1, _local_3)){
+            if (this._itemList.groupListItemsWithID(_arg_1, _local_3)){
                 for each (_local_4 in _local_3) {
                     if (_local_4){
                         _local_6 = (_local_4.findChildByName("item_image") as IBitmapWrapperWindow);
@@ -433,7 +433,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:int, _arg_2:int, _arg_3:String=null):ImageResult
+        private function getFurniImageResult(_arg_1:int, _arg_2:int, _arg_3:String=null):ImageResult
         {
             if (((((!(page)) || (!(page.viewer)))) || (!(page.viewer.roomEngine)))){
                 return (null);
@@ -446,7 +446,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             return (null);
         }
-        private function MarketPlaceCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onOfferListEvent(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             var _local_3:int;
             var _local_4:Map;
@@ -458,23 +458,23 @@ package com.sulake.habbo.catalog.viewer.widgets
                 if (this._itemList == null){
                     return;
                 };
-                _local_3 = this._itemList.IItemListWindow(_arg_1.window.parent);
-                _local_4 = this.marketPlace.MarketPlaceLogic();
+                _local_3 = this._itemList.getListItemIndex(_arg_1.window.parent);
+                _local_4 = this.marketPlace.latestOffers();
                 _local_5 = (_local_4.getWithIndex(_local_3) as MarketPlaceOfferData);
                 if (!_local_5){
                     return;
                 };
                 switch (_arg_2.name){
                     case "buy_button":
-                        this.marketPlace.MarketPlaceLogic(_local_5.offerId);
+                        this.marketPlace.buyOffer(_local_5.offerId);
                         return;
                     case "more_button":
-                        this.QuestDetails(_local_5);
+                        this.showDetails(_local_5);
                         return;
                 };
             };
         }
-        private function QuestDetails(_arg_1:MarketPlaceOfferData):void
+        private function showDetails(_arg_1:MarketPlaceOfferData):void
         {
             var _local_9:ImageResult;
             var _local_10:IBitmapWrapperWindow;
@@ -497,7 +497,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             else {
                 _local_4 = (this.createWindow("marketplace_offer_details") as IWindowContainer);
                 _window.addChild(_local_4);
-                _local_4.procedure = this.MarketPlaceCatalogWidget;
+                _local_4.procedure = this.detailsEventHandler;
             };
             var _local_5:ITextWindow = (_local_4.findChildByName("item_name") as ITextWindow);
             if (_local_5){
@@ -516,7 +516,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             var _local_6:String = (((_arg_1.averagePrice == 0)) ? " - " : _arg_1.averagePrice.toString());
             _local_2.registerParameter("catalog.marketplace.offer_details.average_price", "average", _local_6);
             if (_arg_1.image == null){
-                _local_9 = this.MarketPlaceCatalogWidget(_arg_1.furniId, _arg_1.furniType, _arg_1.stuffData);
+                _local_9 = this.getFurniImageResult(_arg_1.furniId, _arg_1.furniType, _arg_1.stuffData);
                 if (((!((_local_9 == null))) && (!((_local_9.data == null))))){
                     _arg_1.image = (_local_9.data as BitmapData);
                     _arg_1.imageCallback = _local_9.id;
@@ -532,15 +532,15 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             var _local_7:ISelectorWindow = (_local_4.findChildByName("chart_selector") as ISelectorWindow);
             if (_local_7){
-                _local_7.setSelected(_local_7.ISelectorWindow(0));
+                _local_7.setSelected(_local_7.getSelectableAt(0));
             };
             var _local_8:IBitmapWrapperWindow = (_local_4.findChildByName("chart_bitmap") as IBitmapWrapperWindow);
             if (_local_8){
                 _local_8.bitmap = null;
             };
-            this.marketPlace.MarketPlaceLogic(_arg_1.furniType, _arg_1.furniId);
+            this.marketPlace.requestItemStats(_arg_1.furniType, _arg_1.furniId);
         }
-        private function MarketPlaceCatalogWidget():void
+        private function hideDetails():void
         {
             if (!_window){
                 return;
@@ -555,10 +555,10 @@ package com.sulake.habbo.catalog.viewer.widgets
                 _local_1.visible = true;
             };
         }
-        private function MarketPlaceCatalogWidget():void
+        private function doSearch():void
         {
             var _local_5:ITextFieldWindow;
-            this.MarketPlaceCatalogWidget(this._SafeStr_10508);
+            this.updateStatusDisplay(this._SafeStr_10508);
             var _local_1:int = -1;
             var _local_2:int = -1;
             var _local_3:String = "";
@@ -589,9 +589,9 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (((((_local_6) && ((_local_6.selection >= 0)))) && ((_local_6.selection < this._SafeStr_10512.length)))){
                 _local_4 = this._SafeStr_10512[_local_6.selection];
             };
-            this.marketPlace.MarketPlaceLogic(_local_1, _local_2, _local_3, _local_4);
+            this.marketPlace.requestOffers(_local_1, _local_2, _local_3, _local_4);
         }
-        private function MarketPlaceCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onWidgetEvent(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             var _local_5:ISelectorWindow;
             var _local_6:ISelectableWindow;
@@ -609,18 +609,18 @@ package com.sulake.habbo.catalog.viewer.widgets
                         if (!_local_5){
                             return;
                         };
-                        _local_6 = _local_5.ISelectorWindow();
+                        _local_6 = _local_5.getSelected();
                         if (!_local_6){
                             return;
                         };
                         if ((((_local_6.name == "search_by_value")) || ((_local_6.name == "search_by_activity")))){
-                            this.MarketPlaceCatalogWidget();
+                            this.doSearch();
                         };
                         break;
                     case "search_by_value":
                     case "search_by_activity":
                     case "search_advanced":
-                        this.MarketPlaceCatalogWidget(_arg_2.name);
+                        this.selectSearchCategory(_arg_2.name);
                         break;
                 };
             }
@@ -636,7 +636,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                             if (((((_local_3) && (_local_4))) && ((_local_4.text == _local_3.getKey("catalog.marketplace.search_name"))))){
                                 return;
                             };
-                            this.MarketPlaceCatalogWidget();
+                            this.doSearch();
                             break;
                     };
                 }
@@ -665,7 +665,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function detailsEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((!(_arg_1)) || (!(_arg_2)))){
                 return;
@@ -673,10 +673,10 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "back_button":
-                        this.MarketPlaceCatalogWidget();
+                        this.hideDetails();
                         return;
                     case "buy_button":
-                        this.marketPlace.MarketPlaceLogic(this._SafeStr_10513.offerId);
+                        this.marketPlace.buyOffer(this._SafeStr_10513.offerId);
                         return;
                 };
                 return;
@@ -705,9 +705,9 @@ package com.sulake.habbo.catalog.viewer.widgets
     }
 }//package com.sulake.habbo.catalog.viewer.widgets
 
-// MarketPlaceLogic = "_-31B" (String#7332, DoABC#2)
-// MarketPlaceLogic = "_-0dj" (String#4387, DoABC#2)
-// MarketPlaceLogic = "_-EU" (String#7960, DoABC#2)
+// requestItemStats = "_-31B" (String#7332, DoABC#2)
+// buyOffer = "_-0dj" (String#4387, DoABC#2)
+// latestOffers = "_-EU" (String#7960, DoABC#2)
 // itemStats = "_-2mo" (String#7016, DoABC#2)
 // getNameLocalizationKey = "_-0SQ" (String#4147, DoABC#2)
 // getDescriptionLocalizationKey = "_-sT" (String#8746, DoABC#2)
@@ -724,18 +724,18 @@ package com.sulake.habbo.catalog.viewer.widgets
 // _SafeStr_10514 = "_-2WJ" (String#20297, DoABC#2)
 // _SafeStr_10515 = "_-2eM" (String#20617, DoABC#2)
 // _SafeStr_10516 = "_-1cx" (String#18010, DoABC#2)
-// MarketPlaceCatalogWidget = "_-0TS" (String#15189, DoABC#2)
+// onPopulationTimer = "_-0TS" (String#15189, DoABC#2)
 // marketPlace = "_-1D5" (String#5127, DoABC#2)
-// MarketPlaceCatalogWidget = "_-2DJ" (String#19539, DoABC#2)
-// MarketPlaceCatalogWidget = "_-0Gj" (String#3887, DoABC#2)
-// MarketPlaceCatalogWidget = "_-10w" (String#16496, DoABC#2)
-// MarketPlaceCatalogWidget = "_-Rv" (String#23321, DoABC#2)
-// MarketPlaceCatalogWidget = "_-000" (String#14052, DoABC#2)
-// MarketPlaceCatalogWidget = "_-33x" (String#7387, DoABC#2)
-// MarketPlaceCatalogWidget = "_-09Y" (String#14428, DoABC#2)
-// MarketPlaceCatalogWidget = "_-0gg" (String#15697, DoABC#2)
-// MarketPlaceCatalogWidget = "_-2we" (String#21332, DoABC#2)
-// MarketPlaceCatalogWidget = "_-1NB" (String#17405, DoABC#2)
+// hideDetails = "_-2DJ" (String#19539, DoABC#2)
+// onWidgetEvent = "_-0Gj" (String#3887, DoABC#2)
+// selectSearchCategory = "_-10w" (String#16496, DoABC#2)
+// resizeOfferList = "_-Rv" (String#23321, DoABC#2)
+// getSortKeys = "_-000" (String#14052, DoABC#2)
+// updateStatusDisplay = "_-33x" (String#7387, DoABC#2)
+// populateList = "_-09Y" (String#14428, DoABC#2)
+// onOfferListEvent = "_-0gg" (String#15697, DoABC#2)
+// detailsEventHandler = "_-2we" (String#21332, DoABC#2)
+// doSearch = "_-1NB" (String#17405, DoABC#2)
 // ImageResult = "_-31w" (String#21576, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IMarketPlace = "_-1xE" (String#5977, DoABC#2)
@@ -753,19 +753,19 @@ package com.sulake.habbo.catalog.viewer.widgets
 // MarketplaceChart = "_-34I" (String#21670, DoABC#2)
 // furniId = "_-2KO" (String#6454, DoABC#2)
 // stuffData = "_-0vz" (String#1580, DoABC#2)
-// QuestDetails = "_-3H6" (String#7649, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// showDetails = "_-3H6" (String#7649, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
-// MarketPlaceCatalogWidget = "_-2ST" (String#889, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
+// getFurniImageResult = "_-2ST" (String#889, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
-// MarketPlaceLogic = "_-2z1" (String#7263, DoABC#2)
-// MarketPlaceLogic = "_-1ST" (String#5406, DoABC#2)
+// registerVisualization = "_-2z1" (String#7263, DoABC#2)
+// requestOffers = "_-1ST" (String#5406, DoABC#2)
 // getAssetXML = "_-1XT" (String#364, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // furniType = "_-26P" (String#6173, DoABC#2)
 // averagePrice = "_-2h" (String#6892, DoABC#2)
 // offerCount = "_-3Bk" (String#7545, DoABC#2)
@@ -775,7 +775,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // soldAmounts = "_-z4" (String#24653, DoABC#2)
 // averagePricePeriod = "_-0lE" (String#4528, DoABC#2)
 // totalItemsFound = "_-hr" (String#8552, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
-// IItemListWindow = "_-CS" (String#7927, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
+// groupListItemsWithID = "_-CS" (String#7927, DoABC#2)
 
 

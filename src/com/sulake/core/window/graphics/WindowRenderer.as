@@ -36,7 +36,7 @@ package com.sulake.core.window.graphics
             this._skinContainer = _arg_1;
             this._drawBufferAllocator = new DrawBufferAllocator();
         }
-        private static function WindowRenderer(_arg_1:WindowController, _arg_2:Rectangle, _arg_3:Point, _arg_4:Rectangle):Boolean
+        private static function getDrawLocationAndClipRegion(_arg_1:WindowController, _arg_2:Rectangle, _arg_3:Point, _arg_4:Rectangle):Boolean
         {
             var _local_7:int;
             var _local_5:Rectangle = _arg_1.rectangle.clone();
@@ -45,16 +45,16 @@ package com.sulake.core.window.graphics
             _arg_4.y = 0;
             _arg_4.width = _local_5.width;
             _arg_4.height = _local_5.height;
-            if (!_arg_1.IWindow(WindowParam._SafeStr_7443)){
+            if (!_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                 _arg_3.x = 0;
                 _arg_3.y = 0;
-                if (((_arg_1.parent) && (_arg_1.IWindow(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)))){
-                    return (WindowController(_arg_1.parent).WindowController(_local_5, _arg_4));
+                if (((_arg_1.parent) && (_arg_1.testParamFlag(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)))){
+                    return (WindowController(_arg_1.parent).childRectToClippedDrawRegion(_local_5, _arg_4));
                 };
             }
             else {
                 if (_arg_1.parent){
-                    _local_6 = WindowController(_arg_1.parent).WindowController(_local_5, _arg_4);
+                    _local_6 = WindowController(_arg_1.parent).childRectToClippedDrawRegion(_local_5, _arg_4);
                     _arg_3.x = _local_5.x;
                     _arg_3.y = _local_5.y;
                 }
@@ -119,9 +119,9 @@ package com.sulake.core.window.graphics
         public function update(_arg_1:uint):void
         {
             this.render();
-            this.WindowRenderer();
+            this.flushRenderQueue();
         }
-        public function WindowRenderer(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void
+        public function addToRenderQueue(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void
         {
             var _local_4:WindowController;
             var _local_5:IDesktopWindow;
@@ -131,9 +131,9 @@ package com.sulake.core.window.graphics
                 this._SafeStr_9628.y = (_arg_2.y - _arg_1.y);
                 this._SafeStr_9628.width = _arg_2.width;
                 this._SafeStr_9628.height = _arg_2.height;
-                if (_arg_1.IWindow(WindowParam._SafeStr_7443)){
+                if (_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                     while (true) {
-                        if (!_arg_1.IWindow(WindowParam._SafeStr_7443)) break;
+                        if (!_arg_1.testParamFlag(WindowParam._SafeStr_7443)) break;
                         _local_4 = (_arg_1.parent as WindowController);
                         if (_local_4 == null){
                             return;
@@ -152,7 +152,7 @@ package com.sulake.core.window.graphics
                 };
             };
         }
-        public function WindowRenderer():void
+        public function flushRenderQueue():void
         {
             do  {
             } while (this._SafeStr_9625.pop() != null);
@@ -164,41 +164,41 @@ package com.sulake.core.window.graphics
             var _local_4:uint = _local_3.numChildren;
             while (_local_4-- > 0) {
                 _local_5 = (_local_3.getChildAt(_local_4) as WindowController);
-                this.WindowRenderer(_local_5, _local_5.rectangle, WindowRedrawFlag._SafeStr_9133);
+                this.addToRenderQueue(_local_5, _local_5.rectangle, WindowRedrawFlag._SafeStr_9133);
             };
         }
         protected function getWindowRendererItem(_arg_1:IWindow):WindowRendererItem
         {
             var _local_2:WindowRendererItem = (this._SafeStr_9629[_arg_1] as WindowRendererItem);
             if (_local_2 == null){
-                this.WindowRenderer(_arg_1);
+                this.registerRenderable(_arg_1);
                 _local_2 = this._SafeStr_9629[_arg_1];
             };
             return (_local_2);
         }
-        public function WindowRenderer(_arg_1:IWindow):void
+        public function registerRenderable(_arg_1:IWindow):void
         {
             var _local_2:WindowRendererItem = (this._SafeStr_9629[_arg_1] as WindowRendererItem);
             if (_local_2 == null){
                 _local_2 = new WindowRendererItem(this, this._drawBufferAllocator, this._skinContainer);
                 this._SafeStr_9629[_arg_1] = _local_2;
-                _arg_1.addEventListener(WindowDisposeEvent.WINDOW_DISPOSE_EVENT, this.WindowRenderer);
+                _arg_1.addEventListener(WindowDisposeEvent.WINDOW_DISPOSE_EVENT, this.windowDisposedCallback);
             };
         }
-        public function WindowRenderer(_arg_1:IWindow):void
+        public function removeRenderable(_arg_1:IWindow):void
         {
-            _arg_1.removeEventListener(WindowDisposeEvent.WINDOW_DISPOSE_EVENT, this.WindowRenderer);
+            _arg_1.removeEventListener(WindowDisposeEvent.WINDOW_DISPOSE_EVENT, this.windowDisposedCallback);
             var _local_2:WindowRendererItem = (this._SafeStr_9629[_arg_1] as WindowRendererItem);
             if (_local_2 != null){
                 _local_2.dispose();
                 delete this._SafeStr_9629[_arg_1];
             };
         }
-        private function WindowRenderer(_arg_1:WindowDisposeEvent):void
+        private function windowDisposedCallback(_arg_1:WindowDisposeEvent):void
         {
-            this.WindowRenderer(_arg_1.window);
+            this.removeRenderable(_arg_1.window);
         }
-        public function WindowRenderer(_arg_1:IWindow):BitmapData
+        public function getDrawBufferForRenderable(_arg_1:IWindow):BitmapData
         {
             var _local_2:WindowRendererItem = (this._SafeStr_9629[_arg_1] as WindowRendererItem);
             return ((((_local_2)!=null) ? _local_2.buffer : null));
@@ -218,12 +218,12 @@ package com.sulake.core.window.graphics
                     this._SafeStr_9628.y = _local_3.dirty.y;
                     this._SafeStr_9628.width = _local_3.dirty.width;
                     this._SafeStr_9628.height = _local_3.dirty.height;
-                    this.WindowRenderer(_local_1, this._SafeStr_9628, _local_1.rectangle.clone());
+                    this.renderWindowBranch(_local_1, this._SafeStr_9628, _local_1.rectangle.clone());
                 };
                 _local_4++;
             };
         }
-        private function WindowRenderer(_arg_1:WindowController, _arg_2:Rectangle, _arg_3:Rectangle):void
+        private function renderWindowBranch(_arg_1:WindowController, _arg_2:Rectangle, _arg_3:Rectangle):void
         {
             var _local_4:uint;
             var _local_5:WindowController;
@@ -231,7 +231,7 @@ package com.sulake.core.window.graphics
             var _local_7:Rectangle;
             var _local_8:uint;
             if (_arg_1.visible){
-                if (WindowRenderer(_arg_1, _arg_2, this._SafeStr_9626, this._SafeStr_9627)){
+                if (getDrawLocationAndClipRegion(_arg_1, _arg_2, this._SafeStr_9626, this._SafeStr_9627)){
                     if (this.getWindowRendererItem(_arg_1).render(_arg_1, this._SafeStr_9626, this._SafeStr_9627)){
                         _local_4 = _arg_1.numChildren;
                         if (_arg_1.clipping){
@@ -247,20 +247,20 @@ package com.sulake.core.window.graphics
                             _local_5 = (_arg_1.getChildAt(_local_8) as WindowController);
                             _local_7 = _local_5.rectangle;
                             if (_local_7.intersects(_local_6)){
-                                if (_local_5.IWindow(WindowParam._SafeStr_7443)){
+                                if (_local_5.testParamFlag(WindowParam._SafeStr_7443)){
                                     _local_6.offset(-(_local_7.x), -(_local_7.y));
-                                    this.WindowRenderer(_local_5, _local_6, _arg_3);
+                                    this.renderWindowBranch(_local_5, _local_6, _arg_3);
                                     _local_6.offset(_local_7.x, _local_7.y);
                                 }
                                 else {
-                                    if (_local_5.IWindow(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)){
-                                        this.WindowRenderer(_local_5, _local_6, _arg_3);
+                                    if (_local_5.testParamFlag(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)){
+                                        this.renderWindowBranch(_local_5, _local_6, _arg_3);
                                     };
                                 };
                             }
                             else {
                                 if (!_local_7.intersects(_arg_3)){
-                                    if (_local_5.WindowController()){
+                                    if (_local_5.hasGraphicsContext()){
                                         _local_5.getGraphicContext(true).visible = false;
                                     };
                                 };
@@ -270,9 +270,9 @@ package com.sulake.core.window.graphics
                     };
                 }
                 else {
-                    if (!_arg_1.IWindow(WindowParam._SafeStr_7443)){
-                        if (_arg_1.IWindow(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)){
-                            _arg_1.getGraphicContext(true).IGraphicContext(_arg_1.rectangle, false, this._SafeStr_9627);
+                    if (!_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
+                        if (_arg_1.testParamFlag(WindowParam.WINDOW_PARAM_FORCE_CLIPPING)){
+                            _arg_1.getGraphicContext(true).setDrawRegion(_arg_1.rectangle, false, this._SafeStr_9627);
                             _arg_1.getGraphicContext(true).visible = false;
                         };
                     };
@@ -292,13 +292,13 @@ package com.sulake.core.window.graphics
 // allocatedByteCount = "_-2p5" (String#7060, DoABC#2)
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 // WINDOW_DISPOSE_EVENT = "_-2qj" (String#21111, DoABC#2)
-// WindowRenderer = "_-1zA" (String#6020, DoABC#2)
-// WindowRenderer = "_-2wd" (String#7216, DoABC#2)
-// WindowRenderer = "_-2bf" (String#6787, DoABC#2)
-// WindowController = "_-2yM" (String#7247, DoABC#2)
-// IGraphicContext = "_-340" (String#7389, DoABC#2)
+// addToRenderQueue = "_-1zA" (String#6020, DoABC#2)
+// flushRenderQueue = "_-2wd" (String#7216, DoABC#2)
+// getDrawBufferForRenderable = "_-2bf" (String#6787, DoABC#2)
+// hasGraphicsContext = "_-2yM" (String#7247, DoABC#2)
+// setDrawRegion = "_-340" (String#7389, DoABC#2)
 // dirty = "_-2Qa" (String#20068, DoABC#2)
 // _SafeStr_9617 = "_-2fd" (String#20676, DoABC#2)
 // _SafeStr_9625 = "_-2Sd" (String#20141, DoABC#2)
@@ -306,11 +306,11 @@ package com.sulake.core.window.graphics
 // _SafeStr_9627 = "_-DE" (String#22739, DoABC#2)
 // _SafeStr_9628 = "_-ze" (String#24675, DoABC#2)
 // _SafeStr_9629 = "_-oB" (String#24197, DoABC#2)
-// WindowRenderer = "_-0fF" (String#15640, DoABC#2)
-// WindowController = "_-1gm" (String#18166, DoABC#2)
-// WindowRenderer = "_-34w" (String#21693, DoABC#2)
-// WindowRenderer = "_-1yc" (String#18913, DoABC#2)
-// WindowRenderer = "_-13y" (String#16615, DoABC#2)
-// WindowRenderer = "_-2lu" (String#20912, DoABC#2)
+// getDrawLocationAndClipRegion = "_-0fF" (String#15640, DoABC#2)
+// childRectToClippedDrawRegion = "_-1gm" (String#18166, DoABC#2)
+// registerRenderable = "_-34w" (String#21693, DoABC#2)
+// windowDisposedCallback = "_-1yc" (String#18913, DoABC#2)
+// removeRenderable = "_-13y" (String#16615, DoABC#2)
+// renderWindowBranch = "_-2lu" (String#20912, DoABC#2)
 
 

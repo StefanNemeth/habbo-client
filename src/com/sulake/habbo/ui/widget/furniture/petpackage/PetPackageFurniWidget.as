@@ -38,7 +38,7 @@ package com.sulake.habbo.ui.widget.furniture.petpackage
             this.hideInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -46,9 +46,9 @@ package com.sulake.habbo.ui.widget.furniture.petpackage
             _arg_1.addEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_REQUESTED, this.onObjectUpdate);
             _arg_1.addEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_RESULT, this.onObjectUpdate);
             _arg_1.addEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_UPDATE_PET_IMAGE, this.onObjectUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -56,7 +56,7 @@ package com.sulake.habbo.ui.widget.furniture.petpackage
             _arg_1.removeEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_REQUESTED, this.onObjectUpdate);
             _arg_1.removeEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_RESULT, this.onObjectUpdate);
             _arg_1.removeEventListener(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_UPDATE_PET_IMAGE, this.onObjectUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.unregisterUpdateEvents(_arg_1);
         }
         private function onObjectUpdate(event:RoomWidgetPetPackageUpdateEvent):void
         {
@@ -247,9 +247,9 @@ package com.sulake.habbo.ui.widget.furniture.petpackage
 // _objectId = "_-1YP" (String#18, DoABC#2)
 // RWOPPM_OPEN_PET_PACKAGE = "_-2Bv" (String#19479, DoABC#2)
 // hideInterface = "_-29" (String#304, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // onMouseEvent = "_-0ZW" (String#357, DoABC#2)
 // getName = "_-D1" (String#931, DoABC#2)

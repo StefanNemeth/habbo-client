@@ -39,18 +39,18 @@ package com.sulake.habbo.avatar.promo
                 this._controller.useClubClothing();
             };
             if (this._controller.manager.communication){
-                this._controller.manager.communication.HabboCommunicationManager(null).send(new EventLogMessageComposer("AvatarEditor", "click", "try_club_clothes"));
+                this._controller.manager.communication.getHabboMainConnection(null).send(new EventLogMessageComposer("AvatarEditor", "click", "try_club_clothes"));
             };
         }
         public function get controller():HabboAvatarEditor
         {
             return (this._controller);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             this.init();
             if (this._view){
-                return (this._view.TradingModel());
+                return (this._view.getWindowContainer());
             };
             return (null);
         }
@@ -63,8 +63,8 @@ package com.sulake.habbo.avatar.promo
 // ClubPromoView = "_-28r" (String#6221, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // tryClubClothes = "_-0Mo" (String#14944, DoABC#2)
 // showBuyView = "_-So" (String#23357, DoABC#2)
 // useClubClothing = "_-38P" (String#21819, DoABC#2)

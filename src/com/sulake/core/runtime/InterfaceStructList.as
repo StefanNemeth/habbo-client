@@ -82,7 +82,7 @@ package com.sulake.core.runtime
             };
             return (null);
         }
-        public function InterfaceStructList(_arg_1:IID):int
+        public function getIndexByInterface(_arg_1:IID):int
         {
             var _local_3:InterfaceStruct;
             var _local_2:String = getQualifiedClassName(_arg_1);
@@ -97,7 +97,7 @@ package com.sulake.core.runtime
             };
             return (-1);
         }
-        public function InterfaceStructList(_arg_1:IID, _arg_2:Array):uint
+        public function mapStructsByInterface(_arg_1:IID, _arg_2:Array):uint
         {
             var _local_5:InterfaceStruct;
             var _local_3:String = getQualifiedClassName(_arg_1);
@@ -114,7 +114,7 @@ package com.sulake.core.runtime
             };
             return (_local_4);
         }
-        public function InterfaceStructList(_arg_1:IUnknown):InterfaceStruct
+        public function getStructByImplementor(_arg_1:IUnknown):InterfaceStruct
         {
             var _local_2:InterfaceStruct;
             var _local_3:uint = this._content.length;
@@ -128,7 +128,7 @@ package com.sulake.core.runtime
             };
             return (null);
         }
-        public function InterfaceStructList(_arg_1:IUnknown):int
+        public function getIndexByImplementor(_arg_1:IUnknown):int
         {
             var _local_2:InterfaceStruct;
             var _local_3:uint = this._content.length;
@@ -158,11 +158,11 @@ package com.sulake.core.runtime
             };
             return (_local_3);
         }
-        public function InterfaceStructList(_arg_1:uint):InterfaceStruct
+        public function getStructByIndex(_arg_1:uint):InterfaceStruct
         {
             return ((((_arg_1)<this._content.length) ? this._content[_arg_1] : null));
         }
-        public function InterfaceStructList():uint
+        public function getTotalReferenceCount():uint
         {
             var _local_2:InterfaceStruct;
             var _local_1:uint;
@@ -184,13 +184,13 @@ package com.sulake.core.runtime
 // _content = "_-1Q8" (String#74, DoABC#2)
 // InterfaceStructList = "_-0ur" (String#16233, DoABC#2)
 // InterfaceStruct = "_-2vc" (String#7189, DoABC#2)
-// InterfaceStructList = "_-m6" (String#24113, DoABC#2)
+// getIndexByImplementor = "_-m6" (String#24113, DoABC#2)
 // iis = "_-2RW" (String#20099, DoABC#2)
 // references = "_-1yb" (String#18912, DoABC#2)
-// InterfaceStructList = "_-2A5" (String#19408, DoABC#2)
-// InterfaceStructList = "_-1BO" (String#16913, DoABC#2)
-// InterfaceStructList = "_-t5" (String#24409, DoABC#2)
-// InterfaceStructList = "_-nb" (String#24176, DoABC#2)
-// InterfaceStructList = "_-5n" (String#22454, DoABC#2)
+// getTotalReferenceCount = "_-2A5" (String#19408, DoABC#2)
+// getStructByIndex = "_-1BO" (String#16913, DoABC#2)
+// getIndexByInterface = "_-t5" (String#24409, DoABC#2)
+// mapStructsByInterface = "_-nb" (String#24176, DoABC#2)
+// getStructByImplementor = "_-5n" (String#22454, DoABC#2)
 
 

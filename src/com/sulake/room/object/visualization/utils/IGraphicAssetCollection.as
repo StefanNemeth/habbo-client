@@ -9,7 +9,7 @@ package com.sulake.room.object.visualization.utils
 
         function dispose():void;
         function set assetLibrary(_arg_1:IAssetLibrary):void;
-        function ExtendedBitmapData():void;
+        function addReference():void;
         function removeReference():void;
         function define(_arg_1:XML):Boolean;
         function getAsset(_arg_1:String):IGraphicAsset;
@@ -28,6 +28,6 @@ package com.sulake.room.object.visualization.utils
 // define = "_-19s" (String#5075, DoABC#2)
 // IGraphicAssetCollection = "_-24o" (String#6134, DoABC#2)
 // IGraphicAsset = "_-1HF" (String#5195, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 
 

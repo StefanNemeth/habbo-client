@@ -155,16 +155,16 @@ package com.sulake.habbo.messenger
         {
             if (((((((((((((this._windowManager) && (this._communication))) && (this._configuration))) && (this._localization))) && (this._friendList))) && (this._SafeStr_11072))) && (this._soundManager))){
                 unlock();
-                this._communication.HabboCommunicationManager(new MessengerInitEvent(this.onMessengerInit));
+                this._communication.addHabboConnectionMessageEvent(new MessengerInitEvent(this.onMessengerInit));
             };
         }
         private function onMessengerInit(_arg_1:IMessageEvent):void
         {
             this._conversations = new Conversations(new ConversationsDeps(this));
             this._messengerView = new MessengerView(this);
-            this._communication.HabboCommunicationManager(new NewConsoleMessageEvent(this.onNewConsoleMessage));
-            this._communication.HabboCommunicationManager(new RoomInviteEvent(this.onRoomInvite));
-            this._communication.HabboCommunicationManager(new InstantMessageErrorEvent(this.onInstantMessageError));
+            this._communication.addHabboConnectionMessageEvent(new NewConsoleMessageEvent(this.onNewConsoleMessage));
+            this._communication.addHabboConnectionMessageEvent(new RoomInviteEvent(this.onRoomInvite));
+            this._communication.addHabboConnectionMessageEvent(new InstantMessageErrorEvent(this.onInstantMessageError));
         }
         public function startConversation(_arg_1:int):void
         {
@@ -174,7 +174,7 @@ package com.sulake.habbo.messenger
             }
             else {
                 this._conversations.setSelected(_local_2);
-                this._messengerView.MessengerView();
+                this._messengerView.openMessenger();
                 this._messengerView.refresh();
             };
         }
@@ -205,7 +205,7 @@ package com.sulake.habbo.messenger
             var _local_3:BitmapData;
             var _local_2:IAvatarImage = this._SafeStr_11072.createAvatarImage(_arg_1, AvatarScaleType._SafeStr_4337, null, this);
             if (_local_2){
-                _local_3 = _local_2.TwinkleImages(AvatarSetType._SafeStr_4458, true);
+                _local_3 = _local_2.getImage(AvatarSetType._SafeStr_4458, true);
                 _local_2.dispose();
                 return (_local_3);
             };
@@ -213,7 +213,7 @@ package com.sulake.habbo.messenger
         }
         public function send(_arg_1:IMessageComposer):void
         {
-            this._communication.HabboCommunicationManager(null).send(_arg_1);
+            this._communication.getHabboMainConnection(null).send(_arg_1);
         }
         public function playSendSound():void
         {
@@ -221,18 +221,18 @@ package com.sulake.habbo.messenger
                 this._soundManager.playSound(HabboSoundTypesEnum._SafeStr_11737);
             };
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
-            return (((this._messengerView) && (this._messengerView.MessengerView())));
+            return (((this._messengerView) && (this._messengerView.isMessengerOpen())));
         }
         public function toggleMessenger():void
         {
             if (this._messengerView){
-                if (this._messengerView.MessengerView()){
+                if (this._messengerView.isMessengerOpen()){
                     this._messengerView.close();
                 }
                 else {
-                    this._messengerView.MessengerView();
+                    this._messengerView.openMessenger();
                 };
             };
         }
@@ -284,7 +284,7 @@ package com.sulake.habbo.messenger
         private function addMsg(_arg_1:Message):void
         {
             this._conversations.addMessageAndUpdateView(_arg_1);
-            if (!this._messengerView.MessengerView()){
+            if (!this._messengerView.isMessengerOpen()){
                 if (this._soundManager != null){
                     this._soundManager.playSound(HabboSoundTypesEnum._SafeStr_11740);
                 };
@@ -326,11 +326,11 @@ package com.sulake.habbo.messenger
                 _arg_1.visible = false;
             }
             else {
-                this.HabboUserDefinedRoomEvents(_arg_1, _arg_2, _arg_4, _arg_5);
+                this.prepareButton(_arg_1, _arg_2, _arg_4, _arg_5);
                 _arg_1.visible = true;
             };
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
+        private function prepareButton(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
         {
             _arg_1.id = _arg_4;
             if (_arg_1.bitmap != null){
@@ -402,9 +402,9 @@ package com.sulake.habbo.messenger
 // getVariable = "_-0xX" (String#4801, DoABC#2)
 // onAvatarRenderedReady = "_-NF" (String#8149, DoABC#2)
 // onMessengerInit = "_-iQ" (String#8566, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-08W" (String#807, DoABC#2)
-// MessengerView = "_-1dh" (String#18044, DoABC#2)
-// MessengerView = "_-04S" (String#14221, DoABC#2)
+// prepareButton = "_-08W" (String#807, DoABC#2)
+// isMessengerOpen = "_-1dh" (String#18044, DoABC#2)
+// openMessenger = "_-04S" (String#14221, DoABC#2)
 // conversations = "_-1Zf" (String#17877, DoABC#2)
 // playSendSound = "_-B8" (String#22660, DoABC#2)
 // _conversations = "_-2W2" (String#20283, DoABC#2)
@@ -439,13 +439,13 @@ package com.sulake.habbo.messenger
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // senderId = "_-2GI" (String#19654, DoABC#2)
 // messageText = "_-0EC" (String#14615, DoABC#2)
 // createConversation = "_-Qw" (String#8225, DoABC#2)

@@ -38,7 +38,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_STICKIE, RoomWidgetStickieSendUpdateMessage.RWSUM_STICKIE_SEND_DELETE, RoomWidgetStickieSendUpdateMessage.RWSUM_STICKIE_SEND_UPDATE]);
         }
@@ -57,7 +57,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_STICKIE:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_6 = _local_3.getModel();
                         if (_local_6 != null){
@@ -85,7 +85,7 @@ package com.sulake.habbo.ui.handler
                         return (null);
                     };
                     if (((!((this._container == null))) && (!((this._container.roomEngine == null))))){
-                        this._container.roomEngine.RoomEngine(_local_4.objectId, RoomObjectCategoryEnum._SafeStr_4330, ((_local_4.colorHex + " ") + _local_4.text));
+                        this._container.roomEngine.modifyRoomObjectData(_local_4.objectId, RoomObjectCategoryEnum._SafeStr_4330, ((_local_4.colorHex + " ") + _local_4.text));
                     };
                     break;
                 case RoomWidgetStickieSendUpdateMessage.RWSUM_STICKIE_SEND_DELETE:
@@ -94,17 +94,17 @@ package com.sulake.habbo.ui.handler
                         return (null);
                     };
                     if (((!((this._container == null))) && (!((this._container.roomEngine == null))))){
-                        this._container.roomEngine.RoomEngine(_local_5.objectId, RoomObjectCategoryEnum._SafeStr_4330);
+                        this._container.roomEngine.deleteRoomObject(_local_5.objectId, RoomObjectCategoryEnum._SafeStr_4330);
                     };
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:Event;
         }
@@ -130,18 +130,18 @@ package com.sulake.habbo.ui.handler
 // RWE_FURNI_STICKIE_WIDGET = "_-05M" (String#14258, DoABC#2)
 // _SafeStr_4330 = "_-0cQ" (String#15531, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // RWSDUE_STICKIE_DATA = "_-0tT" (String#16178, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7309 = "_-2Cm" (String#19516, DoABC#2)
-// RoomEngine = "_-0Eh" (String#3843, DoABC#2)
-// RoomEngine = "_-1YS" (String#5529, DoABC#2)
+// modifyRoomObjectData = "_-0Eh" (String#3843, DoABC#2)
+// deleteRoomObject = "_-1YS" (String#5529, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

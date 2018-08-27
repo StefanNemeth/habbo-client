@@ -55,7 +55,7 @@ package com.sulake.habbo.roomevents
             super(_arg_1, _arg_2, _arg_3);
             Logger.log(("UDE initialized: " + _arg_3));
             this._userDefinedRoomEventsCtrl = new UserDefinedRoomEventsCtrl(this);
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboUserDefinedRoomEvents);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboLocalizationManager(), this.onLocalizationReady);
             queueInterface(new IIDRoomEngine(), this.onRoomEngineReady);
@@ -93,16 +93,16 @@ package com.sulake.habbo.roomevents
         }
         public function stuffSelected(_arg_1:int, _arg_2:String):void
         {
-            var _local_3:ISelectedRoomObjectData = (this._roomEngine as IRoomEngineServices).RoomEngine(this.roomId, this.roomCategory);
+            var _local_3:ISelectedRoomObjectData = (this._roomEngine as IRoomEngineServices).getPlacedObjectData(this.roomId, this.roomCategory);
             if (((_local_3) && ((_local_3.id == -(_arg_1))))){
-                (this._roomEngine as IRoomEngineServices).RoomEngine(this.roomId, this.roomCategory, null);
+                (this._roomEngine as IRoomEngineServices).setPlacedObjectData(this.roomId, this.roomCategory, null);
                 return;
             };
             this._userDefinedRoomEventsCtrl.stuffSelected(_arg_1, _arg_2);
         }
         public function send(_arg_1:IMessageComposer, _arg_2:Boolean=false):void
         {
-            this._communication.HabboCommunicationManager(null).send(_arg_1, ((_arg_2) ? HabboProtocolOption.OLD_STYLE : -1));
+            this._communication.getHabboMainConnection(null).send(_arg_1, ((_arg_2) ? HabboProtocolOption.OLD_STYLE : -1));
         }
         public function getXmlWindow(name:String):IWindow
         {
@@ -128,11 +128,11 @@ package com.sulake.habbo.roomevents
                 _local_7.visible = false;
             }
             else {
-                this.HabboUserDefinedRoomEvents(_local_7, _arg_6, _arg_4, _arg_5);
+                this.prepareButton(_local_7, _arg_6, _arg_4, _arg_5);
                 _local_7.visible = true;
             };
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
+        private function prepareButton(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
         {
             _arg_1.id = _arg_4;
             _arg_1.procedure = _arg_3;
@@ -151,7 +151,7 @@ package com.sulake.habbo.roomevents
             var _local_6:BitmapData = BitmapData(_local_5.content);
             return (_local_6.clone());
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._communication = IHabboCommunicationManager(_arg_2);
             this._SafeStr_11492 = new IncomingMessages(this);
@@ -248,14 +248,14 @@ package com.sulake.habbo.roomevents
 // _roomSessionManager = "_-2nJ" (String#249, DoABC#2)
 // _roomSession = "_-2CB" (String#1832, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-1hF" (String#443, DoABC#2)
+// onCommunicationComponentInit = "_-1hF" (String#443, DoABC#2)
 // IRoomEngineServices = "_-28G" (String#6208, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-08W" (String#807, DoABC#2)
+// prepareButton = "_-08W" (String#807, DoABC#2)
 // _SafeStr_11492 = "_-0aZ" (String#589, DoABC#2)
 // IRoomSession = "_-2e4" (String#6835, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
-// RoomEngine = "_-2bg" (String#6788, DoABC#2)
-// RoomEngine = "_-0vv" (String#4766, DoABC#2)
+// setPlacedObjectData = "_-2bg" (String#6788, DoABC#2)
+// getPlacedObjectData = "_-0vv" (String#4766, DoABC#2)
 // IncomingMessages = "_-2Xb" (String#216, DoABC#2)
 // ISelectedRoomObjectData = "_-J6" (String#8063, DoABC#2)
 // HabboProtocolOption = "_-9Z" (String#7855, DoABC#2)
@@ -263,7 +263,7 @@ package com.sulake.habbo.roomevents
 // _userDefinedRoomEventsCtrl = "_-1Ya" (String#17834, DoABC#2)
 // registerSessionEvents = "_-0mt" (String#4564, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // RSE_CREATED = "_-1XM" (String#17790, DoABC#2)
 // RSE_STARTED = "_-oj" (String#24224, DoABC#2)
 // RSE_ENDED = "_-ar" (String#23665, DoABC#2)

@@ -15,7 +15,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectFurnitureActionEvent.ROFCAE_SOUND_MACHINE_START, RoomObjectFurnitureActionEvent.ROFCAE_SOUND_MACHINE_STOP, RoomObjectFurnitureActionEvent.ROFCAE_SOUND_MACHINE_DISPOSE, RoomObjectFurnitureActionEvent.ROFCAE_SOUND_MACHINE_INIT];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -39,7 +39,7 @@ package com.sulake.habbo.room.object.logic.furniture
             if (_local_3 != this._SafeStr_7903){
                 this._SafeStr_7903 = _local_3;
                 if (_local_3 == 1){
-                    this.IPlayListController();
+                    this.requestPlayList();
                 }
                 else {
                     if (_local_3 == 0){
@@ -58,7 +58,7 @@ package com.sulake.habbo.room.object.logic.furniture
             eventDispatcher.dispatchEvent(_local_1);
             this._isInitialized = true;
         }
-        private function IPlayListController():void
+        private function requestPlayList():void
         {
             if ((((object == null)) || ((eventDispatcher == null)))){
                 return;
@@ -96,13 +96,13 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomObjectUpdateMessage = "_-73" (String#22503, DoABC#2)
 // RoomObjectFurnitureActionEvent = "_-2H6" (String#19689, DoABC#2)
 // RoomObjectDataUpdateMessage = "_-2N4" (String#19928, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // ROFCAE_SOUND_MACHINE_INIT = "_-0Ww" (String#15313, DoABC#2)
 // ROFCAE_SOUND_MACHINE_START = "_-0gM" (String#15688, DoABC#2)
 // ROFCAE_SOUND_MACHINE_STOP = "_-1Ps" (String#17503, DoABC#2)
 // ROFCAE_SOUND_MACHINE_DISPOSE = "_-7t" (String#22538, DoABC#2)
-// IPlayListController = "_-0Vy" (String#817, DoABC#2)
+// requestPlayList = "_-0Vy" (String#817, DoABC#2)
 // _SafeStr_7903 = "_-04-" (String#577, DoABC#2)
 
 

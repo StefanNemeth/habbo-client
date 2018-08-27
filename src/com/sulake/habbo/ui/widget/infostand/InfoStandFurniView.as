@@ -70,22 +70,22 @@ package com.sulake.habbo.ui.widget.infostand
             this._widget.mainContainer.addChild(this._window);
             var _local_3:IWindow = this._border.findChildByTag("close");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             if (this._buttons != null){
                 _local_5 = 0;
                 while (_local_5 < this._buttons.numListItems) {
                     _local_4 = this._buttons.getListItemAt(_local_5);
-                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
                     _local_5++;
                 };
             };
             this._SafeStr_14009 = this._border.findChildByTag("catalog");
             if (this._SafeStr_14009 != null){
-                this._SafeStr_14009.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandFurniView);
+                this._SafeStr_14009.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCatalogButtonClicked);
             };
         }
-        protected function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        protected function onClose(_arg_1:WindowMouseEvent):void
         {
             this._widget.close();
         }
@@ -98,7 +98,7 @@ package com.sulake.habbo.ui.widget.infostand
             _local_2.text = _arg_1;
             _local_2.visible = true;
             _local_2.height = (_local_2.textHeight + 5);
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         public function set image(_arg_1:BitmapData):void
         {
@@ -115,7 +115,7 @@ package com.sulake.habbo.ui.widget.infostand
             _local_2.height = _arg_1.height;
             _local_2.bitmap = _local_3;
             _local_2.invalidate();
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         public function set description(_arg_1:String):void
         {
@@ -125,7 +125,7 @@ package com.sulake.habbo.ui.widget.infostand
             };
             _local_2.text = _arg_1;
             _local_2.height = (_local_2.textHeight + 5);
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         private function set expiration(_arg_1:int):void
         {
@@ -143,9 +143,9 @@ package com.sulake.habbo.ui.widget.infostand
                 _local_2.height = (_local_2.textHeight + 5);
                 _local_3.height = 1;
             };
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        protected function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        protected function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_2:RoomWidgetMessage;
             var _local_3:String;
@@ -166,7 +166,7 @@ package com.sulake.habbo.ui.widget.infostand
                     break;
                 case "save_branding_configuration":
                     _local_3 = RoomWidgetFurniActionMessage.RWFAM_SAVE_STUFF_DATA;
-                    _local_4 = this.InfoStandFurniView();
+                    _local_4 = this.getVisibleAdFurnitureExtraParams();
                     break;
                 case "use":
                     _local_3 = RoomWidgetFurniActionMessage.RWFAM_USE;
@@ -179,7 +179,7 @@ package com.sulake.habbo.ui.widget.infostand
                 this._widget.messageListener.processWidgetMessage(_local_2);
             };
         }
-        protected function InfoStandFurniView(_arg_1:WindowMouseEvent):void
+        protected function onCatalogButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_2:int;
             var _local_3:int;
@@ -194,7 +194,7 @@ package com.sulake.habbo.ui.widget.infostand
                 };
             };
         }
-        protected function InfoStandUserView():void
+        protected function updateWindow():void
         {
             if ((((((this._SafeStr_13990 == null)) || ((this._border == null)))) || ((this._buttons == null)))){
                 return;
@@ -212,7 +212,7 @@ package com.sulake.habbo.ui.widget.infostand
                 this._buttons.x = (this._window.width - this._buttons.width);
                 this._border.x = 0;
             };
-            this._widget.InfostandWidget();
+            this._widget.refreshContainer();
         }
         public function update(_arg_1:RoomWidgetFurniInfoUpdateEvent):void
         {
@@ -246,21 +246,21 @@ package com.sulake.habbo.ui.widget.infostand
             if ((((_arg_1.extraParam == RoomWidgetInfostandExtraParamEnum.RWEIEP_USABLE)) || ((((_arg_1.extraParam == RoomWidgetInfostandExtraParamEnum.RWEIEP_JUKEBOX)) && (_arg_1.isRoomOwner))))){
                 _local_6 = this._widget.config.getBoolean("infostand.use.button.enabled", false);
             };
-            this.InfoStandUserView("move", _local_2);
-            this.InfoStandUserView("rotate", _local_3);
-            this.InfoStandUserView("pickup", _local_4);
-            this.InfoStandUserView("use", _local_6);
-            this.InfoStandFurniView(_local_5);
+            this.showButton("move", _local_2);
+            this.showButton("rotate", _local_3);
+            this.showButton("pickup", _local_4);
+            this.showButton("use", _local_6);
+            this.showAdFurnitureDetails(_local_5);
             if (_arg_1.catalogPageId < 0){
-                this.InfoStandFurniView(false);
+                this.showCatalogButton(false);
             }
             else {
-                this.InfoStandFurniView(true);
+                this.showCatalogButton(true);
             };
             this._buttons.visible = ((((((_local_2) || (_local_3))) || (_local_4))) || (_local_6));
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        private function InfoStandFurniView(_arg_1:String, _arg_2:String):void
+        private function createAdElement(_arg_1:String, _arg_2:String):void
         {
             var _local_3:XmlAsset;
             var _local_4:IWindowContainer;
@@ -278,7 +278,7 @@ package com.sulake.habbo.ui.widget.infostand
                         _local_6 = _local_4.findChildByName("element_value");
                         if (_local_6 != null){
                             _local_6.caption = _arg_2;
-                            _local_6.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.InfoStandFurniView);
+                            _local_6.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.adElementKeyEventProc);
                         };
                         if (((!((_local_5 == null))) && (!((_local_6 == null))))){
                             this._SafeStr_13990.addListItem(_local_4);
@@ -287,7 +287,7 @@ package com.sulake.habbo.ui.widget.infostand
                 };
             };
         }
-        private function InfoStandFurniView():Map
+        private function getAdFurnitureExtraParams():Map
         {
             var _local_2:String;
             var _local_3:Array;
@@ -312,7 +312,7 @@ package com.sulake.habbo.ui.widget.infostand
             };
             return (_local_1);
         }
-        private function InfoStandFurniView():String
+        private function getVisibleAdFurnitureExtraParams():String
         {
             var _local_2:Array;
             var _local_3:IWindowContainer;
@@ -323,14 +323,14 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_1:String = "";
             if (this._border != null){
                 _local_2 = [];
-                this._border.WindowController("branding_element", _local_2, true);
+                this._border.groupChildrenWithTag("branding_element", _local_2, true);
                 if (_local_2.length > 0){
                     for each (_local_3 in _local_2) {
                         _local_4 = _local_3.findChildByName("element_name");
                         _local_5 = _local_3.findChildByName("element_value");
                         if (((!((_local_4 == null))) && (!((_local_5 == null))))){
-                            _local_6 = this.InfoStandFurniView(_local_4.caption);
-                            _local_7 = this.InfoStandFurniView(_local_5.caption);
+                            _local_6 = this.trimAdFurnitureExtramParam(_local_4.caption);
+                            _local_7 = this.trimAdFurnitureExtramParam(_local_5.caption);
                             _local_1 = (_local_1 + (((_local_6 + "=") + _local_7) + "\t"));
                         };
                     };
@@ -338,7 +338,7 @@ package com.sulake.habbo.ui.widget.infostand
             };
             return (_local_1);
         }
-        private function InfoStandFurniView(_arg_1:String):String
+        private function trimAdFurnitureExtramParam(_arg_1:String):String
         {
             if (_arg_1 != null){
                 if (_arg_1.indexOf("\t") != -1){
@@ -347,7 +347,7 @@ package com.sulake.habbo.ui.widget.infostand
             };
             return (_arg_1);
         }
-        private function InfoStandFurniView(_arg_1:Boolean):void
+        private function showAdFurnitureDetails(_arg_1:Boolean):void
         {
             var _local_6:IWindow;
             var _local_7:String;
@@ -362,7 +362,7 @@ package com.sulake.habbo.ui.widget.infostand
                 _local_2.visible = _arg_1;
             };
             var _local_3:Array = [];
-            this._border.WindowController("branding_element", _local_3, true);
+            this._border.groupChildrenWithTag("branding_element", _local_3, true);
             if (_local_3.length > 0){
                 for each (_local_6 in _local_3) {
                     this._border.removeChild(_local_6);
@@ -374,22 +374,22 @@ package com.sulake.habbo.ui.widget.infostand
             if (_local_5 != null){
                 _local_5.visible = _arg_1;
                 _local_7 = ("id: " + this._widget.furniData.id);
-                _local_8 = this.InfoStandFurniView();
+                _local_8 = this.getAdFurnitureExtraParams();
                 if (_local_8.length > 0){
                     _local_4 = true;
                     for each (_local_9 in _local_8.getKeys()) {
                         _local_10 = _local_8.getValue(_local_9);
-                        this.InfoStandFurniView(_local_9, _local_10);
+                        this.createAdElement(_local_9, _local_10);
                     };
                 };
                 _local_5.caption = _local_7;
             };
-            this.InfoStandUserView("save_branding_configuration", _local_4);
+            this.showButton("save_branding_configuration", _local_4);
         }
-        private function InfoStandFurniView(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
+        private function adElementKeyEventProc(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
         {
         }
-        private function InfoStandUserView(_arg_1:String, _arg_2:Boolean):void
+        private function showButton(_arg_1:String, _arg_2:Boolean):void
         {
             if (this._buttons == null){
                 return;
@@ -397,10 +397,10 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_3:IWindow = this._buttons.getListItemByName(_arg_1);
             if (_local_3 != null){
                 _local_3.visible = _arg_2;
-                this._buttons.IItemListWindow();
+                this._buttons.arrangeListItems();
             };
         }
-        private function InfoStandFurniView(_arg_1:Boolean):void
+        private function showCatalogButton(_arg_1:Boolean):void
         {
             if (_arg_1){
                 if (!this._SafeStr_13990.getListItemByName("catalog_button")){
@@ -420,16 +420,16 @@ package com.sulake.habbo.ui.widget.infostand
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // _border = "_-0NB" (String#815, DoABC#2)
 // _SafeStr_13990 = "_-38U" (String#2009, DoABC#2)
-// InfostandWidget = "_-Ez" (String#22811, DoABC#2)
+// refreshContainer = "_-Ez" (String#22811, DoABC#2)
 // _SafeStr_14009 = "_-ST" (String#23345, DoABC#2)
-// InfoStandFurniView = "_-TK" (String#23378, DoABC#2)
-// InfoStandFurniView = "_-1cH" (String#17982, DoABC#2)
-// InfoStandFurniView = "_-k3" (String#24036, DoABC#2)
-// InfoStandFurniView = "_-05V" (String#14262, DoABC#2)
-// InfoStandFurniView = "_-2Pa" (String#20027, DoABC#2)
-// InfoStandFurniView = "_-0fR" (String#15649, DoABC#2)
-// InfoStandFurniView = "_-34C" (String#21667, DoABC#2)
-// InfoStandFurniView = "_-2cb" (String#20549, DoABC#2)
+// onCatalogButtonClicked = "_-TK" (String#23378, DoABC#2)
+// getVisibleAdFurnitureExtraParams = "_-1cH" (String#17982, DoABC#2)
+// showAdFurnitureDetails = "_-k3" (String#24036, DoABC#2)
+// showCatalogButton = "_-05V" (String#14262, DoABC#2)
+// createAdElement = "_-2Pa" (String#20027, DoABC#2)
+// adElementKeyEventProc = "_-0fR" (String#15649, DoABC#2)
+// getAdFurnitureExtraParams = "_-34C" (String#21667, DoABC#2)
+// trimAdFurnitureExtramParam = "_-2cb" (String#20549, DoABC#2)
 // IBorderWindow = "_-0Br" (String#1422, DoABC#2)
 // WindowKeyboardEvent = "_-0Di" (String#1433, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
@@ -443,7 +443,7 @@ package com.sulake.habbo.ui.widget.infostand
 // RWFAM_PICKUP = "_-0VQ" (String#15258, DoABC#2)
 // RWFAM_USE = "_-7c" (String#22527, DoABC#2)
 // RWFAM_SAVE_STUFF_DATA = "_-0oi" (String#16001, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // RWEIEP_JUKEBOX = "_-2Bo" (String#19475, DoABC#2)
 // RWEIEP_BRANDING_OPTIONS = "_-1ob" (String#18481, DoABC#2)
@@ -452,19 +452,19 @@ package com.sulake.habbo.ui.widget.infostand
 // offerId = "_-9g" (String#928, DoABC#2)
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // expiration = "_-1G1" (String#1648, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // IHabboTracking = "_-0fl" (String#4419, DoABC#2)
 // WKE_KEY_DOWN = "_-fs" (String#23884, DoABC#2)
 // isRoomController = "_-xz" (String#8838, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
 // catalogPageId = "_-2oc" (String#7050, DoABC#2)
 // isStickie = "_-15M" (String#16668, DoABC#2)
 // isWallItem = "_-92" (String#22582, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
-// IItemListWindow = "_-0fG" (String#4411, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
+// arrangeListItems = "_-0fG" (String#4411, DoABC#2)
 
 

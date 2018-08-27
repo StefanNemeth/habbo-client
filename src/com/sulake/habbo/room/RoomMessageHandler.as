@@ -149,18 +149,18 @@ package com.sulake.habbo.room
             this._SafeStr_13376 = 0;
             this._SafeStr_13377 = 0;
         }
-        private function RoomEngine(_arg_1:int):int
+        private function getRoomId(_arg_1:int):int
         {
             return (this._SafeStr_13376);
         }
-        private function RoomEngine(_arg_1:int):int
+        private function getRoomCategory(_arg_1:int):int
         {
             return (this._SafeStr_13377);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int):Boolean
+        private function isPublicRoom(_arg_1:int, _arg_2:int):Boolean
         {
             if (this._SafeStr_13372){
-                return (this._SafeStr_13372.RoomEngine(_arg_1, _arg_2));
+                return (this._SafeStr_13372.isPublicRoom(_arg_1, _arg_2));
             };
             return (false);
         }
@@ -171,51 +171,51 @@ package com.sulake.habbo.room
             };
             if (_arg_1 != null){
                 this._connection = _arg_1;
-                _arg_1.addMessageEvent(new UserObjectEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new RoomReadyMessageEvent(this.SessionDataManager));
-                _arg_1.addMessageEvent(new RoomPropertyMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new FloorHeightMapMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new HeightMapMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new HeightMapUpdateMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new RoomVisualizationSettingsEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new FurnitureAliasesMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ObjectsMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new PublicRoomObjectsMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ObjectAddMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ViralTeaserActiveMessageEvent(this.RoomMessageHandler));
+                _arg_1.addMessageEvent(new UserObjectEvent(this.onOwnUserEvent));
+                _arg_1.addMessageEvent(new RoomReadyMessageEvent(this.onRoomReady));
+                _arg_1.addMessageEvent(new RoomPropertyMessageEvent(this.onRoomProperty));
+                _arg_1.addMessageEvent(new FloorHeightMapMessageEvent(this.onFloorHeightMap));
+                _arg_1.addMessageEvent(new HeightMapMessageEvent(this.onHeightMap));
+                _arg_1.addMessageEvent(new HeightMapUpdateMessageEvent(this.onHeightMapUpdate));
+                _arg_1.addMessageEvent(new RoomVisualizationSettingsEvent(this.onRoomVisualizationSettings));
+                _arg_1.addMessageEvent(new FurnitureAliasesMessageEvent(this.onFurnitureAliases));
+                _arg_1.addMessageEvent(new ObjectsMessageEvent(this.onObjects));
+                _arg_1.addMessageEvent(new PublicRoomObjectsMessageEvent(this.onPublicRoomObjects));
+                _arg_1.addMessageEvent(new ObjectAddMessageEvent(this.onObjectAdd));
+                _arg_1.addMessageEvent(new ViralTeaserActiveMessageEvent(this.onObjectInject));
                 _arg_1.addMessageEvent(new ObjectUpdateMessageEvent(this.onObjectUpdate));
-                _arg_1.addMessageEvent(new ObjectDataUpdateMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ObjectsDataUpdateMessageEvent(this.RoomMessageHandler));
+                _arg_1.addMessageEvent(new ObjectDataUpdateMessageEvent(this.onObjectDataUpdate));
+                _arg_1.addMessageEvent(new ObjectsDataUpdateMessageEvent(this.onObjectsDataUpdate));
                 _arg_1.addMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
-                _arg_1.addMessageEvent(new ItemsMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ItemAddMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ItemRemoveMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ItemUpdateMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ItemDataUpdateMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new UsersMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new UserUpdateMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new UserRemoveMessageEvent(this.RoomMessageHandler));
+                _arg_1.addMessageEvent(new ItemsMessageEvent(this.onItems));
+                _arg_1.addMessageEvent(new ItemAddMessageEvent(this.onItemAdd));
+                _arg_1.addMessageEvent(new ItemRemoveMessageEvent(this.onItemRemove));
+                _arg_1.addMessageEvent(new ItemUpdateMessageEvent(this.onItemUpdate));
+                _arg_1.addMessageEvent(new ItemDataUpdateMessageEvent(this.onItemDataUpdate));
+                _arg_1.addMessageEvent(new UsersMessageEvent(this.onUsers));
+                _arg_1.addMessageEvent(new UserUpdateMessageEvent(this.onUserUpdate));
+                _arg_1.addMessageEvent(new UserRemoveMessageEvent(this.onUserRemove));
                 _arg_1.addMessageEvent(new UserChangeMessageEvent(this.onUserChange));
-                _arg_1.addMessageEvent(new WaveMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new DanceMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new AvatarEffectMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new SleepMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new CarryObjectMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new UseObjectMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new SlideObjectBundleMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ChatMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new WhisperMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ShoutMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new UserTypingMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new DiceValueMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new OneWayDoorStatusMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new ParkBusDoorMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new PetExperienceEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new YouArePlayingGameMessageEvent(this.RoomMessageHandler));
-                _arg_1.addMessageEvent(new GamePlayerValueMessageEvent(this.RoomMessageHandler));
+                _arg_1.addMessageEvent(new WaveMessageEvent(this.onWave));
+                _arg_1.addMessageEvent(new DanceMessageEvent(this.onDance));
+                _arg_1.addMessageEvent(new AvatarEffectMessageEvent(this.onAvatarEffect));
+                _arg_1.addMessageEvent(new SleepMessageEvent(this.onAvatarSleep));
+                _arg_1.addMessageEvent(new CarryObjectMessageEvent(this.onCarryObject));
+                _arg_1.addMessageEvent(new UseObjectMessageEvent(this.onUseObject));
+                _arg_1.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate));
+                _arg_1.addMessageEvent(new ChatMessageEvent(this.onChat));
+                _arg_1.addMessageEvent(new WhisperMessageEvent(this.onChat));
+                _arg_1.addMessageEvent(new ShoutMessageEvent(this.onChat));
+                _arg_1.addMessageEvent(new UserTypingMessageEvent(this.onTypingStatus));
+                _arg_1.addMessageEvent(new DiceValueMessageEvent(this.onDiceValue));
+                _arg_1.addMessageEvent(new OneWayDoorStatusMessageEvent(this.onOneWayDoorStatus));
+                _arg_1.addMessageEvent(new ParkBusDoorMessageEvent(this.onParkBusDoor));
+                _arg_1.addMessageEvent(new PetExperienceEvent(this.onPetExperience));
+                _arg_1.addMessageEvent(new YouArePlayingGameMessageEvent(this.onPlayingGame));
+                _arg_1.addMessageEvent(new GamePlayerValueMessageEvent(this.onGamePlayerNumberValue));
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onOwnUserEvent(_arg_1:IMessageEvent):void
         {
             var _local_2:UserObjectEvent = (_arg_1 as UserObjectEvent);
             if (_local_2 == null){
@@ -226,7 +226,7 @@ package com.sulake.habbo.room
                 this._SafeStr_13373 = _local_3.id;
             };
         }
-        private function SessionDataManager(_arg_1:IMessageEvent):void
+        private function onRoomReady(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomReadyMessageEvent = (_arg_1 as RoomReadyMessageEvent);
             if ((((((_local_2 == null)) || ((_local_2.getParser() == null)))) || ((_arg_1.connection == null)))){
@@ -238,7 +238,7 @@ package com.sulake.habbo.room
             };
             var _local_4:String = _local_3.roomType;
             if (this._SafeStr_13372 != null){
-                this._SafeStr_13372.RoomEngine(_local_3.roomId, _local_3.roomCategory, _local_4);
+                this._SafeStr_13372.setWorldType(_local_3.roomId, _local_3.roomCategory, _local_4);
             };
             if (this._SafeStr_13374){
                 _arg_1.connection.send(new GetFurnitureAliasesMessageComposer());
@@ -248,7 +248,7 @@ package com.sulake.habbo.room
                 _arg_1.connection.send(new GetRoomEntryDataMessageComposer());
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onFurnitureAliases(_arg_1:IMessageEvent):void
         {
             var _local_2:FurnitureAliasesMessageEvent;
             var _local_3:FurnitureAliasesMessageParser;
@@ -267,15 +267,15 @@ package com.sulake.habbo.room
                     _local_5 = 0;
                     while (_local_5 < _local_4) {
                         _local_6 = _local_3.getName(_local_5);
-                        _local_7 = _local_3.FurnitureAliasesMessageParser(_local_5);
-                        this._SafeStr_13372.RoomEngine(_local_6, _local_7);
+                        _local_7 = _local_3.getAlias(_local_5);
+                        this._SafeStr_13372.setRoomObjectAlias(_local_6, _local_7);
                         _local_5++;
                     };
                 };
             };
             _arg_1.connection.send(new GetRoomEntryDataMessageComposer());
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onHeightMap(_arg_1:IMessageEvent):void
         {
             var _local_10:int;
             var _local_11:Number;
@@ -289,8 +289,8 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:HeightMapMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = _local_3.width;
             var _local_7:int = _local_3.height;
             var _local_8:TileHeightMap = new TileHeightMap(_local_6, _local_7);
@@ -308,9 +308,9 @@ package com.sulake.habbo.room
                 };
                 _local_9++;
             };
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_8);
+            this._SafeStr_13372.setTileHeightMap(_local_4, _local_5, _local_8);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onHeightMapUpdate(_arg_1:IMessageEvent):void
         {
             var _local_10:int;
             var _local_11:Number;
@@ -323,9 +323,9 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:HeightMapUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:TileHeightMap = this._SafeStr_13372.RoomEngine(_local_4, _local_5);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:TileHeightMap = this._SafeStr_13372.getTileHeightMap(_local_4, _local_5);
             if (_local_6 == null){
                 return;
             };
@@ -346,41 +346,41 @@ package com.sulake.habbo.room
                 _local_9++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onRoomVisualizationSettings(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomVisualizationSettingsEvent = (_arg_1 as RoomVisualizationSettingsEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:RoomVisualizationSettingsParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6 = !(_local_3.wallsHidden);
             var _local_7:Boolean = true;
             var _local_8:Number = _local_3.wallThicknessMultiplier;
             var _local_9:Number = _local_3.floorThicknessMultiplier;
             if (this._SafeStr_13372 != null){
-                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6, _local_7);
-                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_8, _local_9);
+                this._SafeStr_13372.updateObjectRoomVisibilities(_local_4, _local_5, _local_6, _local_7);
+                this._SafeStr_13372.updateObjectRoomPlaneThicknesses(_local_4, _local_5, _local_8, _local_9);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onRoomProperty(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomPropertyMessageEvent = (_arg_1 as RoomPropertyMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:RoomPropertyMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:String = _local_3.floorType;
             var _local_7:String = _local_3.wallType;
             var _local_8:String = _local_3.landscapeType;
             if (this._SafeStr_13372 != null){
-                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6, _local_7, _local_8);
+                this._SafeStr_13372.updateObjectRoom(_local_4, _local_5, _local_6, _local_7, _local_8);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onFloorHeightMap(_arg_1:IMessageEvent):void
         {
             var _local_19:int;
             var _local_20:int;
@@ -392,12 +392,12 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:FloorHeightMapMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             if (this._SafeStr_13372 == null){
                 return;
             };
-            var _local_6:LegacyWallGeometry = this._SafeStr_13372.RoomEngine(_local_4, _local_5);
+            var _local_6:LegacyWallGeometry = this._SafeStr_13372.getLegacyGeometry(_local_4, _local_5);
             if (_local_6 == null){
                 return;
             };
@@ -409,8 +409,8 @@ package com.sulake.habbo.room
             var _local_10:Number = -1;
             var _local_11:Number = 0;
             var _local_12:Number = 0;
-            var _local_13:Boolean = this.RoomEngine(_local_4, _local_5);
-            var _local_14:TileHeightMap = this._SafeStr_13372.RoomEngine(_local_4, _local_5);
+            var _local_13:Boolean = this.isPublicRoom(_local_4, _local_5);
+            var _local_14:TileHeightMap = this._SafeStr_13372.getTileHeightMap(_local_4, _local_5);
             if (_local_14 == null){
                 return;
             };
@@ -477,16 +477,16 @@ package com.sulake.habbo.room
                 _local_23 = new (XML)((("<doors>" + (((((((('<door x="' + _local_9) + '" y="') + _local_10) + '" z="') + _local_11) + '" dir="') + _local_12) + '"/>')) + "</doors>"));
                 _local_18.appendChild(_local_23);
             };
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_18);
+            this._SafeStr_13372.initializeRoom(_local_4, _local_5, _local_18);
             if (this._SafeStr_13378.objectData){
-                this.RoomMessageHandler(_local_4, _local_5, this._SafeStr_13378.objectData);
+                this.addActiveObject(_local_4, _local_5, this._SafeStr_13378.objectData);
                 this._SafeStr_13378.objectData = null;
             }
             else {
                 this._SafeStr_13378.floorReady = true;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onObjects(_arg_1:IMessageEvent):void
         {
             var _local_8:ObjectMessageData;
             var _local_2:ObjectsMessageEvent = (_arg_1 as ObjectsMessageEvent);
@@ -494,17 +494,17 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ObjectsMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:int = _local_3.RoomInstance();
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:int = _local_3.getObjectCount();
             var _local_7:int;
             while (_local_7 < _local_6) {
-                _local_8 = _local_3.RoomInstance(_local_7);
-                this.RoomMessageHandler(_local_4, _local_5, _local_8);
+                _local_8 = _local_3.getObject(_local_7);
+                this.addActiveObject(_local_4, _local_5, _local_8);
                 _local_7++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onPublicRoomObjects(_arg_1:IMessageEvent):void
         {
             var _local_8:PublicRoomObjectMessageData;
             var _local_2:PublicRoomObjectsMessageEvent = (_arg_1 as PublicRoomObjectsMessageEvent);
@@ -512,40 +512,40 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:PublicRoomObjectsMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:int = _local_3.RoomInstance();
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:int = _local_3.getObjectCount();
             var _local_7:int;
             while (_local_7 < _local_6) {
-                _local_8 = _local_3.RoomInstance(_local_7);
-                this.RoomMessageHandler(_local_4, _local_5, _local_8);
+                _local_8 = _local_3.getObject(_local_7);
+                this.addPassiveObject(_local_4, _local_5, _local_8);
                 _local_7++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onObjectAdd(_arg_1:IMessageEvent):void
         {
             var _local_2:ObjectAddMessageEvent = (_arg_1 as ObjectAddMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:ObjectAddMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:ObjectMessageData = _local_3.data;
-            this.RoomMessageHandler(_local_4, _local_5, _local_6);
+            this.addActiveObject(_local_4, _local_5, _local_6);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onObjectInject(_arg_1:IMessageEvent):void
         {
             var _local_2:ViralTeaserActiveMessageEvent = (_arg_1 as ViralTeaserActiveMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:ViralTeaserActiveMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:ObjectMessageData = _local_3.data;
             if (this._SafeStr_13378.floorReady){
-                this.RoomMessageHandler(_local_4, _local_5, _local_6);
+                this.addActiveObject(_local_4, _local_5, _local_6);
             }
             else {
                 this._SafeStr_13378.objectData = _local_6;
@@ -563,16 +563,16 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ObjectUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:ObjectMessageData = _local_3.data;
             if (_local_6 != null){
                 _local_7 = new Vector3d(_local_6.x, _local_6.y, _local_6.z);
                 _local_8 = new Vector3d(_local_6.dir);
-                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6.id, _local_7, _local_8, _local_6.state, _local_6.data, _local_6.extra);
+                this._SafeStr_13372.updateObjectFurniture(_local_4, _local_5, _local_6.id, _local_7, _local_8, _local_6.state, _local_6.data, _local_6.extra);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onObjectDataUpdate(_arg_1:IMessageEvent):void
         {
             var _local_2:ObjectDataUpdateMessageEvent = (_arg_1 as ObjectDataUpdateMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -582,14 +582,14 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ObjectDataUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = _local_3.id;
             var _local_7:int = _local_3.state;
             var _local_8:String = _local_3.data;
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
+            this._SafeStr_13372.updateObjectFurniture(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onObjectsDataUpdate(_arg_1:IMessageEvent):void
         {
             var _local_7:ObjectData;
             var _local_8:int;
@@ -603,16 +603,16 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ObjectsDataUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int;
             while (_local_6 < _local_3.objectCount) {
-                _local_7 = _local_3.ObjectsDataUpdateMessageParser(_local_6);
+                _local_7 = _local_3.getObjectData(_local_6);
                 if (_local_7 != null){
                     _local_8 = _local_7.id;
                     _local_9 = _local_7.state;
                     _local_10 = _local_7.data;
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_8, null, null, _local_9, _local_10);
+                    this._SafeStr_13372.updateObjectFurniture(_local_4, _local_5, _local_8, null, null, _local_9, _local_10);
                 };
                 _local_6++;
             };
@@ -627,12 +627,12 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ObjectRemoveMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = _local_3.id;
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6);
+            this._SafeStr_13372.disposeObjectFurniture(_local_4, _local_5, _local_6);
         }
-        private function RoomMessageHandler(_arg_1:int, _arg_2:int, _arg_3:ObjectMessageData):void
+        private function addActiveObject(_arg_1:int, _arg_2:int, _arg_3:ObjectMessageData):void
         {
             if ((((_arg_3 == null)) || ((this._SafeStr_13372 == null)))){
                 return;
@@ -640,30 +640,30 @@ package com.sulake.habbo.room
             var _local_4:IVector3d = new Vector3d(_arg_3.x, _arg_3.y, _arg_3.z);
             var _local_5:IVector3d = new Vector3d(_arg_3.dir);
             if (_arg_3.staticClass != null){
-                this._SafeStr_13372.RoomEngine(_arg_1, _arg_2, _arg_3.id, _arg_3.staticClass, _local_4, _local_5, _arg_3.state, _arg_3.data, _arg_3.extra);
+                this._SafeStr_13372.addObjectFurnitureByName(_arg_1, _arg_2, _arg_3.id, _arg_3.staticClass, _local_4, _local_5, _arg_3.state, _arg_3.data, _arg_3.extra);
             }
             else {
-                this._SafeStr_13372.RoomEngine(_arg_1, _arg_2, _arg_3.id, _arg_3.type, _local_4, _local_5, _arg_3.state, _arg_3.data, _arg_3.extra, _arg_3.expiryTime, _arg_3.knownAsUsable);
+                this._SafeStr_13372.addObjectFurniture(_arg_1, _arg_2, _arg_3.id, _arg_3.type, _local_4, _local_5, _arg_3.state, _arg_3.data, _arg_3.extra, _arg_3.expiryTime, _arg_3.knownAsUsable);
             };
         }
-        private function RoomMessageHandler(_arg_1:int, _arg_2:int, _arg_3:PublicRoomObjectMessageData):void
+        private function addPassiveObject(_arg_1:int, _arg_2:int, _arg_3:PublicRoomObjectMessageData):void
         {
             if ((((_arg_3 == null)) || ((this._SafeStr_13372 == null)))){
                 return;
             };
             var _local_4:IVector3d = new Vector3d(_arg_3.x, _arg_3.y, _arg_3.z);
             var _local_5:IVector3d = new Vector3d(_arg_3.dir);
-            var _local_6:int = this.RoomMessageHandler();
-            this._SafeStr_13372.RoomEngine(_arg_1, _arg_2, _local_6, _arg_3.type, _local_4, _local_5, 0, "");
+            var _local_6:int = this.getNextPassiveObjectId();
+            this._SafeStr_13372.addObjectFurnitureByName(_arg_1, _arg_2, _local_6, _arg_3.type, _local_4, _local_5, 0, "");
         }
-        private function RoomMessageHandler():int
+        private function getNextPassiveObjectId():int
         {
             if (this._SafeStr_13375 > 0){
                 this._SafeStr_13375 = -1000000000;
             };
             return (--this._SafeStr_13375);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onItems(_arg_1:IMessageEvent):void
         {
             var _local_8:ItemMessageData;
             var _local_2:ItemsMessageEvent = (_arg_1 as ItemsMessageEvent);
@@ -671,31 +671,31 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ItemsMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:int = _local_3.ItemsMessageParser();
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:int = _local_3.getItemCount();
             var _local_7:int;
             while (_local_7 < _local_6) {
-                _local_8 = _local_3.GroupItem(_local_7);
-                this.RoomMessageHandler(_local_4, _local_5, _local_8);
+                _local_8 = _local_3.getItem(_local_7);
+                this.addWallItem(_local_4, _local_5, _local_8);
                 _local_7++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onItemAdd(_arg_1:IMessageEvent):void
         {
             var _local_2:ItemAddMessageEvent = (_arg_1 as ItemAddMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:ItemAddMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:ItemMessageData = _local_3.data;
             if (_local_6 != null){
-                this.RoomMessageHandler(_local_4, _local_5, _local_6);
+                this.addWallItem(_local_4, _local_5, _local_6);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onItemRemove(_arg_1:IMessageEvent):void
         {
             var _local_2:ItemRemoveMessageEvent = (_arg_1 as ItemRemoveMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -705,11 +705,11 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ItemRemoveMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.itemId);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            this._SafeStr_13372.disposeObjectWallItem(_local_4, _local_5, _local_3.itemId);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onItemUpdate(_arg_1:IMessageEvent):void
         {
             var _local_8:IVector3d;
             var _local_9:IVector3d;
@@ -718,9 +718,9 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ItemUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:LegacyWallGeometry = this._SafeStr_13372.RoomEngine(_local_4, _local_5);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:LegacyWallGeometry = this._SafeStr_13372.getLegacyGeometry(_local_4, _local_5);
             if ((((this._SafeStr_13372 == null)) || ((_local_6 == null)))){
                 return;
             };
@@ -728,26 +728,26 @@ package com.sulake.habbo.room
             if (_local_7 != null){
                 _local_8 = _local_6.getLocation(_local_7.wallX, _local_7.wallY, _local_7.localX, _local_7.localY, _local_7.dir);
                 _local_9 = new Vector3d(_local_6.getDirection(_local_7.dir));
-                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_7.id, _local_8, _local_9, _local_7.state, _local_7.data);
+                this._SafeStr_13372.updateObjectWallItem(_local_4, _local_5, _local_7.id, _local_8, _local_9, _local_7.state, _local_7.data);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onItemDataUpdate(_arg_1:IMessageEvent):void
         {
             var _local_2:ItemDataUpdateMessageEvent = (_arg_1 as ItemDataUpdateMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
                 return;
             };
             var _local_3:ItemDataUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.id, _local_3.itemData);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            this._SafeStr_13372.updateObjectWallItemData(_local_4, _local_5, _local_3.id, _local_3.itemData);
         }
-        private function RoomMessageHandler(_arg_1:int, _arg_2:int, _arg_3:ItemMessageData):void
+        private function addWallItem(_arg_1:int, _arg_2:int, _arg_3:ItemMessageData):void
         {
             if ((((_arg_3 == null)) || ((this._SafeStr_13372 == null)))){
                 return;
             };
-            var _local_4:LegacyWallGeometry = this._SafeStr_13372.RoomEngine(_arg_1, _arg_2);
+            var _local_4:LegacyWallGeometry = this._SafeStr_13372.getLegacyGeometry(_arg_1, _arg_2);
             if (_local_4 == null){
                 return;
             };
@@ -759,9 +759,9 @@ package com.sulake.habbo.room
                 _local_5 = _local_4.getLocationOldFormat(_arg_3.y, _arg_3.z, _arg_3.dir);
             };
             var _local_6:IVector3d = new Vector3d(_local_4.getDirection(_arg_3.dir));
-            this._SafeStr_13372.RoomEngine(_arg_1, _arg_2, _arg_3.id, _arg_3.type, _local_5, _local_6, _arg_3.state, _arg_3.data, _arg_3.knownAsUsable);
+            this._SafeStr_13372.addObjectWallItem(_arg_1, _arg_2, _arg_3.id, _arg_3.type, _local_5, _local_6, _arg_3.state, _arg_3.data, _arg_3.knownAsUsable);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUsers(_arg_1:IMessageEvent):void
         {
             var _local_7:UserMessageData;
             var _local_8:IVector3d;
@@ -775,25 +775,25 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:UsersMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int;
-            while (_local_6 < _local_3.UsersMessageParser()) {
-                _local_7 = _local_3.UsersMessageParser(_local_6);
+            while (_local_6 < _local_3.getUserCount()) {
+                _local_7 = _local_3.getUser(_local_6);
                 if (_local_7 != null){
                     _local_8 = new Vector3d(_local_7.x, _local_7.y, _local_7.z);
                     _local_9 = new Vector3d(_local_7.dir);
                     _local_10 = _local_7.userType;
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_7.id, _local_8, _local_9, _local_7.dir, _local_10, _local_7.figure);
+                    this._SafeStr_13372.addObjectUser(_local_4, _local_5, _local_7.id, _local_8, _local_9, _local_7.dir, _local_10, _local_7.figure);
                     if (_local_7.webID == this._SafeStr_13373){
-                        this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_7.id);
+                        this._SafeStr_13372.setOwnUserId(_local_4, _local_5, _local_7.id);
                     };
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_7.id, _local_7.figure, _local_7.sex, _local_7.subType);
+                    this._SafeStr_13372.updateObjectUserFigure(_local_4, _local_5, _local_7.id, _local_7.figure, _local_7.sex, _local_7.subType);
                 };
                 _local_6++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUserUpdate(_arg_1:IMessageEvent):void
         {
             var _local_9:UserUpdateMessageData;
             var _local_10:Number;
@@ -813,8 +813,8 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:UserUpdateMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:IRoomInstance = this._SafeStr_13372.getRoom(_local_4, _local_5);
             if (_local_6 == null){
                 return;
@@ -822,7 +822,7 @@ package com.sulake.habbo.room
             var _local_7:Number = _local_6.getNumber(RoomVariableEnum._SafeStr_13370);
             var _local_8:int;
             while (_local_8 < _local_3.userUpdateCount) {
-                _local_9 = _local_3.UserUpdateMessageParser(_local_8);
+                _local_9 = _local_3.getUserUpdateData(_local_8);
                 if (_local_9 != null){
                     _local_10 = _local_9.localZ;
                     if (_local_7 != 0){
@@ -834,22 +834,22 @@ package com.sulake.habbo.room
                     if (_local_9.isMoving){
                         _local_13 = new Vector3d(_local_9.targetX, _local_9.targetY, _local_9.targetZ);
                     };
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, _local_11, _local_13, _local_12, _local_9.dirHead);
+                    this._SafeStr_13372.updateObjectUser(_local_4, _local_5, _local_9.id, _local_11, _local_13, _local_12, _local_9.dirHead);
                     _local_14 = RoomObjectVariableEnum._SafeStr_13002;
                     _local_15 = "";
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, null);
+                    this._SafeStr_13372.updateObjectUserFlatControl(_local_4, _local_5, _local_9.id, null);
                     _local_16 = false;
                     _local_17 = false;
                     for each (_local_18 in _local_9.actions) {
                         switch (_local_18.actionType){
                             case "flatctrl":
-                                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, _local_18.actionParameter);
+                                this._SafeStr_13372.updateObjectUserFlatControl(_local_4, _local_5, _local_9.id, _local_18.actionParameter);
                                 break;
                             case "sign":
-                                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, RoomObjectVariableEnum._SafeStr_6556, int(_local_18.actionParameter));
+                                this._SafeStr_13372.updateObjectUserAction(_local_4, _local_5, _local_9.id, RoomObjectVariableEnum._SafeStr_6556, int(_local_18.actionParameter));
                                 break;
                             case "gst":
-                                this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, _local_18.actionParameter);
+                                this._SafeStr_13372.updateObjectPetGesture(_local_4, _local_5, _local_9.id, _local_18.actionParameter);
                                 break;
                             case "wav":
                             case "mv":
@@ -872,12 +872,12 @@ package com.sulake.habbo.room
                     if (((!(_local_17)) && (_local_16))){
                         _local_14 = "float";
                     };
-                    this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_9.id, _local_14, _local_15);
+                    this._SafeStr_13372.updateObjectUserPosture(_local_4, _local_5, _local_9.id, _local_14, _local_15);
                 };
                 _local_8++;
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUserRemove(_arg_1:IMessageEvent):void
         {
             var _local_2:UserRemoveMessageEvent = (_arg_1 as UserRemoveMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -887,9 +887,9 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:UserRemoveMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.id);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            this._SafeStr_13372.disposeObjectUser(_local_4, _local_5, _local_3.id);
         }
         private function onUserChange(_arg_1:IMessageEvent):void
         {
@@ -897,11 +897,11 @@ package com.sulake.habbo.room
             if (_local_2 == null){
                 return;
             };
-            var _local_3:int = this.RoomEngine(_local_2.roomId);
-            var _local_4:int = this.RoomEngine(_local_2.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.id, _local_2.figure, _local_2.sex);
+            var _local_3:int = this.getRoomId(_local_2.roomId);
+            var _local_4:int = this.getRoomCategory(_local_2.roomCategory);
+            this._SafeStr_13372.updateObjectUserFigure(_local_3, _local_4, _local_2.id, _local_2.figure, _local_2.sex);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onWave(_arg_1:IMessageEvent):void
         {
             var _local_2:WaveMessageEvent = (_arg_1 as WaveMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -911,15 +911,15 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:WaveMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = 1;
             if (!_local_3.isWaving){
                 _local_6 = 0;
             };
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6546, _local_6);
+            this._SafeStr_13372.updateObjectUserAction(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6546, _local_6);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onDance(_arg_1:IMessageEvent):void
         {
             var _local_2:DanceMessageEvent = (_arg_1 as DanceMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -929,11 +929,11 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:DanceMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6550, _local_3.danceStyle);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            this._SafeStr_13372.updateObjectUserAction(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6550, _local_3.danceStyle);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onAvatarEffect(_arg_1:IMessageEvent):void
         {
             var _local_2:AvatarEffectMessageEvent = (_arg_1 as AvatarEffectMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -943,11 +943,11 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:AvatarEffectMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.userId, _local_3.effectId, _local_3.delayMilliSeconds);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            this._SafeStr_13372.updateObjectUserEffect(_local_4, _local_5, _local_3.userId, _local_3.effectId, _local_3.delayMilliSeconds);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onAvatarSleep(_arg_1:IMessageEvent):void
         {
             var _local_2:SleepMessageEvent = (_arg_1 as SleepMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -957,15 +957,15 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:SleepMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = 1;
             if (!_local_3.sleeping){
                 _local_6 = 0;
             };
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_4374, _local_6);
+            this._SafeStr_13372.updateObjectUserAction(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_4374, _local_6);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onCarryObject(_arg_1:IMessageEvent):void
         {
             var _local_2:CarryObjectMessageParser;
             var _local_3:int;
@@ -975,12 +975,12 @@ package com.sulake.habbo.room
             };
             if ((_arg_1 is CarryObjectMessageEvent)){
                 _local_2 = (_arg_1 as CarryObjectMessageEvent).getParser();
-                _local_3 = this.RoomEngine(_local_2.roomId);
-                _local_4 = this.RoomEngine(_local_2.roomCategory);
-                this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6552, _local_2.itemType, _local_2.itemName);
+                _local_3 = this.getRoomId(_local_2.roomId);
+                _local_4 = this.getRoomCategory(_local_2.roomCategory);
+                this._SafeStr_13372.updateObjectUserAction(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6552, _local_2.itemType, _local_2.itemName);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUseObject(_arg_1:IMessageEvent):void
         {
             var _local_2:UseObjectMessageParser;
             var _local_3:int;
@@ -990,12 +990,12 @@ package com.sulake.habbo.room
             };
             if ((_arg_1 is UseObjectMessageEvent)){
                 _local_2 = (_arg_1 as UseObjectMessageEvent).getParser();
-                _local_3 = this.RoomEngine(_local_2.roomId);
-                _local_4 = this.RoomEngine(_local_2.roomCategory);
-                this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6553, _local_2.itemType);
+                _local_3 = this.getRoomId(_local_2.roomId);
+                _local_4 = this.getRoomCategory(_local_2.roomCategory);
+                this._SafeStr_13372.updateObjectUserAction(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6553, _local_2.itemType);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onSlideUpdate(_arg_1:IMessageEvent):void
         {
             var _local_2:SlideObjectBundleMessageParser;
             var _local_3:int;
@@ -1010,22 +1010,22 @@ package com.sulake.habbo.room
             };
             if ((_arg_1 is SlideObjectBundleMessageEvent)){
                 _local_2 = (_arg_1 as SlideObjectBundleMessageEvent).getParser();
-                _local_3 = this.RoomEngine(_local_2.roomId);
-                _local_4 = this.RoomEngine(_local_2.roomCategory);
-                this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.id, null, null, 1, null);
-                this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.id, null, null, 2, null);
+                _local_3 = this.getRoomId(_local_2.roomId);
+                _local_4 = this.getRoomCategory(_local_2.roomCategory);
+                this._SafeStr_13372.updateObjectFurniture(_local_3, _local_4, _local_2.id, null, null, 1, null);
+                this._SafeStr_13372.updateObjectFurniture(_local_3, _local_4, _local_2.id, null, null, 2, null);
                 _local_5 = _local_2.objectList;
                 _local_6 = 0;
                 while (_local_6 < _local_5.length) {
                     _local_7 = _local_5[_local_6];
                     if (_local_7 != null){
-                        this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_7.id, _local_7.loc, _local_7.target);
+                        this._SafeStr_13372.updateObjectFurnitureLocation(_local_3, _local_4, _local_7.id, _local_7.loc, _local_7.target);
                     };
                     _local_6++;
                 };
                 if (_local_2.avatar != null){
                     _local_8 = _local_2.avatar;
-                    this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_8.id, _local_8.loc, _local_8.target);
+                    this._SafeStr_13372.updateObjectUser(_local_3, _local_4, _local_8.id, _local_8.loc, _local_8.target);
                     switch (_local_8.moveType){
                         case SlideObjectMessageData._SafeStr_3800:
                             _local_9 = "mv";
@@ -1034,11 +1034,11 @@ package com.sulake.habbo.room
                             _local_9 = "std";
                             break;
                     };
-                    this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_8.id, _local_9);
+                    this._SafeStr_13372.updateObjectUserPosture(_local_3, _local_4, _local_8.id, _local_9);
                 };
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onChat(_arg_1:IMessageEvent):void
         {
             var _local_2:ChatMessageParser;
             if (this._SafeStr_13372 == null){
@@ -1060,37 +1060,37 @@ package com.sulake.habbo.room
             if (_local_2 == null){
                 return;
             };
-            var _local_3:int = this.RoomEngine(_local_2.roomId);
-            var _local_4:int = this.RoomEngine(_local_2.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.userId, _local_2.gesture);
-            this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6545, Math.ceil((_local_2.text.length / 10)));
+            var _local_3:int = this.getRoomId(_local_2.roomId);
+            var _local_4:int = this.getRoomCategory(_local_2.roomCategory);
+            this._SafeStr_13372.updateObjectUserGesture(_local_3, _local_4, _local_2.userId, _local_2.gesture);
+            this._SafeStr_13372.updateObjectUserAction(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6545, Math.ceil((_local_2.text.length / 10)));
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onTypingStatus(_arg_1:IMessageEvent):void
         {
             var _local_2:UserTypingMessageEvent = (_arg_1 as UserTypingMessageEvent);
             if (_local_2 == null){
                 return;
             };
             var _local_3:UserTypingMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = 1;
             if (!_local_3.isTyping){
                 _local_6 = 0;
             };
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6548, _local_6);
+            this._SafeStr_13372.updateObjectUserAction(_local_4, _local_5, _local_3.userId, RoomObjectVariableEnum._SafeStr_6548, _local_6);
         }
-        private function RoomMessageHandler(_arg_1:PetExperienceEvent):void
+        private function onPetExperience(_arg_1:PetExperienceEvent):void
         {
             if (_arg_1 == null){
                 return;
             };
             var _local_2:PetExperienceParser = _arg_1.getParser();
-            var _local_3:int = this.RoomEngine(_local_2.roomId);
-            var _local_4:int = this.RoomEngine(_local_2.roomCategory);
-            this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.petRoomIndex, RoomObjectVariableEnum._SafeStr_4376, _local_2.gainedExperience);
+            var _local_3:int = this.getRoomId(_local_2.roomId);
+            var _local_4:int = this.getRoomCategory(_local_2.roomCategory);
+            this._SafeStr_13372.updateObjectUserAction(_local_3, _local_4, _local_2.petRoomIndex, RoomObjectVariableEnum._SafeStr_4376, _local_2.gainedExperience);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onDiceValue(_arg_1:IMessageEvent):void
         {
             var _local_2:DiceValueMessageEvent = (_arg_1 as DiceValueMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -1100,14 +1100,14 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:DiceValueMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = _local_3.id;
             var _local_7:int = _local_3.value;
             var _local_8:String = "";
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
+            this._SafeStr_13372.updateObjectFurniture(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onOneWayDoorStatus(_arg_1:IMessageEvent):void
         {
             var _local_2:OneWayDoorStatusMessageEvent = (_arg_1 as OneWayDoorStatusMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -1117,14 +1117,14 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:OneWayDoorStatusMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
             var _local_6:int = _local_3.id;
             var _local_7:int = _local_3.status;
             var _local_8:String = "";
-            this._SafeStr_13372.RoomEngine(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
+            this._SafeStr_13372.updateObjectFurniture(_local_4, _local_5, _local_6, null, null, _local_7, _local_8);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onParkBusDoor(_arg_1:IMessageEvent):void
         {
             var _local_2:ParkBusDoorMessageEvent = (_arg_1 as ParkBusDoorMessageEvent);
             if ((((_local_2 == null)) || ((_local_2.getParser() == null)))){
@@ -1134,9 +1134,9 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:ParkBusDoorMessageParser = _local_2.getParser();
-            var _local_4:int = this.RoomEngine(_local_3.roomId);
-            var _local_5:int = this.RoomEngine(_local_3.roomCategory);
-            var _local_6:IRoomObject = this._SafeStr_13372.RoomEngine(_local_4, _local_5);
+            var _local_4:int = this.getRoomId(_local_3.roomId);
+            var _local_5:int = this.getRoomCategory(_local_3.roomCategory);
+            var _local_6:IRoomObject = this._SafeStr_13372.getObjectRoom(_local_4, _local_5);
             if (_local_6 == null){
                 return;
             };
@@ -1145,18 +1145,18 @@ package com.sulake.habbo.room
                 _local_7.setNumber(RoomObjectVariableEnum._SafeStr_8505, _local_3.status);
             };
         }
-        private function RoomMessageHandler(_arg_1:YouArePlayingGameMessageEvent):void
+        private function onPlayingGame(_arg_1:YouArePlayingGameMessageEvent):void
         {
             if (_arg_1 == null){
                 return;
             };
             var _local_2:YouArePlayingGameMessageParser = _arg_1.getParser();
-            var _local_3:int = this.RoomEngine(_local_2.roomId);
-            var _local_4:int = this.RoomEngine(_local_2.roomCategory);
+            var _local_3:int = this.getRoomId(_local_2.roomId);
+            var _local_4:int = this.getRoomCategory(_local_2.roomCategory);
             var _local_5:Boolean = _local_2.isPlaying;
-            this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_5);
+            this._SafeStr_13372.setIsPlayingGame(_local_3, _local_4, _local_5);
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onGamePlayerNumberValue(_arg_1:IMessageEvent):void
         {
             var _local_2:GamePlayerValueMessageParser;
             var _local_3:int;
@@ -1166,9 +1166,9 @@ package com.sulake.habbo.room
             };
             if ((_arg_1 is GamePlayerValueMessageEvent)){
                 _local_2 = (_arg_1 as GamePlayerValueMessageEvent).getParser();
-                _local_3 = this.RoomEngine(_local_2.roomId);
-                _local_4 = this.RoomEngine(_local_2.roomCategory);
-                this._SafeStr_13372.RoomEngine(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6554, _local_2.value);
+                _local_3 = this.getRoomId(_local_2.roomId);
+                _local_4 = this.getRoomCategory(_local_2.roomCategory);
+                this._SafeStr_13372.updateObjectUserAction(_local_3, _local_4, _local_2.userId, RoomObjectVariableEnum._SafeStr_6554, _local_2.value);
             };
         }
 
@@ -1183,21 +1183,21 @@ package com.sulake.habbo.room
 // mapHeight = "_-0xh" (String#16341, DoABC#2)
 // setTileBlocking = "_-2eF" (String#20613, DoABC#2)
 // setIsRoomTile = "_-0eo" (String#15618, DoABC#2)
-// RoomEngine = "_-0A-" (String#3757, DoABC#2)
-// RoomEngine = "_-136" (String#4935, DoABC#2)
-// RoomEngine = "_-2BD" (String#6272, DoABC#2)
-// RoomEngine = "_-1Nf" (String#5305, DoABC#2)
-// RoomEngine = "_-0Op" (String#4066, DoABC#2)
-// RoomEngine = "_-1tl" (String#5916, DoABC#2)
-// RoomEngine = "_-TO" (String#8274, DoABC#2)
-// RoomEngine = "_-hw" (String#2161, DoABC#2)
-// RoomEngine = "_-2vR" (String#7185, DoABC#2)
-// RoomEngine = "_-2gz" (String#6891, DoABC#2)
-// RoomEngine = "_-0jE" (String#4485, DoABC#2)
-// RoomEngine = "_-25z" (String#6160, DoABC#2)
-// RoomEngine = "_-3Kt" (String#7720, DoABC#2)
-// RoomEngine = "_-0UL" (String#1485, DoABC#2)
-// RoomEngine = "_-0Hd" (String#1444, DoABC#2)
+// addObjectFurnitureByName = "_-0A-" (String#3757, DoABC#2)
+// updateObjectFurniture = "_-136" (String#4935, DoABC#2)
+// updateObjectFurnitureLocation = "_-2BD" (String#6272, DoABC#2)
+// updateObjectWallItem = "_-1Nf" (String#5305, DoABC#2)
+// updateObjectWallItemData = "_-0Op" (String#4066, DoABC#2)
+// updateObjectUser = "_-1tl" (String#5916, DoABC#2)
+// updateObjectUserFlatControl = "_-TO" (String#8274, DoABC#2)
+// updateObjectUserFigure = "_-hw" (String#2161, DoABC#2)
+// updateObjectUserAction = "_-2vR" (String#7185, DoABC#2)
+// updateObjectPetGesture = "_-2gz" (String#6891, DoABC#2)
+// updateObjectRoomVisibilities = "_-0jE" (String#4485, DoABC#2)
+// updateObjectRoomPlaneThicknesses = "_-25z" (String#6160, DoABC#2)
+// setRoomObjectAlias = "_-3Kt" (String#7720, DoABC#2)
+// getLegacyGeometry = "_-0UL" (String#1485, DoABC#2)
+// getTileHeightMap = "_-0Hd" (String#1444, DoABC#2)
 // _SafeStr_13370 = "_-2PV" (String#20023, DoABC#2)
 // _SafeStr_13372 = "_-0jw" (String#15826, DoABC#2)
 // _SafeStr_13373 = "_-0MC" (String#14923, DoABC#2)
@@ -1209,53 +1209,53 @@ package com.sulake.habbo.room
 // setCurrentRoom = "_-0HS" (String#14737, DoABC#2)
 // disposeRoom = "_-2ya" (String#904, DoABC#2)
 // resetCurrentRoom = "_-1wU" (String#18820, DoABC#2)
-// RoomEngine = "_-2gw" (String#6889, DoABC#2)
-// RoomEngine = "_-0Mn" (String#4018, DoABC#2)
-// RoomEngine = "_-18W" (String#1625, DoABC#2)
-// RoomMessageHandler = "_-L0" (String#23047, DoABC#2)
-// RoomMessageHandler = "_-bT" (String#23692, DoABC#2)
-// RoomMessageHandler = "_-235" (String#19137, DoABC#2)
-// RoomMessageHandler = "_-2ZR" (String#20415, DoABC#2)
-// RoomMessageHandler = "_-1mB" (String#18387, DoABC#2)
-// RoomMessageHandler = "_-1kj" (String#18319, DoABC#2)
-// RoomMessageHandler = "_-1dN" (String#18030, DoABC#2)
-// RoomMessageHandler = "_-ZT" (String#23614, DoABC#2)
-// RoomMessageHandler = "_-3Bv" (String#21956, DoABC#2)
-// RoomMessageHandler = "_-0mO" (String#15912, DoABC#2)
-// RoomMessageHandler = "_-09w" (String#14444, DoABC#2)
-// RoomMessageHandler = "_-nP" (String#24167, DoABC#2)
-// RoomMessageHandler = "_-15h" (String#16683, DoABC#2)
+// getRoomId = "_-2gw" (String#6889, DoABC#2)
+// getRoomCategory = "_-0Mn" (String#4018, DoABC#2)
+// isPublicRoom = "_-18W" (String#1625, DoABC#2)
+// onOwnUserEvent = "_-L0" (String#23047, DoABC#2)
+// onRoomProperty = "_-bT" (String#23692, DoABC#2)
+// onFloorHeightMap = "_-235" (String#19137, DoABC#2)
+// onHeightMap = "_-2ZR" (String#20415, DoABC#2)
+// onHeightMapUpdate = "_-1mB" (String#18387, DoABC#2)
+// onRoomVisualizationSettings = "_-1kj" (String#18319, DoABC#2)
+// onFurnitureAliases = "_-1dN" (String#18030, DoABC#2)
+// onObjects = "_-ZT" (String#23614, DoABC#2)
+// onPublicRoomObjects = "_-3Bv" (String#21956, DoABC#2)
+// onObjectAdd = "_-0mO" (String#15912, DoABC#2)
+// onObjectInject = "_-09w" (String#14444, DoABC#2)
+// onObjectDataUpdate = "_-nP" (String#24167, DoABC#2)
+// onObjectsDataUpdate = "_-15h" (String#16683, DoABC#2)
 // onObjectRemove = "_-uz" (String#8784, DoABC#2)
-// RoomMessageHandler = "_-0Ze" (String#15428, DoABC#2)
-// RoomMessageHandler = "_-zH" (String#24664, DoABC#2)
-// RoomMessageHandler = "_-VU" (String#23471, DoABC#2)
-// RoomMessageHandler = "_-0a7" (String#15444, DoABC#2)
-// RoomMessageHandler = "_-2MS" (String#19904, DoABC#2)
-// RoomMessageHandler = "_-1L0" (String#17313, DoABC#2)
-// RoomMessageHandler = "_-Py" (String#23248, DoABC#2)
-// RoomMessageHandler = "_-18L" (String#16789, DoABC#2)
-// RoomMessageHandler = "_-6t" (String#22495, DoABC#2)
-// RoomMessageHandler = "_-2HU" (String#19705, DoABC#2)
-// RoomMessageHandler = "_-2FJ" (String#19616, DoABC#2)
-// RoomMessageHandler = "_-Fw" (String#22849, DoABC#2)
-// RoomMessageHandler = "_-FD" (String#22822, DoABC#2)
-// RoomMessageHandler = "_-368" (String#21735, DoABC#2)
-// RoomMessageHandler = "_-1GV" (String#17135, DoABC#2)
-// RoomMessageHandler = "_-2q" (String#21080, DoABC#2)
-// RoomMessageHandler = "_-2Zt" (String#20435, DoABC#2)
-// RoomMessageHandler = "_-191" (String#16818, DoABC#2)
-// RoomMessageHandler = "_-qV" (String#24292, DoABC#2)
-// RoomMessageHandler = "_-0Oq" (String#15019, DoABC#2)
-// RoomEngine = "_-qZ" (String#8718, DoABC#2)
-// RoomEngine = "_-36n" (String#7446, DoABC#2)
-// RoomMessageHandler = "_-D7" (String#22734, DoABC#2)
-// RoomMessageHandler = "_-v-" (String#24490, DoABC#2)
-// RoomMessageHandler = "_-3Gt" (String#22158, DoABC#2)
-// RoomMessageHandler = "_-12t" (String#16576, DoABC#2)
-// RoomEngine = "_-0on" (String#4611, DoABC#2)
+// onItems = "_-0Ze" (String#15428, DoABC#2)
+// onItemAdd = "_-zH" (String#24664, DoABC#2)
+// onItemRemove = "_-VU" (String#23471, DoABC#2)
+// onItemUpdate = "_-0a7" (String#15444, DoABC#2)
+// onItemDataUpdate = "_-2MS" (String#19904, DoABC#2)
+// onUserUpdate = "_-1L0" (String#17313, DoABC#2)
+// onWave = "_-Py" (String#23248, DoABC#2)
+// onAvatarEffect = "_-18L" (String#16789, DoABC#2)
+// onAvatarSleep = "_-6t" (String#22495, DoABC#2)
+// onCarryObject = "_-2HU" (String#19705, DoABC#2)
+// onUseObject = "_-2FJ" (String#19616, DoABC#2)
+// onSlideUpdate = "_-Fw" (String#22849, DoABC#2)
+// onChat = "_-FD" (String#22822, DoABC#2)
+// onTypingStatus = "_-368" (String#21735, DoABC#2)
+// onDiceValue = "_-1GV" (String#17135, DoABC#2)
+// onOneWayDoorStatus = "_-2q" (String#21080, DoABC#2)
+// onParkBusDoor = "_-2Zt" (String#20435, DoABC#2)
+// onPetExperience = "_-191" (String#16818, DoABC#2)
+// onPlayingGame = "_-qV" (String#24292, DoABC#2)
+// onGamePlayerNumberValue = "_-0Oq" (String#15019, DoABC#2)
+// setWorldType = "_-qZ" (String#8718, DoABC#2)
+// setTileHeightMap = "_-36n" (String#7446, DoABC#2)
+// addActiveObject = "_-D7" (String#22734, DoABC#2)
+// addPassiveObject = "_-v-" (String#24490, DoABC#2)
+// getNextPassiveObjectId = "_-3Gt" (String#22158, DoABC#2)
+// addWallItem = "_-12t" (String#16576, DoABC#2)
+// setOwnUserId = "_-0on" (String#4611, DoABC#2)
 // getRoom = "_-1jg" (String#1750, DoABC#2)
-// RoomEngine = "_-1HB" (String#5193, DoABC#2)
-// RoomEngine = "_-tM" (String#8756, DoABC#2)
+// getObjectRoom = "_-1HB" (String#5193, DoABC#2)
+// setIsPlayingGame = "_-tM" (String#8756, DoABC#2)
 // RoomObjectVariableEnum = "_-1MH" (String#17370, DoABC#2)
 // IRoomInstance = "_-1j8" (String#5739, DoABC#2)
 // IRoomObjectModelController = "_-1yp" (String#6010, DoABC#2)
@@ -1360,14 +1360,14 @@ package com.sulake.habbo.room
 // isTyping = "_-1wh" (String#18831, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// UsersMessageParser = "_-xV" (String#24590, DoABC#2)
-// UsersMessageParser = "_-0C8" (String#14534, DoABC#2)
+// getUserCount = "_-xV" (String#24590, DoABC#2)
+// getUser = "_-0C8" (String#14534, DoABC#2)
 // webID = "_-2uI" (String#7166, DoABC#2)
 // sex = "_-0tG" (String#4712, DoABC#2)
 // subType = "_-uO" (String#24467, DoABC#2)
 // itemData = "_-1S3" (String#17584, DoABC#2)
-// RoomInstance = "_-09y" (String#1415, DoABC#2)
-// RoomInstance = "_-1GT" (String#844, DoABC#2)
+// getObjectCount = "_-09y" (String#1415, DoABC#2)
+// getObject = "_-1GT" (String#844, DoABC#2)
 // floorType = "_-1D4" (String#16985, DoABC#2)
 // wallType = "_-0n5" (String#15942, DoABC#2)
 // landscapeType = "_-29h" (String#19391, DoABC#2)
@@ -1375,21 +1375,21 @@ package com.sulake.habbo.room
 // getTileBlocking = "_-2o1" (String#21002, DoABC#2)
 // isRoomTile = "_-3Dl" (String#22024, DoABC#2)
 // objectCount = "_-2Yw" (String#20393, DoABC#2)
-// ObjectsDataUpdateMessageParser = "_-1Bi" (String#16930, DoABC#2)
+// getObjectData = "_-1Bi" (String#16930, DoABC#2)
 // aliasCount = "_-2Xv" (String#20355, DoABC#2)
 // getName = "_-D1" (String#931, DoABC#2)
-// FurnitureAliasesMessageParser = "_-30C" (String#21508, DoABC#2)
+// getAlias = "_-30C" (String#21508, DoABC#2)
 // objectList = "_-1qv" (String#18577, DoABC#2)
 // _SafeStr_3800 = "_-0hj" (String#15737, DoABC#2)
 // _moveType = "_-0q-" (String#16051, DoABC#2)
 // _SafeStr_3802 = "_-v4" (String#24495, DoABC#2)
-// ItemsMessageParser = "_-1vN" (String#18772, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItemCount = "_-1vN" (String#18772, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // wallsHidden = "_-Nd" (String#23150, DoABC#2)
 // wallThicknessMultiplier = "_-0wt" (String#16306, DoABC#2)
 // floorThicknessMultiplier = "_-1NT" (String#17417, DoABC#2)
 // userUpdateCount = "_-a6" (String#23635, DoABC#2)
-// UserUpdateMessageParser = "_-lO" (String#24083, DoABC#2)
+// getUserUpdateData = "_-lO" (String#24083, DoABC#2)
 // wallX = "_-0Jc" (String#14826, DoABC#2)
 // wallY = "_-2VK" (String#20254, DoABC#2)
 // extra = "_-2We" (String#6693, DoABC#2)
@@ -1400,18 +1400,18 @@ package com.sulake.habbo.room
 // danceStyle = "_-0M0" (String#14915, DoABC#2)
 // initializeTileMap = "_-yM" (String#24629, DoABC#2)
 // initializeFromTileData = "_-34W" (String#21678, DoABC#2)
-// RoomEngine = "_-1SM" (String#1690, DoABC#2)
+// initializeRoom = "_-1SM" (String#1690, DoABC#2)
 // getXML = "_-2Oe" (String#6532, DoABC#2)
-// RoomEngine = "_-0Sj" (String#1477, DoABC#2)
-// RoomEngine = "_-0aH" (String#1502, DoABC#2)
-// RoomEngine = "_-Jw" (String#2086, DoABC#2)
-// RoomEngine = "_-0G1" (String#1439, DoABC#2)
-// RoomEngine = "_-J0" (String#2084, DoABC#2)
-// RoomEngine = "_-0kK" (String#1540, DoABC#2)
-// RoomEngine = "_-0Yi" (String#1498, DoABC#2)
-// RoomEngine = "_-3-m" (String#1983, DoABC#2)
-// RoomEngine = "_-356" (String#1995, DoABC#2)
-// RoomEngine = "_-DR" (String#2076, DoABC#2)
+// disposeObjectFurniture = "_-0Sj" (String#1477, DoABC#2)
+// disposeObjectWallItem = "_-0aH" (String#1502, DoABC#2)
+// disposeObjectUser = "_-Jw" (String#2086, DoABC#2)
+// addObjectFurniture = "_-0G1" (String#1439, DoABC#2)
+// addObjectWallItem = "_-J0" (String#2084, DoABC#2)
+// addObjectUser = "_-0kK" (String#1540, DoABC#2)
+// updateObjectUserGesture = "_-0Yi" (String#1498, DoABC#2)
+// updateObjectUserEffect = "_-3-m" (String#1983, DoABC#2)
+// updateObjectUserPosture = "_-356" (String#1995, DoABC#2)
+// updateObjectRoom = "_-DR" (String#2076, DoABC#2)
 // localZ = "_-qW" (String#24293, DoABC#2)
 // targetX = "_-1J9" (String#17243, DoABC#2)
 // targetY = "_-3HE" (String#22172, DoABC#2)
@@ -1422,11 +1422,11 @@ package com.sulake.habbo.room
 // loc = "_-0fh" (String#15660, DoABC#2)
 // actionParameter = "_-2Oa" (String#6531, DoABC#2)
 // effectId = "_-0jW" (String#15809, DoABC#2)
-// RoomMessageHandler = "_-1eu" (String#1735, DoABC#2)
-// RoomMessageHandler = "_-2FD" (String#6347, DoABC#2)
+// onUsers = "_-1eu" (String#1735, DoABC#2)
+// onUserRemove = "_-2FD" (String#6347, DoABC#2)
 // onUserChange = "_-0uf" (String#827, DoABC#2)
-// RoomMessageHandler = "_-1cS" (String#5609, DoABC#2)
-// SessionDataManager = "_-0KO" (String#583, DoABC#2)
+// onDance = "_-1cS" (String#5609, DoABC#2)
+// onRoomReady = "_-0KO" (String#583, DoABC#2)
 // _SafeStr_6545 = "_-2IW" (String#19747, DoABC#2)
 // _SafeStr_6546 = "_-n1" (String#24155, DoABC#2)
 // _SafeStr_6548 = "_-09g" (String#14434, DoABC#2)

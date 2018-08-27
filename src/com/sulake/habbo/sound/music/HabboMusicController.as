@@ -45,7 +45,7 @@ package com.sulake.habbo.sound.music
         private var _SafeStr_7699:Map;
         private var _SafeStr_7700:Map;
         private var _SafeStr_7701:Array;
-        private var _HabboMusicController:IPlayListController = null;
+        private var _SafeStr_7702:IPlayListController = null;
         private var _disposed:Boolean = false;
         private var _SafeStr_7703:Array;
         private var _SafeStr_7704:Array;
@@ -55,7 +55,7 @@ package com.sulake.habbo.sound.music
         private var _SafeStr_7707:Timer;
         private var _SafeStr_5522:Map;
         private var _SafeStr_7708:Array;
-        private var _WelcomeGiftWidgetHandler:Array;
+        private var _SafeStr_7204:Array;
         private var _SafeStr_7709:int = -1;
         private var _SafeStr_7710:int = -1;
 
@@ -70,24 +70,24 @@ package com.sulake.habbo.sound.music
             this._SafeStr_7704 = [];
             this._SafeStr_5522 = new Map();
             this._SafeStr_7708 = new Array();
-            this._WelcomeGiftWidgetHandler = [];
+            this._SafeStr_7204 = [];
             super();
             this._soundManager = _arg_1;
             this._events = _arg_2;
             this._SafeStr_5221 = _arg_3;
             this._connection = _arg_4;
-            this._WelcomeGiftWidgetHandler.push(new TraxSongInfoMessageEvent(this.HabboMusicController));
-            this._WelcomeGiftWidgetHandler.push(new UserSongDisksInventoryMessageEvent(this.HabboMusicController));
-            for each (_local_5 in this._WelcomeGiftWidgetHandler) {
+            this._SafeStr_7204.push(new TraxSongInfoMessageEvent(this.onSongInfoMessage));
+            this._SafeStr_7204.push(new UserSongDisksInventoryMessageEvent(this.onSongDiskInventoryMessage));
+            for each (_local_5 in this._SafeStr_7204) {
                 this._connection.addMessageEvent(_local_5);
             };
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_INIT, this.HabboMusicController);
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_DISPOSE, this.HabboMusicController);
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_INIT, this.HabboMusicController);
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_DISPOSE, this.HabboMusicController);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_INIT, this.onJukeboxInit);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_DISPOSE, this.onJukeboxDispose);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_INIT, this.onSoundMachineInit);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_DISPOSE, this.onSoundMachineDispose);
             this._SafeStr_7707 = new Timer(1000);
             this._SafeStr_7707.start();
-            this._SafeStr_7707.addEventListener(TimerEvent.TIMER, this.HabboMusicController);
+            this._SafeStr_7707.addEventListener(TimerEvent.TIMER, this.sendNextSongRequestMessage);
             this._events.addEventListener(SoundCompleteEvent.TRAX_SONG_COMPLETE, this.onSongFinishedPlayingEvent);
             _local_6 = 0;
             while (_local_6 < HabboMusicPrioritiesEnum._SafeStr_7718) {
@@ -129,16 +129,16 @@ package com.sulake.habbo.sound.music
                 this._soundManager = null;
                 this._SafeStr_7701 = null;
                 if (this._connection){
-                    for each (_local_1 in this._WelcomeGiftWidgetHandler) {
-                        this._connection.SocketConnection(_local_1);
+                    for each (_local_1 in this._SafeStr_7204) {
+                        this._connection.removeMessageEvent(_local_1);
                         _local_1.dispose();
                     };
-                    this._WelcomeGiftWidgetHandler = null;
+                    this._SafeStr_7204 = null;
                     this._connection = null;
                 };
-                if (this._HabboMusicController){
-                    this._HabboMusicController.dispose();
-                    this._HabboMusicController = null;
+                if (this._SafeStr_7702){
+                    this._SafeStr_7702.dispose();
+                    this._SafeStr_7702 = null;
                 };
                 if (this._SafeStr_7699){
                     _local_2 = 0;
@@ -161,10 +161,10 @@ package com.sulake.habbo.sound.music
                 this._SafeStr_7707.stop();
                 this._SafeStr_7707 = null;
                 if (this._SafeStr_5221){
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_INIT, this.HabboMusicController);
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_DISPOSE, this.HabboMusicController);
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_INIT, this.HabboMusicController);
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_DISPOSE, this.HabboMusicController);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_INIT, this.onJukeboxInit);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_DISPOSE, this.onJukeboxDispose);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_INIT, this.onSoundMachineInit);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_DISPOSE, this.onSoundMachineDispose);
                 };
                 if (this._SafeStr_5522 != null){
                     this._SafeStr_5522.dispose();
@@ -175,7 +175,7 @@ package com.sulake.habbo.sound.music
         }
         public function getRoomItemPlaylist(_arg_1:int=-1):IPlayListController
         {
-            return (this._HabboMusicController);
+            return (this._SafeStr_7702);
         }
         private function addSongStartRequest(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number, _arg_5:Number, _arg_6:Number):Boolean
         {
@@ -238,7 +238,7 @@ package com.sulake.habbo.sound.music
                 return (false);
             };
             if (_local_3.soundObject == null){
-                _local_3.soundObject = this._soundManager.HabboSoundManagerFlash10(_local_3.id, _local_3.songData);
+                _local_3.soundObject = this._soundManager.loadTraxSong(_local_3.id, _local_3.songData);
             };
             var _local_4:IHabboSound = _local_3.soundObject;
             if (!_local_4.ready){
@@ -256,7 +256,7 @@ package com.sulake.habbo.sound.music
                 return (false);
             };
             if (_arg_2 >= this._priorityPlaying){
-                this.HabboMusicController(_arg_2, _arg_1);
+                this.playSongObject(_arg_2, _arg_1);
             }
             else {
                 Logger.log(((("Higher priority song blocked playing. Stored song " + _arg_1) + " for priority ") + _arg_2));
@@ -273,7 +273,7 @@ package com.sulake.habbo.sound.music
             var _local_2:int = _local_1;
             while (_local_2 >= 0) {
                 _local_3 = this.getSongIdRequestedAtPriority(_local_2);
-                if ((((_local_3 >= 0)) && (this.HabboMusicController(_local_2, _local_3)))){
+                if ((((_local_3 >= 0)) && (this.playSongObject(_local_2, _local_3)))){
                     return;
                 };
                 _local_2--;
@@ -351,7 +351,7 @@ package com.sulake.habbo.sound.music
             if (_local_2 >= 0){
                 _local_3 = this.getSongIdRequestedAtPriority(_local_2);
                 if (_arg_1 == _local_3){
-                    this.HabboMusicController(_local_2, _arg_1);
+                    this.playSongObject(_local_2, _arg_1);
                 };
             };
         }
@@ -457,7 +457,7 @@ package com.sulake.habbo.sound.music
             };
             return (_local_1);
         }
-        private function HabboMusicController(_arg_1:TimerEvent):void
+        private function sendNextSongRequestMessage(_arg_1:TimerEvent):void
         {
             if (this._SafeStr_7701.length < 1){
                 return;
@@ -469,7 +469,7 @@ package com.sulake.habbo.sound.music
             Logger.log(("Requested song info's : " + this._SafeStr_7701));
             this._SafeStr_7701 = new Array();
         }
-        private function HabboMusicController(_arg_1:IMessageEvent):void
+        private function onSongInfoMessage(_arg_1:IMessageEvent):void
         {
             var _local_6:SongInfoEntry;
             var _local_7:Boolean;
@@ -485,11 +485,11 @@ package com.sulake.habbo.sound.music
             while (_local_5 < _local_4.length) {
                 _local_6 = _local_4[_local_5];
                 _local_7 = (this.getSongDataEntry(_local_6.id) == null);
-                _local_8 = this.HabboMusicController(_local_6.id);
+                _local_8 = this.areSamplesRequested(_local_6.id);
                 if (_local_7){
                     _local_9 = null;
                     if (_local_8){
-                        _local_9 = this._soundManager.HabboSoundManagerFlash10(_local_6.id, _local_6.data);
+                        _local_9 = this._soundManager.loadTraxSong(_local_6.id, _local_6.data);
                     };
                     _local_10 = new SongDataEntry(_local_6.id, _local_6.length, _local_6.name, _local_6.creator, _local_9);
                     _local_10.songData = _local_6.data;
@@ -497,7 +497,7 @@ package com.sulake.habbo.sound.music
                     _local_11 = this.getTopRequestPriority();
                     _local_12 = this.getSongIdRequestedAtPriority(_local_11);
                     if (((((!((_local_9 == null))) && (_local_9.ready))) && ((_local_6.id == _local_12)))){
-                        this.HabboMusicController(_local_11, _local_12);
+                        this.playSongObject(_local_11, _local_12);
                     };
                     this._events.dispatchEvent(new SongInfoReceivedEvent(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, _local_6.id));
                     while (this._SafeStr_7708.indexOf(_local_6.id) != -1) {
@@ -511,7 +511,7 @@ package com.sulake.habbo.sound.music
                 _local_5++;
             };
         }
-        private function HabboMusicController(_arg_1:int, _arg_2:int):Boolean
+        private function playSongObject(_arg_1:int, _arg_2:int):Boolean
         {
             if ((((((_arg_2 == -1)) || ((_arg_1 < 0)))) || ((_arg_1 >= HabboMusicPrioritiesEnum._SafeStr_7718)))){
                 return (false);
@@ -559,7 +559,7 @@ package com.sulake.habbo.sound.music
             this._SafeStr_7706 = this.getSongRequestCountAtPriority(_arg_1);
             this._SafeStr_7705 = _arg_2;
             if (this._priorityPlaying <= _SafeStr_7698){
-                this.HabboMusicController(_local_4);
+                this.notifySongPlaying(_local_4);
             };
             if (_arg_1 > HabboMusicPrioritiesEnum._SafeStr_6658){
                 this._events.dispatchEvent(new NowPlayingEvent(NowPlayingEvent.RWPLENPE_USER_PLAY_SONG, _arg_1, _local_4.id, -1));
@@ -567,24 +567,24 @@ package com.sulake.habbo.sound.music
             Logger.log(((((((((("Started playing song " + _arg_2) + " at position ") + _local_6) + " for ") + _local_7) + " seconds (length ") + (_local_4.length / 1000)) + ") with priority ") + _arg_1));
             return (true);
         }
-        private function HabboMusicController(_arg_1:SongDataEntry):void
+        private function notifySongPlaying(_arg_1:SongDataEntry):void
         {
             var _local_2 = 8000;
             var _local_3:int = getTimer();
             if ((((_arg_1.length >= _local_2)) && (((!((this._SafeStr_7709 == _arg_1.id))) || ((_local_3 > (this._SafeStr_7710 + _local_2))))))){
-                this._soundManager.HabboSoundManagerFlash10(_arg_1.name, _arg_1.creator);
+                this._soundManager.notifyPlayedSong(_arg_1.name, _arg_1.creator);
                 this._SafeStr_7709 = _arg_1.id;
                 this._SafeStr_7710 = _local_3;
             };
         }
-        private function HabboMusicController(_arg_1:int):Boolean
+        private function areSamplesRequested(_arg_1:int):Boolean
         {
             if (this._SafeStr_7700.getValue(_arg_1) == null){
                 return (false);
             };
             return (this._SafeStr_7700.getValue(_arg_1));
         }
-        private function HabboMusicController(_arg_1:IMessageEvent):void
+        private function onSongDiskInventoryMessage(_arg_1:IMessageEvent):void
         {
             var _local_5:int;
             var _local_6:int;
@@ -593,8 +593,8 @@ package com.sulake.habbo.sound.music
             this._SafeStr_5522.reset();
             var _local_4:int;
             while (_local_4 < _local_3.songDiskCount) {
-                _local_5 = _local_3.UserSongDisksInventoryMessageParser(_local_4);
-                _local_6 = _local_3.UserSongDisksInventoryMessageParser(_local_4);
+                _local_5 = _local_3.getDiskId(_local_4);
+                _local_6 = _local_3.getSongId(_local_4);
                 this._SafeStr_5522.add(_local_5, _local_6);
                 if (this._SafeStr_7699.getValue(_local_6) == null){
                     this._SafeStr_7708.push(_local_6);
@@ -606,30 +606,30 @@ package com.sulake.habbo.sound.music
                 this._events.dispatchEvent(new SongDiskInventoryReceivedEvent(SongDiskInventoryReceivedEvent.SONG_DISK_INVENTORY_RECEIVED));
             };
         }
-        private function HabboMusicController(_arg_1:Event):void
+        private function onSoundMachineInit(_arg_1:Event):void
         {
-            this.HabboMusicController();
-            this._HabboMusicController = (new SoundMachinePlayListController(this._soundManager, this, this._events, this._SafeStr_5221, this._connection) as IPlayListController);
+            this.disposeRoomPlaylist();
+            this._SafeStr_7702 = (new SoundMachinePlayListController(this._soundManager, this, this._events, this._SafeStr_5221, this._connection) as IPlayListController);
         }
-        private function HabboMusicController(_arg_1:Event):void
+        private function onSoundMachineDispose(_arg_1:Event):void
         {
-            this.HabboMusicController();
+            this.disposeRoomPlaylist();
         }
-        private function HabboMusicController(_arg_1:Event):void
+        private function onJukeboxInit(_arg_1:Event):void
         {
-            this.HabboMusicController();
-            this._HabboMusicController = (new JukeboxPlayListController(this._soundManager, this, this._events, this._connection) as IPlayListController);
+            this.disposeRoomPlaylist();
+            this._SafeStr_7702 = (new JukeboxPlayListController(this._soundManager, this, this._events, this._connection) as IPlayListController);
             this._connection.send(new GetNowPlayingMessageComposer());
         }
-        private function HabboMusicController(_arg_1:Event):void
+        private function onJukeboxDispose(_arg_1:Event):void
         {
-            this.HabboMusicController();
+            this.disposeRoomPlaylist();
         }
-        private function HabboMusicController():void
+        private function disposeRoomPlaylist():void
         {
-            if (this._HabboMusicController != null){
-                this._HabboMusicController.dispose();
-                this._HabboMusicController = null;
+            if (this._SafeStr_7702 != null){
+                this._SafeStr_7702.dispose();
+                this._SafeStr_7702 = null;
             };
         }
 
@@ -664,8 +664,8 @@ package com.sulake.habbo.sound.music
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
 // _SafeStr_5522 = "_-2Yj" (String#6740, DoABC#2)
 // songDiskCount = "_-HP" (String#22909, DoABC#2)
-// UserSongDisksInventoryMessageParser = "_-0O4" (String#14991, DoABC#2)
-// UserSongDisksInventoryMessageParser = "_-3Ax" (String#21917, DoABC#2)
+// getDiskId = "_-0O4" (String#14991, DoABC#2)
+// getSongId = "_-3Ax" (String#21917, DoABC#2)
 // songs = "_-2uJ" (String#21251, DoABC#2)
 // ROSM_SOUND_MACHINE_INIT = "_-Tk" (String#23396, DoABC#2)
 // ROSM_SOUND_MACHINE_DISPOSE = "_-1pK" (String#18515, DoABC#2)
@@ -689,14 +689,14 @@ package com.sulake.habbo.sound.music
 // getSongDiskInventoryDiskId = "_-1eT" (String#5637, DoABC#2)
 // getSongDiskInventorySongId = "_-23l" (String#6118, DoABC#2)
 // songId = "_-2fw" (String#20688, DoABC#2)
-// _WelcomeGiftWidgetHandler = "_-bQ" (String#938, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
+// _SafeStr_7204 = "_-bQ" (String#938, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
 // _SafeStr_7697 = "_-Rn" (String#23315, DoABC#2)
 // _SafeStr_7698 = "_-q9" (String#24279, DoABC#2)
 // _SafeStr_7699 = "_-0l1" (String#15866, DoABC#2)
 // _SafeStr_7700 = "_-1Qt" (String#17545, DoABC#2)
 // _SafeStr_7701 = "_-31t" (String#21574, DoABC#2)
-// _HabboMusicController = "_-077" (String#14329, DoABC#2)
+// _SafeStr_7702 = "_-077" (String#14329, DoABC#2)
 // _SafeStr_7703 = "_-145" (String#16620, DoABC#2)
 // _SafeStr_7704 = "_-2PL" (String#20016, DoABC#2)
 // _SafeStr_7705 = "_-20m" (String#19043, DoABC#2)
@@ -705,13 +705,13 @@ package com.sulake.habbo.sound.music
 // _SafeStr_7708 = "_-0-j" (String#14042, DoABC#2)
 // _SafeStr_7709 = "_-0H8" (String#14724, DoABC#2)
 // _SafeStr_7710 = "_-1Z9" (String#17858, DoABC#2)
-// HabboMusicController = "_-JA" (String#22974, DoABC#2)
-// HabboMusicController = "_-1kt" (String#18326, DoABC#2)
-// HabboMusicController = "_-1LY" (String#17336, DoABC#2)
-// HabboMusicController = "_-xp" (String#24606, DoABC#2)
-// HabboMusicController = "_-30v" (String#21536, DoABC#2)
-// HabboMusicController = "_-1lG" (String#18341, DoABC#2)
-// HabboMusicController = "_-2P2" (String#20003, DoABC#2)
+// onSongInfoMessage = "_-JA" (String#22974, DoABC#2)
+// onSongDiskInventoryMessage = "_-1kt" (String#18326, DoABC#2)
+// onJukeboxInit = "_-1LY" (String#17336, DoABC#2)
+// onJukeboxDispose = "_-xp" (String#24606, DoABC#2)
+// onSoundMachineInit = "_-30v" (String#21536, DoABC#2)
+// onSoundMachineDispose = "_-1lG" (String#18341, DoABC#2)
+// sendNextSongRequestMessage = "_-2P2" (String#20003, DoABC#2)
 // _SafeStr_7718 = "_-tQ" (String#24423, DoABC#2)
 // getSongRequestCountAtPriority = "_-0Xw" (String#15352, DoABC#2)
 // getTopRequestPriority = "_-0FP" (String#14661, DoABC#2)
@@ -724,8 +724,8 @@ package com.sulake.habbo.sound.music
 // processSongEntryForPlaying = "_-2B-" (String#19444, DoABC#2)
 // getSongDataEntry = "_-vz" (String#24528, DoABC#2)
 // addSongInfoRequest = "_-1QR" (String#5359, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1OI" (String#5318, DoABC#2)
-// HabboMusicController = "_-07f" (String#14350, DoABC#2)
+// loadTraxSong = "_-1OI" (String#5318, DoABC#2)
+// playSongObject = "_-07f" (String#14350, DoABC#2)
 // stopSongAtPriority = "_-1-G" (String#16439, DoABC#2)
 // stopSongDataEntry = "_-30J" (String#21513, DoABC#2)
 // updateVolume = "_-31S" (String#7334, DoABC#2)
@@ -734,11 +734,11 @@ package com.sulake.habbo.sound.music
 // requestSongInfoWithoutSamples = "_-3CP" (String#7560, DoABC#2)
 // samplesUnloaded = "_-1dU" (String#5623, DoABC#2)
 // samplesIdsInUse = "_-0Sc" (String#4152, DoABC#2)
-// HabboMusicController = "_-xh" (String#24598, DoABC#2)
+// areSamplesRequested = "_-xh" (String#24598, DoABC#2)
 // startPos = "_-2Wm" (String#20315, DoABC#2)
 // playLength = "_-1gr" (String#18169, DoABC#2)
-// HabboMusicController = "_-29w" (String#19402, DoABC#2)
-// HabboSoundManagerFlash10 = "_-3FC" (String#22085, DoABC#2)
-// HabboMusicController = "_-RO" (String#23300, DoABC#2)
+// notifySongPlaying = "_-29w" (String#19402, DoABC#2)
+// notifyPlayedSong = "_-3FC" (String#22085, DoABC#2)
+// disposeRoomPlaylist = "_-RO" (String#23300, DoABC#2)
 
 

@@ -36,7 +36,7 @@ package com.sulake.room.renderer.cache
         {
             return (this._sprites[_arg_1]);
         }
-        public function ExtendedSprite(_arg_1:int, _arg_2:int):Boolean
+        public function needsUpdate(_arg_1:int, _arg_2:int):Boolean
         {
             if (((!((_arg_1 == this._SafeStr_14432))) || (!((_arg_2 == this._SafeStr_14433))))){
                 this._SafeStr_14432 = _arg_1;
@@ -76,7 +76,7 @@ package com.sulake.room.renderer.cache
 // _isEmpty = "_-1sY" (String#18656, DoABC#2)
 // setSpriteCount = "_-2V2" (String#20240, DoABC#2)
 // addSprite = "_-1FI" (String#17085, DoABC#2)
-// ExtendedSprite = "_-2cQ" (String#20541, DoABC#2)
+// needsUpdate = "_-2cQ" (String#20541, DoABC#2)
 // SortableSprite = "_-0J3" (String#3936, DoABC#2)
 // RoomObjectSortableSpriteCacheItem = "_-Sj" (String#8261, DoABC#2)
 // getSprite = "_-sN" (String#2210, DoABC#2)

@@ -48,7 +48,7 @@ package com.sulake.habbo.catalog.club
             if (!this._view){
                 return;
             };
-            this._view.procedure = this.NameChangeView;
+            this._view.procedure = this.windowEventHandler;
             this._view.center();
             var _local_1:ITextWindow = (this._view.findChildByName("item_name") as ITextWindow);
             if (_local_1){
@@ -123,7 +123,7 @@ package com.sulake.habbo.catalog.club
             };
             return ("");
         }
-        private function NameChangeView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((((((!(_arg_1)) || (!(_arg_2)))) || (!(this._controller)))) || (!(this._offer)))){
                 return;
@@ -137,7 +137,7 @@ package com.sulake.habbo.catalog.club
                     return;
                 case "header_button_close":
                 case "cancel_button":
-                    this._controller.ExtraToolsExtension();
+                    this._controller.closeConfirmation();
                     return;
             };
         }
@@ -176,13 +176,13 @@ package com.sulake.habbo.catalog.club
 // firstProduct = "_-KM" (String#8089, DoABC#2)
 // _offer = "_-1jb" (String#165, DoABC#2)
 // _pageId = "_-251" (String#366, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
 // upgrade = "_-2mZ" (String#20944, DoABC#2)
 // periods = "_-0cr" (String#15546, DoABC#2)
 // daysLeftAfterPurchase = "_-2JK" (String#19782, DoABC#2)
 // getClubType = "_-1u" (String#18715, DoABC#2)
 // confirmSelection = "_-fK" (String#23861, DoABC#2)
-// NameChangeView = "_-36j" (String#371, DoABC#2)
+// windowEventHandler = "_-36j" (String#371, DoABC#2)
 // getProductName = "_-2Y5" (String#6729, DoABC#2)
 
 

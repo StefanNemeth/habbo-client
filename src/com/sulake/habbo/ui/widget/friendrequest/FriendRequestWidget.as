@@ -48,24 +48,24 @@ package com.sulake.habbo.ui.widget.friendrequest
             };
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (!_arg_1){
                 return;
             };
-            _arg_1.addEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_SHOW_FRIEND_REQUEST, this.ClubEndingNotification);
-            _arg_1.addEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_HIDE_FRIEND_REQUEST, this.ClubEndingNotification);
-            super.RoomChatWidget(_arg_1);
+            _arg_1.addEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_SHOW_FRIEND_REQUEST, this.eventHandler);
+            _arg_1.addEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_HIDE_FRIEND_REQUEST, this.eventHandler);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.removeEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_SHOW_FRIEND_REQUEST, this.ClubEndingNotification);
-            _arg_1.removeEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_HIDE_FRIEND_REQUEST, this.ClubEndingNotification);
+            _arg_1.removeEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_SHOW_FRIEND_REQUEST, this.eventHandler);
+            _arg_1.removeEventListener(RoomWidgetFriendRequestUpdateEvent.RWFRUE_HIDE_FRIEND_REQUEST, this.eventHandler);
         }
-        private function ClubEndingNotification(_arg_1:RoomWidgetFriendRequestUpdateEvent):void
+        private function eventHandler(_arg_1:RoomWidgetFriendRequestUpdateEvent):void
         {
             if (!_arg_1){
                 return;
@@ -86,7 +86,7 @@ package com.sulake.habbo.ui.widget.friendrequest
                 return;
             };
             if (((this._requests) && ((this._requests.length > 0)))){
-                this._component.IContext(this, 10);
+                this._component.registerUpdateReceiver(this, 10);
             }
             else {
                 this._component.removeUpdateReceiver(this);
@@ -163,11 +163,11 @@ package com.sulake.habbo.ui.widget.friendrequest
 // RWFRM_ACCEPT = "_-31F" (String#21548, DoABC#2)
 // RWFRM_DECLINE = "_-05q" (String#14276, DoABC#2)
 // requestId = "_-li" (String#24099, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _SafeStr_3740 = "_-39-" (String#21844, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _component = "_-2cU" (String#305, DoABC#2)
 // RWFRUE_SHOW_FRIEND_REQUEST = "_-0R-" (String#15102, DoABC#2)
 // RWFRUE_HIDE_FRIEND_REQUEST = "_-12A" (String#16542, DoABC#2)

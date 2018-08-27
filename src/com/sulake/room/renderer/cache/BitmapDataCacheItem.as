@@ -15,7 +15,7 @@ package com.sulake.room.renderer.cache
             this._bitmapData = _arg_1;
             this._name = _arg_2;
             if (_arg_1 != null){
-                _arg_1.ExtendedBitmapData();
+                _arg_1.addReference();
                 this._memUsage = ((this._bitmapData.width * this._bitmapData.height) * 4);
             };
         }
@@ -45,7 +45,7 @@ package com.sulake.room.renderer.cache
             };
             this._bitmapData = _arg_1;
             if (this._bitmapData != null){
-                this._bitmapData.ExtendedBitmapData();
+                this._bitmapData.addReference();
                 this._memUsage = ((this._bitmapData.width * this._bitmapData.height) * 4);
             }
             else {
@@ -69,6 +69,6 @@ package com.sulake.room.renderer.cache
 // referenceCount = "_-0qp" (String#16079, DoABC#2)
 // ExtendedBitmapData = "_-11w" (String#4915, DoABC#2)
 // BitmapDataCacheItem = "_-KT" (String#8091, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 
 

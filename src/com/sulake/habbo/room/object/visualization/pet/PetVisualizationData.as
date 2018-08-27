@@ -29,7 +29,7 @@ package com.sulake.habbo.room.object.visualization.pet
         {
             this._avatarRenderer = null;
         }
-        public function AvatarVisualizationData(_arg_1:String, _arg_2:Number, _arg_3:IPetImageListener):IAvatarImage
+        public function getAvatar(_arg_1:String, _arg_2:Number, _arg_3:IPetImageListener):IAvatarImage
         {
             var _local_4:IAvatarImage;
             if (this._avatarRenderer != null){
@@ -48,7 +48,7 @@ package com.sulake.habbo.room.object.visualization.pet
         {
             return (0);
         }
-        public function AvatarVisualizationData(_arg_1:String):IAsset
+        public function getAvatarRendererAsset(_arg_1:String):IAsset
         {
             if (this._avatarRenderer == null){
                 return (null);
@@ -63,12 +63,12 @@ package com.sulake.habbo.room.object.visualization.pet
 // IRoomObjectVisualizationData = "_-26A" (String#6167, DoABC#2)
 // PetVisualizationData = "_-l7" (String#8627, DoABC#2)
 // avatarRenderer = "_-Jv" (String#23003, DoABC#2)
-// AvatarVisualizationData = "_-1el" (String#18089, DoABC#2)
+// getAvatar = "_-1el" (String#18089, DoABC#2)
 // createPetImageFromFigure = "_-0Sk" (String#4153, DoABC#2)
 // _SafeStr_4336 = "_-1wM" (String#18815, DoABC#2)
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // getLayerCount = "_-0wW" (String#16290, DoABC#2)
-// AvatarVisualizationData = "_-0Zg" (String#15430, DoABC#2)
+// getAvatarRendererAsset = "_-0Zg" (String#15430, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 
 

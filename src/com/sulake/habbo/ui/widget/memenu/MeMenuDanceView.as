@@ -52,7 +52,7 @@ package com.sulake.habbo.ui.widget.memenu
             _local_3.push(this._window.findChildByName("back_btn"));
             for each (_local_9 in _local_3) {
                 if (_local_9 != null){
-                    _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                    _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
                 };
             };
             _local_4 = (this._window.findChildByName("buttonContainer") as IItemListWindow);
@@ -71,8 +71,8 @@ package com.sulake.habbo.ui.widget.memenu
                         _local_9 = (this._widget.windowManager.buildFromXML((_local_5.content as XML)) as IWindow);
                         _local_9.name = (("dance_" + _local_7) + "_button");
                         _local_9.caption = (("${widget.memenu.dance" + _local_7) + "}");
-                        _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
-                        _local_4.IItemListWindow(_local_9, (_local_4.numListItems - 1));
+                        _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
+                        _local_4.addListItemAt(_local_9, (_local_4.numListItems - 1));
                         if (this._widget.hasEffectOn){
                             _local_9.disable();
                         }
@@ -88,7 +88,7 @@ package com.sulake.habbo.ui.widget.memenu
                 _local_6.visible = false;
             };
         }
-        private function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        private function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_3:String;
             var _local_4:Array;
@@ -114,7 +114,7 @@ package com.sulake.habbo.ui.widget.memenu
                     HabboTracking.getInstance().trackEventLog("MeMenu", "click", "dance_stop");
                     return;
                 case "back_btn":
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3858);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3858);
                     return;
                 default:
                     Logger.log(("Me Menu Dance View: unknown button: " + _local_3));
@@ -131,11 +131,11 @@ package com.sulake.habbo.ui.widget.memenu
 // _SafeStr_3577 = "_-Fb" (String#22834, DoABC#2)
 // _SafeStr_3578 = "_-2CA" (String#19490, DoABC#2)
 // _SafeStr_3858 = "_-1Lr" (String#17351, DoABC#2)
-// MeMenuWidget = "_-0hX" (String#15729, DoABC#2)
+// changeView = "_-0hX" (String#15729, DoABC#2)
 // allowHabboClubDances = "_-0HC" (String#14727, DoABC#2)
 // isHabboClubActive = "_-0Ta" (String#15193, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
-// IItemListWindow = "_-2CT" (String#6293, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
+// addListItemAt = "_-2CT" (String#6293, DoABC#2)
 // trackEventLog = "_-0ML" (String#14927, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 

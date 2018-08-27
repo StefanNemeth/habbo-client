@@ -54,7 +54,7 @@ package com.sulake.habbo.navigator.mainview
                 _local_2 = IWindowContainer(this._navigator.getXmlWindow("grs_popular_tag_row"));
                 this._content.addListItem(_local_2);
             };
-            Util.InfostandWidget(_local_2);
+            Util.hideChildren(_local_2);
             var _local_3:int;
             while (_local_3 < this._navigator.data.popularTags.tags.length) {
                 _local_4 = this._navigator.data.popularTags.tags[_local_3];
@@ -84,7 +84,7 @@ package com.sulake.habbo.navigator.mainview
 // PopularTagsListCtrl = "_-0Ay" (String#3776, DoABC#2)
 // TagRenderer = "_-35E" (String#7412, DoABC#2)
 // PopularTagData = "_-2r2" (String#7100, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _content = "_-o4" (String#96, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)

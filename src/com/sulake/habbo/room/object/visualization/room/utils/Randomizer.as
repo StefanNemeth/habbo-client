@@ -27,7 +27,7 @@ package com.sulake.habbo.room.object.visualization.room.utils
             };
             _randomizer.modulus = _arg_1;
         }
-        public static function Map(_arg_1:int, _arg_2:int, _arg_3:int):Array
+        public static function getValues(_arg_1:int, _arg_2:int, _arg_3:int):Array
         {
             if (_randomizer == null){
                 _randomizer = new (Randomizer)();
@@ -114,7 +114,7 @@ package com.sulake.habbo.room.object.visualization.room.utils
 // seed = "_-1iE" (String#5715, DoABC#2)
 // modulus = "_-1sq" (String#5898, DoABC#2)
 // setSeed = "_-2fM" (String#20662, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // _SafeStr_6579 = "_-1RP" (String#17562, DoABC#2)
 // _SafeStr_6580 = "_-ca" (String#23736, DoABC#2)
 // _seed = "_-0vJ" (String#16249, DoABC#2)

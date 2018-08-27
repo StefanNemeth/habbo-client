@@ -67,7 +67,7 @@ package com.sulake.core.assets.loaders
             this._content.dataFormat = (((this._type == "application/octet-stream")) ? URLLoaderDataFormat.BINARY : URLLoaderDataFormat.TEXT);
             this._content.load(_arg_1);
         }
-        override protected function LibraryLoader():Boolean
+        override protected function retry():Boolean
         {
             if (!_disposed){
                 if (++_SafeStr_7404 < _SafeStr_7405){
@@ -125,7 +125,7 @@ package com.sulake.core.assets.loaders
 // _content = "_-0lY" (String#299, DoABC#2)
 // _SafeStr_7404 = "_-291" (String#19368, DoABC#2)
 // _SafeStr_7405 = "_-Wu" (String#23519, DoABC#2)
-// LibraryLoader = "_-0Ol" (String#816, DoABC#2)
+// retry = "_-0Ol" (String#816, DoABC#2)
 // timerEventHandler = "_-0bW" (String#4333, DoABC#2)
 
 

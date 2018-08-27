@@ -117,9 +117,9 @@ package com.sulake.habbo.session
             if ((((this._state == RoomSessionEvent.RSE_CREATED)) && (!((this._connection == null))))){
                 this._state = RoomSessionEvent.RSE_STARTED;
                 if (this.isPrivateRoom){
-                    return (this.RoomSession());
+                    return (this.sendOpenFlatConnectionMessage());
                 };
-                return (this.RoomSession(this._roomId, 0, true));
+                return (this.sendOpenConnectionMessage(this._roomId, 0, true));
             };
             return (false);
         }
@@ -134,7 +134,7 @@ package com.sulake.habbo.session
                 this._isSpectatorMode = false;
             };
         }
-        private function RoomSession(_arg_1:int, _arg_2:int, _arg_3:Boolean):Boolean
+        private function sendOpenConnectionMessage(_arg_1:int, _arg_2:int, _arg_3:Boolean):Boolean
         {
             if (this._connection == null){
                 return (false);
@@ -142,7 +142,7 @@ package com.sulake.habbo.session
             this._connection.send(new OpenConnectionMessageComposer(_arg_3, _arg_1, _arg_2));
             return (true);
         }
-        private function RoomSession():Boolean
+        private function sendOpenFlatConnectionMessage():Boolean
         {
             if (this._connection == null){
                 return (false);
@@ -150,17 +150,17 @@ package com.sulake.habbo.session
             this._connection.send(new OpenFlatConnectionMessageComposer(this._roomId, this._password));
             return (true);
         }
-        public function RoomSession(_arg_1:String):void
+        public function sendChatMessage(_arg_1:String):void
         {
             this._connection.send(new ChatMessageComposer(_arg_1, this._SafeStr_5098));
             this._SafeStr_13611.add(this._SafeStr_5098, getTimer());
             this._SafeStr_5098++;
         }
-        public function RoomSession(_arg_1:String):void
+        public function sendChangeMottoMessage(_arg_1:String):void
         {
             this._connection.send(new ChangeMottoMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function receivedChatWithTrackingId(_arg_1:int):void
         {
             var _local_3:int;
             var _local_2:Object = this._SafeStr_13611.remove(_arg_1);
@@ -173,15 +173,15 @@ package com.sulake.habbo.session
                 };
             };
         }
-        public function RoomSession(_arg_1:String):void
+        public function sendShoutMessage(_arg_1:String):void
         {
             this._connection.send(new ShoutMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:String, _arg_2:String):void
+        public function sendWhisperMessage(_arg_1:String, _arg_2:String):void
         {
             this._connection.send(new WhisperMessageComposer(_arg_1, _arg_2));
         }
-        public function RoomSession(_arg_1:Boolean):void
+        public function sendChatTypingMessage(_arg_1:Boolean):void
         {
             if (_arg_1){
                 this._connection.send(new StartTypingMessageComposer(this._roomId, this._roomCategory));
@@ -190,119 +190,119 @@ package com.sulake.habbo.session
                 this._connection.send(new CancelTypingMessageComposer(this._roomId, this._roomCategory));
             };
         }
-        public function RoomSession():void
+        public function sendWaveMessage():void
         {
             this._connection.send(new WaveMessageComposer());
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendSignMessage(_arg_1:int):void
         {
             if ((((_arg_1 >= 0)) && ((_arg_1 <= 14)))){
                 this._connection.send(new SignMessageComposer(_arg_1));
             };
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendDanceMessage(_arg_1:int):void
         {
             this._connection.send(new DanceMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendCreditFurniRedeemMessage(_arg_1:int):void
         {
             this._connection.send(new CreditFurniRedeemMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendPresentOpenMessage(_arg_1:int):void
         {
             this._connection.send(new PresentOpenMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int, _arg_2:String):void
+        public function sendOpenPetPackageMessage(_arg_1:int, _arg_2:String):void
         {
             this._connection.send(new OpenPetPackageMessageComposer(_arg_1, _arg_2));
         }
-        public function RoomSession():void
+        public function sendViralFurniFoundMessage():void
         {
             this._connection.send(new ViralTeaserFoundMessageComposer());
         }
-        public function RoomSession():void
+        public function sendRoomDimmerGetPresetsMessage():void
         {
             this._connection.send(new RoomDimmerGetPresetsMessageComposer(this._roomId, this._roomCategory));
         }
-        public function RoomSession(_arg_1:int, _arg_2:int, _arg_3:uint, _arg_4:int, _arg_5:Boolean):void
+        public function sendRoomDimmerSavePresetMessage(_arg_1:int, _arg_2:int, _arg_3:uint, _arg_4:int, _arg_5:Boolean):void
         {
             var _local_6:String = ("000000" + _arg_3.toString(16).toUpperCase());
             var _local_7:String = ("#" + _local_6.substr((_local_6.length - 6)));
             this._connection.send(new RoomDimmerSavePresetMessageComposer(_arg_1, _arg_2, _local_7, _arg_4, _arg_5, this._roomId, this._roomCategory));
         }
-        public function RoomSession():void
+        public function sendRoomDimmerChangeStateMessage():void
         {
             this._connection.send(new RoomDimmerChangeStateMessageComposer(this._roomId, this._roomCategory));
         }
-        public function RoomSession(_arg_1:String, _arg_2:String, _arg_3:String, _arg_4:String=null, _arg_5:int=0):void
+        public function sendConversionPoint(_arg_1:String, _arg_2:String, _arg_3:String, _arg_4:String=null, _arg_5:int=0):void
         {
             this._connection.send(new EventLogMessageComposer(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5));
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendVote(_arg_1:int):void
         {
             this._connection.send(new VoteAnswerMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendPollStartMessage(_arg_1:int):void
         {
             this._connection.send(new PollStartComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function sendPollRejectMessage(_arg_1:int):void
         {
             this._connection.send(new PollRejectComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int, _arg_2:int, _arg_3:Array):void
+        public function sendPollAnswerMessage(_arg_1:int, _arg_2:int, _arg_3:Array):void
         {
             this._connection.send(new PollAnswerComposer(_arg_1, _arg_2, _arg_3));
         }
-        public function RoomSession(_arg_1:int):void
+        public function kickUser(_arg_1:int):void
         {
             this._connection.send(new KickUserMessageComposer(_arg_1, this.roomId, this.roomCategory));
         }
-        public function RoomSession(_arg_1:int):void
+        public function kickBot(_arg_1:int):void
         {
             this._connection.send(new KickBotMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function banUser(_arg_1:int):void
         {
             this._connection.send(new BanUserMessageComposer(_arg_1, this.roomId, this.roomCategory));
         }
-        public function RoomSession(_arg_1:int):void
+        public function assignRights(_arg_1:int):void
         {
             this._connection.send(new AssignRightsMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function removeRights(_arg_1:int):void
         {
             var _local_2:Array = new Array();
             _local_2.push(_arg_1);
             var _local_3:RemoveRightsMessageComposer = new RemoveRightsMessageComposer(_local_2);
             this._connection.send(_local_3);
         }
-        public function RoomSession(_arg_1:String, _arg_2:Boolean):void
+        public function letUserIn(_arg_1:String, _arg_2:Boolean):void
         {
             this._connection.send(new LetUserInMessageComposer(_arg_1, _arg_2));
         }
-        public function RoomSession(_arg_1:int):void
+        public function pickUpPet(_arg_1:int):void
         {
             this._connection.send(new RemovePetFromFlatMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int):void
+        public function requestPetCommands(_arg_1:int):void
         {
             this._connection.send(new GetPetCommandsMessageComposer(_arg_1));
         }
-        public function RoomSession():void
+        public function quit():void
         {
             if (this._connection != null){
                 this._connection.send(new QuitMessageComposer());
             };
         }
-        public function RoomSession(_arg_1:int):void
+        public function changeQueue(_arg_1:int):void
         {
             if (this._connection == null){
                 return;
             };
             this._connection.send(new ChangeQueueMessageComposer(_arg_1));
         }
-        public function RoomSession(_arg_1:int, _arg_2:String, _arg_3:String):void
+        public function sendUpdateClothingChangeFurniture(_arg_1:int, _arg_2:String, _arg_3:String):void
         {
             if (this._connection == null){
                 return;
@@ -384,8 +384,8 @@ package com.sulake.habbo.session
 // _isSpectatorMode = "_-FL" (String#7978, DoABC#2)
 // _arePetsAllowed = "_-1Xm" (String#17807, DoABC#2)
 // _SafeStr_13611 = "_-2Je" (String#19796, DoABC#2)
-// RoomSession = "_-2Z1" (String#20397, DoABC#2)
-// RoomSession = "_-em" (String#23834, DoABC#2)
+// sendOpenFlatConnectionMessage = "_-2Z1" (String#20397, DoABC#2)
+// sendOpenConnectionMessage = "_-em" (String#23834, DoABC#2)
 // chatLagDetected = "_-1JX" (String#5231, DoABC#2)
 // ChatMessageComposer = "_-Fl" (String#22841, DoABC#2)
 // IUserDataManager = "_-YM" (String#8379, DoABC#2)
@@ -426,48 +426,48 @@ package com.sulake.habbo.session
 // RSE_CREATED = "_-1XM" (String#17790, DoABC#2)
 // RSE_STARTED = "_-oj" (String#24224, DoABC#2)
 // _SafeStr_5098 = "_-0RZ" (String#4124, DoABC#2)
-// RoomSession = "_-0C0" (String#1425, DoABC#2)
+// sendConversionPoint = "_-0C0" (String#1425, DoABC#2)
 // IHabboTracking = "_-0fl" (String#4419, DoABC#2)
-// RoomSession = "_-FR" (String#7981, DoABC#2)
+// receivedChatWithTrackingId = "_-FR" (String#7981, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
 // isRoomController = "_-xz" (String#8838, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isSpectatorMode = "_-10C" (String#4874, DoABC#2)
 // isTradingRoom = "_-0eT" (String#4400, DoABC#2)
 // arePetsAllowed = "_-1f7" (String#5646, DoABC#2)
-// RoomSession = "_-2Ye" (String#1898, DoABC#2)
+// changeQueue = "_-2Ye" (String#1898, DoABC#2)
 // _roomResources = "_-1mQ" (String#5788, DoABC#2)
 // roomResources = "_-9r" (String#7860, DoABC#2)
-// RoomSession = "_-Zi" (String#8411, DoABC#2)
-// RoomSession = "_-3Es" (String#7609, DoABC#2)
-// RoomSession = "_-0nV" (String#4580, DoABC#2)
-// RoomSession = "_-3D4" (String#7576, DoABC#2)
-// RoomSession = "_-3BE" (String#7533, DoABC#2)
-// RoomSession = "_-1UA" (String#5435, DoABC#2)
-// RoomSession = "_-0Bn" (String#3791, DoABC#2)
-// RoomSession = "_-2qY" (String#7086, DoABC#2)
-// RoomSession = "_-1SB" (String#5401, DoABC#2)
-// RoomSession = "_-2gO" (String#6879, DoABC#2)
-// RoomSession = "_-0KK" (String#3961, DoABC#2)
-// RoomSession = "_-2W0" (String#6684, DoABC#2)
-// RoomSession = "_-3-1" (String#7287, DoABC#2)
-// RoomSession = "_-1Hb" (String#5200, DoABC#2)
-// RoomSession = "_-32C" (String#7350, DoABC#2)
-// RoomSession = "_-MI" (String#8128, DoABC#2)
-// RoomSession = "_-Tm" (String#8281, DoABC#2)
-// RoomSession = "_-YS" (String#8382, DoABC#2)
-// RoomSession = "_-q5" (String#8711, DoABC#2)
-// RoomSession = "_-mX" (String#8653, DoABC#2)
+// sendViralFurniFoundMessage = "_-Zi" (String#8411, DoABC#2)
+// sendPresentOpenMessage = "_-3Es" (String#7609, DoABC#2)
+// sendOpenPetPackageMessage = "_-0nV" (String#4580, DoABC#2)
+// sendChatMessage = "_-3D4" (String#7576, DoABC#2)
+// sendWaveMessage = "_-3BE" (String#7533, DoABC#2)
+// sendSignMessage = "_-1UA" (String#5435, DoABC#2)
+// sendShoutMessage = "_-0Bn" (String#3791, DoABC#2)
+// sendWhisperMessage = "_-2qY" (String#7086, DoABC#2)
+// sendDanceMessage = "_-1SB" (String#5401, DoABC#2)
+// sendCreditFurniRedeemMessage = "_-2gO" (String#6879, DoABC#2)
+// letUserIn = "_-0KK" (String#3961, DoABC#2)
+// sendVote = "_-2W0" (String#6684, DoABC#2)
+// kickUser = "_-3-1" (String#7287, DoABC#2)
+// banUser = "_-1Hb" (String#5200, DoABC#2)
+// assignRights = "_-32C" (String#7350, DoABC#2)
+// removeRights = "_-MI" (String#8128, DoABC#2)
+// pickUpPet = "_-Tm" (String#8281, DoABC#2)
+// kickBot = "_-YS" (String#8382, DoABC#2)
+// requestPetCommands = "_-q5" (String#8711, DoABC#2)
+// sendChangeMottoMessage = "_-mX" (String#8653, DoABC#2)
 // isPrivateRoom = "_-1Wr" (String#5489, DoABC#2)
-// RoomSession = "_-mI" (String#8649, DoABC#2)
-// RoomSession = "_-1Ys" (String#5539, DoABC#2)
-// RoomSession = "_-0A0" (String#3758, DoABC#2)
-// RoomSession = "_-0uH" (String#4730, DoABC#2)
-// RoomSession = "_-23-" (String#6105, DoABC#2)
-// RoomSession = "_-3A4" (String#7513, DoABC#2)
-// RoomSession = "_-0ug" (String#4736, DoABC#2)
-// RoomSession = "_-IP" (String#8047, DoABC#2)
-// RoomSession = "_-0Tt" (String#4177, DoABC#2)
+// sendUpdateClothingChangeFurniture = "_-mI" (String#8649, DoABC#2)
+// sendChatTypingMessage = "_-1Ys" (String#5539, DoABC#2)
+// sendRoomDimmerGetPresetsMessage = "_-0A0" (String#3758, DoABC#2)
+// sendRoomDimmerSavePresetMessage = "_-0uH" (String#4730, DoABC#2)
+// sendRoomDimmerChangeStateMessage = "_-23-" (String#6105, DoABC#2)
+// quit = "_-3A4" (String#7513, DoABC#2)
+// sendPollStartMessage = "_-0ug" (String#4736, DoABC#2)
+// sendPollRejectMessage = "_-IP" (String#8047, DoABC#2)
+// sendPollAnswerMessage = "_-0Tt" (String#4177, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 
 

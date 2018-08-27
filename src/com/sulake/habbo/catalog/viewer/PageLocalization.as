@@ -61,7 +61,7 @@ package com.sulake.habbo.catalog.viewer
         {
             return (!((_SafeStr_4881[_arg_1] == null)));
         }
-        public function PageLocalization(_arg_1:String):Array
+        public function getLinks(_arg_1:String):Array
         {
             return (_SafeStr_4881[_arg_1]);
         }
@@ -128,7 +128,7 @@ package com.sulake.habbo.catalog.viewer
 
 // IPageLocalization = "_-0gS" (String#4433, DoABC#2)
 // PageLocalization = "_-37h" (String#21794, DoABC#2)
-// PageLocalization = "_-Eu" (String#7970, DoABC#2)
+// getLinks = "_-Eu" (String#7970, DoABC#2)
 // _SafeStr_4879 = "_-Q0" (String#23251, DoABC#2)
 // _SafeStr_4880 = "_-0s8" (String#16128, DoABC#2)
 // _SafeStr_4881 = "_-1lu" (String#18370, DoABC#2)

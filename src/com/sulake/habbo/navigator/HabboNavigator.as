@@ -78,7 +78,7 @@ package com.sulake.habbo.navigator
             this._roomSettingsCtrls = new Array();
             super(_arg_1, _arg_2, _arg_3);
             Logger.log("Navigator initialized");
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboUserDefinedRoomEvents);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
             queueInterface(new IIDHabboRoomSessionManager(), this.onRoomSessionManagerReady);
             queueInterface(new IIDHabboToolbar(), this.onToolbarReady);
             queueInterface(new IIDSessionDataManager(), this.onSessionDataManagerReady);
@@ -221,18 +221,18 @@ package com.sulake.habbo.navigator
                     this._mainViewCtrl.close();
                 };
                 this._roomInfoViewCtrl.close();
-                this._roomSessionManager.RoomSessionManager(false, _arg_1, _arg_3);
-                if (this.tabs.ISelectorWindow()){
+                this._roomSessionManager.gotoRoom(false, _arg_1, _arg_3);
+                if (this.tabs.getSelected()){
                     _local_5 = (((_arg_4 > -1)) ? (_arg_4 + 1) : 0);
-                    switch (this.tabs.ISelectorWindow().id){
+                    switch (this.tabs.getSelected().id){
                         case Tabs._SafeStr_4287:
-                            this.trackNavigationDataPoint(this.tabs.ISelectorWindow().tabPageDecorator.filterCategory, "go.official", String(_arg_1), _local_5);
+                            this.trackNavigationDataPoint(this.tabs.getSelected().tabPageDecorator.filterCategory, "go.official", String(_arg_1), _local_5);
                             return;
                         case Tabs._SafeStr_4286:
-                            this.trackNavigationDataPoint(this.tabs.ISelectorWindow().tabPageDecorator.filterCategory, "go.me", String(_arg_1), _local_5);
+                            this.trackNavigationDataPoint(this.tabs.getSelected().tabPageDecorator.filterCategory, "go.me", String(_arg_1), _local_5);
                             return;
                         case Tabs._SafeStr_4288:
-                            this.trackNavigationDataPoint(this.tabs.ISelectorWindow().tabPageDecorator.filterCategory, "go.rooms", String(_arg_1), _local_5);
+                            this.trackNavigationDataPoint(this.tabs.getSelected().tabPageDecorator.filterCategory, "go.rooms", String(_arg_1), _local_5);
                             return;
                         case Tabs._SafeStr_4285:
                             this.trackNavigationDataPoint("Events", "go.events", String(_arg_1), _local_5);
@@ -249,7 +249,7 @@ package com.sulake.habbo.navigator
             Logger.log(("GO TO PUBLIC SPACE: " + _arg_1));
             if (this._roomSessionManager){
                 this._roomInfoViewCtrl.close();
-                this._roomSessionManager.RoomSessionManager(true, _arg_1, "", _arg_2);
+                this._roomSessionManager.gotoRoom(true, _arg_1, "", _arg_2);
             };
         }
         public function goToHomeRoom():Boolean
@@ -263,7 +263,7 @@ package com.sulake.habbo.navigator
         }
         public function send(_arg_1:IMessageComposer, _arg_2:Boolean=false):void
         {
-            this._communication.HabboCommunicationManager(null).send(_arg_1, ((_arg_2) ? HabboProtocolOption.OLD_STYLE : -1));
+            this._communication.getHabboMainConnection(null).send(_arg_1, ((_arg_2) ? HabboProtocolOption.OLD_STYLE : -1));
         }
         public function getXmlWindow(name:String, layer:uint=1):IWindow
         {
@@ -313,11 +313,11 @@ package com.sulake.habbo.navigator
                 _local_7.visible = false;
             }
             else {
-                this.HabboUserDefinedRoomEvents(_local_7, _arg_6, _arg_4, _arg_5);
+                this.prepareButton(_local_7, _arg_6, _arg_4, _arg_5);
                 _local_7.visible = true;
             };
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
+        private function prepareButton(_arg_1:IBitmapWrapperWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
         {
             _arg_1.id = _arg_4;
             _arg_1.procedure = _arg_3;
@@ -339,7 +339,7 @@ package com.sulake.habbo.navigator
             _local_7.draw(_local_6);
             return (_local_7);
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             Logger.log(("Navigator: communication available " + [_arg_1, _arg_2]));
             this._communication = IHabboCommunicationManager(_arg_2);
@@ -379,7 +379,7 @@ package com.sulake.habbo.navigator
         {
             if (_arg_1.type == HabboToolbarEvent.HTE_TOOLBAR_CLICK){
                 if (_arg_1.iconId == HabboToolbarIconEnum.NAVIGATOR){
-                    this._mainViewCtrl.MainViewCtrl();
+                    this._mainViewCtrl.onNavigatorToolBarIconClick();
                 }
                 else {
                     if (_arg_1.iconId == HabboToolbarIconEnum.ROOMINFO){
@@ -466,8 +466,8 @@ package com.sulake.habbo.navigator
 // _roomSessionManager = "_-2nJ" (String#249, DoABC#2)
 // onToolbarReady = "_-3Ep" (String#218, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-1hF" (String#443, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-08W" (String#807, DoABC#2)
+// onCommunicationComponentInit = "_-1hF" (String#443, DoABC#2)
+// prepareButton = "_-08W" (String#807, DoABC#2)
 // _SafeStr_11492 = "_-0aZ" (String#589, DoABC#2)
 // onAuthOk = "_-0iC" (String#15758, DoABC#2)
 // goToPublicSpace = "_-080" (String#14367, DoABC#2)
@@ -478,7 +478,7 @@ package com.sulake.habbo.navigator
 // _roomSettingsCtrls = "_-107" (String#16471, DoABC#2)
 // _thumbRenderer = "_-PV" (String#8194, DoABC#2)
 // _officialRoomEntryManager = "_-3AM" (String#21896, DoABC#2)
-// RoomSessionManager = "_-Fa" (String#7986, DoABC#2)
+// gotoRoom = "_-Fa" (String#7986, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IncomingMessages = "_-2Xb" (String#216, DoABC#2)
 // HabboProtocolOption = "_-9Z" (String#7855, DoABC#2)
@@ -511,9 +511,9 @@ package com.sulake.habbo.navigator
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // homeRoomId = "_-0jF" (String#15801, DoABC#2)
 // officialRoomEntryManager = "_-aX" (String#23654, DoABC#2)
-// MainViewCtrl = "_-2Ic" (String#19751, DoABC#2)
+// onNavigatorToolBarIconClick = "_-2Ic" (String#19751, DoABC#2)
 // toggle = "_-2MR" (String#19903, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
 // tabPageDecorator = "_-09G" (String#14418, DoABC#2)
 // getTab = "_-0mC" (String#15903, DoABC#2)
@@ -525,7 +525,7 @@ package com.sulake.habbo.navigator
 // tabSelected = "_-2T" (String#6625, DoABC#2)
 // _SafeStr_4301 = "_-1o0" (String#18463, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
 // _doorbell = "_-3-h" (String#7298, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)

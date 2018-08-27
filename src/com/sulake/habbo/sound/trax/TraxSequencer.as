@@ -141,7 +141,7 @@ package com.sulake.habbo.sound.trax
         public function dispose():void
         {
             if (!this._disposed){
-                this.TraxSequencer();
+                this.stopImmediately();
                 this._traxData = null;
                 this._SafeStr_6132 = null;
                 this._SafeStr_6136 = null;
@@ -163,13 +163,13 @@ package com.sulake.habbo.sound.trax
                         this._SafeStr_6149 = this._traxData.metaCutMode;
                     };
                     if (this._SafeStr_6149){
-                        if (!this.TraxSequencer()){
+                        if (!this.prepareSequence()){
                             Logger.log("Cannot start playback, prepare sequence failed!");
                             return (false);
                         };
                     }
                     else {
-                        if (!this.TraxSequencer()){
+                        if (!this.prepareLegacySequence()){
                             Logger.log("Cannot start playback, prepare legacy sequence failed!");
                             return (false);
                         };
@@ -178,7 +178,7 @@ package com.sulake.habbo.sound.trax
             };
             return (true);
         }
-        private function TraxSequencer():Boolean
+        private function prepareLegacySequence():Boolean
         {
             var _local_3:Map;
             var _local_4:TraxChannel;
@@ -202,12 +202,12 @@ package com.sulake.habbo.sound.trax
                 _local_6 = 0;
                 _local_7 = 0;
                 while (_local_7 < _local_4.itemCount) {
-                    _local_8 = _local_4.GroupItem(_local_7).id;
+                    _local_8 = _local_4.getItem(_local_7).id;
                     _local_9 = (this._SafeStr_6132.getValue(_local_8) as TraxSample);
-                    _local_9.TraxSample(this._songId, _local_1);
+                    _local_9.setUsageFromSong(this._songId, _local_1);
                     if (_local_9 != null){
-                        _local_10 = this.TraxSequencer(_local_9.length);
-                        _local_11 = (_local_4.GroupItem(_local_7).length / _local_10);
+                        _local_10 = this.getSampleBars(_local_9.length);
+                        _local_11 = (_local_4.getItem(_local_7).length / _local_10);
                         _local_12 = 0;
                         while (_local_12 < _local_11) {
                             if (_local_8 != 0){
@@ -233,7 +233,7 @@ package com.sulake.habbo.sound.trax
             this._SafeStr_6137 = true;
             return (true);
         }
-        private function TraxSequencer():Boolean
+        private function prepareSequence():Boolean
         {
             var _local_3:Map;
             var _local_4:TraxChannel;
@@ -260,14 +260,14 @@ package com.sulake.habbo.sound.trax
                 _local_7 = false;
                 _local_8 = 0;
                 while (_local_8 < _local_4.itemCount) {
-                    _local_9 = _local_4.GroupItem(_local_8).id;
+                    _local_9 = _local_4.getItem(_local_8).id;
                     _local_10 = (this._SafeStr_6132.getValue(_local_9) as TraxSample);
-                    _local_10.TraxSample(this._songId, _local_1);
+                    _local_10.setUsageFromSong(this._songId, _local_1);
                     if (_local_10 != null){
                         _local_11 = _local_6;
                         _local_12 = _local_5;
-                        _local_13 = this.TraxSequencer(_local_10.length);
-                        _local_14 = _local_4.GroupItem(_local_8).length;
+                        _local_13 = this.getSampleBars(_local_10.length);
+                        _local_14 = _local_4.getItem(_local_8).length;
                         while (_local_11 < (_local_6 + _local_14)) {
                             if (((!((_local_9 == 0))) || (_local_7))){
                                 _local_3.add(_local_12, _local_10);
@@ -279,7 +279,7 @@ package com.sulake.habbo.sound.trax
                                 _local_7 = true;
                             };
                         };
-                        _local_6 = (_local_6 + _local_4.GroupItem(_local_8).length);
+                        _local_6 = (_local_6 + _local_4.getItem(_local_8).length);
                         _local_5 = (_local_6 * _SafeStr_6128);
                     }
                     else {
@@ -302,9 +302,9 @@ package com.sulake.habbo.sound.trax
             if (!this.prepare()){
                 return (false);
             };
-            this.TraxSequencer();
+            this.removeFadeoutStopTimer();
             if (this._SafeStr_4030 != null){
-                this.TraxSequencer();
+                this.stopImmediately();
             };
             if (this._fadeInSeconds > 0){
                 this._SafeStr_6141 = true;
@@ -313,7 +313,7 @@ package com.sulake.habbo.sound.trax
             this._SafeStr_6142 = false;
             this._SafeStr_6146 = 0;
             this._finished = false;
-            this._SafeStr_6130.addEventListener(SampleDataEvent.SAMPLE_DATA, this.TraxSequencer);
+            this._SafeStr_6130.addEventListener(SampleDataEvent.SAMPLE_DATA, this.onSampleData);
             this._SafeStr_6134 = (_arg_1 * _SafeStr_6125);
             this._SafeStr_6150 = 0;
             this._SafeStr_6151 = 0;
@@ -327,49 +327,49 @@ package com.sulake.habbo.sound.trax
                 return (false);
             };
             while (!(this._finished)) {
-                this.TraxSequencer(_arg_1);
+                this.onSampleData(_arg_1);
             };
             return (true);
         }
         public function stop():Boolean
         {
             if ((((this._fadeOutSeconds > 0)) && (!(this._finished)))){
-                this.TraxSequencer();
+                this.stopWithFadeout();
             }
             else {
-                this.TraxSequencer();
+                this.playingComplete();
             };
             return (true);
         }
-        private function TraxSequencer():void
+        private function stopImmediately():void
         {
-            this.TraxSequencer();
+            this.removeStopTimer();
             if (this._SafeStr_4030 != null){
                 this._SafeStr_4030.stop();
                 this._SafeStr_4030 = null;
             };
             if (this._SafeStr_6130 != null){
-                this._SafeStr_6130.removeEventListener(SampleDataEvent.SAMPLE_DATA, this.TraxSequencer);
+                this._SafeStr_6130.removeEventListener(SampleDataEvent.SAMPLE_DATA, this.onSampleData);
             };
         }
-        private function TraxSequencer():void
+        private function stopWithFadeout():void
         {
             if (this._SafeStr_6147 == null){
                 this._SafeStr_6142 = true;
                 this._SafeStr_6146 = 0;
                 this._SafeStr_6147 = new Timer((this._SafeStr_6140 + (this._fadeOutSeconds / (_SafeStr_6125 / 1000))), 1);
                 this._SafeStr_6147.start();
-                this._SafeStr_6147.addEventListener(TimerEvent.TIMER_COMPLETE, this.TraxSequencer);
+                this._SafeStr_6147.addEventListener(TimerEvent.TIMER_COMPLETE, this.onFadeOutComplete);
             };
         }
-        private function TraxSequencer(_arg_1:uint):int
+        private function getSampleBars(_arg_1:uint):int
         {
             if (this._SafeStr_6149){
                 return (Math.round((_arg_1 / _SafeStr_6127)));
             };
             return (Math.ceil((_arg_1 / _SafeStr_6127)));
         }
-        private function TraxSequencer():Array
+        private function getChannelSequenceOffsets():Array
         {
             var _local_2:int;
             var _local_3:int;
@@ -391,7 +391,7 @@ package com.sulake.habbo.sound.trax
             };
             return (_local_1);
         }
-        private function TraxSequencer():void
+        private function mixChannelsIntoBuffer():void
         {
             var _local_5:Map;
             var _local_6:int;
@@ -406,7 +406,7 @@ package com.sulake.habbo.sound.trax
             if (this._SafeStr_6136 == null){
                 return;
             };
-            var _local_1:Array = this.TraxSequencer();
+            var _local_1:Array = this.getChannelSequenceOffsets();
             var _local_2:int = this._SafeStr_6136.length;
             var _local_3:TraxChannelSample;
             var _local_4:int = (_local_2 - 1);
@@ -445,7 +445,7 @@ package com.sulake.habbo.sound.trax
                     };
                     if (_local_4 == (_local_2 - 1)){
                         if (_local_3 != null){
-                            _local_3.TraxSample(_SafeStr_6129, _local_9, _local_12);
+                            _local_3.setSample(_SafeStr_6129, _local_9, _local_12);
                             _local_9 = (_local_9 + _local_12);
                         }
                         else {
@@ -459,7 +459,7 @@ package com.sulake.habbo.sound.trax
                     }
                     else {
                         if (_local_3 != null){
-                            _local_3.TraxSample(_SafeStr_6129, _local_9, _local_12);
+                            _local_3.addSample(_SafeStr_6129, _local_9, _local_12);
                         };
                         _local_9 = (_local_9 + _local_12);
                     };
@@ -476,18 +476,18 @@ package com.sulake.habbo.sound.trax
                 _local_4--;
             };
         }
-        private function TraxSequencer():void
+        private function checkSongFinishing():void
         {
             var _local_1:int = (((this._SafeStr_6139 < this._SafeStr_6134)) ? this._SafeStr_6139 : (((this._SafeStr_6134 > 0)) ? this._SafeStr_6134 : this._SafeStr_6139));
             if ((((this._position > (_local_1 + (this._SafeStr_6140 * (_SafeStr_6125 / 1000))))) && (!(this._finished)))){
                 this._finished = true;
                 if (this._SafeStr_6148 != null){
                     this._SafeStr_6148.reset();
-                    this._SafeStr_6148.removeEventListener(TimerEvent.TIMER_COMPLETE, this.TraxSequencer);
+                    this._SafeStr_6148.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onPlayingComplete);
                 };
                 this._SafeStr_6148 = new Timer(2, 1);
                 this._SafeStr_6148.start();
-                this._SafeStr_6148.addEventListener(TimerEvent.TIMER_COMPLETE, this.TraxSequencer);
+                this._SafeStr_6148.addEventListener(TimerEvent.TIMER_COMPLETE, this.onPlayingComplete);
             }
             else {
                 if ((((this._position > (_local_1 - this._fadeOutSeconds))) && (!(this._SafeStr_6142)))){
@@ -497,7 +497,7 @@ package com.sulake.habbo.sound.trax
                 };
             };
         }
-        private function TraxSequencer(_arg_1:SampleDataEvent):void
+        private function onSampleData(_arg_1:SampleDataEvent):void
         {
             if (_arg_1.position > this._SafeStr_6150){
                 this._SafeStr_6151++;
@@ -505,7 +505,7 @@ package com.sulake.habbo.sound.trax
                 this._SafeStr_6150 = _arg_1.position;
             };
             if (this.volume > 0){
-                this.TraxSequencer();
+                this.mixChannelsIntoBuffer();
             };
             var _local_2:int = _SafeStr_6126;
             if ((this._SafeStr_6139 - this._position) < _local_2){
@@ -517,13 +517,13 @@ package com.sulake.habbo.sound.trax
             if (this.volume <= 0){
                 _local_2 = 0;
             };
-            this.TraxSequencer(_arg_1.data, _local_2);
+            this.writeAudioToOutputStream(_arg_1.data, _local_2);
             this._position = (this._position + _SafeStr_6126);
             this._SafeStr_6150 = (this._SafeStr_6150 + _SafeStr_6126);
             if (this._SafeStr_4030 != null){
                 this._SafeStr_6140 = (((_arg_1.position / _SafeStr_6125) * 1000) - this._SafeStr_4030.position);
             };
-            this.TraxSequencer();
+            this.checkSongFinishing();
         }
         private function interpolate(_arg_1:int, _arg_2:Number):int
         {
@@ -546,20 +546,20 @@ package com.sulake.habbo.sound.trax
                 _local_3 = (_local_3 + _arg_2);
                 if (_local_3 > (_SafeStr_6126 - 2)){
                     this._position = (this._position + _SafeStr_6126);
-                    this.TraxSequencer();
+                    this.mixChannelsIntoBuffer();
                     _local_3 = 0;
                 };
                 _local_10++;
             };
             return (int(Math.round(_local_3)));
         }
-        private function TraxSequencer(_arg_1:ByteArray, _arg_2:int):void
+        private function writeAudioToOutputStream(_arg_1:ByteArray, _arg_2:int):void
         {
             var _local_5:Number;
             var _local_6:Number;
             if (_arg_2 > 0){
                 if (((!(this._SafeStr_6141)) && (!(this._SafeStr_6142)))){
-                    this.TraxSequencer(_arg_1, _arg_2);
+                    this.writeMixingBufferToOutputStream(_arg_1, _arg_2);
                 }
                 else {
                     if (this._SafeStr_6141){
@@ -580,7 +580,7 @@ package com.sulake.habbo.sound.trax
                             };
                         };
                     };
-                    this.TraxSequencer(_arg_1, _arg_2, _local_6, _local_5);
+                    this.writeMixingBufferToOutputStreamWithFade(_arg_1, _arg_2, _local_6, _local_5);
                 };
             };
             var _local_3:Number = 0;
@@ -591,7 +591,7 @@ package com.sulake.habbo.sound.trax
                 _local_4++;
             };
         }
-        private function TraxSequencer(_arg_1:ByteArray, _arg_2:int):void
+        private function writeMixingBufferToOutputStream(_arg_1:ByteArray, _arg_2:int):void
         {
             var _local_3:Number = 0;
             var _local_4:int;
@@ -602,7 +602,7 @@ package com.sulake.habbo.sound.trax
                 _local_4++;
             };
         }
-        private function TraxSequencer(_arg_1:ByteArray, _arg_2:int, _arg_3:Number, _arg_4:Number):void
+        private function writeMixingBufferToOutputStreamWithFade(_arg_1:ByteArray, _arg_2:int, _arg_3:Number, _arg_4:Number):void
         {
             var _local_5:Number = 0;
             var _local_6:int;
@@ -634,35 +634,35 @@ package com.sulake.habbo.sound.trax
                 };
             };
         }
-        private function TraxSequencer(_arg_1:TimerEvent):void
+        private function onPlayingComplete(_arg_1:TimerEvent):void
         {
             if (this._finished){
-                this.TraxSequencer();
+                this.playingComplete();
             };
         }
-        private function TraxSequencer(_arg_1:TimerEvent):void
+        private function onFadeOutComplete(_arg_1:TimerEvent):void
         {
-            this.TraxSequencer();
-            this.TraxSequencer();
+            this.removeFadeoutStopTimer();
+            this.playingComplete();
         }
-        private function TraxSequencer():void
+        private function playingComplete():void
         {
-            this.TraxSequencer();
+            this.stopImmediately();
             this._events.dispatchEvent(new SoundCompleteEvent(SoundCompleteEvent.TRAX_SONG_COMPLETE, this._songId));
         }
-        private function TraxSequencer():void
+        private function removeFadeoutStopTimer():void
         {
             if (this._SafeStr_6147 != null){
-                this._SafeStr_6147.removeEventListener(TimerEvent.TIMER_COMPLETE, this.TraxSequencer);
+                this._SafeStr_6147.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onFadeOutComplete);
                 this._SafeStr_6147.reset();
                 this._SafeStr_6147 = null;
             };
         }
-        private function TraxSequencer():void
+        private function removeStopTimer():void
         {
             if (this._SafeStr_6148 != null){
                 this._SafeStr_6148.reset();
-                this._SafeStr_6148.removeEventListener(TimerEvent.TIMER_COMPLETE, this.TraxSequencer);
+                this._SafeStr_6148.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onPlayingComplete);
                 this._SafeStr_6148 = null;
             };
         }
@@ -680,7 +680,7 @@ package com.sulake.habbo.sound.trax
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // _volume = "_-hi" (String#311, DoABC#2)
 // volume = "_-0SB" (String#1473, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // _SafeStr_4030 = "_-FQ" (String#7980, DoABC#2)
 // finished = "_-28w" (String#6223, DoABC#2)
 // fadeOutSeconds = "_-0GD" (String#3874, DoABC#2)
@@ -718,25 +718,25 @@ package com.sulake.habbo.sound.trax
 // _SafeStr_6150 = "_-Wg" (String#23512, DoABC#2)
 // _SafeStr_6151 = "_-r7" (String#24319, DoABC#2)
 // traxData = "_-2S4" (String#20122, DoABC#2)
-// TraxSequencer = "_-18Y" (String#16795, DoABC#2)
-// TraxSequencer = "_-32e" (String#21602, DoABC#2)
-// TraxSequencer = "_-3-r" (String#21495, DoABC#2)
-// TraxSample = "_-2Qm" (String#20078, DoABC#2)
-// TraxSequencer = "_-Uu" (String#23443, DoABC#2)
-// TraxSequencer = "_-1n8" (String#18430, DoABC#2)
-// TraxSequencer = "_-h9" (String#23937, DoABC#2)
-// TraxSequencer = "_-1Gl" (String#17142, DoABC#2)
-// TraxSequencer = "_-0TM" (String#15185, DoABC#2)
-// TraxSequencer = "_-3-i" (String#21489, DoABC#2)
-// TraxSequencer = "_-2wI" (String#21323, DoABC#2)
-// TraxSequencer = "_-1jO" (String#18261, DoABC#2)
-// TraxSequencer = "_-1qb" (String#18567, DoABC#2)
-// TraxSample = "_-1IC" (String#17201, DoABC#2)
-// TraxSample = "_-tt" (String#24443, DoABC#2)
-// TraxSequencer = "_-1JE" (String#17245, DoABC#2)
-// TraxSequencer = "_-2tJ" (String#21212, DoABC#2)
-// TraxSequencer = "_-10" (String#16466, DoABC#2)
-// TraxSequencer = "_-1n4" (String#18426, DoABC#2)
-// TraxSequencer = "_-1Jw" (String#17271, DoABC#2)
+// stopImmediately = "_-18Y" (String#16795, DoABC#2)
+// prepareSequence = "_-32e" (String#21602, DoABC#2)
+// prepareLegacySequence = "_-3-r" (String#21495, DoABC#2)
+// setUsageFromSong = "_-2Qm" (String#20078, DoABC#2)
+// getSampleBars = "_-Uu" (String#23443, DoABC#2)
+// removeFadeoutStopTimer = "_-1n8" (String#18430, DoABC#2)
+// onSampleData = "_-h9" (String#23937, DoABC#2)
+// stopWithFadeout = "_-1Gl" (String#17142, DoABC#2)
+// playingComplete = "_-0TM" (String#15185, DoABC#2)
+// removeStopTimer = "_-3-i" (String#21489, DoABC#2)
+// onFadeOutComplete = "_-2wI" (String#21323, DoABC#2)
+// getChannelSequenceOffsets = "_-1jO" (String#18261, DoABC#2)
+// mixChannelsIntoBuffer = "_-1qb" (String#18567, DoABC#2)
+// setSample = "_-1IC" (String#17201, DoABC#2)
+// addSample = "_-tt" (String#24443, DoABC#2)
+// checkSongFinishing = "_-1JE" (String#17245, DoABC#2)
+// onPlayingComplete = "_-2tJ" (String#21212, DoABC#2)
+// writeAudioToOutputStream = "_-10" (String#16466, DoABC#2)
+// writeMixingBufferToOutputStream = "_-1n4" (String#18426, DoABC#2)
+// writeMixingBufferToOutputStreamWithFade = "_-1Jw" (String#17271, DoABC#2)
 
 

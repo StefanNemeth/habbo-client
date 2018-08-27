@@ -209,7 +209,7 @@ package com.sulake.core.assets
             };
             return (_local_2);
         }
-        public function IAssetLibrary(_arg_1:Object):IAsset
+        public function getAssetByContent(_arg_1:Object):IAsset
         {
             var _local_3:IAssetLibrary;
             var _local_4:IAsset;
@@ -217,7 +217,7 @@ package com.sulake.core.assets
             var _local_5:uint;
             while (_local_5 < _local_2) {
                 _local_3 = this._SafeStr_8752[_local_5];
-                _local_4 = _local_3.IAssetLibrary(_arg_1);
+                _local_4 = _local_3.getAssetByContent(_arg_1);
                 if (_local_4 != null){
                     return (_local_4);
                 };
@@ -241,7 +241,7 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:IAsset):int
+        public function getAssetIndex(_arg_1:IAsset):int
         {
             var _local_3:IAssetLibrary;
             var _local_2:uint = this._SafeStr_8752.length;
@@ -250,7 +250,7 @@ package com.sulake.core.assets
             var _local_6:uint;
             while (_local_6 < _local_2) {
                 _local_3 = this._SafeStr_8752[_local_6];
-                _local_5 = _local_3.IAssetLibrary(_arg_1);
+                _local_5 = _local_3.getAssetIndex(_arg_1);
                 if (_local_5 != -1){
                     return ((_local_4 + _local_5));
                 };
@@ -273,9 +273,9 @@ package com.sulake.core.assets
             };
             return (false);
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:IAsset, _arg_3:Boolean=true):Boolean
+        public function setAsset(_arg_1:String, _arg_2:IAsset, _arg_3:Boolean=true):Boolean
         {
-            return (this._SafeStr_8754.IAssetLibrary(_arg_1, _arg_2, _arg_3));
+            return (this._SafeStr_8754.setAsset(_arg_1, _arg_2, _arg_3));
         }
         public function createAsset(_arg_1:String, _arg_2:AssetTypeDeclaration):IAsset
         {
@@ -295,24 +295,24 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:AssetTypeDeclaration, _arg_2:Boolean=true):Boolean
+        public function registerAssetTypeDeclaration(_arg_1:AssetTypeDeclaration, _arg_2:Boolean=true):Boolean
         {
-            return (this._SafeStr_8754.IAssetLibrary(_arg_1, _arg_2));
+            return (this._SafeStr_8754.registerAssetTypeDeclaration(_arg_1, _arg_2));
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByMimeType(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_3:uint;
             var _local_4:IAssetLibrary;
             var _local_5:AssetTypeDeclaration;
             var _local_6:uint;
             if (_arg_2){
-                return (this._SafeStr_8754.IAssetLibrary(_arg_1, true));
+                return (this._SafeStr_8754.getAssetTypeDeclarationByMimeType(_arg_1, true));
             };
             _local_3 = this._SafeStr_8752.length;
             _local_6 = 0;
             while (_local_6 < _local_3) {
                 _local_4 = this._SafeStr_8752[_local_6];
-                _local_5 = _local_4.IAssetLibrary(_arg_1, false);
+                _local_5 = _local_4.getAssetTypeDeclarationByMimeType(_arg_1, false);
                 if (_local_5 != null){
                     return (_local_5);
                 };
@@ -320,20 +320,20 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:Class, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByClass(_arg_1:Class, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_3:uint;
             var _local_4:IAssetLibrary;
             var _local_5:AssetTypeDeclaration;
             var _local_6:uint;
             if (_arg_2){
-                return (this._SafeStr_8754.IAssetLibrary(_arg_1, true));
+                return (this._SafeStr_8754.getAssetTypeDeclarationByClass(_arg_1, true));
             };
             _local_3 = this._SafeStr_8752.length;
             _local_6 = 0;
             while (_local_6 < _local_3) {
                 _local_4 = this._SafeStr_8752[_local_6];
-                _local_5 = _local_4.IAssetLibrary(_arg_1, false);
+                _local_5 = _local_4.getAssetTypeDeclarationByClass(_arg_1, false);
                 if (_local_5 != null){
                     return (_local_5);
                 };
@@ -341,20 +341,20 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByFileName(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_3:uint;
             var _local_4:IAssetLibrary;
             var _local_5:AssetTypeDeclaration;
             var _local_6:uint;
             if (_arg_2){
-                return (this._SafeStr_8754.IAssetLibrary(_arg_1, true));
+                return (this._SafeStr_8754.getAssetTypeDeclarationByFileName(_arg_1, true));
             };
             _local_3 = this._SafeStr_8752.length;
             _local_6 = 0;
             while (_local_6 < _local_3) {
                 _local_4 = this._SafeStr_8752[_local_6];
-                _local_5 = _local_4.IAssetLibrary(_arg_1, false);
+                _local_5 = _local_4.getAssetTypeDeclarationByFileName(_arg_1, false);
                 if (_local_5 != null){
                     return (_local_5);
                 };
@@ -417,14 +417,14 @@ package com.sulake.core.assets
 // getAssetLibraryByName = "_-Sh" (String#23353, DoABC#2)
 // getAssetLibraryByUrl = "_-2Cf" (String#19511, DoABC#2)
 // addAssetLibrary = "_-1xU" (String#18869, DoABC#2)
-// IAssetLibrary = "_-2q5" (String#7080, DoABC#2)
-// IAssetLibrary = "_-38x" (String#7490, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
+// getAssetByContent = "_-2q5" (String#7080, DoABC#2)
+// getAssetIndex = "_-38x" (String#7490, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
 // createAsset = "_-0rD" (String#1562, DoABC#2)
-// IAssetLibrary = "_-1PR" (String#5342, DoABC#2)
-// IAssetLibrary = "_-BD" (String#7892, DoABC#2)
-// IAssetLibrary = "_-5x" (String#7779, DoABC#2)
-// IAssetLibrary = "_-0rv" (String#4683, DoABC#2)
+// registerAssetTypeDeclaration = "_-1PR" (String#5342, DoABC#2)
+// getAssetTypeDeclarationByMimeType = "_-BD" (String#7892, DoABC#2)
+// getAssetTypeDeclarationByClass = "_-5x" (String#7779, DoABC#2)
+// getAssetTypeDeclarationByFileName = "_-0rv" (String#4683, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

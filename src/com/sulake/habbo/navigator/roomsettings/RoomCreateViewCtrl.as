@@ -106,7 +106,7 @@ package com.sulake.habbo.navigator.roomsettings
             this._content.activate();
             this._SafeStr_6873.start();
         }
-        private function RoomEventViewCtrl(_arg_1:IWindow, _arg_2:Function):void
+        private function addMouseClickListener(_arg_1:IWindow, _arg_2:Function):void
         {
             if (_arg_1 != null){
                 _arg_1.setParamFlag(HabboWindowParam._SafeStr_3731, true);
@@ -122,11 +122,11 @@ package com.sulake.habbo.navigator.roomsettings
             this._content = IItemListWindow(this._content.findChildByName("item_list"));
             this.refreshRoomThumbnails();
             var _local_1:IButtonWindow = this.getCreateButton();
-            this.RoomEventViewCtrl(_local_1, this.RoomEventViewCtrl);
+            this.addMouseClickListener(_local_1, this.onCreateButtonClick);
             var _local_2:IButtonWindow = this.getCancelButton();
-            this.RoomEventViewCtrl(_local_2, this.RoomEventViewCtrl);
+            this.addMouseClickListener(_local_2, this.onCancelButtonClick);
             var _local_3:IWindow = this._content.findChildByTag("close");
-            this.RoomEventViewCtrl(_local_3, this.RoomEventViewCtrl);
+            this.addMouseClickListener(_local_3, this.onCancelButtonClick);
             this._SafeStr_6871 = new TextFieldManager(this._navigator, ITextFieldWindow(this._content.findChildByName("room_name_input")), 25, null, this._navigator.getText("navigator.createroom.roomnameinfo"));
             var _local_4:Rectangle = Util.getLocationRelativeTo(this._content.desktop, this._content.width, this._content.height);
             this._content.x = _local_4.x;
@@ -170,7 +170,7 @@ package com.sulake.habbo.navigator.roomsettings
             var _local_8:IWindowContainer;
             var _local_9:IWindow;
             while (this._content.numListItems > 0) {
-                _local_6 = this._content.IItemListWindow(0);
+                _local_6 = this._content.removeListItemAt(0);
                 _local_6.destroy();
             };
             for each (_local_1 in this._SafeStr_5911) {
@@ -207,7 +207,7 @@ package com.sulake.habbo.navigator.roomsettings
                 _local_8 = IWindowContainer(this._navigator.getXmlWindow(_local_5));
                 if (_local_8){
                     _local_9 = _local_8.findChildByName("link");
-                    this.RoomEventViewCtrl(_local_9, this.onHcMoreClick);
+                    this.addMouseClickListener(_local_9, this.onHcMoreClick);
                     this._content.addListItem(_local_8);
                 };
             };
@@ -219,7 +219,7 @@ package com.sulake.habbo.navigator.roomsettings
             if (!_arg_3){
                 _local_4.x = _local_4.width;
             };
-            this.RoomEventViewCtrl(_local_4, this.onContPicClick);
+            this.addMouseClickListener(_local_4, this.onContPicClick);
             var _local_5:IWindowContainer = (_local_4.findChildByName("bg_pic") as IWindowContainer);
             var _local_6:IBitmapWrapperWindow = this._navigator.getButton(_arg_2.name, ("model_" + _arg_2.name), null, 0, 0, 0);
             _local_6.setParamFlag(HabboWindowParam._SafeStr_3731, false);
@@ -262,7 +262,7 @@ package com.sulake.habbo.navigator.roomsettings
         {
             return (IWindowContainer(this._navigator.windowManager.createWindow("", "", HabboWindowType._SafeStr_3728, HabboWindowStyle._SafeStr_3729, HabboWindowParam._SafeStr_6023, new Rectangle(0, 0, 100, 300))));
         }
-        private function RoomEventViewCtrl():Boolean
+        private function isMandatoryFieldsFilled():Boolean
         {
             return (this._SafeStr_6871.checkMandatory(this._navigator.getText("navigator.createroom.nameerr")));
         }
@@ -301,7 +301,7 @@ package com.sulake.habbo.navigator.roomsettings
             var _local_2:IWindowContainer = (_arg_1.target as IWindowContainer);
             this.onChooseLayout(_arg_1, _local_2);
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onCancelButtonClick(_arg_1:WindowEvent):void
         {
             this.close();
         }
@@ -309,11 +309,11 @@ package com.sulake.habbo.navigator.roomsettings
         {
             this._navigator.openCatalogClubPage();
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onCreateButtonClick(_arg_1:WindowEvent):void
         {
             var _local_2:String = this._SafeStr_6871.getText();
             var _local_3:String = ("model_" + this._SafeStr_6872.name);
-            if (!this.RoomEventViewCtrl()){
+            if (!this.isMandatoryFieldsFilled()){
                 return;
             };
             this._navigator.send(new CreateFlatMessageComposer(_local_2, _local_3));
@@ -351,7 +351,7 @@ package com.sulake.habbo.navigator.roomsettings
 // _content = "_-1Q8" (String#74, DoABC#2)
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // _SafeStr_5911 = "_-Kn" (String#8097, DoABC#2)
-// RoomEventViewCtrl = "_-10B" (String#595, DoABC#2)
+// addMouseClickListener = "_-10B" (String#595, DoABC#2)
 // _SafeStr_6023 = "_-Mr" (String#23121, DoABC#2)
 // getButton = "_-1sK" (String#18645, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
@@ -362,14 +362,14 @@ package com.sulake.habbo.navigator.roomsettings
 // updateArrowPos = "_-0uQ" (String#16217, DoABC#2)
 // refreshRoomThumbnails = "_-1ka" (String#18311, DoABC#2)
 // getCreateButton = "_-2vD" (String#21286, DoABC#2)
-// RoomEventViewCtrl = "_-2kt" (String#6975, DoABC#2)
+// onCreateButtonClick = "_-2kt" (String#6975, DoABC#2)
 // getCancelButton = "_-3Hz" (String#7666, DoABC#2)
-// RoomEventViewCtrl = "_-0ir" (String#1534, DoABC#2)
+// onCancelButtonClick = "_-0ir" (String#1534, DoABC#2)
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
 // goBackToInitialState = "_-27b" (String#19315, DoABC#2)
 // textBackgroundColor = "_-11u" (String#1606, DoABC#2)
 // refreshSelection = "_-2oB" (String#21010, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // isAllowed = "_-3EW" (String#22056, DoABC#2)
 // getRow = "_-TF" (String#23374, DoABC#2)
 // addThumbnail = "_-md" (String#24133, DoABC#2)
@@ -377,7 +377,7 @@ package com.sulake.habbo.navigator.roomsettings
 // onContPicClick = "_-1rz" (String#18630, DoABC#2)
 // tileSize = "_-2va" (String#21298, DoABC#2)
 // requiredClubLevel = "_-1AJ" (String#16873, DoABC#2)
-// RoomEventViewCtrl = "_-36s" (String#7447, DoABC#2)
+// isMandatoryFieldsFilled = "_-36s" (String#7447, DoABC#2)
 // checkMandatory = "_-2zP" (String#21436, DoABC#2)
 // onChooseLayout = "_-0jO" (String#15805, DoABC#2)
 // getLayout = "_-2n6" (String#20966, DoABC#2)

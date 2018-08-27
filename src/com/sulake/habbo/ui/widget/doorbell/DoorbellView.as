@@ -40,7 +40,7 @@ package com.sulake.habbo.ui.widget.doorbell
                 this._frame.visible = true;
             };
             if (this._content != null){
-                this._content.IItemListWindow();
+                this._content.destroyListItems();
                 _local_1 = 0;
                 while (_local_1 < this._doorbell.users.length) {
                     this._content.addListItem(this.createListItem((this._doorbell.users[_local_1] as String), _local_1));
@@ -66,11 +66,11 @@ package com.sulake.habbo.ui.widget.doorbell
             };
             _local_6 = _local_4.findChildByName("accept");
             if (_local_6 != null){
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
             };
             _local_6 = _local_4.findChildByName("deny");
             if (_local_6 != null){
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
             };
             return (_local_4);
         }
@@ -99,14 +99,14 @@ package com.sulake.habbo.ui.widget.doorbell
             this._frame.visible = false;
             var _local_2:IWindow = this._frame.findChildByTag("close");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
-            this._doorbell.DoorbellWidget();
+            this._doorbell.denyAll();
         }
-        private function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        private function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_2:String = _arg_1.window.parent.name;
             switch (_arg_1.window.name){
@@ -125,13 +125,13 @@ package com.sulake.habbo.ui.widget.doorbell
 // DoorbellWidget = "_-1Qv" (String#5372, DoABC#2)
 // DoorbellView = "_-0Va" (String#4219, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
 // users = "_-0nL" (String#15950, DoABC#2)
-// DoorbellWidget = "_-sw" (String#24401, DoABC#2)
+// denyAll = "_-sw" (String#24401, DoABC#2)
 // _doorbell = "_-3-h" (String#7298, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
 // createListItem = "_-mV" (String#2185, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 
 

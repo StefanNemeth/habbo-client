@@ -65,8 +65,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
             this._SafeStr_3877 = this._configuration.getBoolean("menu.own_avatar.enabled", false);
             this._SafeStr_6779 = new Map();
             this.handler.roomEngine.events.addEventListener(RoomEngineObjectEvent.REOB_OBJECT_ADDED, this.onRoomObjectAdded);
-            this.handler.roomEngine.events.addEventListener(RoomEngineObjectEvent.REOE_OBJECT_REMOVED, this.InfostandWidget);
-            this.handler.container.inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.EffectsWidgetHandler);
+            this.handler.roomEngine.events.addEventListener(RoomEngineObjectEvent.REOE_OBJECT_REMOVED, this.onRoomObjectRemoved);
+            this.handler.container.inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onEffectsChanged);
             this.handler.widget = this;
         }
         public function get handler():AvatarInfoWidgetHandler
@@ -87,13 +87,13 @@ package com.sulake.habbo.ui.widget.avatarinfo
             if (_arg_1.category == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER){
                 _local_2 = this.handler.roomSession.userDataManager.getUserDataByIndex(_arg_1.objectId);
                 if (_local_2){
-                    if (this.handler.friendList.HabboFriendList().indexOf(_local_2.name) > -1){
+                    if (this.handler.friendList.getFriendNames().indexOf(_local_2.name) > -1){
                         this.showFriendName(_local_2, _arg_1.objectId);
                     };
                 };
             };
         }
-        private function InfostandWidget(_arg_1:RoomEngineObjectEvent):void
+        private function onRoomObjectRemoved(_arg_1:RoomEngineObjectEvent):void
         {
             var _local_2:FriendNameView;
             if (_arg_1.category == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER){
@@ -104,10 +104,10 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 };
             };
         }
-        private function EffectsWidgetHandler(_arg_1:HabboInventoryEffectsEvent):void
+        private function onEffectsChanged(_arg_1:HabboInventoryEffectsEvent):void
         {
             if ((this._view is OwnAvatarMenuView)){
-                (this._view as OwnAvatarMenuView).InfoStandUserView();
+                (this._view as OwnAvatarMenuView).updateButtons();
             };
         }
         private function getOwnCharacterInfo():void
@@ -147,8 +147,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 };
             };
             this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REOB_OBJECT_ADDED, this.onRoomObjectAdded);
-            this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REOE_OBJECT_REMOVED, this.InfostandWidget);
-            this.handler.container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.EffectsWidgetHandler);
+            this.handler.roomEngine.events.removeEventListener(RoomEngineObjectEvent.REOE_OBJECT_REMOVED, this.onRoomObjectRemoved);
+            this.handler.container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onEffectsChanged);
             this._view = null;
             this._configuration = null;
             super.dispose();
@@ -157,7 +157,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
         {
             this.removeView(this._view, false);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (!_arg_1){
                 return;
@@ -177,9 +177,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
             _arg_1.addEventListener(RoomWidgetRoomObjectNameEvent.RWONE_TYPE, this.updateEventHandler);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_ROLL_OVER, this.updateEventHandler);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_ROLL_OUT, this.updateEventHandler);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -216,13 +216,13 @@ package com.sulake.habbo.ui.widget.avatarinfo
                         this.selectOwnAvatar();
                     }
                     else {
-                        this.ProgressBar(_local_2.userId, _local_2.userName, _local_2.roomIndex, RoomObjectTypeEnum._SafeStr_3740, _local_2.allowNameChange, null);
+                        this.updateView(_local_2.userId, _local_2.userName, _local_2.roomIndex, RoomObjectTypeEnum._SafeStr_3740, _local_2.allowNameChange, null);
                     };
                     this._isInitialized = true;
                     break;
                 case RoomWidgetRoomObjectNameEvent.RWONE_TYPE:
                     if (RoomWidgetRoomObjectNameEvent(_arg_1).category == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER){
-                        this.ProgressBar(RoomWidgetRoomObjectNameEvent(_arg_1).userId, RoomWidgetRoomObjectNameEvent(_arg_1).userName, RoomWidgetRoomObjectNameEvent(_arg_1).roomIndex, RoomObjectTypeEnum._SafeStr_3740, false, null);
+                        this.updateView(RoomWidgetRoomObjectNameEvent(_arg_1).userId, RoomWidgetRoomObjectNameEvent(_arg_1).userName, RoomWidgetRoomObjectNameEvent(_arg_1).roomIndex, RoomObjectTypeEnum._SafeStr_3740, false, null);
                     };
                     break;
                 case RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_SELECTED:
@@ -254,16 +254,16 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 case RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER:
                     _local_3 = (_arg_1 as RoomWidgetUserInfoUpdateEvent);
                     this.storeUserInfo(_local_3);
-                    this.ProgressBar(_local_3.webID, _local_3.name, _local_3.userRoomId, RoomObjectTypeEnum._SafeStr_3740, false, ((_local_3.isSpectatorMode) ? null : this._SafeStr_6772));
+                    this.updateView(_local_3.webID, _local_3.name, _local_3.userRoomId, RoomObjectTypeEnum._SafeStr_3740, false, ((_local_3.isSpectatorMode) ? null : this._SafeStr_6772));
                     break;
                 case RoomWidgetUserInfoUpdateEvent.BOT:
                     _local_4 = (_arg_1 as RoomWidgetUserInfoUpdateEvent);
-                    this.ProgressBar(_local_4.webID, _local_4.name, _local_4.userRoomId, RoomObjectTypeEnum._SafeStr_3749, false, null);
+                    this.updateView(_local_4.webID, _local_4.name, _local_4.userRoomId, RoomObjectTypeEnum._SafeStr_3749, false, null);
                     break;
                 case RoomWidgetPetInfoUpdateEvent.PET_INFO:
                     if (this._handlePetInfo){
                         _local_6 = (_arg_1 as RoomWidgetPetInfoUpdateEvent);
-                        this.ProgressBar(_local_6.id, _local_6.name, _local_6.roomIndex, RoomObjectTypeEnum._SafeStr_3747, false, null);
+                        this.updateView(_local_6.id, _local_6.name, _local_6.roomIndex, RoomObjectTypeEnum._SafeStr_3747, false, null);
                     };
                     break;
                 case RoomWidgetUserDataUpdateEvent._SafeStr_4720:
@@ -321,7 +321,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
             this._SafeStr_6772.isOwnUser = (_arg_1.type == RoomWidgetUserInfoUpdateEvent.RWUIUE_OWN_USER);
             this._SafeStr_6772.allowNameChange = _arg_1.allowNameChange;
         }
-        private function ProgressBar(_arg_1:int, _arg_2:String, _arg_3:int, _arg_4:int, _arg_5:Boolean, _arg_6:AvatarInfoData):void
+        private function updateView(_arg_1:int, _arg_2:String, _arg_3:int, _arg_4:int, _arg_5:Boolean, _arg_6:AvatarInfoData):void
         {
             var _local_8:FriendNameView;
             var _local_7:Boolean;
@@ -413,7 +413,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 return;
             };
             if (((this._view) || ((this._SafeStr_6779.length > 0)))){
-                this._component.IContext(this, 10);
+                this._component.registerUpdateReceiver(this, 10);
             }
             else {
                 this._component.removeUpdateReceiver(this);
@@ -449,7 +449,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
         public function get hasEffectOn():Boolean
         {
             var _local_2:IWidgetAvatarEffect;
-            var _local_1:Array = this.handler.container.inventory.HabboInventory();
+            var _local_1:Array = this.handler.container.inventory.getActivatedAvatarEffects();
             for each (_local_2 in _local_1) {
                 if (_local_2.isInUse){
                     return (true);
@@ -507,9 +507,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // RWROM_GET_OBJECT_NAME = "_-1vl" (String#18788, DoABC#2)
 // RWROM_SELECT_OBJECT = "_-1RI" (String#17557, DoABC#2)
 // RWROM_GET_OWN_CHARACTER_INFO = "_-1C2" (String#16944, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// InfostandWidget = "_-1GC" (String#842, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// onRoomObjectRemoved = "_-1GC" (String#842, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // webID = "_-2uI" (String#7166, DoABC#2)
 // _SafeStr_3740 = "_-39-" (String#21844, DoABC#2)
 // _SafeStr_3747 = "_-gF" (String#23903, DoABC#2)
@@ -528,7 +528,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // isInUse = "_-2LN" (String#6469, DoABC#2)
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
 // RWAIE_AVATAR_INFO = "_-2QK" (String#20059, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_4720 = "_-XT" (String#23542, DoABC#2)
 // REOB_OBJECT_ADDED = "_-rY" (String#24341, DoABC#2)
 // onRoomObjectAdded = "_-wW" (String#8812, DoABC#2)
@@ -553,12 +553,12 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6779 = "_-2dL" (String#20577, DoABC#2)
 // _handlePetInfo = "_-Z8" (String#23605, DoABC#2)
 // HIEE_EFFECTS_CHANGED = "_-9W" (String#22600, DoABC#2)
-// EffectsWidgetHandler = "_-1tP" (String#5909, DoABC#2)
+// onEffectsChanged = "_-1tP" (String#5909, DoABC#2)
 // handlePetInfo = "_-0im" (String#15783, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// HabboFriendList = "_-3BP" (String#7538, DoABC#2)
+// getFriendNames = "_-3BP" (String#7538, DoABC#2)
 // showFriendName = "_-vw" (String#24525, DoABC#2)
-// InfoStandUserView = "_-i5" (String#942, DoABC#2)
+// updateButtons = "_-i5" (String#942, DoABC#2)
 // getOwnCharacterInfo = "_-3LI" (String#22339, DoABC#2)
 // updateEventHandler = "_-et" (String#8495, DoABC#2)
 // RWROUE_OBJECT_SELECTED = "_-0Yn" (String#15392, DoABC#2)
@@ -568,7 +568,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // RWROUE_OBJECT_ROLL_OUT = "_-2K0" (String#19807, DoABC#2)
 // allowNameChange = "_-KQ" (String#23022, DoABC#2)
 // selectOwnAvatar = "_-1mU" (String#18400, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // storeUserInfo = "_-31s" (String#21573, DoABC#2)
 // amIAnyRoomController = "_-09r" (String#14441, DoABC#2)
 // amIController = "_-01W" (String#14111, DoABC#2)
@@ -585,7 +585,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // avatarEditor = "_-1mJ" (String#5786, DoABC#2)
 // _SafeStr_6812 = "_-2OT" (String#19984, DoABC#2)
 // loadOwnAvatarInEditor = "_-ae" (String#2135, DoABC#2)
-// HabboInventory = "_-33d" (String#1992, DoABC#2)
+// getActivatedAvatarEffects = "_-33d" (String#1992, DoABC#2)
 // setKey = "_-0sz" (String#1567, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)

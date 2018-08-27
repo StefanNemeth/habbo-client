@@ -67,44 +67,44 @@ package com.sulake.core.window
         function toString():String;
         function clone():IWindow;
         function invalidate(_arg_1:Rectangle=null):void;
-        function WindowController():uint;
+        function resolve():uint;
         function buildFromXML(_arg_1:XML, _arg_2:Map=null):Boolean;
         function center():void;
         function offset(_arg_1:Number, _arg_2:Number):void;
         function scale(_arg_1:Number, _arg_2:Number):void;
-        function WindowController():IBitmapDrawable;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:Rectangle):void;
+        function fetchDrawBuffer():IBitmapDrawable;
+        function getRelativeMousePosition(_arg_1:Point):void;
+        function getAbsoluteMousePosition(_arg_1:Point):void;
+        function getDrawRegion(_arg_1:Rectangle):void;
         function getMouseRegion(_arg_1:Rectangle):void;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:Rectangle):void;
-        function WindowController(_arg_1:Point):Boolean;
-        function WindowController(_arg_1:Rectangle):Boolean;
+        function getLocalPosition(_arg_1:Point):void;
+        function getLocalRectangle(_arg_1:Rectangle):void;
+        function hitTestLocalPoint(_arg_1:Point):Boolean;
+        function hitTestLocalRectangle(_arg_1:Rectangle):Boolean;
         function getGlobalPosition(_arg_1:Point):void;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:Rectangle):void;
-        function WindowController(_arg_1:Rectangle):void;
+        function setGlobalPosition(_arg_1:Point):void;
+        function getGlobalRectangle(_arg_1:Rectangle):void;
+        function setGlobalRectangle(_arg_1:Rectangle):void;
         function hitTestGlobalPoint(_arg_1:Point):Boolean;
-        function WindowController(_arg_1:Rectangle):Boolean;
-        function WindowController():Number;
-        function WindowController():Number;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:Point):void;
-        function WindowController(_arg_1:String):IWindow;
-        function WindowController(_arg_1:uint, _arg_2:Boolean=true):void;
-        function WindowController(_arg_1:uint):Boolean;
-        function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean;
-        function WindowController(_arg_1:uint, _arg_2:Boolean=true):void;
-        function WindowController(_arg_1:uint):Boolean;
-        function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean;
+        function hitTestGlobalRectangle(_arg_1:Rectangle):Boolean;
+        function resolveVerticalScale():Number;
+        function resolveHorizontalScale():Number;
+        function convertPointFromLocalToGlobalSpace(_arg_1:Point):void;
+        function convertPointFromGlobalToLocalSpace(_arg_1:Point):void;
+        function findParentByName(_arg_1:String):IWindow;
+        function setStateFlag(_arg_1:uint, _arg_2:Boolean=true):void;
+        function getStateFlag(_arg_1:uint):Boolean;
+        function testStateFlag(_arg_1:uint, _arg_2:uint=0):Boolean;
+        function setStyleFlag(_arg_1:uint, _arg_2:Boolean=true):void;
+        function getStyleFlag(_arg_1:uint):Boolean;
+        function testStyleFlag(_arg_1:uint, _arg_2:uint=0):Boolean;
         function setParamFlag(_arg_1:uint, _arg_2:Boolean=true):void;
-        function WindowController(_arg_1:uint):Boolean;
-        function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean;
+        function getParamFlag(_arg_1:uint):Boolean;
+        function testParamFlag(_arg_1:uint, _arg_2:uint=0):Boolean;
         function destroy():Boolean;
         function minimize():Boolean;
-        function WindowController():Boolean;
-        function WindowController():Boolean;
+        function maximize():Boolean;
+        function restore():Boolean;
         function activate():Boolean;
         function deactivate():Boolean;
         function lock():Boolean;
@@ -121,36 +121,36 @@ package com.sulake.core.window
 // IWindowContext = "_-8b" (String#2061, DoABC#2)
 // IRectLimiter = "_-1O2" (String#5311, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)
-// WindowController = "_-1jq" (String#5750, DoABC#2)
+// setStateFlag = "_-1jq" (String#5750, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
-// WindowController = "_-38B" (String#7475, DoABC#2)
-// WindowController = "_-1wW" (String#1785, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
-// WindowController = "_-1XU" (String#5508, DoABC#2)
-// WindowController = "_-0xH" (String#1582, DoABC#2)
-// WindowController = "_-0oc" (String#1553, DoABC#2)
-// WindowController = "_-0iw" (String#4478, DoABC#2)
+// getParamFlag = "_-38B" (String#7475, DoABC#2)
+// getRelativeMousePosition = "_-1wW" (String#1785, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
+// setGlobalRectangle = "_-1XU" (String#5508, DoABC#2)
+// getDrawRegion = "_-0xH" (String#1582, DoABC#2)
+// fetchDrawBuffer = "_-0oc" (String#1553, DoABC#2)
+// findParentByName = "_-0iw" (String#4478, DoABC#2)
 // limits = "_-2BM" (String#6274, DoABC#2)
-// WindowController = "_-313" (String#1987, DoABC#2)
-// WindowController = "_-0Vq" (String#4224, DoABC#2)
-// WindowController = "_-E9" (String#7955, DoABC#2)
-// IWindow = "_-3C2" (String#7553, DoABC#2)
-// WindowController = "_-0fS" (String#4413, DoABC#2)
-// WindowController = "_-35W" (String#7418, DoABC#2)
-// WindowController = "_-2j" (String#6932, DoABC#2)
-// WindowController = "_-1sE" (String#5889, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
-// WindowController = "_-Bj" (String#7906, DoABC#2)
-// WindowController = "_-02I" (String#3611, DoABC#2)
-// WindowController = "_-2pw" (String#7076, DoABC#2)
-// WindowController = "_-21w" (String#6085, DoABC#2)
-// WindowController = "_-2Dz" (String#6320, DoABC#2)
-// WindowController = "_-2x8" (String#7224, DoABC#2)
-// WindowController = "_-18B" (String#5040, DoABC#2)
-// WindowController = "_-18X" (String#5049, DoABC#2)
+// getAbsoluteMousePosition = "_-313" (String#1987, DoABC#2)
+// convertPointFromGlobalToLocalSpace = "_-0Vq" (String#4224, DoABC#2)
+// hitTestLocalPoint = "_-E9" (String#7955, DoABC#2)
+// testStyleFlag = "_-3C2" (String#7553, DoABC#2)
+// resolve = "_-0fS" (String#4413, DoABC#2)
+// getLocalPosition = "_-35W" (String#7418, DoABC#2)
+// getLocalRectangle = "_-2j" (String#6932, DoABC#2)
+// hitTestLocalRectangle = "_-1sE" (String#5889, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
+// hitTestGlobalRectangle = "_-Bj" (String#7906, DoABC#2)
+// resolveVerticalScale = "_-02I" (String#3611, DoABC#2)
+// resolveHorizontalScale = "_-2pw" (String#7076, DoABC#2)
+// convertPointFromLocalToGlobalSpace = "_-21w" (String#6085, DoABC#2)
+// setStyleFlag = "_-2Dz" (String#6320, DoABC#2)
+// getStyleFlag = "_-2x8" (String#7224, DoABC#2)
+// maximize = "_-18B" (String#5040, DoABC#2)
+// restore = "_-18X" (String#5049, DoABC#2)
 
 

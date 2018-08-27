@@ -54,13 +54,13 @@ package com.sulake.habbo.session
             super(_arg_1, _arg_2);
             this._SafeStr_13661 = [];
             this._SafeStr_13663 = new Map();
-            queueInterface(new IIDHabboCommunicationManager(), this.RoomSessionManager);
+            queueInterface(new IIDHabboCommunicationManager(), this.communicationReady);
             queueInterface(new IIDHabboTracking(), this.trackingReady);
         }
         public function set roomEngineReady(_arg_1:Boolean):void
         {
             this._SafeStr_13662 = _arg_1;
-            this.RoomSessionManager();
+            this.initializeManager();
         }
         public function get initialized():Boolean
         {
@@ -112,14 +112,14 @@ package com.sulake.habbo.session
                 this._SafeStr_13661 = null;
             };
         }
-        private function RoomSessionManager(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function communicationReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
             };
             this._communication = (_arg_2 as IHabboCommunicationManager);
             if (this._communication != null){
-                this._connection = this._communication.HabboCommunicationManager(this.onConnectionReady);
+                this._connection = this._communication.getHabboMainConnection(this.onConnectionReady);
                 if (this._connection != null){
                     this.onConnectionReady(this._connection);
                 };
@@ -139,11 +139,11 @@ package com.sulake.habbo.session
             };
             if (_arg_1 != null){
                 this._connection = _arg_1;
-                this.RoomSessionManager();
-                this.RoomSessionManager();
+                this.createHandlers();
+                this.initializeManager();
             };
         }
-        private function RoomSessionManager():void
+        private function createHandlers():void
         {
             if (this._connection == null){
                 return;
@@ -166,18 +166,18 @@ package com.sulake.habbo.session
             this._SafeStr_13661.push(new UserNotificationHandler(this._connection, this));
             this._SafeStr_13661.push(new PetPackageHandler(this._connection, this));
         }
-        private function RoomSessionManager():void
+        private function initializeManager():void
         {
             if (this._communication != null){
                 this._initialized = true;
             };
             if (((this.initialized) && (this._SafeStr_13664))){
-                this.RoomSessionManager(this._SafeStr_13665, this._SafeStr_13666, this._SafeStr_13667);
+                this.gotoRoom(this._SafeStr_13665, this._SafeStr_13666, this._SafeStr_13667);
                 this._SafeStr_13664 = false;
                 this._SafeStr_13667 = "";
             };
         }
-        public function RoomSessionManager(_arg_1:Boolean, _arg_2:int, _arg_3:String="", _arg_4:String=""):Boolean
+        public function gotoRoom(_arg_1:Boolean, _arg_2:int, _arg_3:String="", _arg_4:String=""):Boolean
         {
             if (!this.initialized){
                 this._SafeStr_13664 = true;
@@ -193,7 +193,7 @@ package com.sulake.habbo.session
             var _local_6:String = this.getRoomIdentifier(_arg_2, _local_5);
             this._SafeStr_13668 = true;
             if (this._SafeStr_13663.getValue(_local_6) != null){
-                this.RoomSessionManager(_arg_2, _local_5);
+                this.disposeSession(_arg_2, _local_5);
             };
             var _local_7:RoomSession = new RoomSession(_arg_2, _local_5, this._habboTracking, _arg_3, _arg_4);
             _local_7.connection = this._connection;
@@ -201,7 +201,7 @@ package com.sulake.habbo.session
             events.dispatchEvent(new RoomSessionEvent(RoomSessionEvent.RSE_CREATED, _local_7));
             return (true);
         }
-        public function RoomSessionManager(_arg_1:IRoomSession):Boolean
+        public function startSession(_arg_1:IRoomSession):Boolean
         {
             if (_arg_1.state == RoomSessionEvent.RSE_STARTED){
                 return (false);
@@ -209,10 +209,10 @@ package com.sulake.habbo.session
             if (_arg_1.start()){
                 this._SafeStr_13668 = false;
                 events.dispatchEvent(new RoomSessionEvent(RoomSessionEvent.RSE_STARTED, _arg_1));
-                this.RoomSessionManager(_arg_1);
+                this.updateHandlers(_arg_1);
             }
             else {
-                this.RoomSessionManager(_arg_1.roomId, _arg_1.roomCategory);
+                this.disposeSession(_arg_1.roomId, _arg_1.roomCategory);
                 this._SafeStr_13668 = false;
                 return (false);
             };
@@ -228,7 +228,7 @@ package com.sulake.habbo.session
                     case RoomSessionHandler.RS_READY:
                         return;
                     case RoomSessionHandler.RS_DISCONNECTED:
-                        this.RoomSessionManager(_arg_1, _arg_2);
+                        this.disposeSession(_arg_1, _arg_2);
                         return;
                 };
             };
@@ -246,7 +246,7 @@ package com.sulake.habbo.session
                 if (_local_7 != null){
                 };
                 this._SafeStr_13663.add(_local_5, _local_6);
-                this.RoomSessionManager(_local_6);
+                this.updateHandlers(_local_6);
             };
         }
         public function getSession(_arg_1:int, _arg_2:int):IRoomSession
@@ -254,7 +254,7 @@ package com.sulake.habbo.session
             var _local_3:String = this.getRoomIdentifier(_arg_1, _arg_2);
             return ((this._SafeStr_13663.getValue(_local_3) as IRoomSession));
         }
-        public function RoomSessionManager(_arg_1:int, _arg_2:int):void
+        public function disposeSession(_arg_1:int, _arg_2:int):void
         {
             var _local_3:String = this.getRoomIdentifier(_arg_1, _arg_2);
             var _local_4:RoomSession = (this._SafeStr_13663.remove(_local_3) as RoomSession);
@@ -263,7 +263,7 @@ package com.sulake.habbo.session
                 _local_4.dispose();
             };
         }
-        private function RoomSessionManager(_arg_1:IRoomSession):void
+        private function updateHandlers(_arg_1:IRoomSession):void
         {
             var _local_2:int;
             var _local_3:BaseHandler;
@@ -289,7 +289,7 @@ package com.sulake.habbo.session
 
 // IID = "_-3KV" (String#7712, DoABC#2)
 // sessionStarting = "_-0Wy" (String#4247, DoABC#2)
-// RoomSessionManager = "_-Fa" (String#7986, DoABC#2)
+// gotoRoom = "_-Fa" (String#7986, DoABC#2)
 // IRoomSession = "_-2e4" (String#6835, DoABC#2)
 // BaseHandler = "_-1Mx" (String#5291, DoABC#2)
 // VoteHandler = "_-gx" (String#8534, DoABC#2)
@@ -312,7 +312,7 @@ package com.sulake.habbo.session
 // IRoomHandlerListener = "_-3Fo" (String#7627, DoABC#2)
 // getRoomIdentifier = "_-0yJ" (String#1587, DoABC#2)
 // roomEngineReady = "_-0Qo" (String#4107, DoABC#2)
-// RoomSessionManager = "_-j1" (String#8577, DoABC#2)
+// startSession = "_-j1" (String#8577, DoABC#2)
 // _SafeStr_13661 = "_-1FZ" (String#17097, DoABC#2)
 // _SafeStr_13662 = "_-no" (String#24183, DoABC#2)
 // _SafeStr_13663 = "_-1Lb" (String#17339, DoABC#2)
@@ -321,13 +321,13 @@ package com.sulake.habbo.session
 // _SafeStr_13666 = "_-363" (String#21730, DoABC#2)
 // _SafeStr_13667 = "_-PB" (String#23214, DoABC#2)
 // _SafeStr_13668 = "false" (String#82, DoABC#2)
-// RoomSessionManager = "_-2Jf" (String#19797, DoABC#2)
-// RoomSessionManager = "_-8w" (String#22577, DoABC#2)
-// RoomSessionManager = "_-06E" (String#14294, DoABC#2)
-// RoomSessionManager = "_-2cO" (String#20540, DoABC#2)
-// RoomSessionManager = "_-0rg" (String#16109, DoABC#2)
+// communicationReady = "_-2Jf" (String#19797, DoABC#2)
+// initializeManager = "_-8w" (String#22577, DoABC#2)
+// createHandlers = "_-06E" (String#14294, DoABC#2)
+// disposeSession = "_-2cO" (String#20540, DoABC#2)
+// updateHandlers = "_-0rg" (String#16109, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // RSE_CREATED = "_-1XM" (String#17790, DoABC#2)
 // RSE_STARTED = "_-oj" (String#24224, DoABC#2)
 // RSE_ENDED = "_-ar" (String#23665, DoABC#2)

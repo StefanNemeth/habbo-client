@@ -39,7 +39,7 @@ package com.sulake.habbo.inventory.pets
         private var _pets:Map;
         private var _SafeStr_8469:Boolean = false;
         private var _disposed:Boolean = false;
-        private var _PetsModel:Boolean;
+        private var _SafeStr_7799:Boolean;
         private var _SafeStr_8470:Array;
         private var _furniModel:FurniModel;
 
@@ -92,21 +92,21 @@ package com.sulake.habbo.inventory.pets
                 this._disposed = true;
             };
         }
-        public function PetsModel():Boolean
+        public function isListInitialized():Boolean
         {
-            return (this._PetsModel);
+            return (this._SafeStr_7799);
         }
         public function setListInitialized():void
         {
-            this._PetsModel = true;
-            this._view.PetsView();
+            this._SafeStr_7799 = true;
+            this._view.updateState();
         }
         public function requestPetInventory():void
         {
             if (this._communication == null){
                 return;
             };
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_1 == null){
                 return;
             };
@@ -120,82 +120,82 @@ package com.sulake.habbo.inventory.pets
         {
             return (this._pets);
         }
-        public function PetsView(_arg_1:PetData):void
+        public function addPet(_arg_1:PetData):void
         {
             if (this._pets.add(_arg_1.id, _arg_1)){
-                this._view.PetsView(_arg_1);
+                this._view.addPet(_arg_1);
             };
-            this._view.PetsView();
+            this._view.updateState();
         }
-        public function PetsView(_arg_1:int):void
+        public function removePet(_arg_1:int):void
         {
             this._pets.remove(_arg_1);
-            this._view.PetsView(_arg_1);
-            this._view.PetsView();
+            this._view.removePet(_arg_1);
+            this._view.updateState();
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
             this.requestPetInventory();
         }
         public function categorySwitch(_arg_1:String):void
         {
             if ((((_arg_1 == InventoryCategory._SafeStr_5996)) && (this._controller.isVisible))){
-                this._view.PetsView();
+                this._view.updateCategoryButtons();
                 this._controller.events.dispatchEvent(new Event(HabboInventoryTrackingEvent.HABBO_INVENTORY_TRACKING_EVENT_PETS));
             };
         }
-        public function PetsModel(_arg_1:String, _arg_2:Boolean=false):void
+        public function switchToFurnitureCategory(_arg_1:String, _arg_2:Boolean=false):void
         {
             var _local_3:FurniModel = this._controller.furniModel;
             if (_local_3 != null){
                 _local_3.switchCategory(_arg_1);
-                this._controller.HabboInventory(InventoryCategory._SafeStr_5995, _arg_2);
+                this._controller.toggleInventoryPage(InventoryCategory._SafeStr_5995, _arg_2);
             };
             this.resetUnseenItems();
         }
-        public function PetsModel():void
+        public function refreshViews():void
         {
             this._view.update();
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
-            return (this._view.TradingModel());
+            return (this._view.getWindowContainer());
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
             if (this._view.isVisible){
                 this.resetUnseenItems();
             };
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
         }
-        public function PetsView(_arg_1:int, _arg_2:Boolean=false):void
+        public function placePetToRoom(_arg_1:int, _arg_2:Boolean=false):void
         {
-            var _local_3:PetData = this.PetsModel(_arg_1);
+            var _local_3:PetData = this.getPetById(_arg_1);
             if (_local_3 == null){
                 return;
             };
             if (this._controller.roomSession.isRoomOwner){
-                this._SafeStr_8469 = this._roomEngine.RoomEngine(_local_3.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, RoomObjectTypeEnum._SafeStr_3747, _local_3.figureString);
-                this._controller.HabboInventory();
+                this._SafeStr_8469 = this._roomEngine.initializeRoomObjectInsert(_local_3.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, RoomObjectTypeEnum._SafeStr_3747, _local_3.figureString);
+                this._controller.closeView();
                 return;
             };
             if (!this._controller.roomSession.arePetsAllowed){
                 return;
             };
             if (!_arg_2){
-                this._communication.HabboCommunicationManager(null).send(new PlacePetMessageComposer(_local_3.id, 0, 0));
+                this._communication.getHabboMainConnection(null).send(new PlacePetMessageComposer(_local_3.id, 0, 0));
             };
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             if (this._view == null){
                 return;
             };
             this._view.update();
         }
-        private function PetsModel(_arg_1:int):PetData
+        private function getPetById(_arg_1:int):PetData
         {
             var _local_2:PetData;
             for each (_local_2 in this._pets) {
@@ -211,7 +211,7 @@ package com.sulake.habbo.inventory.pets
                 return;
             };
             if (((this._SafeStr_8469) && ((_arg_1.type == RoomEngineObjectEvent.REOB_OBJECT_PLACED)))){
-                this._controller.HabboInventory();
+                this._controller.showView();
                 this._SafeStr_8469 = false;
             };
         }
@@ -219,11 +219,11 @@ package com.sulake.habbo.inventory.pets
         {
             return (this._controller.roomSession);
         }
-        public function PetsModel():void
+        public function updatePetsAllowed():void
         {
             this._view.update();
         }
-        public function PetsModel(_arg_1:Array):void
+        public function addUnseenPets(_arg_1:Array):void
         {
             var _local_2:int;
             if (_arg_1 == null){
@@ -241,12 +241,12 @@ package com.sulake.habbo.inventory.pets
             if (!this._controller.isMainViewActive){
                 return;
             };
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (((this._SafeStr_8470) && ((this._SafeStr_8470.length > 0)))){
                 _local_1.send(new ResetUnseenItemsComposer(UnseenItemCategoryEnum._SafeStr_6769));
                 this._SafeStr_8470 = [];
                 this._view.update();
-                this._controller.HabboInventory();
+                this._controller.updateUnseenItemCounts();
             };
         }
         public function getUnseenItemCount():int
@@ -279,52 +279,52 @@ package com.sulake.habbo.inventory.pets
 // _controller = "_-18D" (String#59, DoABC#2)
 // _SafeStr_3747 = "_-gF" (String#23903, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // REOB_OBJECT_PLACED = "_-2hu" (String#20768, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_5996 = "_-Jg" (String#22993, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // arePetsAllowed = "_-1f7" (String#5646, DoABC#2)
 // _SafeStr_6769 = "_-1Y9" (String#17821, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
-// _PetsModel = "_-2eC" (String#6837, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
+// _SafeStr_7799 = "_-2eC" (String#6837, DoABC#2)
 // onObjectPlaced = "_-CM" (String#7922, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // setListInitialized = "_-Mb" (String#23108, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // resetUnseenItems = "_-0qm" (String#16077, DoABC#2)
-// PetsModel = "_-1uc" (String#18741, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
-// RoomEngine = "_-QC" (String#8205, DoABC#2)
-// HabboInventory = "_-0fQ" (String#15648, DoABC#2)
+// switchToFurnitureCategory = "_-1uc" (String#18741, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
+// initializeRoomObjectInsert = "_-QC" (String#8205, DoABC#2)
+// closeView = "_-0fQ" (String#15648, DoABC#2)
 // requestCatalogOpen = "_-0sM" (String#16138, DoABC#2)
 // openCatalog = "_-RM" (String#8233, DoABC#2)
-// PetsView = "_-2i3" (String#20774, DoABC#2)
+// updateCategoryButtons = "_-2i3" (String#20774, DoABC#2)
 // isMainViewActive = "_-jz" (String#24031, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
-// HabboInventory = "_-ik" (String#23988, DoABC#2)
-// PetsModel = "_-tx" (String#24446, DoABC#2)
+// updateUnseenItemCounts = "_-ik" (String#23988, DoABC#2)
+// refreshViews = "_-tx" (String#24446, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 // _SafeStr_8469 = "_-2Ml" (String#19917, DoABC#2)
 // HabboInventoryTrackingEvent = "_-1r0" (String#18582, DoABC#2)
 // _SafeStr_8470 = "_-0iM" (String#15766, DoABC#2)
-// PetsModel = "_-2cf" (String#20551, DoABC#2)
-// PetsView = "_-3Be" (String#21947, DoABC#2)
+// isListInitialized = "_-2cf" (String#20551, DoABC#2)
+// updateState = "_-3Be" (String#21947, DoABC#2)
 // requestPetInventory = "_-1VZ" (String#17725, DoABC#2)
-// PetsView = "_-3DW" (String#22016, DoABC#2)
-// PetsView = "_-lb" (String#24093, DoABC#2)
-// PetsView = "_-2hx" (String#20770, DoABC#2)
-// PetsModel = "_-38l" (String#21832, DoABC#2)
-// PetsModel = "_-2UB" (String#20206, DoABC#2)
-// PetsModel = "_-2Rw" (String#20116, DoABC#2)
+// addPet = "_-3DW" (String#22016, DoABC#2)
+// removePet = "_-lb" (String#24093, DoABC#2)
+// placePetToRoom = "_-2hx" (String#20770, DoABC#2)
+// getPetById = "_-38l" (String#21832, DoABC#2)
+// updatePetsAllowed = "_-2UB" (String#20206, DoABC#2)
+// addUnseenPets = "_-2Rw" (String#20116, DoABC#2)
 // isUnseen = "_-FH" (String#22825, DoABC#2)
 
 

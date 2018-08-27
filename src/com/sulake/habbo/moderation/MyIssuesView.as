@@ -24,7 +24,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11930 = new IssueListView(_arg_1, _arg_2, _local_4, "my_issues_list_item_xml");
             var _local_5:IWindow = this._window.findChildByName("release_all");
             if (_local_5 != null){
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.MyIssuesView);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onReturnAll);
             };
         }
         public function get view():IWindowContainer
@@ -40,7 +40,7 @@ package com.sulake.habbo.moderation
             var _local_1:Array = this._issueManager.getBundles(IssueManager._SafeStr_11935);
             this._SafeStr_11930.update(_local_1);
         }
-        private function MyIssuesView(_arg_1:WindowMouseEvent):void
+        private function onReturnAll(_arg_1:WindowMouseEvent):void
         {
             if (this._issueManager == null){
                 return;
@@ -54,7 +54,7 @@ package com.sulake.habbo.moderation
 // _SafeStr_11929 = "_-0lg" (String#591, DoABC#2)
 // _SafeStr_11930 = "_-15z" (String#1620, DoABC#2)
 // getBundles = "_-10W" (String#16484, DoABC#2)
-// MyIssuesView = "_-Ds" (String#22765, DoABC#2)
+// onReturnAll = "_-Ds" (String#22765, DoABC#2)
 // _SafeStr_11935 = "_-25j" (String#19247, DoABC#2)
 // releaseAll = "_-1dx" (String#18055, DoABC#2)
 // IssueBrowser = "_-3Jw" (String#7700, DoABC#2)

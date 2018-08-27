@@ -76,7 +76,7 @@ package com.sulake.habbo.ui.widget.infostand
             this._furniData = new InfostandFurniData();
             this._petData = new InfoStandPetData();
             this._SafeStr_14086 = new Timer(this._SafeStr_14077);
-            this._SafeStr_14086.addEventListener(TimerEvent.TIMER, this.InfostandWidget);
+            this._SafeStr_14086.addEventListener(TimerEvent.TIMER, this.onUpdateTimer);
             this.mainContainer.visible = false;
             this.handler.widget = this;
         }
@@ -102,7 +102,7 @@ package com.sulake.habbo.ui.widget.infostand
             };
             return (this._mainContainer);
         }
-        public function InfostandWidget(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function favouriteGroupUpdated(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
             var _local_5:String;
             var _local_6:BitmapData;
@@ -116,13 +116,13 @@ package com.sulake.habbo.ui.widget.infostand
             if (((!(_local_4)) || (!(_local_4.visible)))){
                 return;
             };
-            this._SafeStr_14079.InfoStandUserView();
+            this._SafeStr_14079.clearGroupBadge();
             if (_arg_2 != -1){
-                _local_5 = this.handler.container.sessionDataManager.SessionDataManager(_arg_2);
+                _local_5 = this.handler.container.sessionDataManager.getGroupBadgeId(_arg_2);
                 this.userData.groupId = _arg_2;
                 this.userData.groupBadgeId = _local_5;
-                _local_6 = this.handler.container.sessionDataManager.SessionDataManager(_local_5);
-                this._SafeStr_14079.InfoStandUserView(_local_6);
+                _local_6 = this.handler.container.sessionDataManager.getGroupBadgeImage(_local_5);
+                this._SafeStr_14079.setGroupBadgeImage(_local_6);
             };
         }
         public function getXmlWindow(name:String):IWindow
@@ -172,50 +172,50 @@ package com.sulake.habbo.ui.widget.infostand
             this._SafeStr_14083 = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_SELECTED, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.PollOfferDialog);
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_REMOVED, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_OWN_USER, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.BOT, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetFurniInfoUpdateEvent.RWFIUE_FURNI, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserTagsUpdateEvent.RWUTUE_USER_TAGS, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetUserBadgesUpdateEvent.RWUBUE_USER_BADGES, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetBadgeImageUpdateEvent.RWBIUE_BADGE_IMAGE, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetPetInfoUpdateEvent.PET_INFO, this.InfostandWidget);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_SELECTED, this.onRoomObjectSelected);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.onClose);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_REMOVED, this.onRoomObjectRemoved);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.onRoomObjectRemoved);
+            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_OWN_USER, this.onUserInfo);
+            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.onUserInfo);
+            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.BOT, this.onBotInfo);
+            _arg_1.addEventListener(RoomWidgetFurniInfoUpdateEvent.RWFIUE_FURNI, this.onFurniInfo);
+            _arg_1.addEventListener(RoomWidgetUserTagsUpdateEvent.RWUTUE_USER_TAGS, this.onUserTags);
+            _arg_1.addEventListener(RoomWidgetUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.onUserFigureUpdate);
+            _arg_1.addEventListener(RoomWidgetUserBadgesUpdateEvent.RWUBUE_USER_BADGES, this.onUserBadges);
+            _arg_1.addEventListener(RoomWidgetBadgeImageUpdateEvent.RWBIUE_BADGE_IMAGE, this.onBadgeImage);
+            _arg_1.addEventListener(RoomWidgetPetInfoUpdateEvent.PET_INFO, this.onPetInfo);
             _arg_1.addEventListener(RoomWidgetPetCommandsUpdateEvent.PET_COMMANDS, this.onPetCommands);
-            _arg_1.addEventListener(RoomWidgetSongUpdateEvent.RWSUE_PLAYING_CHANGED, this.InfostandWidget);
-            _arg_1.addEventListener(RoomWidgetSongUpdateEvent.RWSUE_DATA_RECEIVED, this.InfostandWidget);
-            super.RoomChatWidget(_arg_1);
+            _arg_1.addEventListener(RoomWidgetSongUpdateEvent.RWSUE_PLAYING_CHANGED, this.onSongUpdate);
+            _arg_1.addEventListener(RoomWidgetSongUpdateEvent.RWSUE_DATA_RECEIVED, this.onSongUpdate);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_SELECTED, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.PollOfferDialog);
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_REMOVED, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_OWN_USER, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.BOT, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetFurniInfoUpdateEvent.RWFIUE_FURNI, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserTagsUpdateEvent.RWUTUE_USER_TAGS, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetUserBadgesUpdateEvent.RWUBUE_USER_BADGES, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetBadgeImageUpdateEvent.RWBIUE_BADGE_IMAGE, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetPetInfoUpdateEvent.PET_INFO, this.InfostandWidget);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_SELECTED, this.onRoomObjectSelected);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.onClose);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_REMOVED, this.onRoomObjectRemoved);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.onRoomObjectRemoved);
+            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_OWN_USER, this.onUserInfo);
+            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.onUserInfo);
+            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.BOT, this.onBotInfo);
+            _arg_1.removeEventListener(RoomWidgetFurniInfoUpdateEvent.RWFIUE_FURNI, this.onFurniInfo);
+            _arg_1.removeEventListener(RoomWidgetUserTagsUpdateEvent.RWUTUE_USER_TAGS, this.onUserTags);
+            _arg_1.removeEventListener(RoomWidgetUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.onUserFigureUpdate);
+            _arg_1.removeEventListener(RoomWidgetUserBadgesUpdateEvent.RWUBUE_USER_BADGES, this.onUserBadges);
+            _arg_1.removeEventListener(RoomWidgetBadgeImageUpdateEvent.RWBIUE_BADGE_IMAGE, this.onBadgeImage);
+            _arg_1.removeEventListener(RoomWidgetPetInfoUpdateEvent.PET_INFO, this.onPetInfo);
             _arg_1.removeEventListener(RoomWidgetPetCommandsUpdateEvent.PET_COMMANDS, this.onPetCommands);
-            _arg_1.removeEventListener(RoomWidgetSongUpdateEvent.RWSUE_PLAYING_CHANGED, this.InfostandWidget);
-            _arg_1.removeEventListener(RoomWidgetSongUpdateEvent.RWSUE_DATA_RECEIVED, this.InfostandWidget);
+            _arg_1.removeEventListener(RoomWidgetSongUpdateEvent.RWSUE_PLAYING_CHANGED, this.onSongUpdate);
+            _arg_1.removeEventListener(RoomWidgetSongUpdateEvent.RWSUE_DATA_RECEIVED, this.onSongUpdate);
         }
         public function get userData():InfostandUserData
         {
@@ -229,58 +229,58 @@ package com.sulake.habbo.ui.widget.infostand
         {
             return (this._petData);
         }
-        private function InfostandWidget(_arg_1:TimerEvent):void
+        private function onUpdateTimer(_arg_1:TimerEvent):void
         {
             if (this._SafeStr_14080 == null){
                 return;
             };
-            messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._SafeStr_14080.InfoStandPetView()));
+            messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._SafeStr_14080.getCurrentPetId()));
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserInfoUpdateEvent):void
+        private function onUserInfo(_arg_1:RoomWidgetUserInfoUpdateEvent):void
         {
             this.userData.setData(_arg_1);
             this._SafeStr_14079.update(_arg_1);
-            this.InfostandWidget(this._SafeStr_14071);
+            this.selectView(this._SafeStr_14071);
             if (this._SafeStr_14086){
                 this._SafeStr_14086.stop();
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserInfoUpdateEvent):void
+        private function onBotInfo(_arg_1:RoomWidgetUserInfoUpdateEvent):void
         {
             this.userData.setData(_arg_1);
             this._SafeStr_14081.update(_arg_1);
-            this.InfostandWidget(this._SafeStr_14074);
+            this.selectView(this._SafeStr_14074);
             if (this._SafeStr_14086){
                 this._SafeStr_14086.stop();
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetFurniInfoUpdateEvent):void
+        private function onFurniInfo(_arg_1:RoomWidgetFurniInfoUpdateEvent):void
         {
             this.furniData.setData(_arg_1);
             if (_arg_1.extraParam == RoomWidgetInfostandExtraParamEnum.RWEIEP_JUKEBOX){
                 this._SafeStr_14082.update(_arg_1);
-                this.InfostandWidget(this._SafeStr_14075);
+                this.selectView(this._SafeStr_14075);
             }
             else {
                 if (_arg_1.extraParam.indexOf(RoomWidgetInfostandExtraParamEnum.RWEIEP_SONGDISK) != -1){
                     this._SafeStr_14083.update(_arg_1);
-                    this.InfostandWidget(this._SafeStr_14076);
+                    this.selectView(this._SafeStr_14076);
                 }
                 else {
                     this._SafeStr_14078.update(_arg_1);
-                    this.InfostandWidget(this._SafeStr_14072);
+                    this.selectView(this._SafeStr_14072);
                 };
             };
             if (this._SafeStr_14086){
                 this._SafeStr_14086.stop();
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetPetInfoUpdateEvent):void
+        private function onPetInfo(_arg_1:RoomWidgetPetInfoUpdateEvent):void
         {
             this.petData.setData(_arg_1);
             this.userData.petRespectLeft = _arg_1.petRespectLeft;
             this._SafeStr_14080.update(this.petData);
-            this.InfostandWidget(this._SafeStr_14073);
+            this.selectView(this._SafeStr_14073);
             if (this._SafeStr_14086){
                 this._SafeStr_14086.start();
             };
@@ -289,7 +289,7 @@ package com.sulake.habbo.ui.widget.infostand
         {
             this._SafeStr_14080.updateEnabledTrainingCommands(_arg_1.id, new CommandConfiguration(_arg_1.allCommands, _arg_1.enabledCommands));
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserTagsUpdateEvent):void
+        private function onUserTags(_arg_1:RoomWidgetUserTagsUpdateEvent):void
         {
             if (_arg_1.isOwnUser){
                 this._SafeStr_14084 = _arg_1.tags;
@@ -298,13 +298,13 @@ package com.sulake.habbo.ui.widget.infostand
                 return;
             };
             if (_arg_1.isOwnUser){
-                this._SafeStr_14079.InfoStandUserView(_arg_1.tags);
+                this._SafeStr_14079.setTags(_arg_1.tags);
             }
             else {
-                this._SafeStr_14079.InfoStandUserView(_arg_1.tags, this._SafeStr_14084);
+                this._SafeStr_14079.setTags(_arg_1.tags, this._SafeStr_14084);
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserFigureUpdateEvent):void
+        private function onUserFigureUpdate(_arg_1:RoomWidgetUserFigureUpdateEvent):void
         {
             if (_arg_1.userId != this.userData.userId){
                 return;
@@ -314,40 +314,40 @@ package com.sulake.habbo.ui.widget.infostand
             }
             else {
                 this._SafeStr_14079.image = _arg_1.image;
-                this._SafeStr_14079.InfoStandUserView(_arg_1.customInfo, _arg_1.isOwnUser);
+                this._SafeStr_14079.setMotto(_arg_1.customInfo, _arg_1.isOwnUser);
                 this._SafeStr_14079.achievementScore = _arg_1.achievementScore;
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserBadgesUpdateEvent):void
+        private function onUserBadges(_arg_1:RoomWidgetUserBadgesUpdateEvent):void
         {
             if (_arg_1.userId != this.userData.userId){
                 return;
             };
             this.userData.badges = _arg_1.badges;
-            this._SafeStr_14079.InfoStandUserView();
+            this._SafeStr_14079.clearBadges();
         }
-        private function InfostandWidget(_arg_1:RoomWidgetBadgeImageUpdateEvent):void
+        private function onBadgeImage(_arg_1:RoomWidgetBadgeImageUpdateEvent):void
         {
             var _local_2:int = this.userData.badges.indexOf(_arg_1.badgeID);
             if (_local_2 >= 0){
                 if (this.userData.isBot()){
-                    this._SafeStr_14081.InfoStandUserView(_local_2, _arg_1.badgeImage);
+                    this._SafeStr_14081.setBadgeImage(_local_2, _arg_1.badgeImage);
                 }
                 else {
-                    this._SafeStr_14079.InfoStandUserView(_local_2, _arg_1.badgeImage);
+                    this._SafeStr_14079.setBadgeImage(_local_2, _arg_1.badgeImage);
                 };
                 return;
             };
             if (_arg_1.badgeID == this.userData.groupBadgeId){
-                this._SafeStr_14079.InfoStandUserView(_arg_1.badgeImage);
+                this._SafeStr_14079.setGroupBadgeImage(_arg_1.badgeImage);
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
+        private function onRoomObjectSelected(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
             var _local_2:RoomWidgetRoomObjectMessage = new RoomWidgetRoomObjectMessage(RoomWidgetRoomObjectMessage.RWROM_GET_OBJECT_INFO, _arg_1.id, _arg_1.category);
             messageListener.processWidgetMessage(_local_2);
         }
-        private function InfostandWidget(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
+        private function onRoomObjectRemoved(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
             var _local_2:Boolean;
             switch (_arg_1.type){
@@ -372,26 +372,26 @@ package com.sulake.habbo.ui.widget.infostand
                 this.close();
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetSongUpdateEvent):void
+        private function onSongUpdate(_arg_1:RoomWidgetSongUpdateEvent):void
         {
-            this._SafeStr_14082.InfoStandJukeboxView(_arg_1);
-            this._SafeStr_14083.InfoStandJukeboxView(_arg_1);
+            this._SafeStr_14082.updateSongInfo(_arg_1);
+            this._SafeStr_14083.updateSongInfo(_arg_1);
         }
         public function close():void
         {
-            this.InfostandWidget();
+            this.hideChildren();
             if (this._SafeStr_14086){
                 this._SafeStr_14086.stop();
             };
         }
-        private function PollOfferDialog(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
+        private function onClose(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
             this.close();
             if (this._SafeStr_14086){
                 this._SafeStr_14086.stop();
             };
         }
-        private function InfostandWidget():void
+        private function hideChildren():void
         {
             var _local_1:int;
             if (this._mainContainer != null){
@@ -402,9 +402,9 @@ package com.sulake.habbo.ui.widget.infostand
                 };
             };
         }
-        private function InfostandWidget(_arg_1:String):void
+        private function selectView(_arg_1:String):void
         {
-            this.InfostandWidget();
+            this.hideChildren();
             var _local_2:IWindow = (this.mainContainer.getChildByName(_arg_1) as IWindow);
             if (_local_2 == null){
                 return;
@@ -414,7 +414,7 @@ package com.sulake.habbo.ui.widget.infostand
             this.mainContainer.width = _local_2.width;
             this.mainContainer.height = _local_2.height;
         }
-        public function InfostandWidget():void
+        public function refreshContainer():void
         {
             var _local_1:IWindow;
             var _local_2:int;
@@ -433,16 +433,16 @@ package com.sulake.habbo.ui.widget.infostand
 
 // setData = "_-1x" (String#18846, DoABC#2)
 // RWBIUE_BADGE_IMAGE = "_-1qO" (String#18558, DoABC#2)
-// InfostandWidget = "_-Ez" (String#22811, DoABC#2)
-// InfoStandPetView = "_-01n" (String#14121, DoABC#2)
+// refreshContainer = "_-Ez" (String#22811, DoABC#2)
+// getCurrentPetId = "_-01n" (String#14121, DoABC#2)
 // updateEnabledTrainingCommands = "_-1L2" (String#17315, DoABC#2)
-// InfoStandJukeboxView = "_-oi" (String#24223, DoABC#2)
-// InfoStandUserView = "_-1cu" (String#18008, DoABC#2)
-// InfoStandUserView = "_-37K" (String#21781, DoABC#2)
-// InfoStandUserView = "_-2Nw" (String#19961, DoABC#2)
-// InfoStandUserView = "_-6H" (String#22477, DoABC#2)
-// InfoStandUserView = "_-1XP" (String#17793, DoABC#2)
-// InfoStandUserView = "_-Rl" (String#23314, DoABC#2)
+// updateSongInfo = "_-oi" (String#24223, DoABC#2)
+// setMotto = "_-1cu" (String#18008, DoABC#2)
+// setTags = "_-37K" (String#21781, DoABC#2)
+// setBadgeImage = "_-2Nw" (String#19961, DoABC#2)
+// clearBadges = "_-6H" (String#22477, DoABC#2)
+// clearGroupBadge = "_-1XP" (String#17793, DoABC#2)
+// setGroupBadgeImage = "_-Rl" (String#23314, DoABC#2)
 // isBot = "_-14m" (String#16645, DoABC#2)
 // _SafeStr_14071 = "_-35y" (String#21727, DoABC#2)
 // _SafeStr_14072 = "_-2Rj" (String#20109, DoABC#2)
@@ -460,12 +460,12 @@ package com.sulake.habbo.ui.widget.infostand
 // _SafeStr_14084 = "_-1BX" (String#16920, DoABC#2)
 // _userData = "_-1LW" (String#17334, DoABC#2)
 // _SafeStr_14086 = "_-ck" (String#8468, DoABC#2)
-// InfostandWidget = "_-25g" (String#19245, DoABC#2)
-// InfostandWidget = "_-1W3" (String#17746, DoABC#2)
-// InfostandWidget = "_-9s" (String#22613, DoABC#2)
-// InfostandWidget = "_-1is" (String#18240, DoABC#2)
-// InfostandWidget = "_-aE" (String#23642, DoABC#2)
-// InfostandWidget = "_-0Iy" (String#14797, DoABC#2)
+// onUpdateTimer = "_-25g" (String#19245, DoABC#2)
+// onRoomObjectSelected = "_-1W3" (String#17746, DoABC#2)
+// onBotInfo = "_-9s" (String#22613, DoABC#2)
+// onFurniInfo = "_-1is" (String#18240, DoABC#2)
+// onUserFigureUpdate = "_-aE" (String#23642, DoABC#2)
+// onSongUpdate = "_-0Iy" (String#14797, DoABC#2)
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // HabboWindowStyle = "_-0E1" (String#14608, DoABC#2)
 // HabboWindowType = "_-29U" (String#19384, DoABC#2)
@@ -496,10 +496,10 @@ package com.sulake.habbo.ui.widget.infostand
 // InfostandUserData = "_-nJ" (String#8664, DoABC#2)
 // RWUAM_REQUEST_PET_UPDATE = "_-0Ro" (String#15130, DoABC#2)
 // RWROM_GET_OBJECT_INFO = "_-cp" (String#23747, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // RWROUE_FURNI_REMOVED = "_-2L6" (String#19851, DoABC#2)
-// InfostandWidget = "_-1GC" (String#842, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// onRoomObjectRemoved = "_-1GC" (String#842, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // achievementScore = "_-16Z" (String#5005, DoABC#2)
 // customInfo = "_-2Mk" (String#19916, DoABC#2)
@@ -510,10 +510,10 @@ package com.sulake.habbo.ui.widget.infostand
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // RWROUE_OBJECT_DESELECTED = "_-8G" (String#22552, DoABC#2)
 // RWUIUE_OWN_USER = "_-13K" (String#16592, DoABC#2)
-// InfostandWidget = "_-2pH" (String#623, DoABC#2)
+// onUserInfo = "_-2pH" (String#623, DoABC#2)
 // RWEIEP_JUKEBOX = "_-2Bo" (String#19475, DoABC#2)
 // RWEIEP_SONGDISK = "_-0eV" (String#15606, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
 // badgeImage = "_-250" (String#19222, DoABC#2)
 // RWUBUE_USER_BADGES = "_-21B" (String#19059, DoABC#2)
@@ -523,24 +523,24 @@ package com.sulake.habbo.ui.widget.infostand
 // RWUTUE_USER_TAGS = "_-1la" (String#18357, DoABC#2)
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // badgeID = "_-Cm" (String#22716, DoABC#2)
 // _furniData = "_-13M" (String#1612, DoABC#2)
 // RWUIUE_PEER = "_-2Tv" (String#20195, DoABC#2)
-// InfostandWidget = "_-8z" (String#2063, DoABC#2)
-// InfostandWidget = "_-0dE" (String#1512, DoABC#2)
+// onUserBadges = "_-8z" (String#2063, DoABC#2)
+// onPetInfo = "_-0dE" (String#1512, DoABC#2)
 // RWROUE_USER_REMOVED = "_-02u" (String#14156, DoABC#2)
-// InfostandWidget = "_-1-8" (String#1597, DoABC#2)
+// selectView = "_-1-8" (String#1597, DoABC#2)
 // RWROUE_OBJECT_SELECTED = "_-0Yn" (String#15392, DoABC#2)
 // RWFIUE_FURNI = "_-U0" (String#23409, DoABC#2)
 // isOwnUser = "_-Je" (String#22991, DoABC#2)
-// InfostandWidget = "_-T6" (String#2113, DoABC#2)
-// InfostandWidget = "_-0fM" (String#1522, DoABC#2)
+// onUserTags = "_-T6" (String#2113, DoABC#2)
+// onBadgeImage = "_-0fM" (String#1522, DoABC#2)
 // RWSUE_PLAYING_CHANGED = "_-3LG" (String#22337, DoABC#2)
 // RWSUE_DATA_RECEIVED = "_-0BQ" (String#14503, DoABC#2)
-// SessionDataManager = "_-3Cg" (String#2022, DoABC#2)
+// getGroupBadgeId = "_-3Cg" (String#2022, DoABC#2)
 // groupBadgeId = "_-s" (String#24362, DoABC#2)
-// SessionDataManager = "_-KC" (String#2087, DoABC#2)
-// InfostandWidget = "_-X4" (String#23525, DoABC#2)
+// getGroupBadgeImage = "_-KC" (String#2087, DoABC#2)
+// favouriteGroupUpdated = "_-X4" (String#23525, DoABC#2)
 
 

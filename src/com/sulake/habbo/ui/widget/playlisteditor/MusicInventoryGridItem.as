@@ -19,7 +19,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         public static const _SafeStr_6731:int = 1;
         public static const _SafeStr_6736:int = 2;
         private static const _SafeStr_6749:uint = 14612159;
-        private static const _MusicInventoryGridItem:uint = 0xF1F1F1;
+        private static const _SafeStr_6750:uint = 0xF1F1F1;
 
         private var _widget:PlayListEditorWidget;
         private var _window:IWindowContainer = null;
@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             this._diskId = _arg_2;
             this._songId = _arg_3;
             this.createWindow();
-            this.ITab();
+            this.deselect();
             if (((!((_arg_4 == null))) && (!((_arg_5 == null))))){
                 this.trackName = _arg_4;
                 this.diskColor = _arg_5;
@@ -88,7 +88,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (_local_2 != null){
                 this._toPlayListButton = (_local_2.getChildByName("button_to_playlist") as IContainerButtonWindow);
             };
-            this.MusicInventoryStatusView("title_fader", (this._window.getChildByName("title_fader_bitmap") as IBitmapWrapperWindow));
+            this.assignAssetByNameToElement("title_fader", (this._window.getChildByName("title_fader_bitmap") as IBitmapWrapperWindow));
             _local_3 = (this._widget.assets.getAssetByName("icon_arrow") as BitmapDataAsset);
             if (_local_3 != null){
                 if (_local_3.content != null){
@@ -112,11 +112,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_3.visible = true;
             };
         }
-        public function ITab():void
+        public function deselect():void
         {
             var _local_1:IBorderWindow = (this._window.getChildByName("background") as IBorderWindow);
             if (_local_1 != null){
-                _local_1.color = _MusicInventoryGridItem;
+                _local_1.color = _SafeStr_6750;
             };
             var _local_2:IWindowContainer = (this._window.getChildByName("action_buttons") as IWindowContainer);
             if (_local_2 != null){
@@ -183,13 +183,13 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         private function set buttonToPlaylistBitmap(_arg_1:BitmapData):void
         {
-            this.MusicInventoryGridItem("button_to_playlist", "image_button_to_playlist", _arg_1);
+            this.assignBitmapDataToButton("button_to_playlist", "image_button_to_playlist", _arg_1);
         }
         private function set buttonPlayPauseBitmap(_arg_1:BitmapData):void
         {
-            this.MusicInventoryGridItem("button_play_pause", "image_button_play_pause", _arg_1);
+            this.assignBitmapDataToButton("button_play_pause", "image_button_play_pause", _arg_1);
         }
-        private function MusicInventoryGridItem(_arg_1:String, _arg_2:String, _arg_3:BitmapData):void
+        private function assignBitmapDataToButton(_arg_1:String, _arg_2:String, _arg_3:BitmapData):void
         {
             if (_arg_3 == null){
                 return;
@@ -209,7 +209,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_5.height = _arg_3.height;
             };
         }
-        private function MusicInventoryStatusView(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
+        private function assignAssetByNameToElement(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
         {
             var _local_4:BitmapData;
             var _local_3:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_1) as BitmapDataAsset);
@@ -237,18 +237,18 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // playButtonState = "_-2KU" (String#19821, DoABC#2)
 // _SafeStr_6731 = "_-2I-" (String#19729, DoABC#2)
 // _SafeStr_6732 = "_-0cw" (String#15547, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 // _SafeStr_6736 = "_-1q4" (String#18546, DoABC#2)
 // songId = "_-2fw" (String#20688, DoABC#2)
 // _SafeStr_6749 = "_-3Gw" (String#7646, DoABC#2)
-// _MusicInventoryGridItem = "_-0L4" (String#3980, DoABC#2)
+// _SafeStr_6750 = "_-0L4" (String#3980, DoABC#2)
 // _toPlayListButton = "_-1ch" (String#17998, DoABC#2)
 // trackName = "_-25h" (String#6154, DoABC#2)
 // diskColor = "_-0QW" (String#15082, DoABC#2)
-// MusicInventoryStatusView = "_-2Qz" (String#1879, DoABC#2)
+// assignAssetByNameToElement = "_-2Qz" (String#1879, DoABC#2)
 // buttonToPlaylistBitmap = "_-32o" (String#21610, DoABC#2)
 // diskIconBitmap = "_-08e" (String#3731, DoABC#2)
 // buttonPlayPauseBitmap = "_-13a" (String#16601, DoABC#2)
-// MusicInventoryGridItem = "_-0te" (String#16187, DoABC#2)
+// assignBitmapDataToButton = "_-0te" (String#16187, DoABC#2)
 
 

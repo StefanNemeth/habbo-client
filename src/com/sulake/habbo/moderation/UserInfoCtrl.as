@@ -36,7 +36,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11848 = _arg_3;
             this._SafeStr_11850 = _arg_4;
         }
-        public static function UserInfoCtrl(_arg_1:int):String
+        public static function formatTime(_arg_1:int):String
         {
             if (_arg_1 < (2 * _SafeStr_11844)){
                 return ((_arg_1 + " secs ago"));
@@ -66,7 +66,7 @@ package com.sulake.habbo.moderation
             this._help.messageHandler.addUserInfoListener(this);
             this._help.connection.send(new GetModeratorUserInfoMessageComposer(_arg_2));
         }
-        public function InfostandWidget(_arg_1:ModeratorUserInfoData):void
+        public function onUserInfo(_arg_1:ModeratorUserInfoData):void
         {
             if (_arg_1.userId != this._userId){
                 return;
@@ -87,14 +87,14 @@ package com.sulake.habbo.moderation
             };
             _local_1.findChildByName("fields").visible = true;
             _local_1.findChildByName("loading_txt").visible = false;
-            this.UserInfoCtrl(_local_1, "name_txt", this._data.userName);
-            this.UserInfoCtrl(_local_1, "cfh_count_txt", ("" + this._data._SafeStr_6425));
-            this.UserInfoCtrl(_local_1, "abusive_cfh_count_txt", this._data.abusiveCfhCount, false);
-            this.UserInfoCtrl(_local_1, "caution_count_txt", this._data.cautionCount, true);
-            this.UserInfoCtrl(_local_1, "ban_count_txt", this._data.banCount, true);
-            this.UserInfoCtrl(_local_1, "registered_txt", UserInfoCtrl((this._data.minutesSinceRegistration * 60)));
-            this.UserInfoCtrl(_local_1, "last_login_txt", UserInfoCtrl((this._data.minutesSinceLastLogin * 60)));
-            this.UserInfoCtrl(_local_1, "online_txt", ((this._data.online) ? "Yes" : "No"));
+            this.setTxt(_local_1, "name_txt", this._data.userName);
+            this.setTxt(_local_1, "cfh_count_txt", ("" + this._data._SafeStr_6425));
+            this.setAlertTxt(_local_1, "abusive_cfh_count_txt", this._data.abusiveCfhCount, false);
+            this.setAlertTxt(_local_1, "caution_count_txt", this._data.cautionCount, true);
+            this.setAlertTxt(_local_1, "ban_count_txt", this._data.banCount, true);
+            this.setTxt(_local_1, "registered_txt", formatTime((this._data.minutesSinceRegistration * 60)));
+            this.setTxt(_local_1, "last_login_txt", formatTime((this._data.minutesSinceLastLogin * 60)));
+            this.setTxt(_local_1, "online_txt", ((this._data.online) ? "Yes" : "No"));
             Logger.log(((((("USER: " + this._data.userName) + ", ") + this._data.banCount) + ", ") + this._data.cautionCount));
         }
         public function dispose():void
@@ -119,16 +119,16 @@ package com.sulake.habbo.moderation
                 this._help.disableButton(this._help.initMsg.alertPermission, _local_1, "message_but");
                 this._help.disableButton(((((this._help.initMsg.alertPermission) || (this._help.initMsg.kickPermission))) || (this._help.initMsg.banPermission)), _local_1, "modaction_but");
             };
-            _local_1.findChildByName("chatlog_but").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("roomvisits_but").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("habboinfotool_but").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("message_but").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("modaction_but").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("view_caution_count_txt").procedure = this.UserInfoCtrl;
-            _local_1.findChildByName("view_ban_count_txt").procedure = this.UserInfoCtrl;
+            _local_1.findChildByName("chatlog_but").procedure = this.onChatlogButton;
+            _local_1.findChildByName("roomvisits_but").procedure = this.onRoomVisitsButton;
+            _local_1.findChildByName("habboinfotool_but").procedure = this.onHabboInfoToolButton;
+            _local_1.findChildByName("message_but").procedure = this.onMessageButton;
+            _local_1.findChildByName("modaction_but").procedure = this.onModActionButton;
+            _local_1.findChildByName("view_caution_count_txt").procedure = this.onViewCautions;
+            _local_1.findChildByName("view_ban_count_txt").procedure = this.onViewBans;
             return (_local_1);
         }
-        private function UserInfoCtrl(_arg_1:IWindowContainer, _arg_2:String, _arg_3:int, _arg_4:Boolean):void
+        private function setAlertTxt(_arg_1:IWindowContainer, _arg_2:String, _arg_3:int, _arg_4:Boolean):void
         {
             var _local_5:ITextWindow = ITextWindow(_arg_1.findChildByName(_arg_2));
             var _local_6:ITextWindow = ITextWindow(_arg_1.findChildByName(("view_" + _arg_2)));
@@ -138,61 +138,61 @@ package com.sulake.habbo.moderation
             _local_5.visible = (_arg_3 > 0);
             _local_5.text = ("" + _arg_3);
         }
-        private function UserInfoCtrl(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String):void
+        private function setTxt(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String):void
         {
             var _local_4:ITextWindow = ITextWindow(_arg_1.findChildByName(_arg_2));
             _local_4.text = _arg_3;
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onChatlogButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new ChatlogCtrl(new GetUserChatlogMessageComposer(this._data.userId), this._help, WindowTracker._SafeStr_11780, this._data.userId), this._callerFrame, this._SafeStr_11850, false, true);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onRoomVisitsButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new RoomVisitsCtrl(this._help, this._data.userId), this._callerFrame, this._SafeStr_11850, false, true);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onHabboInfoToolButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.openHkPage("habboinfotool.url", this._data.userName);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onMessageButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new SendMsgsCtrl(this._help, this._data.userId, this._data.userName, this._SafeStr_11848), this._callerFrame, this._SafeStr_11850, false, true);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onModActionButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new ModActionCtrl(this._help, this._data.userId, this._data.userName, this._SafeStr_11848), this._callerFrame, this._SafeStr_11850, false, true);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onViewCautions(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
-            this.UserInfoCtrl();
+            this.showModeratorLog();
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onViewBans(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
-            this.UserInfoCtrl();
+            this.showModeratorLog();
         }
-        private function UserInfoCtrl():void
+        private function showModeratorLog():void
         {
             this._help.openHkPage("moderatoractionlog.url", this._data.userName);
         }
@@ -201,7 +201,7 @@ package com.sulake.habbo.moderation
 }//package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
-// UserInfoCtrl = "_-1xm" (String#5987, DoABC#2)
+// onChatlogButton = "_-1xm" (String#5987, DoABC#2)
 // disableButton = "_-24c" (String#19207, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // windowTracker = "_-1CG" (String#16953, DoABC#2)
@@ -209,7 +209,7 @@ package com.sulake.habbo.moderation
 // addUserInfoListener = "_-1z6" (String#18931, DoABC#2)
 // removeUserInfoListener = "_-2us" (String#21272, DoABC#2)
 // messageHandler = "_-2T6" (String#20168, DoABC#2)
-// UserInfoCtrl = "_-0zx" (String#4847, DoABC#2)
+// setTxt = "_-0zx" (String#4847, DoABC#2)
 // openHkPage = "_-mj" (String#24138, DoABC#2)
 // _SafeStr_11844 = "_-1ip" (String#18238, DoABC#2)
 // _SafeStr_11845 = "_-1ly" (String#18374, DoABC#2)
@@ -218,15 +218,15 @@ package com.sulake.habbo.moderation
 // _SafeStr_11848 = "_-2-7" (String#1795, DoABC#2)
 // _SafeStr_11849 = "_-0DU" (String#14587, DoABC#2)
 // _SafeStr_11850 = "_-qj" (String#24304, DoABC#2)
-// UserInfoCtrl = "_-1to" (String#18709, DoABC#2)
-// UserInfoCtrl = "_-2jc" (String#20830, DoABC#2)
-// UserInfoCtrl = "_-2zq" (String#21454, DoABC#2)
-// UserInfoCtrl = "_-4M" (String#22392, DoABC#2)
-// UserInfoCtrl = "_-Ew" (String#22809, DoABC#2)
-// UserInfoCtrl = "_-vH" (String#24500, DoABC#2)
-// UserInfoCtrl = "_-02v" (String#14157, DoABC#2)
-// UserInfoCtrl = "_-12Q" (String#16555, DoABC#2)
-// UserInfoCtrl = "_-1L5" (String#17318, DoABC#2)
+// formatTime = "_-1to" (String#18709, DoABC#2)
+// setAlertTxt = "_-2jc" (String#20830, DoABC#2)
+// onRoomVisitsButton = "_-2zq" (String#21454, DoABC#2)
+// onHabboInfoToolButton = "_-4M" (String#22392, DoABC#2)
+// onMessageButton = "_-Ew" (String#22809, DoABC#2)
+// onModActionButton = "_-vH" (String#24500, DoABC#2)
+// onViewCautions = "_-02v" (String#14157, DoABC#2)
+// onViewBans = "_-12Q" (String#16555, DoABC#2)
+// showModeratorLog = "_-1L5" (String#17318, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // WindowTracker = "_-2m9" (String#7008, DoABC#2)
 // GetModeratorUserInfoMessageComposer = "_-2fD" (String#20655, DoABC#2)
@@ -238,7 +238,7 @@ package com.sulake.habbo.moderation
 // ModeratorUserInfoData = "_-0Cn" (String#3805, DoABC#2)
 // SendMsgsCtrl = "_-Ls" (String#8122, DoABC#2)
 // ModActionCtrl = "_-0HN" (String#3902, DoABC#2)
-// InfostandWidget = "_-2pH" (String#623, DoABC#2)
+// onUserInfo = "_-2pH" (String#623, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // minutesSinceRegistration = "_-35X" (String#21714, DoABC#2)
 // minutesSinceLastLogin = "_-1gG" (String#18150, DoABC#2)

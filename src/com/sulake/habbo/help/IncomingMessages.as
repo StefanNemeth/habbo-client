@@ -60,30 +60,30 @@ package com.sulake.habbo.help
         {
             this._component = _arg_1;
             var _local_3:IHabboCommunicationManager = _arg_2;
-            _local_3.HabboCommunicationManager(new CallForHelpReplyMessageEvent(this.onCallForHelpReply));
-            _local_3.HabboCommunicationManager(new CallForHelpResultMessageEvent(this.onCallForHelpResult));
-            _local_3.HabboCommunicationManager(new CallForHelpPendingCallsDeletedMessageEvent(this.onPendingCallsForHelpDeleted));
-            _local_3.HabboCommunicationManager(new FaqClientFaqsMessageEvent(this.onFaqClientFaqs));
-            _local_3.HabboCommunicationManager(new FaqCategoriesMessageEvent(this.onFaqCategories));
-            _local_3.HabboCommunicationManager(new FaqTextMessageEvent(this.onFaqText));
-            _local_3.HabboCommunicationManager(new FaqSearchResultsMessageEvent(this.onFaqSearchResults));
-            _local_3.HabboCommunicationManager(new FaqCategoryMessageEvent(this.onFaqCategory));
-            _local_3.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEntryInfo));
-            _local_3.HabboCommunicationManager(new RoomReadyMessageEvent(this.SessionDataManager));
-            _local_3.HabboCommunicationManager(new GetGuestRoomResultEvent(this.onGuestRoomResult));
-            _local_3.HabboCommunicationManager(new UserObjectEvent(this.onUserObject));
-            _local_3.HabboCommunicationManager(new UserNameChangedMessageEvent(this.onUserNameChange));
-            _local_3.HabboCommunicationManager(new UsersMessageEvent(this.RoomMessageHandler));
-            _local_3.HabboCommunicationManager(new IssueCloseNotificationMessageEvent(this.onIssueClose));
-            _local_3.HabboCommunicationManager(new TutorialStatusMessageEvent(this.onTutorialStatus));
-            _local_3.HabboCommunicationManager(new ChangeUserNameResultMessageEvent(this.onChangeUserNameResult));
-            _local_3.HabboCommunicationManager(new CheckUserNameResultMessageEvent(this.onCheckUserNameResult));
-            _local_3.HabboCommunicationManager(new HotelMergeNameChangeEvent(this.onHotelMergeNameChange));
+            _local_3.addHabboConnectionMessageEvent(new CallForHelpReplyMessageEvent(this.onCallForHelpReply));
+            _local_3.addHabboConnectionMessageEvent(new CallForHelpResultMessageEvent(this.onCallForHelpResult));
+            _local_3.addHabboConnectionMessageEvent(new CallForHelpPendingCallsDeletedMessageEvent(this.onPendingCallsForHelpDeleted));
+            _local_3.addHabboConnectionMessageEvent(new FaqClientFaqsMessageEvent(this.onFaqClientFaqs));
+            _local_3.addHabboConnectionMessageEvent(new FaqCategoriesMessageEvent(this.onFaqCategories));
+            _local_3.addHabboConnectionMessageEvent(new FaqTextMessageEvent(this.onFaqText));
+            _local_3.addHabboConnectionMessageEvent(new FaqSearchResultsMessageEvent(this.onFaqSearchResults));
+            _local_3.addHabboConnectionMessageEvent(new FaqCategoryMessageEvent(this.onFaqCategory));
+            _local_3.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEntryInfo));
+            _local_3.addHabboConnectionMessageEvent(new RoomReadyMessageEvent(this.onRoomReady));
+            _local_3.addHabboConnectionMessageEvent(new GetGuestRoomResultEvent(this.onGuestRoomResult));
+            _local_3.addHabboConnectionMessageEvent(new UserObjectEvent(this.onUserObject));
+            _local_3.addHabboConnectionMessageEvent(new UserNameChangedMessageEvent(this.onUserNameChange));
+            _local_3.addHabboConnectionMessageEvent(new UsersMessageEvent(this.onUsers));
+            _local_3.addHabboConnectionMessageEvent(new IssueCloseNotificationMessageEvent(this.onIssueClose));
+            _local_3.addHabboConnectionMessageEvent(new TutorialStatusMessageEvent(this.onTutorialStatus));
+            _local_3.addHabboConnectionMessageEvent(new ChangeUserNameResultMessageEvent(this.onChangeUserNameResult));
+            _local_3.addHabboConnectionMessageEvent(new CheckUserNameResultMessageEvent(this.onCheckUserNameResult));
+            _local_3.addHabboConnectionMessageEvent(new HotelMergeNameChangeEvent(this.onHotelMergeNameChange));
         }
         private function onCallForHelpReply(_arg_1:IMessageEvent):void
         {
             var _local_2:CallForHelpReplyMessageParser = CallForHelpReplyMessageEvent(_arg_1).getParser();
-            this._component.HelpUI(_local_2.message);
+            this._component.showCallForHelpReply(_local_2.message);
         }
         private function onRoomEntryInfo(_arg_1:IMessageEvent):void
         {
@@ -95,7 +95,7 @@ package com.sulake.habbo.help
                 this._component.disableCallForGuideBotUI();
             };
         }
-        private function SessionDataManager(_arg_1:IMessageEvent):void
+        private function onRoomReady(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomReadyMessageParser = RoomReadyMessageEvent(_arg_1).getParser();
             if (_local_2.roomType.indexOf("model_") == 0){
@@ -140,14 +140,14 @@ package com.sulake.habbo.help
             };
             this._component.tutorialUI.onUserChanged();
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUsers(_arg_1:IMessageEvent):void
         {
             var _local_5:UserMessageData;
             var _local_2:UsersMessageEvent = (_arg_1 as UsersMessageEvent);
             var _local_3:UsersMessageParser = _local_2.getParser();
             var _local_4:int;
-            while (_local_4 < _local_3.UsersMessageParser()) {
-                _local_5 = _local_3.UsersMessageParser(_local_4);
+            while (_local_4 < _local_3.getUserCount()) {
+                _local_5 = _local_3.getUser(_local_4);
                 if (((!((_local_5.webID == this._userId))) && ((_local_5.userType == RoomObjectTypeEnum._SafeStr_3740)))){
                     this._component.userRegistry.registerUser(_local_5.webID, _local_5.name);
                 };
@@ -162,7 +162,7 @@ package com.sulake.habbo.help
         {
             var _local_2:IssueCloseNotificationMessageEvent = (_arg_1 as IssueCloseNotificationMessageEvent);
             var _local_3:IssueCloseNotificationMessageParser = _local_2.getParser();
-            this._component.windowManager.alert("${mod.alert.title}", (("${help.cfh.closed." + this.getCloseReasonKey(_local_3.closeReason)) + "}"), 0, this.SessionDataManager);
+            this._component.windowManager.alert("${mod.alert.title}", (("${help.cfh.closed." + this.getCloseReasonKey(_local_3.closeReason)) + "}"), 0, this.onAlertClose);
         }
         private function getCloseReasonKey(_arg_1:int):String
         {
@@ -189,7 +189,7 @@ package com.sulake.habbo.help
                 default:
                     _local_4 = CallForHelpResultEnum.CFHRE_SENT_OK;
             };
-            this._component.HelpUI(_local_4);
+            this._component.showCallForHelpResult(_local_4);
         }
         private function onPendingCallsForHelpDeleted(_arg_1:IMessageEvent):void
         {
@@ -281,7 +281,7 @@ package com.sulake.habbo.help
                 return;
             };
             _local_3.storeAnswerText(_local_2.questionId, _local_2.answerText);
-            var _local_4:FaqItem = _local_3.GroupItem(_local_2.questionId);
+            var _local_4:FaqItem = _local_3.getItem(_local_2.questionId);
             if (_local_4 != null){
                 this._component.tellUI(HabboHelpViewEnum.HHVE_FAQ_TOPICS, _local_4);
             };
@@ -305,7 +305,7 @@ package com.sulake.habbo.help
             this._component.showUI(HabboHelpViewEnum.HHVE_FAQ_SEARCH);
             this._component.tellUI(HabboHelpViewEnum.HHVE_FAQ_SEARCH, _local_5);
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -360,8 +360,8 @@ package com.sulake.habbo.help
 // getSearchResultCategory = "_-2O6" (String#19969, DoABC#2)
 // storeItem = "_-1Tt" (String#17661, DoABC#2)
 // setTimeStamp = "_-2L" (String#19846, DoABC#2)
-// HelpUI = "_-1DY" (String#17005, DoABC#2)
-// HelpUI = "_-0VS" (String#15260, DoABC#2)
+// showCallForHelpReply = "_-1DY" (String#17005, DoABC#2)
+// showCallForHelpResult = "_-0VS" (String#15260, DoABC#2)
 // onUserNameChanged = "_-dO" (String#23776, DoABC#2)
 // onChangeUserNameResult = "_-06v" (String#1405, DoABC#2)
 // onCheckUserNameResult = "_-2F9" (String#6344, DoABC#2)
@@ -384,7 +384,7 @@ package com.sulake.habbo.help
 // tutorialUI = "_-09R" (String#14427, DoABC#2)
 // hotelMergeUI = "_-0WV" (String#15299, DoABC#2)
 // getCloseReasonKey = "_-V6" (String#23452, DoABC#2)
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
 // updateTutorial = "_-3KM" (String#22297, DoABC#2)
 // initHotelMergeUI = "_-2MZ" (String#19909, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
@@ -433,14 +433,14 @@ package com.sulake.habbo.help
 // userType = "_-0Dh" (String#14596, DoABC#2)
 // questionId = "_-3-c" (String#21486, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
-// UsersMessageParser = "_-xV" (String#24590, DoABC#2)
-// UsersMessageParser = "_-0C8" (String#14534, DoABC#2)
+// getUserCount = "_-xV" (String#24590, DoABC#2)
+// getUser = "_-0C8" (String#14534, DoABC#2)
 // webID = "_-2uI" (String#7166, DoABC#2)
 // _SafeStr_3740 = "_-39-" (String#21844, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // privateRoom = "_-26S" (String#19271, DoABC#2)
 // owner = "_-1S6" (String#17586, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // _SafeStr_5260 = "_-3Hm" (String#7661, DoABC#2)
 // registerRoom = "_-30l" (String#21530, DoABC#2)
 // registerUser = "_-Hq" (String#22924, DoABC#2)
@@ -448,10 +448,10 @@ package com.sulake.habbo.help
 // newName = "_-2Fm" (String#19634, DoABC#2)
 // _component = "_-2cU" (String#305, DoABC#2)
 // itemCount = "_-1fH" (String#18108, DoABC#2)
-// RoomMessageHandler = "_-1eu" (String#1735, DoABC#2)
+// onUsers = "_-1eu" (String#1735, DoABC#2)
 // onUserChange = "_-0uf" (String#827, DoABC#2)
 // onUserNameChange = "_-37e" (String#2005, DoABC#2)
-// SessionDataManager = "_-0KO" (String#583, DoABC#2)
+// onRoomReady = "_-0KO" (String#583, DoABC#2)
 // hasChangedName = "_-33G" (String#7371, DoABC#2)
 // HHVE_HELP_FRONTPAGE = "_-2WD" (String#20292, DoABC#2)
 // HHVE_FAQ_TOP = "_-0et" (String#15622, DoABC#2)

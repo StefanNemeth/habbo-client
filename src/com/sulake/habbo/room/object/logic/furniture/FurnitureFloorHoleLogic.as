@@ -13,7 +13,7 @@ package com.sulake.habbo.room.object.logic.furniture
         private static const _SafeStr_12481:int = 0;
 
         private var _SafeStr_7903:int = -1;
-        private var _RoomCamera:Vector3d = null;
+        private var _location:Vector3d = null;
 
         override public function dispose():void
         {
@@ -25,7 +25,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectFloorHoleEvent.RORPFHUM_ADD, RoomObjectFloorHoleEvent.RORPFHUM_REMOVE];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function processUpdateMessage(_arg_1:RoomObjectUpdateMessage):void
         {
@@ -52,11 +52,11 @@ package com.sulake.habbo.room.object.logic.furniture
                     };
                 };
                 _local_3 = object.getLocation();
-                if (this._RoomCamera == null){
-                    this._RoomCamera = new Vector3d();
+                if (this._location == null){
+                    this._location = new Vector3d();
                 }
                 else {
-                    if (((!((_local_3.x == this._RoomCamera.x))) || (!((_local_3.y == this._RoomCamera.y))))){
+                    if (((!((_local_3.x == this._location.x))) || (!((_local_3.y == this._location.y))))){
                         if (this._SafeStr_7903 == _SafeStr_12481){
                             if (eventDispatcher != null){
                                 eventDispatcher.dispatchEvent(new RoomObjectFloorHoleEvent(RoomObjectFloorHoleEvent.RORPFHUM_ADD, object.getId(), object.getType()));
@@ -64,7 +64,7 @@ package com.sulake.habbo.room.object.logic.furniture
                         };
                     };
                 };
-                this._RoomCamera.assign(_local_3);
+                this._location.assign(_local_3);
             };
         }
 
@@ -72,7 +72,7 @@ package com.sulake.habbo.room.object.logic.furniture
 }//package com.sulake.habbo.room.object.logic.furniture
 
 // _SafeStr_12481 = "_-08J" (String#14376, DoABC#2)
-// _RoomCamera = "_-1Xk" (String#5512, DoABC#2)
+// _location = "_-1Xk" (String#5512, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // FurnitureMultiStateLogic = "_-23" (String#6104, DoABC#2)
@@ -80,7 +80,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomObjectUpdateMessage = "_-73" (String#22503, DoABC#2)
 // RoomObjectDataUpdateMessage = "_-2N4" (String#19928, DoABC#2)
 // RoomObjectFloorHoleEvent = "_-2j-" (String#20806, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // RORPFHUM_ADD = "_-wb" (String#24555, DoABC#2)
 // RORPFHUM_REMOVE = "_-0CG" (String#14540, DoABC#2)

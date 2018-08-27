@@ -58,7 +58,7 @@ package com.sulake.habbo.catalog.marketplace
                 this._window.dispose();
             };
             this._window = (this.createWindow("marketplace_purchase_confirmation") as IFrameWindow);
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             this._window.center();
             var _local_3:ITextWindow = (this._window.findChildByName("header_text") as ITextWindow);
             if (_local_3){
@@ -140,7 +140,7 @@ package com.sulake.habbo.catalog.marketplace
                 };
             };
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((!(_arg_1)) || (!(_arg_2)))){
                 return;
@@ -206,7 +206,7 @@ package com.sulake.habbo.catalog.marketplace
 // MarketplaceConfirmationDialog = "_-ln" (String#8638, DoABC#2)
 // IGetImageListener = "_-2i7" (String#6909, DoABC#2)
 // furniId = "_-2KO" (String#6454, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // setImage = "_-1NZ" (String#603, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // _offer = "_-1jb" (String#165, DoABC#2)

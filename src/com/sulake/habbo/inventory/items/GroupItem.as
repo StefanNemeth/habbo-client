@@ -77,13 +77,13 @@ package com.sulake.habbo.inventory.items
             this._iconImage = _arg_1;
             this._isImageInited = true;
             this._iconCallbackId = -1;
-            this.GroupItem();
+            this.updateThumbData();
         }
         private function setLoadingImage(_arg_1:BitmapData):void
         {
             this._iconImage = _arg_1;
             this._isImageInited = true;
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function initImage(_arg_1:Boolean=true):void
         {
@@ -121,7 +121,7 @@ package com.sulake.habbo.inventory.items
         {
             if (this._selected != _arg_1){
                 this._selected = _arg_1;
-                this.GroupItem();
+                this.updateThumbData();
             };
         }
         public function get window():IWindowContainer
@@ -189,7 +189,7 @@ package com.sulake.habbo.inventory.items
         public function set showRecyclable(_arg_1:Boolean):void
         {
             this._SafeStr_11511 = _arg_1;
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function push(_arg_1:IItem, _arg_2:Boolean=false):void
         {
@@ -203,7 +203,7 @@ package com.sulake.habbo.inventory.items
             if (_arg_2){
                 this._SafeStr_11513 = true;
             };
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function unshift(_arg_1:IItem):void
         {
@@ -214,7 +214,7 @@ package com.sulake.habbo.inventory.items
             else {
                 _local_2.locked = false;
             };
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function pop():IItem
         {
@@ -223,7 +223,7 @@ package com.sulake.habbo.inventory.items
                 _local_1 = (this._items.getWithIndex((this._items.length - 1)) as IItem);
                 this._items.remove(_local_1.id);
             };
-            this.GroupItem();
+            this.updateThumbData();
             return (_local_1);
         }
         public function _SafeStr_7867():IItem
@@ -234,11 +234,11 @@ package com.sulake.habbo.inventory.items
             };
             return (_local_1);
         }
-        public function GroupItem(_arg_1:int):IItem
+        public function getAt(_arg_1:int):IItem
         {
             return (this._items.getWithIndex(_arg_1));
         }
-        public function GroupItem():IItem
+        public function getOneForTrade():IItem
         {
             var _local_2:IItem;
             var _local_1:int;
@@ -251,21 +251,21 @@ package com.sulake.habbo.inventory.items
             };
             return (null);
         }
-        public function GroupItem():IItem
+        public function getOneForRecycle():IItem
         {
             var _local_2:IItem;
             var _local_1:int;
             while (_local_1 < this._items.length) {
                 _local_2 = this._items.getWithIndex(_local_1);
                 if (((!(_local_2.locked)) && (_local_2.recyclable))){
-                    this.GroupItem(_local_2.id);
+                    this.addLockTo(_local_2.id);
                     return (_local_2);
                 };
                 _local_1++;
             };
             return (null);
         }
-        public function GroupItem():IItem
+        public function getOneForSelling():IItem
         {
             var _local_2:IItem;
             var _local_1:int;
@@ -278,7 +278,7 @@ package com.sulake.habbo.inventory.items
             };
             return (null);
         }
-        public function GroupItem():Array
+        public function getFurniIds():Array
         {
             var _local_2:IItem;
             var _local_1:Array = [];
@@ -287,7 +287,7 @@ package com.sulake.habbo.inventory.items
             };
             return (_local_1);
         }
-        public function GroupItem(_arg_1:int):Boolean
+        public function addLockTo(_arg_1:int):Boolean
         {
             var _local_3:IItem;
             var _local_2:int;
@@ -295,14 +295,14 @@ package com.sulake.habbo.inventory.items
                 _local_3 = this._items.getWithIndex(_local_2);
                 if (_local_3.id == _arg_1){
                     _local_3.locked = true;
-                    this.GroupItem();
+                    this.updateThumbData();
                     return (true);
                 };
                 _local_2++;
             };
             return (false);
         }
-        public function GroupItem(_arg_1:Array):void
+        public function addLocksFromData(_arg_1:Array):void
         {
             var _local_3:IItem;
             var _local_2:int = (this._items.length - 1);
@@ -316,9 +316,9 @@ package com.sulake.habbo.inventory.items
                 };
                 _local_2--;
             };
-            this.GroupItem();
+            this.updateThumbData();
         }
-        public function GroupItem(_arg_1:int):Boolean
+        public function removeLockFrom(_arg_1:int):Boolean
         {
             var _local_3:IItem;
             var _local_2:int;
@@ -326,14 +326,14 @@ package com.sulake.habbo.inventory.items
                 _local_3 = this._items.getWithIndex(_local_2);
                 if (_local_3.id == _arg_1){
                     _local_3.locked = false;
-                    this.GroupItem();
+                    this.updateThumbData();
                     return (true);
                 };
                 _local_2++;
             };
             return (false);
         }
-        public function GroupItem():void
+        public function removeAllLocks():void
         {
             var _local_2:IItem;
             var _local_1:int = (this._items.length - 1);
@@ -342,9 +342,9 @@ package com.sulake.habbo.inventory.items
                 _local_2.locked = false;
                 _local_1--;
             };
-            this.GroupItem();
+            this.updateThumbData();
         }
-        public function GroupItem():int
+        public function getTotalCount():int
         {
             var _local_1:int;
             var _local_2:int;
@@ -361,7 +361,7 @@ package com.sulake.habbo.inventory.items
             };
             return (this._items.length);
         }
-        public function GroupItem():int
+        public function getRecyclableCount():int
         {
             var _local_3:IItem;
             var _local_1:int;
@@ -375,7 +375,7 @@ package com.sulake.habbo.inventory.items
             };
             return (_local_1);
         }
-        public function GroupItem():int
+        public function getTradeableCount():int
         {
             var _local_3:IItem;
             var _local_1:int;
@@ -394,25 +394,25 @@ package com.sulake.habbo.inventory.items
             var _local_2:IItem = this._items.getValue(_arg_1);
             if (_local_2){
                 this._items.remove(_arg_1);
-                this.GroupItem();
+                this.updateThumbData();
                 return (_local_2);
             };
             return (null);
         }
-        public function GroupItem(_arg_1:int):IItem
+        public function getItem(_arg_1:int):IItem
         {
             return (this._items.getValue(_arg_1));
         }
-        public function GroupItem(_arg_1:int, _arg_2:IItem):void
+        public function replaceItem(_arg_1:int, _arg_2:IItem):void
         {
             this._items.add(_arg_1, _arg_2);
-            this.GroupItem();
+            this.updateThumbData();
         }
-        public function GroupItem():int
+        public function getUnlockedCount():int
         {
             var _local_1:IItem;
             if (this.category == FurniCategory._SafeStr_7054){
-                return (this.GroupItem());
+                return (this.getTotalCount());
             };
             var _local_2:int;
             var _local_3:int;
@@ -425,7 +425,7 @@ package com.sulake.habbo.inventory.items
             };
             return (_local_2);
         }
-        public function GroupItem():void
+        public function updateThumbData():void
         {
             var _local_6:BitmapData;
             var _local_7:BitmapData;
@@ -436,7 +436,7 @@ package com.sulake.habbo.inventory.items
                 return;
             };
             var _local_1:IBitmapWrapperWindow = (this._window.findChildByName("bitmap") as IBitmapWrapperWindow);
-            var _local_2:int = this.GroupItem();
+            var _local_2:int = this.getUnlockedCount();
             if (_local_1){
                 if (this._iconImage != null){
                     _local_6 = this._iconImage;
@@ -466,7 +466,7 @@ package com.sulake.habbo.inventory.items
             };
             var _local_5:IBitmapWrapperWindow = (this._window.findChildByName("recyclable_container") as IBitmapWrapperWindow);
             if (_local_5){
-                if (((this._SafeStr_11511) && ((this.GroupItem() > 0)))){
+                if (((this._SafeStr_11511) && ((this.getRecyclableCount() > 0)))){
                     _local_5.bitmap = this._SafeStr_11512;
                     _local_5.visible = true;
                 }
@@ -482,13 +482,13 @@ package com.sulake.habbo.inventory.items
                 return;
             };
             this._iconImage = _arg_2;
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function set hasUnseenItems(_arg_1:Boolean):void
         {
             if (this._SafeStr_11513 != _arg_1){
                 this._SafeStr_11513 = _arg_1;
-                this.GroupItem();
+                this.updateThumbData();
             };
         }
 
@@ -508,14 +508,14 @@ package com.sulake.habbo.inventory.items
 // setLoadingImage = "_-2N1" (String#19926, DoABC#2)
 // isLocked = "_-1W2" (String#17745, DoABC#2)
 // iconCallbackId = "_-2dD" (String#20572, DoABC#2)
-// GroupItem = "_-yg" (String#24639, DoABC#2)
+// getOneForSelling = "_-yg" (String#24639, DoABC#2)
 // ImageResult = "_-31w" (String#21576, DoABC#2)
 // FurniCategory = "_-0lm" (String#15890, DoABC#2)
 // IItem = "_-1-k" (String#4863, DoABC#2)
 // GroupItem = "_-0qS" (String#4647, DoABC#2)
 // FurniModelCategory = "_-1a8" (String#5563, DoABC#2)
 // IGetImageListener = "_-2i7" (String#6909, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // extra = "_-2We" (String#6693, DoABC#2)
 // _stuffData = "_-1XY" (String#365, DoABC#2)
 // _extra = "_-2Rq" (String#246, DoABC#2)
@@ -524,28 +524,28 @@ package com.sulake.habbo.inventory.items
 // previewCallbackId = "_-2QR" (String#20063, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // showRecyclable = "_-38g" (String#21829, DoABC#2)
-// GroupItem = "_-2FC" (String#19612, DoABC#2)
+// removeLockFrom = "_-2FC" (String#19612, DoABC#2)
 // _SafeStr_7054 = "_-1LD" (String#17322, DoABC#2)
 // S = "_-Ch" (String#22713, DoABC#2)
 // isImageInited = "_-03j" (String#14191, DoABC#2)
 // initImage = "_-2Hp" (String#19719, DoABC#2)
 // isImageFinished = "_-0rt" (String#16118, DoABC#2)
-// GroupItem = "_-O5" (String#23172, DoABC#2)
-// GroupItem = "_-2gP" (String#20704, DoABC#2)
-// GroupItem = "_-oD" (String#24199, DoABC#2)
+// removeAllLocks = "_-O5" (String#23172, DoABC#2)
+// addLocksFromData = "_-2gP" (String#20704, DoABC#2)
+// addLockTo = "_-oD" (String#24199, DoABC#2)
 // ref = "_-Jx" (String#8081, DoABC#2)
-// GroupItem = "_-1uB" (String#18723, DoABC#2)
-// GroupItem = "_-1qs" (String#18574, DoABC#2)
-// GroupItem = "_-2rq" (String#21148, DoABC#2)
+// getTotalCount = "_-1uB" (String#18723, DoABC#2)
+// replaceItem = "_-1qs" (String#18574, DoABC#2)
+// getUnlockedCount = "_-2rq" (String#21148, DoABC#2)
 // _SafeStr_7867 = "catch" (String#25155, DoABC#2)
-// GroupItem = "_-1OC" (String#17442, DoABC#2)
-// GroupItem = "_-2GC" (String#19650, DoABC#2)
-// GroupItem = "_-0yu" (String#16388, DoABC#2)
-// GroupItem = "_-2Rv" (String#20115, DoABC#2)
+// getOneForTrade = "_-1OC" (String#17442, DoABC#2)
+// getOneForRecycle = "_-2GC" (String#19650, DoABC#2)
+// getAt = "_-0yu" (String#16388, DoABC#2)
+// getFurniIds = "_-2Rv" (String#20115, DoABC#2)
 // hasUnseenItems = "_-t0" (String#24406, DoABC#2)
 // mainCategory = "_-JH" (String#22977, DoABC#2)
-// GroupItem = "_-0fV" (String#15650, DoABC#2)
-// GroupItem = "_-0sX" (String#16143, DoABC#2)
+// getTradeableCount = "_-0fV" (String#15650, DoABC#2)
+// getRecyclableCount = "_-0sX" (String#16143, DoABC#2)
 // tradeable = "_-3E5" (String#7597, DoABC#2)
 // _iconImage = "_-bc" (String#2138, DoABC#2)
 // _SafeStr_8489 = "_-1YT" (String#1708, DoABC#2)
@@ -553,6 +553,6 @@ package com.sulake.habbo.inventory.items
 // _SafeStr_8491 = "_-2y0" (String#903, DoABC#2)
 // _SafeStr_8492 = "_-zz" (String#2236, DoABC#2)
 // _locked = "_-2vv" (String#902, DoABC#2)
-// GroupItem = "_-rZ" (String#8730, DoABC#2)
+// updateThumbData = "_-rZ" (String#8730, DoABC#2)
 
 

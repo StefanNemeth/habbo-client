@@ -21,7 +21,7 @@ package com.sulake.core.window.components
                 switch (_arg_2.type){
                     case WindowMouseEvent.WME_UP:
                         if (isSelected){
-                            ISelectableWindow();
+                            unselect();
                         }
                         else {
                             select();
@@ -41,6 +41,6 @@ package com.sulake.core.window.components
 // SelectableController = "_-13l" (String#4949, DoABC#2)
 // CheckBoxController = "_-0pH" (String#4619, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
 
 

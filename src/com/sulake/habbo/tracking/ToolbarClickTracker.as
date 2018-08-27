@@ -19,7 +19,7 @@ package com.sulake.habbo.tracking
         {
             this._SafeStr_13789 = null;
         }
-        public function FramerateTracker(_arg_1:IHabboConfigurationManager):void
+        public function configure(_arg_1:IHabboConfigurationManager):void
         {
             this._enabled = Boolean(parseInt(_arg_1.getKey("toolbar.tracking.enabled", "1")));
             this._SafeStr_13790 = parseInt(_arg_1.getKey("toolbar.tracking.max.events", "100"));
@@ -41,7 +41,7 @@ package com.sulake.habbo.tracking
 // _SafeStr_13789 = "_-2HY" (String#6395, DoABC#2)
 // _SafeStr_13790 = "_-3-B" (String#21468, DoABC#2)
 // _SafeStr_13791 = "_-1Mo" (String#17392, DoABC#2)
-// FramerateTracker = "_-2eD" (String#20612, DoABC#2)
+// configure = "_-2eD" (String#20612, DoABC#2)
 // IHabboTracking = "_-0fl" (String#4419, DoABC#2)
 // _enabled = "_-38q" (String#2010, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)

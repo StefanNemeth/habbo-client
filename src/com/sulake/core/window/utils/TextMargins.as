@@ -19,7 +19,7 @@ package com.sulake.core.window.utils
             this._top = _arg_2;
             this._right = _arg_3;
             this._bottom = _arg_4;
-            this._callback = (((_arg_5)!=null) ? _arg_5 : this.TextMargins);
+            this._callback = (((_arg_5)!=null) ? _arg_5 : this.nullCallback);
         }
         public function get left():int
         {
@@ -71,7 +71,7 @@ package com.sulake.core.window.utils
             this._top = _arg_2;
             this._right = _arg_3;
             this._bottom = _arg_4;
-            this._callback = (((_arg_5)!=null) ? _arg_5 : this.TextMargins);
+            this._callback = (((_arg_5)!=null) ? _arg_5 : this.nullCallback);
         }
         public function clone(_arg_1:Function):TextMargins
         {
@@ -82,7 +82,7 @@ package com.sulake.core.window.utils
             this._callback = null;
             this._disposed = true;
         }
-        private function TextMargins(_arg_1:IMargins):void
+        private function nullCallback(_arg_1:IMargins):void
         {
         }
 
@@ -95,7 +95,7 @@ package com.sulake.core.window.utils
 // _callback = "_-0t2" (String#593, DoABC#2)
 // _left = "_-iR" (String#8567, DoABC#2)
 // _bottom = "_-0nY" (String#4581, DoABC#2)
-// TextMargins = "_-f5" (String#23849, DoABC#2)
+// nullCallback = "_-f5" (String#23849, DoABC#2)
 // isZeroes = "_-2Yv" (String#20392, DoABC#2)
 
 

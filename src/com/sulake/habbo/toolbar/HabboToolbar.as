@@ -121,7 +121,7 @@ package com.sulake.habbo.toolbar
         private function onCommunicationManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._communicationManager = IHabboCommunicationManager(_arg_2);
-            this._connection = this._communicationManager.HabboCommunicationManager(null);
+            this._connection = this._communicationManager.getHabboMainConnection(null);
             this.tryInitialize();
         }
         private function onWindowManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -157,7 +157,7 @@ package com.sulake.habbo.toolbar
         private function tryInitialize():void
         {
             if (((((((((((((this._communicationManager) && (this._windowManager))) && (this._config))) && (this._localization))) && (this._inventory))) && (this._catalog))) && (this._soundManager))){
-                this._communicationManager.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
+                this._communicationManager.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
                 unlock();
             };
         }
@@ -175,8 +175,8 @@ package com.sulake.habbo.toolbar
                     if (this._config.getBoolean("supersaverads.video.promo.enabled", false)){
                         this._SafeStr_13784 = new VideoOfferExtension(this, this._windowManager, this._assetLibrary, events, this._config, this._localization, this._inventory, this._catalog, this._connection);
                     };
-                    this._extensionView.ExtensionView(_SafeStr_13779, this._SafeStr_13782.window, ExtensionFixedSlotsEnum._SafeStr_13774);
-                    this._extensionView.ExtensionView(_SafeStr_13780, this._SafeStr_13781.window, ExtensionFixedSlotsEnum._SafeStr_13775);
+                    this._extensionView.attachExtension(_SafeStr_13779, this._SafeStr_13782.window, ExtensionFixedSlotsEnum._SafeStr_13774);
+                    this._extensionView.attachExtension(_SafeStr_13780, this._SafeStr_13781.window, ExtensionFixedSlotsEnum._SafeStr_13775);
                 };
             };
             if (this._view == null){
@@ -225,10 +225,10 @@ package com.sulake.habbo.toolbar
                 return;
             };
             if (_arg_1){
-                this._SafeStr_13781.ExtraToolsExtension();
+                this._SafeStr_13781.showRoomInfo();
             }
             else {
-                this._SafeStr_13781.ExtraToolsExtension();
+                this._SafeStr_13781.hideRoomInfo();
             };
         }
         public function setIconBitmap(_arg_1:String, _arg_2:BitmapData):void
@@ -286,16 +286,16 @@ package com.sulake.habbo.toolbar
 // ExtensionFixedSlotsEnum = "_-0tc" (String#16185, DoABC#2)
 // ExtensionView = "_-20R" (String#6055, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // soundManager = "_-1sN" (String#5892, DoABC#2)
 // _inventory = "_-1O" (String#113, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
-// ExtraToolsExtension = "_-08z" (String#14406, DoABC#2)
-// ExtraToolsExtension = "_-1rC" (String#18590, DoABC#2)
+// hideRoomInfo = "_-08z" (String#14406, DoABC#2)
+// showRoomInfo = "_-1rC" (String#18590, DoABC#2)
 // toggleWindowVisibility = "_-0g0" (String#15672, DoABC#2)
 // extensionView = "_-qR" (String#8717, DoABC#2)
-// ExtensionView = "_-01F" (String#3587, DoABC#2)
+// attachExtension = "_-01F" (String#3587, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // setIconBitmap = "_-27Q" (String#1818, DoABC#2)

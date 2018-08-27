@@ -121,13 +121,13 @@ package com.sulake.habbo.catalog.viewer
         }
         public function get links():Array
         {
-            return (this._localization.PageLocalization(this._layoutCode));
+            return (this._localization.getLinks(this._layoutCode));
         }
         public function get hasLinks():Boolean
         {
             return (this._localization.hasLinks(this._layoutCode));
         }
-        public function ICatalogPage(_arg_1:int):void
+        public function selectOffer(_arg_1:int):void
         {
             var _local_2:Offer;
             var _local_3:IGridItem;
@@ -170,7 +170,7 @@ package com.sulake.habbo.catalog.viewer
         public function init():void
         {
             if (this.createWindow(this.layoutCode)){
-                this.CatalogPage();
+                this.createWidgets();
             };
         }
         public function closed():void
@@ -201,12 +201,12 @@ package com.sulake.habbo.catalog.viewer
         private function localize():void
         {
         }
-        private function CatalogPage():void
+        private function createWidgets():void
         {
-            this.CatalogPage(this._window);
-            this.CatalogPage();
+            this.createWidgetsRecursion(this._window);
+            this.initializeWidgets();
         }
-        private function CatalogPage(_arg_1:IWindowContainer):void
+        private function createWidgetsRecursion(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             var _local_3:IWindowContainer;
@@ -216,7 +216,7 @@ package com.sulake.habbo.catalog.viewer
                     _local_3 = (_arg_1.getChildAt(_local_2) as IWindowContainer);
                     if (_local_3 != null){
                         this.createWidget(_local_3);
-                        this.CatalogPage(_local_3);
+                        this.createWidgetsRecursion(_local_3);
                     };
                     _local_2++;
                 };
@@ -311,7 +311,7 @@ package com.sulake.habbo.catalog.viewer
                     return;
             };
         }
-        private function CatalogPage():void
+        private function initializeWidgets():void
         {
             var _local_1:ICatalogWidget;
             var _local_2:Array = [];
@@ -322,11 +322,11 @@ package com.sulake.habbo.catalog.viewer
                     _local_2.push(_local_1);
                 };
             };
-            this.CatalogPage(_local_2);
-            this.CatalogPage();
+            this.removeWidgets(_local_2);
+            this.initializeLocalizations();
             this._SafeStr_5036.dispatchEvent(new CatalogWidgetsInitializedEvent());
         }
-        private function CatalogPage():void
+        private function initializeLocalizations():void
         {
             var _local_1:ICatalogWidget = new LocalizationCatalogWidget(this._window);
             this._SafeStr_5035.push(_local_1);
@@ -334,7 +334,7 @@ package com.sulake.habbo.catalog.viewer
             _local_1.events = this._SafeStr_5036;
             _local_1.init();
         }
-        private function CatalogPage(_arg_1:Array):void
+        private function removeWidgets(_arg_1:Array):void
         {
             var _local_2:ICatalogWidget;
             var _local_3:ICatalogWidget;
@@ -429,7 +429,7 @@ package com.sulake.habbo.catalog.viewer
 // PetsCatalogWidget = "_-rp" (String#8733, DoABC#2)
 // TraxPreviewCatalogWidget = "_-JI" (String#8069, DoABC#2)
 // MarketPlaceOwnItemsCatalogWidget = "_-2Di" (String#6316, DoABC#2)
-// PageLocalization = "_-Eu" (String#7970, DoABC#2)
+// getLinks = "_-Eu" (String#7970, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // localizationId = "_-0nF" (String#4575, DoABC#2)
 // priceInCredits = "_-0Is" (String#3931, DoABC#2)
@@ -440,7 +440,7 @@ package com.sulake.habbo.catalog.viewer
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // expiration = "_-1G1" (String#1648, DoABC#2)
 // dispatchWidgetEvent = "_-2V-" (String#1888, DoABC#2)
-// ICatalogPage = "_-26U" (String#6175, DoABC#2)
+// selectOffer = "_-26U" (String#6175, DoABC#2)
 // _SafeStr_5031 = "_-3H5" (String#22167, DoABC#2)
 // _SafeStr_5032 = "_-0Tq" (String#4176, DoABC#2)
 // _pageId = "_-251" (String#366, DoABC#2)
@@ -449,10 +449,10 @@ package com.sulake.habbo.catalog.viewer
 // _SafeStr_5036 = "_-0xe" (String#16339, DoABC#2)
 // _SafeStr_5037 = "_-Rr" (String#23319, DoABC#2)
 // furniClassId = "_-1lo" (String#18367, DoABC#2)
-// CatalogPage = "_-2YP" (String#20373, DoABC#2)
+// createWidgets = "_-2YP" (String#20373, DoABC#2)
 // localize = "_-2KD" (String#6450, DoABC#2)
-// CatalogPage = "_-2tC" (String#21210, DoABC#2)
-// CatalogPage = "_-1dp" (String#18051, DoABC#2)
+// createWidgetsRecursion = "_-2tC" (String#21210, DoABC#2)
+// initializeWidgets = "_-1dp" (String#18051, DoABC#2)
 // createWidget = "_-2kN" (String#1932, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // _SafeStr_5045 = "_-0Fu" (String#14678, DoABC#2)
@@ -483,7 +483,7 @@ package com.sulake.habbo.catalog.viewer
 // _SafeStr_5070 = "_-1Bq" (String#16934, DoABC#2)
 // _SafeStr_5071 = "_-0Yj" (String#15388, DoABC#2)
 // _SafeStr_5072 = "_-0LI" (String#14886, DoABC#2)
-// CatalogPage = "_-2ea" (String#20629, DoABC#2)
-// CatalogPage = "_-21c" (String#19078, DoABC#2)
+// removeWidgets = "_-2ea" (String#20629, DoABC#2)
+// initializeLocalizations = "_-21c" (String#19078, DoABC#2)
 
 

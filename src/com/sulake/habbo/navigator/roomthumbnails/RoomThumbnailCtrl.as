@@ -69,11 +69,11 @@ package com.sulake.habbo.navigator.roomthumbnails
             this._SafeStr_6056 = IButtonWindow(this.find("obj_tab"));
             this._SafeStr_6057 = IWindowContainer(this.find("tile_grid"));
             this._SafeStr_6058 = IWindowContainer(this.find("now_editing_container"));
-            Util.setProcDirectly(this.find("save"), this.RoomThumbnailCtrl);
-            Util.setProcDirectly(this.find("cancel"), this.RoomThumbnailCtrl);
-            Util.setProcDirectly(this._SafeStr_6054, this.RoomThumbnailCtrl);
-            Util.setProcDirectly(this._SafeStr_6055, this.RoomThumbnailCtrl);
-            Util.setProcDirectly(this._SafeStr_6056, this.RoomThumbnailCtrl);
+            Util.setProcDirectly(this.find("save"), this.onSaveButton);
+            Util.setProcDirectly(this.find("cancel"), this.onCancelButton);
+            Util.setProcDirectly(this._SafeStr_6054, this.onBgTabButton);
+            Util.setProcDirectly(this._SafeStr_6055, this.onTopTabButton);
+            Util.setProcDirectly(this._SafeStr_6056, this.onObjTabButton);
         }
         private function find(_arg_1:String):IWindow
         {
@@ -83,11 +83,11 @@ package com.sulake.habbo.navigator.roomthumbnails
             };
             return (_local_2);
         }
-        private function RoomThumbnailCtrl(_arg_1:int):IWindowContainer
+        private function getImgSelectorContainer(_arg_1:int):IWindowContainer
         {
             return (IWindowContainer(this._window.findChildByName(("img_selector_container_" + _arg_1))));
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSaveButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_4:RoomThumbnailObjectData;
             var _local_5:UpdateRoomThumbnailMessageComposer;
@@ -107,7 +107,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             };
             this._navigator.send(_local_5);
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onCancelButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -115,7 +115,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             Logger.log("cancel clicked");
             this._navigator.roomInfoViewCtrl.backToRoomSettings();
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onBgTabButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -124,7 +124,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6034;
             this.reload();
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onTopTabButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -133,7 +133,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6036;
             this.reload();
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onObjTabButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -142,7 +142,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6037;
             this.reload();
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSelectPos(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -151,7 +151,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             this._SafeStr_4830.setPos(_arg_2.id);
             this.reload();
         }
-        private function RoomThumbnailCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onImgSel(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -167,9 +167,9 @@ package com.sulake.habbo.navigator.roomthumbnails
             };
             this.prepareWindow(_arg_1);
             this.refreshHeader();
-            this.RoomThumbnailCtrl();
-            this.RoomThumbnailCtrl();
-            this.RoomThumbnailCtrl();
+            this.refreshTab();
+            this.refreshEditArea();
+            this.refreshImgSelectors();
             this._window.height = (Util.getLowestPoint(this._window) + 4);
             this._window.visible = true;
         }
@@ -177,24 +177,24 @@ package com.sulake.habbo.navigator.roomthumbnails
         {
             this._navigator.roomInfoViewCtrl.reload();
         }
-        private function RoomThumbnailCtrl():void
+        private function refreshTab():void
         {
             this.setEnabled(this._SafeStr_6054, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6034)));
             this.setEnabled(this._SafeStr_6055, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6036)));
             this.setEnabled(this._SafeStr_6056, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037)));
         }
-        private function RoomThumbnailCtrl():void
+        private function refreshEditArea():void
         {
             var _local_1:IWindowContainer = this._SafeStr_6058;
-            Util.InfostandWidget(_local_1);
-            this.RoomThumbnailCtrl(_local_1, "edit_bg", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6034));
-            this.RoomThumbnailCtrl(_local_1, "edit_top", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6036));
-            this.RoomThumbnailCtrl(_local_1, "edit_obj", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037), false);
+            Util.hideChildren(_local_1);
+            this.refreshEditImg(_local_1, "edit_bg", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6034));
+            this.refreshEditImg(_local_1, "edit_top", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6036));
+            this.refreshEditImg(_local_1, "edit_obj", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037), false);
             if (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037){
-                this.RoomThumbnailCtrl();
+                this.refreshPositionGrid();
             };
         }
-        private function RoomThumbnailCtrl(_arg_1:IWindowContainer, _arg_2:String, _arg_3:Boolean, _arg_4:Boolean=true):void
+        private function refreshEditImg(_arg_1:IWindowContainer, _arg_2:String, _arg_3:Boolean, _arg_4:Boolean=true):void
         {
             if (!_arg_3){
                 return;
@@ -211,7 +211,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             _local_5.bitmap = _local_6;
             _local_5.visible = true;
         }
-        private function RoomThumbnailCtrl():void
+        private function refreshPositionGrid():void
         {
             var _local_3:int;
             var _local_4:IBitmapWrapperWindow;
@@ -220,12 +220,12 @@ package com.sulake.habbo.navigator.roomthumbnails
             _local_1.visible = true;
             if (_local_1.numChildren == 0){
                 while (_local_3 <= RoomThumbnailRenderer._SafeStr_6010) {
-                    _local_4 = this._navigator.getButton(("pos_" + _local_3), "rico_tile", this.RoomThumbnailCtrl, 0, 0, _local_3);
-                    this.RoomThumbnailCtrl(_local_4, _local_3);
+                    _local_4 = this._navigator.getButton(("pos_" + _local_3), "rico_tile", this.onSelectPos, 0, 0, _local_3);
+                    this.refreshTileLoc(_local_4, _local_3);
                     _local_1.addChild(_local_4);
-                    _local_5 = this._navigator.getButton(("block_" + _local_3), "rico_tile_x", this.RoomThumbnailCtrl, 0, 0, _local_3);
+                    _local_5 = this._navigator.getButton(("block_" + _local_3), "rico_tile_x", this.onSelectPos, 0, 0, _local_3);
                     _local_5.visible = false;
-                    this.RoomThumbnailCtrl(_local_5, _local_3);
+                    this.refreshTileLoc(_local_5, _local_3);
                     _local_1.addChild(_local_5);
                     _local_3++;
                 };
@@ -237,10 +237,10 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             _local_2.visible = true;
-            this.RoomThumbnailCtrl(_local_2, this._SafeStr_4830.selected.pos);
-            this.RoomThumbnailCtrl(_local_1);
+            this.refreshTileLoc(_local_2, this._SafeStr_4830.selected.pos);
+            this.refreshBlockedTiles(_local_1);
         }
-        private function RoomThumbnailCtrl(_arg_1:IWindowContainer):void
+        private function refreshBlockedTiles(_arg_1:IWindowContainer):void
         {
             var _local_3:int;
             var _local_2:Dictionary = this._SafeStr_4830.getBlockedPositions();
@@ -249,22 +249,22 @@ package com.sulake.habbo.navigator.roomthumbnails
                 _local_3++;
             };
         }
-        private function RoomThumbnailCtrl(_arg_1:IBitmapWrapperWindow, _arg_2:int):void
+        private function refreshTileLoc(_arg_1:IBitmapWrapperWindow, _arg_2:int):void
         {
             var _local_3:Point = this._navigator.thumbRenderer.getScreenLocForPos(_arg_2);
             _arg_1.x = _local_3.x;
             _arg_1.y = _local_3.y;
         }
-        private function RoomThumbnailCtrl():void
+        private function refreshImgSelectors():void
         {
-            this.RoomThumbnailCtrl(ThumbnailEditorModel._SafeStr_6034);
-            this.RoomThumbnailCtrl(ThumbnailEditorModel._SafeStr_6036);
-            this.RoomThumbnailCtrl(ThumbnailEditorModel._SafeStr_6037);
+            this.refreshImgSelector(ThumbnailEditorModel._SafeStr_6034);
+            this.refreshImgSelector(ThumbnailEditorModel._SafeStr_6036);
+            this.refreshImgSelector(ThumbnailEditorModel._SafeStr_6037);
         }
-        private function RoomThumbnailCtrl(_arg_1:int):void
+        private function refreshImgSelector(_arg_1:int):void
         {
             var _local_7:ThumbnailImageConfiguration;
-            var _local_2:IWindowContainer = this.RoomThumbnailCtrl(_arg_1);
+            var _local_2:IWindowContainer = this.getImgSelectorContainer(_arg_1);
             if (this._SafeStr_4830.mode != _arg_1){
                 _local_2.visible = false;
                 return;
@@ -272,7 +272,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             _local_2.visible = true;
             var _local_3:IItemListWindow = IItemListWindow(_local_2.findChildByName("img_list"));
             if (_local_3.numListItems == 0){
-                this.RoomThumbnailCtrl(_local_3, _arg_1);
+                this.populateImgList(_local_3, _arg_1);
             };
             var _local_4:Array = this._navigator.thumbRenderer.imageConfigurations.getImageList(_arg_1);
             var _local_5:int = this._SafeStr_4830.getImgId();
@@ -284,7 +284,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 _local_6++;
             };
         }
-        private function RoomThumbnailCtrl(_arg_1:IItemListWindow, _arg_2:int):void
+        private function populateImgList(_arg_1:IItemListWindow, _arg_2:int):void
         {
             var _local_9:int;
             var _local_10:ThumbnailImageConfiguration;
@@ -303,9 +303,9 @@ package com.sulake.habbo.navigator.roomthumbnails
                     _arg_1.addListItem(_local_7);
                 };
                 _local_10 = _local_6[_local_8];
-                _local_11 = IRegionWindow(this._navigator.windowManager.createWindow(("img_" + _local_8), "", WindowType._SafeStr_6090, HabboWindowStyle._SafeStr_4662, (HabboWindowParam._SafeStr_3731 | HabboWindowParam._SafeStr_6023), new Rectangle((_local_9 * _local_5), 0, _local_5, _local_3), this.RoomThumbnailCtrl, _local_10.id));
+                _local_11 = IRegionWindow(this._navigator.windowManager.createWindow(("img_" + _local_8), "", WindowType._SafeStr_6090, HabboWindowStyle._SafeStr_4662, (HabboWindowParam._SafeStr_3731 | HabboWindowParam._SafeStr_6023), new Rectangle((_local_9 * _local_5), 0, _local_5, _local_3), this.onImgSel, _local_10.id));
                 _local_11.mouseThreshold = 0;
-                _local_12 = IBitmapWrapperWindow(this._navigator.windowManager.createWindow(("img_" + _local_8), "", HabboWindowType._SafeStr_6022, HabboWindowStyle._SafeStr_4662, HabboWindowParam._SafeStr_6023, new Rectangle(0, 0, _local_5, _local_3), this.RoomThumbnailCtrl, _local_10.id));
+                _local_12 = IBitmapWrapperWindow(this._navigator.windowManager.createWindow(("img_" + _local_8), "", HabboWindowType._SafeStr_6022, HabboWindowStyle._SafeStr_4662, HabboWindowParam._SafeStr_6023, new Rectangle(0, 0, _local_5, _local_3), this.onImgSel, _local_10.id));
                 _local_12.bitmap = new BitmapData(_local_12.width, _local_12.height);
                 _local_10.registerListImg(_local_12);
                 _local_11.addChild(_local_12);
@@ -345,13 +345,13 @@ package com.sulake.habbo.navigator.roomthumbnails
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // thumbnail = "_-02n" (String#14150, DoABC#2)
 // thumbRenderer = "_-2Ac" (String#19431, DoABC#2)
 // flatId = "_-3CK" (String#21973, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
-// RoomThumbnailCtrl = "_-26v" (String#6182, DoABC#2)
+// refreshTab = "_-26v" (String#6182, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
 // addObj = "_-1Uy" (String#17703, DoABC#2)
@@ -380,32 +380,32 @@ package com.sulake.habbo.navigator.roomthumbnails
 // enteredGuestRoom = "_-2Qx" (String#20085, DoABC#2)
 // prepareWindow = "_-RN" (String#219, DoABC#2)
 // setProcDirectly = "_-24s" (String#19218, DoABC#2)
-// RoomThumbnailCtrl = "_-2AC" (String#19411, DoABC#2)
-// RoomThumbnailCtrl = "_-27z" (String#19329, DoABC#2)
-// RoomThumbnailCtrl = "_-05m" (String#14273, DoABC#2)
-// RoomThumbnailCtrl = "_-Au" (String#22652, DoABC#2)
-// RoomThumbnailCtrl = "_-1rN" (String#18599, DoABC#2)
-// RoomThumbnailCtrl = "_-2VH" (String#20251, DoABC#2)
+// onSaveButton = "_-2AC" (String#19411, DoABC#2)
+// onCancelButton = "_-27z" (String#19329, DoABC#2)
+// onBgTabButton = "_-05m" (String#14273, DoABC#2)
+// onTopTabButton = "_-Au" (String#22652, DoABC#2)
+// onObjTabButton = "_-1rN" (String#18599, DoABC#2)
+// getImgSelectorContainer = "_-2VH" (String#20251, DoABC#2)
 // backToRoomSettings = "_-fe" (String#23873, DoABC#2)
 // roomInfoViewCtrl = "_-HS" (String#22911, DoABC#2)
 // mode = "_-3Cz" (String#2023, DoABC#2)
 // reload = "_-3AK" (String#7519, DoABC#2)
-// RoomThumbnailCtrl = "_-2pD" (String#21048, DoABC#2)
+// onSelectPos = "_-2pD" (String#21048, DoABC#2)
 // setPos = "_-05A" (String#14250, DoABC#2)
-// RoomThumbnailCtrl = "_-0my" (String#15936, DoABC#2)
+// onImgSel = "_-0my" (String#15936, DoABC#2)
 // setImg = "_-wg" (String#24557, DoABC#2)
 // refreshHeader = "_-18C" (String#834, DoABC#2)
-// RoomThumbnailCtrl = "_-0Sr" (String#15164, DoABC#2)
-// RoomThumbnailCtrl = "_-2tV" (String#21222, DoABC#2)
+// refreshEditArea = "_-0Sr" (String#15164, DoABC#2)
+// refreshImgSelectors = "_-2tV" (String#21222, DoABC#2)
 // setEnabled = "_-05S" (String#1399, DoABC#2)
-// RoomThumbnailCtrl = "_-1wd" (String#18828, DoABC#2)
-// RoomThumbnailCtrl = "_-1zd" (String#18953, DoABC#2)
+// refreshEditImg = "_-1wd" (String#18828, DoABC#2)
+// refreshPositionGrid = "_-1zd" (String#18953, DoABC#2)
 // getButton = "_-1sK" (String#18645, DoABC#2)
-// RoomThumbnailCtrl = "_-09p" (String#14439, DoABC#2)
-// RoomThumbnailCtrl = "_-2ab" (String#20469, DoABC#2)
+// refreshTileLoc = "_-09p" (String#14439, DoABC#2)
+// refreshBlockedTiles = "_-2ab" (String#20469, DoABC#2)
 // getBlockedPositions = "_-yo" (String#24643, DoABC#2)
-// RoomThumbnailCtrl = "_-0ha" (String#15731, DoABC#2)
-// RoomThumbnailCtrl = "_-0wO" (String#16286, DoABC#2)
+// refreshImgSelector = "_-0ha" (String#15731, DoABC#2)
+// populateImgList = "_-0wO" (String#16286, DoABC#2)
 // getImgId = "_-0gW" (String#15694, DoABC#2)
 // _SafeStr_6090 = "_-34m" (String#21687, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)

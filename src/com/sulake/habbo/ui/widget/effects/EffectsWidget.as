@@ -70,9 +70,9 @@ package com.sulake.habbo.ui.widget.effects
                 this._view.y = (_local_2.bottom - this._view.height);
                 this._content = (this._view.findChildByName("list") as IScrollableListWindow);
                 _local_3 = this._view.findChildByName("close");
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
                 _local_3 = this._view.findChildByName("get_more");
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.EffectsWidget);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onGetMore);
             };
             this.update();
             this._view.visible = true;
@@ -82,7 +82,7 @@ package com.sulake.habbo.ui.widget.effects
             var _local_1:EffectView;
             var _local_3:IWidgetAvatarEffect;
             var _local_4:int;
-            var _local_2:Array = this.handler.container.inventory.HabboInventory();
+            var _local_2:Array = this.handler.container.inventory.getAvatarEffects();
             for each (_local_3 in _local_2) {
                 _local_1 = (this._SafeStr_8060.getValue(_local_3.type) as EffectView);
                 if (_local_1){
@@ -108,20 +108,20 @@ package com.sulake.habbo.ui.widget.effects
             this._content.height = Math.max(Math.min(_local_5, _SafeStr_8057), _SafeStr_8058);
             this._view.findChildByName("no_effects").visible = (_local_2.length == 0);
         }
-        public function EffectsWidget(_arg_1:int, _arg_2:Boolean):void
+        public function selectEffect(_arg_1:int, _arg_2:Boolean):void
         {
             if (_arg_2){
-                this.handler.container.inventory.HabboInventory(_arg_1);
+                this.handler.container.inventory.setEffectDeselected(_arg_1);
             }
             else {
-                this.handler.container.inventory.HabboInventory(_arg_1);
+                this.handler.container.inventory.setEffectSelected(_arg_1);
             };
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this._view.visible = false;
         }
-        private function EffectsWidget(_arg_1:WindowMouseEvent):void
+        private function onGetMore(_arg_1:WindowMouseEvent):void
         {
             this.handler.container.catalog.openCatalogPage(CatalogPageName._SafeStr_6005, true);
         }
@@ -141,17 +141,17 @@ package com.sulake.habbo.ui.widget.effects
 // _handler = "_-1Eb" (String#5153, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // _SafeStr_6005 = "_-25o" (String#19251, DoABC#2)
-// HabboInventory = "_-aN" (String#2133, DoABC#2)
-// HabboInventory = "_-1Ct" (String#1634, DoABC#2)
-// HabboInventory = "_-2rY" (String#1952, DoABC#2)
+// getAvatarEffects = "_-aN" (String#2133, DoABC#2)
+// setEffectSelected = "_-1Ct" (String#1634, DoABC#2)
+// setEffectDeselected = "_-2rY" (String#1952, DoABC#2)
 // effect = "_-rk" (String#24350, DoABC#2)
 // _SafeStr_8057 = "_-1Hg" (String#17177, DoABC#2)
 // _SafeStr_8058 = "_-2Tj" (String#20189, DoABC#2)
 // _SafeStr_8059 = "_-0wH" (String#16283, DoABC#2)
 // _SafeStr_8060 = "_-0dl" (String#15574, DoABC#2)
-// EffectsWidget = "_-0Wm" (String#15308, DoABC#2)
-// EffectsWidget = "_-0yR" (String#16370, DoABC#2)
+// onGetMore = "_-0Wm" (String#15308, DoABC#2)
+// selectEffect = "_-0yR" (String#16370, DoABC#2)
 
 

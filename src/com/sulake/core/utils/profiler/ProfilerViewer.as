@@ -88,7 +88,7 @@ package com.sulake.core.utils.profiler
             text = (text + (((((((((padAlign(String(_arg_1.name), 30) + "|") + padAlign(String(_arg_1.rounds), 10)) + "|") + padAlign(String(_arg_1.latest), 10)) + "|") + padAlign(String(_arg_1.average), 10)) + "|") + padAlign(String(_arg_1.total), 10)) + "|\r"));
             var _local_3:uint;
             while (_local_3 < _arg_1.numSubTasks) {
-                this.recursiveUpdate(_arg_1.ProfilerAgentTask(_local_3), (_arg_2 + 1));
+                this.recursiveUpdate(_arg_1.getSubTaskAt(_local_3), (_arg_2 + 1));
                 _local_3++;
             };
         }
@@ -105,7 +105,7 @@ package com.sulake.core.utils.profiler
 // total = "_-2Ok" (String#19993, DoABC#2)
 // latest = "_-0Hv" (String#14754, DoABC#2)
 // numSubTasks = "_-25m" (String#19249, DoABC#2)
-// ProfilerAgentTask = "_-2T5" (String#20167, DoABC#2)
+// getSubTaskAt = "_-2T5" (String#20167, DoABC#2)
 // _profiler = "_-qk" (String#8720, DoABC#2)
 // addStopEventListener = "_-3A-" (String#7511, DoABC#2)
 // padAlign = "_-0pr" (String#4630, DoABC#2)

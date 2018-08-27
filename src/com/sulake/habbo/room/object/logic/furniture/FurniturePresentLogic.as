@@ -14,7 +14,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectWidgetRequestEvent.REOE_WIDGET_REQUEST_PRESENT];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function mouseEvent(_arg_1:RoomSpriteMouseEvent, _arg_2:IRoomGeometry):void
         {
@@ -68,7 +68,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomObjectFurnitureActionEvent = "_-2H6" (String#19689, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // RoomObjectWidgetRequestEvent = "_-0Oy" (String#15023, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // REOE_WIDGET_REQUEST_PRESENT = "_-3D0" (String#21997, DoABC#2)
 // ROFCAE_MOUSE_BUTTON = "_-Sz" (String#23363, DoABC#2)

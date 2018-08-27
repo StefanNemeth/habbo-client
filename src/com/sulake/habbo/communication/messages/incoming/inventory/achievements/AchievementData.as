@@ -74,7 +74,7 @@ package com.sulake.habbo.communication.messages.incoming.inventory.achievements
         {
             return ((((this._level > 1)) || (this._finalLevel)));
         }
-        public function AchievementData():void
+        public function setMaxProgress():void
         {
             this._currentPoints = this._scoreLimit;
         }
@@ -102,6 +102,6 @@ package com.sulake.habbo.communication.messages.incoming.inventory.achievements
 // finalLevel = "_-0or" (String#16006, DoABC#2)
 // levelCount = "_-22S" (String#19107, DoABC#2)
 // firstLevelAchieved = "_-2Jb" (String#19794, DoABC#2)
-// AchievementData = "_-0WK" (String#15292, DoABC#2)
+// setMaxProgress = "_-0WK" (String#15292, DoABC#2)
 
 

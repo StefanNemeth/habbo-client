@@ -42,7 +42,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetGetUserLocationMessage.RWGOI_MESSAGE_GET_USER_LOCATION);
@@ -75,9 +75,9 @@ package com.sulake.habbo.ui.handler
                     };
                     _local_4 = _local_3.userDataManager.getUserDataByType(_local_2.userId, _local_2.userType);
                     if (_local_4){
-                        _local_5 = this._container.roomEngine.RoomEngine(_local_3.roomId, _local_3.roomCategory, _local_4.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, this._container.IRoomWidgetHandlerContainer());
-                        _local_6 = this._container.roomEngine.RoomEngine(_local_3.roomId, _local_3.roomCategory, _local_4.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, this._container.IRoomWidgetHandlerContainer());
-                        _local_9 = this._container.IRoomWidgetHandlerContainer();
+                        _local_5 = this._container.roomEngine.getRoomObjectBoundingRectangle(_local_3.roomId, _local_3.roomCategory, _local_4.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, this._container.getFirstCanvasId());
+                        _local_6 = this._container.roomEngine.getRoomObjectScreenLocation(_local_3.roomId, _local_3.roomCategory, _local_4.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, this._container.getFirstCanvasId());
+                        _local_9 = this._container.getRoomViewRect();
                         if (((((_local_5) && (_local_9))) && (_local_6))){
                             _local_5.offset(_local_9.x, _local_9.y);
                             _local_6.offset(_local_9.x, _local_9.y);
@@ -101,7 +101,7 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomSessionFriendRequestEvent.RSFRE_FRIEND_REQUEST);
@@ -109,7 +109,7 @@ package com.sulake.habbo.ui.handler
             _local_1.push(FriendRequestEvent.FRE_DECLINED);
             return (_local_1);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomWidgetFriendRequestUpdateEvent;
             var _local_3:String;
@@ -168,18 +168,18 @@ package com.sulake.habbo.ui.handler
 // RSFRE_FRIEND_REQUEST = "_-2Wu" (String#20318, DoABC#2)
 // RWDE_ACCEPTED = "_-1OB" (String#17441, DoABC#2)
 // FRE_DECLINED = "_-2IY" (String#19749, DoABC#2)
-// RoomEngine = "_-0PC" (String#4075, DoABC#2)
+// getRoomObjectBoundingRectangle = "_-0PC" (String#4075, DoABC#2)
 // RWFRUE_SHOW_FRIEND_REQUEST = "_-0R-" (String#15102, DoABC#2)
 // RWFRUE_HIDE_FRIEND_REQUEST = "_-12A" (String#16542, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-iH" (String#8561, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// getFirstCanvasId = "_-iH" (String#8561, DoABC#2)
 // getUserDataByType = "_-1UX" (String#5443, DoABC#2)
-// RoomEngine = "_-3l" (String#7742, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-1ZD" (String#5545, DoABC#2)
+// getRoomObjectScreenLocation = "_-3l" (String#7742, DoABC#2)
+// getRoomViewRect = "_-1ZD" (String#5545, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

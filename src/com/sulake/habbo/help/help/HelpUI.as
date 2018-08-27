@@ -48,7 +48,7 @@ package com.sulake.habbo.help.help
         private var _SafeStr_11398:int = 0;
         private var _SafeStr_11399:IWindowContainer;
         private var _SafeStr_11400:Array;
-        private var _HelpUI:Boolean = false;
+        private var _SafeStr_11401:Boolean = false;
 
         public function HelpUI(_arg_1:HabboHelp, _arg_2:IAssetLibrary, _arg_3:IHabboWindowManager)
         {
@@ -146,9 +146,9 @@ package com.sulake.habbo.help.help
             };
             _local_5.height = 0;
             _local_3.render();
-            var _local_6:IWindow = (_local_3.TradingModel() as IWindow);
+            var _local_6:IWindow = (_local_3.getWindowContainer() as IWindow);
             if (_local_6 != null){
-                _local_5.IItemListWindow(_local_6, 0);
+                _local_5.addListItemAt(_local_6, 0);
             };
             this.addBackButtonWindow();
             this.updateWindowDimensions();
@@ -176,14 +176,14 @@ package com.sulake.habbo.help.help
         {
             return (this._window);
         }
-        public function HelpUI(message:String):void
+        public function showCallForHelpReply(message:String):void
         {
             this._windowManager.alert("${help.cfh.reply.title}", message, 0, function (_arg_1:IAlertDialog, _arg_2:WindowEvent):void
             {
                 _arg_1.dispose();
             });
         }
-        public function HelpUI(_arg_1:String):void
+        public function showCallForHelpResult(_arg_1:String):void
         {
             switch (_arg_1){
                 case CallForHelpResultEnum.CFHRE_SENT_OK:
@@ -197,9 +197,9 @@ package com.sulake.habbo.help.help
                     return;
             };
         }
-        public function HelpUI(_arg_1:Boolean):void
+        public function updateCallForGuideBotUI(_arg_1:Boolean):void
         {
-            this._HelpUI = _arg_1;
+            this._SafeStr_11401 = _arg_1;
             var _local_2:IHelpViewController = (this._SafeStr_11396.getValue(HabboHelpViewEnum.HHVE_HELP_FRONTPAGE) as IHelpViewController);
             if (((!((_local_2 == null))) && (!(_local_2.disposed)))){
                 _local_2.update();
@@ -207,7 +207,7 @@ package com.sulake.habbo.help.help
         }
         public function isCallForGuideBotEnabled():Boolean
         {
-            return (this._HelpUI);
+            return (this._SafeStr_11401);
         }
         public function handleCallGuideBot():void
         {
@@ -269,7 +269,7 @@ package com.sulake.habbo.help.help
             var _local_2:IWindow = this._window.findChildByTag("close");
             if (_local_2 != null){
                 _local_2.setParamFlag(WindowParam._SafeStr_7434);
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             var _local_3:IItemListWindow = (this._window.findChildByName("content_list") as IItemListWindow);
             if (_local_3 == null){
@@ -286,7 +286,7 @@ package com.sulake.habbo.help.help
                 if (_local_2 != null){
                     while (_local_2.numListItems > 1) {
                         _local_2.getListItemAt(0).dispose();
-                        _local_2.IItemListWindow(0);
+                        _local_2.removeListItemAt(0);
                     };
                 };
             };
@@ -317,21 +317,21 @@ package com.sulake.habbo.help.help
             this._SafeStr_10179 = this._SafeStr_11394;
             this._component.events.dispatchEvent(new Event(HabboHelpTrackingEvent.HABBO_HELP_TRACKING_EVENT_CLOSED));
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this.hideUI();
         }
-        private function AchievementController(_arg_1:WindowMouseEvent):void
+        private function onBack(_arg_1:WindowMouseEvent):void
         {
             if (this._SafeStr_11395.length > 0){
                 this.showUI(this._SafeStr_11395.pop(), false);
             };
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOut(_arg_1:WindowMouseEvent):void
         {
             this.setBackButtonActiveState(false);
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOver(_arg_1:WindowMouseEvent):void
         {
             this.setBackButtonActiveState(true);
         }
@@ -389,21 +389,21 @@ package com.sulake.habbo.help.help
                 _local_3 = this._SafeStr_11399.findChildByName("back_image");
                 if (_local_3 != null){
                     _local_3.setParamFlag(WindowParam._SafeStr_7434);
-                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.AchievementController);
-                    _local_3.addEventListener(WindowMouseEvent.WME_OUT, this.ClubGiftNotification);
-                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ClubGiftNotification);
+                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onBack);
+                    _local_3.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseOut);
+                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseOver);
                 };
                 _local_4 = this._SafeStr_11399.findChildByName("back_text");
                 if (_local_4 != null){
                     _local_4.setParamFlag(WindowParam._SafeStr_7434);
-                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.AchievementController);
+                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onBack);
                 };
             };
             var _local_1:IItemListWindow = (this._window.findChildByName("content_list") as IItemListWindow);
             if ((((_local_1 == null)) || ((this._SafeStr_11399 == null)))){
                 return;
             };
-            if (_local_1.IItemListWindow((this._SafeStr_11399 as IWindow)) > -1){
+            if (_local_1.getListItemIndex((this._SafeStr_11399 as IWindow)) > -1){
                 return;
             };
             _local_1.addListItem((this._SafeStr_11399 as IWindow));
@@ -415,7 +415,7 @@ package com.sulake.habbo.help.help
 
 // _SafeStr_10179 = "_-2HD" (String#6390, DoABC#2)
 // roomSessionActive = "_-4g" (String#7760, DoABC#2)
-// AchievementController = "_-2yv" (String#905, DoABC#2)
+// onBack = "_-2yv" (String#905, DoABC#2)
 // _SafeStr_11394 = "_-2kv" (String#20880, DoABC#2)
 // _SafeStr_11395 = "_-3IH" (String#22213, DoABC#2)
 // _SafeStr_11396 = "_-2DP" (String#19543, DoABC#2)
@@ -423,14 +423,14 @@ package com.sulake.habbo.help.help
 // _SafeStr_11398 = "_-2Is" (String#6418, DoABC#2)
 // _SafeStr_11399 = "_-2lV" (String#20899, DoABC#2)
 // _SafeStr_11400 = "_-32f" (String#21603, DoABC#2)
-// _HelpUI = "_-2Ta" (String#20185, DoABC#2)
+// _SafeStr_11401 = "_-2Ta" (String#20185, DoABC#2)
 // toggleUI = "_-OI" (String#23180, DoABC#2)
 // removeCurrentView = "_-G1" (String#22854, DoABC#2)
 // getViewController = "_-dL" (String#23773, DoABC#2)
 // addBackButtonWindow = "_-2Ix" (String#19762, DoABC#2)
-// HelpUI = "_-1DY" (String#17005, DoABC#2)
-// HelpUI = "_-0VS" (String#15260, DoABC#2)
-// HelpUI = "_-Hv" (String#22926, DoABC#2)
+// showCallForHelpReply = "_-1DY" (String#17005, DoABC#2)
+// showCallForHelpResult = "_-0VS" (String#15260, DoABC#2)
+// updateCallForGuideBotUI = "_-Hv" (String#22926, DoABC#2)
 // setRoomSessionStatus = "_-lP" (String#24084, DoABC#2)
 // setBackButtonActiveState = "_-0Xs" (String#15349, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
@@ -452,16 +452,16 @@ package com.sulake.habbo.help.help
 // FaqBrowseTopView = "_-28S" (String#6211, DoABC#2)
 // CallForHelpSentView = "_-0am" (String#4318, DoABC#2)
 // HabboHelpTutorialEvent = "_-TD" (String#23373, DoABC#2)
-// IItemListWindow = "_-2CT" (String#6293, DoABC#2)
+// addListItemAt = "_-2CT" (String#6293, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // _component = "_-2cU" (String#305, DoABC#2)
 // onClick = "_-2US" (String#368, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // HVVE_PH = "_-0V5" (String#15245, DoABC#2)
 // HHVE_HELP_FRONTPAGE = "_-2WD" (String#20292, DoABC#2)

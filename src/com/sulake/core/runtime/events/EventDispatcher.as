@@ -89,10 +89,10 @@ package com.sulake.core.runtime.events
                 this._eventDispatcher.dispatchEvent(_arg_1);
                 if (this._result == EVENT_RESULT_ERROR){
                     if (this._error != null){
-                        Core.Core(((("Error caught when handling " + getQualifiedClassName(_arg_1)) + ": ") + this._error.message), this._error.errorID, this._error);
+                        Core.crash(((("Error caught when handling " + getQualifiedClassName(_arg_1)) + ": ") + this._error.message), this._error.errorID, this._error);
                     }
                     else {
-                        Core.Core((("Error caught when handling " + getQualifiedClassName(_arg_1)) + ". No error data available!"), 0, this._error);
+                        Core.crash((("Error caught when handling " + getQualifiedClassName(_arg_1)) + ". No error data available!"), 0, this._error);
                     };
                 };
                 return ((this._result == EVENT_RESULT_TRUE));
@@ -168,6 +168,6 @@ package com.sulake.core.runtime.events
 // EventListenerStruct = "_-Pi" (String#8197, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // _SafeStr_8891 = "_-l-" (String#24072, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 
 

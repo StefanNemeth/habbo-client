@@ -61,7 +61,7 @@ package com.sulake.habbo.ui.widget.roomchat
         private var _roomCategory:int;
         private var _SafeStr_14281:int;
         private var _width:Number = 0;
-        private var _RoomChatItem:Boolean = false;
+        private var _SafeStr_14282:Boolean = false;
         private var _SafeStr_14283:Number = 0;
         private var _x:Number = 0;
         private var _y:Number = 0;
@@ -192,13 +192,13 @@ package com.sulake.habbo.ui.widget.roomchat
                 this._window.y = (_arg_1 - this._SafeStr_14283);
             };
         }
-        public function RoomChatItem():void
+        public function hidePointer():void
         {
             if (this._window){
                 this._window.findChildByName("pointer").visible = false;
             };
         }
-        public function RoomChatItem(_arg_1:Number):void
+        public function setPointerOffset(_arg_1:Number):void
         {
             if (((!(this._window)) || (this._window.disposed))){
                 return;
@@ -214,19 +214,19 @@ package com.sulake.habbo.ui.widget.roomchat
             _arg_1 = Math.max(_arg_1, _local_3.rectangle.left);
             _local_2.x = _arg_1;
         }
-        public function RoomChatItem(_arg_1:Number, _arg_2:Number, _arg_3:Number, _arg_4:Number):Boolean
+        public function checkOverlap(_arg_1:Number, _arg_2:Number, _arg_3:Number, _arg_4:Number):Boolean
         {
             var _local_5:Rectangle = new Rectangle(this._x, this._y, this.width, _SafeStr_14264);
             var _local_6:Rectangle = new Rectangle(_arg_1, _arg_2, _arg_3, _arg_4);
             return (_local_5.intersects(_local_6));
         }
-        public function RoomChatItem():void
+        public function hideView():void
         {
             if (this._window){
                 this._window.dispose();
             };
             this._window = null;
-            this._RoomChatItem = false;
+            this._SafeStr_14282 = false;
         }
         public function renderView():void
         {
@@ -241,10 +241,10 @@ package com.sulake.habbo.ui.widget.roomchat
             var placeHolder:String;
             var placeholderPos:int;
             var linkPos:Array;
-            if (this._RoomChatItem){
+            if (this._SafeStr_14282){
                 return;
             };
-            this._RoomChatItem = true;
+            this._SafeStr_14282 = true;
             if (this._window){
                 return;
             };
@@ -462,10 +462,10 @@ package com.sulake.habbo.ui.widget.roomchat
                         }
                         else {
                             if (this._SafeStr_14276[_local_5][2] == 1){
-                                HabboWebTools.HTMLTextController((this._SafeStr_14273 + this._SafeStr_14276[_local_5][0]), "habboMain");
+                                HabboWebTools.openWebPage((this._SafeStr_14273 + this._SafeStr_14276[_local_5][0]), "habboMain");
                             }
                             else {
-                                HabboWebTools.HTMLTextController((this._SafeStr_14273 + this._SafeStr_14276[_local_5][0]));
+                                HabboWebTools.openWebPage((this._SafeStr_14273 + this._SafeStr_14276[_local_5][0]));
                             };
                         };
                         return (true);
@@ -482,23 +482,23 @@ package com.sulake.habbo.ui.widget.roomchat
                     return;
                 };
             };
-            this._widget.RoomChatWidget(this._senderId, this._senderName, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
+            this._widget.onItemMouseClick(this._senderId, this._senderName, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
         }
         private function onBubbleMouseDown(_arg_1:WindowMouseEvent):void
         {
-            this._widget.RoomChatWidget(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
+            this._widget.onItemMouseDown(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
         }
         private function onBubbleMouseOver(_arg_1:WindowMouseEvent):void
         {
-            this._widget.RoomChatWidget(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
+            this._widget.onItemMouseOver(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
         }
         private function onBubbleMouseOut(_arg_1:WindowMouseEvent):void
         {
-            this._widget.RoomChatWidget(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
+            this._widget.onItemMouseOut(this._senderId, this._SafeStr_14281, this._roomId, this._roomCategory, _arg_1);
         }
         private function onBubbleMouseUp(_arg_1:WindowMouseEvent):void
         {
-            this._widget.RoomChatWidget();
+            this._widget.mouseUp();
         }
 
     }
@@ -513,15 +513,15 @@ package com.sulake.habbo.ui.widget.roomchat
 // userColor = "_-lM" (String#24081, DoABC#2)
 // senderX = "_-DB" (String#22736, DoABC#2)
 // renderView = "_-1xB" (String#18854, DoABC#2)
-// RoomChatItem = "_-35N" (String#21709, DoABC#2)
-// RoomChatItem = "_-1n-" (String#18421, DoABC#2)
-// RoomChatItem = "_-29-" (String#19367, DoABC#2)
-// RoomChatItem = "_-2GV" (String#19661, DoABC#2)
-// RoomChatWidget = "_-3Dh" (String#22022, DoABC#2)
-// RoomChatWidget = "_-Mg" (String#23112, DoABC#2)
-// RoomChatWidget = "_-n0" (String#24154, DoABC#2)
-// RoomChatWidget = "_-2h3" (String#20729, DoABC#2)
-// RoomChatWidget = "_-0IF" (String#14768, DoABC#2)
+// hidePointer = "_-35N" (String#21709, DoABC#2)
+// setPointerOffset = "_-1n-" (String#18421, DoABC#2)
+// hideView = "_-29-" (String#19367, DoABC#2)
+// checkOverlap = "_-2GV" (String#19661, DoABC#2)
+// onItemMouseClick = "_-3Dh" (String#22022, DoABC#2)
+// onItemMouseDown = "_-Mg" (String#23112, DoABC#2)
+// onItemMouseOver = "_-n0" (String#24154, DoABC#2)
+// onItemMouseOut = "_-2h3" (String#20729, DoABC#2)
+// mouseUp = "_-0IF" (String#14768, DoABC#2)
 // enableTooltip = "_-20U" (String#19029, DoABC#2)
 // disableTooltip = "_-1Jb" (String#17262, DoABC#2)
 // _SafeStr_14264 = "_-X9" (String#23528, DoABC#2)
@@ -542,7 +542,7 @@ package com.sulake.habbo.ui.widget.roomchat
 // _SafeStr_14279 = "_-UN" (String#23425, DoABC#2)
 // _SafeStr_14280 = "_-tn" (String#24439, DoABC#2)
 // _SafeStr_14281 = "_-2ff" (String#20678, DoABC#2)
-// _RoomChatItem = "_-dy" (String#23800, DoABC#2)
+// _SafeStr_14282 = "_-dy" (String#23800, DoABC#2)
 // _SafeStr_14283 = "_-6o" (String#22491, DoABC#2)
 // buildBubbleWindow = "_-2kL" (String#20859, DoABC#2)
 // addEventListeners = "_-1pc" (String#18531, DoABC#2)
@@ -569,7 +569,7 @@ package com.sulake.habbo.ui.widget.roomchat
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 // _senderId = "_-31K" (String#909, DoABC#2)
 // openExternalLinkWarning = "_-9C" (String#22588, DoABC#2)
 // _SafeStr_4788 = "_-1rK" (String#18597, DoABC#2)

@@ -74,11 +74,11 @@ package com.sulake.habbo.catalog.navigation
             this._SafeStr_10295 = null;
             this._scrollBar = null;
         }
-        public function ICatalogNavigator(_arg_1:NodeData):void
+        public function buildCatalogIndex(_arg_1:NodeData):void
         {
             var _local_2:ICatalogNode;
             this._index = null;
-            this._index = this.CatalogNavigator(_arg_1, 0);
+            this._index = this.buildIndexNode(_arg_1, 0);
             for each (_local_2 in this._index.children) {
                 if (_local_2.isNavigateable){
                     (_local_2 as CatalogNodeRenderable).addToList(this._content);
@@ -95,7 +95,7 @@ package com.sulake.habbo.catalog.navigation
             var _local_6:ICatalogNode;
             var _local_7:int;
             var _local_2 = (this._SafeStr_10295.indexOf(_arg_1) > -1);
-            var _local_3:Boolean = _arg_1.IssueBrowser;
+            var _local_3:Boolean = _arg_1.isOpen;
             var _local_4:Array = [];
             for each (_local_5 in this._SafeStr_10295) {
                 _local_5.deActivate();
@@ -121,23 +121,23 @@ package com.sulake.habbo.catalog.navigation
             this._catalog.loadCatalogPage(_arg_1.pageId, -1);
             this._catalog.events.dispatchEvent(new CatalogPageOpenedEvent(_arg_1.pageId, _arg_1.localization));
         }
-        public function ICatalogNavigator(_arg_1:String):void
+        public function openPage(_arg_1:String):void
         {
-            var _local_2:ICatalogNode = this.CatalogNavigator(_arg_1);
+            var _local_2:ICatalogNode = this.getNodeByName(_arg_1);
             if (_local_2 != null){
                 this._catalog.loadCatalogPage(_local_2.pageId, -1);
-                this.CatalogNavigator(_local_2);
+                this.openNavigatorAtNode(_local_2);
             };
         }
-        public function ICatalogNavigator(_arg_1:int, _arg_2:int):void
+        public function openPageById(_arg_1:int, _arg_2:int):void
         {
-            var _local_3:ICatalogNode = this.CatalogNavigator(_arg_1, this._index);
+            var _local_3:ICatalogNode = this.getNodeById(_arg_1, this._index);
             if (_local_3 != null){
                 this._catalog.loadCatalogPage(_local_3.pageId, _arg_2);
-                this.CatalogNavigator(_local_3);
+                this.openNavigatorAtNode(_local_3);
             };
         }
-        private function CatalogNavigator(_arg_1:ICatalogNode):void
+        private function openNavigatorAtNode(_arg_1:ICatalogNode):void
         {
             var _local_2:ICatalogNode;
             var _local_3:ICatalogNode;
@@ -157,23 +157,23 @@ package com.sulake.habbo.catalog.navigation
             };
             this.activateNode(_arg_1);
         }
-        public function ICatalogNavigator():void
+        public function loadFrontPage():void
         {
-            var _local_1:ICatalogNode = this.CatalogNavigator(this._index);
+            var _local_1:ICatalogNode = this.getFirstNavigateable(this._index);
             Logger.log((((("Load front page: " + _local_1.localization) + "(") + _local_1.pageId) + ")"));
             this._catalog.loadCatalogPage(_local_1.pageId, -1);
         }
-        public function ICatalogNavigator(_arg_1:String):void
+        public function loadNewAdditionsPage(_arg_1:String):void
         {
-            var _local_2:ICatalogNode = this.CatalogNavigator(_arg_1, this._index);
+            var _local_2:ICatalogNode = this.getFirstNodeByName(_arg_1, this._index);
             if (_local_2 != null){
                 this._catalog.loadCatalogPage(_local_2.pageId, -1);
             }
             else {
-                this.ICatalogNavigator();
+                this.loadFrontPage();
             };
         }
-        private function CatalogNavigator():void
+        private function openCreditsPage():void
         {
             if (this._catalog){
                 this._catalog.openCreditsHabblet();
@@ -186,15 +186,15 @@ package com.sulake.habbo.catalog.navigation
             };
             _arg_1.dispose();
         }
-        private function CatalogNavigator():void
+        private function openPixelsPage():void
         {
-            this.ICatalogNavigator(this._SafeStr_10297);
+            this.openPage(this._SafeStr_10297);
         }
-        private function CatalogNavigator():void
+        private function openClubPage():void
         {
             this._catalog.openCatalogPage(this._SafeStr_10298, true);
         }
-        private function CatalogNavigator(_arg_1:ICatalogNode):ICatalogNode
+        private function getFirstNavigateable(_arg_1:ICatalogNode):ICatalogNode
         {
             var _local_2:ICatalogNode;
             var _local_3:ICatalogNode;
@@ -202,14 +202,14 @@ package com.sulake.habbo.catalog.navigation
                 return (_arg_1);
             };
             for each (_local_2 in _arg_1.children) {
-                _local_3 = this.CatalogNavigator(_local_2);
+                _local_3 = this.getFirstNavigateable(_local_2);
                 if (_local_3 != null){
                     return (_local_3);
                 };
             };
             return (null);
         }
-        private function CatalogNavigator(_arg_1:NodeData, _arg_2:int):ICatalogNode
+        private function buildIndexNode(_arg_1:NodeData, _arg_2:int):ICatalogNode
         {
             var _local_5:NodeData;
             var _local_3:Boolean = _arg_1.navigateable;
@@ -226,15 +226,15 @@ package com.sulake.habbo.catalog.navigation
             };
             _arg_2++;
             for each (_local_5 in _arg_1.nodes) {
-                _local_4.addChild(this.CatalogNavigator(_local_5, _arg_2));
+                _local_4.addChild(this.buildIndexNode(_local_5, _arg_2));
             };
             return (_local_4);
         }
-        private function CatalogNavigator(_arg_1:String):ICatalogNode
+        private function getNodeByName(_arg_1:String):ICatalogNode
         {
-            return (this.CatalogNavigator(_arg_1, this._index));
+            return (this.getFirstNodeByName(_arg_1, this._index));
         }
-        private function CatalogNavigator(pageId:int, node:ICatalogNode):ICatalogNode
+        private function getNodeById(pageId:int, node:ICatalogNode):ICatalogNode
         {
             var currentPageId:int;
             var child:ICatalogNode;
@@ -246,7 +246,7 @@ package com.sulake.habbo.catalog.navigation
                 }
                 else {
                     for each (child in node.children) {
-                        found = this.CatalogNavigator(pageId, child);
+                        found = this.getNodeById(pageId, child);
                         if (found != null) break;
                     };
                 };
@@ -256,7 +256,7 @@ package com.sulake.habbo.catalog.navigation
             };
             return (found);
         }
-        private function CatalogNavigator(localizedName:String, node:ICatalogNode):ICatalogNode
+        private function getFirstNodeByName(localizedName:String, node:ICatalogNode):ICatalogNode
         {
             var child:ICatalogNode;
             var found:ICatalogNode;
@@ -266,7 +266,7 @@ package com.sulake.habbo.catalog.navigation
                 }
                 else {
                     for each (child in node.children) {
-                        found = this.CatalogNavigator(localizedName, child);
+                        found = this.getFirstNodeByName(localizedName, child);
                         if (found != null) break;
                     };
                 };
@@ -290,13 +290,13 @@ package com.sulake.habbo.catalog.navigation
                 case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
                     switch (_local_3){
                         case "creditsContainer":
-                            this.CatalogNavigator();
+                            this.openCreditsPage();
                             break;
                         case "pixelsContainer":
-                            this.CatalogNavigator();
+                            this.openPixelsPage();
                             break;
                         case "clubContainer":
-                            this.CatalogNavigator();
+                            this.openClubPage();
                             break;
                     };
                     return;
@@ -314,28 +314,28 @@ package com.sulake.habbo.catalog.navigation
     }
 }//package com.sulake.habbo.catalog.navigation
 
-// ICatalogNavigator = "_-0KM" (String#3963, DoABC#2)
-// ICatalogNavigator = "_-0qZ" (String#4651, DoABC#2)
-// ICatalogNavigator = "_-0fU" (String#4415, DoABC#2)
-// ICatalogNavigator = "_-2Cc" (String#6295, DoABC#2)
+// buildCatalogIndex = "_-0KM" (String#3963, DoABC#2)
+// openPageById = "_-0qZ" (String#4651, DoABC#2)
+// loadFrontPage = "_-0fU" (String#4415, DoABC#2)
+// loadNewAdditionsPage = "_-2Cc" (String#6295, DoABC#2)
 // _SafeStr_10295 = "_-0Am" (String#14478, DoABC#2)
 // _SafeStr_10296 = "_-2U4" (String#20203, DoABC#2)
 // _SafeStr_10297 = "_-os" (String#24231, DoABC#2)
 // _SafeStr_10298 = "_-2M5" (String#19887, DoABC#2)
 // activateScrollbar = "_-140" (String#4957, DoABC#2)
 // deActivateScrollbar = "_-37C" (String#7450, DoABC#2)
-// CatalogNavigator = "_-lK" (String#24080, DoABC#2)
+// buildIndexNode = "_-lK" (String#24080, DoABC#2)
 // isNavigateable = "_-1Ts" (String#5429, DoABC#2)
 // addToList = "_-24g" (String#19209, DoABC#2)
 // loadCatalogPage = "_-2Go" (String#6383, DoABC#2)
-// CatalogNavigator = "_-1sx" (String#18675, DoABC#2)
-// CatalogNavigator = "_-Ym" (String#23590, DoABC#2)
-// CatalogNavigator = "_-um" (String#24481, DoABC#2)
-// CatalogNavigator = "_-16A" (String#16703, DoABC#2)
-// CatalogNavigator = "_-1ed" (String#18083, DoABC#2)
+// getNodeByName = "_-1sx" (String#18675, DoABC#2)
+// openNavigatorAtNode = "_-Ym" (String#23590, DoABC#2)
+// getNodeById = "_-um" (String#24481, DoABC#2)
+// getFirstNavigateable = "_-16A" (String#16703, DoABC#2)
+// getFirstNodeByName = "_-1ed" (String#18083, DoABC#2)
 // onExternalLink = "_-022" (String#575, DoABC#2)
-// CatalogNavigator = "_-23J" (String#19145, DoABC#2)
-// CatalogNavigator = "_-vB" (String#24498, DoABC#2)
+// openPixelsPage = "_-23J" (String#19145, DoABC#2)
+// openClubPage = "_-vB" (String#24498, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
 // ICatalogNavigator = "_-24D" (String#6126, DoABC#2)
@@ -348,13 +348,13 @@ package com.sulake.habbo.catalog.navigation
 // CatalogNodeRenderable = "_-20S" (String#6056, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // openCreditsHabblet = "_-0D5" (String#3811, DoABC#2)
 // navigateable = "_-0EP" (String#14623, DoABC#2)
 // nodes = "_-7H" (String#22513, DoABC#2)
-// ICatalogNavigator = "_-6Z" (String#2052, DoABC#2)
+// openPage = "_-6Z" (String#2052, DoABC#2)
 // CatalogPageOpenedEvent = "_-EN" (String#22786, DoABC#2)
-// CatalogNavigator = "_-1Sy" (String#5413, DoABC#2)
+// openCreditsPage = "_-1Sy" (String#5413, DoABC#2)
 // isInitialized = "_-1Cr" (String#840, DoABC#2)
 // WE_ENABLED = "_-2J1" (String#19767, DoABC#2)
 // WE_DISABLED = "_-xm" (String#24603, DoABC#2)

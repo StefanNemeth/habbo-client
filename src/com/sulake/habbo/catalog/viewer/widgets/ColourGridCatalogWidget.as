@@ -74,7 +74,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             _local_5 = (page.viewer.catalog.assets.getAssetByName(_arg_1.chosenColourAssetName) as BitmapDataAsset);
             this._SafeStr_9936 = (_local_5.content as BitmapData);
             this.populateColourGrid();
-            this.select((this._SafeStr_10432.IItemGridWindow(_arg_1.index) as IWindowContainer));
+            this.select((this._SafeStr_10432.getGridItemAt(_arg_1.index) as IWindowContainer));
         }
         private function onAvailableMultiColours(_arg_1:CatalogWidgetMultiColoursEvent):void
         {
@@ -93,7 +93,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             _local_5 = (page.viewer.catalog.assets.getAssetByName(_arg_1.chosenColourAssetName) as BitmapDataAsset);
             this._SafeStr_9936 = (_local_5.content as BitmapData);
             this.populateColourGrid();
-            this.select((this._SafeStr_10432.IItemGridWindow(0) as IWindowContainer));
+            this.select((this._SafeStr_10432.getGridItemAt(0) as IWindowContainer));
         }
         private function select(_arg_1:IWindowContainer):void
         {
@@ -139,7 +139,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                     _local_2.color = 0xFFFFFFFF;
                     _local_2.width = this._SafeStr_9934.width;
                     _local_2.height = this._SafeStr_9934.height;
-                    this._SafeStr_10432.IItemGridWindow(_local_2);
+                    this._SafeStr_10432.addGridItem(_local_2);
                     _local_3 = (_local_2.findChildByTag("BG_BORDER") as IBitmapWrapperWindow);
                     if (_local_3 != null){
                         _local_3.bitmap = new BitmapData(this._SafeStr_9934.width, this._SafeStr_9934.height, true, 0);
@@ -214,9 +214,9 @@ package com.sulake.habbo.catalog.viewer.widgets
 // CatalogWidgetColourIndexEvent = "_-00G" (String#3567, DoABC#2)
 // CatalogWidgetMultiColoursEvent = "_-ov" (String#8688, DoABC#2)
 // CatalogWidgetColoursEvent = "_-2Vi" (String#6678, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // colours = "_-2hm" (String#6902, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
 // onClick = "_-2US" (String#368, DoABC#2)
 // _colours = "_-2V3" (String#891, DoABC#2)
 // _SafeStr_8482 = "_-2IF" (String#618, DoABC#2)

@@ -10,7 +10,7 @@ package com.sulake.habbo.catalog.recycler
     {
 
         private var _prizeLevelId:int;
-        private var _RecyclerLogic:Array;
+        private var _prizes:Array;
 
         public function PrizeLevelContainer(_arg_1:PrizeLevelMessageData, _arg_2:IHabboCatalog)
         {
@@ -20,13 +20,13 @@ package com.sulake.habbo.catalog.recycler
             super();
             this._prizeLevelId = _arg_1.prizeLevelId;
             _arg_2.localization.registerParameter(("recycler.prizes.odds." + this._prizeLevelId), "odds", ("1:" + _arg_1.probabilityDenominator));
-            this._RecyclerLogic = new Array();
+            this._prizes = new Array();
             var _local_3:int;
             while (_local_3 < _arg_1.prizes.length) {
                 _local_4 = _arg_1.prizes[_local_3];
                 _local_5 = _arg_2.getFurnitureData(_local_4.productItemTypeId, _local_4.productItemType);
                 _local_6 = new PrizeContainer(_local_4.productItemType, _local_4.productItemTypeId, _local_5, this._prizeLevelId);
-                this._RecyclerLogic.push(_local_6);
+                this._prizes.push(_local_6);
                 _local_3++;
             };
         }
@@ -36,7 +36,7 @@ package com.sulake.habbo.catalog.recycler
         }
         public function get prizes():Array
         {
-            return (this._RecyclerLogic);
+            return (this._prizes);
         }
 
     }
@@ -50,7 +50,7 @@ package com.sulake.habbo.catalog.recycler
 // PrizeContainer = "_-2SW" (String#6620, DoABC#2)
 // getFurnitureData = "_-40" (String#7745, DoABC#2)
 // _prizeLevelId = "_-14c" (String#4971, DoABC#2)
-// _RecyclerLogic = "_-1ct" (String#855, DoABC#2)
+// _prizes = "_-1ct" (String#855, DoABC#2)
 // prizeLevelId = "_-BF" (String#22664, DoABC#2)
 // probabilityDenominator = "_-1nl" (String#18450, DoABC#2)
 // productItemType = "_-0fq" (String#15665, DoABC#2)

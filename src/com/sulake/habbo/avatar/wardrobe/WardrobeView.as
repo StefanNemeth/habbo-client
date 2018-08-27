@@ -37,10 +37,10 @@ package com.sulake.habbo.avatar.wardrobe
         {
             var _local_2:WardrobeSlot;
             if (this._SafeStr_8528){
-                this._SafeStr_8528.IItemListWindow();
+                this._SafeStr_8528.removeListItems();
             };
             if (this._SafeStr_8529){
-                this._SafeStr_8529.IItemListWindow();
+                this._SafeStr_8529.removeListItems();
             };
             var _local_1:Array = this._SafeStr_4830.slots;
             var _local_3:int;
@@ -61,7 +61,7 @@ package com.sulake.habbo.avatar.wardrobe
                 _local_3++;
             };
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (this._window);
         }
@@ -73,8 +73,8 @@ package com.sulake.habbo.avatar.wardrobe
 // WardrobeSlot = "_-2qz" (String#21120, DoABC#2)
 // WardrobeView = "_-2RH" (String#6589, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
-// IItemListWindow = "_-aG" (String#8425, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
+// removeListItems = "_-aG" (String#8425, DoABC#2)
 // _SafeStr_8528 = "_-2KP" (String#19818, DoABC#2)
 // _SafeStr_8529 = "_-1G8" (String#17120, DoABC#2)
 // slots = "_-07U" (String#14344, DoABC#2)

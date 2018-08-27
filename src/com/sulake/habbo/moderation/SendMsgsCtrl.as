@@ -16,7 +16,7 @@ package com.sulake.habbo.moderation
 
         private var _help:ModerationManager;
         private var _SafeStr_11909:int;
-        private var _SendMsgsCtrl:String;
+        private var _SafeStr_11910:String;
         private var _SafeStr_11848:String;
         private var _frame:IFrameWindow;
         private var _SafeStr_11822:IDropMenuWindow;
@@ -28,7 +28,7 @@ package com.sulake.habbo.moderation
         {
             this._help = _arg_1;
             this._SafeStr_11909 = _arg_2;
-            this._SendMsgsCtrl = _arg_3;
+            this._SafeStr_11910 = _arg_3;
             this._SafeStr_11848 = _arg_4;
         }
         public function get disposed():Boolean
@@ -38,7 +38,7 @@ package com.sulake.habbo.moderation
         public function show():void
         {
             this._frame = IFrameWindow(this._help.getXmlWindow("send_msgs"));
-            this._frame.caption = ("Msg To: " + this._SendMsgsCtrl);
+            this._frame.caption = ("Msg To: " + this._SafeStr_11910);
             this._frame.findChildByName("send_message_but").procedure = this.onSendMessageButton;
             this._SafeStr_11823 = ITextFieldWindow(this._frame.findChildByName("message_input"));
             this._SafeStr_11823.procedure = this.onInputClick;
@@ -46,7 +46,7 @@ package com.sulake.habbo.moderation
             this.prepareMsgSelect(this._SafeStr_11822);
             this._SafeStr_11822.procedure = this.onSelectTemplate;
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
+            _local_1.procedure = this.onClose;
             this._frame.visible = true;
         }
         public function getType():int
@@ -55,7 +55,7 @@ package com.sulake.habbo.moderation
         }
         public function getId():String
         {
-            return (this._SendMsgsCtrl);
+            return (this._SafeStr_11910);
         }
         public function getFrame():IFrameWindow
         {
@@ -84,13 +84,13 @@ package com.sulake.habbo.moderation
             };
             Logger.log("Sending message...");
             if (((this._SafeStr_11824) || ((this._SafeStr_11823.text == "")))){
-                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.SessionDataManager);
+                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.onAlertClose);
                 return;
             };
             this._help.connection.send(new ModMessageMessageComposer(this._SafeStr_11909, this._SafeStr_11823.text, this._SafeStr_11848));
             this.dispose();
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -122,7 +122,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11823 = null;
             this._help = null;
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -131,7 +131,7 @@ package com.sulake.habbo.moderation
 }//package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // _SafeStr_11794 = "_-2pl" (String#21071, DoABC#2)
 // _SafeStr_11822 = "_-0wD" (String#4774, DoABC#2)
@@ -142,7 +142,7 @@ package com.sulake.habbo.moderation
 // onSelectTemplate = "_-1ke" (String#5762, DoABC#2)
 // _SafeStr_11848 = "_-2-7" (String#1795, DoABC#2)
 // _SafeStr_11909 = "_-1OJ" (String#5319, DoABC#2)
-// _SendMsgsCtrl = "_-US" (String#8292, DoABC#2)
+// _SafeStr_11910 = "_-US" (String#8292, DoABC#2)
 // onSendMessageButton = "_-2FK" (String#19617, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
@@ -155,7 +155,7 @@ package com.sulake.habbo.moderation
 // SendMsgsCtrl = "_-Ls" (String#8122, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // WE_FOCUSED = "_-1ay" (String#17932, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // messageTemplates = "_-oF" (String#24201, DoABC#2)

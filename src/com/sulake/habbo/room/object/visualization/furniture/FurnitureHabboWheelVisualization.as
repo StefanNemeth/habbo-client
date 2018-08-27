@@ -42,7 +42,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         override protected function updateAnimation(_arg_1:Number):int
         {
-            if (((((super.AnimatedFurnitureVisualization(1)) && (super.AnimatedFurnitureVisualization(2)))) && (super.AnimatedFurnitureVisualization(3)))){
+            if (((((super.getLastFramePlayed(1)) && (super.getLastFramePlayed(2)))) && (super.getLastFramePlayed(3)))){
                 if (this._SafeStr_12673.length > 0){
                     super.setAnimation(this._SafeStr_12673.shift());
                 };
@@ -53,7 +53,7 @@ package com.sulake.habbo.room.object.visualization.furniture
     }
 }//package com.sulake.habbo.room.object.visualization.furniture
 
-// AnimatedFurnitureVisualization = "_-1ZL" (String#5550, DoABC#2)
+// getLastFramePlayed = "_-1ZL" (String#5550, DoABC#2)
 // _SafeStr_12668 = "_-118" (String#1604, DoABC#2)
 // _SafeStr_12669 = "_-8g" (String#2062, DoABC#2)
 // _SafeStr_12670 = "_-YC" (String#8375, DoABC#2)

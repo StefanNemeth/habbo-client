@@ -50,22 +50,22 @@ package com.sulake.habbo.toolbar.extensions
             var _local_6:IBitmapWrapperWindow = (this._window.findChildByName("roominfo_icon") as IBitmapWrapperWindow);
             _local_6.bitmap = (BitmapDataAsset(_arg_3.getAssetByName("roominfo_icon")).content as BitmapData);
             _local_6.disposesBitmap = false;
-            this.ExtraToolsExtension();
+            this.insertLocalizations();
             this._SafeStr_6253 = this._window.findChildByName("roominfo_region");
             this._content = (this._window.findChildByName("list") as IItemListWindow);
             var _local_7:Array = [];
-            this._content.IItemListWindow("REGION", _local_7);
+            this._content.groupListItemsWithTag("REGION", _local_7);
             for each (_local_8 in _local_7) {
-                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ClubGiftNotification);
-                _local_8.addEventListener(WindowMouseEvent.WME_OUT, this.ClubGiftNotification);
+                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseOver);
+                _local_8.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseOut);
             };
-            this.ExtraToolsExtension();
+            this.hideRoomInfo();
         }
         public function get window():IWindow
         {
             return (this._window);
         }
-        private function ExtraToolsExtension():void
+        private function insertLocalizations():void
         {
             var _local_1:IWindow;
             _local_1 = this._window.findChildByName("roominfo_text");
@@ -91,20 +91,20 @@ package com.sulake.habbo.toolbar.extensions
                 this._SafeStr_6254 = null;
             };
         }
-        public function ExtraToolsExtension():void
+        public function hideRoomInfo():void
         {
             this._content.removeListItem(this._SafeStr_6253);
         }
-        public function ExtraToolsExtension():void
+        public function showRoomInfo():void
         {
-            this._content.IItemListWindow(this._SafeStr_6253, 0);
+            this._content.addListItemAt(this._SafeStr_6253, 0);
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOver(_arg_1:WindowMouseEvent):void
         {
             var _local_2:ITextWindow = (IWindowContainer(_arg_1.window).findChildByTag("TEXT") as ITextWindow);
             _local_2.textColor = _SafeStr_5584;
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOut(_arg_1:WindowMouseEvent):void
         {
             var _local_2:ITextWindow = (IWindowContainer(_arg_1.window).findChildByTag("TEXT") as ITextWindow);
             _local_2.textColor = _SafeStr_6250;
@@ -127,7 +127,7 @@ package com.sulake.habbo.toolbar.extensions
                 this._SafeStr_6254.y = (((_local_1.y + this._window.height) - this._SafeStr_6254.height) + 100);
             };
         }
-        private function ExtraToolsExtension():void
+        private function closeConfirmation():void
         {
             if (this._SafeStr_6254){
                 this._SafeStr_6254.dispose();
@@ -153,10 +153,10 @@ package com.sulake.habbo.toolbar.extensions
                     if (ExternalInterface.available){
                         ExternalInterface.call("FlashExternalInterface.logout");
                     };
-                    this.ExtraToolsExtension();
+                    this.closeConfirmation();
                     return;
                 case "cancel":
-                    this.ExtraToolsExtension();
+                    this.closeConfirmation();
                     return;
             };
         }
@@ -167,12 +167,12 @@ package com.sulake.habbo.toolbar.extensions
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // ExtraToolsExtension = "_-1Ws" (String#5490, DoABC#2)
-// IItemListWindow = "_-2CT" (String#6293, DoABC#2)
+// addListItemAt = "_-2CT" (String#6293, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
 // _SafeStr_5584 = "_-3IQ" (String#7678, DoABC#2)
 // _SafeStr_6250 = "_-1V3" (String#17705, DoABC#2)
 // HELP = "_-2N7" (String#19929, DoABC#2)
@@ -180,10 +180,10 @@ package com.sulake.habbo.toolbar.extensions
 // _SafeStr_6253 = "_-037" (String#3630, DoABC#2)
 // _SafeStr_6254 = "_-04u" (String#14238, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
-// ExtraToolsExtension = "_-03Z" (String#14184, DoABC#2)
-// IItemListWindow = "_-0gQ" (String#4432, DoABC#2)
-// ExtraToolsExtension = "_-08z" (String#14406, DoABC#2)
-// ExtraToolsExtension = "_-1rC" (String#18590, DoABC#2)
+// insertLocalizations = "_-03Z" (String#14184, DoABC#2)
+// groupListItemsWithTag = "_-0gQ" (String#4432, DoABC#2)
+// hideRoomInfo = "_-08z" (String#14406, DoABC#2)
+// showRoomInfo = "_-1rC" (String#18590, DoABC#2)
 // onClick = "_-2US" (String#368, DoABC#2)
 // toggleWindowVisibility = "_-0g0" (String#15672, DoABC#2)
 

@@ -28,7 +28,7 @@ package com.sulake.habbo.ui.handler
         private static const _SafeStr_7291:String = "floor";
         private static const _SafeStr_7292:String = "wallpaper";
         private static const TYPE_LANDSCAPE:String = "landscape";
-        private static const _FurniturePresentWidgetHandler:String = "poster";
+        private static const _SafeStr_7293:String = "poster";
 
         private var _disposed:Boolean = false;
         private var _container:IRoomWidgetHandlerContainer = null;
@@ -52,7 +52,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_PRESENT, RoomWidgetPresentOpenMessage.RWVFM_OPEN_PRESENT]);
         }
@@ -71,7 +71,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_PRESENT:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_5 = _local_3.getModel();
                         if (_local_5 != null){
@@ -96,7 +96,7 @@ package com.sulake.habbo.ui.handler
                         return (null);
                     };
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession(_local_4.objectId);
+                        this._container.roomSession.sendPresentOpenMessage(_local_4.objectId);
                     };
                     break;
             };
@@ -110,11 +110,11 @@ package com.sulake.habbo.ui.handler
             var _local_3:RoomWidgetPresentDataUpdateEvent = new RoomWidgetPresentDataUpdateEvent(RoomWidgetPresentDataUpdateEvent.RWEBDUE_CONTENTS, 0, this._name, false, _arg_2);
             this._container.events.dispatchEvent(_local_3);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionPresentEvent.RSPE_PRESENT_OPENED]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionPresentEvent;
             var _local_3:IFurnitureData;
@@ -132,11 +132,11 @@ package com.sulake.habbo.ui.handler
                             this._name = "";
                             _local_4 = null;
                             if (_local_2.itemType == ProductTypeEnum._SafeStr_5017){
-                                _local_3 = this._container.sessionDataManager.SessionDataManager(_local_2.classId);
+                                _local_3 = this._container.sessionDataManager.getFloorItemData(_local_2.classId);
                             }
                             else {
                                 if (_local_2.itemType == ProductTypeEnum._SafeStr_5019){
-                                    _local_3 = this._container.sessionDataManager.SessionDataManager(_local_2.classId);
+                                    _local_3 = this._container.sessionDataManager.getWallItemData(_local_2.classId);
                                 };
                             };
                             switch (_local_2.itemType){
@@ -153,7 +153,7 @@ package com.sulake.habbo.ui.handler
                                                 _local_5 = new RoomWidgetPresentDataUpdateEvent(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_WALLPAPER, 0, this._container.localization.getKey("inventory.furni.item.wallpaper.name"), false, null);
                                             }
                                             else {
-                                                if (((!((_local_3 == null))) && ((_local_3.name == _FurniturePresentWidgetHandler)))) break;
+                                                if (((!((_local_3 == null))) && ((_local_3.name == _SafeStr_7293)))) break;
                                                 _local_4 = this._container.roomEngine.getWallItemIcon(_local_2.classId, this);
                                                 if (_local_3 != null){
                                                     this._name = _local_3.title;
@@ -227,7 +227,7 @@ package com.sulake.habbo.ui.handler
 // RWPDUE_CONTENTS_FLOOR = "_-OX" (String#23188, DoABC#2)
 // RWPDUE_CONTENTS_LANDSCAPE = "_-1cD" (String#17979, DoABC#2)
 // RWPDUE_CONTENTS_WALLPAPER = "_-o9" (String#24196, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // _SafeStr_5017 = "_-1-l" (String#16457, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 // _SafeStr_5023 = "_-hJ" (String#23942, DoABC#2)
@@ -235,16 +235,16 @@ package com.sulake.habbo.ui.handler
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7217 = "_-1mr" (String#18416, DoABC#2)
-// RoomSession = "_-3Es" (String#7609, DoABC#2)
-// SessionDataManager = "_-08L" (String#3728, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
+// sendPresentOpenMessage = "_-3Es" (String#7609, DoABC#2)
+// getFloorItemData = "_-08L" (String#3728, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
 // _SafeStr_7291 = "_-00x" (String#1383, DoABC#2)
 // _SafeStr_7292 = "_-aU" (String#8428, DoABC#2)
-// _FurniturePresentWidgetHandler = "_-2iw" (String#6930, DoABC#2)
+// _SafeStr_7293 = "_-2iw" (String#6930, DoABC#2)
 // _SafeStr_7294 = "_-Uf" (String#23433, DoABC#2)
 // _SafeStr_7295 = "_-2nE" (String#20969, DoABC#2)
 

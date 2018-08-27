@@ -51,13 +51,13 @@ package com.sulake.habbo.room.object.visualization.data
                 _local_3--;
             };
         }
-        public function AnimationFrameSequenceData(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:DirectionalOffsetData):void
+        public function addFrame(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:DirectionalOffsetData):void
         {
             var _local_7:AnimationFrameData;
             var _local_8:int = 1;
             if (this._frames.length > 0){
                 _local_7 = this._frames[(this._frames.length - 1)];
-                if ((((((((((((((((_local_7.id == _arg_1)) && (!(_local_7.AnimationFrameData())))) && ((_local_7.x == _arg_2)))) && ((_local_7.y == _arg_3)))) && ((_local_7.randomX == _arg_4)))) && ((_arg_4 == 0)))) && ((_local_7.randomY == _arg_5)))) && ((_arg_5 == 0)))){
+                if ((((((((((((((((_local_7.id == _arg_1)) && (!(_local_7.hasDirectionalOffsets())))) && ((_local_7.x == _arg_2)))) && ((_local_7.y == _arg_3)))) && ((_local_7.randomX == _arg_4)))) && ((_arg_4 == 0)))) && ((_local_7.randomY == _arg_5)))) && ((_arg_5 == 0)))){
                     _local_8 = (_local_8 + _local_7.repeats);
                     this._frames.pop();
                 };
@@ -81,7 +81,7 @@ package com.sulake.habbo.room.object.visualization.data
             _arg_1 = this._SafeStr_12589[(_arg_1 % this._SafeStr_12589.length)];
             return ((this._frames[_arg_1] as AnimationFrameData));
         }
-        public function AnimationFrameSequenceData(_arg_1:int):int
+        public function getFrameIndex(_arg_1:int):int
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.frameCount)))){
                 return (-1);
@@ -94,7 +94,7 @@ package com.sulake.habbo.room.object.visualization.data
             };
             return (_arg_1);
         }
-        public function AnimationFrameSequenceData(_arg_1:int):int
+        public function getRepeats(_arg_1:int):int
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.frameCount)))){
                 return (0);
@@ -105,20 +105,20 @@ package com.sulake.habbo.room.object.visualization.data
     }
 }//package com.sulake.habbo.room.object.visualization.data
 
-// AnimationFrameSequenceData = "_-0Xl" (String#15346, DoABC#2)
+// addFrame = "_-0Xl" (String#15346, DoABC#2)
 // _isRandom = "_-04W" (String#3656, DoABC#2)
 // repeats = "_-0Lv" (String#14909, DoABC#2)
-// AnimationFrameSequenceData = "_-0CB" (String#14536, DoABC#2)
+// getRepeats = "_-0CB" (String#14536, DoABC#2)
 // isRandom = "_-pm" (String#24264, DoABC#2)
 // _frameRepeats = "_-1Oe" (String#5327, DoABC#2)
 // _SafeStr_12589 = "_-lA" (String#24075, DoABC#2)
-// AnimationFrameData = "_-jk" (String#24025, DoABC#2)
+// hasDirectionalOffsets = "_-jk" (String#24025, DoABC#2)
 // DirectionalOffsetData = "_-0oK" (String#4599, DoABC#2)
 // AnimationFrameSequenceData = "_-34t" (String#7406, DoABC#2)
 // AnimationFrameData = "_-19W" (String#5067, DoABC#2)
 // AnimationFrameDirectionalData = "_-01i" (String#3596, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // frameCount = "_-0C7" (String#14533, DoABC#2)
 
 

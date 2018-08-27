@@ -37,11 +37,11 @@ package com.sulake.habbo.navigator.mainview
             else {
                 _local_1 = new URLRequest(this._url);
                 _local_2 = this._navigator.assets.loadAssetFromFile(this._picRef, _local_1, "image/gif");
-                _local_2.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.TwinkleImages);
+                _local_2.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.onImageReady);
                 _local_2.addEventListener(AssetLoaderEvent._SafeStr_4221, this.onLoadError);
             };
         }
-        private function TwinkleImages(_arg_1:AssetLoaderEvent):void
+        private function onImageReady(_arg_1:AssetLoaderEvent):void
         {
             if (this._disposed){
                 return;
@@ -92,7 +92,7 @@ package com.sulake.habbo.navigator.mainview
 // _url = "_-3Jl" (String#151, DoABC#2)
 // _SafeStr_4218 = "_-0Uc" (String#15228, DoABC#2)
 // setImage = "_-1NZ" (String#603, DoABC#2)
-// TwinkleImages = "_-1qK" (String#1767, DoABC#2)
+// onImageReady = "_-1qK" (String#1767, DoABC#2)
 // _SafeStr_4221 = "_-0eh" (String#15613, DoABC#2)
 // onLoadError = "_-2jJ" (String#20815, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)

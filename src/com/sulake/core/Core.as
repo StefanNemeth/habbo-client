@@ -40,7 +40,7 @@ package com.sulake.core
         {
             return (_instance);
         }
-        public static function Core(_arg_1:DisplayObjectContainer, _arg_2:uint):ICore
+        public static function instantiate(_arg_1:DisplayObjectContainer, _arg_2:uint):ICore
         {
             if (_instance == null){
                 _instance = new CoreComponentContext(_arg_1, _arg_2);
@@ -53,10 +53,10 @@ package com.sulake.core
                 _instance.error(_arg_1, _arg_2, _arg_3, _arg_4);
             };
         }
-        public static function IContext(_arg_1:String):void
+        public static function warning(_arg_1:String):void
         {
             if (_instance){
-                _instance.IContext(_arg_1);
+                _instance.warning(_arg_1);
             };
         }
         public static function debug(_arg_1:String):void
@@ -65,7 +65,7 @@ package com.sulake.core
                 _instance.debug(_arg_1);
             };
         }
-        public static function Core(_arg_1:String, _arg_2:int, _arg_3:Error=null):void
+        public static function crash(_arg_1:String, _arg_2:int, _arg_3:Error=null):void
         {
             if (_instance){
                 _instance.error(_arg_1, true, _arg_2, _arg_3);
@@ -88,7 +88,7 @@ package com.sulake.core
 // ICore = "_-2kX" (String#6966, DoABC#2)
 // instance = "_-1iT" (String#18226, DoABC#2)
 // _SafeStr_8884 = "_-01f" (String#14117, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 // _SafeStr_8919 = "_-2Sm" (String#20150, DoABC#2)
 // _SafeStr_8921 = "_-1te" (String#18704, DoABC#2)
 // _SafeStr_8923 = "_-3J" (String#22237, DoABC#2)
@@ -96,7 +96,7 @@ package com.sulake.core
 // _SafeStr_8927 = "_-1lp" (String#18368, DoABC#2)
 // _SafeStr_8935 = "_-0DA" (String#14575, DoABC#2)
 // _SafeStr_8936 = "_-Y9" (String#23568, DoABC#2)
-// IContext = "_-1MU" (String#5283, DoABC#2)
+// warning = "_-1MU" (String#5283, DoABC#2)
 // _SafeStr_8964 = "_-3JI" (String#22255, DoABC#2)
 // _SafeStr_8966 = "_-0p7" (String#16021, DoABC#2)
 // _SafeStr_8975 = "_-3-U" (String#21481, DoABC#2)
@@ -108,6 +108,6 @@ package com.sulake.core
 // _SafeStr_9856 = "_-1xX" (String#18870, DoABC#2)
 // _SafeStr_9857 = "_-0SS" (String#15152, DoABC#2)
 // _SafeStr_9858 = "_-1oR" (String#18474, DoABC#2)
-// Core = "_-Pb" (String#23231, DoABC#2)
+// instantiate = "_-Pb" (String#23231, DoABC#2)
 
 

@@ -45,7 +45,7 @@ package com.sulake.core.window
         public static var _SafeStr_9783:IEventQueue;
         private static var _SafeStr_9784:IEventProcessor;
         private static var _SafeStr_9785:uint = _SafeStr_9776;//0
-        private static var _RoomInstance:IWindowRenderer;
+        private static var _SafeStr_8622:IWindowRenderer;
         private static var stage:Stage;
 
         private var _SafeStr_9786:EventProcessorState;
@@ -53,7 +53,7 @@ package com.sulake.core.window
         protected var _localization:ICoreLocalizationManager;
         protected var _SafeStr_9788:DisplayObjectContainer;
         protected var _SafeStr_9789:Boolean = true;
-        protected var _WindowContext:Error;
+        protected var _SafeStr_8959:Error;
         protected var _SafeStr_9790:int = -1;
         protected var _SafeStr_9791:IInternalWindowServices;
         protected var _SafeStr_9792:IWindowParser;
@@ -68,7 +68,7 @@ package com.sulake.core.window
         public function WindowContext(_arg_1:String, _arg_2:IWindowRenderer, _arg_3:IWindowFactory, _arg_4:ICoreLocalizationManager, _arg_5:DisplayObjectContainer, _arg_6:Rectangle)
         {
             this._name = _arg_1;
-            _RoomInstance = _arg_2;
+            _SafeStr_8622 = _arg_2;
             this._localization = _arg_4;
             this._SafeStr_9788 = _arg_5;
             this._SafeStr_9791 = new ServiceManager(this, _arg_5);
@@ -95,7 +95,7 @@ package com.sulake.core.window
             this._SafeStr_9788.addChild(this._SafeStr_8617.getDisplayObject());
             this._SafeStr_9788.doubleClickEnabled = true;
             this._SafeStr_9788.addEventListener(Event.RESIZE, this.stageResizedHandler);
-            this._SafeStr_9786 = new EventProcessorState(_RoomInstance, this._SafeStr_8617, this._SafeStr_8617, null, this._SafeStr_9787);
+            this._SafeStr_9786 = new EventProcessorState(_SafeStr_8622, this._SafeStr_8617, this._SafeStr_8617, null, this._SafeStr_9787);
             inputMode = _SafeStr_9776;
             this._SafeStr_9794 = new SubstituteParentController(this);
         }
@@ -158,12 +158,12 @@ package com.sulake.core.window
                 this._SafeStr_9791 = null;
                 this._SafeStr_9792.dispose();
                 this._SafeStr_9792 = null;
-                _RoomInstance = null;
+                _SafeStr_8622 = null;
             };
         }
         public function getLastError():Error
         {
-            return (this._WindowContext);
+            return (this._SafeStr_8959);
         }
         public function getLastErrorCode():int
         {
@@ -171,7 +171,7 @@ package com.sulake.core.window
         }
         public function handleError(_arg_1:int, _arg_2:Error):void
         {
-            this._WindowContext = _arg_2;
+            this._SafeStr_8959 = _arg_2;
             this._SafeStr_9790 = _arg_1;
             if (this._SafeStr_9789){
                 throw (_arg_2);
@@ -179,7 +179,7 @@ package com.sulake.core.window
         }
         public function flushError():void
         {
-            this._WindowContext = null;
+            this._SafeStr_8959 = null;
             this._SafeStr_9790 = -1;
         }
         public function getWindowServices():IInternalWindowServices
@@ -208,7 +208,7 @@ package com.sulake.core.window
         }
         public function removeLocalizationListener(_arg_1:String, _arg_2:IWindow):void
         {
-            this._localization.PetDataManager(_arg_1, (_arg_2 as ILocalizable));
+            this._localization.removeListener(_arg_1, (_arg_2 as ILocalizable));
         }
         public function create(_arg_1:String, _arg_2:String, _arg_3:uint, _arg_4:uint, _arg_5:uint, _arg_6:Rectangle, _arg_7:Function, _arg_8:IWindow, _arg_9:uint, _arg_10:Array=null, _arg_11:Array=null):IWindow
         {
@@ -242,22 +242,22 @@ package com.sulake.core.window
         public function invalidate(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void
         {
             if (!this.disposed){
-                _RoomInstance.WindowRenderer(WindowController(_arg_1), _arg_2, _arg_3);
+                _SafeStr_8622.addToRenderQueue(WindowController(_arg_1), _arg_2, _arg_3);
             };
         }
         public function update(_arg_1:uint):void
         {
             this._SafeStr_9299 = true;
-            if (this._WindowContext){
-                throw (this._WindowContext);
+            if (this._SafeStr_8959){
+                throw (this._SafeStr_8959);
             };
-            _SafeStr_9784.MouseEventProcessor(this._SafeStr_9786, _SafeStr_9783);
+            _SafeStr_9784.process(this._SafeStr_9786, _SafeStr_9783);
             this._SafeStr_9299 = false;
         }
         public function render(_arg_1:uint):void
         {
             this._SafeStr_9795 = true;
-            _RoomInstance.update(_arg_1);
+            _SafeStr_8622.update(_arg_1);
             this._SafeStr_9795 = false;
         }
         private function stageResizedHandler(_arg_1:Event):void
@@ -319,17 +319,17 @@ package com.sulake.core.window
 // destroy = "_-25R" (String#615, DoABC#2)
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
-// MouseEventProcessor = "_-3Fw" (String#2032, DoABC#2)
+// process = "_-3Fw" (String#2032, DoABC#2)
 // _SafeStr_8617 = "_-1WY" (String#5483, DoABC#2)
-// _RoomInstance = "_-32W" (String#628, DoABC#2)
+// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
-// _WindowContext = "_-0NR" (String#4029, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
+// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
 // _SafeStr_9169 = "_-2Nz" (String#19963, DoABC#2)
 // _SafeStr_9299 = "_-2FT" (String#6353, DoABC#2)
 // limits = "_-2BM" (String#6274, DoABC#2)
 // _SafeStr_9480 = "_-2cN" (String#20539, DoABC#2)
-// WindowRenderer = "_-1zA" (String#6020, DoABC#2)
+// addToRenderQueue = "_-1zA" (String#6020, DoABC#2)
 // findWindowByName = "_-0I5" (String#3917, DoABC#2)
 // getLastError = "_-8" (String#7822, DoABC#2)
 // getLastErrorCode = "_-oV" (String#8683, DoABC#2)

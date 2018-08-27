@@ -20,7 +20,7 @@ package com.sulake.core.window.graphics
         private static const _SafeStr_9605:uint = 2;
 
         private var _buffer:BitmapData;
-        private var _RoomInstance:WindowRenderer;
+        private var _SafeStr_8622:WindowRenderer;
         private var _skinContainer:ISkinContainer;
         private var _drawBufferAllocator:DrawBufferAllocator;
         private var _disposed:Boolean;
@@ -34,7 +34,7 @@ package com.sulake.core.window.graphics
         public function WindowRendererItem(_arg_1:WindowRenderer, _arg_2:DrawBufferAllocator, _arg_3:ISkinContainer)
         {
             this._disposed = false;
-            this._RoomInstance = _arg_1;
+            this._SafeStr_8622 = _arg_1;
             this._skinContainer = _arg_3;
             this._drawBufferAllocator = _arg_2;
             this._SafeStr_9609 = 0xFFFFFFFF;
@@ -59,7 +59,7 @@ package com.sulake.core.window.graphics
         {
             if (!this._disposed){
                 this._disposed = true;
-                this._RoomInstance = null;
+                this._SafeStr_8622 = null;
                 this._skinContainer = null;
                 if (this._buffer != null){
                     this._drawBufferAllocator.free(this._buffer);
@@ -104,20 +104,20 @@ package com.sulake.core.window.graphics
                 if (!_local_11.visible){
                     _local_11.visible = true;
                 };
-                _local_12 = _arg_1.IWindow(WindowParam.WINDOW_PARAM_FORCE_CLIPPING);
-                _local_11.IGraphicContext(_arg_1.rectangle, !(_arg_1.IWindow(WindowParam._SafeStr_7443)), ((_local_12) ? _arg_3 : null));
+                _local_12 = _arg_1.testParamFlag(WindowParam.WINDOW_PARAM_FORCE_CLIPPING);
+                _local_11.setDrawRegion(_arg_1.rectangle, !(_arg_1.testParamFlag(WindowParam._SafeStr_7443)), ((_local_12) ? _arg_3 : null));
                 if (_local_12){
                     _arg_3 = new Rectangle(0, 0, _local_8, _local_9);
                 };
             };
             if (_local_5 != _SafeStr_9603){
                 this._SafeStr_9609 = this._SafeStr_9610;
-                _local_4 = (_arg_1.WindowController() as BitmapData);
+                _local_4 = (_arg_1.fetchDrawBuffer() as BitmapData);
                 if (_local_4 != null){
                     _local_4.lock();
                     if (_local_5 == _SafeStr_9604){
                         _local_6 = true;
-                        if (!_arg_1.IWindow(WindowParam._SafeStr_7443)){
+                        if (!_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                             _local_4.fillRect(_arg_3, 0);
                         };
                         if (this._SafeStr_9607){
@@ -127,7 +127,7 @@ package com.sulake.core.window.graphics
                             };
                             _local_7.draw(_arg_1, this._buffer, this._buffer.rect, this._SafeStr_9610, false);
                         };
-                        if ((((_arg_1.blend < 1)) && (_arg_1.IWindow(WindowParam._SafeStr_7443)))){
+                        if ((((_arg_1.blend < 1)) && (_arg_1.testParamFlag(WindowParam._SafeStr_7443)))){
                             this._SafeStr_4063.tx = _arg_2.x;
                             this._SafeStr_4063.ty = _arg_2.y;
                             this._colorTransform.alphaMultiplier = _arg_1.blend;
@@ -142,7 +142,7 @@ package com.sulake.core.window.graphics
                     else {
                         if (_local_5 == _SafeStr_9605){
                             _local_6 = true;
-                            if (_arg_1.IWindow(WindowParam._SafeStr_7443)){
+                            if (_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                                 this._buffer.fillRect(this._buffer.rect, _arg_1.color);
                                 _local_4.copyPixels(this._buffer, _arg_3, _arg_2, null, null, true);
                             }
@@ -189,12 +189,12 @@ package com.sulake.core.window.graphics
                     _local_4 = true;
                     break;
                 case WindowRedrawFlag._SafeStr_9614:
-                    if (_arg_1.IWindow(WindowParam._SafeStr_7443)){
+                    if (_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                         _local_4 = true;
                     }
                     else {
                         _local_5 = IGraphicContextHost(_arg_1).getGraphicContext(true);
-                        _local_5.IGraphicContext(_arg_1.rectangle, false, null);
+                        _local_5.setDrawRegion(_arg_1.rectangle, false, null);
                         if (!_local_5.visible){
                             _local_4 = true;
                         };
@@ -208,7 +208,7 @@ package com.sulake.core.window.graphics
                     };
                     break;
                 case WindowRedrawFlag._SafeStr_9616:
-                    if (_arg_1.IWindow(WindowParam._SafeStr_7443)){
+                    if (_arg_1.testParamFlag(WindowParam._SafeStr_7443)){
                         this._SafeStr_9607 = true;
                         _local_4 = true;
                     }
@@ -260,15 +260,15 @@ package com.sulake.core.window.graphics
 // _SafeStr_4063 = "_-09E" (String#808, DoABC#2)
 // _colorTransform = "_-0yf" (String#300, DoABC#2)
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
-// _RoomInstance = "_-32W" (String#628, DoABC#2)
+// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
-// WindowController = "_-0oc" (String#1553, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
+// fetchDrawBuffer = "_-0oc" (String#1553, DoABC#2)
 // _SafeStr_9310 = "_-2-h" (String#19000, DoABC#2)
 // getSkinRendererByTypeAndStyle = "_-0j" (String#4480, DoABC#2)
 // getTheActualState = "_-0Or" (String#4067, DoABC#2)
-// IGraphicContext = "_-340" (String#7389, DoABC#2)
+// setDrawRegion = "_-340" (String#7389, DoABC#2)
 // _SafeStr_9603 = "_-1fQ" (String#18114, DoABC#2)
 // _SafeStr_9604 = "_-2RY" (String#20100, DoABC#2)
 // _SafeStr_9605 = "_-1yJ" (String#18900, DoABC#2)

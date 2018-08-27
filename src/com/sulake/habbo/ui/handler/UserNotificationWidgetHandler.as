@@ -37,13 +37,13 @@ package com.sulake.habbo.ui.handler
             this._container = _arg_1;
             this._container.roomSession.sendGetUserNotifications();
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetGetUserNotificationMessage.RWGSM_GET_NOTIFICATIONS);
             return (_local_1);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionUserNotificationEvent.RSUN_USER_NOTIFICATION]);
         }
@@ -58,7 +58,7 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionUserNotificationEvent;
             var _local_3:RoomWidgetUserNotificationEvent;
@@ -89,9 +89,9 @@ package com.sulake.habbo.ui.handler
 // RWGSM_GET_NOTIFICATIONS = "_-14k" (String#16643, DoABC#2)
 // RSUN_USER_NOTIFICATION = "_-0ni" (String#15964, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // RWUNE_NOTIFICATION = "_-0Vj" (String#4221, DoABC#2)
 
 

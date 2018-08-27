@@ -48,7 +48,7 @@ package com.sulake.core.runtime
             this._unknown = null;
             this._references = 0;
         }
-        public function InterfaceStruct():uint
+        public function reserve():uint
         {
             return (++this._references);
         }
@@ -67,7 +67,7 @@ package com.sulake.core.runtime
 // iis = "_-2RW" (String#20099, DoABC#2)
 // references = "_-1yb" (String#18912, DoABC#2)
 // _references = "_-02V" (String#3617, DoABC#2)
-// InterfaceStruct = "_-k-" (String#24033, DoABC#2)
+// reserve = "_-k-" (String#24033, DoABC#2)
 // _iid = "_-xo" (String#24605, DoABC#2)
 // _iis = "_-jA" (String#24005, DoABC#2)
 

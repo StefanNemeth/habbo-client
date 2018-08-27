@@ -52,7 +52,7 @@ package com.sulake.room.renderer.cache
             };
             this._locationChanged = _local_3;
             if (_local_3){
-                _local_5 = _arg_2.RoomGeometry(_local_4);
+                _local_5 = _arg_2.getScreenPosition(_local_4);
                 if (_local_5 == null){
                     return (null);
                 };
@@ -60,7 +60,7 @@ package com.sulake.room.renderer.cache
                 if (((isNaN(_local_6)) || ((_local_6 == 0)))){
                     _local_7 = new Vector3d(Math.round(_local_4.x), Math.round(_local_4.y), _local_4.z);
                     if (((!((_local_7.x == _local_4.x))) || (!((_local_7.y == _local_4.y))))){
-                        _local_8 = _arg_2.RoomGeometry(_local_7);
+                        _local_8 = _arg_2.getScreenPosition(_local_7);
                         this._SafeStr_14428.assign(_local_5);
                         if (_local_8 != null){
                             this._SafeStr_14428.z = _local_8.z;
@@ -82,7 +82,7 @@ package com.sulake.room.renderer.cache
     }
 }//package com.sulake.room.renderer.cache
 
-// RoomGeometry = "_-1QP" (String#5358, DoABC#2)
+// getScreenPosition = "_-1QP" (String#5358, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // _SafeStr_14426 = "_-0BO" (String#14501, DoABC#2)

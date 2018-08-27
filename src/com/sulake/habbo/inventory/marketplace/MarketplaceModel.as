@@ -124,14 +124,14 @@ package com.sulake.habbo.inventory.marketplace
             this._assets = null;
             this._roomEngine = null;
         }
-        public function MarketplaceModel():void
+        public function releaseItem():void
         {
             if (((((!((this._controller == null))) && (!((this._controller.furniModel == null))))) && (!((this._SafeStr_3764 == null))))){
-                this._controller.furniModel.GroupItem(this._SafeStr_3764.id);
+                this._controller.furniModel.removeLockFrom(this._SafeStr_3764.id);
                 this._SafeStr_3764 = null;
             };
         }
-        public function MarketplaceModel(_arg_1:IItem):void
+        public function startOfferMaking(_arg_1:IItem):void
         {
             if (((!((this._SafeStr_3764 == null))) || ((_arg_1 == null)))){
                 return;
@@ -144,41 +144,41 @@ package com.sulake.habbo.inventory.marketplace
                 return;
             };
             this._SafeStr_3764 = _arg_1;
-            _local_2.GroupItem(_arg_1.id);
-            var _local_3:IConnection = this._communication.HabboCommunicationManager(null);
+            _local_2.addLockTo(_arg_1.id);
+            var _local_3:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_3 == null){
                 return;
             };
             _local_3.send(new GetMarketplaceCanMakeOfferComposer());
         }
-        public function MarketplaceModel():void
+        public function buyMarketplaceTokens():void
         {
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_1 == null){
                 return;
             };
             _local_1.send(new BuyMarketplaceTokensMessageComposer());
             this._SafeStr_8574 = true;
         }
-        public function MarketplaceModel(_arg_1:int):void
+        public function makeOffer(_arg_1:int):void
         {
             if (this._SafeStr_3764 == null){
                 return;
             };
-            var _local_2:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_2:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_2 == null){
                 return;
             };
             var _local_3:int = (((this._SafeStr_3764 is FloorItem)) ? 1 : 2);
             _local_2.send(new MakeOfferMessageComposer(_arg_1, _local_3, this._SafeStr_3764.ref));
-            this.MarketplaceModel();
+            this.releaseItem();
         }
-        public function MarketplaceModel():void
+        public function getItemStats():void
         {
             if (this._SafeStr_3764 == null){
                 return;
             };
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_1 == null){
                 return;
             };
@@ -187,21 +187,21 @@ package com.sulake.habbo.inventory.marketplace
             this._SafeStr_8573 = this._SafeStr_3764.type;
             _local_1.send(new GetMarketplaceItemStatsComposer(_local_2, this._SafeStr_3764.type));
         }
-        public function MarketplaceModel(_arg_1:int, _arg_2:int):void
+        public function proceedOfferMaking(_arg_1:int, _arg_2:int):void
         {
             this._SafeStr_8574 = false;
             switch (_arg_1){
                 case 1:
-                    this._view.MarketplaceView(this._SafeStr_3764);
+                    this._view.showMakeOffer(this._SafeStr_3764);
                     return;
                 case 2:
-                    this._view.MarketplaceView(("$" + "{inventory.marketplace.no_trading_privilege.title}"), ("$" + "{inventory.marketplace.no_trading_privilege.info}"));
+                    this._view.showAlert(("$" + "{inventory.marketplace.no_trading_privilege.title}"), ("$" + "{inventory.marketplace.no_trading_privilege.info}"));
                     return;
                 case 3:
-                    this._view.MarketplaceView(("$" + "{inventory.marketplace.no_trading_pass.title}"), ("$" + "{inventory.marketplace.no_trading_pass.info}"));
+                    this._view.showAlert(("$" + "{inventory.marketplace.no_trading_pass.title}"), ("$" + "{inventory.marketplace.no_trading_pass.info}"));
                     return;
                 case 4:
-                    this._view.MarketplaceView(this._tokenBatchPrice, this._tokenBatchSize);
+                    this._view.showBuyTokens(this._tokenBatchPrice, this._tokenBatchSize);
                     return;
             };
         }
@@ -210,9 +210,9 @@ package com.sulake.habbo.inventory.marketplace
             if (!this._view){
                 return;
             };
-            this._view.MarketplaceView(_arg_1);
+            this._view.showResult(_arg_1);
         }
-        public function MarketplaceModel(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function setAveragePrice(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
             if (((!((_arg_1 == this._SafeStr_8572))) || (!((_arg_2 == this._SafeStr_8573))))){
                 return;
@@ -220,34 +220,34 @@ package com.sulake.habbo.inventory.marketplace
             if (!this._view){
                 return;
             };
-            this._view.MarketplaceView(_arg_3, this._averagePricePeriod);
+            this._view.updateAveragePrice(_arg_3, this._averagePricePeriod);
         }
         public function onNotEnoughCredits():void
         {
             if (this._SafeStr_8574){
                 this._SafeStr_8574 = false;
-                this.MarketplaceModel();
+                this.releaseItem();
             };
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
-            var _local_2:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_2:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_2 == null){
                 return;
             };
             _local_2.send(new GetMarketplaceConfigurationMessageComposer());
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (null);
         }
         public function categorySwitch(_arg_1:String):void
         {
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
         }
 
@@ -267,20 +267,20 @@ package com.sulake.habbo.inventory.marketplace
 // MarketplaceView = "_-Z7" (String#8395, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // _SafeStr_3764 = "_-1eS" (String#609, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // isEnabled = "_-2ri" (String#21145, DoABC#2)
 // _isEnabled = "_-2au" (String#895, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
-// GroupItem = "_-2FC" (String#19612, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// removeLockFrom = "_-2FC" (String#19612, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
-// GroupItem = "_-oD" (String#24199, DoABC#2)
+// addLockTo = "_-oD" (String#24199, DoABC#2)
 // ref = "_-Jx" (String#8081, DoABC#2)
-// MarketplaceModel = "_-0bY" (String#15497, DoABC#2)
+// startOfferMaking = "_-0bY" (String#15497, DoABC#2)
 // _commission = "_-05d" (String#3678, DoABC#2)
 // _tokenBatchPrice = "_-0eg" (String#4404, DoABC#2)
 // _tokenBatchSize = "_-Jn" (String#8079, DoABC#2)
@@ -297,18 +297,18 @@ package com.sulake.habbo.inventory.marketplace
 // _SafeStr_8572 = "_-0Xo" (String#4263, DoABC#2)
 // _SafeStr_8573 = "_-1Hw" (String#5205, DoABC#2)
 // _SafeStr_8574 = "_-09a" (String#14430, DoABC#2)
-// MarketplaceModel = "_-0DN" (String#14585, DoABC#2)
-// MarketplaceModel = "_-3Fc" (String#22102, DoABC#2)
-// MarketplaceModel = "_-1Ap" (String#16895, DoABC#2)
-// MarketplaceModel = "_-sH" (String#24372, DoABC#2)
-// MarketplaceModel = "_-11Q" (String#16513, DoABC#2)
-// MarketplaceView = "_-0GY" (String#14701, DoABC#2)
-// MarketplaceView = "_-0F1" (String#14646, DoABC#2)
-// MarketplaceView = "_-eW" (String#23823, DoABC#2)
+// releaseItem = "_-0DN" (String#14585, DoABC#2)
+// buyMarketplaceTokens = "_-3Fc" (String#22102, DoABC#2)
+// makeOffer = "_-1Ap" (String#16895, DoABC#2)
+// getItemStats = "_-sH" (String#24372, DoABC#2)
+// proceedOfferMaking = "_-11Q" (String#16513, DoABC#2)
+// showMakeOffer = "_-0GY" (String#14701, DoABC#2)
+// showAlert = "_-0F1" (String#14646, DoABC#2)
+// showBuyTokens = "_-eW" (String#23823, DoABC#2)
 // _SafeStr_8583 = "try" (String#10537, DoABC#2)
-// MarketplaceView = "_-3Fu" (String#22112, DoABC#2)
-// MarketplaceModel = "_-1q8" (String#18550, DoABC#2)
-// MarketplaceView = "_-0TT" (String#15190, DoABC#2)
+// showResult = "_-3Fu" (String#22112, DoABC#2)
+// setAveragePrice = "_-1q8" (String#18550, DoABC#2)
+// updateAveragePrice = "_-0TT" (String#15190, DoABC#2)
 // onNotEnoughCredits = "_-0xN" (String#4799, DoABC#2)
 
 

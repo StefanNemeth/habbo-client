@@ -104,7 +104,7 @@ package com.sulake.habbo.help.tutorial
             this._hasCalledGuideBot = _arg_3;
             if ((((this._SafeStr_3864 == null)) || ((this._SafeStr_3864.id == TUI_MAIN_VIEW)))){
                 this.prepareForTutorial();
-                this.HabboInventory(TUI_MAIN_VIEW);
+                this.showView(TUI_MAIN_VIEW);
             };
         }
         public function onTaskDoneEvent(_arg_1:HabboHelpTutorialEvent):void
@@ -113,7 +113,7 @@ package com.sulake.habbo.help.tutorial
                 case HabboHelpTutorialEvent.HHTPNUFWE_DONE_GUIDEBOT:
                     this._hasCalledGuideBot = true;
                     if (((!((this._SafeStr_3864 == null))) && ((this._SafeStr_3864.id == TUI_GUIDEBOT_VIEW)))){
-                        this.HabboInventory(TUI_MAIN_VIEW);
+                        this.showView(TUI_MAIN_VIEW);
                     };
                     return;
                 case HabboHelpTutorialEvent.HHTE_DONE_AVATAR_EDITOR_OPENING:
@@ -125,12 +125,12 @@ package com.sulake.habbo.help.tutorial
                 case HabboHelpTutorialEvent.HHTE_DONE_AVATAR_EDITOR_CLOSING:
                     if (this._SafeStr_11446){
                         this._SafeStr_11446 = false;
-                        this.HabboInventory(TUI_MAIN_VIEW);
+                        this.showView(TUI_MAIN_VIEW);
                     };
                     return;
             };
         }
-        public function HabboInventory(_arg_1:String):void
+        public function showView(_arg_1:String):void
         {
             var _local_2:IItemListWindow;
             if (this.hasTasksDone){
@@ -145,7 +145,7 @@ package com.sulake.habbo.help.tutorial
                 if (this._window == null){
                     return;
                 };
-                this._window.procedure = this.TutorialMainView;
+                this._window.procedure = this.windowProcedure;
                 _local_2 = (this._window.findChildByName("content_list") as IItemListWindow);
                 if (_local_2 == null){
                     return;
@@ -158,7 +158,7 @@ package com.sulake.habbo.help.tutorial
             if (_local_2 == null){
                 return;
             };
-            _local_2.IItemListWindow();
+            _local_2.destroyListItems();
             _local_2.height = 0;
             if (this._SafeStr_3864 != null){
                 this._SafeStr_3864.dispose();
@@ -182,7 +182,7 @@ package com.sulake.habbo.help.tutorial
                     if (this._SafeStr_11445 == null){
                         this._SafeStr_11445 = new NameChangeView(this);
                     };
-                    this._SafeStr_11445.NameChangeView();
+                    this._SafeStr_11445.showMainView();
                     this.prepareForTutorial();
                     break;
                 case TUI_CLOTHES_VIEW:
@@ -246,7 +246,7 @@ package com.sulake.habbo.help.tutorial
             this._help.hideUI();
             this._help.events.dispatchEvent(new HabboHelpTutorialEvent(HabboHelpTutorialEvent.HHTPNUFWE_AE_STARTED));
         }
-        public function TutorialMainView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        public function windowProcedure(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             switch (_arg_1.type){
                 case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
@@ -278,7 +278,7 @@ package com.sulake.habbo.help.tutorial
                 _arg_1.dispose();
             });
             if (((!((this._SafeStr_3864 == null))) && ((((this._SafeStr_3864.id == TUI_NAME_VIEW)) || ((this._SafeStr_3864.id == TUI_MAIN_VIEW)))))){
-                this.HabboInventory(TUI_MAIN_VIEW);
+                this.showView(TUI_MAIN_VIEW);
             };
         }
         private function onFigureUpdate(_arg_1:HabboSessionFigureUpdatedEvent):void
@@ -301,7 +301,7 @@ package com.sulake.habbo.help.tutorial
         {
             this._hasChangedLooks = true;
             if (((!((this._SafeStr_3864 == null))) && ((((this._SafeStr_3864.id == TUI_CLOTHES_VIEW)) || ((this._SafeStr_3864.id == TUI_MAIN_VIEW)))))){
-                this.HabboInventory(TUI_MAIN_VIEW);
+                this.showView(TUI_MAIN_VIEW);
             };
         }
         public function onChangeUserNameResult(_arg_1:ChangeUserNameResultMessageEvent):void
@@ -312,10 +312,10 @@ package com.sulake.habbo.help.tutorial
             var _local_2:ChangeUserNameResultMessageParser = _arg_1.getParser();
             if (_local_2.resultCode == ChangeUserNameResultMessageEvent._SafeStr_7096){
                 this._hasChangedName = true;
-                this.HabboInventory(TutorialUI.TUI_MAIN_VIEW);
+                this.showView(TutorialUI.TUI_MAIN_VIEW);
             }
             else {
-                this._SafeStr_11445.NameChangeView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
+                this._SafeStr_11445.setNameNotAvailableView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
             };
         }
         public function onCheckUserNameResult(_arg_1:CheckUserNameResultMessageEvent):void
@@ -328,7 +328,7 @@ package com.sulake.habbo.help.tutorial
                 this._SafeStr_11445.checkedName = _local_2.name;
             }
             else {
-                this._SafeStr_11445.NameChangeView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
+                this._SafeStr_11445.setNameNotAvailableView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
             };
         }
 
@@ -339,12 +339,12 @@ package com.sulake.habbo.help.tutorial
 // _SafeStr_11397 = "_-1Dk" (String#5138, DoABC#2)
 // _SafeStr_11398 = "_-2Is" (String#6418, DoABC#2)
 // setRoomSessionStatus = "_-lP" (String#24084, DoABC#2)
-// NameChangeView = "_-2pt" (String#21077, DoABC#2)
+// showMainView = "_-2pt" (String#21077, DoABC#2)
 // changeName = "_-0uN" (String#4733, DoABC#2)
 // checkName = "_-2Fe" (String#6356, DoABC#2)
 // onUserNameChanged = "_-dO" (String#23776, DoABC#2)
 // onChangeUserNameResult = "_-06v" (String#1405, DoABC#2)
-// NameChangeView = "_-oP" (String#24210, DoABC#2)
+// setNameNotAvailableView = "_-oP" (String#24210, DoABC#2)
 // onCheckUserNameResult = "_-2F9" (String#6344, DoABC#2)
 // checkedName = "_-11W" (String#16518, DoABC#2)
 // myName = "_-0Kp" (String#3971, DoABC#2)
@@ -362,7 +362,7 @@ package com.sulake.habbo.help.tutorial
 // hasTasksDone = "_-h0" (String#23931, DoABC#2)
 // prepareForTutorial = "_-0Yl" (String#15390, DoABC#2)
 // removeTutorialUI = "_-0JO" (String#14817, DoABC#2)
-// TutorialMainView = "_-1tK" (String#869, DoABC#2)
+// windowProcedure = "_-1tK" (String#869, DoABC#2)
 // onUserChanged = "_-0NZ" (String#14975, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
@@ -386,7 +386,7 @@ package com.sulake.habbo.help.tutorial
 // HHTPNUFWE_AE_STARTED = "_-0Le" (String#14899, DoABC#2)
 // HABBO_SESSION_FIGURE_UPDATE = "_-0yO" (String#16368, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
 // _SafeStr_7096 = "_-OP" (String#23184, DoABC#2)
 // onFigureUpdate = "_-2uZ" (String#1961, DoABC#2)
 // HHTE_DONE_AVATAR_EDITOR_OPENING = "_-2Gq" (String#19675, DoABC#2)
@@ -398,7 +398,7 @@ package com.sulake.habbo.help.tutorial
 // _hasCalledGuideBot = "_-19F" (String#5062, DoABC#2)
 // hasChangedLooks = "_-32V" (String#21597, DoABC#2)
 // hasCalledGuideBot = "_-l6" (String#24074, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 // disposeView = "_-jU" (String#2169, DoABC#2)
 // resultCode = "_-09c" (String#14431, DoABC#2)
 // nameSuggestions = "_-2Cy" (String#19520, DoABC#2)

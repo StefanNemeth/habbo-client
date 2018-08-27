@@ -34,7 +34,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
         private var _SafeStr_5918:Array;
         private var _SafeStr_5919:Array;
         private var _SafeStr_5920:Point = null;
-        private var _LayoutRasterizer:LayoutRasterizerData = null;
+        private var _SafeStr_5921:LayoutRasterizerData = null;
 
         public function LayoutRasterizer()
         {
@@ -56,7 +56,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
                 this._SafeStr_5910 = _arg_1;
                 this._adBgIndex = -1;
                 this._adImgIndex = -1;
-                this._LayoutRasterizer = this._SafeStr_5911.getValue(this._SafeStr_5910);
+                this._SafeStr_5921 = this._SafeStr_5911.getValue(this._SafeStr_5910);
             };
         }
         public function dispose():void
@@ -80,7 +80,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
                 this._SafeStr_5911.dispose();
                 this._SafeStr_5911 = null;
             };
-            this._LayoutRasterizer = null;
+            this._SafeStr_5921 = null;
         }
         public function initialize(_arg_1:XML):void
         {
@@ -92,8 +92,8 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
         }
         public function initializeGeometry(_arg_1:IRoomGeometry):void
         {
-            var _local_2:Point = _arg_1.RoomGeometry(new Vector3d(0, 0, 0));
-            var _local_3:Point = _arg_1.RoomGeometry(this._SafeStr_5909);
+            var _local_2:Point = _arg_1.getScreenPoint(new Vector3d(0, 0, 0));
+            var _local_3:Point = _arg_1.getScreenPoint(this._SafeStr_5909);
             _local_3.x = (_local_3.x - _local_2.x);
             _local_3.y = (_local_3.y - _local_2.y);
             _local_3.x = Math.round(_local_3.x);
@@ -246,10 +246,10 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
         public function setElementToSprite(_arg_1:int, _arg_2:IRoomObjectSprite, _arg_3:String="", _arg_4:Boolean=false):void
         {
             var _local_10:String;
-            if (this._LayoutRasterizer == null){
+            if (this._SafeStr_5921 == null){
                 return;
             };
-            var _local_5:XMLList = this._LayoutRasterizer.elementList;
+            var _local_5:XMLList = this._SafeStr_5921.elementList;
             if (_local_5 == null){
                 return;
             };
@@ -360,7 +360,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
 // IRoomObjectSprite = "_-0di" (String#4386, DoABC#2)
 // LayoutRasterizerData = "_-jp" (String#8597, DoABC#2)
 // getSprite = "_-sN" (String#2210, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
 // _SafeStr_5325 = "_-1vh" (String#18784, DoABC#2)
 // _assetCollection = "_-2PR" (String#888, DoABC#2)
 // clickHandling = "_-2fU" (String#6858, DoABC#2)
@@ -378,7 +378,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom.rasterizer
 // _SafeStr_5918 = "_-1wr" (String#18839, DoABC#2)
 // _SafeStr_5919 = "_-1f8" (String#18103, DoABC#2)
 // _SafeStr_5920 = "_-0kt" (String#15860, DoABC#2)
-// _LayoutRasterizer = "_-0-R" (String#14030, DoABC#2)
+// _SafeStr_5921 = "_-0-R" (String#14030, DoABC#2)
 // initializeGeometry = "_-26d" (String#19277, DoABC#2)
 // initializeAds = "_-U2" (String#23411, DoABC#2)
 // elementList = "_-30K" (String#21514, DoABC#2)

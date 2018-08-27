@@ -41,7 +41,7 @@ package com.sulake.habbo.session
         {
             this._assets = null;
         }
-        public function SessionDataManager(_arg_1:String, _arg_2:String="normal_badge", _arg_3:Boolean=true):BitmapData
+        public function getBadgeImage(_arg_1:String, _arg_2:String="normal_badge", _arg_3:Boolean=true):BitmapData
         {
             var _local_4:BitmapData = this.getBadgeImageInternal(_arg_1, _arg_2);
             if (((!(_local_4)) && (_arg_3))){
@@ -49,7 +49,7 @@ package com.sulake.habbo.session
             };
             return (_local_4);
         }
-        public function SessionDataManager(_arg_1:String):BadgeInfo
+        public function getBadgeImageWithInfo(_arg_1:String):BadgeInfo
         {
             var _local_2:BitmapData = this.getBadgeImageInternal(_arg_1);
             return ((((_local_2)!=null) ? new BadgeInfo(_local_2, false) : new BadgeInfo(this.getPlaceholder(), true)));
@@ -114,7 +114,7 @@ package com.sulake.habbo.session
     }
 }//package com.sulake.habbo.session
 
-// SessionDataManager = "_-0SD" (String#4143, DoABC#2)
+// getBadgeImageWithInfo = "_-0SD" (String#4143, DoABC#2)
 // BadgeImageReadyEvent = "_-03M" (String#14177, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // _SafeStr_13616 = "_-26w" (String#19289, DoABC#2)
@@ -125,7 +125,7 @@ package com.sulake.habbo.session
 // BadgeInfo = "_-3V" (String#7736, DoABC#2)
 // BadgeImageManager = "_-1l8" (String#18336, DoABC#2)
 // assetLoader = "_-1nR" (String#18439, DoABC#2)
-// SessionDataManager = "_-3DK" (String#7581, DoABC#2)
+// getBadgeImage = "_-3DK" (String#7581, DoABC#2)
 // onBadgeImageReady = "_-2f0" (String#1919, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 

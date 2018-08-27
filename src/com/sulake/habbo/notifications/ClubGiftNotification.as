@@ -47,19 +47,19 @@ package com.sulake.habbo.notifications
             if (this._window == null){
                 return;
             };
-            this._window.procedure = this.ClubEndingNotification;
-            this._toolbar.extensionView.ExtensionView(_SafeStr_12093, this._window);
+            this._window.procedure = this.eventHandler;
+            this._toolbar.extensionView.attachExtension(_SafeStr_12093, this._window);
             this._SafeStr_12094 = (this._window.findChildByName("cancel_link") as ITextWindow);
             var _local_7:IRegionWindow = (this._window.findChildByName("cancel_link_region") as IRegionWindow);
             if (_local_7){
-                _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ClubGiftNotification);
-                _local_7.addEventListener(WindowMouseEvent.WME_OUT, this.ClubGiftNotification);
+                _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseOver);
+                _local_7.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseOut);
             };
             if (this._catalog.getPurse().isVIP){
-                this.ClubGiftNotification(_SafeStr_5378);
+                this.setClubIcon(_SafeStr_5378);
             }
             else {
-                this.ClubGiftNotification(_SafeStr_5377);
+                this.setClubIcon(_SafeStr_5377);
             };
         }
         public function get visible():Boolean
@@ -69,7 +69,7 @@ package com.sulake.habbo.notifications
         public function dispose():void
         {
             if (this._toolbar){
-                this._toolbar.extensionView.ExtensionView(_SafeStr_12093);
+                this._toolbar.extensionView.detachExtension(_SafeStr_12093);
             };
             if (this._window != null){
                 this._window.dispose();
@@ -92,7 +92,7 @@ package com.sulake.habbo.notifications
             _local_4.draw(_arg_2, new Matrix(2, 0, 0, 2, _local_5, _local_6));
             _local_3.bitmap = _local_4;
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -110,15 +110,15 @@ package com.sulake.habbo.notifications
                     return;
             };
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOver(_arg_1:WindowMouseEvent):void
         {
             this._SafeStr_12094.textColor = _SafeStr_6264;
         }
-        private function ClubGiftNotification(_arg_1:WindowMouseEvent):void
+        private function onMouseOut(_arg_1:WindowMouseEvent):void
         {
             this._SafeStr_12094.textColor = _SafeStr_6263;
         }
-        private function ClubGiftNotification(_arg_1:int):void
+        private function setClubIcon(_arg_1:int):void
         {
             var _local_2:IIconWindow;
             if (this._window){
@@ -142,22 +142,22 @@ package com.sulake.habbo.notifications
 // IBorderWindow = "_-0Br" (String#1422, DoABC#2)
 // IRegionWindow = "_-dg" (String#2146, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
 // setImage = "_-1NZ" (String#603, DoABC#2)
 // isVIP = "_-3K4" (String#7705, DoABC#2)
 // _SafeStr_5377 = "_-0wg" (String#1581, DoABC#2)
 // _SafeStr_5378 = "_-374" (String#2003, DoABC#2)
-// ClubGiftNotification = "_-1YR" (String#1707, DoABC#2)
+// setClubIcon = "_-1YR" (String#1707, DoABC#2)
 // _SafeStr_6006 = "_-1xO" (String#18863, DoABC#2)
 // _toolbar = "_-1LG" (String#93, DoABC#2)
 // _SafeStr_6263 = "_-W7" (String#2122, DoABC#2)
 // _SafeStr_6264 = "_-xC" (String#2222, DoABC#2)
 // extensionView = "_-qR" (String#8717, DoABC#2)
-// ExtensionView = "_-gb" (String#8524, DoABC#2)
-// ExtensionView = "_-01F" (String#3587, DoABC#2)
+// detachExtension = "_-gb" (String#8524, DoABC#2)
+// attachExtension = "_-01F" (String#3587, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
 
 

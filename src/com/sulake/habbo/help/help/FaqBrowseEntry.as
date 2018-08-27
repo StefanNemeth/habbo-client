@@ -36,7 +36,7 @@ package com.sulake.habbo.help.help
             var _local_1:IWindow = container.findChildByTag("help_faq_back_link");
             if (_local_1 != null){
                 _local_1.setParamFlag(WindowParam._SafeStr_7434);
-                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.AchievementController);
+                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onBack);
             };
             var _local_2:IWindow = container.findChildByTag("help_faq_next_entry");
             if (_local_2 != null){
@@ -122,7 +122,7 @@ package com.sulake.habbo.help.help
             };
             return (_local_2);
         }
-        private function AchievementController(_arg_1:WindowMouseEvent):void
+        private function onBack(_arg_1:WindowMouseEvent):void
         {
             var _local_2:FaqCategory;
             if (this._SafeStr_3764 != null){
@@ -157,7 +157,7 @@ package com.sulake.habbo.help.help
 // getItemByIndex = "_-2P9" (String#20007, DoABC#2)
 // questionText = "_-0FL" (String#14658, DoABC#2)
 // hasAnswer = "_-1ET" (String#17047, DoABC#2)
-// AchievementController = "_-2yv" (String#905, DoABC#2)
+// onBack = "_-2yv" (String#905, DoABC#2)
 // onNextEntry = "_-1ov" (String#18496, DoABC#2)
 // hackHTML = "_-0Ao" (String#14480, DoABC#2)
 // getNextItem = "_-M-" (String#23082, DoABC#2)

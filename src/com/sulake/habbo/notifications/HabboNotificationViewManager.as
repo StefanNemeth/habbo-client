@@ -32,7 +32,7 @@ package com.sulake.habbo.notifications
             this._SafeStr_12066 = _arg_5;
             this._SafeStr_12067 = _arg_6;
             this._SafeStr_12068 = new Array();
-            this._toolbar.events.addEventListener(ExtensionViewEvent.EVE_EXTENSION_VIEW_RESIZED, this.HabboNotificationViewManager);
+            this._toolbar.events.addEventListener(ExtensionViewEvent.EVE_EXTENSION_VIEW_RESIZED, this.refreshTopMargin);
         }
         public function get disposed():Boolean
         {
@@ -67,18 +67,18 @@ package com.sulake.habbo.notifications
         }
         public function showItem(_arg_1:HabboNotificationItem):Boolean
         {
-            if (!this.HabboNotificationViewManager()){
+            if (!this.isSpaceAvailable()){
                 return (false);
             };
             var _local_2:HabboNotificationItemView = new HabboNotificationItemView(this._assetLibrary.getAssetByName("layout_notification_xml"), this._windowManager, this._SafeStr_12066, this._SafeStr_12067, _arg_1);
-            _local_2.reposition(this.HabboNotificationViewManager());
+            _local_2.reposition(this.getNextAvailableVerticalPosition());
             this._SafeStr_12068.push(_local_2);
             this._SafeStr_12068.sortOn("verticalPosition", Array.NUMERIC);
             return (true);
         }
-        public function HabboNotificationViewManager():Boolean
+        public function isSpaceAvailable():Boolean
         {
-            return (((this.HabboNotificationViewManager() + HabboNotificationItemView._SafeStr_12075) < this._windowManager.getDesktop(0).height));
+            return (((this.getNextAvailableVerticalPosition() + HabboNotificationItemView._SafeStr_12075) < this._windowManager.getDesktop(0).height));
         }
         public function update(_arg_1:uint):void
         {
@@ -100,7 +100,7 @@ package com.sulake.habbo.notifications
                 _local_2++;
             };
         }
-        private function HabboNotificationViewManager():int
+        private function getNextAvailableVerticalPosition():int
         {
             var _local_4:HabboNotificationItemView;
             var _local_1:int = (this._toolbar.extensionView.screenHeight + _SafeStr_12065);
@@ -119,7 +119,7 @@ package com.sulake.habbo.notifications
             };
             return (_local_2);
         }
-        public function HabboNotificationViewManager(_arg_1:Event):void
+        public function refreshTopMargin(_arg_1:Event):void
         {
             var _local_4:HabboNotificationItemView;
             var _local_2:int = (this._toolbar.extensionView.screenHeight + _SafeStr_12065);
@@ -139,12 +139,12 @@ package com.sulake.habbo.notifications
 // _SafeStr_12066 = "_-0JJ" (String#3939, DoABC#2)
 // _SafeStr_12067 = "_-1F6" (String#5160, DoABC#2)
 // _SafeStr_12068 = "_-1Qc" (String#17538, DoABC#2)
-// HabboNotificationViewManager = "_-0KB" (String#14850, DoABC#2)
+// refreshTopMargin = "_-0KB" (String#14850, DoABC#2)
 // replaceIcon = "_-1sg" (String#18663, DoABC#2)
 // showItem = "_-1J5" (String#5224, DoABC#2)
-// HabboNotificationViewManager = "_-0Qv" (String#15099, DoABC#2)
+// isSpaceAvailable = "_-0Qv" (String#15099, DoABC#2)
 // reposition = "_-2Nm" (String#19956, DoABC#2)
-// HabboNotificationViewManager = "_-1xF" (String#18857, DoABC#2)
+// getNextAvailableVerticalPosition = "_-1xF" (String#18857, DoABC#2)
 // _SafeStr_12075 = "_-2sv" (String#21195, DoABC#2)
 // screenHeight = "_-1sB" (String#5888, DoABC#2)
 // HabboNotificationViewManager = "_-0C9" (String#3794, DoABC#2)

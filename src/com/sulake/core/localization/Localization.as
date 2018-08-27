@@ -45,7 +45,7 @@ package com.sulake.core.localization
             this._SafeStr_8865.push(_arg_1);
             _arg_1.localization = this.value;
         }
-        public function PetDataManager(_arg_1:ILocalizable):void
+        public function removeListener(_arg_1:ILocalizable):void
         {
             var _local_2:int = this._SafeStr_8865.indexOf(_arg_1);
             if (_local_2 >= 0){
@@ -96,6 +96,6 @@ package com.sulake.core.localization
 // fillParameterValues = "_-ao" (String#23663, DoABC#2)
 // updateListeners = "_-1i" (String#18210, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
 
 

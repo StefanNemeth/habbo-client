@@ -291,26 +291,26 @@ package com.sulake.room
                 _local_11 = _arg_3;
             };
             var _local_13:int = 1;
-            var _local_14:IRoomObject = _local_6.RoomInstance(_arg_2, _local_13, _arg_3, _arg_4);
+            var _local_14:IRoomObject = _local_6.createObjectInternal(_arg_2, _local_13, _arg_3, _arg_4);
             var _local_15:IRoomObjectController = (_local_14 as IRoomObjectController);
             if (_local_15 == null){
                 return (null);
             };
             var _local_16:IRoomObjectModelController = _local_15.getModelController();
             if (_local_16 == null){
-                _local_5.RoomInstance(_arg_2, _arg_4);
+                _local_5.disposeObject(_arg_2, _arg_4);
                 return (null);
             };
             var _local_17:IRoomObjectGraphicVisualization = this._visualizationFactory.createRoomObjectVisualization(_local_10);
             if (_local_17 == null){
-                _local_5.RoomInstance(_arg_2, _arg_4);
+                _local_5.disposeObject(_arg_2, _arg_4);
                 return (null);
             };
             _local_17.assetCollection = _local_7;
             var _local_18:IRoomObjectVisualizationData;
             _local_18 = this._visualizationFactory.getRoomObjectVisualizationData(_local_12, _local_10, _local_8);
             if (!_local_17.initialize(_local_18)){
-                _local_5.RoomInstance(_arg_2, _arg_4);
+                _local_5.disposeObject(_arg_2, _arg_4);
                 return (null);
             };
             _local_15.setVisualization(_local_17);
@@ -458,16 +458,16 @@ package com.sulake.room
                 if (_local_9 != null){
                     _local_11 = _local_9.getObjectManagerIds();
                     for each (_local_12 in _local_11) {
-                        _local_13 = _local_9.RoomInstance(_arg_1, _local_12);
+                        _local_13 = _local_9.getObjectCountForType(_arg_1, _local_12);
                         _local_14 = (_local_13 - 1);
                         while (_local_14 >= 0) {
-                            _local_15 = (_local_9.RoomInstance(_local_14, _arg_1, _local_12) as IRoomObjectController);
+                            _local_15 = (_local_9.getObjectWithIndexAndType(_local_14, _arg_1, _local_12) as IRoomObjectController);
                             if (_local_15 != null){
                                 _local_16 = this._visualizationFactory.createRoomObjectVisualization(_local_5);
                                 if (_local_16 != null){
                                     _local_16.assetCollection = _local_4;
                                     if (!_local_16.initialize(_local_7)){
-                                        _local_9.RoomInstance(_local_15.getId(), _local_12);
+                                        _local_9.disposeObject(_local_15.getId(), _local_12);
                                     }
                                     else {
                                         _local_15.setVisualization(_local_16);
@@ -482,7 +482,7 @@ package com.sulake.room
                                     };
                                 }
                                 else {
-                                    _local_9.RoomInstance(_local_15.getId(), _local_12);
+                                    _local_9.disposeObject(_local_15.getId(), _local_12);
                                 };
                             };
                             _local_14--;
@@ -532,17 +532,17 @@ package com.sulake.room
 // roomManagerInitialized = "_-1lC" (String#5771, DoABC#2)
 // createRoom = "_-1mK" (String#1756, DoABC#2)
 // createRoomObject = "_-20d" (String#1799, DoABC#2)
-// RoomInstance = "_-3E-" (String#921, DoABC#2)
+// disposeObject = "_-3E-" (String#921, DoABC#2)
 // IRoomObjectController = "_-17p" (String#5034, DoABC#2)
 // isContentAvailable = "_-0ic" (String#4474, DoABC#2)
 // contentLoaded = "_-3K1" (String#7703, DoABC#2)
 // objectInitialized = "_-ih" (String#8571, DoABC#2)
 // createRoomObjectLogic = "_-0ly" (String#4548, DoABC#2)
 // createRoomObjectManager = "_-1Ry" (String#1688, DoABC#2)
-// RoomInstance = "_-2T0" (String#1882, DoABC#2)
-// RoomInstance = "_-2OS" (String#1870, DoABC#2)
+// getObjectCountForType = "_-2T0" (String#1882, DoABC#2)
+// getObjectWithIndexAndType = "_-2OS" (String#1870, DoABC#2)
 // removeObjectUpdateCategory = "_-0Cw" (String#3806, DoABC#2)
-// RoomInstance = "_-00P" (String#14070, DoABC#2)
+// createObjectInternal = "_-00P" (String#14070, DoABC#2)
 // getObjectManagerIds = "_-2-B" (String#18977, DoABC#2)
 // _SafeStr_14536 = "_-KI" (String#23017, DoABC#2)
 // _SafeStr_14537 = "_-2DR" (String#19545, DoABC#2)

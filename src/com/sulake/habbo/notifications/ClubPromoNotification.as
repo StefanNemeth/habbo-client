@@ -36,15 +36,15 @@ package com.sulake.habbo.notifications
             if (this._window == null){
                 return;
             };
-            this.CurrencyIndicatorBase("regular_price_text", _arg_1);
-            this.CurrencyIndicatorBase("discount_text", (_arg_2 - _arg_1));
-            this.CurrencyIndicatorBase("your_price_text", _arg_2);
+            this.setText("regular_price_text", _arg_1);
+            this.setText("discount_text", (_arg_2 - _arg_1));
+            this.setText("your_price_text", _arg_2);
             this._window.findChildByName("benefits_text").setParamFlag(WindowParam._SafeStr_7434);
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             this._window.x = 74;
             this._window.y = ((this._window.context.getDesktopWindow().height / 2) - (this._window.height / 2));
         }
-        private function CurrencyIndicatorBase(_arg_1:String, _arg_2:int):void
+        private function setText(_arg_1:String, _arg_2:int):void
         {
             this._window.findChildByName(_arg_1).caption = ("" + _arg_2);
         }
@@ -60,7 +60,7 @@ package com.sulake.habbo.notifications
             };
             this._catalog = null;
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -73,7 +73,7 @@ package com.sulake.habbo.notifications
                     this.dispose();
                     return;
                 case "benefits_text":
-                    this.ClubPromoNotification();
+                    this.onBenefitsLink();
                     return;
                 case "header_button_close":
                 case "cancel_button":
@@ -81,16 +81,16 @@ package com.sulake.habbo.notifications
                     return;
             };
         }
-        private function ClubPromoNotification():void
+        private function onBenefitsLink():void
         {
             var _local_1:IHabboConfigurationManager = this._catalog.configuration;
             var _local_2:String = _local_1.getKey("link.format.club", "credits/habboclub");
             if (_local_2 != ""){
-                this._catalog.windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.ClubPromoNotification);
+                this._catalog.windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.onExternalLinkAlertClose);
                 HabboWebTools.navigateToURL(_local_2, "habboMain");
             };
         }
-        private function ClubPromoNotification(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onExternalLinkAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -98,16 +98,16 @@ package com.sulake.habbo.notifications
     }
 }//package com.sulake.habbo.notifications
 
-// ClubPromoNotification = "_-qv" (String#24311, DoABC#2)
-// ClubPromoNotification = "_-2IG" (String#19738, DoABC#2)
+// onBenefitsLink = "_-qv" (String#24311, DoABC#2)
+// onExternalLinkAlertClose = "_-2IG" (String#19738, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ClubPromoNotification = "_-1jo" (String#5749, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
 // HabboWebTools = "_-2pX" (String#21059, DoABC#2)
 // CatalogPageName = "_-mv" (String#24149, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 

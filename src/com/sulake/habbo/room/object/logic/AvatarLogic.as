@@ -64,7 +64,7 @@ package com.sulake.habbo.room.object.logic
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectMouseEvent.ROE_MOUSE_CLICK, RoomObjectMoveEvent.ROME_POSITION_CHANGED, RoomObjectMouseEvent.ROE_MOUSE_ENTER, RoomObjectMouseEvent.ROE_MOUSE_LEAVE, RoomObjectFurnitureActionEvent.ROFCAE_MOUSE_BUTTON, RoomObjectFurnitureActionEvent.ROFCAE_MOUSE_ARROW];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -441,7 +441,7 @@ package com.sulake.habbo.room.object.logic
 // updateActions = "_-2p4" (String#900, DoABC#2)
 // danceStyle = "_-0M0" (String#14915, DoABC#2)
 // dirHead = "_-2Ej" (String#19594, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // ROE_MOUSE_ENTER = "_-9-" (String#22579, DoABC#2)

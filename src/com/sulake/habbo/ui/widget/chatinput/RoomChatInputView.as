@@ -54,9 +54,9 @@ package com.sulake.habbo.ui.widget.chatinput
             this._SafeStr_6223 = _arg_1.localizations.getKey("widgets.chatinput.mode.shout", ":shout");
             this._SafeStr_6225 = _arg_1.localizations.getKey("widgets.chatinput.mode.speak", ":speak");
             this._SafeStr_6228 = new Timer(1000, 1);
-            this._SafeStr_6228.addEventListener(TimerEvent.TIMER_COMPLETE, this.RoomChatInputView);
+            this._SafeStr_6228.addEventListener(TimerEvent.TIMER_COMPLETE, this.onTypingTimerComplete);
             this._SafeStr_6229 = new Timer(10000, 1);
-            this._SafeStr_6229.addEventListener(TimerEvent.TIMER_COMPLETE, this.RoomChatInputView);
+            this._SafeStr_6229.addEventListener(TimerEvent.TIMER_COMPLETE, this.onIdleTimerComplete);
             this.createWindow();
         }
         public function get window():IWindowContainer
@@ -77,12 +77,12 @@ package com.sulake.habbo.ui.widget.chatinput
             };
             if (this._SafeStr_6228 != null){
                 this._SafeStr_6228.reset();
-                this._SafeStr_6228.removeEventListener(TimerEvent.TIMER_COMPLETE, this.RoomChatInputView);
+                this._SafeStr_6228.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onTypingTimerComplete);
                 this._SafeStr_6228 = null;
             };
             if (this._SafeStr_6229 != null){
                 this._SafeStr_6229.reset();
-                this._SafeStr_6229.removeEventListener(TimerEvent.TIMER_COMPLETE, this.RoomChatInputView);
+                this._SafeStr_6229.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onIdleTimerComplete);
                 this._SafeStr_6229 = null;
             };
         }
@@ -106,17 +106,17 @@ package com.sulake.habbo.ui.widget.chatinput
             this._SafeStr_6222 = this._window.findChildByName("block_text");
             this._SafeStr_6221.caption = _SafeStr_6218;
             this._SafeStr_6219.setParamFlag(HabboWindowParam._SafeStr_3731, true);
-            this._SafeStr_6219.addEventListener(WindowMouseEvent.WME_DOWN, this.RoomChatInputView);
+            this._SafeStr_6219.addEventListener(WindowMouseEvent.WME_DOWN, this.windowMouseEventProcessor);
             this._SafeStr_6219.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.windowKeyEventProcessor);
-            this._SafeStr_6219.addEventListener(WindowKeyboardEvent.WKE_KEY_UP, this.RoomChatInputView);
+            this._SafeStr_6219.addEventListener(WindowKeyboardEvent.WKE_KEY_UP, this.keyUpHandler);
             this._SafeStr_6219.addEventListener(WindowEvent.WE_CHANGE, this._SafeStr_6237);
             this._window.findChildByName("send_button").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onSend);
             this._SafeStr_6226 = true;
             this._SafeStr_6230 = "";
-            this._window.addEventListener(WindowEvent.WE_PARENT_RESIZED, this.RoomChatInputView);
-            this._window.addEventListener(WindowEvent.WE_PARENT_ADDED, this.RoomChatInputView);
+            this._window.addEventListener(WindowEvent.WE_PARENT_RESIZED, this.updatePosition);
+            this._window.addEventListener(WindowEvent.WE_PARENT_ADDED, this.updatePosition);
         }
-        private function RoomChatInputView(_arg_1:WindowEvent=null):void
+        private function updatePosition(_arg_1:WindowEvent=null):void
         {
             var _local_2:Point = new Point();
             this._window.getGlobalPosition(_local_2);
@@ -128,10 +128,10 @@ package com.sulake.habbo.ui.widget.chatinput
         private function onSend(_arg_1:WindowMouseEvent):void
         {
             if (!this._SafeStr_6226){
-                this.RoomChatInputView();
+                this.sendChatFromInputField();
             };
         }
-        public function RoomChatInputView():void
+        public function hideFloodBlocking():void
         {
             this._SafeStr_6219.visible = true;
             this._SafeStr_6222.visible = false;
@@ -139,7 +139,7 @@ package com.sulake.habbo.ui.widget.chatinput
                 this._button.enable();
             };
         }
-        public function RoomChatInputView():void
+        public function showFloodBlocking():void
         {
             this._SafeStr_6219.visible = false;
             this._SafeStr_6222.visible = true;
@@ -147,11 +147,11 @@ package com.sulake.habbo.ui.widget.chatinput
                 this._button.disable();
             };
         }
-        public function RoomChatInputView(_arg_1:int):void
+        public function updateBlockText(_arg_1:int):void
         {
             this._widget.localizations.registerParameter("chat.input.alert.flood", "time", _arg_1.toString());
         }
-        public function RoomChatInputView(_arg_1:String, _arg_2:String=""):void
+        public function displaySpecialChatMessage(_arg_1:String, _arg_2:String=""):void
         {
             if ((((this._window == null)) || ((this._SafeStr_6219 == null)))){
                 return;
@@ -159,7 +159,7 @@ package com.sulake.habbo.ui.widget.chatinput
             this._SafeStr_6219.enable();
             this._SafeStr_6219.selectable = true;
             this._SafeStr_6219.text = "";
-            this.RoomChatInputView();
+            this.setInputFieldFocus();
             this._SafeStr_6219.text = (this._SafeStr_6219.text + (_arg_1 + " "));
             if (_arg_2.length > 0){
                 this._SafeStr_6219.text = (this._SafeStr_6219.text + (_arg_2 + " "));
@@ -167,9 +167,9 @@ package com.sulake.habbo.ui.widget.chatinput
             this._SafeStr_6219.setSelection(this._SafeStr_6219.text.length, this._SafeStr_6219.text.length);
             this._SafeStr_6230 = this._SafeStr_6219.text;
         }
-        private function RoomChatInputView(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
+        private function windowMouseEventProcessor(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
         {
-            this.RoomChatInputView();
+            this.setInputFieldFocus();
         }
         private function windowKeyEventProcessor(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
         {
@@ -182,10 +182,10 @@ package com.sulake.habbo.ui.widget.chatinput
             if ((((((this._window == null)) || ((this._widget == null)))) || (this._widget.floodBlocked))){
                 return;
             };
-            if (this.RoomChatInputView()){
+            if (this.anotherFieldHasFocus()){
                 return;
             };
-            this.RoomChatInputView();
+            this.setInputFieldFocus();
             if ((_arg_1 is WindowKeyboardEvent)){
                 _local_5 = (_arg_1 as WindowKeyboardEvent);
                 _local_3 = _local_5.charCode;
@@ -200,11 +200,11 @@ package com.sulake.habbo.ui.widget.chatinput
                 return;
             };
             if (_local_3 == Keyboard.SPACE){
-                this.RoomChatInputView();
+                this.checkSpecialKeywordForInput();
             };
             if (_local_3 == Keyboard.ENTER){
-                this.RoomChatInputView(_local_4);
-                this.RoomChatInputView(true);
+                this.sendChatFromInputField(_local_4);
+                this.setButtonPressedState(true);
             };
             if (_local_3 == Keyboard.BACKSPACE){
                 if (this._SafeStr_6219 != null){
@@ -217,16 +217,16 @@ package com.sulake.habbo.ui.widget.chatinput
                 };
             };
         }
-        private function RoomChatInputView(_arg_1:WindowKeyboardEvent):void
+        private function keyUpHandler(_arg_1:WindowKeyboardEvent):void
         {
             if (_arg_1.keyCode == Keyboard.ENTER){
-                this.RoomChatInputView(false);
+                this.setButtonPressedState(false);
             };
         }
-        private function RoomChatInputView(_arg_1:Boolean):void
+        private function setButtonPressedState(_arg_1:Boolean):void
         {
             if (this._button){
-                this._button.WindowController(WindowState._SafeStr_6248, _arg_1);
+                this._button.setStateFlag(WindowState._SafeStr_6248, _arg_1);
             };
         }
         private function _SafeStr_6237(_arg_1:WindowEvent):void
@@ -244,7 +244,7 @@ package com.sulake.habbo.ui.widget.chatinput
             else {
                 if (_local_2.text.length > (this._SafeStr_6230.length + 1)){
                     if (this._widget.allowPaste){
-                        this._widget.RoomChatInputWidget();
+                        this._widget.setLastPasteTime();
                     }
                     else {
                         _local_2.text = "";
@@ -259,7 +259,7 @@ package com.sulake.habbo.ui.widget.chatinput
                 this._SafeStr_6229.start();
             };
         }
-        private function RoomChatInputView():void
+        private function checkSpecialKeywordForInput():void
         {
             if ((((this._SafeStr_6219 == null)) || ((this._SafeStr_6219.text == "")))){
                 return;
@@ -274,22 +274,22 @@ package com.sulake.habbo.ui.widget.chatinput
                 };
             };
         }
-        private function RoomChatInputView(_arg_1:TimerEvent):void
+        private function onIdleTimerComplete(_arg_1:TimerEvent):void
         {
             if (this._isTyping){
                 this._SafeStr_6227 = false;
             };
             this._isTyping = false;
-            this.RoomChatInputView();
+            this.sendTypingMessage();
         }
-        private function RoomChatInputView(_arg_1:TimerEvent):void
+        private function onTypingTimerComplete(_arg_1:TimerEvent):void
         {
             if (this._isTyping){
                 this._SafeStr_6227 = true;
             };
-            this.RoomChatInputView();
+            this.sendTypingMessage();
         }
-        private function RoomChatInputView():void
+        private function sendTypingMessage():void
         {
             if (this._widget == null){
                 return;
@@ -300,7 +300,7 @@ package com.sulake.habbo.ui.widget.chatinput
             var _local_1:RoomWidgetChatTypingMessage = new RoomWidgetChatTypingMessage(this._isTyping);
             this._widget.messageListener.processWidgetMessage(_local_1);
         }
-        private function RoomChatInputView():void
+        private function setInputFieldFocus():void
         {
             if (this._SafeStr_6219 == null){
                 return;
@@ -314,7 +314,7 @@ package com.sulake.habbo.ui.widget.chatinput
             };
             this._SafeStr_6219.focus();
         }
-        private function RoomChatInputView(_arg_1:Boolean=false):void
+        private function sendChatFromInputField(_arg_1:Boolean=false):void
         {
             if ((((this._SafeStr_6219 == null)) || ((this._SafeStr_6219.text == "")))){
                 return;
@@ -349,17 +349,17 @@ package com.sulake.habbo.ui.widget.chatinput
                 if (this._SafeStr_6229.running){
                     this._SafeStr_6229.reset();
                 };
-                this._widget.RoomChatInputWidget(_local_3, _local_2, _local_5);
+                this._widget.sendChat(_local_3, _local_2, _local_5);
                 this._isTyping = false;
                 if (this._SafeStr_6227){
-                    this.RoomChatInputView();
+                    this.sendTypingMessage();
                 };
                 this._SafeStr_6227 = false;
             };
             this._SafeStr_6219.text = _local_6;
             this._SafeStr_6230 = _local_6;
         }
-        private function RoomChatInputView():Boolean
+        private function anotherFieldHasFocus():Boolean
         {
             var _local_2:Stage;
             var _local_3:InteractiveObject;
@@ -405,13 +405,13 @@ package com.sulake.habbo.ui.widget.chatinput
 // WKE_KEY_UP = "_-0aL" (String#15451, DoABC#2)
 // floodBlocked = "_-1rk" (String#18620, DoABC#2)
 // allowPaste = "_-3Eg" (String#22061, DoABC#2)
-// RoomChatInputWidget = "_-1-D" (String#16438, DoABC#2)
-// RoomChatInputWidget = "_-yT" (String#24634, DoABC#2)
-// RoomChatInputView = "_-21Z" (String#19076, DoABC#2)
-// RoomChatInputView = "_-5Q" (String#22441, DoABC#2)
-// RoomChatInputView = "_-x2" (String#24571, DoABC#2)
+// setLastPasteTime = "_-1-D" (String#16438, DoABC#2)
+// sendChat = "_-yT" (String#24634, DoABC#2)
+// displaySpecialChatMessage = "_-21Z" (String#19076, DoABC#2)
+// hideFloodBlocking = "_-5Q" (String#22441, DoABC#2)
+// updateBlockText = "_-x2" (String#24571, DoABC#2)
 // selectedUserName = "_-1YQ" (String#17830, DoABC#2)
-// RoomChatInputView = "_-s0" (String#24364, DoABC#2)
+// showFloodBlocking = "_-s0" (String#24364, DoABC#2)
 // _SafeStr_6216 = "_-24E" (String#19186, DoABC#2)
 // _SafeStr_6217 = "_-0Ki" (String#14869, DoABC#2)
 // _SafeStr_6218 = "_-2LF" (String#19858, DoABC#2)
@@ -427,24 +427,24 @@ package com.sulake.habbo.ui.widget.chatinput
 // _SafeStr_6228 = "_-7d" (String#22528, DoABC#2)
 // _SafeStr_6229 = "_-170" (String#16736, DoABC#2)
 // _SafeStr_6230 = "_-220" (String#19090, DoABC#2)
-// RoomChatInputView = "_-lR" (String#24086, DoABC#2)
-// RoomChatInputView = "_-Dv" (String#22766, DoABC#2)
-// RoomChatInputView = "_-0w8" (String#16278, DoABC#2)
+// onTypingTimerComplete = "_-lR" (String#24086, DoABC#2)
+// onIdleTimerComplete = "_-Dv" (String#22766, DoABC#2)
+// windowMouseEventProcessor = "_-0w8" (String#16278, DoABC#2)
 // WKE_KEY_DOWN = "_-fs" (String#23884, DoABC#2)
 // windowKeyEventProcessor = "_-rC" (String#8727, DoABC#2)
-// RoomChatInputView = "_-1ze" (String#18954, DoABC#2)
+// keyUpHandler = "_-1ze" (String#18954, DoABC#2)
 // _SafeStr_6237 = "return" (String#46536, DoABC#2)
 // onSend = "_-0qb" (String#4653, DoABC#2)
 // WE_PARENT_RESIZED = "_-0GO" (String#14697, DoABC#2)
-// RoomChatInputView = "_-2oz" (String#21039, DoABC#2)
+// updatePosition = "_-2oz" (String#21039, DoABC#2)
 // WE_PARENT_ADDED = "_-0D7" (String#14572, DoABC#2)
-// RoomChatInputView = "_-1UT" (String#17684, DoABC#2)
-// RoomChatInputView = "_-21f" (String#19080, DoABC#2)
-// RoomChatInputView = "_-3-u" (String#21497, DoABC#2)
-// RoomChatInputView = "_-2M-" (String#19885, DoABC#2)
-// RoomChatInputView = "_-0eD" (String#15595, DoABC#2)
-// WindowController = "_-1jq" (String#5750, DoABC#2)
+// sendChatFromInputField = "_-1UT" (String#17684, DoABC#2)
+// setInputFieldFocus = "_-21f" (String#19080, DoABC#2)
+// anotherFieldHasFocus = "_-3-u" (String#21497, DoABC#2)
+// checkSpecialKeywordForInput = "_-2M-" (String#19885, DoABC#2)
+// setButtonPressedState = "_-0eD" (String#15595, DoABC#2)
+// setStateFlag = "_-1jq" (String#5750, DoABC#2)
 // _SafeStr_6248 = "_-3J9" (String#22246, DoABC#2)
-// RoomChatInputView = "_-29Y" (String#19387, DoABC#2)
+// sendTypingMessage = "_-29Y" (String#19387, DoABC#2)
 
 

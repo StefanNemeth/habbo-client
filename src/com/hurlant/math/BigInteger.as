@@ -66,7 +66,7 @@ package com.hurlant.math
         {
             var _local_2:int;
             if (this.s < 0){
-                return (("-" + this.Vector3d().toString(_arg_1)));
+                return (("-" + this.negate().toString(_arg_1)));
             };
             switch (_arg_1){
                 case 2:
@@ -176,7 +176,7 @@ package com.hurlant.math
             };
             return (_local_2);
         }
-        public function Vector3d():BigInteger
+        public function negate():BigInteger
         {
             var _local_1:BigInteger = this.nbi();
             0.subTo(this, _local_1);
@@ -184,7 +184,7 @@ package com.hurlant.math
         }
         public function abs():BigInteger
         {
-            return ((((this.s)<0) ? this.Vector3d() : this));
+            return ((((this.s)<0) ? this.negate() : this));
         }
         public function compareTo(_arg_1:BigInteger):int
         {
@@ -1258,8 +1258,8 @@ package com.hurlant.math
         public function gcd(_arg_1:BigInteger):BigInteger
         {
             var _local_6:BigInteger;
-            var _local_2:BigInteger = (((this.s)<0) ? this.Vector3d() : this.clone());
-            var _local_3:BigInteger = (((_arg_1.s)<0) ? _arg_1.Vector3d() : _arg_1.clone());
+            var _local_2:BigInteger = (((this.s)<0) ? this.negate() : this.clone());
+            var _local_3:BigInteger = (((_arg_1.s)<0) ? _arg_1.negate() : _arg_1.clone());
             if (_local_2.compareTo(_local_3) < 0){
                 _local_6 = _local_2;
                 _local_2 = _local_3;
@@ -1536,7 +1536,7 @@ package com.hurlant.math
 // _SafeStr_8696 = "_-3E7" (String#22039, DoABC#2)
 // _SafeStr_8697 = "_-1fu" (String#18134, DoABC#2)
 // fromInt = "_-20j" (String#19041, DoABC#2)
-// Vector3d = "_-Is" (String#22963, DoABC#2)
+// negate = "_-Is" (String#22963, DoABC#2)
 // nbi = "_-Vc" (String#23477, DoABC#2)
 // nbits = "_-2Mo" (String#19919, DoABC#2)
 // isEven = "_-3Ds" (String#22028, DoABC#2)

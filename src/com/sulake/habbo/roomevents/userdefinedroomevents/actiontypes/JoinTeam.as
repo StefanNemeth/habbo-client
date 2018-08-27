@@ -27,21 +27,21 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
         {
             return (false);
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
+        public function onInit(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
         {
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:Triggerable):void
+        public function onEditStart(_arg_1:IWindowContainer, _arg_2:Triggerable):void
         {
             var _local_3:int = _arg_2.intParams[0];
-            this.getTeamSelector(_arg_1).setSelected(this.ActorIsInTeam(_arg_1, _local_3));
+            this.getTeamSelector(_arg_1).setSelected(this.getTeamRadio(_arg_1, _local_3));
         }
-        public function Element(_arg_1:IWindowContainer):Array
+        public function readIntParamsFromForm(_arg_1:IWindowContainer):Array
         {
             var _local_2:Array = new Array();
-            _local_2.push(this.getTeamSelector(_arg_1).ISelectorWindow().id);
+            _local_2.push(this.getTeamSelector(_arg_1).getSelected().id);
             return (_local_2);
         }
-        public function Element(_arg_1:IWindowContainer):String
+        public function readStringParamFromForm(_arg_1:IWindowContainer):String
         {
             return ("");
         }
@@ -49,7 +49,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
         {
             return (true);
         }
-        private function ActorIsInTeam(_arg_1:IWindowContainer, _arg_2:int):IRadioButtonWindow
+        private function getTeamRadio(_arg_1:IWindowContainer, _arg_2:int):IRadioButtonWindow
         {
             return (IRadioButtonWindow(_arg_1.findChildByName((("team_" + _arg_2) + "_radio"))));
         }
@@ -67,18 +67,18 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
 // ActionType = "_-0Jp" (String#813, DoABC#2)
 // JoinTeam = "_-0Rr" (String#4133, DoABC#2)
 // ActionTypeCodes = "_-0wu" (String#4789, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // allowDelaying = "_-4e" (String#7759, DoABC#2)
 // code = "_-12Y" (String#4926, DoABC#2)
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
 // intParams = "_-kt" (String#24066, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
-// ActorIsInTeam = "_-01d" (String#1389, DoABC#2)
+// getTeamRadio = "_-01d" (String#1389, DoABC#2)
 // _SafeStr_5248 = "_-06B" (String#14291, DoABC#2)
 
 

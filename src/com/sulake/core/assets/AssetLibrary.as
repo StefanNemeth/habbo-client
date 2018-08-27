@@ -57,18 +57,18 @@ package com.sulake.core.assets
             this._nameArray = new Array();
             if (_SafeStr_8789 == null){
                 _SafeStr_8789 = new Dictionary(false);
-                this.IAssetLibrary(new AssetTypeDeclaration("application/octet-stream", UnknownAsset, BinaryFileLoader));
-                this.IAssetLibrary(new AssetTypeDeclaration("application/x-shockwave-flash", DisplayAsset, BitmapFileLoader, "swf"));
-                this.IAssetLibrary(new AssetTypeDeclaration("application/x-font-truetype", FontAsset, BinaryFileLoader, "ttf", "otf"));
-                this.IAssetLibrary(new AssetTypeDeclaration("application/zip", UnknownAsset, ZipFileLoader, "zip"));
-                this.IAssetLibrary(new AssetTypeDeclaration("text/xml", XmlAsset, BinaryFileLoader, "xml"));
-                this.IAssetLibrary(new AssetTypeDeclaration("text/html", XmlAsset, BinaryFileLoader, "htm", "html"));
-                this.IAssetLibrary(new AssetTypeDeclaration("text/plain", TextAsset, BinaryFileLoader, "txt"));
-                this.IAssetLibrary(new AssetTypeDeclaration("image/jpeg", BitmapDataAsset, BitmapFileLoader, "jpg", "jpeg"));
-                this.IAssetLibrary(new AssetTypeDeclaration("image/gif", BitmapDataAsset, BitmapFileLoader, "gif"));
-                this.IAssetLibrary(new AssetTypeDeclaration("image/png", BitmapDataAsset, BitmapFileLoader, "png"));
-                this.IAssetLibrary(new AssetTypeDeclaration("image/tiff", BitmapDataAsset, BitmapFileLoader, "tif", "tiff"));
-                this.IAssetLibrary(new AssetTypeDeclaration("sound/mp3", SoundAsset, SoundFileLoader, "mp3"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("application/octet-stream", UnknownAsset, BinaryFileLoader));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("application/x-shockwave-flash", DisplayAsset, BitmapFileLoader, "swf"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("application/x-font-truetype", FontAsset, BinaryFileLoader, "ttf", "otf"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("application/zip", UnknownAsset, ZipFileLoader, "zip"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("text/xml", XmlAsset, BinaryFileLoader, "xml"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("text/html", XmlAsset, BinaryFileLoader, "htm", "html"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("text/plain", TextAsset, BinaryFileLoader, "txt"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("image/jpeg", BitmapDataAsset, BitmapFileLoader, "jpg", "jpeg"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("image/gif", BitmapDataAsset, BitmapFileLoader, "gif"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("image/png", BitmapDataAsset, BitmapFileLoader, "png"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("image/tiff", BitmapDataAsset, BitmapFileLoader, "tif", "tiff"));
+                this.registerAssetTypeDeclaration(new AssetTypeDeclaration("sound/mp3", SoundAsset, SoundFileLoader, "mp3"));
             };
             _SafeStr_8791++;
             this._SafeStr_8802 = new Dictionary(false);
@@ -85,7 +85,7 @@ package com.sulake.core.assets
         {
             return (_SafeStr_8792);
         }
-        private static function AssetLibrary(_arg_1:AssetLibrary, _arg_2:XML, _arg_3:Class):Boolean
+        private static function fetchLibraryContents(_arg_1:AssetLibrary, _arg_2:XML, _arg_3:Class):Boolean
         {
             var _local_6:XML;
             var _local_7:String;
@@ -119,7 +119,7 @@ package com.sulake.core.assets
                         _local_9 = _local_13;
                     }
                     else {
-                        _local_9 = _arg_1.IAssetLibrary(_local_8);
+                        _local_9 = _arg_1.getAssetTypeDeclarationByMimeType(_local_8);
                         _local_14 = _local_8;
                         _local_13 = _local_9;
                     };
@@ -130,7 +130,7 @@ package com.sulake.core.assets
                         if (_local_11.length()){
                             _local_10.setParamsDesc(_local_11);
                         };
-                        _arg_1.IAssetLibrary(_local_7, _local_10);
+                        _arg_1.setAsset(_local_7, _local_10);
                     }
                     else {
                         Logger.log((((("Failed to extract asset " + _local_7) + " from Library ") + _arg_1._url) + "!"));
@@ -187,7 +187,7 @@ package com.sulake.core.assets
         {
             if ((((this._url == _arg_1.url)) && (this._isReady))){
                 if (((!(this._SafeStr_8799)) && (_arg_2))){
-                    AssetLibrary.AssetLibrary(this, this._manifest, this._resource);
+                    AssetLibrary.fetchLibraryContents(this, this._manifest, this._resource);
                 };
                 this._SafeStr_8799 = _arg_2;
                 dispatchEvent(new Event(AssetLibrary._SafeStr_8782));
@@ -195,8 +195,8 @@ package com.sulake.core.assets
             else {
                 if ((((this._content == null)) || (this._content.disposed))){
                     this._content = _arg_1;
-                    this._content.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.LibraryLoaderQueue);
-                    this._content.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.LibraryLoaderQueue);
+                    this._content.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.libraryLoadedHandler);
+                    this._content.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.loadErrorHandler);
                 };
                 this._SafeStr_8799 = _arg_2;
                 this._url = this._content.url;
@@ -204,7 +204,7 @@ package com.sulake.core.assets
         }
         public function loadFromResource(_arg_1:XML, _arg_2:Class):Boolean
         {
-            return (AssetLibrary.AssetLibrary(this, _arg_1, _arg_2));
+            return (AssetLibrary.fetchLibraryContents(this, _arg_1, _arg_2));
         }
         public function unload():void
         {
@@ -266,7 +266,7 @@ package com.sulake.core.assets
                 };
             }
             else {
-                _local_5 = this.IAssetLibrary(_arg_3, true);
+                _local_5 = this.getAssetTypeDeclarationByMimeType(_arg_3, true);
                 if (_local_5 == null){
                     throw (new Error((("Asset type declaration for mime type " + _arg_3) + "not found!")));
                 };
@@ -303,7 +303,7 @@ package com.sulake.core.assets
             switch (e.type){
                 case AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE:
                     type = loader.mimeType;
-                    decl = this.IAssetLibrary(type);
+                    decl = this.getAssetTypeDeclarationByMimeType(type);
                     remove = true;
                     if (decl != null){
                         asset = new (decl.assetClass)(decl, loader.url);
@@ -357,7 +357,7 @@ package com.sulake.core.assets
         {
             return ((((_arg_1)<this._nameArray.length) ? this.getAssetByName(this._nameArray[_arg_1]) : null));
         }
-        public function IAssetLibrary(_arg_1:Object):IAsset
+        public function getAssetByContent(_arg_1:Object):IAsset
         {
             var _local_2:String;
             var _local_3:IAsset;
@@ -369,7 +369,7 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:IAsset):int
+        public function getAssetIndex(_arg_1:IAsset):int
         {
             var _local_2:String;
             for (_local_2 in this._SafeStr_8798) {
@@ -383,7 +383,7 @@ package com.sulake.core.assets
         {
             return (((!((this._SafeStr_8798[_arg_1] == null))) || ((((this._resource)!=null) ? !((this._resource[_arg_1] == null)) : false))));
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:IAsset, _arg_3:Boolean=true):Boolean
+        public function setAsset(_arg_1:String, _arg_2:IAsset, _arg_3:Boolean=true):Boolean
         {
             var _local_4 = (this._SafeStr_8798[_arg_1] == null);
             if (((((_arg_3) || (_local_4))) && (_arg_2))){
@@ -405,7 +405,7 @@ package com.sulake.core.assets
                 return (null);
             };
             var _local_3:IAsset = new (_arg_2.assetClass)(_arg_2);
-            if (!this.IAssetLibrary(_arg_1, _local_3)){
+            if (!this.setAsset(_arg_1, _local_3)){
                 _local_3.dispose();
                 _local_3 = null;
             };
@@ -426,7 +426,7 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:AssetTypeDeclaration, _arg_2:Boolean=true):Boolean
+        public function registerAssetTypeDeclaration(_arg_1:AssetTypeDeclaration, _arg_2:Boolean=true):Boolean
         {
             if (_arg_2){
                 if (_SafeStr_8789.hasOwnProperty(_arg_1.mimeType)){
@@ -442,7 +442,7 @@ package com.sulake.core.assets
             };
             return (true);
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByMimeType(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_3:AssetTypeDeclaration;
             if (_arg_2){
@@ -453,7 +453,7 @@ package com.sulake.core.assets
             };
             return (AssetTypeDeclaration(this._SafeStr_8802[_arg_1]));
         }
-        public function IAssetLibrary(_arg_1:Class, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByClass(_arg_1:Class, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_3:AssetTypeDeclaration;
             var _local_4:String;
@@ -477,7 +477,7 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        public function IAssetLibrary(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
+        public function getAssetTypeDeclarationByFileName(_arg_1:String, _arg_2:Boolean=true):AssetTypeDeclaration
         {
             var _local_4:AssetTypeDeclaration;
             var _local_5:String;
@@ -505,7 +505,7 @@ package com.sulake.core.assets
             };
             return (null);
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function libraryLoadedHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
             if (_local_2.manifest == null){
@@ -515,14 +515,14 @@ package com.sulake.core.assets
             this._resource = _local_2.resource;
             this._url = _local_2.url;
             if (this._SafeStr_8799){
-                AssetLibrary.AssetLibrary(this, this._manifest, this._resource);
+                AssetLibrary.fetchLibraryContents(this, this._manifest, this._resource);
             };
             this._isReady = true;
             dispatchEvent(new Event(AssetLibrary._SafeStr_8758));
             dispatchEvent(new Event(AssetLibrary._SafeStr_8782));
             if (this._SafeStr_8799){
-                this._content.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.LibraryLoaderQueue);
-                this._content.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.LibraryLoaderQueue);
+                this._content.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.libraryLoadedHandler);
+                this._content.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.loadErrorHandler);
                 this._content.addEventListener(LibraryLoader.LIBRARY_LOADER_FINALIZE, this.finalizeLoaderEventHandler);
                 this._content = null;
                 this._resource = null;
@@ -542,7 +542,7 @@ package com.sulake.core.assets
         {
             dispatchEvent(_arg_1.clone());
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function loadErrorHandler(_arg_1:LibraryLoaderEvent):void
         {
             this._isReady = false;
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
@@ -614,7 +614,7 @@ package com.sulake.core.assets
                     while (_local_8 < _local_7) {
                         _local_3 = _local_2[_local_8];
                         if (((_local_3.attribute(_SafeStr_8785)) && ((_local_3.attribute(_SafeStr_8785).toString() == _arg_1)))){
-                            _local_4 = this.IAssetLibrary(_local_3.attribute(TYPE));
+                            _local_4 = this.getAssetTypeDeclarationByMimeType(_local_3.attribute(TYPE));
                             if (_local_4 == null){
                                 throw (new Error((((("Failed to extract asset " + _arg_1) + " from Library ") + this._url) + "!")));
                             };
@@ -624,7 +624,7 @@ package com.sulake.core.assets
                             if (((_local_6) && (_local_6.length()))){
                                 _local_5.setParamsDesc(_local_6);
                             };
-                            this.IAssetLibrary(_arg_1, _local_5);
+                            this.setAsset(_arg_1, _local_5);
                             return (_local_5);
                         };
                         _local_8++;
@@ -665,14 +665,14 @@ package com.sulake.core.assets
 // setParamsDesc = "_-0ro" (String#4682, DoABC#2)
 // isReady = "_-2Wr" (String#6698, DoABC#2)
 // _SafeStr_8758 = "_-2H5" (String#19688, DoABC#2)
-// IAssetLibrary = "_-2q5" (String#7080, DoABC#2)
-// IAssetLibrary = "_-38x" (String#7490, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
+// getAssetByContent = "_-2q5" (String#7080, DoABC#2)
+// getAssetIndex = "_-38x" (String#7490, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
 // createAsset = "_-0rD" (String#1562, DoABC#2)
-// IAssetLibrary = "_-1PR" (String#5342, DoABC#2)
-// IAssetLibrary = "_-BD" (String#7892, DoABC#2)
-// IAssetLibrary = "_-5x" (String#7779, DoABC#2)
-// IAssetLibrary = "_-0rv" (String#4683, DoABC#2)
+// registerAssetTypeDeclaration = "_-1PR" (String#5342, DoABC#2)
+// getAssetTypeDeclarationByMimeType = "_-BD" (String#7892, DoABC#2)
+// getAssetTypeDeclarationByClass = "_-5x" (String#7779, DoABC#2)
+// getAssetTypeDeclarationByFileName = "_-0rv" (String#4683, DoABC#2)
 // assetClass = "_-39W" (String#21863, DoABC#2)
 // loaderClass = "_-0PF" (String#15033, DoABC#2)
 // fileTypes = "_-xg" (String#24597, DoABC#2)
@@ -699,9 +699,9 @@ package com.sulake.core.assets
 // _SafeStr_8802 = "_-zO" (String#24668, DoABC#2)
 // numAssetLibraryInstances = "_-2Aj" (String#6261, DoABC#2)
 // assetLibraryRefArray = "_-2Y1" (String#20357, DoABC#2)
-// AssetLibrary = "_-38r" (String#21836, DoABC#2)
-// LibraryLoaderQueue = "_-0GL" (String#3878, DoABC#2)
-// LibraryLoaderQueue = "_-0IT" (String#1448, DoABC#2)
+// fetchLibraryContents = "_-38r" (String#21836, DoABC#2)
+// libraryLoadedHandler = "_-0GL" (String#3878, DoABC#2)
+// loadErrorHandler = "_-0IT" (String#1448, DoABC#2)
 // getClass = "_-1Mn" (String#17391, DoABC#2)
 // solveAssetTypeDeclarationFromUrl = "_-1C0" (String#16943, DoABC#2)
 // assetLoadEventHandler = "_-1SD" (String#17589, DoABC#2)

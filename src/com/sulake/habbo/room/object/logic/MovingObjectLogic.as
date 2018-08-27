@@ -76,14 +76,14 @@ package com.sulake.habbo.room.object.logic
                 };
             };
         }
-        protected function FurnitureLogic():IVector3d
+        protected function getLocationOffset():IVector3d
         {
             return (null);
         }
         override public function update(_arg_1:int):void
         {
             var _local_4:int;
-            var _local_2:IVector3d = this.FurnitureLogic();
+            var _local_2:IVector3d = this.getLocationOffset();
             var _local_3:IRoomObjectModelController = object.getModelController();
             if (_local_3 != null){
                 if (_local_2 != null){
@@ -156,7 +156,7 @@ package com.sulake.habbo.room.object.logic
 // lastUpdateTime = "_-0US" (String#15222, DoABC#2)
 // moveUpdateInterval = "_-0Fy" (String#14682, DoABC#2)
 // targetLoc = "_-1Io" (String#17228, DoABC#2)
-// FurnitureLogic = "_-2EM" (String#6330, DoABC#2)
+// getLocationOffset = "_-2EM" (String#6330, DoABC#2)
 // _SafeStr_7613 = "_-lN" (String#24082, DoABC#2)
 
 

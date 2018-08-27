@@ -27,7 +27,7 @@ package com.sulake.core.window.graphics.renderer
         override public function parse(_arg_1:IAsset, _arg_2:XMLList, _arg_3:IAssetLibrary):void
         {
             var _local_4:String = _arg_1.content.toString();
-            TextStyleManager.TextStyleManager(TextStyleManager.parseCSS(_local_4));
+            TextStyleManager.setStyles(TextStyleManager.parseCSS(_local_4));
         }
         override public function draw(_arg_1:IWindow, _arg_2:IBitmapDrawable, _arg_3:Rectangle, _arg_4:uint, _arg_5:Boolean):void
         {
@@ -65,6 +65,6 @@ package com.sulake.core.window.graphics.renderer
 // TextStyleManager = "_-a7" (String#23636, DoABC#2)
 // isStateDrawable = "_-0hI" (String#4452, DoABC#2)
 // _SafeStr_4063 = "_-09E" (String#808, DoABC#2)
-// TextStyleManager = "_-11y" (String#16535, DoABC#2)
+// setStyles = "_-11y" (String#16535, DoABC#2)
 
 

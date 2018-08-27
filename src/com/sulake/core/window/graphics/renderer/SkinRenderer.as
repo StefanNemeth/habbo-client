@@ -62,11 +62,11 @@ package com.sulake.core.window.graphics.renderer
         {
             return (false);
         }
-        public function SkinRenderer(_arg_1:uint):ISkinLayout
+        public function getLayoutByState(_arg_1:uint):ISkinLayout
         {
             return (this._SafeStr_4062[_arg_1]);
         }
-        public function SkinRenderer(_arg_1:uint, _arg_2:String):void
+        public function registerLayoutForRenderState(_arg_1:uint, _arg_2:String):void
         {
             var _local_3:ISkinLayout = this._SafeStr_4061[_arg_2];
             if (_local_3 == null){
@@ -74,19 +74,19 @@ package com.sulake.core.window.graphics.renderer
             };
             this._SafeStr_4062[_arg_1] = _local_3;
         }
-        public function SkinRenderer(_arg_1:uint):void
+        public function removeLayoutFromRenderState(_arg_1:uint):void
         {
             delete this._SafeStr_4062[_arg_1];
         }
-        public function SkinRenderer(_arg_1:uint):Boolean
+        public function hasLayoutForState(_arg_1:uint):Boolean
         {
             return (!((this._SafeStr_4062[_arg_1] == null)));
         }
-        public function SkinRenderer(_arg_1:uint):ISkinTemplate
+        public function getTemplateByState(_arg_1:uint):ISkinTemplate
         {
             return (this._templatesByState[_arg_1]);
         }
-        public function SkinRenderer(_arg_1:uint, _arg_2:String):void
+        public function registerTemplateForRenderState(_arg_1:uint, _arg_2:String):void
         {
             var _local_3:ISkinTemplate = this._SafeStr_4060[_arg_2];
             if (_local_3 == null){
@@ -94,24 +94,24 @@ package com.sulake.core.window.graphics.renderer
             };
             this._templatesByState[_arg_1] = _local_3;
         }
-        public function SkinRenderer(_arg_1:uint):void
+        public function removeTemplateFromRenderState(_arg_1:uint):void
         {
             delete this._templatesByState[_arg_1];
         }
-        public function SkinRenderer(_arg_1:uint):Boolean
+        public function hasTemplateForState(_arg_1:uint):Boolean
         {
             return (!((this._templatesByState[_arg_1] == null)));
         }
-        public function SkinRenderer(_arg_1:ISkinLayout):ISkinLayout
+        public function addLayout(_arg_1:ISkinLayout):ISkinLayout
         {
             this._SafeStr_4061[_arg_1.name] = _arg_1;
             return (_arg_1);
         }
-        public function SkinRenderer(_arg_1:String):ISkinLayout
+        public function getLayoutByName(_arg_1:String):ISkinLayout
         {
             return (this._SafeStr_4061[_arg_1]);
         }
-        public function SkinRenderer(_arg_1:ISkinLayout):ISkinLayout
+        public function removeLayout(_arg_1:ISkinLayout):ISkinLayout
         {
             var _local_2:Object;
             var _local_3:uint;
@@ -120,23 +120,23 @@ package com.sulake.core.window.graphics.renderer
                 for (_local_2 in this._SafeStr_4062) {
                     _local_3 = (_local_2 as uint);
                     if (this._SafeStr_4062[_local_3] == _arg_1){
-                        this.SkinRenderer(_local_3);
+                        this.removeLayoutFromRenderState(_local_3);
                     };
                 };
                 delete this._SafeStr_4061[_arg_1.name];
             };
             return (_arg_1);
         }
-        public function SkinRenderer(_arg_1:ISkinTemplate):ISkinTemplate
+        public function addTemplate(_arg_1:ISkinTemplate):ISkinTemplate
         {
             this._SafeStr_4060[_arg_1.name] = _arg_1;
             return (_arg_1);
         }
-        public function SkinRenderer(_arg_1:String):ISkinTemplate
+        public function getTemplateByName(_arg_1:String):ISkinTemplate
         {
             return (this._SafeStr_4060[_arg_1]);
         }
-        public function SkinRenderer(_arg_1:ISkinTemplate):ISkinTemplate
+        public function removeTemplate(_arg_1:ISkinTemplate):ISkinTemplate
         {
             var _local_2:Object;
             var _local_3:uint;
@@ -145,7 +145,7 @@ package com.sulake.core.window.graphics.renderer
                 for (_local_2 in this._templatesByState) {
                     _local_3 = (_local_2 as uint);
                     if (this._templatesByState[_local_3] == _arg_1){
-                        this.SkinRenderer(_local_3);
+                        this.removeTemplateFromRenderState(_local_3);
                     };
                 };
                 delete this._SafeStr_4060[_arg_1.name];
@@ -161,20 +161,20 @@ package com.sulake.core.window.graphics.renderer
 // ISkinTemplate = "_-31I" (String#1988, DoABC#2)
 // SkinRenderer = "_-bE" (String#8445, DoABC#2)
 // isStateDrawable = "_-0hI" (String#4452, DoABC#2)
-// SkinRenderer = "_-2RX" (String#6597, DoABC#2)
-// SkinRenderer = "_-2lX" (String#6993, DoABC#2)
-// SkinRenderer = "_-1Kq" (String#5260, DoABC#2)
-// SkinRenderer = "_-AQ" (String#7876, DoABC#2)
-// SkinRenderer = "_-ZK" (String#8402, DoABC#2)
-// SkinRenderer = "_-bY" (String#8447, DoABC#2)
-// SkinRenderer = "_-0pf" (String#4625, DoABC#2)
-// SkinRenderer = "_-1FX" (String#5163, DoABC#2)
-// SkinRenderer = "_-3Bh" (String#7544, DoABC#2)
-// SkinRenderer = "_-2qc" (String#7088, DoABC#2)
-// SkinRenderer = "_-1Lf" (String#5271, DoABC#2)
-// SkinRenderer = "_-U7" (String#8289, DoABC#2)
-// SkinRenderer = "_-tc" (String#8760, DoABC#2)
-// SkinRenderer = "_-2E6" (String#6323, DoABC#2)
+// addLayout = "_-2RX" (String#6597, DoABC#2)
+// getLayoutByName = "_-2lX" (String#6993, DoABC#2)
+// removeLayout = "_-1Kq" (String#5260, DoABC#2)
+// getLayoutByState = "_-AQ" (String#7876, DoABC#2)
+// registerLayoutForRenderState = "_-ZK" (String#8402, DoABC#2)
+// removeLayoutFromRenderState = "_-bY" (String#8447, DoABC#2)
+// hasLayoutForState = "_-0pf" (String#4625, DoABC#2)
+// addTemplate = "_-1FX" (String#5163, DoABC#2)
+// getTemplateByName = "_-3Bh" (String#7544, DoABC#2)
+// removeTemplate = "_-2qc" (String#7088, DoABC#2)
+// getTemplateByState = "_-1Lf" (String#5271, DoABC#2)
+// registerTemplateForRenderState = "_-U7" (String#8289, DoABC#2)
+// removeTemplateFromRenderState = "_-tc" (String#8760, DoABC#2)
+// hasTemplateForState = "_-2E6" (String#6323, DoABC#2)
 // _SafeStr_4060 = "_-0Ew" (String#14642, DoABC#2)
 // _SafeStr_4061 = "_-2zW" (String#21439, DoABC#2)
 // _SafeStr_4062 = "_-IB" (String#22936, DoABC#2)

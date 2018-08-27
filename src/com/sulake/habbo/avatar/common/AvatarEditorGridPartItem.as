@@ -91,7 +91,7 @@ package com.sulake.habbo.avatar.common
                 };
             };
             this._renderManager = this._SafeStr_4830.controller.manager.avatarRenderManager;
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
         public function dispose():void
         {
@@ -124,7 +124,7 @@ package com.sulake.habbo.avatar.common
         public function set isSelected(_arg_1:Boolean):void
         {
             this._isSelected = _arg_1;
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
         public function get id():int
         {
@@ -139,12 +139,12 @@ package com.sulake.habbo.avatar.common
         }
         public function update():void
         {
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
         public function set iconImage(_arg_1:BitmapData):void
         {
             this._iconImage = _arg_1;
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
         public function get partSet():IFigurePartSet
         {
@@ -153,9 +153,9 @@ package com.sulake.habbo.avatar.common
         public function set colors(_arg_1:Array):void
         {
             this._colors = _arg_1;
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
-        private function AvatarEditorGridPartItem():void
+        private function updateThumbVisualization():void
         {
             var _local_3:BitmapData;
             var _local_4:BitmapData;
@@ -170,7 +170,7 @@ package com.sulake.habbo.avatar.common
                     _local_3 = this._iconImage;
                 }
                 else {
-                    _local_3 = this.AvatarEditorGridPartItem();
+                    _local_3 = this.renderThumb();
                     if (!_local_3){
                         return;
                     };
@@ -212,7 +212,7 @@ package com.sulake.habbo.avatar.common
             };
             this._window.invalidate();
         }
-        private function AvatarEditorGridPartItem():Boolean
+        private function analyzePartLayers():Boolean
         {
             var _local_2:IFigurePart;
             var _local_3:String;
@@ -267,7 +267,7 @@ package com.sulake.habbo.avatar.common
             };
             return (false);
         }
-        private function AvatarEditorGridPartItem():BitmapData
+        private function renderThumb():BitmapData
         {
             var _local_1:BitmapData;
             var _local_2:IFigurePart;
@@ -285,7 +285,7 @@ package com.sulake.habbo.avatar.common
                 return (null);
             };
             if (this._SafeStr_9953 == null){
-                if (!this.AvatarEditorGridPartItem()){
+                if (!this.analyzePartLayers()){
                     if (!this._SafeStr_9956){
                         _local_9 = this._SafeStr_4830.controller.manager.assets.getAssetByName("avatar_editor_download_icon");
                         this._SafeStr_9956 = (_local_9.content as BitmapData);
@@ -299,7 +299,7 @@ package com.sulake.habbo.avatar.common
             _local_1 = new BitmapData(this._SafeStr_9953.width, this._SafeStr_9953.height, true, 0xFFFFFF);
             var _local_6:int;
             var _local_7:Boolean;
-            var _local_8:Array = this.partSet.parts.concat().sort(this.AvatarEditorGridPartItem);
+            var _local_8:Array = this.partSet.parts.concat().sort(this.sortByDrawOrder);
             for each (_local_2 in _local_8) {
                 if (_local_7){
                     _local_3 = ((((((((((FigureData._SafeStr_9963 + "_") + FigureData._SafeStr_9964) + "_") + _local_2.type) + "_") + _local_2.id) + "_") + this._SafeStr_9950[_local_6]) + "_") + FigureData.0);
@@ -336,7 +336,7 @@ package com.sulake.habbo.avatar.common
             };
             return (_local_1);
         }
-        private function AvatarEditorGridPartItem(_arg_1:IFigurePart, _arg_2:IFigurePart):Number
+        private function sortByDrawOrder(_arg_1:IFigurePart, _arg_2:IFigurePart):Number
         {
             var _local_3:Number = _SafeStr_9947.indexOf(_arg_1.type);
             var _local_4:Number = _SafeStr_9947.indexOf(_arg_2.type);
@@ -356,10 +356,10 @@ package com.sulake.habbo.avatar.common
         }
         public function avatarImageReady(_arg_1:String):void
         {
-            if (!this.AvatarEditorGridPartItem()){
+            if (!this.analyzePartLayers()){
                 return;
             };
-            this.AvatarEditorGridPartItem();
+            this.updateThumbVisualization();
         }
 
     }
@@ -401,14 +401,14 @@ package com.sulake.habbo.avatar.common
 // _colorLayerCount = "_-1DV" (String#17002, DoABC#2)
 // _renderManager = "_-yU" (String#8845, DoABC#2)
 // _SafeStr_9956 = "_-1E5" (String#17031, DoABC#2)
-// AvatarEditorGridPartItem = "_-2bh" (String#20511, DoABC#2)
-// AvatarEditorGridPartItem = "_-0Il" (String#14790, DoABC#2)
-// AvatarEditorGridPartItem = "_-Aq" (String#22649, DoABC#2)
+// updateThumbVisualization = "_-2bh" (String#20511, DoABC#2)
+// renderThumb = "_-0Il" (String#14790, DoABC#2)
+// analyzePartLayers = "_-Aq" (String#22649, DoABC#2)
 // createFigureContainer = "_-vG" (String#8789, DoABC#2)
 // isFigureReady = "_-1Ey" (String#5157, DoABC#2)
 // downloadFigure = "_-20I" (String#6051, DoABC#2)
 // _SafeStr_9963 = "_-u2" (String#24451, DoABC#2)
 // _SafeStr_9964 = "_-1Rs" (String#17577, DoABC#2)
-// AvatarEditorGridPartItem = "_-R8" (String#23289, DoABC#2)
+// sortByDrawOrder = "_-R8" (String#23289, DoABC#2)
 
 

@@ -19,9 +19,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             if ((((_local_7 == null)) || ((_local_7.geometry == null)))){
                 return (null);
             };
-            var _local_8:Point = _local_7.geometry.RoomGeometry(new Vector3d(0, 0, 0));
-            var _local_9:Point = _local_7.geometry.RoomGeometry(new Vector3d(0, (_arg_3 / _local_7.geometry.scale), 0));
-            var _local_10:Point = _local_7.geometry.RoomGeometry(new Vector3d((_arg_2 / _local_7.geometry.scale), 0, 0));
+            var _local_8:Point = _local_7.geometry.getScreenPoint(new Vector3d(0, 0, 0));
+            var _local_9:Point = _local_7.geometry.getScreenPoint(new Vector3d(0, (_arg_3 / _local_7.geometry.scale), 0));
+            var _local_10:Point = _local_7.geometry.getScreenPoint(new Vector3d((_arg_2 / _local_7.geometry.scale), 0, 0));
             if (((((!((_local_8 == null))) && (!((_local_9 == null))))) && (!((_local_10 == null))))){
                 _arg_2 = Math.round(Math.abs((_local_8.x - _local_10.x)));
                 _arg_3 = Math.round(Math.abs((_local_8.x - _local_9.x)));
@@ -39,6 +39,6 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 // _SafeStr_4854 = "_-34T" (String#21676, DoABC#2)
 // _SafeStr_4855 = "_-3AQ" (String#21897, DoABC#2)
 // _SafeStr_4861 = "_-0CJ" (String#582, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
 
 

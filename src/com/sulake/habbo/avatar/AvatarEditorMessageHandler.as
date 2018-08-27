@@ -19,8 +19,8 @@ package com.sulake.habbo.avatar
         {
             this._controller = _arg_1;
             this._communication = _arg_2;
-            this._communication.HabboCommunicationManager(new WardrobeMessageEvent(this.onWardrobe));
-            this._communication.HabboCommunicationManager(new UserRightsMessageEvent(this.onUserRights));
+            this._communication.addHabboConnectionMessageEvent(new WardrobeMessageEvent(this.onWardrobe));
+            this._communication.addHabboConnectionMessageEvent(new UserRightsMessageEvent(this.onUserRights));
         }
         public function dispose():void
         {
@@ -33,7 +33,7 @@ package com.sulake.habbo.avatar
                 return;
             };
             var _local_3:SaveWardrobeOutfitMessageComposer = new SaveWardrobeOutfitMessageComposer(_arg_1, _arg_2.figure, _arg_2.gender);
-            this._communication.HabboCommunicationManager(null).send(_local_3);
+            this._communication.getHabboMainConnection(null).send(_local_3);
             _local_3.dispose();
             _local_3 = null;
         }
@@ -43,7 +43,7 @@ package com.sulake.habbo.avatar
                 return;
             };
             var _local_1:GetWardrobeMessageComposer = new GetWardrobeMessageComposer();
-            this._communication.HabboCommunicationManager(null).send(_local_1);
+            this._communication.getHabboMainConnection(null).send(_local_1);
             _local_1.dispose();
             _local_1 = null;
         }
@@ -54,7 +54,7 @@ package com.sulake.habbo.avatar
             };
             var _local_2:HabboAvatarEditor = this._controller.getEditor(AvatarEditorInstanceId._SafeStr_6812);
             if (_local_2){
-                _local_2.wardrobe.RecyclerCatalogWidget(_arg_1.state, _arg_1.outfits);
+                _local_2.wardrobe.updateSlots(_arg_1.state, _arg_1.outfits);
             };
         }
         private function onUserRights(_arg_1:IMessageEvent):void
@@ -83,13 +83,13 @@ package com.sulake.habbo.avatar
 // IOutfit = "_-058" (String#3668, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _SafeStr_6812 = "_-2OT" (String#19984, DoABC#2)
 // outfits = "_-334" (String#21623, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // saveWardrobeOutfit = "_-2TF" (String#20173, DoABC#2)
 // getWardrobe = "_-1jT" (String#18264, DoABC#2)
-// RecyclerCatalogWidget = "_-1Dr" (String#5140, DoABC#2)
+// updateSlots = "_-1Dr" (String#5140, DoABC#2)
 
 

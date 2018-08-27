@@ -37,7 +37,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_CREDITFURNI, RoomWidgetCreditFurniRedeemMessage.RWFCRM_REDEEM]);
         }
@@ -56,7 +56,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_CREDITFURNI:
                     _local_3 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_4 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_3.roomId, _local_3.roomCategory, _local_3.id, _local_3.category);
+                    _local_4 = this._container.roomEngine.getRoomObject(_local_3.roomId, _local_3.roomCategory, _local_3.id, _local_3.category);
                     if (_local_4 != null){
                         _local_6 = _local_4.getModel();
                         if (_local_6 != null){
@@ -69,16 +69,16 @@ package com.sulake.habbo.ui.handler
                 case RoomWidgetCreditFurniRedeemMessage.RWFCRM_REDEEM:
                     _local_5 = (_arg_1 as RoomWidgetCreditFurniRedeemMessage);
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession(_local_5.objectId);
+                        this._container.roomSession.sendCreditFurniRedeemMessage(_local_5.objectId);
                     };
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:Event;
             if (((((!((this._container == null))) && (!((this._container.events == null))))) && (!((_local_2 == null))))){
@@ -104,16 +104,16 @@ package com.sulake.habbo.ui.handler
 // RWFCRM_REDEEM = "_-27Y" (String#19313, DoABC#2)
 // RWE_FURNI_CREDIT_WIDGET = "_-2b9" (String#20495, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7286 = "_-2UO" (String#20216, DoABC#2)
 // RWCFUE_CREDIT_FURNI_UPDATE = "_-1Xg" (String#17802, DoABC#2)
-// RoomSession = "_-2gO" (String#6879, DoABC#2)
+// sendCreditFurniRedeemMessage = "_-2gO" (String#6879, DoABC#2)
 
 

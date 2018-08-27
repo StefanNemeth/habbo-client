@@ -60,7 +60,7 @@ package com.sulake.habbo.avatar.wardrobe
             var _local_1:IAvatarImage = this._controller.manager.avatarRenderManager.createAvatarImage(this.figure, AvatarScaleType._SafeStr_4337, this._gender, this);
             if (_local_1){
                 _local_1.setDirection(AvatarSetType._SafeStr_4457, int(FigureData.4));
-                _local_2 = _local_1.TwinkleImages(AvatarSetType._SafeStr_4457, true);
+                _local_2 = _local_1.getImage(AvatarSetType._SafeStr_4457, true);
                 if (this._view){
                     this._view.udpate(_local_2);
                 };
@@ -97,7 +97,7 @@ package com.sulake.habbo.avatar.wardrobe
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)

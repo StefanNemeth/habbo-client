@@ -144,7 +144,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             this.selectTab(this._widget.selectedPresetIndex);
             var _local_2:int;
             while (_local_2 < this._SafeStr_4238.numTabItems) {
-                _local_6 = this._SafeStr_4238.TabContextController(_local_2);
+                _local_6 = this._SafeStr_4238.getTabItemAt(_local_2);
                 _local_6.setParamFlag(HabboWindowParam._SafeStr_3731, true);
                 _local_6.procedure = this.onTabClick;
                 _local_2++;
@@ -245,7 +245,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             if (this._SafeStr_4238 == null){
                 return;
             };
-            var _local_2:IWindow = this._SafeStr_4238.TabContextController(_arg_1);
+            var _local_2:IWindow = this._SafeStr_4238.getTabItemAt(_arg_1);
             if (_local_2 != null){
                 this._SafeStr_4238.selector.setSelected((_local_2 as ISelectableWindow));
             };
@@ -255,8 +255,8 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             if (this._SafeStr_4238 == null){
                 return (-1);
             };
-            var _local_1:ISelectableWindow = this._SafeStr_4238.selector.ISelectorWindow();
-            return (this._SafeStr_4238.selector.ISelectorWindow(_local_1));
+            var _local_1:ISelectableWindow = this._SafeStr_4238.selector.getSelected();
+            return (this._SafeStr_4238.selector.getSelectableIndex(_local_1));
         }
         private function get windowXML():XML
         {
@@ -289,7 +289,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
                     _local_2.select();
                 }
                 else {
-                    _local_2.ISelectableWindow();
+                    _local_2.unselect();
                 };
             };
             if (this._SafeStr_13955 != null){
@@ -364,12 +364,12 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
 // onMouseEvent = "_-0ZW" (String#357, DoABC#2)
 // _SafeStr_4238 = "_-1WR" (String#1704, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
-// ISelectorWindow = "_-2bS" (String#6782, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
+// getSelectableIndex = "_-2bS" (String#6782, DoABC#2)
 // numTabItems = "_-2Dt" (String#6317, DoABC#2)
-// TabContextController = "_-0XL" (String#4256, DoABC#2)
+// getTabItemAt = "_-0XL" (String#4256, DoABC#2)
 
 

@@ -71,7 +71,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 return (super.getSpriteAssetName(_arg_1, _arg_2));
             };
             if (this._SafeStr_12700){
-                return (ShoreMaskCreatorUtility.getInstanceMaskName(object.getInstanceId(), FurnitureVisualization(_arg_1)));
+                return (ShoreMaskCreatorUtility.getInstanceMaskName(object.getInstanceId(), getSize(_arg_1)));
             };
             return (null);
         }
@@ -82,7 +82,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             var _local_2:int = (spriteCount - 1);
             while (_local_2 >= 0) {
-                if (FurnitureVisualization(_arg_1, direction, _local_2) == _SafeStr_12699){
+                if (getSpriteTag(_arg_1, direction, _local_2) == _SafeStr_12699){
                     this._SafeStr_12704 = _local_2;
                     this._SafeStr_12705 = _arg_1;
                     this._SafeStr_12706 = direction;
@@ -99,7 +99,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         private function getInstanceMask(_arg_1:int):IGraphicAsset
         {
-            var _local_2:int = FurnitureVisualization(_arg_1);
+            var _local_2:int = getSize(_arg_1);
             var _local_3:IGraphicAsset = ShoreMaskCreatorUtility.getInstanceMask(object.getInstanceId(), _local_2, assetCollection, this.getShoreAsset(_arg_1));
             if (_local_3 != null){
                 if (this._SafeStr_12703.indexOf(_local_2) < 0){
@@ -385,7 +385,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         private function initializeShoreMasks(_arg_1:Number):Boolean
         {
-            return (ShoreMaskCreatorUtility.initializeShoreMasks(FurnitureVisualization(_arg_1), assetCollection, this.getShoreAsset(_arg_1)));
+            return (ShoreMaskCreatorUtility.initializeShoreMasks(getSize(_arg_1), assetCollection, this.getShoreAsset(_arg_1)));
         }
         private function createShoreMask(_arg_1:int, _arg_2:int, _arg_3:Number):BitmapData
         {
@@ -395,7 +395,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 };
                 this._SafeStr_12707 = ShoreMaskCreatorUtility.createEmptyMask(_arg_1, _arg_2);
             };
-            return (ShoreMaskCreatorUtility.createShoreMask2x2(this._SafeStr_12707, FurnitureVisualization(_arg_3), this._SafeStr_12701, this._SafeStr_12702, assetCollection));
+            return (ShoreMaskCreatorUtility.createShoreMask2x2(this._SafeStr_12707, getSize(_arg_3), this._SafeStr_12701, this._SafeStr_12702, assetCollection));
         }
         private function updateInstanceShoreMask(_arg_1:Number):Boolean
         {
@@ -435,7 +435,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 
 // _SafeStr_12442 = "_-0vN" (String#16252, DoABC#2)
 // _SafeStr_12443 = "_-7h" (String#22530, DoABC#2)
-// FurnitureVisualization = "_-00o" (String#14086, DoABC#2)
+// getSpriteTag = "_-00o" (String#14086, DoABC#2)
 // _SafeStr_12699 = "_-ZR" (String#23612, DoABC#2)
 // _SafeStr_12700 = "_-0mN" (String#15911, DoABC#2)
 // _SafeStr_12701 = "_-0fI" (String#15642, DoABC#2)
@@ -475,7 +475,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
 // setAnimation = "_-ON" (String#252, DoABC#2)
 // getSpriteAssetName = "_-0c-" (String#590, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 // _sizeX = "_-sQ" (String#946, DoABC#2)
 // _sizeY = "_-36G" (String#912, DoABC#2)
 

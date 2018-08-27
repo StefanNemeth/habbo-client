@@ -18,7 +18,7 @@ package com.sulake.habbo.sound.object
         public function HabboSound(_arg_1:Sound)
         {
             this._soundObject = _arg_1;
-            this._soundObject.addEventListener(Event.COMPLETE, this.SocketConnection);
+            this._soundObject.addEventListener(Event.COMPLETE, this.onComplete);
             this._volume = 1;
             this._complete = false;
         }
@@ -78,7 +78,7 @@ package com.sulake.habbo.sound.object
         public function set fadeInSeconds(_arg_1:Number):void
         {
         }
-        private function SocketConnection(_arg_1:Event):void
+        private function onComplete(_arg_1:Event):void
         {
             this._complete = true;
         }
@@ -92,7 +92,7 @@ package com.sulake.habbo.sound.object
 // volume = "_-0SB" (String#1473, DoABC#2)
 // _soundObject = "_-kf" (String#8618, DoABC#2)
 // _SafeStr_4030 = "_-FQ" (String#7980, DoABC#2)
-// SocketConnection = "_-2qX" (String#7085, DoABC#2)
+// onComplete = "_-2qX" (String#7085, DoABC#2)
 // finished = "_-28w" (String#6223, DoABC#2)
 // fadeOutSeconds = "_-0GD" (String#3874, DoABC#2)
 // fadeInSeconds = "_-2FB" (String#6346, DoABC#2)

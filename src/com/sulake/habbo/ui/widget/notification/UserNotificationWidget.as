@@ -27,21 +27,21 @@ package com.sulake.habbo.ui.widget.notification
             };
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetUserNotificationEvent.RWUNE_NOTIFICATION, this.onDisplayNotification);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.removeEventListener(RoomWidgetUserNotificationEvent.RWUNE_NOTIFICATION, this.onDisplayNotification);
-            super.RoomChatWidget(_arg_1);
+            super.unregisterUpdateEvents(_arg_1);
         }
         protected function onDisplayNotification(_arg_1:RoomWidgetUserNotificationEvent):void
         {
@@ -60,7 +60,7 @@ package com.sulake.habbo.ui.widget.notification
                 _local_4 = _local_4.replace(_local_5[_local_6], _local_5[(_local_6 + 1)]);
                 _local_6 = (_local_6 + 2);
             };
-            this._view.UserNotificationView(_local_3, _local_4);
+            this._view.showNotification(_local_3, _local_4);
         }
 
     }
@@ -68,13 +68,13 @@ package com.sulake.habbo.ui.widget.notification
 
 // ILocalization = "_-2EY" (String#1839, DoABC#2)
 // onDisplayNotification = "_-0w" (String#16273, DoABC#2)
-// UserNotificationView = "_-1jh" (String#18271, DoABC#2)
+// showNotification = "_-1jh" (String#18271, DoABC#2)
 // RoomWidgetBase = "_-0eQ" (String#4398, DoABC#2)
 // UserNotificationWidget = "_-25q" (String#6157, DoABC#2)
 // UserNotificationView = "_-0CT" (String#3799, DoABC#2)
 // RoomWidgetUserNotificationEvent = "_-0ns" (String#4588, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _localizations = "_-0il" (String#358, DoABC#2)
 // RWUNE_NOTIFICATION = "_-0Vj" (String#4221, DoABC#2)
 // raw = "_-Xc" (String#8361, DoABC#2)

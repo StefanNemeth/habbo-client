@@ -57,7 +57,7 @@ package com.sulake.habbo.quest
         private var _toolbar:IHabboToolbar;
         private var _catalog:IHabboCatalog;
         private var _navigator:IHabboNavigator;
-        private var _HabboSoundManagerFlash10:IHabboNotifications;
+        private var _notifications:IHabboNotifications;
         private var _sessionDataManager:ISessionDataManager;
         private var _habboHelp:IHabboHelp;
         private var _twinkleImages:TwinkleImages;
@@ -68,17 +68,17 @@ package com.sulake.habbo.quest
             super(_arg_1, _arg_2, _arg_3);
             this._questController = new QuestController(this);
             this._achievementController = new AchievementController(this);
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboUserDefinedRoomEvents);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboLocalizationManager(), this.onLocalizationReady);
             queueInterface(new IIDHabboConfigurationManager(), this.onConfigurationReady);
             queueInterface(new IIDHabboToolbar(), this.onToolbarReady);
             queueInterface(new IIDHabboCatalog(), this.onCatalogReady);
-            queueInterface(new IIDHabboNotifications(), this.HabboSoundManagerFlash10);
+            queueInterface(new IIDHabboNotifications(), this.onNotificationsReady);
             queueInterface(new IIDHabboHelp(), this.onHabboHelpReady);
             queueInterface(new IIDHabboNavigator(), this.onHabboNavigatorReady);
             queueInterface(new IIDSessionDataManager(), this.onSessionDataManagerReady);
-            IContext(this, _SafeStr_12330);
+            registerUpdateReceiver(this, _SafeStr_12330);
         }
         public static function moveChildrenToRow(_arg_1:IWindowContainer, _arg_2:Array, _arg_3:int, _arg_4:int):void
         {
@@ -105,9 +105,9 @@ package com.sulake.habbo.quest
                 this._catalog.release(new IIDHabboCatalog());
                 this._catalog = null;
             };
-            if (this._HabboSoundManagerFlash10 != null){
-                this._HabboSoundManagerFlash10.release(new IIDHabboNotifications());
-                this._HabboSoundManagerFlash10 = null;
+            if (this._notifications != null){
+                this._notifications.release(new IIDHabboNotifications());
+                this._notifications = null;
             };
             if (this._windowManager != null){
                 this._windowManager.release(new IIDHabboWindowManager());
@@ -160,7 +160,7 @@ package com.sulake.habbo.quest
             };
             return (window);
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._communication = IHabboCommunicationManager(_arg_2);
             this._SafeStr_11492 = new IncomingMessages(this);
@@ -187,12 +187,12 @@ package com.sulake.habbo.quest
             };
             this._catalog = (_arg_2 as IHabboCatalog);
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onNotificationsReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
             };
-            this._HabboSoundManagerFlash10 = (_arg_2 as IHabboNotifications);
+            this._notifications = (_arg_2 as IHabboNotifications);
         }
         private function onSessionDataManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
@@ -257,12 +257,12 @@ package com.sulake.habbo.quest
         public function openNavigator(_arg_1:QuestMessageData):void
         {
             var _local_3:String;
-            var _local_2:Boolean = this._localization.hasKey((_arg_1.QuestMessageData() + ".searchtag"));
+            var _local_2:Boolean = this._localization.hasKey((_arg_1.getQuestLocalizationKey() + ".searchtag"));
             if (_local_2){
-                _local_3 = (_arg_1.QuestMessageData() + ".searchtag");
+                _local_3 = (_arg_1.getQuestLocalizationKey() + ".searchtag");
             }
             else {
-                _local_3 = (_arg_1.QuestMessageData() + ".searchtag");
+                _local_3 = (_arg_1.getCampaignLocalizationKey() + ".searchtag");
             };
             var _local_4:String = this._localization.getKey(_local_3);
             Logger.log(("Questing->Open Navigator: " + _local_4));
@@ -295,7 +295,7 @@ package com.sulake.habbo.quest
         }
         public function get notifications():IHabboNotifications
         {
-            return (this._HabboSoundManagerFlash10);
+            return (this._notifications);
         }
         public function get sessionDataManager():ISessionDataManager
         {
@@ -303,7 +303,7 @@ package com.sulake.habbo.quest
         }
         public function send(_arg_1:IMessageComposer):void
         {
-            this.communication.HabboCommunicationManager(null).send(_arg_1);
+            this.communication.getHabboMainConnection(null).send(_arg_1);
         }
         public function isTrackerVisible():Boolean
         {
@@ -311,22 +311,22 @@ package com.sulake.habbo.quest
         }
         public function getQuestRowTitle(_arg_1:QuestMessageData):String
         {
-            var _local_2:String = (((_arg_1.waitPeriodSeconds < 1)) ? (_arg_1.QuestMessageData() + ".name") : "quests.list.questdelayed");
+            var _local_2:String = (((_arg_1.waitPeriodSeconds < 1)) ? (_arg_1.getQuestLocalizationKey() + ".name") : "quests.list.questdelayed");
             return (this._localization.getKey(_local_2, _local_2));
         }
         public function getQuestName(_arg_1:QuestMessageData):String
         {
-            var _local_2 = (_arg_1.QuestMessageData() + ".name");
+            var _local_2 = (_arg_1.getQuestLocalizationKey() + ".name");
             return (this._localization.getKey(_local_2, _local_2));
         }
         public function getQuestDesc(_arg_1:QuestMessageData):String
         {
-            var _local_2 = (_arg_1.QuestMessageData() + ".desc");
+            var _local_2 = (_arg_1.getQuestLocalizationKey() + ".desc");
             return (this._localization.getKey(_local_2, _local_2));
         }
         public function getQuestHint(_arg_1:QuestMessageData):String
         {
-            var _local_2 = (_arg_1.QuestMessageData() + ".hint");
+            var _local_2 = (_arg_1.getQuestLocalizationKey() + ".hint");
             return (this._localization.getKey(_local_2, _local_2));
         }
         public function getActivityPointName(_arg_1:int):String
@@ -336,7 +336,7 @@ package com.sulake.habbo.quest
         }
         public function getCampaignName(_arg_1:QuestMessageData):String
         {
-            var _local_2 = (_arg_1.QuestMessageData() + ".name");
+            var _local_2 = (_arg_1.getCampaignLocalizationKey() + ".name");
             return (this._localization.getKey(_local_2, _local_2));
         }
         public function getAchievementCategoryName(_arg_1:String):String
@@ -474,11 +474,11 @@ package com.sulake.habbo.quest
 // onSessionDataManagerReady = "_-0C-" (String#240, DoABC#2)
 // onToolbarReady = "_-3Ep" (String#218, DoABC#2)
 // notifications = "_-1zJ" (String#1789, DoABC#2)
-// _HabboSoundManagerFlash10 = "_-ef" (String#940, DoABC#2)
+// _notifications = "_-ef" (String#940, DoABC#2)
 // showAchievements = "_-1xg" (String#5986, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-1hF" (String#443, DoABC#2)
-// HabboSoundManagerFlash10 = "_-AF" (String#2065, DoABC#2)
+// onCommunicationComponentInit = "_-1hF" (String#443, DoABC#2)
+// onNotificationsReady = "_-AF" (String#2065, DoABC#2)
 // _SafeStr_11492 = "_-0aZ" (String#589, DoABC#2)
 // questController = "_-1Hq" (String#17186, DoABC#2)
 // currentlyInRoom = "_-15i" (String#16684, DoABC#2)
@@ -525,9 +525,9 @@ package com.sulake.habbo.quest
 // QuestMessageData = "_-2Vr" (String#20275, DoABC#2)
 // IHabboNotifications = "_-0uT" (String#4734, DoABC#2)
 // IHabboNavigator = "_-2rk" (String#7118, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // code = "_-12Y" (String#4926, DoABC#2)
@@ -553,8 +553,8 @@ package com.sulake.habbo.quest
 // imageVersion = "_-0eu" (String#15623, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
 // waitPeriodSeconds = "_-376" (String#21771, DoABC#2)
-// QuestMessageData = "_-02z" (String#14161, DoABC#2)
-// QuestMessageData = "_-D-" (String#22728, DoABC#2)
+// getCampaignLocalizationKey = "_-02z" (String#14161, DoABC#2)
+// getQuestLocalizationKey = "_-D-" (String#22728, DoABC#2)
 // moveChildrenToRow = "_-0xS" (String#16331, DoABC#2)
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)
 // onBadgeImageReady = "_-2f0" (String#1919, DoABC#2)

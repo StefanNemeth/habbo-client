@@ -51,7 +51,7 @@ package com.sulake.habbo.session.handler
                     _local_5 = RoomSessionChatEvent._SafeStr_3620;
                     _local_6 = _local_2.getParser();
                     if (_local_6.trackingId != -1){
-                        _local_3.RoomSession(_local_6.trackingId);
+                        _local_3.receivedChatWithTrackingId(_local_6.trackingId);
                     };
                     listener.events.dispatchEvent(new RoomSessionChatEvent(_local_4, _local_3, _local_6.userId, _local_6.text, _local_5, _local_6.links));
                 };
@@ -194,7 +194,7 @@ package com.sulake.habbo.session.handler
 // onRespectNotification = "_-27V" (String#6191, DoABC#2)
 // onPetRespectNotification = "_-57" (String#22424, DoABC#2)
 // trackingId = "_-189" (String#16783, DoABC#2)
-// RoomSession = "_-FR" (String#7981, DoABC#2)
+// receivedChatWithTrackingId = "_-FR" (String#7981, DoABC#2)
 // getUserData = "_-1-1" (String#4848, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
 // getPetUserData = "_-2Rz" (String#6606, DoABC#2)

@@ -41,7 +41,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
         {
             this._bitmapData = null;
         }
-        public function Twinkle(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number, _arg_5:int):Point
+        public function getPosition(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number, _arg_5:int):Point
         {
             var _local_6:Number = this._x;
             var _local_7:Number = this._y;
@@ -61,7 +61,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
 
 // AnimationItem = "_-zq" (String#8879, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
-// Twinkle = "_-GB" (String#7997, DoABC#2)
+// getPosition = "_-GB" (String#7997, DoABC#2)
 // _SafeStr_4875 = "_-7J" (String#22515, DoABC#2)
 // _SafeStr_4876 = "_-E6" (String#22776, DoABC#2)
 

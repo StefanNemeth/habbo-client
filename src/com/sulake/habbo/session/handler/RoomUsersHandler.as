@@ -50,17 +50,17 @@ package com.sulake.habbo.session.handler
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.addMessageEvent(new UsersMessageEvent(this.RoomMessageHandler));
-            _arg_1.addMessageEvent(new UserRemoveMessageEvent(this.RoomMessageHandler));
-            _arg_1.addMessageEvent(new HabboUserBadgesMessageEvent(this.InfostandWidget));
-            _arg_1.addMessageEvent(new DoorbellMessageEvent(this.IncomingMessages));
+            _arg_1.addMessageEvent(new UsersMessageEvent(this.onUsers));
+            _arg_1.addMessageEvent(new UserRemoveMessageEvent(this.onUserRemove));
+            _arg_1.addMessageEvent(new HabboUserBadgesMessageEvent(this.onUserBadges));
+            _arg_1.addMessageEvent(new DoorbellMessageEvent(this.onDoorbell));
             _arg_1.addMessageEvent(new UserChangeMessageEvent(this.onUserChange));
             _arg_1.addMessageEvent(new UserNameChangedMessageEvent(this.onUserNameChange));
-            _arg_1.addMessageEvent(new PetInfoMessageEvent(this.InfostandWidget));
+            _arg_1.addMessageEvent(new PetInfoMessageEvent(this.onPetInfo));
             _arg_1.addMessageEvent(new PetCommandsMessageEvent(this.onEnabledPetCommands));
             _arg_1.addMessageEvent(new PetPlacingErrorEvent(this.onPetPlacingError));
             _arg_1.addMessageEvent(new NewBuddyRequestEvent(this.onFriendRequest));
-            _arg_1.addMessageEvent(new DanceMessageEvent(this.RoomMessageHandler));
+            _arg_1.addMessageEvent(new DanceMessageEvent(this.onDance));
             _arg_1.addMessageEvent(new FavoriteMembershipUpdateMessageEvent(this.onFavoriteMembershipUpdate));
         }
         private function onFavoriteMembershipUpdate(_arg_1:IMessageEvent):void
@@ -81,7 +81,7 @@ package com.sulake.habbo.session.handler
                 listener.events.dispatchEvent(_local_5);
             };
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUsers(_arg_1:IMessageEvent):void
         {
             var _local_6:UserMessageData;
             var _local_7:UserData;
@@ -95,8 +95,8 @@ package com.sulake.habbo.session.handler
                 return;
             };
             var _local_5:int;
-            while (_local_5 < _local_3.UsersMessageParser()) {
-                _local_6 = _local_3.UsersMessageParser(_local_5);
+            while (_local_5 < _local_3.getUserCount()) {
+                _local_6 = _local_3.getUser(_local_5);
                 _local_7 = new UserData(_local_6.id);
                 _local_7.name = _local_6.name;
                 _local_7.custom = _local_6.custom;
@@ -113,7 +113,7 @@ package com.sulake.habbo.session.handler
             };
             listener.events.dispatchEvent(new RoomSessionUserDataUpdateEvent(_local_4));
         }
-        private function RoomMessageHandler(_arg_1:IMessageEvent):void
+        private function onUserRemove(_arg_1:IMessageEvent):void
         {
             var _local_2:UserRemoveMessageEvent = (_arg_1 as UserRemoveMessageEvent);
             if (_local_2 == null){
@@ -126,7 +126,7 @@ package com.sulake.habbo.session.handler
             var _local_4:int = (_local_2.getParser() as UserRemoveMessageParser).id;
             _local_3.userDataManager.removeUserDataByIndex(_local_4);
         }
-        private function InfostandWidget(_arg_1:IMessageEvent):void
+        private function onUserBadges(_arg_1:IMessageEvent):void
         {
             var _local_2:HabboUserBadgesMessageEvent = (_arg_1 as HabboUserBadgesMessageEvent);
             if (_local_2 == null){
@@ -139,7 +139,7 @@ package com.sulake.habbo.session.handler
             _local_3.userDataManager.setUserBadges(_local_2.userId, _local_2.badges);
             listener.events.dispatchEvent(new RoomSessionUserBadgesEvent(_local_3, _local_2.userId, _local_2.badges));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onDoorbell(_arg_1:IMessageEvent):void
         {
             var _local_2:DoorbellMessageEvent = (_arg_1 as DoorbellMessageEvent);
             if (_local_2 == null){
@@ -184,7 +184,7 @@ package com.sulake.habbo.session.handler
             };
             _local_4.userDataManager.updateNameByIndex(_local_3.id, _local_3.newName);
         }
-        private function InfostandWidget(_arg_1:IMessageEvent):void
+        private function onPetInfo(_arg_1:IMessageEvent):void
         {
             var _local_2:IRoomSession = listener.getSession(_xxxRoomId, _SafeStr_6312);
             if (_local_2 == null){
@@ -276,7 +276,7 @@ package com.sulake.habbo.session.handler
             };
             listener.events.dispatchEvent(new RoomSessionFriendRequestEvent(_local_3, _local_4.requestId, _local_4.requestId, _local_4.requesterName));
         }
-        private function RoomMessageHandler(_arg_1:DanceMessageEvent):void
+        private function onDance(_arg_1:DanceMessageEvent):void
         {
             var _local_2:DanceMessageParser = _arg_1.getParser();
             var _local_3:IRoomSession = listener.getSession(_xxxRoomId, _SafeStr_6312);
@@ -329,8 +329,8 @@ package com.sulake.habbo.session.handler
 // userType = "_-0Dh" (String#14596, DoABC#2)
 // petId = "_-JP" (String#8074, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
-// UsersMessageParser = "_-xV" (String#24590, DoABC#2)
-// UsersMessageParser = "_-0C8" (String#14534, DoABC#2)
+// getUserCount = "_-xV" (String#24590, DoABC#2)
+// getUser = "_-0C8" (String#14534, DoABC#2)
 // custom = "_-1sW" (String#5894, DoABC#2)
 // webID = "_-2uI" (String#7166, DoABC#2)
 // sex = "_-0tG" (String#4712, DoABC#2)
@@ -353,17 +353,17 @@ package com.sulake.habbo.session.handler
 // newName = "_-2Fm" (String#19634, DoABC#2)
 // _SafeStr_6312 = "_-2JJ" (String#19781, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
-// RoomMessageHandler = "_-1eu" (String#1735, DoABC#2)
-// RoomMessageHandler = "_-2FD" (String#6347, DoABC#2)
-// InfostandWidget = "_-8z" (String#2063, DoABC#2)
-// IncomingMessages = "_-nT" (String#8667, DoABC#2)
+// onUsers = "_-1eu" (String#1735, DoABC#2)
+// onUserRemove = "_-2FD" (String#6347, DoABC#2)
+// onUserBadges = "_-8z" (String#2063, DoABC#2)
+// onDoorbell = "_-nT" (String#8667, DoABC#2)
 // onUserChange = "_-0uf" (String#827, DoABC#2)
 // onUserNameChange = "_-37e" (String#2005, DoABC#2)
-// InfostandWidget = "_-0dE" (String#1512, DoABC#2)
+// onPetInfo = "_-0dE" (String#1512, DoABC#2)
 // onEnabledPetCommands = "_-0-k" (String#14043, DoABC#2)
 // onPetPlacingError = "_-1rR" (String#18603, DoABC#2)
 // onFriendRequest = "_-0iR" (String#15770, DoABC#2)
-// RoomMessageHandler = "_-1cS" (String#5609, DoABC#2)
+// onDance = "_-1cS" (String#5609, DoABC#2)
 // onFavoriteMembershipUpdate = "_-xl" (String#24602, DoABC#2)
 // getUserDataByIndex = "_-1XZ" (String#5510, DoABC#2)
 // setUserData = "_-Hx" (String#8038, DoABC#2)

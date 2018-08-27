@@ -46,8 +46,8 @@ package com.sulake.habbo.inventory
             this._SafeStr_11672 = _arg_1;
             this._SafeStr_11672.visible = false;
             this._assets = _arg_2;
-            this._SafeStr_11670.addEventListener(TimerEvent.TIMER, this.PopupCtrl);
-            this._SafeStr_11671.addEventListener(TimerEvent.TIMER, this.PopupCtrl);
+            this._SafeStr_11670.addEventListener(TimerEvent.TIMER, this.onDisplayTimer);
+            this._SafeStr_11671.addEventListener(TimerEvent.TIMER, this.onHideTimer);
             var _local_3:BitmapDataAsset = (this._assets.getAssetByName("popup_arrow_right_png") as BitmapDataAsset);
             if (((!((_local_3 == null))) && (!((_local_3.content == null))))){
                 this._SafeStr_11675 = (_local_3.content as BitmapData);
@@ -60,12 +60,12 @@ package com.sulake.habbo.inventory
         public function dispose():void
         {
             if (this._SafeStr_11670 != null){
-                this._SafeStr_11670.removeEventListener(TimerEvent.TIMER, this.PopupCtrl);
+                this._SafeStr_11670.removeEventListener(TimerEvent.TIMER, this.onDisplayTimer);
                 this._SafeStr_11670.stop();
                 this._SafeStr_11670 = null;
             };
             if (this._SafeStr_11671 != null){
-                this._SafeStr_11671.removeEventListener(TimerEvent.TIMER, this.PopupCtrl);
+                this._SafeStr_11671.removeEventListener(TimerEvent.TIMER, this.onHideTimer);
                 this._SafeStr_11671.stop();
                 this._SafeStr_11671 = null;
             };
@@ -175,11 +175,11 @@ package com.sulake.habbo.inventory
             };
             _local_2.invalidate();
         }
-        private function PopupCtrl(_arg_1:TimerEvent):void
+        private function onDisplayTimer(_arg_1:TimerEvent):void
         {
             this.show();
         }
-        private function PopupCtrl(_arg_1:TimerEvent):void
+        private function onHideTimer(_arg_1:TimerEvent):void
         {
             this.hide();
         }
@@ -187,8 +187,8 @@ package com.sulake.habbo.inventory
     }
 }//package com.sulake.habbo.inventory
 
-// PopupCtrl = "_-0bX" (String#1508, DoABC#2)
-// PopupCtrl = "_-lJ" (String#2176, DoABC#2)
+// onDisplayTimer = "_-0bX" (String#1508, DoABC#2)
+// onHideTimer = "_-lJ" (String#2176, DoABC#2)
 // updateContent = "_-N5" (String#23127, DoABC#2)
 // _SafeStr_11602 = "_-14h" (String#16641, DoABC#2)
 // hideDelayed = "_-2Ey" (String#19602, DoABC#2)

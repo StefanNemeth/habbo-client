@@ -143,7 +143,7 @@ package com.sulake.habbo.tracking
             queueInterface(new IIDRoomEngine(), this.onRoomEngineReady);
             queueInterface(new IIDHabboAdManager(), this.onAdManagerReady);
             queueInterface(new IIDHabboToolbar(), this.onToolbarReady);
-            IContext(this, 1);
+            registerUpdateReceiver(this, 1);
         }
         public static function getInstance():HabboTracking
         {
@@ -303,13 +303,13 @@ package com.sulake.habbo.tracking
                 this.trackLoginStep(HabboLoginTrackingStep._SafeStr_13811);
                 if (this._configuration){
                     if (this._SafeStr_13856 != null){
-                        this._SafeStr_13856.FramerateTracker(this._configuration);
+                        this._SafeStr_13856.configure(this._configuration);
                     };
                     if (this._SafeStr_13854 != null){
-                        this._SafeStr_13854.FramerateTracker(this._configuration);
+                        this._SafeStr_13854.configure(this._configuration);
                     };
                     if (this._SafeStr_13857 != null){
-                        this._SafeStr_13857.FramerateTracker(this._configuration);
+                        this._SafeStr_13857.configure(this._configuration);
                     };
                 };
             };
@@ -324,10 +324,10 @@ package com.sulake.habbo.tracking
         {
             this._communication = IHabboCommunicationManager(_arg_2);
             if (this._communication != null){
-                this._communication.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthOK));
-                this._communication.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEnter));
-                this._communication.HabboCommunicationManager(new HabboAchievementNotificationMessageEvent(this.onAchievementNotification));
-                this._connection = this._communication.HabboCommunicationManager(this.onConnectionReady);
+                this._communication.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK));
+                this._communication.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
+                this._communication.addHabboConnectionMessageEvent(new HabboAchievementNotificationMessageEvent(this.onAchievementNotification));
+                this._connection = this._communication.getHabboMainConnection(this.onConnectionReady);
                 if (this._connection != null){
                     this.onConnectionReady(this._connection);
                 };
@@ -784,8 +784,8 @@ package com.sulake.habbo.tracking
                     if (this._SafeStr_13854){
                         _local_2 = null;
                         if (this._roomEngine){
-                            _local_3 = this._roomEngine.IRoomSpriteCanvasContainer(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
-                            _local_4 = (this._roomEngine.IRoomSpriteCanvasContainer(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum._SafeStr_4329) + this._roomEngine.IRoomSpriteCanvasContainer(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum._SafeStr_4330));
+                            _local_3 = this._roomEngine.getRoomObjectCount(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+                            _local_4 = (this._roomEngine.getRoomObjectCount(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum._SafeStr_4329) + this._roomEngine.getRoomObjectCount(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectCategoryEnum._SafeStr_4330));
                             _local_2 = ((("Avatars: " + _local_3) + ", Objects: ") + _local_4);
                         };
                         this.trackEventLog("Performance", "fps", String(this._SafeStr_13854.frameRate), _local_2);
@@ -883,7 +883,7 @@ package com.sulake.habbo.tracking
                 this._SafeStr_13855.update(_arg_1, this._SafeStr_13859);
             };
             if (this._SafeStr_13854 != null){
-                this._SafeStr_13854.FramerateTracker(_arg_1, this, this._SafeStr_13859);
+                this._SafeStr_13854.trackUpdate(_arg_1, this, this._SafeStr_13859);
             };
             if (this._SafeStr_13856 != null){
                 this._SafeStr_13856.update(this._SafeStr_13859);
@@ -907,13 +907,13 @@ package com.sulake.habbo.tracking
 // chatLagDetected = "_-1JX" (String#5231, DoABC#2)
 // legacyTrackGoogle = "_-0A8" (String#3760, DoABC#2)
 // logError = "_-2vF" (String#7182, DoABC#2)
-// FramerateTracker = "_-2eD" (String#20612, DoABC#2)
+// configure = "_-2eD" (String#20612, DoABC#2)
 // _SafeStr_13793 = "_-1bt" (String#17967, DoABC#2)
 // _SafeStr_13794 = "_-1KB" (String#17280, DoABC#2)
 // _SafeStr_13795 = "_-0qY" (String#16070, DoABC#2)
 // _SafeStr_13796 = "_-rs" (String#24356, DoABC#2)
 // _SafeStr_13797 = "_-0v0" (String#16238, DoABC#2)
-// FramerateTracker = "_-Mk" (String#23116, DoABC#2)
+// trackUpdate = "_-Mk" (String#23116, DoABC#2)
 // _SafeStr_13810 = "_-1vP" (String#18773, DoABC#2)
 // _SafeStr_13811 = "_-3HU" (String#22179, DoABC#2)
 // _SafeStr_13814 = "_-0f0" (String#15629, DoABC#2)
@@ -977,13 +977,13 @@ package com.sulake.habbo.tracking
 // unitPropertySet = "_-ix" (String#23996, DoABC#2)
 // worldId = "_-2Ip" (String#19760, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_4329 = "_-bN" (String#23687, DoABC#2)
 // _SafeStr_4330 = "_-0cQ" (String#15531, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // onError = "_-1cU" (String#1723, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // RWPUW_ERROR = "_-0CA" (String#14535, DoABC#2)
 // REE_INITIALIZED = "_-0c3" (String#15515, DoABC#2)
 // activeRoomId = "_-kJ" (String#2172, DoABC#2)
@@ -1007,7 +1007,7 @@ package com.sulake.habbo.tracking
 // Component = "_-19A" (String#5060, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1Hy" (String#1654, DoABC#2)
+// getRoomObjectCount = "_-1Hy" (String#1654, DoABC#2)
 // pageLocalization = "_-2Re" (String#20106, DoABC#2)
 // IHabboHelp = "_-2o3" (String#7041, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)

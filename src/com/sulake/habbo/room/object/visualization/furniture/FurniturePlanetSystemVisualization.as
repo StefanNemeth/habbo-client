@@ -67,12 +67,12 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return (super.getSpriteYOffset(_arg_1, _arg_2, _arg_3));
         }
-        override protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Number
+        override protected function getSpriteZOffset(_arg_1:int, _arg_2:int, _arg_3:int):Number
         {
             if (_arg_3 < this._offsetArray.length){
                 return (this._offsetArray[_arg_3].z);
             };
-            return (super.FurnitureVisualization(_arg_1, _arg_2, _arg_3));
+            return (super.getSpriteZOffset(_arg_1, _arg_2, _arg_3));
         }
         private function readDefinition():Boolean
         {
@@ -158,6 +158,6 @@ package com.sulake.habbo.room.object.visualization.furniture
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
 // getSpriteXOffset = "_-03Y" (String#354, DoABC#2)
 // getSpriteYOffset = "_-3IZ" (String#251, DoABC#2)
-// FurnitureVisualization = "_-25C" (String#614, DoABC#2)
+// getSpriteZOffset = "_-25C" (String#614, DoABC#2)
 
 

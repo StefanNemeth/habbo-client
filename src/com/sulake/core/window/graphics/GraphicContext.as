@@ -30,7 +30,7 @@ package com.sulake.core.window.graphics
         protected static var _SafeStr_4425:uint = 0;
         protected static var _SafeStr_9592:uint = 0;
 
-        protected var _GraphicContext:DisplayObjectContainer;
+        protected var _SafeStr_9593:DisplayObjectContainer;
         protected var _SafeStr_9594:Boolean;
         protected var _SafeStr_9595:Boolean;
         protected var _disposed:Boolean = false;
@@ -137,17 +137,17 @@ package com.sulake.core.window.graphics
                     this.parent = null;
                 };
                 while (this.numChildContexts > 0) {
-                    this.IGraphicContext(0);
+                    this.removeChildContextAt(0);
                 };
                 if (this._SafeStr_9595){
                     this.releaseDrawBuffer();
                 };
-                if (this._GraphicContext != null){
-                    while (this._GraphicContext.numChildren > 0) {
-                        this._GraphicContext.removeChildAt(0);
+                if (this._SafeStr_9593 != null){
+                    while (this._SafeStr_9593.numChildren > 0) {
+                        this._SafeStr_9593.removeChildAt(0);
                     };
                 };
-                this._GraphicContext = null;
+                this._SafeStr_9593 = null;
                 while (numChildren > 0) {
                     removeChildAt(0);
                 };
@@ -160,11 +160,11 @@ package com.sulake.core.window.graphics
         {
             return ((('[object GraphicContext name="' + name) + '"]'));
         }
-        public function WindowController():Rectangle
+        public function getDrawRegion():Rectangle
         {
             return (this._rectangle.clone());
         }
-        public function IGraphicContext(_arg_1:Rectangle, _arg_2:Boolean, _arg_3:Rectangle):void
+        public function setDrawRegion(_arg_1:Rectangle, _arg_2:Boolean, _arg_3:Rectangle):void
         {
             if (((this._SafeStr_9595) && (_arg_2))){
                 this._SafeStr_9597(_arg_1.width, _arg_1.height);
@@ -212,18 +212,18 @@ package com.sulake.core.window.graphics
             _arg_1.mask = this._SafeStr_9596;
             return (_local_2);
         }
-        public function WindowController(_arg_1:Point):void
+        public function getAbsoluteMousePosition(_arg_1:Point):void
         {
             _arg_1.x = stage.mouseX;
             _arg_1.y = stage.mouseY;
         }
-        public function WindowController(_arg_1:Point):void
+        public function getRelativeMousePosition(_arg_1:Point):void
         {
             var _local_2:DisplayObject = this.getDisplayObject();
             _arg_1.x = _local_2.mouseX;
             _arg_1.y = _local_2.mouseY;
         }
-        public function WindowController():IBitmapDrawable
+        public function fetchDrawBuffer():IBitmapDrawable
         {
             var _local_1:DisplayObject;
             if (this._SafeStr_9595){
@@ -279,7 +279,7 @@ package com.sulake.core.window.graphics
                 };
             };
         }
-        public function IGraphicContext(_arg_1:Rectangle):void
+        public function showRedrawRegion(_arg_1:Rectangle):void
         {
             graphics.clear();
             graphics.lineStyle(1, 0xFF00FF00);
@@ -289,57 +289,57 @@ package com.sulake.core.window.graphics
                 graphics.drawRect(_arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
             };
         }
-        protected function GraphicContext():DisplayObjectContainer
+        protected function setupChildContainer():DisplayObjectContainer
         {
-            if (this._GraphicContext == null){
-                this._GraphicContext = new Sprite();
-                this._GraphicContext.name = (this.name + " - Child Container");
-                this._GraphicContext.mouseEnabled = false;
-                addChild(this._GraphicContext);
+            if (this._SafeStr_9593 == null){
+                this._SafeStr_9593 = new Sprite();
+                this._SafeStr_9593.name = (this.name + " - Child Container");
+                this._SafeStr_9593.mouseEnabled = false;
+                addChild(this._SafeStr_9593);
             };
-            return (this._GraphicContext);
+            return (this._SafeStr_9593);
         }
         protected function removeChildContainer():void
         {
-            if (this._GraphicContext != null){
-                removeChild(this._GraphicContext);
-                this._GraphicContext = null;
+            if (this._SafeStr_9593 != null){
+                removeChild(this._SafeStr_9593);
+                this._SafeStr_9593 = null;
             };
         }
         public function get numChildContexts():int
         {
-            return ((((this._GraphicContext)!=null) ? this._GraphicContext.numChildren : 0));
+            return ((((this._SafeStr_9593)!=null) ? this._SafeStr_9593.numChildren : 0));
         }
-        public function IGraphicContext(_arg_1:IGraphicContext):IGraphicContext
+        public function addChildContext(_arg_1:IGraphicContext):IGraphicContext
         {
-            return ((this.GraphicContext().addChild((_arg_1 as DisplayObject)) as IGraphicContext));
+            return ((this.setupChildContainer().addChild((_arg_1 as DisplayObject)) as IGraphicContext));
         }
-        public function IGraphicContext(_arg_1:IGraphicContext, _arg_2:int):IGraphicContext
+        public function addChildContextAt(_arg_1:IGraphicContext, _arg_2:int):IGraphicContext
         {
-            return ((this.GraphicContext().addChildAt((_arg_1 as DisplayObject), _arg_2) as IGraphicContext));
+            return ((this.setupChildContainer().addChildAt((_arg_1 as DisplayObject), _arg_2) as IGraphicContext));
         }
-        public function IGraphicContext(_arg_1:int):IGraphicContext
+        public function getChildContextAt(_arg_1:int):IGraphicContext
         {
-            return ((this.GraphicContext().getChildAt(_arg_1) as IGraphicContext));
+            return ((this.setupChildContainer().getChildAt(_arg_1) as IGraphicContext));
         }
-        public function GraphicContext(_arg_1:String):IGraphicContext
+        public function getChildContextByName(_arg_1:String):IGraphicContext
         {
-            return ((this.GraphicContext().getChildByName(_arg_1) as IGraphicContext));
+            return ((this.setupChildContainer().getChildByName(_arg_1) as IGraphicContext));
         }
-        public function IGraphicContext(_arg_1:IGraphicContext):int
+        public function getChildContextIndex(_arg_1:IGraphicContext):int
         {
-            return (this.GraphicContext().getChildIndex(DisplayObject(_arg_1)));
+            return (this.setupChildContainer().getChildIndex(DisplayObject(_arg_1)));
         }
-        public function IGraphicContext(_arg_1:IGraphicContext):IGraphicContext
+        public function removeChildContext(_arg_1:IGraphicContext):IGraphicContext
         {
-            return ((this.GraphicContext().removeChild(DisplayObject(_arg_1)) as IGraphicContext));
+            return ((this.setupChildContainer().removeChild(DisplayObject(_arg_1)) as IGraphicContext));
         }
-        public function IGraphicContext(_arg_1:int):IGraphicContext
+        public function removeChildContextAt(_arg_1:int):IGraphicContext
         {
-            var _local_2:IGraphicContext = (this.GraphicContext().getChildAt(_arg_1) as IGraphicContext);
-            return ((((_local_2 == null)) ? null : this.IGraphicContext(_local_2)));
+            var _local_2:IGraphicContext = (this.setupChildContainer().getChildAt(_arg_1) as IGraphicContext);
+            return ((((_local_2 == null)) ? null : this.removeChildContext(_local_2)));
         }
-        public function IGraphicContext(child:IGraphicContext, index:int):void
+        public function setChildContextIndex(child:IGraphicContext, index:int):void
         {
             var current:int;
             var temp:Array;
@@ -347,32 +347,32 @@ package com.sulake.core.window.graphics
             var dispObj:DisplayObject = (child as DisplayObject);
             if (dispObj != null){
                 try {
-                    current = this.GraphicContext().getChildIndex(dispObj);
+                    current = this.setupChildContainer().getChildIndex(dispObj);
                 }
                 catch(error:ArgumentError) {
                     temp = new Array();
                     i = 0;
                     while (i < numChildContexts) {
-                        temp.push(IGraphicContext(i));
+                        temp.push(getChildContextAt(i));
                         i++;
                     };
                     throw (new Error("Provided display object is not a child of this!"));
                 };
                 if (index != current){
-                    this.GraphicContext().setChildIndex(dispObj, index);
+                    this.setupChildContainer().setChildIndex(dispObj, index);
                 };
             }
             else {
                 throw (new Error("Provided child must implement IGraphicContext!"));
             };
         }
-        public function IGraphicContext(_arg_1:IGraphicContext, _arg_2:IGraphicContext):void
+        public function swapChildContexts(_arg_1:IGraphicContext, _arg_2:IGraphicContext):void
         {
-            this.GraphicContext().swapChildren((_arg_1 as DisplayObject), (_arg_2 as DisplayObject));
+            this.setupChildContainer().swapChildren((_arg_1 as DisplayObject), (_arg_2 as DisplayObject));
         }
-        public function IGraphicContext(_arg_1:int, _arg_2:int):void
+        public function swapChildContextsAt(_arg_1:int, _arg_2:int):void
         {
-            this.GraphicContext().swapChildrenAt(_arg_1, _arg_2);
+            this.setupChildContainer().swapChildrenAt(_arg_1, _arg_2);
         }
 
     }
@@ -385,33 +385,33 @@ package com.sulake.core.window.graphics
 // allocatedByteCount = "_-2p5" (String#7060, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
 // mouse = "_-2qv" (String#7094, DoABC#2)
-// WindowController = "_-1wW" (String#1785, DoABC#2)
-// WindowController = "_-0xH" (String#1582, DoABC#2)
-// WindowController = "_-0oc" (String#1553, DoABC#2)
-// IGraphicContext = "_-340" (String#7389, DoABC#2)
-// WindowController = "_-313" (String#1987, DoABC#2)
-// IGraphicContext = "_-2Qs" (String#6574, DoABC#2)
+// getRelativeMousePosition = "_-1wW" (String#1785, DoABC#2)
+// getDrawRegion = "_-0xH" (String#1582, DoABC#2)
+// fetchDrawBuffer = "_-0oc" (String#1553, DoABC#2)
+// setDrawRegion = "_-340" (String#7389, DoABC#2)
+// getAbsoluteMousePosition = "_-313" (String#1987, DoABC#2)
+// showRedrawRegion = "_-2Qs" (String#6574, DoABC#2)
 // numChildContexts = "_-1cY" (String#5611, DoABC#2)
-// IGraphicContext = "_-1ax" (String#5575, DoABC#2)
-// IGraphicContext = "_-2dP" (String#6819, DoABC#2)
-// IGraphicContext = "_-105" (String#4870, DoABC#2)
-// IGraphicContext = "_-2bO" (String#6780, DoABC#2)
-// IGraphicContext = "_-28x" (String#6224, DoABC#2)
-// IGraphicContext = "_-2rG" (String#7107, DoABC#2)
-// IGraphicContext = "_-je" (String#8591, DoABC#2)
-// IGraphicContext = "_-0Zm" (String#4292, DoABC#2)
-// IGraphicContext = "_-2yp" (String#7257, DoABC#2)
+// addChildContext = "_-1ax" (String#5575, DoABC#2)
+// addChildContextAt = "_-2dP" (String#6819, DoABC#2)
+// getChildContextAt = "_-105" (String#4870, DoABC#2)
+// getChildContextIndex = "_-2bO" (String#6780, DoABC#2)
+// removeChildContext = "_-28x" (String#6224, DoABC#2)
+// removeChildContextAt = "_-2rG" (String#7107, DoABC#2)
+// setChildContextIndex = "_-je" (String#8591, DoABC#2)
+// swapChildContexts = "_-0Zm" (String#4292, DoABC#2)
+// swapChildContextsAt = "_-2yp" (String#7257, DoABC#2)
 // _SafeStr_9590 = "_-0Qj" (String#15091, DoABC#2)
 // _SafeStr_9591 = "_-0z6" (String#16397, DoABC#2)
 // _SafeStr_9592 = "_-2Ko" (String#19837, DoABC#2)
-// _GraphicContext = "_-2ok" (String#21034, DoABC#2)
+// _SafeStr_9593 = "_-2ok" (String#21034, DoABC#2)
 // _SafeStr_9594 = "_-ph" (String#24261, DoABC#2)
 // _SafeStr_9595 = "_-31l" (String#21569, DoABC#2)
 // _SafeStr_9596 = "_-3DV" (String#22015, DoABC#2)
 // _SafeStr_9597 = "use" (String#2631, DoABC#2)
 // numGraphicContexts = "_-2D3" (String#19525, DoABC#2)
-// GraphicContext = "_-0Nz" (String#14987, DoABC#2)
+// setupChildContainer = "_-0Nz" (String#14987, DoABC#2)
 // removeChildContainer = "_-1uI" (String#18729, DoABC#2)
-// GraphicContext = "_-14s" (String#16649, DoABC#2)
+// getChildContextByName = "_-14s" (String#16649, DoABC#2)
 
 

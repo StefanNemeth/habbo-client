@@ -24,7 +24,7 @@ package com.sulake.habbo.ui.handler
 
         private var _disposed:Boolean = false;
         private var _container:IRoomWidgetHandlerContainer = null;
-        private var _WelcomeGiftWidgetHandler:Array;
+        private var _SafeStr_7204:Array;
 
         public function get disposed():Boolean
         {
@@ -33,7 +33,7 @@ package com.sulake.habbo.ui.handler
         public function dispose():void
         {
             if (!this._disposed){
-                this.WelcomeGiftWidgetHandler();
+                this.removeMessageEvents();
                 this._container = null;
                 this._disposed = true;
             };
@@ -45,32 +45,32 @@ package com.sulake.habbo.ui.handler
         public function set container(_arg_1:IRoomWidgetHandlerContainer):void
         {
             this._container = _arg_1;
-            this.WelcomeGiftWidgetHandler();
+            this.addMessageEvents();
         }
-        private function WelcomeGiftWidgetHandler():void
+        private function addMessageEvents():void
         {
             var _local_1:IMessageEvent;
             if (((!(this._container)) || (!(this._container.connection)))){
                 return;
             };
-            this._WelcomeGiftWidgetHandler = [];
-            this._WelcomeGiftWidgetHandler.push(new WelcomeGiftStatusEvent(this.onWelcomeGiftStatus));
-            this._WelcomeGiftWidgetHandler.push(new ChangeEmailResultEvent(this.onChangeEmailResult));
-            for each (_local_1 in this._WelcomeGiftWidgetHandler) {
+            this._SafeStr_7204 = [];
+            this._SafeStr_7204.push(new WelcomeGiftStatusEvent(this.onWelcomeGiftStatus));
+            this._SafeStr_7204.push(new ChangeEmailResultEvent(this.onChangeEmailResult));
+            for each (_local_1 in this._SafeStr_7204) {
                 this._container.connection.addMessageEvent(_local_1);
             };
         }
-        private function WelcomeGiftWidgetHandler():void
+        private function removeMessageEvents():void
         {
             var _local_1:IMessageEvent;
-            if (((((!(this._container)) || (!(this._container.connection)))) || (!(this._WelcomeGiftWidgetHandler)))){
+            if (((((!(this._container)) || (!(this._container.connection)))) || (!(this._SafeStr_7204)))){
                 return;
             };
-            for each (_local_1 in this._WelcomeGiftWidgetHandler) {
-                this._container.connection.SocketConnection(_local_1);
+            for each (_local_1 in this._SafeStr_7204) {
+                this._container.connection.removeMessageEvent(_local_1);
                 _local_1.dispose();
             };
-            this._WelcomeGiftWidgetHandler = null;
+            this._SafeStr_7204 = null;
         }
         private function onWelcomeGiftStatus(_arg_1:WelcomeGiftStatusEvent):void
         {
@@ -88,7 +88,7 @@ package com.sulake.habbo.ui.handler
             var _local_2:ChangeEmailResultParser = _arg_1.getParser();
             this._container.events.dispatchEvent(new RoomWidgetChangeEmailResultEvent(_local_2.result));
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetFurniActionMessage.RWFAM_OPEN_WELCOME_GIFT);
@@ -114,11 +114,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -146,18 +146,18 @@ package com.sulake.habbo.ui.handler
 // newEmail = "_-3EG" (String#22047, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // RWE_WELCOME_GIFT = "_-OF" (String#23177, DoABC#2)
-// _WelcomeGiftWidgetHandler = "_-bQ" (String#938, DoABC#2)
-// WelcomeGiftWidgetHandler = "_-9U" (String#22598, DoABC#2)
-// WelcomeGiftWidgetHandler = "_-aI" (String#23644, DoABC#2)
+// _SafeStr_7204 = "_-bQ" (String#938, DoABC#2)
+// removeMessageEvents = "_-9U" (String#22598, DoABC#2)
+// addMessageEvents = "_-aI" (String#23644, DoABC#2)
 // onWelcomeGiftStatus = "_-2nV" (String#20979, DoABC#2)
 // onChangeEmailResult = "_-1Nu" (String#17431, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
 // isVerified = "_-0hd" (String#15732, DoABC#2)
 // allowEmailChange = "_-FE" (String#22823, DoABC#2)
 // allowChange = "_-2Ma" (String#19910, DoABC#2)
 // requestedByUser = "_-1cw" (String#18009, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 
 

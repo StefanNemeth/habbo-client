@@ -17,7 +17,7 @@ package com.sulake.habbo.room.object.logic.room.publicroom
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectRoomActionEvent.RORAE_CHANGE_ROOM, RoomObjectRoomActionEvent.RORAE_TRY_BUS];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function mouseEvent(_arg_1:RoomSpriteMouseEvent, _arg_2:IRoomGeometry):void
         {
@@ -60,7 +60,7 @@ package com.sulake.habbo.room.object.logic.room.publicroom
 // IRoomGeometry = "_-0z9" (String#4829, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // RoomObjectRoomActionEvent = "_-2rh" (String#21144, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // spriteTag = "_-1jr" (String#18278, DoABC#2)
 // _SafeStr_5326 = "_-2sN" (String#21175, DoABC#2)

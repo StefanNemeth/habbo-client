@@ -48,7 +48,7 @@ package com.sulake.habbo.catalog.viewer
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
-            ProductGridItem(_arg_2, true);
+            setIconImage(_arg_2, true);
         }
         public function setClubIconLevel(_arg_1:int):void
         {
@@ -98,7 +98,7 @@ package com.sulake.habbo.catalog.viewer
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
 // setClubIconLevel = "_-09M" (String#3745, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 // _offer = "_-1jb" (String#165, DoABC#2)
 // _products = "_-f0" (String#640, DoABC#2)
 

@@ -64,7 +64,7 @@ package com.sulake.habbo.moderation
         {
             var _local_4:IssueBundle;
             var _local_5:IssueBundle;
-            var _local_3:Array = this._SafeStr_11947.Map();
+            var _local_3:Array = this._SafeStr_11947.getValues();
             for each (_local_5 in _local_3) {
                 if ((((_local_5.state == IssueMessageData._SafeStr_7173)) && ((((_local_4 == null)) || ((_local_5.prioritySum > _local_4.prioritySum)))))){
                     _local_4 = _local_5;
@@ -114,7 +114,7 @@ package com.sulake.habbo.moderation
             if (this._issues[_arg_1.issueId] != null){
                 return;
             };
-            if ((((this._SafeStr_11929 == null)) || (!(this._SafeStr_11929.IssueBrowser())))){
+            if ((((this._SafeStr_11929 == null)) || (!(this._SafeStr_11929.isOpen())))){
                 this._SafeStr_11757.soundManager.playSound(HabboSoundTypesEnum._SafeStr_11957);
             };
         }
@@ -354,7 +354,7 @@ package com.sulake.habbo.moderation
         {
             var _local_3:IssueBundle;
             var _local_5:IssueBundle;
-            var _local_2:Array = this._SafeStr_11947.Map();
+            var _local_2:Array = this._SafeStr_11947.getValues();
             var _local_4:int = this._SafeStr_11757.sessionDataManager.userId;
             for each (_local_5 in _local_2) {
                 if ((((((((_local_5.state == IssueMessageData._SafeStr_7174)) && ((_local_5.pickerUserId == _local_4)))) && (!((_local_5.id == _arg_1))))) && ((((_local_3 == null)) || ((_local_5.prioritySum > _local_3.prioritySum)))))){
@@ -463,8 +463,8 @@ package com.sulake.habbo.moderation
 // IssueBrowser = "_-3Jw" (String#7700, DoABC#2)
 // IssueHandler = "_-2xf" (String#7231, DoABC#2)
 // IssueBundle = "_-1x4" (String#18850, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // soundManager = "_-1sN" (String#5892, DoABC#2)
 // issueId = "_-1yh" (String#18916, DoABC#2)

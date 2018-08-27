@@ -23,9 +23,9 @@ package com.sulake.habbo.quest
         {
             this._SafeStr_8017 = _arg_1;
             this._SafeStr_12352 = _arg_2;
-            this.PendingImage(_arg_2, _arg_3, this.PendingImage);
+            this.setImageFromAsset(_arg_2, _arg_3, this.onPreviewImageReady);
         }
-        public static function PendingImage(_arg_1:HabboQuestEngine, _arg_2:String, _arg_3:Function):void
+        public static function retrievePreviewAsset(_arg_1:HabboQuestEngine, _arg_2:String, _arg_3:Function):void
         {
             if (((!(_arg_2)) || (!(_arg_1.assets)))){
                 return;
@@ -40,7 +40,7 @@ package com.sulake.habbo.quest
             };
             _local_7.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, _arg_3);
         }
-        public static function PendingImage(_arg_1:IWindow, _arg_2:BitmapData, _arg_3:int=0):void
+        public static function setElementImage(_arg_1:IWindow, _arg_2:BitmapData, _arg_3:int=0):void
         {
             var _local_7:IBitmapWrapperWindow;
             var _local_8:IDisplayObjectWrapper;
@@ -82,29 +82,29 @@ package com.sulake.habbo.quest
         {
             return ((this._SafeStr_8017 == null));
         }
-        private function PendingImage(_arg_1:AssetLoaderEvent):void
+        private function onPreviewImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct;
             if (!this.disposed){
                 _local_2 = (_arg_1.target as AssetLoaderStruct);
                 if (_local_2 != null){
-                    this.PendingImage(this._SafeStr_12352, _local_2.assetName, null);
+                    this.setImageFromAsset(this._SafeStr_12352, _local_2.assetName, null);
                 };
             };
             this.dispose();
         }
-        public function PendingImage(_arg_1:IWindow, _arg_2:String, _arg_3:Function):void
+        public function setImageFromAsset(_arg_1:IWindow, _arg_2:String, _arg_3:Function):void
         {
             if (((!(_arg_2)) || (!(this._SafeStr_8017.assets)))){
                 return;
             };
             var _local_4:BitmapDataAsset = (this._SafeStr_8017.assets.getAssetByName(_arg_2) as BitmapDataAsset);
             if (_local_4 == null){
-                PendingImage(this._SafeStr_8017, _arg_2, _arg_3);
+                retrievePreviewAsset(this._SafeStr_8017, _arg_2, _arg_3);
                 return;
             };
             if (_arg_1){
-                PendingImage(_arg_1, (_local_4.content as BitmapData));
+                setElementImage(_arg_1, (_local_4.content as BitmapData));
             };
         }
 
@@ -115,11 +115,11 @@ package com.sulake.habbo.quest
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IDisplayObjectWrapper = "_-FC" (String#2078, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
-// PendingImage = "_-1q7" (String#18549, DoABC#2)
-// PendingImage = "_-30x" (String#625, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
+// setImageFromAsset = "_-1q7" (String#18549, DoABC#2)
+// onPreviewImageReady = "_-30x" (String#625, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
-// PendingImage = "_-04a" (String#579, DoABC#2)
+// retrievePreviewAsset = "_-04a" (String#579, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

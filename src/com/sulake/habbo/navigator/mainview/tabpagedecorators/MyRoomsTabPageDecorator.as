@@ -78,7 +78,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
             this.startSearch();
             var _local_2:IWindow = _arg_1.target;
             if ((_local_2 is IDropMenuWindow)){
-                this._navigator.trackNavigationDataPoint(IDropMenuWindow(_local_2).IDropMenuWindow()[IDropMenuWindow(_local_2).selection], "me.category.view");
+                this._navigator.trackNavigationDataPoint(IDropMenuWindow(_local_2).enumerateSelection()[IDropMenuWindow(_local_2).selection], "me.category.view");
             };
         }
         private function startSearch():void
@@ -105,7 +105,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
         }
         public function get filterCategory():String
         {
-            return (((this._SafeStr_6615) ? this._SafeStr_6615.IDropMenuWindow()[this._SafeStr_6615.selection] : null));
+            return (((this._SafeStr_6615) ? this._SafeStr_6615.enumerateSelection()[this._SafeStr_6615.selection] : null));
         }
 
     }
@@ -132,7 +132,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // _SafeStr_6615 = "_-3Aj" (String#915, DoABC#2)
 // onFilterSelected = "_-yH" (String#2229, DoABC#2)
 // trackNavigationDataPoint = "_-17A" (String#16741, DoABC#2)
-// IDropMenuWindow = "_-2oo" (String#7052, DoABC#2)
+// enumerateSelection = "_-2oo" (String#7052, DoABC#2)
 // prepareSubNavi = "_-1k-" (String#18287, DoABC#2)
 // onCreateRoomClick = "_-Gy" (String#22890, DoABC#2)
 // getSearchTypeForIndex = "_-2xB" (String#21357, DoABC#2)

@@ -31,7 +31,7 @@ package com.sulake.habbo.inventory.badges
         public static const _SafeStr_8541:int = 0;
         public static const _SafeStr_8542:int = 1;
 
-        private const _BadgesModel:int = 5;
+        private const _SafeStr_8543:int = 5;
 
         private var _controller:HabboInventory;
         private var _view:BadgesView;
@@ -88,24 +88,24 @@ package com.sulake.habbo.inventory.badges
                 this._sessionDataManager = null;
             };
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
-            this._communication.HabboCommunicationManager(null).send(new GetBadgesComposer());
+            this._communication.getHabboMainConnection(null).send(new GetBadgesComposer());
         }
-        public function BadgesModel():int
+        public function getMaxActiveCount():int
         {
-            return (this._BadgesModel);
+            return (this._SafeStr_8543);
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             if (this._view != null){
-                this._view.BadgesView();
+                this._view.updateAll();
             };
         }
-        private function BadgesView():void
+        private function updateActionView():void
         {
             if (this._view != null){
-                this._view.BadgesView();
+                this._view.updateActionView();
             };
         }
         private function startWearingBadge(_arg_1:Badge):void
@@ -158,7 +158,7 @@ package com.sulake.habbo.inventory.badges
                 _local_9.disposesBitmap = false;
                 _local_10 = !((this._SafeStr_8545.indexOf(_arg_3) == -1));
                 _local_11 = new Badge(_arg_1, _local_7, _local_10);
-                _local_11.iconImage = this._sessionDataManager.SessionDataManager(_arg_1);
+                _local_11.iconImage = this._sessionDataManager.getBadgeImage(_arg_1);
                 if (_local_10){
                     this._badges.unshift(_local_11);
                 }
@@ -192,7 +192,7 @@ package com.sulake.habbo.inventory.badges
                 if (_local_3.type == _arg_1){
                     this._badges.splice(_local_2, 1);
                     this.stopWearingBadge(_local_3);
-                    this.ProgressBar();
+                    this.updateView();
                     return;
                 };
                 _local_2++;
@@ -222,7 +222,7 @@ package com.sulake.habbo.inventory.badges
                 _local_1.addActivatedBadge(_local_4.type);
                 _local_3++;
             };
-            this._communication.HabboCommunicationManager(null).send(_local_1);
+            this._communication.getHabboMainConnection(null).send(_local_1);
         }
         public function setBadgeSelected(_arg_1:String):void
         {
@@ -235,7 +235,7 @@ package com.sulake.habbo.inventory.badges
                 };
                 _local_2++;
             };
-            this.BadgesView();
+            this.updateActionView();
         }
         public function forceSelection():void
         {
@@ -247,14 +247,14 @@ package com.sulake.habbo.inventory.badges
             if (((!((_local_2 == null))) && ((_local_2.length > 0)))){
                 _local_1 = (_local_2[0] as Badge);
                 _local_1.isSelected = true;
-                this.ProgressBar();
+                this.updateView();
                 return;
             };
             var _local_3:Array = this.getBadges(_SafeStr_8542);
             if (((!((_local_3 == null))) && ((_local_3.length > 0)))){
                 _local_1 = (_local_3[0] as Badge);
                 _local_1.isSelected = true;
-                this.ProgressBar();
+                this.updateView();
             };
         }
         public function getSelectedBadge(_arg_1:int=-1):Badge
@@ -308,19 +308,19 @@ package com.sulake.habbo.inventory.badges
             };
             return (_local_3[_arg_1]);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
-            return (this._view.TradingModel());
+            return (this._view.getWindowContainer());
         }
         private function onBadgeImageReady(_arg_1:BadgeImageReadyEvent):void
         {
             var _local_2:Badge = this.getBadge(_arg_1.badgeId);
             if (_local_2 != null){
                 _local_2.iconImage = _arg_1.badgeImage.clone();
-                this.BadgesView();
+                this.updateActionView();
             };
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
             if (this._view.isVisible){
                 this.resetUnseenItems();
@@ -332,7 +332,7 @@ package com.sulake.habbo.inventory.badges
                 this._controller.events.dispatchEvent(new Event(HabboInventoryTrackingEvent.HABBO_INVENTORY_TRACKING_EVENT_BADGES));
             };
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
         }
         public function get controller():HabboInventory
@@ -361,15 +361,15 @@ package com.sulake.habbo.inventory.badges
             if (!this._controller.isMainViewActive){
                 return;
             };
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (((this._SafeStr_8545) && ((this._SafeStr_8545.length > 0)))){
                 _local_1.send(new ResetUnseenItemsComposer(UnseenItemCategoryEnum._SafeStr_6770));
                 this._SafeStr_8545 = [];
                 for each (_local_2 in this._badges) {
                     _local_2.isUnseen = false;
                 };
-                this.ProgressBar();
-                this._controller.HabboInventory();
+                this.updateView();
+                this._controller.updateUnseenItemCounts();
             };
         }
 
@@ -390,29 +390,29 @@ package com.sulake.habbo.inventory.badges
 // badgeId = "_-g6" (String#23896, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // isInUse = "_-2LN" (String#6469, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
 // badgeImage = "_-250" (String#19222, DoABC#2)
 // _badges = "_-0Gg" (String#298, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
 // addActivatedBadge = "_-I7" (String#22934, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
 // _SafeStr_6770 = "_-39Q" (String#7500, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _SafeStr_7061 = "_-3KY" (String#22306, DoABC#2)
-// SessionDataManager = "_-3DK" (String#7581, DoABC#2)
+// getBadgeImage = "_-3DK" (String#7581, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // resetUnseenItems = "_-0qm" (String#16077, DoABC#2)
-// BadgesView = "_-jg" (String#8593, DoABC#2)
+// updateActionView = "_-jg" (String#8593, DoABC#2)
 // isMainViewActive = "_-jz" (String#24031, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
-// HabboInventory = "_-ik" (String#23988, DoABC#2)
+// updateUnseenItemCounts = "_-ik" (String#23988, DoABC#2)
 // getItemInIndex = "_-0Tf" (String#15196, DoABC#2)
 // _SafeStr_8222 = "_-1SR" (String#5405, DoABC#2)
 // HabboInventoryTrackingEvent = "_-1r0" (String#18582, DoABC#2)
@@ -420,13 +420,13 @@ package com.sulake.habbo.inventory.badges
 // _SafeStr_8540 = "_-TH" (String#23376, DoABC#2)
 // _SafeStr_8541 = "_-2aE" (String#20452, DoABC#2)
 // _SafeStr_8542 = "_-0uS" (String#16219, DoABC#2)
-// _BadgesModel = "_-Sf" (String#23352, DoABC#2)
+// _SafeStr_8543 = "_-Sf" (String#23352, DoABC#2)
 // _SafeStr_8544 = "_-2s2" (String#21159, DoABC#2)
 // _SafeStr_8545 = "_-0QP" (String#15077, DoABC#2)
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)
 // onBadgeImageReady = "_-2f0" (String#1919, DoABC#2)
-// BadgesModel = "_-X8" (String#23527, DoABC#2)
-// BadgesView = "_-ff" (String#23874, DoABC#2)
+// getMaxActiveCount = "_-X8" (String#23527, DoABC#2)
+// updateAll = "_-ff" (String#23874, DoABC#2)
 // startWearingBadge = "_-1YA" (String#17822, DoABC#2)
 // stopWearingBadge = "_-15l" (String#16686, DoABC#2)
 // updateBadge = "_-0FX" (String#14667, DoABC#2)

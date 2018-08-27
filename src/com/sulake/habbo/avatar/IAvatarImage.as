@@ -13,7 +13,7 @@ package com.sulake.habbo.avatar
     {
 
         function getCroppedImage(_arg_1:String):BitmapData;
-        function TwinkleImages(_arg_1:String, _arg_2:Boolean):BitmapData;
+        function getImage(_arg_1:String, _arg_2:Boolean):BitmapData;
         function setDirection(_arg_1:String, _arg_2:int):void;
         function setDirectionAngle(_arg_1:String, _arg_2:int):void;
         function updateAnimationByFrames(_arg_1:int=1):void;
@@ -29,12 +29,12 @@ package com.sulake.habbo.avatar
         function getCanvasOffsets():Array;
         function get petType():int;
         function get petBreed():int;
-        function IAvatarImage():void;
-        function IAvatarImage():void;
-        function IAvatarImage(_arg_1:String, ... _args):Boolean;
+        function initActionAppends():void;
+        function endActionAppends():void;
+        function appendAction(_arg_1:String, ... _args):Boolean;
         function get avatarSpriteData():IAvatarDataContainer;
-        function IAvatarImage():Boolean;
-        function IAvatarImage():void;
+        function isPlaceholder():Boolean;
+        function forceActionUpdate():void;
 
     }
 }//package com.sulake.habbo.avatar
@@ -53,17 +53,17 @@ package com.sulake.habbo.avatar
 // updateAnimationByFrames = "_-05f" (String#3680, DoABC#2)
 // isAnimating = "_-1hz" (String#5707, DoABC#2)
 // getCanvasOffsets = "_-0gi" (String#4439, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // getSprites = "_-3Go" (String#7642, DoABC#2)
 // getLayerData = "_-0Qg" (String#1470, DoABC#2)
 // getScale = "_-1EW" (String#5151, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // petType = "_-0GK" (String#3877, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
-// IAvatarImage = "_-0qX" (String#4650, DoABC#2)
-// IAvatarImage = "_-128" (String#4919, DoABC#2)
+// forceActionUpdate = "_-0qX" (String#4650, DoABC#2)
+// isPlaceholder = "_-128" (String#4919, DoABC#2)
 // getPartColor = "_-2yW" (String#7250, DoABC#2)
 // getFigure = "_-0KG" (String#3958, DoABC#2)
 

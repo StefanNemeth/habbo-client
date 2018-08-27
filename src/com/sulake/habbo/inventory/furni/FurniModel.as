@@ -66,7 +66,7 @@ package com.sulake.habbo.inventory.furni
         private var _SafeStr_7796:IWindowContainer;
         private var _SafeStr_7797:Boolean;
         private var _SafeStr_7798:Timer;
-        private var _PetsModel:Boolean;
+        private var _SafeStr_7799:Boolean;
         private var _catalog:IHabboCatalog;
         private var _SafeStr_7800:Vector.<Array>;
         private var _wallMsgFragments:Vector.<Array>;
@@ -149,7 +149,7 @@ package com.sulake.habbo.inventory.furni
                 this._disposed = true;
             };
         }
-        public function FurniModel(_arg_1:String, _arg_2:Array, _arg_3:int, _arg_4:int):void
+        public function insertFurniList(_arg_1:String, _arg_2:Array, _arg_3:int, _arg_4:int):void
         {
             var _local_5:IItem;
             var _local_6:FurniData;
@@ -189,12 +189,12 @@ package com.sulake.habbo.inventory.furni
             else {
                 this._wallMsgFragments = null;
             };
-            this._controller.HabboInventory(InventoryCategory._SafeStr_5995);
+            this._controller.setInventoryCategoryInit(InventoryCategory._SafeStr_5995);
             var _local_7:Array = new Array();
             var _local_8:Array = new Array();
             var _local_9:Array = new Array();
             var _local_10:Array = new Array();
-            this.FurniModel(_arg_1, _local_7);
+            this.getAllStripIds(_arg_1, _local_7);
             var _local_11:int;
             while (_local_11 < _arg_2.length) {
                 _local_18 = FurniData(_arg_2[_local_11]).stripId;
@@ -259,13 +259,13 @@ package com.sulake.habbo.inventory.furni
                 };
             };
         }
-        public function FurniModel():Boolean
+        public function isListInited():Boolean
         {
-            return (this._PetsModel);
+            return (this._SafeStr_7799);
         }
         public function setListInitialized():void
         {
-            this._PetsModel = true;
+            this._SafeStr_7799 = true;
             this._view.setViewToState();
         }
         public function createNewGroupItemTemplate(_arg_1:int, _arg_2:String, _arg_3:int, _arg_4:String=null, _arg_5:Number=NaN, _arg_6:Boolean=false):GroupItem
@@ -321,7 +321,7 @@ package com.sulake.habbo.inventory.furni
             var _local_5:int;
             while (_local_5 < _local_4.length) {
                 _local_2 = _local_4[_local_5];
-                _local_1 = this.FurniModel(_local_2);
+                _local_1 = this.getCategoryContent(_local_2);
                 if (_local_1 != null){
                     _local_6 = 0;
                     while (_local_6 < _local_1.length) {
@@ -344,7 +344,7 @@ package com.sulake.habbo.inventory.furni
         {
             this.initListImages();
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
             if (_arg_1 > 0){
                 if (this._SafeStr_7794 != null){
@@ -357,7 +357,7 @@ package com.sulake.habbo.inventory.furni
                 this._SafeStr_7794.start();
             }
             else {
-                this.FurniModel();
+                this.requestNewList();
             };
         }
         public function categorySwitch(_arg_1:String):void
@@ -371,7 +371,7 @@ package com.sulake.habbo.inventory.furni
                         this._controller.events.dispatchEvent(new Event(HabboInventoryTrackingEvent.HABBO_INVENTORY_TRACKING_EVENT_POSTERS));
                         return;
                     case _SafeStr_7068:
-                        this._controller.HabboInventory(InventoryCategory._SafeStr_5996);
+                        this._controller.toggleInventoryPage(InventoryCategory._SafeStr_5996);
                         return;
                 };
             };
@@ -387,7 +387,7 @@ package com.sulake.habbo.inventory.furni
                         this._controller.events.dispatchEvent(new Event(HabboInventoryTrackingEvent.HABBO_INVENTORY_TRACKING_EVENT_POSTERS));
                         return;
                     case _SafeStr_7068:
-                        this._controller.HabboInventory(InventoryCategory._SafeStr_5996);
+                        this._controller.toggleInventoryPage(InventoryCategory._SafeStr_5996);
                         return;
                 };
             };
@@ -408,14 +408,14 @@ package com.sulake.habbo.inventory.furni
                 this._SafeStr_7794.stop();
                 this._SafeStr_7794 = null;
             };
-            this.FurniModel();
+            this.requestNewList();
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
-            this._controller.HabboInventory(InventoryCategory._SafeStr_7062);
-            return (this._view.TradingModel());
+            this._controller.checkCategoryInitilization(InventoryCategory._SafeStr_7062);
+            return (this._view.getWindowContainer());
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
             if (this._view.isVisible){
                 this.resetUnseenItems();
@@ -430,34 +430,34 @@ package com.sulake.habbo.inventory.furni
             var _local_1:Array = new Array();
             var _local_2:TradingModel = this._controller.tradingModel;
             if (_local_2 != null){
-                _local_1 = _local_1.concat(_local_2.TradingModel());
+                _local_1 = _local_1.concat(_local_2.getOwnItemIdsInTrade());
             };
             var _local_3:RecyclerModel = this._controller.recyclerModel;
             if (_local_3 != null){
                 _local_1 = _local_1.concat(_local_3.getOwnItemsInRecycler());
             };
             if (_local_1.length == 0){
-                this.GroupItem();
+                this.removeAllLocks();
                 return;
             };
             var _local_7:Array = [S, I];
             var _local_8:int;
             while (_local_8 < _local_7.length) {
                 _local_5 = _local_7[_local_8];
-                _local_4 = this.FurniModel(_local_5);
+                _local_4 = this.getCategoryContent(_local_5);
                 if (_local_4 != null){
                     _local_9 = 0;
                     while (_local_9 < _local_4.length) {
                         _local_6 = (_local_4[_local_9] as GroupItem);
-                        _local_6.GroupItem(_local_1);
+                        _local_6.addLocksFromData(_local_1);
                         _local_9++;
                     };
                 };
                 _local_8++;
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
-        public function GroupItem(_arg_1:int):void
+        public function addLockTo(_arg_1:int):void
         {
             var _local_2:Array;
             var _local_3:String;
@@ -467,20 +467,20 @@ package com.sulake.habbo.inventory.furni
             var _local_6:int;
             while (_local_6 < _local_5.length) {
                 _local_3 = _local_5[_local_6];
-                _local_2 = this.FurniModel(_local_3);
+                _local_2 = this.getCategoryContent(_local_3);
                 if (_local_2 != null){
                     _local_7 = 0;
                     while (_local_7 < _local_2.length) {
                         _local_4 = (_local_2[_local_7] as GroupItem);
-                        _local_4.GroupItem(_arg_1);
+                        _local_4.addLockTo(_arg_1);
                         _local_7++;
                     };
                 };
                 _local_6++;
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
-        public function GroupItem(_arg_1:int):void
+        public function removeLockFrom(_arg_1:int):void
         {
             var _local_2:Array;
             var _local_3:String;
@@ -490,20 +490,20 @@ package com.sulake.habbo.inventory.furni
             var _local_6:int;
             while (_local_6 < _local_5.length) {
                 _local_3 = _local_5[_local_6];
-                _local_2 = this.FurniModel(_local_3);
+                _local_2 = this.getCategoryContent(_local_3);
                 if (_local_2 != null){
                     _local_7 = 0;
                     while (_local_7 < _local_2.length) {
                         _local_4 = (_local_2[_local_7] as GroupItem);
                         if (_local_4){
-                            _local_4.GroupItem(_arg_1);
+                            _local_4.removeLockFrom(_arg_1);
                         };
                         _local_7++;
                     };
                 };
                 _local_6++;
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
         public function showRecyclable(_arg_1:Boolean):void
         {
@@ -515,7 +515,7 @@ package com.sulake.habbo.inventory.furni
             var _local_6:int;
             while (_local_6 < _local_5.length) {
                 _local_3 = _local_5[_local_6];
-                _local_2 = this.FurniModel(_local_3);
+                _local_2 = this.getCategoryContent(_local_3);
                 if (_local_2 != null){
                     _local_7 = 0;
                     while (_local_7 < _local_2.length) {
@@ -526,7 +526,7 @@ package com.sulake.habbo.inventory.furni
                 };
                 _local_6++;
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
         public function clearFurniList():void
         {
@@ -561,11 +561,11 @@ package com.sulake.habbo.inventory.furni
                     return;
                 };
             };
-            var _local_8:Array = this.FurniModel(_local_6);
+            var _local_8:Array = this.getCategoryContent(_local_6);
             if (!_arg_1.groupable){
                 for each (_local_9 in _local_8) {
                     if (_local_9.type == _arg_1.type){
-                        if (_local_9.GroupItem(_arg_1.id) != null){
+                        if (_local_9.getItem(_arg_1.id) != null){
                             return;
                         };
                         break;
@@ -576,16 +576,16 @@ package com.sulake.habbo.inventory.furni
                 if (this._view != null){
                     if (_local_5){
                         _local_8.unshift(_local_7);
-                        this._view.FurniGridView(_local_6, _local_7, 0);
+                        this._view.addItemAt(_local_6, _local_7, 0);
                     }
                     else {
                         if (_arg_3 == -1){
                             _local_8.push(_local_7);
-                            this._view.FurniGridView(_local_6, _local_7);
+                            this._view.addItemToBottom(_local_6, _local_7);
                         }
                         else {
                             _local_8.splice(_arg_3, 0, _local_7);
-                            this._view.FurniGridView(_local_6, _local_7, _arg_3);
+                            this._view.addItemAt(_local_6, _local_7, _arg_3);
                         };
                     };
                 };
@@ -611,7 +611,7 @@ package com.sulake.habbo.inventory.furni
                 if (_local_7){
                     _local_7.push(_arg_1, _local_5);
                     if (_local_5){
-                        this.FurniModel(_local_8, _local_7, 0);
+                        this.moveGroupItemTo(_local_8, _local_7, 0);
                     };
                 }
                 else {
@@ -620,16 +620,16 @@ package com.sulake.habbo.inventory.furni
                     if (this._view != null){
                         if (_local_5){
                             _local_8.unshift(_local_7);
-                            this._view.FurniGridView(_local_6, _local_7, 0);
+                            this._view.addItemAt(_local_6, _local_7, 0);
                         }
                         else {
                             if (_arg_3 == -1){
                                 _local_8.push(_local_7);
-                                this._view.FurniGridView(_local_6, _local_7);
+                                this._view.addItemToBottom(_local_6, _local_7);
                             }
                             else {
                                 _local_8.unshift(_local_7);
-                                this._view.FurniGridView(_local_6, _local_7, _arg_3);
+                                this._view.addItemAt(_local_6, _local_7, _arg_3);
                             };
                         };
                     };
@@ -639,7 +639,7 @@ package com.sulake.habbo.inventory.furni
             if (_arg_4){
                 if (this._view.visibleCategoryId == _SafeStr_7068){
                     if (!this.furniIsMostLikelyPetFood()){
-                        this._controller.petsModel.PetsModel(_local_6, true);
+                        this._controller.petsModel.switchToFurnitureCategory(_local_6, true);
                     };
                 }
                 else {
@@ -647,7 +647,7 @@ package com.sulake.habbo.inventory.furni
                 };
             };
             if (_local_7.isSelected){
-                this._view.BadgesView();
+                this._view.updateActionView();
             };
         }
         private function furniIsMostLikelyPetFood():Boolean
@@ -665,7 +665,7 @@ package com.sulake.habbo.inventory.furni
             var _local_6:int;
             while (_local_6 < _local_5.length) {
                 _local_3 = _local_5[_local_6];
-                _local_2 = this.FurniModel(_local_3);
+                _local_2 = this.getCategoryContent(_local_3);
                 if (_local_2 != null){
                     _local_7 = 0;
                     while (_local_7 < _local_2.length) {
@@ -674,11 +674,11 @@ package com.sulake.habbo.inventory.furni
                         if (_local_8){
                             if (this._SafeStr_7793 == _local_8.ref){
                                 this.cancelFurniInMover();
-                                if (!this.FurniModel()){
-                                    this._controller.HabboInventory();
+                                if (!this.requestSelectedFurniPlacement()){
+                                    this._controller.showView();
                                 };
                             };
-                            if (_local_4.GroupItem() <= 0){
+                            if (_local_4.getTotalCount() <= 0){
                                 this._view.removeItem(_local_3, _local_7);
                                 _local_2.splice(_local_7, 1);
                                 if (_local_4.isSelected){
@@ -686,7 +686,7 @@ package com.sulake.habbo.inventory.furni
                                 };
                             }
                             else {
-                                this._view.BadgesView();
+                                this._view.updateActionView();
                             };
                             this.resetUnseenItems(_local_3);
                             this._view.setViewToState();
@@ -702,17 +702,17 @@ package com.sulake.habbo.inventory.furni
         {
             var _local_5:GroupItem;
             var _local_6:WallItem;
-            var _local_3:Array = this.FurniModel(I);
+            var _local_3:Array = this.getCategoryContent(I);
             if (_local_3 == null){
                 return;
             };
             var _local_4:int;
             while (_local_4 < _local_3.length) {
                 _local_5 = (_local_3[_local_4] as GroupItem);
-                _local_6 = (_local_5.GroupItem(_arg_1) as WallItem);
+                _local_6 = (_local_5.getItem(_arg_1) as WallItem);
                 if (_local_6 != null){
                     _local_6.stuffData = String(_arg_2);
-                    _local_5.GroupItem(_arg_1, _local_6);
+                    _local_5.replaceItem(_arg_1, _local_6);
                 };
                 _local_4++;
             };
@@ -721,7 +721,7 @@ package com.sulake.habbo.inventory.furni
         {
             var _local_4:GroupItem;
             var _local_5:int;
-            var _local_3:Array = this.FurniModel(_arg_1);
+            var _local_3:Array = this.getCategoryContent(_arg_1);
             if ((((_local_3 == null)) || ((_local_3.length == 0)))){
                 return;
             };
@@ -742,7 +742,7 @@ package com.sulake.habbo.inventory.furni
                     _local_5++;
                 };
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
         public function displayItemInfo(_arg_1:GroupItem):void
         {
@@ -761,7 +761,7 @@ package com.sulake.habbo.inventory.furni
             if (_arg_1 == null){
                 _arg_1 = this._view.visibleCategoryId;
             };
-            var _local_2:Array = this.FurniModel(_arg_1);
+            var _local_2:Array = this.getCategoryContent(_arg_1);
             if (_local_2 == null){
                 return (-1);
             };
@@ -780,7 +780,7 @@ package com.sulake.habbo.inventory.furni
             if (_arg_2 == null){
                 _arg_2 = this._view.visibleCategoryId;
             };
-            var _local_3:Array = this.FurniModel(_arg_2);
+            var _local_3:Array = this.getCategoryContent(_arg_2);
             if (_local_3 == null){
                 return (null);
             };
@@ -799,7 +799,7 @@ package com.sulake.habbo.inventory.furni
             var _local_6:int;
             while (_local_6 < _local_5.length) {
                 _local_3 = _local_5[_local_6];
-                _local_2 = this.FurniModel(_local_3);
+                _local_2 = this.getCategoryContent(_local_3);
                 if (_local_2 != null){
                     _local_7 = 0;
                     while (_local_7 < _local_2.length) {
@@ -816,13 +816,13 @@ package com.sulake.habbo.inventory.furni
         }
         public function get isTradingOpen():Boolean
         {
-            return ((this._controller.HabboInventory() == InventorySubCategory._SafeStr_7064));
+            return ((this._controller.getSubCategoryViewId() == InventorySubCategory._SafeStr_7064));
         }
-        public function HabboInventory():Boolean
+        public function canUserOfferToTrade():Boolean
         {
-            return (this._controller.HabboInventory());
+            return (this._controller.canUserOfferToTrade());
         }
-        public function GroupItem():void
+        public function removeAllLocks():void
         {
             var _local_1:Array;
             var _local_2:String;
@@ -832,13 +832,13 @@ package com.sulake.habbo.inventory.furni
             var _local_5:int;
             while (_local_5 < _local_4.length) {
                 _local_2 = _local_4[_local_5];
-                _local_1 = this.FurniModel(_local_2);
+                _local_1 = this.getCategoryContent(_local_2);
                 if (_local_1 != null){
                     _local_6 = 0;
                     while (_local_6 < _local_1.length) {
                         _local_3 = (_local_1[_local_6] as GroupItem);
                         if (_local_3 != null){
-                            _local_3.GroupItem();
+                            _local_3.removeAllLocks();
                         };
                         _local_6++;
                     };
@@ -846,24 +846,24 @@ package com.sulake.habbo.inventory.furni
                 _local_5++;
             };
             if (this._view != null){
-                this._view.BadgesView();
+                this._view.updateActionView();
             };
         }
         public function cancelFurniInMover():void
         {
             if (this._SafeStr_7793 > -1){
-                this._roomEngine.RoomEngine();
+                this._roomEngine.cancelRoomObjectInsert();
                 this._SafeStr_7797 = false;
                 this._SafeStr_7793 = -1;
             };
         }
-        public function FurniModel(_arg_1:Boolean=false):Boolean
+        public function requestSelectedFurniPlacement(_arg_1:Boolean=false):Boolean
         {
             var _local_2:GroupItem = this.getGroupItemInIndex(this.getSelectedItemIndex(), this._view.visibleCategoryId);
             if (_local_2 == null){
                 return (false);
             };
-            if (_local_2.GroupItem() == 0){
+            if (_local_2.getUnlockedCount() == 0){
                 return (false);
             };
             var _local_3:IItem = _local_2._SafeStr_7867();
@@ -874,15 +874,15 @@ package com.sulake.habbo.inventory.furni
                 if (_arg_1){
                     return (false);
                 };
-                this._communication.HabboCommunicationManager(null).send(new RequestRoomPropertySet(_local_3.id));
+                this._communication.getHabboMainConnection(null).send(new RequestRoomPropertySet(_local_3.id));
             }
             else {
-                this.FurniModel(_local_3);
+                this.requestSelectedFurniToMover(_local_3);
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
             return (true);
         }
-        private function FurniModel(_arg_1:IItem):void
+        private function requestSelectedFurniToMover(_arg_1:IItem):void
         {
             var _local_2:int;
             var _local_3:Boolean;
@@ -893,43 +893,43 @@ package com.sulake.habbo.inventory.furni
                 _local_2 = RoomObjectCategoryEnum._SafeStr_4330;
             };
             if (_arg_1.category == FurniCategory._SafeStr_7055){
-                _local_3 = this._roomEngine.RoomEngine(_arg_1.id, _local_2, _arg_1.type, _arg_1.stuffData);
+                _local_3 = this._roomEngine.initializeRoomObjectInsert(_arg_1.id, _local_2, _arg_1.type, _arg_1.stuffData);
             }
             else {
-                _local_3 = this._roomEngine.RoomEngine(_arg_1.id, _local_2, _arg_1.type, _arg_1.extra.toString());
+                _local_3 = this._roomEngine.initializeRoomObjectInsert(_arg_1.id, _local_2, _arg_1.type, _arg_1.extra.toString());
             };
             if (_local_3){
                 this._SafeStr_7793 = _arg_1.ref;
                 if (!this._controller.recyclerModel.running){
-                    this.FurniModel();
+                    this.requestClose();
                 };
                 this._SafeStr_7797 = true;
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
-        public function FurniModel():void
+        public function requestSelectedFurniToTrading():void
         {
             var _local_1:GroupItem = this.getGroupItemInIndex(this.getSelectedItemIndex(), this._view.visibleCategoryId);
             if (_local_1 == null){
                 return;
             };
-            var _local_2:IItem = _local_1.GroupItem();
+            var _local_2:IItem = _local_1.getOneForTrade();
             if (_local_2 == null){
                 return;
             };
             var _local_3:TradingModel = this._controller.tradingModel;
             if (_local_3 != null){
-                _local_3.TradingModel(_local_2.id, _local_2.type, _local_2.category, _local_2.groupable, _local_2.stuffData);
+                _local_3.requestAddItemToTrading(_local_2.id, _local_2.type, _local_2.category, _local_2.groupable, _local_2.stuffData);
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
         }
-        public function FurniModel():void
+        public function requestSelectedFurniSelling():void
         {
             var _local_1:GroupItem = this.getGroupItemInIndex(this.getSelectedItemIndex(), this._view.visibleCategoryId);
             if (_local_1 == null){
                 return;
             };
-            var _local_2:IItem = _local_1.GroupItem();
+            var _local_2:IItem = _local_1.getOneForTrade();
             if (_local_2 == null){
                 return;
             };
@@ -937,28 +937,28 @@ package com.sulake.habbo.inventory.furni
             if (_local_3 == null){
                 return;
             };
-            _local_3.MarketplaceModel(_local_2);
+            _local_3.startOfferMaking(_local_2);
         }
-        public function HabboInventory():IItem
+        public function requestSelectedFurniToRecycler():IItem
         {
             var _local_1:GroupItem = this.getGroupItemInIndex(this.getSelectedItemIndex(), this._view.visibleCategoryId);
             if (_local_1 == null){
                 return (null);
             };
-            var _local_2:IItem = _local_1.GroupItem();
+            var _local_2:IItem = _local_1.getOneForRecycle();
             if (_local_2 == null){
                 return (null);
             };
-            this._view.BadgesView();
+            this._view.updateActionView();
             return (_local_2);
         }
-        public function FurniModel():void
+        public function requestCurrentActionOnSelection():void
         {
             if (this.isTradingOpen){
-                this.FurniModel();
+                this.requestSelectedFurniToTrading();
             }
             else {
-                this.FurniModel(false);
+                this.requestSelectedFurniPlacement(false);
             };
         }
         public function onObjectPlaced(_arg_1:Event):void
@@ -967,13 +967,13 @@ package com.sulake.habbo.inventory.furni
                 this._SafeStr_7797 = false;
             };
         }
-        public function FurniModel():void
+        public function requestClose():void
         {
-            this._controller.HabboInventory();
+            this._controller.closeView();
         }
-        public function FurniModel():void
+        public function requestNewList():void
         {
-            var _local_1:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._communication.getHabboMainConnection(null);
             if (_local_1 == null){
                 return;
             };
@@ -983,28 +983,28 @@ package com.sulake.habbo.inventory.furni
         {
             this._catalog.openCatalog();
         }
-        public function FurniModel(_arg_1:String):Array
+        public function getCategoryContent(_arg_1:String):Array
         {
             return (this._furniData.getValue(_arg_1));
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
             switch (_arg_1){
                 case InventorySubCategory._SafeStr_7064:
                     this.cancelFurniInMover();
                     if (this._view != null){
-                        this._view.BadgesView();
+                        this._view.updateActionView();
                     };
                     return;
                 case InventorySubCategory.:
-                    this.GroupItem();
+                    this.removeAllLocks();
                     if (this._view != null){
-                        this._view.BadgesView();
+                        this._view.updateActionView();
                     };
                     return;
             };
         }
-        public function FurniModel(_arg_1:String, _arg_2:Array):void
+        public function getAllStripIds(_arg_1:String, _arg_2:Array):void
         {
             var _local_4:GroupItem;
             var _local_5:int;
@@ -1012,28 +1012,28 @@ package com.sulake.habbo.inventory.furni
             var _local_3:Array = (this._furniData.getValue(_arg_1) as Array);
             if (_local_3 != null){
                 for each (_local_4 in _local_3) {
-                    _local_5 = _local_4.GroupItem();
+                    _local_5 = _local_4.getTotalCount();
                     if (_local_4.category == FurniCategory._SafeStr_7054){
                         _local_5 = 1;
                     };
                     _local_6 = 0;
                     while (_local_6 < _local_5) {
-                        _arg_2.push(_local_4.GroupItem(_local_6).id);
+                        _arg_2.push(_local_4.getAt(_local_6).id);
                         _local_6++;
                     };
                 };
             };
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             if (this._view != null){
-                this.FurniModel(S);
-                this.FurniModel(I);
-                this._view.PetsView();
-                this._view.BadgesView();
+                this.updateGroupItems(S);
+                this.updateGroupItems(I);
+                this._view.updateCategoryButtons();
+                this._view.updateActionView();
             };
         }
-        private function FurniModel(_arg_1:String):void
+        private function updateGroupItems(_arg_1:String):void
         {
             var _local_2:Array;
             var _local_3:Array;
@@ -1050,24 +1050,24 @@ package com.sulake.habbo.inventory.furni
                     return;
                 };
             };
-            var _local_6:Array = this.FurniModel(_arg_1);
+            var _local_6:Array = this.getCategoryContent(_arg_1);
             for each (_local_4 in _local_6) {
-                _local_3 = _local_4.GroupItem();
+                _local_3 = _local_4.getFurniIds();
                 for each (_local_5 in _local_3) {
                     if (_local_2.indexOf(_local_5) != -1){
                         _local_4.hasUnseenItems = true;
-                        this.FurniModel(_local_6, _local_4, 0);
+                        this.moveGroupItemTo(_local_6, _local_4, 0);
                         break;
                     };
                 };
             };
         }
-        private function FurniModel(_arg_1:Array, _arg_2:GroupItem, _arg_3:int):void
+        private function moveGroupItemTo(_arg_1:Array, _arg_2:GroupItem, _arg_3:int):void
         {
             var _local_4:int = _arg_1.indexOf(_arg_2);
             _arg_1.splice(_local_4, 1);
             _arg_1.unshift(_arg_2);
-            this._view.FurniGridView(_arg_2, _arg_3);
+            this._view.moveItemTo(_arg_2, _arg_3);
         }
         public function get isPrivateRoom():Boolean
         {
@@ -1080,7 +1080,7 @@ package com.sulake.habbo.inventory.furni
         {
             return (this._controller.isMainViewActive);
         }
-        public function FurniModel(_arg_1:Array):void
+        public function addUnseenFloorItems(_arg_1:Array):void
         {
             var _local_2:int;
             if (_arg_1 == null){
@@ -1092,7 +1092,7 @@ package com.sulake.habbo.inventory.furni
                 };
             };
         }
-        public function FurniModel(_arg_1:Array):void
+        public function addUnseenWallItems(_arg_1:Array):void
         {
             var _local_2:int;
             if (_arg_1 == null){
@@ -1122,7 +1122,7 @@ package com.sulake.habbo.inventory.furni
             if (((!(this._view)) || (!(this._view.visibleCategoryId)))){
                 return;
             };
-            var _local_2:IConnection = this._communication.HabboCommunicationManager(null);
+            var _local_2:IConnection = this._communication.getHabboMainConnection(null);
             if (!_arg_1){
                 _arg_1 = this._view.visibleCategoryId;
             };
@@ -1131,19 +1131,19 @@ package com.sulake.habbo.inventory.furni
                     if (((this._SafeStr_7803) && ((this._SafeStr_7803.length > 0)))){
                         _local_2.send(new ResetUnseenItemsComposer(UnseenItemCategoryEnum._SafeStr_6768));
                         this._SafeStr_7803 = [];
-                        _local_3 = this.FurniModel(_arg_1);
+                        _local_3 = this.getCategoryContent(_arg_1);
                     };
                     break;
                 case S:
                     if (((this._SafeStr_7802) && ((this._SafeStr_7802.length > 0)))){
                         _local_2.send(new ResetUnseenItemsComposer(UnseenItemCategoryEnum._SafeStr_6767));
                         this._SafeStr_7802 = [];
-                        _local_3 = this.FurniModel(_arg_1);
+                        _local_3 = this.getCategoryContent(_arg_1);
                     };
                     break;
             };
             if (_local_3){
-                this._controller.HabboInventory();
+                this._controller.updateUnseenItemCounts();
                 for each (_local_4 in _local_3) {
                     _local_4.hasUnseenItems = false;
                 };
@@ -1180,7 +1180,7 @@ package com.sulake.habbo.inventory.furni
 // itemType = "_-De" (String#22756, DoABC#2)
 // classId = "_-1mV" (String#18401, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // extra = "_-2We" (String#6693, DoABC#2)
 // expiryTime = "_-1FG" (String#17083, DoABC#2)
 // stuffData = "_-0vz" (String#1580, DoABC#2)
@@ -1188,19 +1188,19 @@ package com.sulake.habbo.inventory.furni
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
 // _SafeStr_4329 = "_-bN" (String#23687, DoABC#2)
 // _SafeStr_4330 = "_-0cQ" (String#15531, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _furniData = "_-13M" (String#1612, DoABC#2)
 // REOB_OBJECT_PLACED = "_-2hu" (String#20768, DoABC#2)
 // showRecyclable = "_-38g" (String#21829, DoABC#2)
-// GroupItem = "_-2FC" (String#19612, DoABC#2)
-// HabboInventory = "_-2P" (String#6543, DoABC#2)
+// removeLockFrom = "_-2FC" (String#19612, DoABC#2)
+// requestSelectedFurniToRecycler = "_-2P" (String#6543, DoABC#2)
 // getOwnItemsInRecycler = "_-cW" (String#23733, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_5996 = "_-Jg" (String#22993, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
@@ -1210,7 +1210,7 @@ package com.sulake.habbo.inventory.furni
 // _SafeStr_6767 = "for" (String#45121, DoABC#2)
 // _SafeStr_6768 = "_-QD" (String#23258, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _SafeStr_7051 = "_-AU" (String#22635, DoABC#2)
 // _SafeStr_7052 = "_-0OP" (String#15005, DoABC#2)
 // _SafeStr_7053 = "_-19z" (String#16856, DoABC#2)
@@ -1231,7 +1231,7 @@ package com.sulake.habbo.inventory.furni
 // _SafeStr_7796 = "_-28s" (String#19364, DoABC#2)
 // _SafeStr_7797 = "_-Gh" (String#8012, DoABC#2)
 // _SafeStr_7798 = "_-Tl" (String#23397, DoABC#2)
-// _PetsModel = "_-2eC" (String#6837, DoABC#2)
+// _SafeStr_7799 = "_-2eC" (String#6837, DoABC#2)
 // _SafeStr_7800 = "_-0oa" (String#15998, DoABC#2)
 // _SafeStr_7801 = "_-2C2" (String#19484, DoABC#2)
 // _SafeStr_7802 = "_-21G" (String#19063, DoABC#2)
@@ -1240,9 +1240,9 @@ package com.sulake.habbo.inventory.furni
 // onImageUpdateTimerEvent = "_-2nx" (String#20997, DoABC#2)
 // petsModel = "_-227" (String#19096, DoABC#2)
 // initTimeout = "_-1qA" (String#18551, DoABC#2)
-// FurniModel = "_-2RU" (String#20098, DoABC#2)
-// HabboInventory = "_-0py" (String#16050, DoABC#2)
-// FurniModel = "_-1a9" (String#17900, DoABC#2)
+// insertFurniList = "_-2RU" (String#20098, DoABC#2)
+// setInventoryCategoryInit = "_-0py" (String#16050, DoABC#2)
+// getAllStripIds = "_-1a9" (String#17900, DoABC#2)
 // setGridLock = "_-2Jr" (String#19803, DoABC#2)
 // objId = "_-1VD" (String#17710, DoABC#2)
 // isGroupable = "_-19p" (String#16849, DoABC#2)
@@ -1258,74 +1258,74 @@ package com.sulake.habbo.inventory.furni
 // toggleItemSelection = "_-Qk" (String#23275, DoABC#2)
 // initListImages = "_-2Qh" (String#20073, DoABC#2)
 // setListInitialized = "_-Mb" (String#23108, DoABC#2)
-// FurniModel = "_-cQ" (String#23731, DoABC#2)
+// isListInited = "_-cQ" (String#23731, DoABC#2)
 // setViewToState = "_-0gw" (String#15707, DoABC#2)
 // createNewGroupItemTemplate = "_-0Bl" (String#14518, DoABC#2)
 // recyclerModel = "_-26u" (String#19288, DoABC#2)
-// FurniModel = "_-1lE" (String#18339, DoABC#2)
+// getCategoryContent = "_-1lE" (String#18339, DoABC#2)
 // isImageInited = "_-03j" (String#14191, DoABC#2)
 // initImage = "_-2Hp" (String#19719, DoABC#2)
 // isImageFinished = "_-0rt" (String#16118, DoABC#2)
-// FurniModel = "_-1vn" (String#18790, DoABC#2)
+// requestNewList = "_-1vn" (String#18790, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // visibleCategoryId = "_-2iM" (String#20782, DoABC#2)
 // furniCategorySwitch = "_-3W" (String#22356, DoABC#2)
 // automaticSwitchToPetCategory = "_-2NP" (String#19940, DoABC#2)
-// HabboInventory = "_-vi" (String#24517, DoABC#2)
+// checkCategoryInitilization = "_-vi" (String#24517, DoABC#2)
 // resetUnseenItems = "_-0qm" (String#16077, DoABC#2)
 // tradingModel = "_-1s3" (String#18635, DoABC#2)
-// TradingModel = "_-0QS" (String#15079, DoABC#2)
-// GroupItem = "_-O5" (String#23172, DoABC#2)
-// GroupItem = "_-2gP" (String#20704, DoABC#2)
-// BadgesView = "_-jg" (String#8593, DoABC#2)
-// GroupItem = "_-oD" (String#24199, DoABC#2)
+// getOwnItemIdsInTrade = "_-0QS" (String#15079, DoABC#2)
+// removeAllLocks = "_-O5" (String#23172, DoABC#2)
+// addLocksFromData = "_-2gP" (String#20704, DoABC#2)
+// updateActionView = "_-jg" (String#8593, DoABC#2)
+// addLockTo = "_-oD" (String#24199, DoABC#2)
 // clearViews = "_-Uc" (String#23431, DoABC#2)
 // ref = "_-Jx" (String#8081, DoABC#2)
-// FurniGridView = "_-SJ" (String#23337, DoABC#2)
-// FurniGridView = "_-3AS" (String#21898, DoABC#2)
-// FurniModel = "_-1kb" (String#18312, DoABC#2)
+// addItemAt = "_-SJ" (String#23337, DoABC#2)
+// addItemToBottom = "_-3AS" (String#21898, DoABC#2)
+// moveGroupItemTo = "_-1kb" (String#18312, DoABC#2)
 // furniIsMostLikelyPetFood = "_-1jV" (String#18266, DoABC#2)
-// PetsModel = "_-1uc" (String#18741, DoABC#2)
+// switchToFurnitureCategory = "_-1uc" (String#18741, DoABC#2)
 // cancelFurniInMover = "_-1Xa" (String#17797, DoABC#2)
-// FurniModel = "_-17E" (String#16744, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
-// GroupItem = "_-1uB" (String#18723, DoABC#2)
+// requestSelectedFurniPlacement = "_-17E" (String#16744, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
+// getTotalCount = "_-1uB" (String#18723, DoABC#2)
 // updatePostItCount = "_-274" (String#19294, DoABC#2)
-// GroupItem = "_-1qs" (String#18574, DoABC#2)
+// replaceItem = "_-1qs" (String#18574, DoABC#2)
 // displayItemInfo = "_-264" (String#19261, DoABC#2)
 // getGroupItemInIndex = "_-0lk" (String#15888, DoABC#2)
 // getGroupItemByType = "_-1q1" (String#18543, DoABC#2)
 // isTradingOpen = "_-0Yq" (String#15394, DoABC#2)
-// HabboInventory = "_-p7" (String#24238, DoABC#2)
-// HabboInventory = "_-1Ic" (String#17218, DoABC#2)
-// RoomEngine = "_-0w6" (String#4772, DoABC#2)
-// GroupItem = "_-2rq" (String#21148, DoABC#2)
+// getSubCategoryViewId = "_-p7" (String#24238, DoABC#2)
+// canUserOfferToTrade = "_-1Ic" (String#17218, DoABC#2)
+// cancelRoomObjectInsert = "_-0w6" (String#4772, DoABC#2)
+// getUnlockedCount = "_-2rq" (String#21148, DoABC#2)
 // _SafeStr_7867 = "catch" (String#25155, DoABC#2)
-// FurniModel = "_-0zp" (String#16419, DoABC#2)
-// RoomEngine = "_-QC" (String#8205, DoABC#2)
-// FurniModel = "_-32T" (String#21595, DoABC#2)
-// FurniModel = "_-1mj" (String#18410, DoABC#2)
-// GroupItem = "_-1OC" (String#17442, DoABC#2)
-// TradingModel = "_-0jr" (String#15822, DoABC#2)
-// FurniModel = "_-1hq" (String#18205, DoABC#2)
+// requestSelectedFurniToMover = "_-0zp" (String#16419, DoABC#2)
+// initializeRoomObjectInsert = "_-QC" (String#8205, DoABC#2)
+// requestClose = "_-32T" (String#21595, DoABC#2)
+// requestSelectedFurniToTrading = "_-1mj" (String#18410, DoABC#2)
+// getOneForTrade = "_-1OC" (String#17442, DoABC#2)
+// requestAddItemToTrading = "_-0jr" (String#15822, DoABC#2)
+// requestSelectedFurniSelling = "_-1hq" (String#18205, DoABC#2)
 // marketplaceModel = "_-051" (String#14244, DoABC#2)
-// MarketplaceModel = "_-0bY" (String#15497, DoABC#2)
-// GroupItem = "_-2GC" (String#19650, DoABC#2)
-// FurniModel = "_-14j" (String#16642, DoABC#2)
-// HabboInventory = "_-0fQ" (String#15648, DoABC#2)
+// startOfferMaking = "_-0bY" (String#15497, DoABC#2)
+// getOneForRecycle = "_-2GC" (String#19650, DoABC#2)
+// requestCurrentActionOnSelection = "_-14j" (String#16642, DoABC#2)
+// closeView = "_-0fQ" (String#15648, DoABC#2)
 // requestCatalogOpen = "_-0sM" (String#16138, DoABC#2)
 // openCatalog = "_-RM" (String#8233, DoABC#2)
-// GroupItem = "_-0yu" (String#16388, DoABC#2)
-// FurniModel = "_-2DQ" (String#19544, DoABC#2)
-// PetsView = "_-2i3" (String#20774, DoABC#2)
-// GroupItem = "_-2Rv" (String#20115, DoABC#2)
+// getAt = "_-0yu" (String#16388, DoABC#2)
+// updateGroupItems = "_-2DQ" (String#19544, DoABC#2)
+// updateCategoryButtons = "_-2i3" (String#20774, DoABC#2)
+// getFurniIds = "_-2Rv" (String#20115, DoABC#2)
 // hasUnseenItems = "_-t0" (String#24406, DoABC#2)
-// FurniGridView = "_-3JU" (String#22263, DoABC#2)
+// moveItemTo = "_-3JU" (String#22263, DoABC#2)
 // isMainViewActive = "_-jz" (String#24031, DoABC#2)
-// FurniModel = "_-2XU" (String#20341, DoABC#2)
-// FurniModel = "_-2YX" (String#20379, DoABC#2)
+// addUnseenFloorItems = "_-2XU" (String#20341, DoABC#2)
+// addUnseenWallItems = "_-2YX" (String#20379, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
-// HabboInventory = "_-ik" (String#23988, DoABC#2)
+// updateUnseenItemCounts = "_-ik" (String#23988, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 // HabboInventoryTrackingEvent = "_-1r0" (String#18582, DoABC#2)
 

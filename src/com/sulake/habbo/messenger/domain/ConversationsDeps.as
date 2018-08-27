@@ -12,9 +12,9 @@ package com.sulake.habbo.messenger.domain
         {
             this._messenger = _arg_1;
         }
-        public function MessengerView():int
+        public function getTabCount():int
         {
-            return (this._messenger.messengerView.MessengerView());
+            return (this._messenger.messengerView.getTabCount());
         }
         public function getText(_arg_1:String):String
         {
@@ -28,9 +28,9 @@ package com.sulake.habbo.messenger.domain
         {
             this._messenger.messengerView.refresh();
         }
-        public function MessengerView(_arg_1:Conversation, _arg_2:Message):void
+        public function addMsgToView(_arg_1:Conversation, _arg_2:Message):void
         {
-            this._messenger.messengerView.MessengerView(_arg_1, _arg_2);
+            this._messenger.messengerView.addMsgToView(_arg_1, _arg_2);
         }
 
     }
@@ -41,8 +41,8 @@ package com.sulake.habbo.messenger.domain
 // Message = "_-0r8" (String#4665, DoABC#2)
 // Conversation = "_-Ej" (String#7965, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// MessengerView = "_-FK" (String#7977, DoABC#2)
+// getTabCount = "_-FK" (String#7977, DoABC#2)
 // createConversation = "_-Qw" (String#8225, DoABC#2)
-// MessengerView = "_-nV" (String#8668, DoABC#2)
+// addMsgToView = "_-nV" (String#8668, DoABC#2)
 
 

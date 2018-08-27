@@ -29,14 +29,14 @@ package com.sulake.habbo.friendlist
             this._SafeStr_11205 = _arg_4;
             this._SafeStr_11275 = _arg_2;
             this._popupIndentLeft = _arg_3;
-            this._SafeStr_11276.addEventListener(TimerEvent.TIMER, this.PopupCtrl);
-            this._SafeStr_11277.addEventListener(TimerEvent.TIMER, this.PopupCtrl);
+            this._SafeStr_11276.addEventListener(TimerEvent.TIMER, this.onDisplayTimer);
+            this._SafeStr_11277.addEventListener(TimerEvent.TIMER, this.onHideTimer);
         }
         public function get friendList():HabboFriendList
         {
             return (this._friendList);
         }
-        public function PopupCtrl(_arg_1:IWindowContainer, _arg_2:IWindow):void
+        public function showPopup(_arg_1:IWindowContainer, _arg_2:IWindow):void
         {
             if (this._SafeStr_11278 == null){
                 this._SafeStr_11278 = IWindowContainer(this._friendList.getXmlWindow(this._SafeStr_11205));
@@ -56,10 +56,10 @@ package com.sulake.habbo.friendlist
             this._SafeStr_11278.getGlobalPosition(_local_5);
             if ((_local_5.x + this._SafeStr_11278.width) > this._SafeStr_11278.desktop.width){
                 this._SafeStr_11278.x = (((-(this._SafeStr_11278.width) + _local_4.x) - _local_3.x) + this._popupIndentLeft);
-                this.PopupCtrl(this._SafeStr_11278, false);
+                this.refreshPopupArrows(this._SafeStr_11278, false);
             }
             else {
-                this.PopupCtrl(this._SafeStr_11278, true);
+                this.refreshPopupArrows(this._SafeStr_11278, true);
             };
             if (!this._SafeStr_11278.visible){
                 this._SafeStr_11276.reset();
@@ -67,18 +67,18 @@ package com.sulake.habbo.friendlist
             };
             this._SafeStr_11277.reset();
         }
-        public function PopupCtrl():void
+        public function closePopup():void
         {
             this._SafeStr_11277.reset();
             this._SafeStr_11276.reset();
             this._SafeStr_11277.start();
         }
-        private function PopupCtrl(_arg_1:IWindowContainer, _arg_2:Boolean):void
+        private function refreshPopupArrows(_arg_1:IWindowContainer, _arg_2:Boolean):void
         {
-            this.PopupCtrl(_arg_1, true, _arg_2);
-            this.PopupCtrl(_arg_1, false, !(_arg_2));
+            this.refreshPopupArrow(_arg_1, true, _arg_2);
+            this.refreshPopupArrow(_arg_1, false, !(_arg_2));
         }
-        private function PopupCtrl(_arg_1:IWindowContainer, _arg_2:Boolean, _arg_3:Boolean):void
+        private function refreshPopupArrow(_arg_1:IWindowContainer, _arg_2:Boolean, _arg_3:Boolean):void
         {
             var _local_4:String = ("popup_arrow_" + ((_arg_2) ? "left" : "right"));
             var _local_5:IBitmapWrapperWindow = IBitmapWrapperWindow(_arg_1.findChildByName(_local_4));
@@ -98,12 +98,12 @@ package com.sulake.habbo.friendlist
                 _local_5.x = ((_arg_2) ? (1 - _local_5.width) : (_arg_1.width - 1));
             };
         }
-        private function PopupCtrl(_arg_1:TimerEvent):void
+        private function onDisplayTimer(_arg_1:TimerEvent):void
         {
             this._SafeStr_11278.visible = true;
             this._SafeStr_11278.activate();
         }
-        private function PopupCtrl(_arg_1:TimerEvent):void
+        private function onHideTimer(_arg_1:TimerEvent):void
         {
             if (this._SafeStr_11278 != null){
                 this._SafeStr_11278.visible = false;
@@ -122,16 +122,16 @@ package com.sulake.habbo.friendlist
 // _SafeStr_11276 = "_-Qx" (String#8226, DoABC#2)
 // _SafeStr_11277 = "_-2ZJ" (String#6750, DoABC#2)
 // _SafeStr_11278 = "_-js" (String#8598, DoABC#2)
-// PopupCtrl = "_-0bX" (String#1508, DoABC#2)
-// PopupCtrl = "_-lJ" (String#2176, DoABC#2)
+// onDisplayTimer = "_-0bX" (String#1508, DoABC#2)
+// onHideTimer = "_-lJ" (String#2176, DoABC#2)
 // refreshContent = "_-2Ec" (String#19590, DoABC#2)
-// PopupCtrl = "_-2aJ" (String#6763, DoABC#2)
-// PopupCtrl = "_-6W" (String#7795, DoABC#2)
+// refreshPopupArrows = "_-2aJ" (String#6763, DoABC#2)
+// refreshPopupArrow = "_-6W" (String#7795, DoABC#2)
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // Util = "_-1ve" (String#445, DoABC#2)
 // PopupCtrl = "_-0f4" (String#818, DoABC#2)
-// PopupCtrl = "_-0pi" (String#16042, DoABC#2)
-// PopupCtrl = "_-1eW" (String#18078, DoABC#2)
+// showPopup = "_-0pi" (String#16042, DoABC#2)
+// closePopup = "_-1eW" (String#18078, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // _SafeStr_6023 = "_-Mr" (String#23121, DoABC#2)
 // getButton = "_-1sK" (String#18645, DoABC#2)

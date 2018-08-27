@@ -70,7 +70,7 @@ package com.sulake.room.renderer
         private var _SafeStr_14481:Boolean = false;
         private var _SafeStr_12979:Boolean = false;
         private var _colorTransform:ColorTransform;
-        private var _RoomSpriteCanvas:Matrix;
+        private var _SafeStr_14482:Matrix;
         private var _averageUpdateInterval:Number = 0;
         private var _SafeStr_13804:int = 0;
         private var _SafeStr_14483:Boolean = false;
@@ -112,7 +112,7 @@ package com.sulake.room.renderer
             this._SafeStr_14470 = new Map();
             this._SafeStr_14466 = new RoomObjectCache(_local_6);
             this._colorTransform = new ColorTransform();
-            this._RoomSpriteCanvas = new Matrix();
+            this._SafeStr_14482 = new Matrix();
             this.initialize(_arg_3, _arg_4);
         }
         public function get width():int
@@ -219,7 +219,7 @@ package com.sulake.room.renderer
             };
             this._mouseListener = null;
             this._colorTransform = null;
-            this._RoomSpriteCanvas = null;
+            this._SafeStr_14482 = null;
         }
         public function initialize(_arg_1:int, _arg_2:int):void
         {
@@ -261,7 +261,7 @@ package com.sulake.room.renderer
             };
             this.calculateUpdateInterval(_arg_1);
             this._SafeStr_14465.compress();
-            var _local_3:int = this._container.IRoomSpriteCanvasContainer();
+            var _local_3:int = this._container.getRoomObjectCount();
             var _local_4:int;
             var _local_5:int;
             var _local_6:String = "";
@@ -277,9 +277,9 @@ package com.sulake.room.renderer
             };
             _local_4 = 0;
             while (_local_4 < _local_3) {
-                _local_7 = this._container.IRoomSpriteCanvasContainer(_local_4);
+                _local_7 = this._container.getRoomObjectWithIndex(_local_4);
                 if (_local_7 != null){
-                    _local_6 = this._container.IRoomSpriteCanvasContainer(_local_4);
+                    _local_6 = this._container.getRoomObjectIdWithIndex(_local_4);
                     _local_5 = (_local_5 + this.renderObject(_local_7, _local_6, _arg_1, _local_8, _local_5));
                 };
                 _local_4++;
@@ -363,7 +363,7 @@ package com.sulake.room.renderer
             if (_local_11){
                 _arg_4 = true;
             };
-            if (((!(_local_9.ExtendedSprite(_local_6.getInstanceId(), _local_6.getUpdateID()))) && (!(_arg_4)))){
+            if (((!(_local_9.needsUpdate(_local_6.getInstanceId(), _local_6.getUpdateID()))) && (!(_arg_4)))){
                 return (_local_9.spriteCount);
             };
             var _local_12:int = _local_6.spriteCount;
@@ -511,7 +511,7 @@ package com.sulake.room.renderer
                     this.createSprite(_arg_2, _arg_1);
                     return (true);
                 };
-                if (_local_4.ExtendedSprite(_local_3.instanceId, _local_3.updateId)){
+                if (_local_4.needsUpdate(_local_3.instanceId, _local_3.updateId)){
                     if (_local_3.capturesMouse){
                         _local_4.alphaTolerance = 128;
                     }
@@ -652,16 +652,16 @@ package com.sulake.room.renderer
                 catch(e:Error) {
                     finalData = new ExtendedBitmapData(1, 1, true, 0xFFFFFF);
                 };
-                this._RoomSpriteCanvas.identity();
+                this._SafeStr_14482.identity();
                 if (flipH){
-                    this._RoomSpriteCanvas.scale(-1, 1);
-                    this._RoomSpriteCanvas.translate(data.width, 0);
+                    this._SafeStr_14482.scale(-1, 1);
+                    this._SafeStr_14482.translate(data.width, 0);
                 };
                 if (flipV){
-                    this._RoomSpriteCanvas.scale(1, -1);
-                    this._RoomSpriteCanvas.translate(0, data.height);
+                    this._SafeStr_14482.scale(1, -1);
+                    this._SafeStr_14482.translate(0, data.height);
                 };
-                finalData.draw(data, this._RoomSpriteCanvas);
+                finalData.draw(data, this._SafeStr_14482);
                 if (name.length > 0){
                     this._SafeStr_14465.addBitmapData(cacheName, finalData);
                 };
@@ -865,7 +865,7 @@ package com.sulake.room.renderer
                 _local_2 = this._SafeStr_14470.getKey(_local_1);
                 _local_3 = this._SafeStr_14470.getWithIndex(_local_1);
                 if (((!((_local_2 == null))) && (!((_local_3 == null))))){
-                    _local_4 = this._container.IRoomSpriteCanvasContainer(_local_2);
+                    _local_4 = this._container.getRoomObject(_local_2);
                     if (_local_4 != null){
                         if (this._mouseListener != null){
                             this._mouseListener.processRoomCanvasMouseEvent(_local_3, _local_4, this.geometry);
@@ -927,9 +927,9 @@ package com.sulake.room.renderer
 // getScreenLocation = "_-PG" (String#23217, DoABC#2)
 // setSpriteCount = "_-2V2" (String#20240, DoABC#2)
 // addSprite = "_-1FI" (String#17085, DoABC#2)
-// ExtendedSprite = "_-2cQ" (String#20541, DoABC#2)
+// needsUpdate = "_-2cQ" (String#20541, DoABC#2)
 // alphaTolerance = "_-2KR" (String#19819, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-0EL" (String#3833, DoABC#2)
+// getRoomObjectIdWithIndex = "_-0EL" (String#3833, DoABC#2)
 // roomObjectRemoved = "_-13B" (String#16587, DoABC#2)
 // _SafeStr_14455 = "_-y1" (String#24615, DoABC#2)
 // _SafeStr_14456 = "_-097" (String#14414, DoABC#2)
@@ -958,7 +958,7 @@ package com.sulake.room.renderer
 // _SafeStr_14479 = "_-2X5" (String#20327, DoABC#2)
 // _SafeStr_14480 = "_-1s5" (String#18637, DoABC#2)
 // _SafeStr_14481 = "_-1m6" (String#18384, DoABC#2)
-// _RoomSpriteCanvas = "_-02U" (String#14142, DoABC#2)
+// _SafeStr_14482 = "_-02U" (String#14142, DoABC#2)
 // _SafeStr_14483 = "_-1gS" (String#18156, DoABC#2)
 // _SafeStr_14484 = "_-b4" (String#23671, DoABC#2)
 // _SafeStr_14485 = "_-Gg" (String#22876, DoABC#2)
@@ -1008,15 +1008,15 @@ package com.sulake.room.renderer
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
 // updateId = "_-0TD" (String#1478, DoABC#2)
 // clickHandler = "_-34y" (String#630, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // spriteTag = "_-1jr" (String#18278, DoABC#2)
 // varyingDepth = "_-11d" (String#4909, DoABC#2)
 // clickHandling = "_-2fU" (String#6858, DoABC#2)
 // instanceId = "_-044" (String#3649, DoABC#2)
 // _eventId = "_-19k" (String#1626, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1Hy" (String#1654, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-cJ" (String#2140, DoABC#2)
+// getRoomObjectCount = "_-1Hy" (String#1654, DoABC#2)
+// getRoomObjectWithIndex = "_-cJ" (String#2140, DoABC#2)
 // isEmpty = "_-01T" (String#3592, DoABC#2)
 
 

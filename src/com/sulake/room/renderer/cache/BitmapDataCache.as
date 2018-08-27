@@ -53,7 +53,7 @@ package com.sulake.room.renderer.cache
             var _local_1:BitmapDataCacheItem;
             var _local_2:int;
             if (this.memUsage > this.memLimit){
-                _local_3 = this._dataMap.Map();
+                _local_3 = this._dataMap.getValues();
                 _local_3.sortOn("useCount", (Array.DESCENDING | Array.NUMERIC));
                 _local_2 = (_local_3.length - 1);
                 while (_local_2 >= 0) {
@@ -138,7 +138,7 @@ package com.sulake.room.renderer.cache
 // BitmapDataCache = "_-zk" (String#8876, DoABC#2)
 // ExtendedBitmapData = "_-11w" (String#4915, DoABC#2)
 // BitmapDataCacheItem = "_-KT" (String#8091, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // removeItem = "_-2gu" (String#6888, DoABC#2)
 
 

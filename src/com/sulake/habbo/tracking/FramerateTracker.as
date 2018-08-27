@@ -18,13 +18,13 @@ package com.sulake.habbo.tracking
         {
             return (Math.round((1000 / this._averageUpdateInterval)));
         }
-        public function FramerateTracker(_arg_1:IHabboConfigurationManager):void
+        public function configure(_arg_1:IHabboConfigurationManager):void
         {
             this._SafeStr_13803 = (int(_arg_1.getKey("tracking.framerate.reportInterval.seconds", "300")) * 1000);
             this._SafeStr_13807 = int(_arg_1.getKey("tracking.framerate.maximumEvents", "5"));
             this._SafeStr_13806 = true;
         }
-        public function FramerateTracker(_arg_1:uint, _arg_2:IHabboTracking, _arg_3:int):void
+        public function trackUpdate(_arg_1:uint, _arg_2:IHabboTracking, _arg_3:int):void
         {
             var _local_4:Number;
             this._SafeStr_13804++;
@@ -52,7 +52,7 @@ package com.sulake.habbo.tracking
     }
 }//package com.sulake.habbo.tracking
 
-// FramerateTracker = "_-2eD" (String#20612, DoABC#2)
+// configure = "_-2eD" (String#20612, DoABC#2)
 // _SafeStr_13802 = "_-1y9" (String#5997, DoABC#2)
 // _SafeStr_13803 = "_-0ye" (String#16380, DoABC#2)
 // _SafeStr_13804 = "_-AT" (String#7877, DoABC#2)
@@ -60,7 +60,7 @@ package com.sulake.habbo.tracking
 // _SafeStr_13806 = "_-2rw" (String#21153, DoABC#2)
 // _SafeStr_13807 = "_-0wP" (String#16287, DoABC#2)
 // _SafeStr_13808 = "_-1Of" (String#17455, DoABC#2)
-// FramerateTracker = "_-Mk" (String#23116, DoABC#2)
+// trackUpdate = "_-Mk" (String#23116, DoABC#2)
 // IHabboTracking = "_-0fl" (String#4419, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
 // FramerateTracker = "_-Ud" (String#23432, DoABC#2)

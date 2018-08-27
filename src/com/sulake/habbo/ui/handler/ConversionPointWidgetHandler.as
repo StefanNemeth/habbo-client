@@ -32,7 +32,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetConversionPointMessage.RWCPM_CONVERSION_POINT]);
         }
@@ -45,16 +45,16 @@ package com.sulake.habbo.ui.handler
                     if (_local_2 == null){
                         return (null);
                     };
-                    this._container.roomSession.RoomSession(_local_2.category, _local_2.pointType, _local_2.action, _local_2.extraString, _local_2.extraInt);
+                    this._container.roomSession.sendConversionPoint(_local_2.category, _local_2.pointType, _local_2.action, _local_2.extraString, _local_2.extraInt);
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -73,10 +73,10 @@ package com.sulake.habbo.ui.handler
 // extraString = "_-0hC" (String#15718, DoABC#2)
 // extraInt = "_-2G0" (String#19645, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// RoomSession = "_-0C0" (String#1425, DoABC#2)
+// sendConversionPoint = "_-0C0" (String#1425, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 
 

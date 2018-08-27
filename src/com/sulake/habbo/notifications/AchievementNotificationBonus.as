@@ -39,12 +39,12 @@ package com.sulake.habbo.notifications
             if (this._window == null){
                 return;
             };
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             this._window.center();
-            this.CurrencyIndicatorBase("bonus_points", ("+" + String(_arg_1)));
+            this.setText("bonus_points", ("+" + String(_arg_1)));
             if (((_arg_2) && (!((_arg_2 == ""))))){
                 this._localizations.registerParameter("notifications.achievement.bonus_received.name", "realname", _arg_2);
-                this.CurrencyIndicatorBase("bonus_info", this._localizations.getKey("notifications.achievement.bonus_received.name"));
+                this.setText("bonus_info", this._localizations.getKey("notifications.achievement.bonus_received.name"));
             };
             var _local_7:BitmapData = ((_arg_3.getAssetByName(this._SafeStr_12095) as BitmapDataAsset).content as BitmapData);
             var _local_8:IBitmapWrapperWindow = (this._window.findChildByName("achievement_bg") as IBitmapWrapperWindow);
@@ -61,7 +61,7 @@ package com.sulake.habbo.notifications
             this._localizations = null;
             this._assets = null;
         }
-        private function CurrencyIndicatorBase(_arg_1:String, _arg_2:String):void
+        private function setText(_arg_1:String, _arg_2:String):void
         {
             if (this._window == null){
                 return;
@@ -83,7 +83,7 @@ package com.sulake.habbo.notifications
             };
             _local_3.bitmap = _arg_2;
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -102,9 +102,9 @@ package com.sulake.habbo.notifications
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // AchievementNotificationBonus = "_-1fj" (String#5661, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // setImage = "_-1NZ" (String#603, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _localizations = "_-0il" (String#358, DoABC#2)
 
 

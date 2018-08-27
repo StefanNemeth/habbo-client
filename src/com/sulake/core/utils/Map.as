@@ -115,7 +115,7 @@ package com.sulake.core.utils
         {
             return (this._keys.slice());
         }
-        public function Map():Array
+        public function getValues():Array
         {
             return (this._SafeStr_3708.slice());
         }
@@ -176,7 +176,7 @@ package com.sulake.core.utils
 
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // _SafeStr_3708 = "_-2oC" (String#11, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // _SafeStr_8890 = "_-0EV" (String#3839, DoABC#2)
 // _SafeStr_9058 = "_-MM" (String#23098, DoABC#2)
 

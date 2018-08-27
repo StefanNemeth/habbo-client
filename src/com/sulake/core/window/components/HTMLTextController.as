@@ -43,7 +43,7 @@ package com.sulake.core.window.components
         {
             return (_SafeStr_9183);
         }
-        private static function HTMLTextController(_arg_1:HTMLTextController, _arg_2:String):void
+        private static function setHtmlStyleSheetString(_arg_1:HTMLTextController, _arg_2:String):void
         {
             var _local_3:StyleSheet;
             if (_arg_1 == null){
@@ -60,7 +60,7 @@ package com.sulake.core.window.components
                 _arg_1._SafeStr_9186 = _local_3;
             };
         }
-        private static function HTMLTextController(_arg_1:String):String
+        private static function convertLinksToEvents(_arg_1:String):String
         {
             var _local_2:RegExp;
             _local_2 = /<a[^>]+(http:\/\/[^"']+)['"][^>]*>(.*)<\/a>/gi;
@@ -68,7 +68,7 @@ package com.sulake.core.window.components
             _local_2 = /<a[^>]+(https:\/\/[^"']+)['"][^>]*>(.*)<\/a>/gi;
             return (_arg_1.replace(_local_2, "<a href='event:$1'>$2</a>"));
         }
-        private static function HTMLTextController(_arg_1:String, _arg_2:String):void
+        private static function openWebPage(_arg_1:String, _arg_2:String):void
         {
             var _local_4:String;
             var _local_5:*;
@@ -109,17 +109,17 @@ package com.sulake.core.window.components
         }
         public function set htmlStyleSheetString(_arg_1:String):void
         {
-            HTMLTextController(this, _arg_1);
+            setHtmlStyleSheetString(this, _arg_1);
         }
         override public function set immediateClickMode(_arg_1:Boolean):void
         {
             if (_arg_1 != _immediateClickMode){
                 super.immediateClickMode = _arg_1;
                 if (_immediateClickMode){
-                    _field.addEventListener(TextEvent.LINK, this.TextController);
+                    _field.addEventListener(TextEvent.LINK, this.immediateClickHandler);
                 }
                 else {
-                    _field.removeEventListener(TextEvent.LINK, this.TextController);
+                    _field.removeEventListener(TextEvent.LINK, this.immediateClickHandler);
                 };
             };
         }
@@ -139,16 +139,16 @@ package com.sulake.core.window.components
             }
             else {
                 if (_field != null){
-                    _field.htmlText = HTMLTextController(_caption);
-                    TextController();
+                    _field.htmlText = convertLinksToEvents(_caption);
+                    refreshTextImage();
                 };
             };
         }
         override public function set localization(_arg_1:String):void
         {
             if (((!((_arg_1 == null))) && (!((_field == null))))){
-                _field.htmlText = HTMLTextController(_arg_1);
-                TextController();
+                _field.htmlText = convertLinksToEvents(_arg_1);
+                refreshTextImage();
             };
         }
         override public function set htmlText(_arg_1:String):void
@@ -167,13 +167,13 @@ package com.sulake.core.window.components
             }
             else {
                 if (_field != null){
-                    _field.htmlText = HTMLTextController(_caption);
+                    _field.htmlText = convertLinksToEvents(_caption);
                     _field.styleSheet = this._SafeStr_9186;
-                    TextController();
+                    refreshTextImage();
                 };
             };
         }
-        override protected function TextController(_arg_1:Event):void
+        override protected function immediateClickHandler(_arg_1:Event):void
         {
             var _local_2:WindowEvent;
             if ((_arg_1 is TextEvent)){
@@ -187,13 +187,13 @@ package com.sulake.core.window.components
                     };
                 };
                 if (((!(_local_2.isWindowOperationPrevented())) && (!((this.linkTarget == LinkTarget._SafeStr_9192))))){
-                    HTMLTextController(TextEvent(_arg_1).text, this.linkTarget);
+                    openWebPage(TextEvent(_arg_1).text, this.linkTarget);
                 };
                 _arg_1.stopImmediatePropagation();
                 _local_2.recycle();
             }
             else {
-                super.TextController(_arg_1);
+                super.immediateClickHandler(_arg_1);
             };
         }
         override public function get properties():Array
@@ -236,13 +236,13 @@ package com.sulake.core.window.components
 // LinkTarget = "_-1HG" (String#1650, DoABC#2)
 // WindowLinkEvent = "_-1tZ" (String#5912, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 // _caption = "_-p" (String#8690, DoABC#2)
 // _SafeStr_8998 = "_-1lW" (String#18353, DoABC#2)
 // _SafeStr_9071 = "_-2cp" (String#6807, DoABC#2)
 // _immediateClickMode = "_-1Hx" (String#17190, DoABC#2)
-// TextController = "_-0hP" (String#4454, DoABC#2)
-// TextController = "_-0-p" (String#3559, DoABC#2)
+// refreshTextImage = "_-0hP" (String#4454, DoABC#2)
+// immediateClickHandler = "_-0-p" (String#3559, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // isWindowOperationPrevented = "_-27I" (String#19304, DoABC#2)
 // _SafeStr_9183 = "_-1Zu" (String#17887, DoABC#2)
@@ -250,8 +250,8 @@ package com.sulake.core.window.components
 // _htmlStyleSheetString = "_-2er" (String#20639, DoABC#2)
 // _SafeStr_9186 = "_-2-Q" (String#18988, DoABC#2)
 // defaultLinkTarget = "_-354" (String#21699, DoABC#2)
-// HTMLTextController = "_-0mK" (String#15909, DoABC#2)
-// HTMLTextController = "_-1tX" (String#18699, DoABC#2)
+// setHtmlStyleSheetString = "_-0mK" (String#15909, DoABC#2)
+// convertLinksToEvents = "_-1tX" (String#18699, DoABC#2)
 // _SafeStr_9190 = "_-2wA" (String#21317, DoABC#2)
 // htmlStyleSheetString = "_-3Bo" (String#21954, DoABC#2)
 // _SafeStr_9192 = "_-0WO" (String#15294, DoABC#2)

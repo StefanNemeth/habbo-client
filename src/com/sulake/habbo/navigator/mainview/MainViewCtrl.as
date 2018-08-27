@@ -58,7 +58,7 @@ package com.sulake.habbo.navigator.mainview
         private const _SafeStr_4231:Point = new Point(100, 10);
 
         private var _navigator:HabboNavigator;
-        private var _InventoryMainView:IFrameWindow;
+        private var _mainWindow:IFrameWindow;
         private var _content:IWindowContainer;
         private var _SafeStr_4232:IWindowContainer;
         private var _SafeStr_4233:IWindowContainer;
@@ -92,21 +92,21 @@ package com.sulake.habbo.navigator.mainview
         {
             return (this._disposed);
         }
-        public function MainViewCtrl():Boolean
+        public function onNavigatorToolBarIconClick():Boolean
         {
-            if (!this._InventoryMainView){
-                this.MainViewCtrl();
+            if (!this._mainWindow){
+                this.reloadData();
                 return (true);
             };
             if (((!(this._SafeStr_4248)) || (this._SafeStr_4248.disposed))){
-                this._SafeStr_4248 = new WindowToggle(this._InventoryMainView, this._InventoryMainView.desktop, this.MainViewCtrl, this.close);
+                this._SafeStr_4248 = new WindowToggle(this._mainWindow, this._mainWindow.desktop, this.reloadData, this.close);
             };
             var _local_1:int = this._SafeStr_4248.toggle();
             return ((_local_1 == WindowToggle.RESULT_SHOW));
         }
-        private function MainViewCtrl():void
+        private function reloadData():void
         {
-            var _local_1:Tab = this._navigator.tabs.ISelectorWindow();
+            var _local_1:Tab = this._navigator.tabs.getSelected();
             _local_1.tabPageDecorator.navigatorOpenedWhileInTab();
         }
         public function dispose():void
@@ -114,9 +114,9 @@ package com.sulake.habbo.navigator.mainview
             if (!this._disposed){
                 this._disposed = true;
                 this._navigator = null;
-                if (this._InventoryMainView){
-                    this._InventoryMainView.dispose();
-                    this._InventoryMainView = null;
+                if (this._mainWindow){
+                    this._mainWindow.dispose();
+                    this._mainWindow = null;
                 };
                 if (this._SafeStr_4248){
                     this._SafeStr_4248.dispose();
@@ -151,60 +151,60 @@ package com.sulake.habbo.navigator.mainview
         }
         public function open():void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 this.prepare();
             };
             this.refresh();
-            this._InventoryMainView.visible = true;
-            this._InventoryMainView.activate();
+            this._mainWindow.visible = true;
+            this._mainWindow.activate();
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
-            return (((!((this._InventoryMainView == null))) && (this._InventoryMainView.visible)));
+            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
         }
         public function close():void
         {
-            if (this._InventoryMainView != null){
-                this._InventoryMainView.visible = false;
+            if (this._mainWindow != null){
+                this._mainWindow.visible = false;
             };
         }
         public function get mainWindow():IFrameWindow
         {
-            return (this._InventoryMainView);
+            return (this._mainWindow);
         }
         private function prepare():void
         {
             var _local_2:Tab;
             var _local_3:ITabButtonWindow;
-            this._InventoryMainView = IFrameWindow(this._navigator.getXmlWindow("grs_main_window"));
-            this._SafeStr_4238 = ITabContextWindow(this._InventoryMainView.findChildByName("tab_context"));
-            this._content = IWindowContainer(this._InventoryMainView.findChildByName("tab_content"));
-            this._SafeStr_4232 = IWindowContainer(this._InventoryMainView.findChildByName("custom_content"));
-            this._SafeStr_4234 = IWindowContainer(this._InventoryMainView.findChildByName("list_content"));
-            this._SafeStr_4233 = IWindowContainer(this._InventoryMainView.findChildByName("custom_footer"));
-            this._SafeStr_4243 = this._InventoryMainView.findChildByName("loading_text");
-            var _local_1:IWindow = this._InventoryMainView.findChildByTag("close");
+            this._mainWindow = IFrameWindow(this._navigator.getXmlWindow("grs_main_window"));
+            this._SafeStr_4238 = ITabContextWindow(this._mainWindow.findChildByName("tab_context"));
+            this._content = IWindowContainer(this._mainWindow.findChildByName("tab_content"));
+            this._SafeStr_4232 = IWindowContainer(this._mainWindow.findChildByName("custom_content"));
+            this._SafeStr_4234 = IWindowContainer(this._mainWindow.findChildByName("list_content"));
+            this._SafeStr_4233 = IWindowContainer(this._mainWindow.findChildByName("custom_footer"));
+            this._SafeStr_4243 = this._mainWindow.findChildByName("loading_text");
+            var _local_1:IWindow = this._mainWindow.findChildByTag("close");
             if (_local_1 != null){
                 _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onWindowClose);
             };
-            this._SafeStr_4244 = IRegionWindow(this._InventoryMainView.findChildByName("to_hotel_view"));
+            this._SafeStr_4244 = IRegionWindow(this._mainWindow.findChildByName("to_hotel_view"));
             if (this._SafeStr_4244 != null){
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onHotelViewMouseOver);
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WME_OUT, this.onHotelViewMouseOut);
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onHotelViewMouseClick);
             };
             this.refreshToHotelViewButton(false);
-            this._InventoryMainView.addEventListener(WindowEvent.WE_RESIZED, this.onWindowResized);
+            this._mainWindow.addEventListener(WindowEvent.WE_RESIZED, this.onWindowResized);
             for each (_local_2 in this._navigator.tabs.tabs) {
-                _local_3 = this._SafeStr_4238.TabContextController(_local_2.id);
+                _local_3 = this._SafeStr_4238.getTabItemByID(_local_2.id);
                 if (_local_3 != null){
                     _local_3.addEventListener(WindowEvent.WE_SELECTED, this.onTabSelected);
                     _local_2.button = _local_3;
                 };
             };
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_4268, true);
-            this._InventoryMainView.position = this._SafeStr_4231;
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4268, true);
+            this._mainWindow.position = this._SafeStr_4231;
             this.createSearchInput();
         }
         private function createSearchInput():void
@@ -212,18 +212,18 @@ package com.sulake.habbo.navigator.mainview
             var _local_3:IWindowContainer;
             var _local_1:String = "search_header";
             if (this._SafeStr_4246 == null){
-                _local_3 = (this._InventoryMainView.findChildByName(_local_1) as IWindowContainer);
+                _local_3 = (this._mainWindow.findChildByName(_local_1) as IWindowContainer);
                 this._SafeStr_4246 = new TextSearchInputs(this._navigator, _local_3);
             };
-            var _local_2:IWindowContainer = (this._InventoryMainView.findChildByName(_local_1) as IWindowContainer);
+            var _local_2:IWindowContainer = (this._mainWindow.findChildByName(_local_1) as IWindowContainer);
             _local_2.visible = true;
         }
         public function refresh():void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 return;
             };
-            this.RoomThumbnailCtrl();
+            this.refreshTab();
             this.refreshCustomContent();
             this.refreshListContent(true);
             this.refreshFooter();
@@ -236,10 +236,10 @@ package com.sulake.habbo.navigator.mainview
             this._SafeStr_4245 = this._SafeStr_4233.height;
             this.onResizeTimer(null);
         }
-        private function RoomThumbnailCtrl():void
+        private function refreshTab():void
         {
-            var _local_1:Tab = this._navigator.tabs.ISelectorWindow();
-            var _local_2:ISelectableWindow = this._SafeStr_4238.selector.ISelectorWindow();
+            var _local_1:Tab = this._navigator.tabs.getSelected();
+            var _local_2:ISelectableWindow = this._SafeStr_4238.selector.getSelected();
             if (_local_1.button != _local_2){
                 this._SafeStr_4239 = true;
                 this._SafeStr_4238.selector.setSelected(_local_1.button);
@@ -247,8 +247,8 @@ package com.sulake.habbo.navigator.mainview
         }
         private function refreshCustomContent():void
         {
-            Util.InfostandWidget(this._SafeStr_4232);
-            var _local_1:Tab = this._navigator.tabs.ISelectorWindow();
+            Util.hideChildren(this._SafeStr_4232);
+            var _local_1:Tab = this._navigator.tabs.getSelected();
             _local_1.tabPageDecorator.refreshCustomContent(this._SafeStr_4232);
             if (Util.hasVisibleChildren(this._SafeStr_4232)){
                 this._SafeStr_4232.visible = true;
@@ -260,8 +260,8 @@ package com.sulake.habbo.navigator.mainview
         }
         private function refreshFooter():void
         {
-            Util.InfostandWidget(this._SafeStr_4233);
-            var _local_1:Tab = this._navigator.tabs.ISelectorWindow();
+            Util.hideChildren(this._SafeStr_4233);
+            var _local_1:Tab = this._navigator.tabs.getSelected();
             _local_1.tabPageDecorator.refreshFooter(this._SafeStr_4233);
             if (Util.hasVisibleChildren(this._SafeStr_4233)){
                 this._SafeStr_4233.visible = true;
@@ -272,7 +272,7 @@ package com.sulake.habbo.navigator.mainview
         }
         private function refreshListContent(_arg_1:Boolean):void
         {
-            Util.InfostandWidget(this._SafeStr_4234);
+            Util.hideChildren(this._SafeStr_4234);
             this.refreshGuestRooms(_arg_1, this._navigator.data.guestRoomSearchArrived);
             this.refreshPopularTags(_arg_1, this._navigator.data.popularTagsArrived);
             this.refreshOfficialRooms(_arg_1, this._navigator.data.officialRoomsArrived);
@@ -339,17 +339,17 @@ package com.sulake.habbo.navigator.mainview
         public function reloadRoomList(_arg_1:int):Boolean
         {
             ErrorReportStorage.addDebugData("MainViewCtrl", "Reloading RoomList");
-            if (((((this.IssueBrowser()) && (!((this._navigator.data.guestRoomSearchResults == null))))) && ((this._navigator.data.guestRoomSearchResults.searchType == _arg_1)))){
-                this.startSearch(this._navigator.tabs.ISelectorWindow().id, _arg_1, "");
+            if (((((this.isOpen()) && (!((this._navigator.data.guestRoomSearchResults == null))))) && ((this._navigator.data.guestRoomSearchResults.searchType == _arg_1)))){
+                this.startSearch(this._navigator.tabs.getSelected().id, _arg_1, "");
                 return (true);
             };
             return (false);
         }
         public function startSearch(_arg_1:int, _arg_2:int, _arg_3:String="-1", _arg_4:int=1):void
         {
-            var _local_5:Tab = this._navigator.tabs.ISelectorWindow();
+            var _local_5:Tab = this._navigator.tabs.getSelected();
             this._navigator.tabs.setSelectedTab(_arg_1);
-            var _local_6:Tab = this._navigator.tabs.ISelectorWindow();
+            var _local_6:Tab = this._navigator.tabs.getSelected();
             ErrorReportStorage.addDebugData("StartSearch", ((("Start search " + _local_5.id) + " => ") + _local_6.id));
             this._SafeStr_4241 = !((_local_5 == _local_6));
             if (_local_5 != _local_6){
@@ -367,7 +367,7 @@ package com.sulake.habbo.navigator.mainview
                     this._navigator.send(new GetOfficialRoomsMessageComposer(this._navigator.data.adIndex));
                 };
             };
-            if (!this.IssueBrowser()){
+            if (!this.isOpen()){
                 this.open();
                 this._SafeStr_4240 = _SafeStr_4228;
                 this._SafeStr_4234.blend = 0;
@@ -380,7 +380,7 @@ package com.sulake.habbo.navigator.mainview
                 this._SafeStr_4240 = _SafeStr_4227;
             };
             this._SafeStr_4242 = 0;
-            this._navigator.IContext(this, 2);
+            this._navigator.registerUpdateReceiver(this, 2);
             this.sendTrackingEvent(_arg_2);
         }
         private function sendTrackingEvent(_arg_1:int):void
@@ -503,7 +503,7 @@ package com.sulake.habbo.navigator.mainview
         private function onWindowResized(_arg_1:WindowEvent):void
         {
             var _local_2:IWindow = _arg_1.target;
-            if (_local_2 != this._InventoryMainView){
+            if (_local_2 != this._mainWindow){
                 return;
             };
             if (!this._SafeStr_4247.running){
@@ -599,11 +599,11 @@ package com.sulake.habbo.navigator.mainview
 // GetOfficialRoomsMessageComposer = "_-30z" (String#21537, DoABC#2)
 // MyRoomsSearchMessageComposer = "_-d3" (String#23759, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _InventoryMainView = "_-1P" (String#361, DoABC#2)
+// _mainWindow = "_-1P" (String#361, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // adIndex = "_-0RB" (String#15110, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // _SafeStr_4151 = "_-5z" (String#22464, DoABC#2)
 // _SafeStr_4152 = "_-2NE" (String#19932, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
@@ -637,14 +637,14 @@ package com.sulake.habbo.navigator.mainview
 // _SafeStr_4246 = "_-1Qm" (String#17542, DoABC#2)
 // _SafeStr_4247 = "_-0RI" (String#586, DoABC#2)
 // _SafeStr_4248 = "_-25w" (String#6159, DoABC#2)
-// MainViewCtrl = "_-2Ic" (String#19751, DoABC#2)
-// MainViewCtrl = "_-1nZ" (String#18443, DoABC#2)
+// onNavigatorToolBarIconClick = "_-2Ic" (String#19751, DoABC#2)
+// reloadData = "_-1nZ" (String#18443, DoABC#2)
 // toggle = "_-2MR" (String#19903, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
 // navigatorOpenedWhileInTab = "_-2IQ" (String#6410, DoABC#2)
 // tabPageDecorator = "_-09G" (String#14418, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
 // onHotelViewMouseOver = "_-2ck" (String#20554, DoABC#2)
 // onHotelViewMouseOut = "_-5g" (String#22448, DoABC#2)
@@ -652,13 +652,13 @@ package com.sulake.habbo.navigator.mainview
 // refreshToHotelViewButton = "_-1rd" (String#18614, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // onWindowResized = "_-0gF" (String#15684, DoABC#2)
-// TabContextController = "_-2aw" (String#6771, DoABC#2)
+// getTabItemByID = "_-2aw" (String#6771, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // onTabSelected = "_-2da" (String#6822, DoABC#2)
 // _SafeStr_4267 = "_-36k" (String#21755, DoABC#2)
 // _SafeStr_4268 = "_-325" (String#21584, DoABC#2)
 // createSearchInput = "_-0c4" (String#15516, DoABC#2)
-// RoomThumbnailCtrl = "_-26v" (String#6182, DoABC#2)
+// refreshTab = "_-26v" (String#6182, DoABC#2)
 // refreshCustomContent = "_-1cv" (String#1724, DoABC#2)
 // refreshListContent = "_-0Y9" (String#15364, DoABC#2)
 // refreshFooter = "_-1IP" (String#1655, DoABC#2)
@@ -683,7 +683,7 @@ package com.sulake.habbo.navigator.mainview
 // tabSelected = "_-2T" (String#6625, DoABC#2)
 // startLoading = "_-241" (String#19177, DoABC#2)
 // getSearchMsg = "_-uq" (String#24484, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // sendTrackingEvent = "_-1di" (String#18045, DoABC#2)
 // _SafeStr_4297 = "_-36W" (String#21748, DoABC#2)
 // _SafeStr_4298 = "_-0Jm" (String#14833, DoABC#2)

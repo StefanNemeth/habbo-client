@@ -47,13 +47,13 @@ package com.sulake.core.assets.loaders
                     return;
                 case IOErrorEvent.IO_ERROR:
                     this._errorCode = IO_ERROR;
-                    if (!this.LibraryLoader()){
+                    if (!this.retry()){
                         dispatchEvent(new AssetLoaderEvent(AssetLoaderEvent._SafeStr_4221, this._status));
                     };
                     return;
                 case SecurityErrorEvent.SECURITY_ERROR:
                     this._errorCode = SECURITY_ERROR;
-                    if (!this.LibraryLoader()){
+                    if (!this.retry()){
                         dispatchEvent(new AssetLoaderEvent(AssetLoaderEvent._SafeStr_4221, this._status));
                     };
                     return;
@@ -61,7 +61,7 @@ package com.sulake.core.assets.loaders
                     Logger.log((("Unknown asset loader event! AssetLoaderEventBroker::loadEventHandler(" + _arg_1) + ")"));
             };
         }
-        protected function LibraryLoader():Boolean
+        protected function retry():Boolean
         {
             return (false);
         }
@@ -80,6 +80,6 @@ package com.sulake.core.assets.loaders
 // _SafeStr_7407 = "_-2Dr" (String#19562, DoABC#2)
 // _SafeStr_7408 = "_-3F-" (String#22076, DoABC#2)
 // _SafeStr_7409 = "_-2JT" (String#19788, DoABC#2)
-// LibraryLoader = "_-0Ol" (String#816, DoABC#2)
+// retry = "_-0Ol" (String#816, DoABC#2)
 
 

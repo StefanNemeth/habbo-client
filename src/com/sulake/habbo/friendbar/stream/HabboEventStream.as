@@ -88,19 +88,19 @@ package com.sulake.habbo.friendbar.stream
             this._SafeStr_10956 = new Map();
             super(_arg_1, _arg_2, _arg_3);
             this._SafeStr_10944 = new Vector.<EventStreamEntity>();
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboEventStream);
-            queueInterface(new IIDHabboFriendBarView(), this.HabboEventStream);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationManagerAvailable);
+            queueInterface(new IIDHabboFriendBarView(), this.onFriendBarViewAvailable);
             this._SafeStr_10956.add("m", "his");
             this._SafeStr_10956.add("f", "her");
             if (!this._SafeStr_10946){
                 this._SafeStr_10946 = new Timer(_SafeStr_10943);
-                this._SafeStr_10946.addEventListener(TimerEvent.TIMER, this.HabboEventStream);
+                this._SafeStr_10946.addEventListener(TimerEvent.TIMER, this.onRefreshTimerEvent);
             };
         }
         public function set visible(_arg_1:Boolean):void
         {
             if (!this._window){
-                this.HabboEventStream();
+                this.setupUserInterface();
             };
             this._window.visible = _arg_1;
             if (_arg_1){
@@ -109,7 +109,7 @@ package com.sulake.habbo.friendbar.stream
                 this._window.height = (this._window.desktop.height - (_SafeStr_10939 + _SafeStr_10941));
                 this._window.activate();
                 if (this._SafeStr_10948){
-                    this.HabboEventStream(this._SafeStr_10953);
+                    this.requestEventStreamData(this._SafeStr_10953);
                 };
             };
         }
@@ -122,12 +122,12 @@ package com.sulake.habbo.friendbar.stream
             if (!disposed){
                 if (this._SafeStr_10945){
                     this._SafeStr_10945.stop();
-                    this._SafeStr_10945.removeEventListener(TimerEvent.TIMER, this.HabboEventStream);
+                    this._SafeStr_10945.removeEventListener(TimerEvent.TIMER, this.onMinuteTimerEvent);
                     this._SafeStr_10945 = null;
                 };
                 if (this._SafeStr_10946){
                     this._SafeStr_10946.stop();
-                    this._SafeStr_10946.removeEventListener(TimerEvent.TIMER, this.HabboEventStream);
+                    this._SafeStr_10946.removeEventListener(TimerEvent.TIMER, this.onRefreshTimerEvent);
                     this._SafeStr_10946 = null;
                 };
                 while (this._SafeStr_10944.length > 0) {
@@ -141,7 +141,7 @@ package com.sulake.habbo.friendbar.stream
                 EventStreamEntity.ASSETS = null;
                 EventStreamEntity._SafeStr_10964 = null;
                 if (this._window){
-                    this._window.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
+                    this._window.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
                     this._window.dispose();
                     this._window = null;
                 };
@@ -160,7 +160,7 @@ package com.sulake.habbo.friendbar.stream
                 super.dispose();
             };
         }
-        private function HabboEventStream():void
+        private function clearStreamList():void
         {
             while (this._SafeStr_10944.length > 0) {
                 this._SafeStr_10944.pop().recycle();
@@ -177,10 +177,10 @@ package com.sulake.habbo.friendbar.stream
             var _local_8:IWindow;
             var _local_9:EventStreamData;
             if (!this._window){
-                this.HabboEventStream();
+                this.setupUserInterface();
             };
             if (this.visible){
-                this.HabboEventStream();
+                this.clearStreamList();
                 _local_2 = ((this._SafeStr_10944.length % 2) == 0);
                 _local_4 = (this._window.findChildByName(_SafeStr_10932) as IItemListWindow);
                 _local_5 = 0;
@@ -188,14 +188,14 @@ package com.sulake.habbo.friendbar.stream
                     _local_3 = EventStreamEntity.allocate();
                     _local_3.id = _local_6.id;
                     _local_3.title = _local_6.accountName;
-                    _local_3.message = this.HabboEventStream(_local_6);
-                    _local_3.linkTarget = this.HabboEventStream(_local_6);
+                    _local_3.message = this.resolveMessageText(_local_6);
+                    _local_3.linkTarget = this.resolveLinkTarget(_local_6);
                     _local_3.numberOfLikes = _local_6.numberOfLikes;
                     _local_3.isLikingEnabled = this._SafeStr_10952;
                     _local_3.isLikable = ((_local_6.isLikable) && (this._SafeStr_10952));
                     _local_3.minutesElapsed = _local_6.minutesSinceEvent;
                     _local_3.even = _local_2;
-                    this.HabboEventStream(_local_3, _local_6);
+                    this.resolveImagePath(_local_3, _local_6);
                     this._SafeStr_10944.push(_local_3);
                     _local_4.addListItem(_local_3.window);
                     _local_2 = !(_local_2);
@@ -219,9 +219,9 @@ package com.sulake.habbo.friendbar.stream
                     };
                 };
             };
-            this.HabboEventStream();
+            this.selectCorrectView();
         }
-        private function HabboEventStream(_arg_1:EventStreamData):String
+        private function resolveMessageText(_arg_1:EventStreamData):String
         {
             var _local_6:ILocalization;
             var _local_2:int = _arg_1.actionId;
@@ -251,7 +251,7 @@ package com.sulake.habbo.friendbar.stream
             };
             return (_local_5);
         }
-        private function HabboEventStream(_arg_1:EventStreamData):LinkTarget
+        private function resolveLinkTarget(_arg_1:EventStreamData):LinkTarget
         {
             var _local_3:String;
             var _local_2:String = ("friendbar.stream.link." + this._SafeStr_10955[_arg_1.linkTargetType]);
@@ -290,7 +290,7 @@ package com.sulake.habbo.friendbar.stream
             };
             return (new LinkTarget(_local_3, _local_4, _local_5, _local_6));
         }
-        private function HabboEventStream(entity:EventStreamEntity, data:EventStreamData):void
+        private function resolveImagePath(entity:EventStreamEntity, data:EventStreamData):void
         {
             var image:BitmapData;
             var callback:Function;
@@ -317,7 +317,7 @@ package com.sulake.habbo.friendbar.stream
                     entity.imageFilePath = result;
             };
         }
-        private function HabboEventStream():void
+        private function setupUserInterface():void
         {
             var scroll:IScrollbarWindow;
             var page:IWindowContainer;
@@ -330,11 +330,11 @@ package com.sulake.habbo.friendbar.stream
                 this._window.height = (this._window.desktop.height - (_SafeStr_10939 + _SafeStr_10941));
                 this._window.setParamFlag(WindowParam._SafeStr_7449);
                 this._window.setParamFlag(WindowParam._SafeStr_7460);
-                this._window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
-                this._window.findChildByName(CLOSE).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
-                this._window.findChildByName(_SafeStr_10935).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
-                this._window.findChildByName(ACTIVATE).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
-                this._window.findChildByName(_SafeStr_10936).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
+                this._window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
+                this._window.findChildByName(CLOSE).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
+                this._window.findChildByName(_SafeStr_10935).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
+                this._window.findChildByName(ACTIVATE).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
+                this._window.findChildByName(_SafeStr_10936).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
                 this._window.visible = false;
                 scroll = (this._window.findChildByName(_SafeStr_10933) as IScrollbarWindow);
                 if (scroll){
@@ -360,9 +360,9 @@ package com.sulake.habbo.friendbar.stream
                 page = (this._window.findChildByName(_SafeStr_10931) as IWindowContainer);
                 image = (page.findChildByName(_SafeStr_10934) as IBitmapWrapperWindow);
                 image.bitmap = (assets.getAssetByName(image.bitmapAssetName).content as BitmapData);
-                this.HabboEventStream();
+                this.selectCorrectView();
                 list = (this._window.findChildByName(_SafeStr_10932) as IItemListWindow);
-                item = (list.IItemListWindow(0) as IWindowContainer);
+                item = (list.removeListItemAt(0) as IWindowContainer);
                 icon = (IWindowContainer(item.findChildByName("like")).findChildByName("icon") as IBitmapWrapperWindow);
                 icon.bitmap = (assets.getAssetByName("stream_thumb_png").content as BitmapData);
                 icon.disposesBitmap = false;
@@ -372,12 +372,12 @@ package com.sulake.habbo.friendbar.stream
                 EventStreamEntity.ASSETS = assets;
                 if (!this._SafeStr_10945){
                     this._SafeStr_10945 = new Timer(_SafeStr_10942);
-                    this._SafeStr_10945.addEventListener(TimerEvent.TIMER, this.HabboEventStream);
+                    this._SafeStr_10945.addEventListener(TimerEvent.TIMER, this.onMinuteTimerEvent);
                     this._SafeStr_10945.start();
                 };
             };
         }
-        private function HabboEventStream():void
+        private function selectCorrectView():void
         {
             var _local_1:IWindow = this._window.findChildByName(_SafeStr_10929);
             var _local_2:IWindow = this._window.findChildByName(_SafeStr_10930);
@@ -393,29 +393,29 @@ package com.sulake.habbo.friendbar.stream
                 _local_3.visible = false;
             };
         }
-        private function WelcomeScreenController(_arg_1:WindowMouseEvent):void
+        private function onMouseClick(_arg_1:WindowMouseEvent):void
         {
             switch (_arg_1.target.name){
                 case CLOSE:
                     this.visible = false;
                     return;
                 case _SafeStr_10935:
-                    this.HabboEventStream(false);
+                    this.changeStreamState(false);
                     return;
                 case ACTIVATE:
-                    this.HabboEventStream(true);
+                    this.changeStreamState(true);
                     return;
                 case _SafeStr_10936:
                     _windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, null);
-                    HabboWebTools.HTMLTextController(_SafeStr_10977.getKey("link.friendbar.stream.settings.see.more", ""));
+                    HabboWebTools.openWebPage(_SafeStr_10977.getKey("link.friendbar.stream.settings.see.more", ""));
                     return;
             };
         }
-        private function HabboEventStream(_arg_1:Boolean):void
+        private function changeStreamState(_arg_1:Boolean):void
         {
             this._SafeStr_10948 = _arg_1;
-            this.HabboEventStream(_arg_1);
-            this.HabboEventStream();
+            this.sendSetEventStreamingEnabled(_arg_1);
+            this.selectCorrectView();
             if (_arg_1){
                 this._SafeStr_10946.start();
                 this.refreshEventStream();
@@ -425,20 +425,20 @@ package com.sulake.habbo.friendbar.stream
             };
             Logger.log(("Streaming enabled: " + _arg_1));
         }
-        private function HabboEventStream(_arg_1:TimerEvent):void
+        private function onMinuteTimerEvent(_arg_1:TimerEvent):void
         {
             var _local_2:EventStreamEntity;
             for each (_local_2 in this._SafeStr_10944) {
                 _local_2.minutesElapsed = (_local_2.minutesElapsed + 1);
             };
         }
-        private function HabboEventStream(_arg_1:TimerEvent):void
+        private function onRefreshTimerEvent(_arg_1:TimerEvent):void
         {
             if (((this.visible) || (!(this._SafeStr_10950)))){
-                this.HabboEventStream(this._SafeStr_10953);
+                this.requestEventStreamData(this._SafeStr_10953);
             };
         }
-        private function HabboEventStream(_arg_1:uint):void
+        private function requestEventStreamData(_arg_1:uint):void
         {
             if (((((this._connection) && (this._connection.connected))) && (this._SafeStr_10951))){
                 this._connection.send(new GetEventStreamComposer((((_arg_1 == _SafeStr_10937)) ? GetEventStreamComposer._SafeStr_4509 : GetEventStreamComposer._SafeStr_4510)));
@@ -446,23 +446,23 @@ package com.sulake.habbo.friendbar.stream
                 Logger.log(("Requested stream events in mode " + _arg_1));
             };
         }
-        private function HabboEventStream(_arg_1:IID, _arg_2:IUnknown):void
+        private function onCommunicationManagerAvailable(_arg_1:IID, _arg_2:IUnknown):void
         {
             this._SafeStr_10883 = (_arg_2 as IHabboCommunicationManager);
-            this._SafeStr_10883.HabboCommunicationManager(new EventStreamEvent(this.HabboEventStream));
-            this._SafeStr_10883.HabboCommunicationManager(new UserObjectEvent(this.HabboEventStream));
-            this._connection = this._SafeStr_10883.HabboCommunicationManager(this.HabboEventStream);
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new EventStreamEvent(this.onEventStreamEvent));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new UserObjectEvent(this.onUserObjectEvent));
+            this._connection = this._SafeStr_10883.getHabboMainConnection(this.onConnectionInstanceAvailable);
         }
-        private function HabboEventStream(_arg_1:IConnection):void
+        private function onConnectionInstanceAvailable(_arg_1:IConnection):void
         {
             this._connection = _arg_1;
         }
-        private function HabboEventStream(_arg_1:EventStreamEvent):void
+        private function onEventStreamEvent(_arg_1:EventStreamEvent):void
         {
             this.populate(_arg_1.events);
             this._SafeStr_10947.setStreamIconNotify(((!(this.visible)) && (this._SafeStr_10950)));
         }
-        private function HabboEventStream(_arg_1:int=1):void
+        private function testEventStream(_arg_1:int=1):void
         {
             var _local_2:Vector.<EventStreamData> = new Vector.<EventStreamData>();
             var _local_3:int;
@@ -472,7 +472,7 @@ package com.sulake.habbo.friendbar.stream
             };
             this.populate(_local_2);
         }
-        private function HabboEventStream(_arg_1:IID, _arg_2:IUnknown):void
+        private function onFriendBarViewAvailable(_arg_1:IID, _arg_2:IUnknown):void
         {
             this._SafeStr_10947 = (_arg_2 as IHabboFriendBarView);
         }
@@ -482,13 +482,13 @@ package com.sulake.habbo.friendbar.stream
             this._SafeStr_10951 = _SafeStr_10977.getBoolean("friendbar.stream.enabled", false);
             this._SafeStr_10952 = _SafeStr_10977.getBoolean("friendbar.stream.liking.enabled", false);
         }
-        private function HabboEventStream(_arg_1:Boolean):void
+        private function sendSetEventStreamingEnabled(_arg_1:Boolean):void
         {
             if (((this._connection) && (this._connection.connected))){
                 this._connection.send(new SetEventStreamingAllowedComposer(_arg_1));
             };
         }
-        private function HabboEventStream(_arg_1:UserObjectEvent):void
+        private function onUserObjectEvent(_arg_1:UserObjectEvent):void
         {
             this._SafeStr_10948 = _arg_1.getParser().streamPublishingAllowed;
             if (this._SafeStr_10948){
@@ -499,10 +499,10 @@ package com.sulake.habbo.friendbar.stream
         public function refreshEventStream():void
         {
             if (this._SafeStr_10948){
-                this.HabboEventStream(this._SafeStr_10953);
+                this.requestEventStreamData(this._SafeStr_10953);
             };
         }
-        public function IHabboEventStream(_arg_1:EventStreamEntity):void
+        public function likeStreamEvent(_arg_1:EventStreamEntity):void
         {
             if (((((((this._connection) && (this._connection.connected))) && (this._SafeStr_10951))) && (this._SafeStr_10952))){
                 _arg_1.isLikable = false;
@@ -536,9 +536,9 @@ package com.sulake.habbo.friendbar.stream
 // accountGender = "_-0Dw" (String#14604, DoABC#2)
 // _SafeStr_10883 = "_-0Kv" (String#3975, DoABC#2)
 // onConfigurationAvailable = "_-pU" (String#2202, DoABC#2)
-// HabboEventStream = "_-1id" (String#5725, DoABC#2)
+// onCommunicationManagerAvailable = "_-1id" (String#5725, DoABC#2)
 // refreshEventStream = "_-1Zw" (String#1711, DoABC#2)
-// IHabboEventStream = "_-1tw" (String#5918, DoABC#2)
+// likeStreamEvent = "_-1tw" (String#5918, DoABC#2)
 // _SafeStr_10929 = "_-PX" (String#23227, DoABC#2)
 // _SafeStr_10930 = "_-3DN" (String#22011, DoABC#2)
 // _SafeStr_10931 = "_-2Wc" (String#20308, DoABC#2)
@@ -567,33 +567,33 @@ package com.sulake.habbo.friendbar.stream
 // _SafeStr_10954 = "_-0KT" (String#14858, DoABC#2)
 // _SafeStr_10955 = "_-2C8" (String#19488, DoABC#2)
 // _SafeStr_10956 = "_-2Zg" (String#20427, DoABC#2)
-// HabboEventStream = "_-20w" (String#19049, DoABC#2)
-// HabboEventStream = "_-29Q" (String#19380, DoABC#2)
-// HabboEventStream = "_-3CY" (String#21977, DoABC#2)
-// HabboEventStream = "_-xs" (String#24609, DoABC#2)
-// HabboEventStream = "_-1jp" (String#18277, DoABC#2)
+// onFriendBarViewAvailable = "_-20w" (String#19049, DoABC#2)
+// onRefreshTimerEvent = "_-29Q" (String#19380, DoABC#2)
+// setupUserInterface = "_-3CY" (String#21977, DoABC#2)
+// requestEventStreamData = "_-xs" (String#24609, DoABC#2)
+// onMinuteTimerEvent = "_-1jp" (String#18277, DoABC#2)
 // _SafeStr_10962 = "_-2hq" (String#20767, DoABC#2)
 // ASSETS = "_-391" (String#21846, DoABC#2)
 // _SafeStr_10964 = "_-0ri" (String#16110, DoABC#2)
-// HabboEventStream = "_-0xR" (String#16330, DoABC#2)
-// HabboEventStream = "_-Ki" (String#23033, DoABC#2)
-// HabboEventStream = "_-KH" (String#23016, DoABC#2)
+// clearStreamList = "_-0xR" (String#16330, DoABC#2)
+// resolveMessageText = "_-Ki" (String#23033, DoABC#2)
+// resolveLinkTarget = "_-KH" (String#23016, DoABC#2)
 // isLikingEnabled = "_-2HJ" (String#19696, DoABC#2)
 // minutesElapsed = "_-2S-" (String#20118, DoABC#2)
 // even = "_-1TK" (String#17638, DoABC#2)
-// HabboEventStream = "_-30a" (String#21525, DoABC#2)
-// HabboEventStream = "_-vZ" (String#24511, DoABC#2)
+// resolveImagePath = "_-30a" (String#21525, DoABC#2)
+// selectCorrectView = "_-vZ" (String#24511, DoABC#2)
 // _localization = "_-07" (String#3703, DoABC#2)
 // _SafeStr_10974 = "_-0Ib" (String#14784, DoABC#2)
 // _SafeStr_10975 = "_-2Dk" (String#19556, DoABC#2)
-// HabboEventStream = "_-1wI" (String#18811, DoABC#2)
+// changeStreamState = "_-1wI" (String#18811, DoABC#2)
 // _SafeStr_10977 = "_-01o" (String#3598, DoABC#2)
-// HabboEventStream = "_-0hL" (String#15722, DoABC#2)
-// HabboEventStream = "_-pc" (String#24258, DoABC#2)
-// HabboEventStream = "_-26" (String#19258, DoABC#2)
-// HabboEventStream = "_-0Sd" (String#15157, DoABC#2)
+// sendSetEventStreamingEnabled = "_-0hL" (String#15722, DoABC#2)
+// onEventStreamEvent = "_-pc" (String#24258, DoABC#2)
+// onUserObjectEvent = "_-26" (String#19258, DoABC#2)
+// onConnectionInstanceAvailable = "_-0Sd" (String#15157, DoABC#2)
 // setStreamIconNotify = "_-0YR" (String#4272, DoABC#2)
-// HabboEventStream = "_-36E" (String#21739, DoABC#2)
+// testEventStream = "_-36E" (String#21739, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ILocalization = "_-2EY" (String#1839, DoABC#2)
 // BadgeImageReadyEvent = "_-03M" (String#14177, DoABC#2)
@@ -614,18 +614,18 @@ package com.sulake.habbo.friendbar.stream
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // streamPublishingAllowed = "_-3d" (String#22359, DoABC#2)
 // RSFRE_FRIEND_REQUEST = "_-2Wu" (String#20318, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 // _SafeStr_4509 = "_-2aC" (String#20450, DoABC#2)
 // _SafeStr_4510 = "_-2n7" (String#20967, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
 // badgeImage = "_-250" (String#19222, DoABC#2)
 // _initialized = "_-0EY" (String#214, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
 // _SafeStr_6770 = "_-39Q" (String#7500, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // _SafeStr_7449 = "_-01-" (String#14095, DoABC#2)
 // _SafeStr_7460 = "_-ZZ" (String#23619, DoABC#2)
 // _SafeStr_7540 = "_-1l4" (String#444, DoABC#2)

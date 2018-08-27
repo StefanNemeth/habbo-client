@@ -75,22 +75,22 @@ package com.sulake.habbo.toolbar
             this._window.position = _SafeStr_10176;
             this._window.addEventListener(WindowEvent.WE_PARENT_RESIZED, this.onParentResized);
             var _local_9:Array = new Array();
-            this._window.WindowController("ICON_REG", _local_9, true);
+            this._window.groupChildrenWithTag("ICON_REG", _local_9, true);
             for each (_local_10 in _local_9) {
                 if (_local_10){
-                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ToolbarView);
-                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ToolbarView);
-                    _local_10.addEventListener(WindowMouseEvent.WME_OUT, this.ToolbarView);
+                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onIconMouseEvent);
+                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onIconHoverMouseEvent);
+                    _local_10.addEventListener(WindowMouseEvent.WME_OUT, this.onIconHoverMouseEvent);
                 };
             };
             _local_9 = new Array();
-            this._window.WindowController("ICON_BMP", _local_9, true);
+            this._window.groupChildrenWithTag("ICON_BMP", _local_9, true);
             for each (_local_11 in _local_9) {
-                this.ToolbarView(_local_11, _SafeStr_13748);
+                this.setIconHoverState(_local_11, _SafeStr_13748);
             };
-            this.ToolbarView("QUESTS", false);
-            this.ToolbarView("MEMENU", false);
-            this.ToolbarView("INVENTORY", false);
+            this.iconVisibility("QUESTS", false);
+            this.iconVisibility("MEMENU", false);
+            this.iconVisibility("INVENTORY", false);
             _local_12 = (_arg_3.getAssetByName("new_items_label_xml") as XmlAsset);
             this._SafeStr_13756 = (_arg_2.buildFromXML((_local_12.content as XML), 2) as IWindowContainer);
             if (this._SafeStr_13756 == null){
@@ -109,11 +109,11 @@ package com.sulake.habbo.toolbar
             this._SafeStr_13757 = this.isNewItemsNotificationEnabled();
             this._catalog = _arg_5;
             if (this._catalog != null){
-                this.ToolbarView();
-                this._catalog.events.addEventListener(CatalogEvent.CATALOG_INITIALIZED, this.ToolbarView);
-                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NOT_READY, this.ToolbarView);
-                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NEW_ITEMS_SHOW, this.ToolbarView);
-                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NEW_ITEMS_HIDE, this.ToolbarView);
+                this.disableCatalogIcon();
+                this._catalog.events.addEventListener(CatalogEvent.CATALOG_INITIALIZED, this.onCatalogEvent);
+                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NOT_READY, this.onCatalogEvent);
+                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NEW_ITEMS_SHOW, this.onCatalogEvent);
+                this._catalog.events.addEventListener(CatalogEvent.CATALOG_NEW_ITEMS_HIDE, this.onCatalogEvent);
             };
             this.checkSize(true);
         }
@@ -135,7 +135,7 @@ package com.sulake.habbo.toolbar
             var _local_3:int = ((_local_2) ? _SafeStr_13751 : _SafeStr_13750);
             var _local_4:int = ((_local_2) ? _SafeStr_13752 : ICON_SPACING_NORMAL);
             var _local_5:Array = new Array();
-            this._window.WindowController("ICON_REG", _local_5);
+            this._window.groupChildrenWithTag("ICON_REG", _local_5);
             var _local_7:int;
             while (_local_7 < _local_5.length) {
                 _local_6 = _local_5[_local_7];
@@ -168,10 +168,10 @@ package com.sulake.habbo.toolbar
                 this._events = null;
             };
             if (this._catalog != null){
-                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_INITIALIZED, this.ToolbarView);
-                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NOT_READY, this.ToolbarView);
-                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NEW_ITEMS_SHOW, this.ToolbarView);
-                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NEW_ITEMS_HIDE, this.ToolbarView);
+                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_INITIALIZED, this.onCatalogEvent);
+                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NOT_READY, this.onCatalogEvent);
+                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NEW_ITEMS_SHOW, this.onCatalogEvent);
+                this._catalog.events.removeEventListener(CatalogEvent.CATALOG_NEW_ITEMS_HIDE, this.onCatalogEvent);
                 this._catalog = null;
             };
         }
@@ -183,13 +183,13 @@ package com.sulake.habbo.toolbar
         {
             return (this._window);
         }
-        private function ToolbarView():void
+        private function disableCatalogIcon():void
         {
             var _local_1:IWindowContainer = (this._window.findChildByName("CATALOGUE") as IWindowContainer);
             _local_1.blend = 0.5;
             _local_1.disable();
         }
-        private function ToolbarView(_arg_1:CatalogEvent):void
+        private function onCatalogEvent(_arg_1:CatalogEvent):void
         {
             var _local_2:IWindowContainer;
             switch (_arg_1.type){
@@ -199,7 +199,7 @@ package com.sulake.habbo.toolbar
                     _local_2.enable();
                     return;
                 case CatalogEvent.CATALOG_NOT_READY:
-                    this.ToolbarView();
+                    this.disableCatalogIcon();
                     return;
                 case CatalogEvent.CATALOG_NEW_ITEMS_SHOW:
                     if (((!((this._SafeStr_13756 == null))) && (this._SafeStr_13757))){
@@ -218,7 +218,7 @@ package com.sulake.habbo.toolbar
             var _local_3:Boolean;
             var _local_4:IWindowContainer;
             var _local_2:Array = new Array();
-            this._window.WindowController("VIEW_STATE_TOGGLE", _local_2, true);
+            this._window.groupChildrenWithTag("VIEW_STATE_TOGGLE", _local_2, true);
             switch (_arg_1){
                 case HabboToolbarEnum.HTE_STATE_HOTEL_VIEW:
                     _local_3 = false;
@@ -233,14 +233,14 @@ package com.sulake.habbo.toolbar
                 };
             };
         }
-        private function ToolbarView(_arg_1:String, _arg_2:Boolean):void
+        private function iconVisibility(_arg_1:String, _arg_2:Boolean):void
         {
             var _local_3:IWindowContainer = (this._window.findChildByName(_arg_1) as IWindowContainer);
             if (_local_3){
                 _local_3.visible = _arg_2;
             };
         }
-        private function ToolbarView(_arg_1:WindowMouseEvent):void
+        private function onIconHoverMouseEvent(_arg_1:WindowMouseEvent):void
         {
             var _local_2:IWindowContainer = (_arg_1.target as IWindowContainer);
             if (!_local_2){
@@ -250,16 +250,16 @@ package com.sulake.habbo.toolbar
             var _local_4:IBitmapWrapperWindow = (_local_2.findChildByTag("ICON_BMP") as IBitmapWrapperWindow);
             switch (_arg_1.type){
                 case WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER:
-                    this.ToolbarView(_local_4, _SafeStr_13747);
-                    this.ToolbarView(_local_3, _SafeStr_13747);
+                    this.setIconHoverState(_local_4, _SafeStr_13747);
+                    this.setIconBgHoverState(_local_3, _SafeStr_13747);
                     return;
                 case WindowMouseEvent.WME_OUT:
-                    this.ToolbarView(_local_4, _SafeStr_13748);
-                    this.ToolbarView(_local_3, _SafeStr_13748);
+                    this.setIconHoverState(_local_4, _SafeStr_13748);
+                    this.setIconBgHoverState(_local_3, _SafeStr_13748);
                     return;
             };
         }
-        private function ToolbarView(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
+        private function setIconHoverState(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
         {
             var _local_4:BitmapData;
             var _local_5:String;
@@ -282,10 +282,10 @@ package com.sulake.habbo.toolbar
                 };
             };
             if (_local_4){
-                this.ToolbarView(_arg_1, _local_4);
+                this.drawIconBitmap(_arg_1, _local_4);
             };
         }
-        private function ToolbarView(_arg_1:IWindowContainer, _arg_2:String):void
+        private function setIconBgHoverState(_arg_1:IWindowContainer, _arg_2:String):void
         {
             if (!_arg_1){
                 return;
@@ -297,7 +297,7 @@ package com.sulake.habbo.toolbar
                 _arg_1.color = _SafeStr_13746;
             };
         }
-        private function ToolbarView(_arg_1:WindowMouseEvent):void
+        private function onIconMouseEvent(_arg_1:WindowMouseEvent):void
         {
             var _local_2:String = IWindow(_arg_1.target).name;
             this._toolbar.toggleWindowVisibility(_local_2);
@@ -311,12 +311,12 @@ package com.sulake.habbo.toolbar
             switch (_arg_1){
                 case HabboToolbarIconEnum.MEMENU:
                     _local_3 = "icon_me_menu";
-                    this.ToolbarView(_arg_2);
+                    this.setMeMenuIconBitmaps(_arg_2);
                     break;
             };
             var _local_4:IBitmapWrapperWindow = (this._window.findChildByName(_local_3) as IBitmapWrapperWindow);
             if (_local_4){
-                this.ToolbarView(_local_4, _SafeStr_13748);
+                this.setIconHoverState(_local_4, _SafeStr_13748);
             };
         }
         public function getIconVerticalLocation(_arg_1:String):int
@@ -329,19 +329,19 @@ package com.sulake.habbo.toolbar
             };
             return (0);
         }
-        private function ToolbarView(_arg_1:BitmapData):void
+        private function setMeMenuIconBitmaps(_arg_1:BitmapData):void
         {
             if (this._SafeStr_13759){
                 this._SafeStr_13759.dispose();
             };
-            this._SafeStr_13759 = this.ToolbarView(_arg_1, new Point(2, 3), 4280426782);
+            this._SafeStr_13759 = this.addShadow(_arg_1, new Point(2, 3), 4280426782);
             if (this._SafeStr_13760){
                 this._SafeStr_13760.dispose();
             };
-            this._SafeStr_13760 = this.ToolbarView(_arg_1, new Point(4, 5), 4281150249);
+            this._SafeStr_13760 = this.addShadow(_arg_1, new Point(4, 5), 4281150249);
             _arg_1.dispose();
         }
-        private function ToolbarView(_arg_1:BitmapData, _arg_2:Point, _arg_3:uint):BitmapData
+        private function addShadow(_arg_1:BitmapData, _arg_2:Point, _arg_3:uint):BitmapData
         {
             var _local_4:BitmapData = new BitmapData(_arg_1.width, _arg_1.height, true, 0);
             _local_4.fillRect(_local_4.rect, _arg_3);
@@ -352,7 +352,7 @@ package com.sulake.habbo.toolbar
             _local_4.dispose();
             return (_local_5);
         }
-        private function ToolbarView(_arg_1:IBitmapWrapperWindow, _arg_2:BitmapData):void
+        private function drawIconBitmap(_arg_1:IBitmapWrapperWindow, _arg_2:BitmapData):void
         {
             if (!_arg_1.bitmap){
                 _arg_1.bitmap = new BitmapData(_arg_1.width, _arg_1.height, true, 0);
@@ -366,7 +366,7 @@ package com.sulake.habbo.toolbar
         }
         public function setUnseenItemCount(_arg_1:String, _arg_2:int):void
         {
-            var _local_3:IWindowContainer = this.ToolbarView(_arg_1);
+            var _local_3:IWindowContainer = this.getUnseenItemCounter(_arg_1);
             if (!_local_3){
                 return;
             };
@@ -378,7 +378,7 @@ package com.sulake.habbo.toolbar
                 _local_3.visible = false;
             };
         }
-        public function ToolbarView(_arg_1:String):IWindowContainer
+        public function getUnseenItemCounter(_arg_1:String):IWindowContainer
         {
             var _local_3:XmlAsset;
             var _local_4:IWindowContainer;
@@ -406,7 +406,7 @@ package com.sulake.habbo.toolbar
 }//package com.sulake.habbo.toolbar
 
 // _SafeStr_10176 = "_-25d" (String#875, DoABC#2)
-// ToolbarView = "_-1ZI" (String#5547, DoABC#2)
+// onIconMouseEvent = "_-1ZI" (String#5547, DoABC#2)
 // getIconVerticalLocation = "_-1P2" (String#5334, DoABC#2)
 // _SafeStr_11641 = "_-1xb" (String#5983, DoABC#2)
 // setUnseenItemCount = "_-1B5" (String#5095, DoABC#2)
@@ -432,18 +432,18 @@ package com.sulake.habbo.toolbar
 // _SafeStr_13759 = "_-0S5" (String#15140, DoABC#2)
 // _SafeStr_13760 = "_-1Mt" (String#17395, DoABC#2)
 // onParentResized = "_-3I6" (String#22206, DoABC#2)
-// ToolbarView = "_-1J8" (String#17242, DoABC#2)
-// ToolbarView = "_-1wB" (String#18805, DoABC#2)
-// ToolbarView = "_-3-Y" (String#21484, DoABC#2)
-// ToolbarView = "_-2Um" (String#20228, DoABC#2)
-// ToolbarView = "_-1TC" (String#17632, DoABC#2)
+// onIconHoverMouseEvent = "_-1J8" (String#17242, DoABC#2)
+// setIconHoverState = "_-1wB" (String#18805, DoABC#2)
+// iconVisibility = "_-3-Y" (String#21484, DoABC#2)
+// disableCatalogIcon = "_-2Um" (String#20228, DoABC#2)
+// onCatalogEvent = "_-1TC" (String#17632, DoABC#2)
 // checkSize = "_-g" (String#23890, DoABC#2)
 // setToolbarState = "_-2Gw" (String#6384, DoABC#2)
-// ToolbarView = "_-2iQ" (String#20785, DoABC#2)
-// ToolbarView = "_-0Eu" (String#14640, DoABC#2)
-// ToolbarView = "_-2Ei" (String#19593, DoABC#2)
-// ToolbarView = "_-2ES" (String#19584, DoABC#2)
-// ToolbarView = "_-d2" (String#23758, DoABC#2)
+// setIconBgHoverState = "_-2iQ" (String#20785, DoABC#2)
+// drawIconBitmap = "_-0Eu" (String#14640, DoABC#2)
+// setMeMenuIconBitmaps = "_-2Ei" (String#19593, DoABC#2)
+// addShadow = "_-2ES" (String#19584, DoABC#2)
+// getUnseenItemCounter = "_-d2" (String#23758, DoABC#2)
 // IBorderWindow = "_-0Br" (String#1422, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // HabboToolbarEnum = "_-1RO" (String#17561, DoABC#2)
@@ -453,6 +453,6 @@ package com.sulake.habbo.toolbar
 // _toolbar = "_-1LG" (String#93, DoABC#2)
 // toggleWindowVisibility = "_-0g0" (String#15672, DoABC#2)
 // setIconBitmap = "_-27Q" (String#1818, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 
 

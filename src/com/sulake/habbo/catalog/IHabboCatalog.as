@@ -35,8 +35,8 @@ package com.sulake.habbo.catalog
         function openInventoryCategory(_arg_1:String):void;
         function openCreditsHabblet():void;
         function setupInventoryForRecycler(_arg_1:Boolean):void;
-        function HabboCatalog():int;
-        function HabboInventory(_arg_1:int):Boolean;
+        function requestInventoryFurniToRecycler():int;
+        function returnInventoryFurniFromRecycler(_arg_1:int):Boolean;
         function get privateRoomSessionActive():Boolean;
         function get tradingActive():Boolean;
         function getProductData(_arg_1:String):IProductData;
@@ -68,8 +68,8 @@ package com.sulake.habbo.catalog
 // loadCatalogPage = "_-2Go" (String#6383, DoABC#2)
 // getRecyclerStatus = "_-2YN" (String#6734, DoABC#2)
 // setupInventoryForRecycler = "_-0uu" (String#4742, DoABC#2)
-// HabboCatalog = "_-0Vk" (String#4222, DoABC#2)
-// HabboInventory = "_-81" (String#2057, DoABC#2)
+// requestInventoryFurniToRecycler = "_-0Vk" (String#4222, DoABC#2)
+// returnInventoryFurniFromRecycler = "_-81" (String#2057, DoABC#2)
 // sendRecycleItems = "_-3GL" (String#7633, DoABC#2)
 // privateRoomSessionActive = "_-2CC" (String#6289, DoABC#2)
 // tradingActive = "_-1-4" (String#1595, DoABC#2)

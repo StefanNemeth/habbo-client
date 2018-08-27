@@ -24,7 +24,7 @@ package com.sulake.room.renderer.utils
         {
             return (this._disposed);
         }
-        public function ExtendedBitmapData():void
+        public function addReference():void
         {
             this._referenceCount++;
         }
@@ -58,6 +58,6 @@ package com.sulake.room.renderer.utils
 // _referenceCount = "_-195" (String#5057, DoABC#2)
 // referenceCount = "_-0qp" (String#16079, DoABC#2)
 // ExtendedBitmapData = "_-11w" (String#4915, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 
 

@@ -211,7 +211,7 @@ package com.sulake.habbo.friendlist.domain
             var _local_2:Friend = this.findFriend(_arg_1);
             return ((((_local_2 == null)) ? false : _local_2.online));
         }
-        public function HabboFriendList():Array
+        public function getFriendNames():Array
         {
             var _local_2:Friend;
             if (this._friendsById == null){
@@ -265,7 +265,7 @@ package com.sulake.habbo.friendlist.domain
 // setNewMessageArrived = "_-0rH" (String#4668, DoABC#2)
 // followingAllowed = "_-1-Z" (String#1598, DoABC#2)
 // getCategories = "_-3E" (String#22033, DoABC#2)
-// HabboFriendList = "_-3BP" (String#7538, DoABC#2)
+// getFriendNames = "_-3BP" (String#7538, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 
 

@@ -109,9 +109,9 @@ package com.sulake.habbo.catalog.viewer.widgets
             else {
                 this._SafeStr_10453 = -1;
             };
-            this.ProgressBar();
+            this.updateView();
         }
-        private function ProgressBar():void
+        private function updateView():void
         {
             var _local_3:int;
             var _local_4:int;
@@ -166,7 +166,7 @@ package com.sulake.habbo.catalog.viewer.widgets
         private function onSongInfoReceivedEvent(_arg_1:SongInfoReceivedEvent):void
         {
             if (_arg_1.id == this._SafeStr_10453){
-                this.ProgressBar();
+                this.updateView();
             };
         }
 
@@ -199,7 +199,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // playSong = "_-0VK" (String#4210, DoABC#2)
 // SIR_TRAX_SONG_INFO_RECEIVED = "_-02" (String#14127, DoABC#2)
 // onSongInfoReceivedEvent = "_-1Di" (String#360, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // requestSongInfoWithoutSamples = "_-3CP" (String#7560, DoABC#2)
 
 

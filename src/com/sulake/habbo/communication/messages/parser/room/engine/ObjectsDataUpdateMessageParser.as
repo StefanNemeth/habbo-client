@@ -29,7 +29,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
         {
             return (this._objects.length);
         }
-        public function ObjectsDataUpdateMessageParser(_arg_1:int):ObjectData
+        public function getObjectData(_arg_1:int):ObjectData
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.objectCount)))){
                 return (null);
@@ -76,7 +76,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // ObjectData = "_-D" (String#7932, DoABC#2)
 // readString = "_-2y7" (String#1973, DoABC#2)
 // objectCount = "_-2Yw" (String#20393, DoABC#2)
-// ObjectsDataUpdateMessageParser = "_-1Bi" (String#16930, DoABC#2)
+// getObjectData = "_-1Bi" (String#16930, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

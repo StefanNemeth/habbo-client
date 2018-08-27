@@ -53,7 +53,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             reset();
             return (true);
         }
-        protected function RoomVisualization():void
+        protected function defineSprites():void
         {
             var _local_1:int = 1;
             createSprites(_local_1);
@@ -89,7 +89,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 return;
             };
             this._planesInitialized = true;
-            this.RoomVisualization();
+            this.defineSprites();
         }
         override public function update(_arg_1:IRoomGeometry, _arg_2:int, _arg_3:Boolean, _arg_4:Boolean):void
         {
@@ -104,9 +104,9 @@ package com.sulake.habbo.room.object.visualization.furniture
                 return;
             };
             this.initializePlanes();
-            this.RoomVisualization(_arg_1, _arg_2);
+            this.updatePlanes(_arg_1, _arg_2);
         }
-        protected function RoomVisualization(_arg_1:IRoomGeometry, _arg_2:int):void
+        protected function updatePlanes(_arg_1:IRoomGeometry, _arg_2:int):void
         {
             var _local_6:Boolean;
             var _local_7:String;
@@ -132,17 +132,17 @@ package com.sulake.habbo.room.object.visualization.furniture
                 _local_7 = ((("plane " + _local_5) + " ") + _arg_1.scale);
                 _local_8 = (this._assetLibrary.getAssetByName(_local_7) as BitmapDataAsset);
                 if (_local_8 == null){
-                    _local_8 = new BitmapDataAsset(this._assetLibrary.IAssetLibrary(BitmapDataAsset));
-                    this._assetLibrary.IAssetLibrary(_local_7, _local_8);
+                    _local_8 = new BitmapDataAsset(this._assetLibrary.getAssetTypeDeclarationByClass(BitmapDataAsset));
+                    this._assetLibrary.setAsset(_local_7, _local_8);
                 };
                 _local_9 = (this._SafeStr_12729[_local_5] as FurniturePlane);
                 if (_local_9 != null){
                     _local_11 = _local_3.getDirection().x;
                     if (((((_local_11 / 45) == 2)) || (((_local_11 / 45) == 6)))){
-                        _local_9.FurniturePlane(true);
+                        _local_9.setRotation(true);
                     }
                     else {
-                        _local_9.FurniturePlane(false);
+                        _local_9.setRotation(false);
                     };
                     if (_local_9.update(_arg_1, _local_4)){
                         _local_12 = _local_9.bitmapData;
@@ -198,10 +198,10 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_12443 = "_-7h" (String#22530, DoABC#2)
 // _SafeStr_12729 = "_-29o" (String#879, DoABC#2)
 // _SafeStr_12730 = "_-2md" (String#7014, DoABC#2)
-// RoomVisualization = "_-10j" (String#4890, DoABC#2)
+// defineSprites = "_-10j" (String#4890, DoABC#2)
 // crossProduct = "_-0hD" (String#15719, DoABC#2)
-// RoomVisualization = "_-22x" (String#6103, DoABC#2)
-// FurniturePlane = "_-0yz" (String#16391, DoABC#2)
+// updatePlanes = "_-22x" (String#6103, DoABC#2)
+// setRotation = "_-0yz" (String#16391, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
@@ -216,7 +216,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // initializePlanes = "_-CW" (String#459, DoABC#2)
 // _SafeStr_4992 = "_-0BD" (String#14494, DoABC#2)
 // setUnknownContent = "_-2zE" (String#7271, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
-// IAssetLibrary = "_-5x" (String#7779, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
+// getAssetTypeDeclarationByClass = "_-5x" (String#7779, DoABC#2)
 
 

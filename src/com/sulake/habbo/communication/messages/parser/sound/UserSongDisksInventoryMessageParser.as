@@ -18,14 +18,14 @@ package com.sulake.habbo.communication.messages.parser.sound
         {
             return (this._SafeStr_5522.length);
         }
-        public function UserSongDisksInventoryMessageParser(_arg_1:int):int
+        public function getDiskId(_arg_1:int):int
         {
             if ((((_arg_1 >= 0)) && ((_arg_1 < this._SafeStr_5522.length)))){
                 return (this._SafeStr_5522.getKey(_arg_1));
             };
             return (-1);
         }
-        public function UserSongDisksInventoryMessageParser(_arg_1:int):int
+        public function getSongId(_arg_1:int):int
         {
             if ((((_arg_1 >= 0)) && ((_arg_1 < this._SafeStr_5522.length)))){
                 return (this._SafeStr_5522.getWithIndex(_arg_1));
@@ -59,8 +59,8 @@ package com.sulake.habbo.communication.messages.parser.sound
 // UserSongDisksInventoryMessageParser = "_-BX" (String#7901, DoABC#2)
 // _SafeStr_5522 = "_-2Yj" (String#6740, DoABC#2)
 // songDiskCount = "_-HP" (String#22909, DoABC#2)
-// UserSongDisksInventoryMessageParser = "_-0O4" (String#14991, DoABC#2)
-// UserSongDisksInventoryMessageParser = "_-3Ax" (String#21917, DoABC#2)
+// getDiskId = "_-0O4" (String#14991, DoABC#2)
+// getSongId = "_-3Ax" (String#21917, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

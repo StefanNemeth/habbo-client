@@ -22,7 +22,7 @@ package com.sulake.habbo.messenger
         private var _messenger:HabboMessenger;
         private var _SafeStr_11707:ConversationsTabView;
         private var _SafeStr_11284:ITextFieldWindow;
-        private var _InventoryMainView:IFrameWindow;
+        private var _mainWindow:IFrameWindow;
         private var _SafeStr_11708:ConversationView;
         private var _SafeStr_4247:Timer;
         private var _disposed:Boolean = false;
@@ -49,47 +49,47 @@ package com.sulake.habbo.messenger
         {
             return (this._disposed);
         }
-        public function MessengerView():Boolean
+        public function isMessengerOpen():Boolean
         {
-            return (((!((this._InventoryMainView == null))) && (this._InventoryMainView.visible)));
+            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
         }
         public function close():void
         {
-            if (this._InventoryMainView != null){
-                this._InventoryMainView.visible = false;
+            if (this._mainWindow != null){
+                this._mainWindow.visible = false;
             };
         }
-        public function MessengerView():void
+        public function openMessenger():void
         {
             if (this._messenger.conversations.openConversations.length < 1){
                 return;
             };
-            if (this._InventoryMainView == null){
-                this.MessengerView();
+            if (this._mainWindow == null){
+                this.prepareContent();
                 this.refresh();
             }
             else {
                 this.refresh();
-                this._InventoryMainView.visible = true;
-                this._InventoryMainView.activate();
+                this._mainWindow.visible = true;
+                this._mainWindow.activate();
             };
         }
         public function refresh():void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 return;
             };
             var _local_1:Conversation = this._messenger.conversations.findSelectedConversation();
-            this._InventoryMainView.caption = (((_local_1 == null)) ? "" : _local_1.name);
+            this._mainWindow.caption = (((_local_1 == null)) ? "" : _local_1.name);
             this._SafeStr_11707.refresh();
             this._SafeStr_11708.refresh();
             if (this._messenger.conversations.openConversations.length < 1){
-                this._InventoryMainView.visible = false;
+                this._mainWindow.visible = false;
             };
         }
-        public function MessengerView(_arg_1:Conversation, _arg_2:Message):void
+        public function addMsgToView(_arg_1:Conversation, _arg_2:Message):void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 return;
             };
             if (!_arg_1.selected){
@@ -97,29 +97,29 @@ package com.sulake.habbo.messenger
             };
             this._SafeStr_11708.addMessage(_arg_2);
         }
-        private function MessengerView():void
+        private function prepareContent():void
         {
-            this._InventoryMainView = IFrameWindow(this._messenger.getXmlWindow("main_window"));
-            var _local_1:IWindow = this._InventoryMainView.findChildByTag("close");
+            this._mainWindow = IFrameWindow(this._messenger.getXmlWindow("main_window"));
+            var _local_1:IWindow = this._mainWindow.findChildByTag("close");
             _local_1.procedure = this.onWindowClose;
-            this._InventoryMainView.procedure = this.RoomVisitsCtrl;
-            this._InventoryMainView.title.color = 0xFFFAC200;
-            this._InventoryMainView.title.textColor = 4287851525;
-            this._SafeStr_11707 = new ConversationsTabView(this._messenger, this._InventoryMainView);
+            this._mainWindow.procedure = this.onWindow;
+            this._mainWindow.title.color = 0xFFFAC200;
+            this._mainWindow.title.textColor = 4287851525;
+            this._SafeStr_11707 = new ConversationsTabView(this._messenger, this._mainWindow);
             this._SafeStr_11707.refresh();
-            this._SafeStr_11284 = ITextFieldWindow(this._InventoryMainView.findChildByName("message_input"));
-            this._SafeStr_11284.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.MessengerView);
-            this._SafeStr_11708 = new ConversationView(this._messenger, this._InventoryMainView);
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, true);
-            this._InventoryMainView.center();
+            this._SafeStr_11284 = ITextFieldWindow(this._mainWindow.findChildByName("message_input"));
+            this._SafeStr_11284.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.onMessageInput);
+            this._SafeStr_11708 = new ConversationView(this._messenger, this._mainWindow);
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, true);
+            this._mainWindow.center();
         }
-        private function MessengerView(_arg_1:WindowKeyboardEvent):void
+        private function onMessageInput(_arg_1:WindowKeyboardEvent):void
         {
             var _local_2:int;
             var _local_3:String;
             if (_arg_1.charCode == Keyboard.ENTER){
-                this.MessengerView();
+                this.sendMsg();
             }
             else {
                 _local_2 = 120;
@@ -129,9 +129,9 @@ package com.sulake.habbo.messenger
                 };
             };
         }
-        private function RoomVisitsCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
-            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._InventoryMainView))))){
+            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._mainWindow))))){
                 return;
             };
             if (!this._SafeStr_4247.running){
@@ -151,9 +151,9 @@ package com.sulake.habbo.messenger
                 return;
             };
             Logger.log("Close window");
-            this._InventoryMainView.visible = false;
+            this._mainWindow.visible = false;
         }
-        private function MessengerView():void
+        private function sendMsg():void
         {
             var _local_1:String = this._SafeStr_11284.text;
             Logger.log(("Send msg: " + _local_1));
@@ -173,24 +173,24 @@ package com.sulake.habbo.messenger
             this._SafeStr_11284.text = "";
             this._messenger.conversations.addMessageAndUpdateView(new Message(Message._SafeStr_4666, _local_2.id, _local_1, Util.getFormattedNow()));
         }
-        public function MessengerView():int
+        public function getTabCount():int
         {
-            return ((((this._SafeStr_11707 == null)) ? 7 : this._SafeStr_11707.MessengerView()));
+            return ((((this._SafeStr_11707 == null)) ? 7 : this._SafeStr_11707.getTabCount()));
         }
 
     }
 }//package com.sulake.habbo.messenger
 
-// RoomVisitsCtrl = "_-1zg" (String#873, DoABC#2)
+// onWindow = "_-1zg" (String#873, DoABC#2)
 // _SafeStr_11284 = "_-1X1" (String#5497, DoABC#2)
-// MessengerView = "_-37F" (String#7451, DoABC#2)
-// MessengerView = "_-38W" (String#7482, DoABC#2)
+// onMessageInput = "_-37F" (String#7451, DoABC#2)
+// sendMsg = "_-38W" (String#7482, DoABC#2)
 // _SafeStr_11707 = "_-1YU" (String#17831, DoABC#2)
 // _SafeStr_11708 = "_-oL" (String#24206, DoABC#2)
-// MessengerView = "_-1dh" (String#18044, DoABC#2)
-// MessengerView = "_-04S" (String#14221, DoABC#2)
+// isMessengerOpen = "_-1dh" (String#18044, DoABC#2)
+// openMessenger = "_-04S" (String#14221, DoABC#2)
 // conversations = "_-1Zf" (String#17877, DoABC#2)
-// MessengerView = "_-0Rx" (String#15133, DoABC#2)
+// prepareContent = "_-0Rx" (String#15133, DoABC#2)
 // afterResize = "_-1fv" (String#18135, DoABC#2)
 // playSendSound = "_-B8" (String#22660, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
@@ -205,14 +205,14 @@ package com.sulake.habbo.messenger
 // ConversationView = "_-2jb" (String#6947, DoABC#2)
 // SendMsgMessageComposer = "_-2Gh" (String#19668, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _InventoryMainView = "_-1P" (String#361, DoABC#2)
+// _mainWindow = "_-1P" (String#361, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _SafeStr_4247 = "_-0RI" (String#586, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // _SafeStr_4267 = "_-36k" (String#21755, DoABC#2)
-// MessengerView = "_-FK" (String#7977, DoABC#2)
-// MessengerView = "_-nV" (String#8668, DoABC#2)
+// getTabCount = "_-FK" (String#7977, DoABC#2)
+// addMsgToView = "_-nV" (String#8668, DoABC#2)
 // _SafeStr_4666 = "_-1Un" (String#17696, DoABC#2)
 // findSelectedConversation = "_-0wy" (String#16309, DoABC#2)
 // addMessage = "_-1Jl" (String#17266, DoABC#2)

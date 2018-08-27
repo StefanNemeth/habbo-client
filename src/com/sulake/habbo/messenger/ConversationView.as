@@ -56,14 +56,14 @@ package com.sulake.habbo.messenger
                 this._content.autoArrangeItems = true;
             };
             this._SafeStr_11725.scrollV = 1;
-            this.ChatlogCtrl();
+            this.refreshScrollBarVisibility();
         }
         public function afterResize():void
         {
-            this.ChatlogCtrl();
-            var _local_1:Boolean = this.ChatlogCtrl();
+            this.refreshListDims();
+            var _local_1:Boolean = this.refreshScrollBarVisibility();
             if (_local_1){
-                this.ChatlogCtrl();
+                this.refreshListDims();
             };
         }
         private function initButton(_arg_1:String, _arg_2:Function, _arg_3:IWindowContainer):IContainerButtonWindow
@@ -76,7 +76,7 @@ package com.sulake.habbo.messenger
             _local_5.height = _local_5.bitmap.height;
             return (_local_4);
         }
-        private function ChatlogCtrl():void
+        private function refreshListDims():void
         {
             var _local_2:ITextWindow;
             this._content.autoArrangeItems = false;
@@ -95,7 +95,7 @@ package com.sulake.habbo.messenger
             _arg_1.height = (_arg_1.textHeight + _SafeStr_11722);
             _arg_1.invalidate();
         }
-        private function ChatlogCtrl():Boolean
+        private function refreshScrollBarVisibility():Boolean
         {
             var _local_1:IWindowContainer = IWindowContainer(this._content.parent);
             var _local_2:IWindow = (_local_1.getChildByName("scroller") as IWindow);
@@ -271,7 +271,7 @@ package com.sulake.habbo.messenger
 // openHabboWebPage = "_-2w" (String#7202, DoABC#2)
 // onMinimailButtonClick = "_-04L" (String#1396, DoABC#2)
 // isEmbeddedMinimailEnabled = "_-2F1" (String#19604, DoABC#2)
-// ChatlogCtrl = "_-0E4" (String#1434, DoABC#2)
+// refreshScrollBarVisibility = "_-0E4" (String#1434, DoABC#2)
 // initButton = "_-BZ" (String#7902, DoABC#2)
 // onFollowButtonClick = "_-0BK" (String#3786, DoABC#2)
 // conversations = "_-1Zf" (String#17877, DoABC#2)
@@ -283,7 +283,7 @@ package com.sulake.habbo.messenger
 // _SafeStr_11726 = "_-0J-" (String#14799, DoABC#2)
 // _SafeStr_11727 = "_-54" (String#22422, DoABC#2)
 // findAddIndex = "_-1DE" (String#16992, DoABC#2)
-// ChatlogCtrl = "_-2MQ" (String#6490, DoABC#2)
+// refreshListDims = "_-2MQ" (String#6490, DoABC#2)
 // refreshTextDims = "_-3AW" (String#21902, DoABC#2)
 // getChatBgColor = "_-0ec" (String#15610, DoABC#2)
 // getChatTextColor = "_-Pk" (String#23236, DoABC#2)

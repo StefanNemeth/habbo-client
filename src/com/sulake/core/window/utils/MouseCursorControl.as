@@ -30,10 +30,10 @@ package com.sulake.core.window.utils
             if (!_disposed){
                 if (_SafeStr_9674){
                     _SafeStr_9650.removeChild(_SafeStr_9674);
-                    _SafeStr_9650.removeEventListener(Event.MOUSE_LEAVE, MouseCursorControl);
-                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_MOVE, RoomChatHistoryViewer);
-                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OVER, RoomChatHistoryViewer);
-                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OUT, RoomChatHistoryViewer);
+                    _SafeStr_9650.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OVER, onStageMouseMove);
+                    _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OUT, onStageMouseMove);
                 };
                 _disposed = true;
             };
@@ -87,10 +87,10 @@ package com.sulake.core.window.utils
                         _SafeStr_9650.removeChild(_SafeStr_9674);
                     }
                     else {
-                        _SafeStr_9650.addEventListener(Event.MOUSE_LEAVE, MouseCursorControl);
-                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_MOVE, RoomChatHistoryViewer);
-                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_OVER, RoomChatHistoryViewer);
-                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_OUT, RoomChatHistoryViewer);
+                        _SafeStr_9650.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_OVER, onStageMouseMove);
+                        _SafeStr_9650.addEventListener(MouseEvent.MOUSE_OUT, onStageMouseMove);
                         Mouse.hide();
                     };
                     _SafeStr_9674 = _local_1;
@@ -99,10 +99,10 @@ package com.sulake.core.window.utils
                 else {
                     if (_SafeStr_9674){
                         _SafeStr_9650.removeChild(_SafeStr_9674);
-                        _SafeStr_9650.removeEventListener(Event.MOUSE_LEAVE, MouseCursorControl);
-                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_MOVE, RoomChatHistoryViewer);
-                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OVER, RoomChatHistoryViewer);
-                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OUT, RoomChatHistoryViewer);
+                        _SafeStr_9650.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OVER, onStageMouseMove);
+                        _SafeStr_9650.removeEventListener(MouseEvent.MOUSE_OUT, onStageMouseMove);
                         _SafeStr_9674 = null;
                         Mouse.show();
                     };
@@ -129,11 +129,11 @@ package com.sulake.core.window.utils
                 _SafeStr_9673 = false;
             };
         }
-        public static function MouseCursorControl(_arg_1:uint, _arg_2:DisplayObject):void
+        public static function defineCustomCursorType(_arg_1:uint, _arg_2:DisplayObject):void
         {
             _SafeStr_9675[_arg_1] = _arg_2;
         }
-        private static function RoomChatHistoryViewer(_arg_1:MouseEvent):void
+        private static function onStageMouseMove(_arg_1:MouseEvent):void
         {
             if (_SafeStr_9674){
                 _SafeStr_9674.x = (_arg_1.stageX - 2);
@@ -148,7 +148,7 @@ package com.sulake.core.window.utils
                 };
             };
         }
-        private static function MouseCursorControl(_arg_1:Event):void
+        private static function onStageMouseLeave(_arg_1:Event):void
         {
             if (((_SafeStr_9674) && (!((_type == MouseCursorType._SafeStr_3729))))){
                 Mouse.hide();
@@ -173,8 +173,8 @@ package com.sulake.core.window.utils
 // _SafeStr_9673 = "_-1lb" (String#18358, DoABC#2)
 // _SafeStr_9674 = "_-329" (String#21587, DoABC#2)
 // _SafeStr_9675 = "_-NP" (String#23141, DoABC#2)
-// MouseCursorControl = "_-2Xt" (String#20353, DoABC#2)
-// RoomChatHistoryViewer = "_-2UW" (String#6655, DoABC#2)
-// MouseCursorControl = "_-zV" (String#24673, DoABC#2)
+// onStageMouseLeave = "_-2Xt" (String#20353, DoABC#2)
+// onStageMouseMove = "_-2UW" (String#6655, DoABC#2)
+// defineCustomCursorType = "_-zV" (String#24673, DoABC#2)
 
 

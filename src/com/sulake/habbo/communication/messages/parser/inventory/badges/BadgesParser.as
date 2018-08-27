@@ -43,7 +43,7 @@ package com.sulake.habbo.communication.messages.parser.inventory.badges
             };
             return (true);
         }
-        public function HabboGroupInfoManager(_arg_1:String):int
+        public function getBadgeId(_arg_1:String):int
         {
             return (this._SafeStr_8222.getValue(_arg_1));
         }
@@ -66,7 +66,7 @@ package com.sulake.habbo.communication.messages.parser.inventory.badges
 // _SafeStr_8220 = "_-zG" (String#24663, DoABC#2)
 // _SafeStr_8221 = "_-39c" (String#21866, DoABC#2)
 // _SafeStr_8222 = "_-1SR" (String#5405, DoABC#2)
-// HabboGroupInfoManager = "_-Jj" (String#22995, DoABC#2)
+// getBadgeId = "_-Jj" (String#22995, DoABC#2)
 // getAllBadgeCodes = "_-0eP" (String#15603, DoABC#2)
 // getActiveBadgeCodes = "_-2pI" (String#21050, DoABC#2)
 

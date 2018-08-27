@@ -32,8 +32,8 @@ package com.sulake.habbo.friendlist
         {
             friendList.registerParameter("friendlist.invite.summary", "count", ("" + this._selected.length));
             this._SafeStr_11284 = ITextFieldWindow(_arg_1.findChildByName("message_input"));
-            this._SafeStr_11284.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.MessengerView);
-            _arg_1.findChildByName("cancel").procedure = PollOfferDialog;
+            this._SafeStr_11284.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.onMessageInput);
+            _arg_1.findChildByName("cancel").procedure = onClose;
             _arg_1.findChildByName("ok").procedure = this.onInvite;
         }
         private function onInvite(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -42,17 +42,17 @@ package com.sulake.habbo.friendlist
                 return;
             };
             Logger.log("Invite Ok clicked");
-            this.MessengerView();
+            this.sendMsg();
             this.dispose();
         }
-        private function MessengerView(_arg_1:WindowKeyboardEvent):void
+        private function onMessageInput(_arg_1:WindowKeyboardEvent):void
         {
             var _local_3:int;
             var _local_4:String;
             var _local_2:IWindow = IWindow(_arg_1.target);
             Logger.log(((((("Test key event " + _arg_1) + ", ") + _arg_1.type) + " ") + _local_2.name));
             if (_arg_1.charCode == Keyboard.ENTER){
-                this.MessengerView();
+                this.sendMsg();
             }
             else {
                 _local_3 = 120;
@@ -62,7 +62,7 @@ package com.sulake.habbo.friendlist
                 };
             };
         }
-        private function MessengerView():void
+        private function sendMsg():void
         {
             var _local_3:Friend;
             var _local_1:String = this._SafeStr_11284.text;
@@ -84,9 +84,9 @@ package com.sulake.habbo.friendlist
 
 // setupContent = "_-SD" (String#23333, DoABC#2)
 // _SafeStr_11284 = "_-1X1" (String#5497, DoABC#2)
-// MessengerView = "_-37F" (String#7451, DoABC#2)
+// onMessageInput = "_-37F" (String#7451, DoABC#2)
 // onInvite = "_-1fV" (String#18117, DoABC#2)
-// MessengerView = "_-38W" (String#7482, DoABC#2)
+// sendMsg = "_-38W" (String#7482, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ITextFieldWindow = "_-3EL" (String#2027, DoABC#2)
 // WindowKeyboardEvent = "_-0Di" (String#1433, DoABC#2)
@@ -94,7 +94,7 @@ package com.sulake.habbo.friendlist
 // SendRoomInviteMessageComposer = "_-2fR" (String#20666, DoABC#2)
 // RoomInviteView = "_-1xW" (String#5981, DoABC#2)
 // addInvitedFriend = "_-2SM" (String#20131, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // WKE_KEY_DOWN = "_-fs" (String#23884, DoABC#2)
 
 

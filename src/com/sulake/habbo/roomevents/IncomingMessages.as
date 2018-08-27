@@ -27,13 +27,13 @@ package com.sulake.habbo.roomevents
         {
             this._SafeStr_5221 = _arg_1;
             var _local_2:IHabboCommunicationManager = this._SafeStr_5221.communication;
-            _local_2.HabboCommunicationManager(new OpenEvent(this.onOpen));
-            _local_2.HabboCommunicationManager(new WiredFurniTriggerEvent(this.onTrigger));
-            _local_2.HabboCommunicationManager(new WiredFurniActionEvent(this.onAction));
-            _local_2.HabboCommunicationManager(new WiredFurniConditionEvent(this.onCondition));
-            _local_2.HabboCommunicationManager(new UserObjectEvent(this.onUserObject));
-            _local_2.HabboCommunicationManager(new CloseConnectionMessageEvent(this.HabboGroupInfoManager));
-            _local_2.HabboCommunicationManager(new ObjectRemoveMessageEvent(this.onObjectRemove));
+            _local_2.addHabboConnectionMessageEvent(new OpenEvent(this.onOpen));
+            _local_2.addHabboConnectionMessageEvent(new WiredFurniTriggerEvent(this.onTrigger));
+            _local_2.addHabboConnectionMessageEvent(new WiredFurniActionEvent(this.onAction));
+            _local_2.addHabboConnectionMessageEvent(new WiredFurniConditionEvent(this.onCondition));
+            _local_2.addHabboConnectionMessageEvent(new UserObjectEvent(this.onUserObject));
+            _local_2.addHabboConnectionMessageEvent(new CloseConnectionMessageEvent(this.onRoomExit));
+            _local_2.addHabboConnectionMessageEvent(new ObjectRemoveMessageEvent(this.onObjectRemove));
         }
         private function onOpen(_arg_1:IMessageEvent):void
         {
@@ -60,7 +60,7 @@ package com.sulake.habbo.roomevents
             var _local_2:UserObjectMessageParser = (_arg_1 as UserObjectEvent).getParser();
             this._SafeStr_5221.userName = _local_2.name;
         }
-        private function HabboGroupInfoManager(_arg_1:IMessageEvent):void
+        private function onRoomExit(_arg_1:IMessageEvent):void
         {
             this._SafeStr_5221.userDefinedRoomEventsCtrl.close();
         }
@@ -100,11 +100,11 @@ package com.sulake.habbo.roomevents
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // isExpired = "_-0qo" (String#16078, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
 // def = "_-15K" (String#16666, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // CloseConnectionMessageEvent = "_-2cv" (String#6811, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

@@ -8,17 +8,17 @@ package com.sulake.habbo.communication.messages.incoming.recycler
 
         private var _prizeLevelId:int;
         private var _probabilityDenominator:int;
-        private var _RecyclerLogic:Array;
+        private var _prizes:Array;
 
         public function PrizeLevelMessageData(_arg_1:IMessageDataWrapper)
         {
             this._prizeLevelId = _arg_1.readInteger();
             this._probabilityDenominator = _arg_1.readInteger();
-            this._RecyclerLogic = new Array();
+            this._prizes = new Array();
             var _local_2:int = _arg_1.readInteger();
             var _local_3:int;
             while (_local_3 < _local_2) {
-                this._RecyclerLogic.push(new PrizeMessageData(_arg_1));
+                this._prizes.push(new PrizeMessageData(_arg_1));
                 _local_3++;
             };
         }
@@ -32,7 +32,7 @@ package com.sulake.habbo.communication.messages.incoming.recycler
         }
         public function get prizes():Array
         {
-            return (this._RecyclerLogic);
+            return (this._prizes);
         }
 
     }
@@ -43,7 +43,7 @@ package com.sulake.habbo.communication.messages.incoming.recycler
 // PrizeMessageData = "_-aq" (String#8436, DoABC#2)
 // _prizeLevelId = "_-14c" (String#4971, DoABC#2)
 // _probabilityDenominator = "_-02E" (String#14136, DoABC#2)
-// _RecyclerLogic = "_-1ct" (String#855, DoABC#2)
+// _prizes = "_-1ct" (String#855, DoABC#2)
 // prizeLevelId = "_-BF" (String#22664, DoABC#2)
 // probabilityDenominator = "_-1nl" (String#18450, DoABC#2)
 

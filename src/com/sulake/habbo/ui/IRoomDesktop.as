@@ -8,12 +8,12 @@ package com.sulake.habbo.ui
     {
 
         function get events():IEventDispatcher;
-        function IRoomWidgetHandler(_arg_1:Event):void;
+        function processEvent(_arg_1:Event):void;
 
     }
 }//package com.sulake.habbo.ui
 
 // IRoomDesktop = "_-2iD" (String#6912, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 
 

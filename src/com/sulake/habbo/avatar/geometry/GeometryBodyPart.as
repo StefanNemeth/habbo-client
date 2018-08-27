@@ -99,7 +99,7 @@ package com.sulake.habbo.avatar.geometry
                     _local_5.push([_local_8, _local_4]);
                 };
             };
-            _local_5.sort(this.GeometryBodyPart);
+            _local_5.sort(this.orderParts);
             for each (_local_7 in _local_5) {
                 _local_4 = (_local_7[1] as GeometryItem);
                 _local_6.push(_local_4.id);
@@ -116,7 +116,7 @@ package com.sulake.habbo.avatar.geometry
         {
             return (this._id);
         }
-        private function GeometryBodyPart(_arg_1:Array, _arg_2:Array):Number
+        private function orderParts(_arg_1:Array, _arg_2:Array):Number
         {
             var _local_3:Number = (_arg_1[0] as Number);
             var _local_4:Number = (_arg_2[0] as Number);
@@ -151,6 +151,6 @@ package com.sulake.habbo.avatar.geometry
 // hasPart = "_-iD" (String#23972, DoABC#2)
 // getParts = "_-3DP" (String#7583, DoABC#2)
 // getDistance = "_-2xU" (String#21371, DoABC#2)
-// GeometryBodyPart = "_-0y6" (String#16356, DoABC#2)
+// orderParts = "_-0y6" (String#16356, DoABC#2)
 
 

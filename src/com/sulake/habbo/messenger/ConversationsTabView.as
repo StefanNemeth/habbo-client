@@ -30,7 +30,7 @@ package com.sulake.habbo.messenger
             var _local_3:IBitmapWrapperWindow = IBitmapWrapperWindow(this._content.findChildByName("convo_bg"));
             _local_3.bitmap = this._messenger.getButtonImage("convo_bg");
         }
-        public function MessengerView():int
+        public function getTabCount():int
         {
             return (Math.floor((this._SafeStr_11216.width / this._SafeStr_11717)));
         }
@@ -43,7 +43,7 @@ package com.sulake.habbo.messenger
             var _local_3:Boolean;
             var _local_1:Array = this._messenger.conversations.openConversations;
             var _local_2:int;
-            while (_local_2 < this.MessengerView()) {
+            while (_local_2 < this.getTabCount()) {
                 this.refreshTabContent(_local_2, _local_1[(this._messenger.conversations.startIndex + _local_2)]);
                 _local_2++;
             };
@@ -56,7 +56,7 @@ package com.sulake.habbo.messenger
                 this.refreshAsArrow(0, false);
             };
             if (this.hasNextButton()){
-                this.refreshAsArrow((this.MessengerView() - 1), true);
+                this.refreshAsArrow((this.getTabCount() - 1), true);
             };
         }
         private function refreshTabContent(_arg_1:int, _arg_2:Conversation):Boolean
@@ -70,7 +70,7 @@ package com.sulake.habbo.messenger
                 _local_3.y = 1;
                 this._SafeStr_11216.addChild(_local_3);
             };
-            this.InfostandWidget(_local_3);
+            this.hideChildren(_local_3);
             if (_arg_2 == null){
                 return (false);
             };
@@ -81,7 +81,7 @@ package com.sulake.habbo.messenger
             _local_3.width = this._SafeStr_11717;
             return (false);
         }
-        private function InfostandWidget(_arg_1:IWindowContainer):void
+        private function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -92,7 +92,7 @@ package com.sulake.habbo.messenger
         private function refreshAsArrow(_arg_1:int, _arg_2:Boolean):void
         {
             var _local_3:IWindowContainer = (this._SafeStr_11216.getChildAt(_arg_1) as IWindowContainer);
-            this.InfostandWidget(_local_3);
+            this.hideChildren(_local_3);
             this.refreshArrow(_local_3, _arg_1, _arg_2);
             this.refreshTabBg(_local_3, _arg_1, ((_arg_2) ? "tab_bg_next" : "tab_bg_unsel"));
             var _local_4:int = (this._SafeStr_11216.width % this._SafeStr_11717);
@@ -123,7 +123,7 @@ package com.sulake.habbo.messenger
         }
         private function hasNextButton():Boolean
         {
-            return (((this._messenger.conversations.openConversations.length - this._messenger.conversations.startIndex) > this.MessengerView()));
+            return (((this._messenger.conversations.openConversations.length - this._messenger.conversations.startIndex) > this.getTabCount()));
         }
         private function onTabClick(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -136,7 +136,7 @@ package com.sulake.habbo.messenger
                 this._messenger.conversations.changeStartIndex(-1);
             }
             else {
-                if ((((_local_3 == (this.MessengerView() - 1))) && (this.hasNextButton()))){
+                if ((((_local_3 == (this.getTabCount() - 1))) && (this.hasNextButton()))){
                     this._messenger.conversations.changeStartIndex(1);
                 }
                 else {
@@ -168,10 +168,10 @@ package com.sulake.habbo.messenger
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // Conversation = "_-Ej" (String#7965, DoABC#2)
 // ConversationsTabView = "_-2dm" (String#6829, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _content = "_-o4" (String#96, DoABC#2)
-// MessengerView = "_-FK" (String#7977, DoABC#2)
+// getTabCount = "_-FK" (String#7977, DoABC#2)
 // changeStartIndex = "_-Mo" (String#23118, DoABC#2)
 // findConversation = "_-2LL" (String#19861, DoABC#2)
 // newMessageArrived = "_-0XG" (String#4255, DoABC#2)

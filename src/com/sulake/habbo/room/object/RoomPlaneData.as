@@ -119,7 +119,7 @@ package com.sulake.habbo.room.object
         {
             return (this._SafeStr_12837.length);
         }
-        public function RoomPlaneData(_arg_1:int):IVector3d
+        public function getSecondaryNormal(_arg_1:int):IVector3d
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.secondaryNormalCount)))){
                 return (null);
@@ -128,45 +128,45 @@ package com.sulake.habbo.room.object
             _local_2.assign((this._SafeStr_12971[_arg_1] as IVector3d));
             return (_local_2);
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:Number, _arg_2:Number, _arg_3:Number, _arg_4:Number):void
+        public function addMask(_arg_1:Number, _arg_2:Number, _arg_3:Number, _arg_4:Number):void
         {
             var _local_5:RoomPlaneMaskData = new RoomPlaneMaskData(_arg_1, _arg_2, _arg_3, _arg_4);
             this._SafeStr_12837.push(_local_5);
         }
-        private function RoomPlaneData(_arg_1:int):RoomPlaneMaskData
+        private function getMask(_arg_1:int):RoomPlaneMaskData
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.maskCount)))){
                 return (null);
             };
             return (this._SafeStr_12837[_arg_1]);
         }
-        public function RoomPlaneData(_arg_1:int):Number
+        public function getMaskLeftSideLoc(_arg_1:int):Number
         {
-            var _local_2:RoomPlaneMaskData = this.RoomPlaneData(_arg_1);
+            var _local_2:RoomPlaneMaskData = this.getMask(_arg_1);
             if (_local_2 != null){
                 return (_local_2.leftSideLoc);
             };
             return (-1);
         }
-        public function RoomPlaneData(_arg_1:int):Number
+        public function getMaskRightSideLoc(_arg_1:int):Number
         {
-            var _local_2:RoomPlaneMaskData = this.RoomPlaneData(_arg_1);
+            var _local_2:RoomPlaneMaskData = this.getMask(_arg_1);
             if (_local_2 != null){
                 return (_local_2.rightSideLoc);
             };
             return (-1);
         }
-        public function RoomPlaneData(_arg_1:int):Number
+        public function getMaskLeftSideLength(_arg_1:int):Number
         {
-            var _local_2:RoomPlaneMaskData = this.RoomPlaneData(_arg_1);
+            var _local_2:RoomPlaneMaskData = this.getMask(_arg_1);
             if (_local_2 != null){
                 return (_local_2.leftSideLength);
             };
             return (-1);
         }
-        public function RoomPlaneData(_arg_1:int):Number
+        public function getMaskRightSideLength(_arg_1:int):Number
         {
-            var _local_2:RoomPlaneMaskData = this.RoomPlaneData(_arg_1);
+            var _local_2:RoomPlaneMaskData = this.getMask(_arg_1);
             if (_local_2 != null){
                 return (_local_2.rightSideLength);
             };
@@ -193,19 +193,19 @@ package com.sulake.habbo.room.object
 // leftSideLength = "_-bH" (String#23681, DoABC#2)
 // normalDirection = "_-35R" (String#21711, DoABC#2)
 // secondaryNormalCount = "_-2fe" (String#20677, DoABC#2)
-// RoomPlaneData = "_-48" (String#22384, DoABC#2)
+// getSecondaryNormal = "_-48" (String#22384, DoABC#2)
 // _SafeStr_13115 = "_-0iW" (String#15773, DoABC#2)
-// RoomPlaneData = "_-1xr" (String#18882, DoABC#2)
-// RoomPlaneData = "_-1Oa" (String#17452, DoABC#2)
-// RoomPlaneData = "_-3GI" (String#22133, DoABC#2)
-// RoomPlaneData = "_-2Wn" (String#20316, DoABC#2)
+// getMaskLeftSideLoc = "_-1xr" (String#18882, DoABC#2)
+// getMaskRightSideLoc = "_-1Oa" (String#17452, DoABC#2)
+// getMaskLeftSideLength = "_-3GI" (String#22133, DoABC#2)
+// getMaskRightSideLength = "_-2Wn" (String#20316, DoABC#2)
 // _normalDirection = "_-2AU" (String#19427, DoABC#2)
-// RoomPlaneData = "_-1Co" (String#16975, DoABC#2)
+// getMask = "_-1Co" (String#16975, DoABC#2)
 // RoomPlaneData = "_-1iF" (String#5716, DoABC#2)
 // RoomPlaneMaskData = "_-0zA" (String#4830, DoABC#2)
 // _loc = "_-0OE" (String#185, DoABC#2)
 // loc = "_-0fh" (String#15660, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-0SM" (String#15149, DoABC#2)
+// addMask = "_-0SM" (String#15149, DoABC#2)
 // _SafeStr_5829 = "_-dd" (String#23787, DoABC#2)
 // _SafeStr_5831 = "_-1Gc" (String#17138, DoABC#2)
 // _SafeStr_5832 = "_-0IL" (String#14772, DoABC#2)

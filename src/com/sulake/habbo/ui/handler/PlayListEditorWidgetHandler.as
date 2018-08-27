@@ -49,19 +49,19 @@ package com.sulake.habbo.ui.handler
         {
             this._container = _arg_1;
             if (this._container.soundManager){
-                this._container.soundManager.events.addEventListener(SongDiskInventoryReceivedEvent.SONG_DISK_INVENTORY_RECEIVED, this.PlayListEditorWidgetHandler);
-                this._container.soundManager.events.addEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_UPDATED, this.PlayListEditorWidgetHandler);
-                this._container.soundManager.events.addEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_FULL, this.PlayListEditorWidgetHandler);
-                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.PlayListEditorWidgetHandler);
-                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPE_USER_PLAY_SONG, this.PlayListEditorWidgetHandler);
-                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPW_USER_STOP_SONG, this.PlayListEditorWidgetHandler);
+                this._container.soundManager.events.addEventListener(SongDiskInventoryReceivedEvent.SONG_DISK_INVENTORY_RECEIVED, this.processSoundManagerEvent);
+                this._container.soundManager.events.addEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_UPDATED, this.processSoundManagerEvent);
+                this._container.soundManager.events.addEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_FULL, this.processSoundManagerEvent);
+                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.processSoundManagerEvent);
+                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPE_USER_PLAY_SONG, this.processSoundManagerEvent);
+                this._container.soundManager.events.addEventListener(NowPlayingEvent.RWPLENPW_USER_STOP_SONG, this.processSoundManagerEvent);
             };
         }
         public function set connection(_arg_1:IConnection):void
         {
-            this._SafeStr_7296 = new FurniListUpdateEvent(this.PlayListEditorWidgetHandler);
-            this._SafeStr_7297 = new FurniListRemoveEvent(this.PlayListEditorWidgetHandler);
-            this._SafeStr_7298 = new FurniListInsertEvent(this.PlayListEditorWidgetHandler);
+            this._SafeStr_7296 = new FurniListUpdateEvent(this.onFurniListUpdated);
+            this._SafeStr_7297 = new FurniListRemoveEvent(this.onFurniListUpdated);
+            this._SafeStr_7298 = new FurniListInsertEvent(this.onFurniListUpdated);
             this._connection = _arg_1;
             this._connection.addMessageEvent(this._SafeStr_7296);
             this._connection.addMessageEvent(this._SafeStr_7297);
@@ -72,28 +72,28 @@ package com.sulake.habbo.ui.handler
             if (!this._disposed){
                 this._disposed = true;
                 if (this._connection){
-                    this._connection.SocketConnection(this._SafeStr_7296);
-                    this._connection.SocketConnection(this._SafeStr_7297);
-                    this._connection.SocketConnection(this._SafeStr_7298);
+                    this._connection.removeMessageEvent(this._SafeStr_7296);
+                    this._connection.removeMessageEvent(this._SafeStr_7297);
+                    this._connection.removeMessageEvent(this._SafeStr_7298);
                 };
                 this._connection = null;
                 this._SafeStr_7296 = null;
                 if (this._container){
                     if (this._container.soundManager){
                         if (this._container.soundManager.events){
-                            this._container.soundManager.events.removeEventListener(SongDiskInventoryReceivedEvent.SONG_DISK_INVENTORY_RECEIVED, this.PlayListEditorWidgetHandler);
-                            this._container.soundManager.events.removeEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_UPDATED, this.PlayListEditorWidgetHandler);
-                            this._container.soundManager.events.removeEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_FULL, this.PlayListEditorWidgetHandler);
-                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.PlayListEditorWidgetHandler);
-                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPE_USER_PLAY_SONG, this.PlayListEditorWidgetHandler);
-                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPW_USER_STOP_SONG, this.PlayListEditorWidgetHandler);
+                            this._container.soundManager.events.removeEventListener(SongDiskInventoryReceivedEvent.SONG_DISK_INVENTORY_RECEIVED, this.processSoundManagerEvent);
+                            this._container.soundManager.events.removeEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_UPDATED, this.processSoundManagerEvent);
+                            this._container.soundManager.events.removeEventListener(PlayListStatusEvent.RWPLEE_PLAY_LIST_FULL, this.processSoundManagerEvent);
+                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.processSoundManagerEvent);
+                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPE_USER_PLAY_SONG, this.processSoundManagerEvent);
+                            this._container.soundManager.events.removeEventListener(NowPlayingEvent.RWPLENPW_USER_STOP_SONG, this.processSoundManagerEvent);
                         };
                     };
                     this._container = null;
                 };
             };
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_PLAYLIST_EDITOR, RoomWidgetPlayListModificationMessage.RWPLAM_ADD_TO_PLAYLIST, RoomWidgetPlayListModificationMessage.RWPLAM_REMOVE_FROM_PLAYLIST, RoomWidgetPlayListPlayStateMessage.RWPLPS_TOGGLE_PLAY_PAUSE, RoomWidgetPlayListUserActionMessage.RWPLUA_OPEN_CATALOGUE_BUTTON_PRESSED]);
         }
@@ -109,7 +109,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_PLAYLIST_EDITOR:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_7 = this._container.roomSession.isRoomOwner;
                         if (_local_7){
@@ -142,13 +142,13 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomEngineSoundMachineEvent.ROSM_JUKEBOX_DISPOSE);
             return (_local_1);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomEngineSoundMachineEvent;
             var _local_3:RoomWidgetPlayListEditorEvent;
@@ -163,7 +163,7 @@ package com.sulake.habbo.ui.handler
         public function update():void
         {
         }
-        private function PlayListEditorWidgetHandler(_arg_1:IMessageEvent):void
+        private function onFurniListUpdated(_arg_1:IMessageEvent):void
         {
             if (this._container != null){
                 if (this._container.events != null){
@@ -171,7 +171,7 @@ package com.sulake.habbo.ui.handler
                 };
             };
         }
-        private function PlayListEditorWidgetHandler(_arg_1:Event):void
+        private function processSoundManagerEvent(_arg_1:Event):void
         {
             var _local_2:NowPlayingEvent;
             switch (_arg_1.type){
@@ -229,7 +229,7 @@ package com.sulake.habbo.ui.handler
 // RWPLPS_TOGGLE_PLAY_PAUSE = "_-0GS" (String#14699, DoABC#2)
 // furniId = "_-2KO" (String#6454, DoABC#2)
 // RWE_PLAYLIST_EDITOR_WIDGET = "_-0b8" (String#15481, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // soundManager = "_-1sN" (String#5892, DoABC#2)
 // ROSM_JUKEBOX_DISPOSE = "_-gi" (String#23919, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
@@ -243,15 +243,15 @@ package com.sulake.habbo.ui.handler
 // RWPLENPE_USER_PLAY_SONG = "_-36w" (String#21763, DoABC#2)
 // RWPLENPW_USER_STOP_SONG = "_-0Kk" (String#14870, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7296 = "_-Jr" (String#23001, DoABC#2)
 // _SafeStr_7297 = "_-163" (String#16699, DoABC#2)
 // _SafeStr_7298 = "_-0eM" (String#15601, DoABC#2)
-// PlayListEditorWidgetHandler = "_-0PZ" (String#15046, DoABC#2)
-// PlayListEditorWidgetHandler = "_-25t" (String#19253, DoABC#2)
+// processSoundManagerEvent = "_-0PZ" (String#15046, DoABC#2)
+// onFurniListUpdated = "_-25t" (String#19253, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
 // habboTracking = "_-1ZQ" (String#5552, DoABC#2)
 

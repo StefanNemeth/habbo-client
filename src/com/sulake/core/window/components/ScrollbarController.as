@@ -36,11 +36,11 @@ package com.sulake.core.window.components
             this._scrollable = _arg_12;
             this._horizontal = (_arg_2 == WindowType._SafeStr_7526);
             var _local_13:Array = new Array();
-            WindowController(TAG_INTERNAL, _local_13, true);
+            groupChildrenWithTag(TAG_INTERNAL, _local_13, true);
             for each (_local_14 in _local_13) {
-                _local_14.procedure = this.ScrollbarController;
+                _local_14.procedure = this.scrollButtonEventProc;
             };
-            this.ScrollbarController();
+            this.updateLiftSizeAndPosition();
         }
         public function get scrollH():Number
         {
@@ -57,30 +57,30 @@ package com.sulake.core.window.components
         public function set scrollH(_arg_1:Number):void
         {
             if (this._horizontal){
-                if (this.ScrollbarController(_arg_1)){
-                    this.ScrollbarController();
+                if (this.setScrollPosition(_arg_1)){
+                    this.updateLiftSizeAndPosition();
                 };
             };
         }
         public function set scrollV(_arg_1:Number):void
         {
             if (!this._horizontal){
-                if (this.ScrollbarController(_arg_1)){
-                    this.ScrollbarController();
+                if (this.setScrollPosition(_arg_1)){
+                    this.updateLiftSizeAndPosition();
                 };
             };
         }
         public function set scrollable(_arg_1:IScrollableWindow):void
         {
             if (((!((this._scrollable == null))) && (!(this._scrollable.disposed)))){
-                this._scrollable.removeEventListener(WindowEvent.WE_RESIZED, this.ScrollbarController);
-                this._scrollable.removeEventListener(WindowEvent.WE_SCROLL, this.ScrollbarController);
+                this._scrollable.removeEventListener(WindowEvent.WE_RESIZED, this.onScrollableResized);
+                this._scrollable.removeEventListener(WindowEvent.WE_SCROLL, this.onScrollableScrolled);
             };
             this._scrollable = _arg_1;
             if (((!((this._scrollable == null))) && (!(this._scrollable.disposed)))){
-                this._scrollable.addEventListener(WindowEvent.WE_RESIZED, this.ScrollbarController);
-                this._scrollable.addEventListener(WindowEvent.WE_SCROLL, this.ScrollbarController);
-                this.ScrollbarController();
+                this._scrollable.addEventListener(WindowEvent.WE_RESIZED, this.onScrollableResized);
+                this._scrollable.addEventListener(WindowEvent.WE_SCROLL, this.onScrollableScrolled);
+                this.updateLiftSizeAndPosition();
             };
         }
         public function get horizontal():Boolean
@@ -140,7 +140,7 @@ package com.sulake.core.window.components
             var _local_2:uint;
             if (super.enable()){
                 _local_1 = new Array();
-                WindowController(TAG_INTERNAL, _local_1, true);
+                groupChildrenWithTag(TAG_INTERNAL, _local_1, true);
                 _local_2 = 0;
                 while (_local_2 < _local_1.length) {
                     IWindow(_local_1[_local_2]).enable();
@@ -156,7 +156,7 @@ package com.sulake.core.window.components
             var _local_2:uint;
             if (super.disable()){
                 _local_1 = new Array();
-                WindowController(TAG_INTERNAL, _local_1, true);
+                groupChildrenWithTag(TAG_INTERNAL, _local_1, true);
                 _local_2 = 0;
                 while (_local_2 < _local_1.length) {
                     IWindow(_local_1[_local_2]).disable();
@@ -166,11 +166,11 @@ package com.sulake.core.window.components
             };
             return (false);
         }
-        protected function ScrollbarController(_arg_1:Number):Boolean
+        protected function setScrollPosition(_arg_1:Number):Boolean
         {
             var _local_2:Boolean;
             if ((((this._scrollable == null)) || (this._scrollable.disposed))){
-                if (!this.ScrollbarController()){
+                if (!this.resolveScrollTarget()){
                     return (false);
                 };
             };
@@ -202,10 +202,10 @@ package com.sulake.core.window.components
                     if (_arg_2.type == WindowEvent.WE_CHILD_RELOCATED){
                         if (!this._SafeStr_9379){
                             if (this._horizontal){
-                                this.ScrollbarController(ScrollbarLiftController(_arg_1).offsetX);
+                                this.setScrollPosition(ScrollbarLiftController(_arg_1).offsetX);
                             }
                             else {
-                                this.ScrollbarController(ScrollbarLiftController(_arg_1).offsetY);
+                                this.setScrollPosition(ScrollbarLiftController(_arg_1).offsetY);
                             };
                         };
                     };
@@ -214,12 +214,12 @@ package com.sulake.core.window.components
             var _local_3:Boolean = super.update(_arg_1, _arg_2);
             if (_arg_2.type == WindowEvent.WE_PARENT_ADDED){
                 if (this._scrollable == null){
-                    this.ScrollbarController();
+                    this.resolveScrollTarget();
                 };
             };
             if (_arg_1 == this){
                 if (_arg_2.type == WindowEvent.WE_RESIZED){
-                    this.ScrollbarController();
+                    this.updateLiftSizeAndPosition();
                 }
                 else {
                     if (_arg_2.type == WindowMouseEvent.WME_WHEEL){
@@ -245,12 +245,12 @@ package com.sulake.core.window.components
             };
             return (_local_3);
         }
-        private function ScrollbarController():void
+        private function updateLiftSizeAndPosition():void
         {
             var _local_1:Number;
             var _local_4:int;
             if ((((this._scrollable == null)) || (this._scrollable.disposed))){
-                if (((_disposed) || (!(this.ScrollbarController())))){
+                if (((_disposed) || (!(this.resolveScrollTarget())))){
                     return;
                 };
             };
@@ -283,10 +283,10 @@ package com.sulake.core.window.components
                 this.enable();
             };
         }
-        private function WindowController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function nullEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
         }
-        private function ScrollbarController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function scrollButtonEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_4:int;
             var _local_5:int;
@@ -376,10 +376,10 @@ package com.sulake.core.window.components
                 _local_3 = true;
             };
             if (_local_3){
-                this.ScrollbarController();
+                this.updateLiftSizeAndPosition();
             };
         }
-        private function ScrollbarController():Boolean
+        private function resolveScrollTarget():Boolean
         {
             var _local_1:IScrollableWindow;
             var _local_2:uint;
@@ -391,7 +391,7 @@ package com.sulake.core.window.components
                 };
             };
             if (this._SafeStr_9378 != null){
-                _local_1 = (WindowController(this._SafeStr_9378) as IScrollableWindow);
+                _local_1 = (findParentByName(this._SafeStr_9378) as IScrollableWindow);
                 if ((((_local_1 == null)) && ((_parent is IWindowContainer)))){
                     _local_1 = (IWindowContainer(_parent).findChildByName(this._SafeStr_9378) as IScrollableWindow);
                     if (_local_1){
@@ -418,14 +418,14 @@ package com.sulake.core.window.components
             };
             return (false);
         }
-        private function ScrollbarController(_arg_1:WindowEvent):void
+        private function onScrollableResized(_arg_1:WindowEvent):void
         {
-            this.ScrollbarController();
-            this.ScrollbarController(this._offset);
+            this.updateLiftSizeAndPosition();
+            this.setScrollPosition(this._offset);
         }
-        private function ScrollbarController(_arg_1:WindowEvent):void
+        private function onScrollableScrolled(_arg_1:WindowEvent):void
         {
-            this.ScrollbarController();
+            this.updateLiftSizeAndPosition();
         }
 
     }
@@ -452,7 +452,7 @@ package com.sulake.core.window.components
 // visibleRegion = "_-MK" (String#8129, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
 // WTE_TAP = "_-2Ox" (String#19999, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 // WE_CHILD_RELOCATED = "_-30I" (String#21512, DoABC#2)
 // WE_SCROLL = "_-DZ" (String#22752, DoABC#2)
 // WME_WHEEL = "_-1Ot" (String#17464, DoABC#2)
@@ -464,15 +464,15 @@ package com.sulake.core.window.components
 // _scrollable = "_-3Jv" (String#22281, DoABC#2)
 // _SafeStr_9378 = "_-0gU" (String#15692, DoABC#2)
 // _SafeStr_9379 = "_-bJ" (String#23683, DoABC#2)
-// ScrollbarController = "_-2mB" (String#20925, DoABC#2)
-// ScrollbarController = "_-q8" (String#24278, DoABC#2)
-// ScrollbarController = "_-2BK" (String#19457, DoABC#2)
-// ScrollbarController = "_-2ll" (String#20909, DoABC#2)
-// ScrollbarController = "_-17a" (String#16758, DoABC#2)
+// scrollButtonEventProc = "_-2mB" (String#20925, DoABC#2)
+// updateLiftSizeAndPosition = "_-q8" (String#24278, DoABC#2)
+// setScrollPosition = "_-2BK" (String#19457, DoABC#2)
+// onScrollableResized = "_-2ll" (String#20909, DoABC#2)
+// onScrollableScrolled = "_-17a" (String#16758, DoABC#2)
 // track = "_-0H4" (String#3897, DoABC#2)
 // lift = "_-wy" (String#24568, DoABC#2)
-// ScrollbarController = "_-Co" (String#22718, DoABC#2)
-// WindowController = "_-s6" (String#8737, DoABC#2)
-// WindowController = "_-0iw" (String#4478, DoABC#2)
+// resolveScrollTarget = "_-Co" (String#22718, DoABC#2)
+// nullEventProc = "_-s6" (String#8737, DoABC#2)
+// findParentByName = "_-0iw" (String#4478, DoABC#2)
 
 

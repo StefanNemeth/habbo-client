@@ -68,7 +68,7 @@ package com.sulake.habbo.friendlist
                     _arg_1.view = (this.getTabContent(_arg_1) as IWindowContainer);
                 };
                 this.refreshTabContentDims(_arg_1.view);
-                this.ChatlogCtrl(_arg_1.view);
+                this.refreshScrollBarVisibility(_arg_1.view);
                 _arg_2.addChild(_arg_1.view);
             }
             else {
@@ -192,7 +192,7 @@ package com.sulake.habbo.friendlist
             _local_2.y = (_local_8 - _local_2.height);
             _local_2.width = _local_7;
         }
-        private function ChatlogCtrl(_arg_1:IWindowContainer):void
+        private function refreshScrollBarVisibility(_arg_1:IWindowContainer):void
         {
             var _local_2:IWindowContainer = (_arg_1.getChildByName("list") as IWindowContainer);
             var _local_3:IWindow = (_local_2.getChildByName("scroller") as IWindow);
@@ -251,7 +251,7 @@ package com.sulake.habbo.friendlist
 // refreshTabContent = "_-0om" (String#4610, DoABC#2)
 // getTabContent = "_-2Px" (String#20040, DoABC#2)
 // refreshTabContentDims = "_-30u" (String#21535, DoABC#2)
-// ChatlogCtrl = "_-0E4" (String#1434, DoABC#2)
+// refreshScrollBarVisibility = "_-0E4" (String#1434, DoABC#2)
 // showBgImage = "_-0R3" (String#15105, DoABC#2)
 // refreshArrowIcon = "_-qd" (String#24298, DoABC#2)
 // refreshTabText = "_-Yc" (String#23583, DoABC#2)

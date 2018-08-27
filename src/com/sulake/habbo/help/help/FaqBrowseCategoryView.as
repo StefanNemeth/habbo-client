@@ -35,7 +35,7 @@ package com.sulake.habbo.help.help
             var _local_1:IWindow = container.findChildByTag("help_faq_back_link");
             if (_local_1 != null){
                 _local_1.setParamFlag(WindowParam._SafeStr_7434);
-                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.AchievementController);
+                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onBack);
             };
             super.render();
             if (this._category != null){
@@ -65,7 +65,7 @@ package com.sulake.habbo.help.help
             if (_local_3 == null){
                 return;
             };
-            _local_3.IItemListWindow();
+            _local_3.destroyListItems();
             var _local_4:Array = this._category.getQuestionTitleArray();
             var _local_5:int;
             while (_local_5 < _local_4.length) {
@@ -77,7 +77,7 @@ package com.sulake.habbo.help.help
                 _local_5++;
             };
         }
-        private function AchievementController(_arg_1:WindowMouseEvent):void
+        private function onBack(_arg_1:WindowMouseEvent):void
         {
             main.showUI(HabboHelpViewEnum.HHVE_FAQ_TOP);
         }
@@ -93,7 +93,7 @@ package com.sulake.habbo.help.help
             if ((((((((_local_3 == null)) || ((_local_2 == null)))) || ((_arg_1 == null)))) || ((_arg_1.parent == null)))){
                 return;
             };
-            var _local_4:int = _local_2.IItemListWindow(_arg_1.parent);
+            var _local_4:int = _local_2.getListItemIndex(_arg_1.parent);
             if (this._category == null){
                 return;
             };
@@ -113,7 +113,7 @@ package com.sulake.habbo.help.help
 // getItemByIndex = "_-2P9" (String#20007, DoABC#2)
 // getQuestionTitleArray = "_-2HA" (String#19692, DoABC#2)
 // hasContent = "_-1Qz" (String#17547, DoABC#2)
-// AchievementController = "_-2yv" (String#905, DoABC#2)
+// onBack = "_-2yv" (String#905, DoABC#2)
 // FaqIndex = "_-3I0" (String#7667, DoABC#2)
 // HabboHelpViewEnum = "_-1e7" (String#18062, DoABC#2)
 // HelpViewController = "_-IY" (String#8052, DoABC#2)
@@ -121,8 +121,8 @@ package com.sulake.habbo.help.help
 // FaqCategory = "_-0JM" (String#3941, DoABC#2)
 // FaqItem = "_-1u6" (String#5923, DoABC#2)
 // GetFaqCategoryMessageComposer = "_-Zf" (String#23622, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // HHVE_FAQ_TOP = "_-0et" (String#15622, DoABC#2)
 // HHVE_FAQ_TOPICS = "_-ed" (String#23829, DoABC#2)

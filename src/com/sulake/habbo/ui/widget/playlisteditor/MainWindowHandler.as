@@ -27,7 +27,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
 
         private var _widget:PlayListEditorWidget;
         private var _musicController:IHabboMusicController;
-        private var _InventoryMainView:IWindowContainer;
+        private var _mainWindow:IWindowContainer;
         private var _SafeStr_6679:IBorderWindow;
         private var _SafeStr_6680:IBorderWindow;
         private var _musicInventoryView:MusicInventoryGridView;
@@ -63,7 +63,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         public function get window():IWindow
         {
-            return (this._InventoryMainView);
+            return (this._mainWindow);
         }
         public function get musicInventoryView():MusicInventoryGridView
         {
@@ -95,12 +95,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 this._SafeStr_6683.destroy();
                 this._SafeStr_6683 = null;
             };
-            this._InventoryMainView.destroy();
-            this._InventoryMainView = null;
+            this._mainWindow.destroy();
+            this._mainWindow = null;
         }
         public function hide():void
         {
-            this._InventoryMainView.visible = false;
+            this._mainWindow.visible = false;
             if (this._widget != null){
                 this._widget.stopUserSong();
             };
@@ -110,10 +110,10 @@ package com.sulake.habbo.ui.widget.playlisteditor
             this._musicController.requestUserSongDisks();
             var _local_1:IPlayListController = this._musicController.getRoomItemPlaylist();
             if (_local_1 != null){
-                _local_1.IPlayListController();
+                _local_1.requestPlayList();
                 this.selectPlayListStatusViewByFurniPlayListState();
             };
-            this._InventoryMainView.visible = true;
+            this._mainWindow.visible = true;
         }
         public function refreshLoadableAsset(_arg_1:String=""):void
         {
@@ -124,10 +124,10 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 this.assignWindowBitmapByAsset(this._SafeStr_6680, "playlist_editor_splash_image", PlayListEditorWidgetAssetsEnum._SafeStr_6688);
             };
             if ((((_arg_1 == "")) || ((_arg_1 == PlayListEditorWidgetAssetsEnum._SafeStr_6689)))){
-                this._SafeStr_6683.MusicInventoryStatusView(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6689));
+                this._SafeStr_6683.setPreviewPlayingBackgroundImage(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6689));
             };
             if ((((_arg_1 == "")) || ((_arg_1 == PlayListEditorWidgetAssetsEnum._SafeStr_6690)))){
-                this._SafeStr_6683.MusicInventoryStatusView(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6690));
+                this._SafeStr_6683.setGetMoreMusicBackgroundImage(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6690));
             };
             if ((((_arg_1 == "")) || ((_arg_1 == PlayListEditorWidgetAssetsEnum._SafeStr_6691)))){
                 this._SafeStr_6684.addSongsBackgroundImage = this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6691);
@@ -153,12 +153,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
             };
             var _local_1:XmlAsset = (this._widget.assets.getAssetByName("playlisteditor_main_window") as XmlAsset);
             Logger.log(("Show window: " + _local_1));
-            this._InventoryMainView = (this._widget.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
-            if (this._InventoryMainView == null){
+            this._mainWindow = (this._widget.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
+            if (this._mainWindow == null){
                 throw (new Error("Failed to construct window from XML!"));
             };
-            this._InventoryMainView.position = new Point(80, 0);
-            var _local_2:IWindowContainer = (this._InventoryMainView.getChildByName("content_area") as IWindowContainer);
+            this._mainWindow.position = new Point(80, 0);
+            var _local_2:IWindowContainer = (this._mainWindow.getChildByName("content_area") as IWindowContainer);
             if (_local_2 == null){
                 throw (new Error("Window is missing 'content_area' element"));
             };
@@ -178,9 +178,9 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (this._SafeStr_6686 == null){
                 throw (new Error("Window content area is missing 'playlist_scrollbar' window element"));
             };
-            var _local_3:IWindow = this._InventoryMainView.findChildByTag("close");
+            var _local_3:IWindow = this._mainWindow.findChildByTag("close");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
         }
         private function getMusicInventoryGrid():IItemGridWindow
@@ -206,14 +206,14 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 return;
             };
             if (_local_1.isPlaying){
-                this._SafeStr_6684.InfostandWidget(PlayListStatusView.PLSV_NOW_PLAYING);
+                this._SafeStr_6684.selectView(PlayListStatusView.PLSV_NOW_PLAYING);
             }
             else {
                 if (_local_1.length > 0){
-                    this._SafeStr_6684.InfostandWidget(PlayListStatusView.PLSV_START_PLAYBACK);
+                    this._SafeStr_6684.selectView(PlayListStatusView.PLSV_START_PLAYBACK);
                 }
                 else {
-                    this._SafeStr_6684.InfostandWidget(PlayListStatusView.PLSV_ADD_SONGS);
+                    this._SafeStr_6684.selectView(PlayListStatusView.PLSV_ADD_SONGS);
                 };
             };
         }
@@ -221,12 +221,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
         {
             if (this.isPreviewPlaying()){
                 this._SafeStr_6683.show();
-                this._SafeStr_6683.InfostandWidget(MusicInventoryStatusView.MISV_PREVIEW_PLAYING);
+                this._SafeStr_6683.selectView(MusicInventoryStatusView.MISV_PREVIEW_PLAYING);
             }
             else {
                 if (this._musicController.getSongDiskInventorySize() <= _SafeStr_6675){
                     this._SafeStr_6683.show();
-                    this._SafeStr_6683.InfostandWidget(MusicInventoryStatusView.MISV_BUY_MORE);
+                    this._SafeStr_6683.selectView(MusicInventoryStatusView.MISV_BUY_MORE);
                 }
                 else {
                     this._SafeStr_6683.hide();
@@ -243,7 +243,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (_local_1 != null){
                 _local_4 = 0;
                 while (_local_4 < _local_1.length) {
-                    _local_5 = _local_1.IPlayListController(_local_4);
+                    _local_5 = _local_1.getEntry(_local_4);
                     if (_local_5 != null){
                         _local_2.push(_local_5);
                     };
@@ -276,7 +276,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             this.selectMusicStatusViewByMusicState();
             this._SafeStr_6685.visible = (this._musicInventoryView.itemCount > _SafeStr_6676);
         }
-        public function InfoStandWidgetHandler(_arg_1:RoomWidgetPlayListEditorNowPlayingEvent):void
+        public function onNowPlayingChanged(_arg_1:RoomWidgetPlayListEditorNowPlayingEvent):void
         {
             var _local_2:ISongInfo;
             var _local_3:ISongInfo;
@@ -291,7 +291,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                     };
                     return;
                 case RoomWidgetPlayListEditorNowPlayingEvent.RWPLENPE_USER_PLAY_SONG:
-                    this._musicInventoryView.MusicInventoryGridView();
+                    this._musicInventoryView.setPreviewIconToPause();
                     _local_2 = this._musicController.getSongInfo(_arg_1.id);
                     this._SafeStr_6683.songName = (((_local_2)!=null) ? _local_2.name : "");
                     this._SafeStr_6683.songName = (((_local_2)!=null) ? _local_2.name : "");
@@ -299,12 +299,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
                     this.selectMusicStatusViewByMusicState();
                     return;
                 case RoomWidgetPlayListEditorNowPlayingEvent.RWPLENPW_USER_STOP_SONG:
-                    this._musicInventoryView.MusicInventoryGridView();
+                    this._musicInventoryView.setPreviewIconToPlay();
                     this.selectMusicStatusViewByMusicState();
                     return;
             };
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this.hide();
         }
@@ -328,10 +328,10 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListStatusView = "_-1Nn" (String#5307, DoABC#2)
 // PlayListEditorItemListView = "_-0tv" (String#4722, DoABC#2)
 // PlayListEditorWidgetAssetsEnum = "_-0jk" (String#4497, DoABC#2)
-// _InventoryMainView = "_-1P" (String#361, DoABC#2)
-// IPlayListController = "_-ig" (String#2166, DoABC#2)
+// _mainWindow = "_-1P" (String#361, DoABC#2)
+// getEntry = "_-ig" (String#2166, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // creator = "_-1U2" (String#5433, DoABC#2)
 // itemCount = "_-1fH" (String#18108, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
@@ -347,11 +347,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // getImageGalleryAssetBitmap = "_-0PQ" (String#15039, DoABC#2)
 // retrieveWidgetImage = "_-2qW" (String#21104, DoABC#2)
 // requestUserSongDisks = "_-1qp" (String#5871, DoABC#2)
-// IPlayListController = "_-0Vy" (String#817, DoABC#2)
+// requestPlayList = "_-0Vy" (String#817, DoABC#2)
 // refreshLoadableAsset = "_-1AG" (String#16870, DoABC#2)
 // onSongDiskInventoryReceived = "_-2sW" (String#21180, DoABC#2)
 // onPlayListUpdated = "_-eS" (String#23820, DoABC#2)
-// InfoStandWidgetHandler = "_-17C" (String#5020, DoABC#2)
+// onNowPlayingChanged = "_-17C" (String#5020, DoABC#2)
 // _SafeStr_6675 = "_-0s4" (String#16126, DoABC#2)
 // _SafeStr_6676 = "_-01R" (String#14108, DoABC#2)
 // _SafeStr_6677 = "_-2Gr" (String#19676, DoABC#2)
@@ -376,11 +376,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // musicInventoryView = "_-Il" (String#22957, DoABC#2)
 // selectPlayListStatusViewByFurniPlayListState = "_-r8" (String#24320, DoABC#2)
 // assignWindowBitmapByAsset = "_-2WG" (String#20294, DoABC#2)
-// MusicInventoryStatusView = "_-2kT" (String#20863, DoABC#2)
-// MusicInventoryStatusView = "_-2ww" (String#21345, DoABC#2)
+// setPreviewPlayingBackgroundImage = "_-2kT" (String#20863, DoABC#2)
+// setGetMoreMusicBackgroundImage = "_-2ww" (String#21345, DoABC#2)
 // addSongsBackgroundImage = "_-2Md" (String#19913, DoABC#2)
 // isPlaying = "_-2gK" (String#6876, DoABC#2)
-// InfostandWidget = "_-1-8" (String#1597, DoABC#2)
+// selectView = "_-1-8" (String#1597, DoABC#2)
 // PLSV_NOW_PLAYING = "_-2v5" (String#21282, DoABC#2)
 // PLSV_START_PLAYBACK = "_-6p" (String#22492, DoABC#2)
 // PLSV_ADD_SONGS = "_-0kO" (String#15845, DoABC#2)
@@ -395,9 +395,9 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // nowPlayingTrackName = "_-2VF" (String#6669, DoABC#2)
 // nowPlayingAuthorName = "_-2zC" (String#7269, DoABC#2)
 // setItemIndexPlaying = "_-BC" (String#22662, DoABC#2)
-// MusicInventoryGridView = "_-ni" (String#24180, DoABC#2)
+// setPreviewIconToPause = "_-ni" (String#24180, DoABC#2)
 // songName = "_-uT" (String#24469, DoABC#2)
 // authorName = "_-1Y5" (String#5522, DoABC#2)
-// MusicInventoryGridView = "_-2bN" (String#20501, DoABC#2)
+// setPreviewIconToPlay = "_-2bN" (String#20501, DoABC#2)
 
 

@@ -57,7 +57,7 @@ package com.sulake.core.runtime
                 _local_3++;
             };
             this._lastUpdateTimeMs = getTimer();
-            IContext(this, [new IIDCore()]);
+            attachComponent(this, [new IIDCore()]);
             _displayObjectContainer.addEventListener(Event.ENTER_FRAME, this.onEnterFrame);
             switch ((_arg_2 & Core._SafeStr_8919)){
                 case Core._SafeStr_8921:
@@ -72,7 +72,7 @@ package com.sulake.core.runtime
                     debug("Core; using profiler frame update handler");
                     this._SafeStr_8913 = this.profilerFrameUpdateHandler;
                     this._profiler = new Profiler(this);
-                    IContext(this._profiler, [new IIDProfiler()]);
+                    attachComponent(this._profiler, [new IIDProfiler()]);
                     _displayObjectContainer.addChild(new ProfilerViewer(this._profiler));
                     return;
                 case Core._SafeStr_8927:
@@ -266,7 +266,7 @@ package com.sulake.core.runtime
                 };
             };
         }
-        override public function IContext(_arg_1:IUpdateReceiver, _arg_2:uint):void
+        override public function registerUpdateReceiver(_arg_1:IUpdateReceiver, _arg_2:uint):void
         {
             this.removeUpdateReceiver(_arg_1);
             _arg_2 = (((_arg_2 >= CoreComponentContext._SafeStr_8900)) ? (CoreComponentContext._SafeStr_8900 - 1) : _arg_2);
@@ -486,7 +486,7 @@ package com.sulake.core.runtime
                 this._SafeStr_8913 = this.profilerFrameUpdateHandler;
                 if (!this._profiler){
                     this._profiler = new Profiler(this);
-                    IContext(this._profiler, [new IIDProfiler()]);
+                    attachComponent(this._profiler, [new IIDProfiler()]);
                 };
                 _local_2 = 0;
                 while (_local_2 < CoreComponentContext._SafeStr_8900) {
@@ -505,7 +505,7 @@ package com.sulake.core.runtime
             }
             else {
                 if (this._profiler){
-                    IContext(this._profiler);
+                    detachComponent(this._profiler);
                     this._profiler.dispose();
                     this._profiler = null;
                 };
@@ -623,7 +623,7 @@ class UpdateDelegate implements IDisposable
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // onEnterFrame = "_-20T" (String#6057, DoABC#2)
 // ICore = "_-2kX" (String#6966, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // LibraryProgressEvent = "_-26o" (String#19282, DoABC#2)
 // ComponentContext = "_-0jP" (String#4488, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
@@ -650,7 +650,7 @@ class UpdateDelegate implements IDisposable
 // _SafeStr_8915 = "_-1Tw" (String#17663, DoABC#2)
 // _SafeStr_8916 = "_-27n" (String#877, DoABC#2)
 // _displayObjectContainer = "_-179" (String#16740, DoABC#2)
-// IContext = "_-1G" (String#5169, DoABC#2)
+// attachComponent = "_-1G" (String#5169, DoABC#2)
 // _SafeStr_8919 = "_-2Sm" (String#20150, DoABC#2)
 // simpleFrameUpdateHandler = "_-0pS" (String#16034, DoABC#2)
 // _SafeStr_8921 = "_-1te" (String#18704, DoABC#2)
@@ -672,6 +672,6 @@ class UpdateDelegate implements IDisposable
 // finalizeLoadingEventDelegate = "_-2OQ" (String#19983, DoABC#2)
 // updateLoadingProgress = "_-2KE" (String#19813, DoABC#2)
 // setProfilerMode = "_-hp" (String#8551, DoABC#2)
-// IContext = "_-28T" (String#6212, DoABC#2)
+// detachComponent = "_-28T" (String#6212, DoABC#2)
 
 

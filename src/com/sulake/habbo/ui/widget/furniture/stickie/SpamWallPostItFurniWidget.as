@@ -25,12 +25,12 @@ package com.sulake.habbo.ui.widget.furniture.stickie
             this._location = "";
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             _arg_1.addEventListener(RoomWidgetSpamWallPostItEditEvent.RWSWPUE_OPEN_EDITOR, this.onEditPostItRequest);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -55,7 +55,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
         {
             var _local_1:RoomWidgetSpamWallPostItFinishEditingMessage;
             if (_objectId != -1){
-                StickieFurniWidget();
+                storeTextFromField();
                 Logger.log("Spamwall Post-It Widget Send Update");
                 if (messageListener != null){
                     _local_1 = new RoomWidgetSpamWallPostItFinishEditingMessage(RoomWidgetSpamWallPostItFinishEditingMessage.RWSWPFEE_SEND_POSTIT_DATA, _objectId, this._location, _text, _colorHex);
@@ -66,7 +66,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
         }
         override protected function sendSetColor(_arg_1:uint):void
         {
-            StickieFurniWidget();
+            storeTextFromField();
             var _local_2:String = _arg_1.toString(16).toUpperCase();
             if (_local_2.length > 6){
                 _local_2 = _local_2.slice((_local_2.length - 6), _local_2.length);
@@ -96,15 +96,15 @@ package com.sulake.habbo.ui.widget.furniture.stickie
 // _location = "_-245" (String#244, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // hideInterface = "_-29" (String#304, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // _objectType = "_-eP" (String#939, DoABC#2)
 // _SafeStr_5170 = "_-6r" (String#22493, DoABC#2)
 // objectType = "_-23O" (String#19148, DoABC#2)
 // sendUpdate = "_-iA" (String#8556, DoABC#2)
-// StickieFurniWidget = "_-24P" (String#19195, DoABC#2)
+// storeTextFromField = "_-24P" (String#19195, DoABC#2)
 // sendSetColor = "_-0lK" (String#4530, DoABC#2)
 // sendDelete = "_-13W" (String#4943, DoABC#2)
 // RWSWPUE_OPEN_EDITOR = "_-1kX" (String#18309, DoABC#2)

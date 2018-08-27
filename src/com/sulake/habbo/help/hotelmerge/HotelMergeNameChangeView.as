@@ -43,10 +43,10 @@ package com.sulake.habbo.help.hotelmerge
         {
             this._SafeStr_11424 = _arg_1;
             if (this._SafeStr_11425 == this._SafeStr_11424){
-                this.NameChangeView();
+                this.showConfirmationView();
                 return;
             };
-            this.NameChangeView();
+            this.setNameAvailableView();
         }
         public function dispose():void
         {
@@ -67,7 +67,7 @@ package com.sulake.habbo.help.hotelmerge
                 this._window = null;
             };
         }
-        private function HabboInventory(_arg_1:IWindowContainer):void
+        private function showView(_arg_1:IWindowContainer):void
         {
             this._SafeStr_11429 = false;
             if (this._SafeStr_3864){
@@ -80,19 +80,19 @@ package com.sulake.habbo.help.hotelmerge
                 this._window.content.height = this._SafeStr_3864.height;
             };
         }
-        public function NameChangeView():void
+        public function showMainView():void
         {
             if (!this._window){
                 this._window = (this.createWindow("hotel_merge_name_change_xml") as IFrameWindow);
                 this._window.center();
-                this._window.procedure = this.NameChangeView;
+                this._window.procedure = this.windowEventHandler;
                 this._SafeStr_11426 = (this._window.content.getChildAt(0) as IWindowContainer);
             };
             this._controller.localization.registerParameter("hotel_merge.name_change.current", "name", this._controller.myName);
             this._window.caption = this._controller.localization.getKey("hotel_merge.name_change.title.main");
-            this.HabboInventory(this._SafeStr_11426);
+            this.showView(this._SafeStr_11426);
         }
-        private function NameChangeView():void
+        private function showSelectionView():void
         {
             if (!this._SafeStr_11427){
                 this._SafeStr_11427 = (this.createWindow("hotel_merge_name_selection_xml") as IWindowContainer);
@@ -106,10 +106,10 @@ package com.sulake.habbo.help.hotelmerge
             if (_local_1){
                 _local_1.disable();
             };
-            this.NameChangeView();
-            this.HabboInventory(this._SafeStr_11427);
+            this.setNormalView();
+            this.showView(this._SafeStr_11427);
         }
-        private function NameChangeView():void
+        private function showConfirmationView():void
         {
             if (!this._SafeStr_11428){
                 this._SafeStr_11428 = (this.createWindow("hotel_merge_name_confirmation_xml") as IWindowContainer);
@@ -123,7 +123,7 @@ package com.sulake.habbo.help.hotelmerge
             if (_local_1){
                 _local_1.text = this._SafeStr_11424;
             };
-            this.HabboInventory(this._SafeStr_11428);
+            this.showView(this._SafeStr_11428);
         }
         private function createWindow(_arg_1:String):IWindow
         {
@@ -137,7 +137,7 @@ package com.sulake.habbo.help.hotelmerge
         {
             return (this._window);
         }
-        public function NameChangeView():void
+        public function setNormalView():void
         {
             if (this._window == null){
                 return;
@@ -153,12 +153,12 @@ package com.sulake.habbo.help.hotelmerge
             };
             _local_2.visible = false;
         }
-        public function NameChangeView():void
+        public function setNameAvailableView():void
         {
             if (this._window == null){
                 return;
             };
-            this.NameChangeView(true);
+            this.nameCheckWaitEnd(true);
             var _local_1:ITextWindow = (this._window.findChildByName("info_text") as ITextWindow);
             if (_local_1 == null){
                 return;
@@ -176,12 +176,12 @@ package com.sulake.habbo.help.hotelmerge
             };
             _local_3.visible = false;
         }
-        public function NameChangeView(_arg_1:int, _arg_2:String, _arg_3:Array):void
+        public function setNameNotAvailableView(_arg_1:int, _arg_2:String, _arg_3:Array):void
         {
             var _local_8:IWindow;
-            this.NameChangeView(false);
+            this.nameCheckWaitEnd(false);
             if (this._SafeStr_3864 != this._SafeStr_11427){
-                this.NameChangeView();
+                this.showSelectionView();
             };
             this._SafeStr_11425 = null;
             this._SafeStr_11424 = null;
@@ -231,42 +231,42 @@ package com.sulake.habbo.help.hotelmerge
             while (_local_7 < _local_5.numChildren) {
                 _local_8 = _local_5.getChildAt(_local_7);
                 _local_8.color = _SafeStr_11422;
-                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.NameChangeView);
-                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.NameChangeView);
-                _local_8.addEventListener(WindowMouseEvent.WME_OUT, this.NameChangeView);
+                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.nameSelected);
+                _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.nameOver);
+                _local_8.addEventListener(WindowMouseEvent.WME_OUT, this.nameOut);
                 _local_7++;
             };
         }
-        private function NameChangeView(_arg_1:WindowMouseEvent):void
+        private function nameSelected(_arg_1:WindowMouseEvent):void
         {
-            this.NameChangeView(true);
+            this.nameCheckWaitEnd(true);
             var _local_2:ITextWindow = (_arg_1.target as ITextWindow);
             if (!_local_2){
                 return;
             };
             var _local_3:String = _local_2.text;
-            this.NameChangeView();
+            this.setNormalView();
             var _local_4:ITextFieldWindow = (this._window.findChildByName("input") as ITextFieldWindow);
             if (_local_4 == null){
                 return;
             };
             _local_4.text = _local_3;
         }
-        private function NameChangeView(_arg_1:WindowMouseEvent):void
+        private function nameOver(_arg_1:WindowMouseEvent):void
         {
             var _local_2:ITextWindow = (_arg_1.target as ITextWindow);
             if (_local_2 != null){
                 _local_2.color = _SafeStr_11423;
             };
         }
-        private function NameChangeView(_arg_1:WindowMouseEvent):void
+        private function nameOut(_arg_1:WindowMouseEvent):void
         {
             var _local_2:ITextWindow = (_arg_1.target as ITextWindow);
             if (_local_2 != null){
                 _local_2.color = _SafeStr_11422;
             };
         }
-        public function NameChangeView():void
+        public function nameCheckWaitBegin():void
         {
             var _local_1:IWindow;
             if (((this._window) && (!(this._window.disposed)))){
@@ -289,7 +289,7 @@ package com.sulake.habbo.help.hotelmerge
             };
             this._SafeStr_11429 = true;
         }
-        public function NameChangeView(_arg_1:Boolean):void
+        public function nameCheckWaitEnd(_arg_1:Boolean):void
         {
             var _local_2:IWindow;
             if (((this._window) && (!(this._window.disposed)))){
@@ -310,7 +310,7 @@ package com.sulake.habbo.help.hotelmerge
             };
             this._SafeStr_11429 = false;
         }
-        private function NameChangeView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:IWindow;
             var _local_4:ITextFieldWindow;
@@ -336,15 +336,15 @@ package com.sulake.habbo.help.hotelmerge
             };
             switch (_arg_2.name){
                 case "change_name_button":
-                    this.NameChangeView();
+                    this.showSelectionView();
                     return;
                 case "keep_name_button":
                     this._SafeStr_11424 = this._controller.myName;
-                    this.NameChangeView();
+                    this.showConfirmationView();
                     return;
                 case "check_name_button":
                     this._controller.checkName(this.getName());
-                    this.NameChangeView();
+                    this.nameCheckWaitBegin();
                     return;
                 case "select_name_button":
                     _local_5 = this.getName();
@@ -354,22 +354,22 @@ package com.sulake.habbo.help.hotelmerge
                     if (this._SafeStr_11424 != _local_5){
                         this._SafeStr_11425 = _local_5;
                         this._controller.checkName(_local_5);
-                        this.NameChangeView();
+                        this.nameCheckWaitBegin();
                     }
                     else {
-                        this.NameChangeView();
+                        this.showConfirmationView();
                     };
                     return;
                 case "cancel_selection_button":
-                    this.NameChangeView(true);
-                    this.NameChangeView();
+                    this.nameCheckWaitEnd(true);
+                    this.showMainView();
                     return;
                 case "confirm_name_button":
                     this._controller.changeName(this._SafeStr_11424);
                     return;
                 case "cancel_confirmation_button":
-                    this.NameChangeView(true);
-                    this.NameChangeView();
+                    this.nameCheckWaitEnd(true);
+                    this.showMainView();
                     return;
                 case "header_button_close":
                     this.disposeWindow();
@@ -391,10 +391,10 @@ package com.sulake.habbo.help.hotelmerge
     }
 }//package com.sulake.habbo.help.hotelmerge
 
-// NameChangeView = "_-2pt" (String#21077, DoABC#2)
+// showMainView = "_-2pt" (String#21077, DoABC#2)
 // changeName = "_-0uN" (String#4733, DoABC#2)
 // checkName = "_-2Fe" (String#6356, DoABC#2)
-// NameChangeView = "_-oP" (String#24210, DoABC#2)
+// setNameNotAvailableView = "_-oP" (String#24210, DoABC#2)
 // checkedName = "_-11W" (String#16518, DoABC#2)
 // myName = "_-0Kp" (String#3971, DoABC#2)
 // _SafeStr_11422 = "_-267" (String#6165, DoABC#2)
@@ -407,16 +407,16 @@ package com.sulake.habbo.help.hotelmerge
 // _SafeStr_11429 = "_-F5" (String#7972, DoABC#2)
 // _SafeStr_11430 = "_-2a4" (String#6760, DoABC#2)
 // TUI_NAME_VIEW = "_-146" (String#16621, DoABC#2)
-// NameChangeView = "_-3Eb" (String#7605, DoABC#2)
-// NameChangeView = "_-1EH" (String#17038, DoABC#2)
+// showConfirmationView = "_-3Eb" (String#7605, DoABC#2)
+// setNameAvailableView = "_-1EH" (String#17038, DoABC#2)
 // disposeWindow = "_-0-u" (String#804, DoABC#2)
-// NameChangeView = "_-3-t" (String#7301, DoABC#2)
-// NameChangeView = "_-0s-" (String#16122, DoABC#2)
-// NameChangeView = "_-1U" (String#17666, DoABC#2)
-// NameChangeView = "_-yj" (String#8853, DoABC#2)
-// NameChangeView = "_-iF" (String#8560, DoABC#2)
-// NameChangeView = "_-0JZ" (String#3944, DoABC#2)
-// NameChangeView = "_-3Ig" (String#22225, DoABC#2)
+// showSelectionView = "_-3-t" (String#7301, DoABC#2)
+// setNormalView = "_-0s-" (String#16122, DoABC#2)
+// nameCheckWaitEnd = "_-1U" (String#17666, DoABC#2)
+// nameSelected = "_-yj" (String#8853, DoABC#2)
+// nameOver = "_-iF" (String#8560, DoABC#2)
+// nameOut = "_-0JZ" (String#3944, DoABC#2)
+// nameCheckWaitBegin = "_-3Ig" (String#22225, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ITextFieldWindow = "_-3EL" (String#2027, DoABC#2)
 // HotelMergeUI = "_-XE" (String#8353, DoABC#2)
@@ -429,7 +429,7 @@ package com.sulake.habbo.help.hotelmerge
 // _SafeStr_3864 = "_-2-T" (String#446, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
-// NameChangeView = "_-36j" (String#371, DoABC#2)
+// windowEventHandler = "_-36j" (String#371, DoABC#2)
 // _SafeStr_7097 = "_-Ni" (String#23153, DoABC#2)
 // _SafeStr_7098 = "_-30B" (String#21507, DoABC#2)
 // _SafeStr_7099 = "_-0Hq" (String#14750, DoABC#2)
@@ -437,6 +437,6 @@ package com.sulake.habbo.help.hotelmerge
 // _SafeStr_7101 = "_-3-P" (String#21478, DoABC#2)
 // _SafeStr_7102 = "_-1Hn" (String#17183, DoABC#2)
 // _SafeStr_7103 = "_-2YA" (String#20362, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 
 

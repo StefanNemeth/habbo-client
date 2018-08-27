@@ -97,7 +97,7 @@ package com.sulake.habbo.session
                 return;
             };
             this._window = IFrameWindow(this._SafeStr_13621.getXmlWindow("group_info"));
-            this._window.findChildByTag("close").procedure = this.PollOfferDialog;
+            this._window.findChildByTag("close").procedure = this.onClose;
             this.setProc("group_homepage_link_region", this.onHomepageLink);
             this.setProc("group_room_link_region", this.onRoomLink);
             this._window.findChildByName("join_button").procedure = this.onJoin;
@@ -211,7 +211,7 @@ package com.sulake.habbo.session
             if (_local_1.bitmap == null){
                 _local_1.bitmap = new BitmapData(_local_1.width, _local_1.height);
             };
-            var _local_2:BitmapData = this._SafeStr_13621.SessionDataManager(this._SafeStr_10540.badgeCode);
+            var _local_2:BitmapData = this._SafeStr_13621.getGroupBadgeImage(this._SafeStr_10540.badgeCode);
             _local_1.bitmap.fillRect(_local_1.bitmap.rect, 0xFFFFFF);
             if (_local_2 != null){
                 _local_1.bitmap.draw(_local_2, this._SafeStr_12219);
@@ -228,7 +228,7 @@ package com.sulake.habbo.session
             if (_local_3.bitmap == null){
                 _local_3.bitmap = new BitmapData(_local_3.width, _local_3.height);
             };
-            var _local_4:BitmapData = this._SafeStr_13621.SessionDataManager(_arg_2.badgeCode);
+            var _local_4:BitmapData = this._SafeStr_13621.getGroupBadgeImage(_arg_2.badgeCode);
             _local_3.bitmap.fillRect(_local_3.bitmap.rect, 0xFFFFFF);
             if (_local_4 != null){
                 _local_3.bitmap.draw(_local_4);
@@ -254,7 +254,7 @@ package com.sulake.habbo.session
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
-            this._SafeStr_13621.InfoStandUserView(_arg_2.id);
+            this._SafeStr_13621.showGroupBadgeInfo(_arg_2.id);
             this._SafeStr_13621.send(new EventLogMessageComposer(_SafeStr_13629, ("" + _arg_2.id), "select"));
         }
         private function onJoin(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -296,11 +296,11 @@ package com.sulake.habbo.session
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
-            this._SafeStr_13621.roomSessionManager.RoomSessionManager(false, this._SafeStr_10540.roomId);
+            this._SafeStr_13621.roomSessionManager.gotoRoom(false, this._SafeStr_10540.roomId);
             this.close();
             this._SafeStr_13621.send(new EventLogMessageComposer(_SafeStr_13629, ("" + this._SafeStr_10540.groupId), "base"));
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -333,7 +333,7 @@ package com.sulake.habbo.session
 // _SafeStr_10540 = "_-0yG" (String#1586, DoABC#2)
 // onSelectGroup = "_-GV" (String#8007, DoABC#2)
 // setProc = "_-333" (String#1990, DoABC#2)
-// RoomSessionManager = "_-Fa" (String#7986, DoABC#2)
+// gotoRoom = "_-Fa" (String#7986, DoABC#2)
 // _SafeStr_12219 = "_-Qh" (String#8219, DoABC#2)
 // refreshBadgeImage = "_-1Ir" (String#5217, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
@@ -372,7 +372,7 @@ package com.sulake.habbo.session
 // moveChildrenToColumn = "_-fI" (String#23859, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
 // badgeImage = "_-250" (String#19222, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // badgeCode = "_-2XO" (String#20338, DoABC#2)
 // _SafeStr_5510 = "_-3EI" (String#22048, DoABC#2)
 // _SafeStr_5512 = "_-1KO" (String#17290, DoABC#2)
@@ -380,8 +380,8 @@ package com.sulake.habbo.session
 // prepareWindow = "_-RN" (String#219, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)
 // roomSessionManager = "_-1bj" (String#5594, DoABC#2)
-// InfoStandUserView = "_-1Qo" (String#1680, DoABC#2)
-// SessionDataManager = "_-KC" (String#2087, DoABC#2)
+// showGroupBadgeInfo = "_-1Qo" (String#1680, DoABC#2)
+// getGroupBadgeImage = "_-KC" (String#2087, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 // onBadgeImageReady = "_-2f0" (String#1919, DoABC#2)
 

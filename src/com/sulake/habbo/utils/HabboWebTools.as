@@ -16,7 +16,7 @@ package com.sulake.habbo.utils
                 ExternalInterface.call("FlashExternalInterface.logEventLog", _arg_1);
             };
         }
-        public static function HTMLTextController(_arg_1:String, _arg_2:String=""):void
+        public static function openWebPage(_arg_1:String, _arg_2:String=""):void
         {
             var _local_4:String;
             if ((((_arg_2 == null)) || ((_arg_2 == "")))){
@@ -96,7 +96,7 @@ package com.sulake.habbo.utils
 }//package com.sulake.habbo.utils
 
 // HabboWebTools = "_-2pX" (String#21059, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 // _SafeStr_4572 = "_-1Ii" (String#17223, DoABC#2)
 // logEventLog = "_-1qw" (String#18578, DoABC#2)
 // openExternalLinkWarning = "_-9C" (String#22588, DoABC#2)

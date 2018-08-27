@@ -52,7 +52,7 @@ package com.sulake.habbo.ui.widget.loadingbar
             this._config = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -60,9 +60,9 @@ package com.sulake.habbo.ui.widget.loadingbar
             _arg_1.addEventListener(RoomWidgetInterstitialUpdateEvent.RWIUE_SHOW, this.onShowInterstitial);
             _arg_1.addEventListener(RoomWidgetLoadingBarUpdateEvent.RWIUE_SHOW, this.onShowLoadingBar);
             _arg_1.addEventListener(RoomWidgetLoadingBarUpdateEvent.RWLBUW_HIDE_LOADING_BAR, this.onHideLoadingBar);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -164,7 +164,7 @@ package com.sulake.habbo.ui.widget.loadingbar
         private function clickHandler(_arg_1:Event):void
         {
             if (this._clickUrl != ""){
-                HabboWebTools.HTMLTextController(this._clickUrl);
+                HabboWebTools.openWebPage(this._clickUrl);
             };
         }
 
@@ -179,8 +179,8 @@ package com.sulake.habbo.ui.widget.loadingbar
 // LoadingBarWidget = "_-21L" (String#6072, DoABC#2)
 // RoomWidgetLoadingBarUpdateEvent = "_-0ux" (String#4743, DoABC#2)
 // RoomWidgetInterstitialUpdateEvent = "_-198" (String#5059, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // _image = "_-35u" (String#78, DoABC#2)
 // _clickUrl = "_-2-C" (String#303, DoABC#2)
@@ -191,6 +191,6 @@ package com.sulake.habbo.ui.widget.loadingbar
 // onShowLoadingBar = "_-cg" (String#23740, DoABC#2)
 // RWLBUW_HIDE_LOADING_BAR = "_-0-1" (String#14011, DoABC#2)
 // onHideLoadingBar = "_-0SE" (String#15143, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 
 

@@ -101,7 +101,7 @@ package com.sulake.habbo.avatar.common
                 };
                 _local_3++;
             };
-            this.CategoryData();
+            this.updatePartColors();
         }
         public function selectPartIndex(_arg_1:int):AvatarEditorGridPartItem
         {
@@ -142,7 +142,7 @@ package com.sulake.habbo.avatar.common
                 return (null);
             };
             _local_4.isSelected = true;
-            this.CategoryData();
+            this.updatePartColors();
             return (_local_4);
         }
         private function deselectColorIndex(_arg_1:int, _arg_2:int):void
@@ -199,7 +199,7 @@ package com.sulake.habbo.avatar.common
                 };
                 _local_5++;
             };
-            var _local_6:AvatarEditorGridPartItem = this.CategoryData();
+            var _local_6:AvatarEditorGridPartItem = this.getCurrentPart();
             if (!_local_6){
                 return (null);
             };
@@ -255,11 +255,11 @@ package com.sulake.habbo.avatar.common
             };
             return ((this._SafeStr_6867[_arg_1] as Array));
         }
-        public function CategoryData():AvatarEditorGridPartItem
+        public function getCurrentPart():AvatarEditorGridPartItem
         {
             return ((this._parts[this._SafeStr_9940] as AvatarEditorGridPartItem));
         }
-        private function CategoryData():void
+        private function updatePartColors():void
         {
             var _local_2:AvatarEditorGridPartItem;
             var _local_1:Array = this.getSelectedColors();
@@ -269,7 +269,7 @@ package com.sulake.habbo.avatar.common
                 };
             };
         }
-        public function CategoryData(_arg_1:int):Boolean
+        public function hasClubSelectionsOverLevel(_arg_1:int):Boolean
         {
             var _local_6:int;
             var _local_7:IPartColor;
@@ -287,7 +287,7 @@ package com.sulake.habbo.avatar.common
                 };
             };
             var _local_4:Boolean;
-            var _local_5:AvatarEditorGridPartItem = this.CategoryData();
+            var _local_5:AvatarEditorGridPartItem = this.getCurrentPart();
             if (((_local_5) && (_local_5.partSet))){
                 _local_8 = _local_5.partSet;
                 if (((_local_8) && ((_local_8.clubLevel > _arg_1)))){
@@ -300,7 +300,7 @@ package com.sulake.habbo.avatar.common
         {
             var _local_3:IFigurePartSet;
             var _local_4:AvatarEditorGridPartItem;
-            var _local_2:AvatarEditorGridPartItem = this.CategoryData();
+            var _local_2:AvatarEditorGridPartItem = this.getCurrentPart();
             if (((_local_2) && (_local_2.partSet))){
                 _local_3 = _local_2.partSet;
                 if (_local_3.clubLevel > _arg_1){
@@ -313,7 +313,7 @@ package com.sulake.habbo.avatar.common
             };
             return (false);
         }
-        public function CategoryData(_arg_1:int):Boolean
+        public function stripClubColorsOverLevel(_arg_1:int):Boolean
         {
             var _local_9:IPartColor;
             var _local_2:Array = new Array();
@@ -366,16 +366,16 @@ package com.sulake.habbo.avatar.common
 // selectColorIds = "_-1YX" (String#17832, DoABC#2)
 // _SafeStr_6867 = "_-2YU" (String#893, DoABC#2)
 // stripClubItemsOverLevel = "_-0C1" (String#3793, DoABC#2)
-// CategoryData = "_-1rX" (String#18609, DoABC#2)
-// CategoryData = "_-0oz" (String#16011, DoABC#2)
-// CategoryData = "_-aT" (String#23652, DoABC#2)
+// hasClubSelectionsOverLevel = "_-1rX" (String#18609, DoABC#2)
+// stripClubColorsOverLevel = "_-0oz" (String#16011, DoABC#2)
+// getCurrentPart = "_-aT" (String#23652, DoABC#2)
 // selectPartIndex = "_-0ca" (String#15538, DoABC#2)
 // colorLayerCount = "_-0xO" (String#16327, DoABC#2)
 // partColor = "_-1Sa" (String#17605, DoABC#2)
 // _SafeStr_9939 = "_-2H9" (String#19691, DoABC#2)
 // _SafeStr_9940 = "_-2SH" (String#20129, DoABC#2)
 // _SafeStr_9941 = "_-0Lr" (String#14908, DoABC#2)
-// CategoryData = "_-29i" (String#19392, DoABC#2)
+// updatePartColors = "_-29i" (String#19392, DoABC#2)
 // deselectColorIndex = "_-3CM" (String#21974, DoABC#2)
 // getSelectedColors = "_-1ms" (String#18417, DoABC#2)
 // getSelectedColor = "_-24y" (String#19220, DoABC#2)

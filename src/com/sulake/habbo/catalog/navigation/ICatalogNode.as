@@ -7,7 +7,7 @@ package com.sulake.habbo.catalog.navigation
     {
 
         function dispose():void;
-        function get IssueBrowser():Boolean;
+        function get isOpen():Boolean;
         function get depth():int;
         function get isBranch():Boolean;
         function get isLeaf():Boolean;
@@ -34,6 +34,6 @@ package com.sulake.habbo.catalog.navigation
 // isLeaf = "_-2Tk" (String#6641, DoABC#2)
 // hasChild = "_-1eH" (String#5633, DoABC#2)
 // ICatalogNode = "_-0Td" (String#4172, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 
 

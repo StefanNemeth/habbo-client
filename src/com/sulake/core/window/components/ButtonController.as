@@ -15,7 +15,7 @@ package com.sulake.core.window.components
     {
 
         protected static const _BTN_TEXT:String = "_BTN_TEXT";
-        protected static const _ButtonController:Number = 0.5;
+        protected static const _SafeStr_9238:Number = 0.5;
 
         public function ButtonController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
@@ -42,14 +42,14 @@ package com.sulake.core.window.components
                         break;
                     case WindowEvent.WE_ENABLED:
                         try {
-                            getChildByName(_BTN_TEXT).blend = (getChildByName(_BTN_TEXT).blend + _ButtonController);
+                            getChildByName(_BTN_TEXT).blend = (getChildByName(_BTN_TEXT).blend + _SafeStr_9238);
                         }
                         catch(e:Error) {
                         };
                         break;
                     case WindowEvent.WE_DISABLED:
                         try {
-                            getChildByName(_BTN_TEXT).blend = (getChildByName(_BTN_TEXT).blend - _ButtonController);
+                            getChildByName(_BTN_TEXT).blend = (getChildByName(_BTN_TEXT).blend - _SafeStr_9238);
                         }
                         catch(e:Error) {
                         };
@@ -92,7 +92,7 @@ package com.sulake.core.window.components
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // _BTN_TEXT = "_-7L" (String#2054, DoABC#2)
-// _ButtonController = "_-0YG" (String#15368, DoABC#2)
+// _SafeStr_9238 = "_-0YG" (String#15368, DoABC#2)
 // WE_CHILD_RESIZED = "_-i1" (String#23965, DoABC#2)
 // WE_ENABLED = "_-2J1" (String#19767, DoABC#2)
 // WE_DISABLED = "_-xm" (String#24603, DoABC#2)

@@ -41,7 +41,7 @@ package com.sulake.habbo.ui.widget.infostand
         private static const _SafeStr_13985:String = "energy";
         private static const _SafeStr_13986:int = 250;
         private static const _SafeStr_13987:int = 25;
-        private static const _InfoStandPetView:int = 5;
+        private static const _SafeStr_13988:int = 5;
 
         private var _catalog:IHabboCatalog;
         private var _habboTracking:IHabboTracking;
@@ -52,7 +52,7 @@ package com.sulake.habbo.ui.widget.infostand
         private var _SafeStr_13990:IItemListWindow;
         private var _SafeStr_13991:PetCommandTool;
         private var _petData:Map;
-        private var _InfoStandPetView:int;
+        private var _SafeStr_13992:int;
 
         public function InfoStandPetView(_arg_1:InfostandWidget, _arg_2:String, _arg_3:IHabboCatalog)
         {
@@ -87,7 +87,7 @@ package com.sulake.habbo.ui.widget.infostand
         {
             return (this._window);
         }
-        private function InfoStandUserView():void
+        private function updateWindow():void
         {
             if ((((((this._SafeStr_13990 == null)) || ((this._border == null)))) || ((this._SafeStr_13989 == null)))){
                 return;
@@ -106,7 +106,7 @@ package com.sulake.habbo.ui.widget.infostand
                 this._SafeStr_13989.x = (this._window.width - this._SafeStr_13989.width);
                 this._border.x = 0;
             };
-            this._widget.InfostandWidget();
+            this._widget.refreshContainer();
         }
         public function update(_arg_1:InfoStandPetData):void
         {
@@ -116,25 +116,25 @@ package com.sulake.habbo.ui.widget.infostand
             this.raceText = this._widget.localizations.getKey(this.getRaceLocalizationKey(_arg_1.type, _arg_1.race));
             this.petRespect = _arg_1.petRespect;
             this.ageText = _arg_1.age;
-            this.InfoStandPetView(_arg_1.level, _arg_1.levelMax);
-            this.InfoStandPetView(_SafeStr_13983, _arg_1.nutrition, _arg_1.nutritionMax, _SafeStr_13978, _SafeStr_13977);
-            this.InfoStandPetView(_SafeStr_13984, _arg_1.experience, _arg_1.experienceMax, _SafeStr_13980, _SafeStr_13979);
-            this.InfoStandPetView(_SafeStr_13985, _arg_1.energy, _arg_1.energyMax, _SafeStr_13982, _SafeStr_13981);
-            this.InfoStandUserView("pick", _arg_1.isOwnPet);
-            this.InfoStandUserView("train", _arg_1.isOwnPet);
-            this.InfoStandUserView("kick", _arg_1.canOwnerBeKicked);
-            this.InfoStandUserView();
-            this.InfoStandUserView();
-            this._InfoStandPetView = _arg_1.id;
+            this.setLevelText(_arg_1.level, _arg_1.levelMax);
+            this.updateStateElement(_SafeStr_13983, _arg_1.nutrition, _arg_1.nutritionMax, _SafeStr_13978, _SafeStr_13977);
+            this.updateStateElement(_SafeStr_13984, _arg_1.experience, _arg_1.experienceMax, _SafeStr_13980, _SafeStr_13979);
+            this.updateStateElement(_SafeStr_13985, _arg_1.energy, _arg_1.energyMax, _SafeStr_13982, _SafeStr_13981);
+            this.showButton("pick", _arg_1.isOwnPet);
+            this.showButton("train", _arg_1.isOwnPet);
+            this.showButton("kick", _arg_1.canOwnerBeKicked);
+            this.updateRespectButton();
+            this.updateWindow();
+            this._SafeStr_13992 = _arg_1.id;
             this._petData.remove(_arg_1.id);
             this._petData.add(_arg_1.id, _arg_1);
             if (((((this._SafeStr_13991) && (this._SafeStr_13991.isVisible()))) && (_arg_1.isOwnPet))){
                 this._SafeStr_13991.showCommandToolForPet(_arg_1.id, _arg_1.name, _arg_1.image);
             };
         }
-        public function InfoStandPetView():int
+        public function getCurrentPetId():int
         {
-            return (this._InfoStandPetView);
+            return (this._SafeStr_13992);
         }
         public function updateEnabledTrainingCommands(_arg_1:int, _arg_2:CommandConfiguration):void
         {
@@ -173,7 +173,7 @@ package com.sulake.habbo.ui.widget.infostand
             if (this._SafeStr_13991 == null){
                 this._SafeStr_13991 = new PetCommandTool(this._widget);
             };
-            var _local_1:InfoStandPetData = (this._petData.getValue(this._InfoStandPetView) as InfoStandPetData);
+            var _local_1:InfoStandPetData = (this._petData.getValue(this._SafeStr_13992) as InfoStandPetData);
             if (_local_1 != null){
                 this._SafeStr_13991.showWindow(true);
                 this._SafeStr_13991.showCommandToolForPet(_local_1.id, _local_1.name, _local_1.image);
@@ -205,16 +205,16 @@ package com.sulake.habbo.ui.widget.infostand
             this._widget.mainContainer.addChild(this._window);
             var _local_3:IWindow = this._border.findChildByTag("close");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             this._SafeStr_13989 = (this._window.getListItemByName("button_list") as IWindowContainer);
             if (this._SafeStr_13989 == null){
                 return;
             };
             var _local_4:Array = [];
-            this._SafeStr_13989.WindowController("CMD_BUTTON", _local_4, true);
+            this._SafeStr_13989.groupChildrenWithTag("CMD_BUTTON", _local_4, true);
             for each (_local_5 in _local_4) {
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
             };
             _local_6 = (this._border.findChildByName("petrespect_icon") as IBitmapWrapperWindow);
             if (_local_6 != null){
@@ -244,7 +244,7 @@ package com.sulake.habbo.ui.widget.infostand
                 if (_local_10.parent){
                     _local_10.parent.width = _local_10.width;
                 };
-                _local_10.addEventListener(WindowEvent.WE_RESIZED, this.InfoStandUserView);
+                _local_10.addEventListener(WindowEvent.WE_RESIZED, this.onButtonResized);
             };
         }
         private function set name(_arg_1:String):void
@@ -282,9 +282,9 @@ package com.sulake.habbo.ui.widget.infostand
             _local_4.copyPixels(_arg_1, _arg_1.rect, _local_5);
             _local_3.bitmap = _local_4;
             _local_3.invalidate();
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        private function InfoStandPetView(_arg_1:int, _arg_2:int):void
+        private function setLevelText(_arg_1:int, _arg_2:int):void
         {
             if (this._SafeStr_13990 == null){
                 return;
@@ -299,12 +299,12 @@ package com.sulake.habbo.ui.widget.infostand
             };
             this._widget.localizations.registerParameter("pet.level", "level", _arg_1.toString());
             this._widget.localizations.registerParameter("pet.level", "maxlevel", _arg_2.toString());
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         private function set ownerName(_arg_1:String):void
         {
             this._widget.localizations.registerParameter("infostand.text.petowner", "name", _arg_1);
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         private function set raceText(_arg_1:String):void
         {
@@ -316,7 +316,7 @@ package com.sulake.habbo.ui.widget.infostand
                 return;
             };
             _local_2.text = _arg_1;
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         private function set ageText(_arg_1:int):void
         {
@@ -328,7 +328,7 @@ package com.sulake.habbo.ui.widget.infostand
                 return;
             };
             this._widget.localizations.registerParameter("pet.age", "age", _arg_1.toString());
-            this.InfoStandUserView();
+            this.updateWindow();
         }
         private function set petRespect(_arg_1:int):void
         {
@@ -340,9 +340,9 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_3:ITextWindow = (_local_2.findChildByName("petrespect_text") as ITextWindow);
             var _local_4:IBitmapWrapperWindow = (_local_2.findChildByName("petrespect_icon") as IBitmapWrapperWindow);
             _local_4.x = ((_local_3.x + _local_3.width) + 2);
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        private function InfoStandPetView(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:uint, _arg_5:uint):void
+        private function updateStateElement(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:uint, _arg_5:uint):void
         {
             var _local_9:BitmapData;
             if (this._SafeStr_13990 == null){
@@ -366,9 +366,9 @@ package com.sulake.habbo.ui.widget.infostand
                     _local_8.invalidate();
                 };
             };
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        protected function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        protected function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_2:RoomWidgetMessage;
             var _local_3:String;
@@ -377,7 +377,7 @@ package com.sulake.habbo.ui.widget.infostand
             switch (_local_4.name){
                 case "btn_pick":
                     _local_3 = RoomWidgetUserActionMessage.RWUAM_PICKUP_PET;
-                    if (((this._SafeStr_13991) && ((this._SafeStr_13991.getPetId() == this._InfoStandPetView)))){
+                    if (((this._SafeStr_13991) && ((this._SafeStr_13991.getPetId() == this._SafeStr_13992)))){
                         this._SafeStr_13991.showWindow(false);
                     };
                     break;
@@ -394,7 +394,7 @@ package com.sulake.habbo.ui.widget.infostand
                     break;
                 case "btn_petrespect":
                     this._widget.userData.petRespectLeft--;
-                    this.InfoStandUserView();
+                    this.updateRespectButton();
                     _local_3 = RoomWidgetUserActionMessage. RWUAM_RESPECT_PET;
                     break;
                 case "btn_kick":
@@ -407,19 +407,19 @@ package com.sulake.habbo.ui.widget.infostand
                 _local_2 = new RoomWidgetUserActionMessage(_local_3, _local_5);
                 this._widget.messageListener.processWidgetMessage(_local_2);
             };
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this._widget.close();
         }
-        private function InfoStandUserView():void
+        private function updateRespectButton():void
         {
             var _local_1:int = this._widget.userData.petRespectLeft;
             this._widget.localizations.registerParameter("infostand.button.petrespect", "count", _local_1.toString());
-            this.InfoStandUserView("petrespect", (_local_1 > 0));
+            this.showButton("petrespect", (_local_1 > 0));
         }
-        protected function InfoStandUserView(_arg_1:String, _arg_2:Boolean):void
+        protected function showButton(_arg_1:String, _arg_2:Boolean):void
         {
             if (this._SafeStr_13989 == null){
                 return;
@@ -427,38 +427,38 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_3:IWindow = this._SafeStr_13989.getChildByName(_arg_1);
             if (_local_3 != null){
                 _local_3.visible = _arg_2;
-                this.InfoStandUserView();
+                this.arrangeButtons();
             };
         }
-        protected function InfoStandUserView(_arg_1:WindowEvent):void
+        protected function onButtonResized(_arg_1:WindowEvent):void
         {
             var _local_2:IWindow = _arg_1.window.parent;
             if (((_local_2) && ((_local_2.tags.indexOf("CMD_BUTTON_REGION") > -1)))){
                 _local_2.width = _arg_1.window.width;
             };
         }
-        private function InfoStandUserView():void
+        private function arrangeButtons():void
         {
             var _local_5:IWindow;
             var _local_1:int = _SafeStr_13986;
             this._SafeStr_13989.width = _local_1;
             var _local_2:Array = [];
-            this._SafeStr_13989.WindowController("CMD_BUTTON_REGION", _local_2, true);
+            this._SafeStr_13989.groupChildrenWithTag("CMD_BUTTON_REGION", _local_2, true);
             var _local_3:int = _local_1;
             var _local_4:int;
             for each (_local_5 in _local_2) {
                 if (_local_5.visible){
                     if ((_local_3 - _local_5.width) < 0){
                         _local_3 = _local_1;
-                        _local_4 = (_local_4 + (_SafeStr_13987 + _InfoStandPetView));
+                        _local_4 = (_local_4 + (_SafeStr_13987 + _SafeStr_13988));
                     };
                     _local_5.x = (_local_3 - _local_5.width);
                     _local_5.y = _local_4;
-                    _local_3 = (_local_5.x - _InfoStandPetView);
+                    _local_3 = (_local_5.x - _SafeStr_13988);
                 };
             };
             this._SafeStr_13989.height = (_local_4 + _SafeStr_13987);
-            this.InfoStandUserView();
+            this.updateWindow();
         }
 
     }
@@ -486,26 +486,26 @@ package com.sulake.habbo.ui.widget.infostand
 // _SafeStr_13985 = "_-1ub" (String#18740, DoABC#2)
 // _SafeStr_13986 = "_-1hI" (String#18185, DoABC#2)
 // _SafeStr_13987 = "_-nj" (String#24181, DoABC#2)
-// _InfoStandPetView = "_-1f" (String#18097, DoABC#2)
+// _SafeStr_13988 = "_-1f" (String#18097, DoABC#2)
 // _SafeStr_13989 = "_-1WU" (String#5481, DoABC#2)
 // _SafeStr_13990 = "_-38U" (String#2009, DoABC#2)
 // _SafeStr_13991 = "_-28A" (String#19336, DoABC#2)
-// _InfoStandPetView = "_-2l0" (String#6980, DoABC#2)
-// InfostandWidget = "_-Ez" (String#22811, DoABC#2)
+// _SafeStr_13992 = "_-2l0" (String#6980, DoABC#2)
+// refreshContainer = "_-Ez" (String#22811, DoABC#2)
 // raceText = "_-1CL" (String#16958, DoABC#2)
 // ageText = "_-2aY" (String#20466, DoABC#2)
-// InfoStandPetView = "_-24Y" (String#19203, DoABC#2)
-// InfoStandPetView = "_-1Lw" (String#17354, DoABC#2)
-// InfoStandUserView = "_-op" (String#8686, DoABC#2)
+// setLevelText = "_-24Y" (String#19203, DoABC#2)
+// updateStateElement = "_-1Lw" (String#17354, DoABC#2)
+// updateRespectButton = "_-op" (String#8686, DoABC#2)
 // showCommandToolForPet = "_-19V" (String#16837, DoABC#2)
-// InfoStandPetView = "_-01n" (String#14121, DoABC#2)
+// getCurrentPetId = "_-01n" (String#14121, DoABC#2)
 // updateEnabledTrainingCommands = "_-1L2" (String#17315, DoABC#2)
 // setEnabledCommands = "_-3A2" (String#21886, DoABC#2)
 // createPercentageBar = "_-tU" (String#24426, DoABC#2)
 // openTrainView = "_-14d" (String#16639, DoABC#2)
-// InfoStandUserView = "_-1lR" (String#5774, DoABC#2)
+// onButtonResized = "_-1lR" (String#5774, DoABC#2)
 // getPetId = "_-2AE" (String#19413, DoABC#2)
-// InfoStandUserView = "_-1UF" (String#5437, DoABC#2)
+// arrangeButtons = "_-1UF" (String#5437, DoABC#2)
 // IBorderWindow = "_-0Br" (String#1422, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // RoomWidgetMessage = "_-04U" (String#3654, DoABC#2)
@@ -518,13 +518,13 @@ package com.sulake.habbo.ui.widget.infostand
 // RWUAM_PICKUP_PET = "_-2JW" (String#19790, DoABC#2)
 //  RWUAM_RESPECT_PET = "_-0nn" (String#15968, DoABC#2)
 // petRespectLeft = "_-0wV" (String#4782, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // ownerName = "_-1e1" (String#1730, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // showWindow = "_-2ve" (String#21300, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // IHabboTracking = "_-0fl" (String#4419, DoABC#2)
 // _SafeStr_6007 = "_-0ZX" (String#15424, DoABC#2)
 // levelMax = "_-2dd" (String#6823, DoABC#2)
@@ -533,12 +533,12 @@ package com.sulake.habbo.ui.widget.infostand
 // nutrition = "_-0yZ" (String#4819, DoABC#2)
 // nutritionMax = "_-1m9" (String#5783, DoABC#2)
 // ownerId = "_-0Kl" (String#3968, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
 // petRespect = "_-2a9" (String#6762, DoABC#2)
 // canOwnerBeKicked = "_-2Yz" (String#20395, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 
 

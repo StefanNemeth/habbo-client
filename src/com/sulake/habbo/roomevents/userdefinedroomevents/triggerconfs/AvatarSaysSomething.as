@@ -24,28 +24,28 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
         {
             return (false);
         }
-        public function Element(_arg_1:IWindowContainer):Array
+        public function readIntParamsFromForm(_arg_1:IWindowContainer):Array
         {
             var _local_2:Array = new Array();
             _local_2.push(((this.getMeRadio(_arg_1).isSelected) ? 1 : 0));
             return (_local_2);
         }
-        public function Element(_arg_1:IWindowContainer):String
+        public function readStringParamFromForm(_arg_1:IWindowContainer):String
         {
             return (this.getInput(_arg_1).text);
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
+        public function onInit(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
         {
             _arg_1.findChildByName("me_txt").caption = _arg_2.userName;
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:Triggerable):void
+        public function onEditStart(_arg_1:IWindowContainer, _arg_2:Triggerable):void
         {
             this.getInput(_arg_1).text = _arg_2.stringParam;
             if ((((_arg_2.intParams.length > 0)) && ((_arg_2.intParams[0] == 1)))){
-                this.AvatarEntersRoom(_arg_1).setSelected(this.getMeRadio(_arg_1));
+                this.getSelector(_arg_1).setSelected(this.getMeRadio(_arg_1));
             }
             else {
-                this.AvatarEntersRoom(_arg_1).setSelected(this.AvatarEntersRoom(_arg_1));
+                this.getSelector(_arg_1).setSelected(this.getAnyAvatarRadio(_arg_1));
             };
         }
         public function get hasSpecialInputs():Boolean
@@ -56,7 +56,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
         {
             return (ITextFieldWindow(_arg_1.findChildByName("chat_txt")));
         }
-        private function AvatarEntersRoom(_arg_1:IWindowContainer):IRadioButtonWindow
+        private function getAnyAvatarRadio(_arg_1:IWindowContainer):IRadioButtonWindow
         {
             return (IRadioButtonWindow(_arg_1.findChildByName("any_avatar_radio")));
         }
@@ -64,7 +64,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
         {
             return (IRadioButtonWindow(_arg_1.findChildByName("me_radio")));
         }
-        private function AvatarEntersRoom(_arg_1:IWindowContainer):ISelectorWindow
+        private function getSelector(_arg_1:IWindowContainer):ISelectorWindow
         {
             return (ISelectorWindow(_arg_1.findChildByName("avatar_radio")));
         }
@@ -82,15 +82,15 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
 // code = "_-12Y" (String#4926, DoABC#2)
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
 // intParams = "_-kt" (String#24066, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
 // stringParam = "_-WR" (String#23508, DoABC#2)
 // _SafeStr_7115 = "_-2Sg" (String#20144, DoABC#2)
-// AvatarEntersRoom = "_-2AX" (String#6256, DoABC#2)
-// AvatarEntersRoom = "_-0Id" (String#3926, DoABC#2)
+// getSelector = "_-2AX" (String#6256, DoABC#2)
+// getAnyAvatarRadio = "_-0Id" (String#3926, DoABC#2)
 
 

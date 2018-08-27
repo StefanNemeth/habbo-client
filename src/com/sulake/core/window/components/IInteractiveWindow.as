@@ -13,7 +13,7 @@ package com.sulake.core.window.components
         function showToolTip(_arg_1:IToolTipWindow):void;
         function hideToolTip():void;
         function setMouseCursorForState(_arg_1:uint, _arg_2:uint):uint;
-        function MouseEventProcessor(_arg_1:uint):uint;
+        function getMouseCursorByState(_arg_1:uint):uint;
 
     }
 }//package com.sulake.core.window.components
@@ -24,6 +24,6 @@ package com.sulake.core.window.components
 // toolTipCaption = "_-0cC" (String#4347, DoABC#2)
 // toolTipDelay = "_-2W1" (String#6685, DoABC#2)
 // hideToolTip = "_-2VZ" (String#1889, DoABC#2)
-// MouseEventProcessor = "_-0Bd" (String#3788, DoABC#2)
+// getMouseCursorByState = "_-0Bd" (String#3788, DoABC#2)
 
 

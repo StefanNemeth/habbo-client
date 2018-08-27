@@ -24,7 +24,7 @@ package com.sulake.habbo.ui.widget.chooser
         }
         override public function get state():int
         {
-            if (((!((this._SafeStr_6600 == null))) && (this._SafeStr_6600.IssueBrowser()))){
+            if (((!((this._SafeStr_6600 == null))) && (this._SafeStr_6600.isOpen()))){
                 return (this._state);
             };
             return (this._SafeStr_6598);
@@ -46,7 +46,7 @@ package com.sulake.habbo.ui.widget.chooser
             };
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -54,9 +54,9 @@ package com.sulake.habbo.ui.widget.chooser
             _arg_1.addEventListener(RoomWidgetChooserContentEvent.RWCCE_USER_CHOOSER_CONTENT, this.onChooserContent);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_REMOVED, this.onUpdateUserChooser);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_USER_ADDED, this.onUpdateUserChooser);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -77,7 +77,7 @@ package com.sulake.habbo.ui.widget.chooser
         }
         private function onUpdateUserChooser(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
-            if ((((this._SafeStr_6600 == null)) || (!(this._SafeStr_6600.IssueBrowser())))){
+            if ((((this._SafeStr_6600 == null)) || (!(this._SafeStr_6600.isOpen())))){
                 return;
             };
             var _local_2:RoomWidgetRequestWidgetMessage = new RoomWidgetRequestWidgetMessage(RoomWidgetRequestWidgetMessage.RWRWM_USER_CHOOSER);
@@ -94,9 +94,9 @@ package com.sulake.habbo.ui.widget.chooser
 // RoomWidgetRequestWidgetMessage = "_-XQ" (String#8356, DoABC#2)
 // ChooserView = "_-2b-" (String#6772, DoABC#2)
 // RWRWM_USER_CHOOSER = "_-3HZ" (String#22183, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // onChooserContent = "_-2U6" (String#6648, DoABC#2)
 // _SafeStr_6598 = "_-0Q9" (String#15068, DoABC#2)
 // _state = "_-3Cf" (String#21981, DoABC#2)

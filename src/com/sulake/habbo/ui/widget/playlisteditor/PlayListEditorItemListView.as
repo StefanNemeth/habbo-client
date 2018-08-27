@@ -33,7 +33,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (this._itemListWindow == null){
                 return;
             };
-            this._itemListWindow.IItemListWindow();
+            this._itemListWindow.destroyListItems();
         }
         public function refresh(_arg_1:Array, _arg_2:int):void
         {
@@ -50,14 +50,14 @@ package com.sulake.habbo.ui.widget.playlisteditor
             };
             this._SafeStr_6743 = -1;
             this._items = new Array();
-            this._itemListWindow.IItemListWindow();
+            this._itemListWindow.destroyListItems();
             for each (_local_3 in _arg_1) {
                 _local_4 = _local_3.name;
                 _local_5 = _local_3.creator;
                 _local_6 = this._widget.getDiskColorTransformFromSongData(_local_3.songData);
                 _local_7 = new PlayListEditorItem(this._widget, _local_4, _local_5, _local_6);
-                _local_7.window.procedure = this.FurniGridView;
-                _local_7.removeButton.procedure = this.FurniGridView;
+                _local_7.window.procedure = this.itemEventProc;
+                _local_7.removeButton.procedure = this.itemEventProc;
                 this._itemListWindow.addListItem(_local_7.window);
                 this._items.push(_local_7);
             };
@@ -87,22 +87,22 @@ package com.sulake.habbo.ui.widget.playlisteditor
             _local_2.setIconState(PlayListEditorItem.PLEI_ICON_STATE_PLAYING);
             this._SafeStr_6743 = _arg_1;
         }
-        public function MusicInventoryGridView():void
+        public function deselectAny():void
         {
             if (this._SafeStr_6723 != null){
-                this._SafeStr_6723.ITab();
+                this._SafeStr_6723.deselect();
                 this._SafeStr_6723 = null;
                 this._selectedItemIndex = -1;
             };
         }
-        private function FurniGridView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function itemEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_4:int;
             var _local_3 = (_arg_1.type == WindowMouseEvent.WME_DOUBLE_CLICK);
             if ((((_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK)) || (_local_3))){
                 if ((((_arg_2.name == "button_remove_from_playlist")) || (_local_3))){
                     if (this._SafeStr_6723 != null){
-                        this._SafeStr_6723.ITab();
+                        this._SafeStr_6723.deselect();
                     };
                     if (this._selectedItemIndex > -1){
                         this._widget.sendRemoveFromPlayListMessage(this._selectedItemIndex);
@@ -112,9 +112,9 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 }
                 else {
                     if (this._SafeStr_6723 != null){
-                        this._SafeStr_6723.ITab();
+                        this._SafeStr_6723.deselect();
                     };
-                    _local_4 = this._itemListWindow.IItemListWindow(_arg_1.window);
+                    _local_4 = this._itemListWindow.getListItemIndex(_arg_1.window);
                     if (_local_4 != -1){
                         this._selectedItemIndex = _local_4;
                         this._SafeStr_6723 = this._items[_local_4];
@@ -123,7 +123,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                             this._widget.sendRemoveFromPlayListMessage(_local_4);
                         };
                         if (this._widget.mainWindowHandler != null){
-                            this._widget.mainWindowHandler.musicInventoryView.MusicInventoryGridView();
+                            this._widget.mainWindowHandler.musicInventoryView.deselectAny();
                         };
                     };
                 };
@@ -140,8 +140,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListEditorItem = "_-01c" (String#3594, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // WME_DOUBLE_CLICK = "_-Y3" (String#23564, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // creator = "_-1U2" (String#5433, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // mainWindowHandler = "_-2Er" (String#19599, DoABC#2)
@@ -151,11 +151,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // musicInventoryView = "_-Il" (String#22957, DoABC#2)
 // setItemIndexPlaying = "_-BC" (String#22662, DoABC#2)
 // _SafeStr_6723 = "_-0NS" (String#4030, DoABC#2)
-// MusicInventoryGridView = "_-21Y" (String#19075, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// deselectAny = "_-21Y" (String#19075, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 // _selectedItemIndex = "_-1b6" (String#17939, DoABC#2)
 // _SafeStr_6743 = "_-1Zt" (String#17886, DoABC#2)
-// FurniGridView = "_-2KN" (String#6453, DoABC#2)
+// itemEventProc = "_-2KN" (String#6453, DoABC#2)
 // removeButton = "_-3Fh" (String#22105, DoABC#2)
 // setIconState = "_-so" (String#24393, DoABC#2)
 // PLEI_ICON_STATE_NORMAL = "_-0xa" (String#16336, DoABC#2)

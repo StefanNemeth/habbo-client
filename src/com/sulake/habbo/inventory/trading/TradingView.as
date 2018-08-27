@@ -136,7 +136,7 @@ package com.sulake.habbo.inventory.trading
                 };
             };
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             if (this._SafeStr_11578 == null){
                 this._SafeStr_11578 = this.createNormalWindow();
@@ -160,7 +160,7 @@ package com.sulake.habbo.inventory.trading
             _local_3 = (_local_2.findChildByTag("OWN_USER_GRID") as IItemGridWindow);
             _local_6 = 0;
             while (_local_6 < _local_3.numGridItems) {
-                _local_4 = _local_3.IItemGridWindow(_local_6);
+                _local_4 = _local_3.getGridItemAt(_local_6);
                 _local_4.id = _local_6;
                 _local_4.procedure = this.ownThumbEventProc;
                 _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ownThumbEventProc);
@@ -170,7 +170,7 @@ package com.sulake.habbo.inventory.trading
             _local_3 = (_local_2.findChildByTag("OTHER_USER_GRID") as IItemGridWindow);
             _local_6 = 0;
             while (_local_6 < _local_3.numGridItems) {
-                _local_4 = _local_3.IItemGridWindow(_local_6);
+                _local_4 = _local_3.getGridItemAt(_local_6);
                 _local_4.id = _local_6;
                 _local_4.procedure = this.othersThumbEventProc;
                 _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.othersThumbEventProc);
@@ -213,7 +213,7 @@ package com.sulake.habbo.inventory.trading
             var _local_11:IItemGridWindow = ((_local_9) ? this.getOtherUsersItemGrid() : this.getOwnUsersItemGrid());
             while (_local_2 < _local_10.length) {
                 _local_3 = (_local_10.getWithIndex(_local_2) as GroupItem);
-                _local_4 = (_local_11.IItemGridWindow(_local_2) as IWindowContainer);
+                _local_4 = (_local_11.getGridItemAt(_local_2) as IWindowContainer);
                 if (_local_4){
                     _local_4.id = _local_2;
                     while (_local_4.numChildren > 0) {
@@ -225,7 +225,7 @@ package com.sulake.habbo.inventory.trading
                 _local_2++;
             };
             while (_local_2 < _local_11.numGridItems) {
-                _local_4 = (_local_11.IItemGridWindow(_local_2) as IWindowContainer);
+                _local_4 = (_local_11.getGridItemAt(_local_2) as IWindowContainer);
                 if (_local_4){
                     _local_4.id = _local_2;
                     _local_4.removeChildAt(0);
@@ -243,7 +243,7 @@ package com.sulake.habbo.inventory.trading
             _local_1 = this.getOwnUsersItemGrid();
             _local_3 = 0;
             while (_local_3 < _local_1.numGridItems) {
-                _local_2 = (_local_1.IItemGridWindow(_local_3) as IWindowContainer);
+                _local_2 = (_local_1.getGridItemAt(_local_3) as IWindowContainer);
                 if (_local_2){
                     _local_2.id = _local_3;
                     _local_2.removeChildAt(0);
@@ -253,7 +253,7 @@ package com.sulake.habbo.inventory.trading
             _local_1 = this.getOtherUsersItemGrid();
             _local_3 = 0;
             while (_local_3 < _local_1.numGridItems) {
-                _local_2 = (_local_1.IItemGridWindow(_local_3) as IWindowContainer);
+                _local_2 = (_local_1.getGridItemAt(_local_3) as IWindowContainer);
                 if (_local_2){
                     _local_2.id = _local_3;
                     _local_2.removeChildAt(0);
@@ -419,7 +419,7 @@ package com.sulake.habbo.inventory.trading
     _arg_1.dispose();
 }));
         }
-        public function TradingModel():void
+        public function startConfirmCountdown():void
         {
             if (this._SafeStr_5297 == null){
                 this._SafeStr_5297 = new Timer(1000, 3);
@@ -431,7 +431,7 @@ package com.sulake.habbo.inventory.trading
             this._windowManager.registerLocalizationParameter("inventory.trading.countdown", "counter", "3");
             this.updateUserInterface();
         }
-        public function TradingModel():void
+        public function cancelConfirmCountdown():void
         {
             if (this._SafeStr_5297 != null){
                 this._SafeStr_5297.reset();
@@ -441,7 +441,7 @@ package com.sulake.habbo.inventory.trading
         {
             this._windowManager.registerLocalizationParameter("inventory.trading.countdown", "counter", String((3 - this._SafeStr_5297.currentCount)));
             if (this._SafeStr_5297.currentCount == 3){
-                this._SafeStr_11577.TradingModel();
+                this._SafeStr_11577.confirmCountdownReady();
                 this._SafeStr_5297.reset();
             };
         }
@@ -516,7 +516,7 @@ package com.sulake.habbo.inventory.trading
                 _local_2 = (this._SafeStr_11577.ownUserItems.getWithIndex(_arg_1) as GroupItem);
                 this.setSelection(_local_2);
                 if (_local_2){
-                    this._SafeStr_11577.TradingModel().displayItemInfo(_local_2);
+                    this._SafeStr_11577.getFurniInventoryModel().displayItemInfo(_local_2);
                 };
             };
         }
@@ -530,7 +530,7 @@ package com.sulake.habbo.inventory.trading
                 _local_2 = (this._SafeStr_11577.otherUserItems.getWithIndex(_arg_1) as GroupItem);
                 this.setSelection(_local_2);
                 if (_local_2){
-                    this._SafeStr_11577.TradingModel().displayItemInfo(_local_2);
+                    this._SafeStr_11577.getFurniInventoryModel().displayItemInfo(_local_2);
                 };
             };
         }
@@ -557,10 +557,10 @@ package com.sulake.habbo.inventory.trading
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "button_continue":
-                        this._SafeStr_11577.TradingModel();
+                        this._SafeStr_11577.requestFurniViewOpen();
                         return;
                     case "button_cancel":
-                        this._SafeStr_11577.TradingModel();
+                        this._SafeStr_11577.requestCancelTrading();
                         return;
                 };
             };
@@ -576,25 +576,25 @@ package com.sulake.habbo.inventory.trading
                                     this.alertPopup(_SafeStr_11576);
                                 };
                                 if (this._SafeStr_11577.ownUserAccepts){
-                                    this._SafeStr_11577.TradingModel();
+                                    this._SafeStr_11577.requestUnacceptTrading();
                                 }
                                 else {
-                                    this._SafeStr_11577.TradingModel();
+                                    this._SafeStr_11577.requestAcceptTrading();
                                 };
                                 break;
                             case TradingModel._SafeStr_11527:
                                 _arg_2.disable();
-                                this._SafeStr_11577.TradingModel();
+                                this._SafeStr_11577.requestConfirmAcceptTrading();
                                 break;
                         };
                         return;
                     case "button_cancel":
                         switch (this._SafeStr_11577.state){
                             case TradingModel._SafeStr_11525:
-                                this._SafeStr_11577.TradingModel();
+                                this._SafeStr_11577.requestCancelTrading();
                                 break;
                             case TradingModel._SafeStr_11527:
-                                this._SafeStr_11577.TradingModel();
+                                this._SafeStr_11577.requestConfirmDeclineTrading();
                                 break;
                         };
                         return;
@@ -618,7 +618,7 @@ package com.sulake.habbo.inventory.trading
             var _local_8:FloorItem;
             var _local_9:Date;
             if (((_arg_3) && ((_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK)))){
-                this._SafeStr_11577.TradingModel(_arg_2.id);
+                this._SafeStr_11577.requestRemoveItemFromTrading(_arg_2.id);
             };
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
                 if (_arg_3){
@@ -634,7 +634,7 @@ package com.sulake.habbo.inventory.trading
                 if (_local_5 == null){
                     return;
                 };
-                _local_6 = this._SafeStr_11577.TradingModel(_local_5);
+                _local_6 = this._SafeStr_11577.getItemImage(_local_5);
                 if ((_local_5 is FloorItem)){
                     _local_7 = ((("$" + "{roomItem.name.") + _local_5.type) + "}");
                 }
@@ -708,8 +708,8 @@ package com.sulake.habbo.inventory.trading
                 if (_local_5.extra == _arg_1.id){
                     if (((((_local_2) && ((this._SafeStr_11577.ownUserItems.getWithIndex(_local_4) == _local_3)))) || (((!(_local_2)) && ((this._SafeStr_11577.otherUserItems.getWithIndex(_local_4) == _local_3)))))){
                         _local_6 = this.getTraxSongFurniName(_local_3, "", false);
-                        _local_7 = this._SafeStr_11577.TradingModel(_local_5);
-                        _local_8 = ((_local_2) ? this.getOwnUsersItemGrid().IItemGridWindow(_local_4) : this.getOtherUsersItemGrid().IItemGridWindow(_local_4));
+                        _local_7 = this._SafeStr_11577.getItemImage(_local_5);
+                        _local_8 = ((_local_2) ? this.getOwnUsersItemGrid().getGridItemAt(_local_4) : this.getOtherUsersItemGrid().getGridItemAt(_local_4));
                         this._SafeStr_11247.updateContent((_local_8 as IWindowContainer), _local_6, _local_7, ItemPopupCtrl._SafeStr_11602);
                     };
                 }
@@ -742,24 +742,24 @@ package com.sulake.habbo.inventory.trading
 // updateItemList = "_-23a" (String#19158, DoABC#2)
 // updateUserInterface = "_-2BP" (String#19460, DoABC#2)
 // clearItemLists = "_-2kF" (String#20855, DoABC#2)
-// TradingModel = "_-2Xf" (String#20346, DoABC#2)
-// TradingModel = "_-2o5" (String#21005, DoABC#2)
-// TradingModel = "_-2AB" (String#19410, DoABC#2)
-// TradingModel = "_-04E" (String#14212, DoABC#2)
-// TradingModel = "_-1Ci" (String#16972, DoABC#2)
-// TradingModel = "_-1gL" (String#18152, DoABC#2)
+// requestCancelTrading = "_-2Xf" (String#20346, DoABC#2)
+// startConfirmCountdown = "_-2o5" (String#21005, DoABC#2)
+// cancelConfirmCountdown = "_-2AB" (String#19410, DoABC#2)
+// getFurniInventoryModel = "_-04E" (String#14212, DoABC#2)
+// confirmCountdownReady = "_-1Ci" (String#16972, DoABC#2)
+// getItemImage = "_-1gL" (String#18152, DoABC#2)
 // updateItemImage = "_-28e" (String#19357, DoABC#2)
 // alertPopup = "_-1E3" (String#17030, DoABC#2)
 // _SafeStr_11563 = "_-34s" (String#21691, DoABC#2)
 // _SafeStr_11564 = "_-2Os" (String#19997, DoABC#2)
 // showOtherUserNotification = "_-22" (String#19088, DoABC#2)
 // showOwnUserNotification = "_-0j0" (String#15791, DoABC#2)
-// TradingModel = "_-0VJ" (String#15256, DoABC#2)
-// TradingModel = "_-2GH" (String#19653, DoABC#2)
-// TradingModel = "_-1b8" (String#17941, DoABC#2)
-// TradingModel = "_-225" (String#19095, DoABC#2)
-// TradingModel = "_-301" (String#21503, DoABC#2)
-// TradingModel = "_-25W" (String#19239, DoABC#2)
+// requestFurniViewOpen = "_-0VJ" (String#15256, DoABC#2)
+// requestRemoveItemFromTrading = "_-2GH" (String#19653, DoABC#2)
+// requestAcceptTrading = "_-1b8" (String#17941, DoABC#2)
+// requestUnacceptTrading = "_-225" (String#19095, DoABC#2)
+// requestConfirmAcceptTrading = "_-301" (String#21503, DoABC#2)
+// requestConfirmDeclineTrading = "_-25W" (String#19239, DoABC#2)
 // _SafeStr_11574 = "_-1U6" (String#17670, DoABC#2)
 // _SafeStr_11575 = "_-16G" (String#16707, DoABC#2)
 // _SafeStr_11576 = "_-2Qi" (String#20074, DoABC#2)
@@ -812,11 +812,11 @@ package com.sulake.habbo.inventory.trading
 // creationMonth = "_-1T6" (String#17629, DoABC#2)
 // creationYear = "_-0Ts" (String#15202, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // _SafeStr_5297 = "_-0Gy" (String#355, DoABC#2)
 // _visible = "_-1SE" (String#363, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
 // creator = "_-1U2" (String#5433, DoABC#2)
 // musicController = "_-1Qk" (String#5366, DoABC#2)
 // getSongInfo = "_-0Fc" (String#3864, DoABC#2)

@@ -90,7 +90,7 @@ package com.sulake.habbo.advertisement
             if (this._communicationManager == null){
                 return;
             };
-            this._connection = this._communicationManager.HabboCommunicationManager(this.onConnectionReady);
+            this._connection = this._communicationManager.getHabboMainConnection(this.onConnectionReady);
             if (this._connection != null){
                 this.onConnectionReady(this._connection);
             };
@@ -241,7 +241,7 @@ package com.sulake.habbo.advertisement
                 events.dispatchEvent(new InterstitialEvent(InterstitialEvent.AE_INTERSTITIAL_COMPLETE));
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):void
+        public function showRoomAd(_arg_1:int, _arg_2:int):void
         {
             this._SafeStr_9874 = new AdImageRequest(_arg_1, _arg_2);
             this._connection.send(new GetRoomAdMessageComposer());
@@ -415,7 +415,7 @@ package com.sulake.habbo.advertisement
 // InterstitialMessageEvent = "_-wD" (String#24539, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // _SafeStr_4221 = "_-0eh" (String#15613, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // assetLoader = "_-1nR" (String#18439, DoABC#2)
 // AE_INTERSTITIAL_SHOW = "_-2Fx" (String#19641, DoABC#2)
 // AE_INTERSTITIAL_COMPLETE = "_-7z" (String#22543, DoABC#2)
@@ -430,7 +430,7 @@ package com.sulake.habbo.advertisement
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 // imageURL = "_-1v5" (String#18759, DoABC#2)
 // showInterstitial = "_-1Rf" (String#5389, DoABC#2)
-// RoomEngine = "_-1ii" (String#1747, DoABC#2)
+// showRoomAd = "_-1ii" (String#1747, DoABC#2)
 // loadRoomAdImage = "_-vu" (String#8803, DoABC#2)
 // _SafeStr_9865 = "_-QP" (String#23264, DoABC#2)
 // _SafeStr_9866 = "_-2rv" (String#21152, DoABC#2)

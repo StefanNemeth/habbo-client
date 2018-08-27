@@ -58,7 +58,7 @@ package com.sulake.core.window
             };
             super(_arg_11, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_10);
             if (!this._SafeStr_9166){
-                this._SafeStr_9166 = this.getGraphicContext(!(IWindow(WindowParam._SafeStr_7443)));
+                this._SafeStr_9166 = this.getGraphicContext(!(testParamFlag(WindowParam._SafeStr_7443)));
             };
             this._children = new Array();
             this._SafeStr_9838 = new Rectangle();
@@ -69,7 +69,7 @@ package com.sulake.core.window
                 _arg_5.getWindowParser().parseAndConstruct(_local_12, this, null);
                 _local_14 = _param;
                 _param = (_param & ~(WindowParam._SafeStr_9362));
-                this.WindowController(_arg_6.x, _arg_6.y, _arg_6.width, _arg_6.height);
+                this.setRectangle(_arg_6.x, _arg_6.y, _arg_6.width, _arg_6.height);
                 _param = _local_14;
                 _SafeStr_9801.x = _arg_6.x;
                 _SafeStr_9801.y = _arg_6.y;
@@ -105,7 +105,7 @@ package com.sulake.core.window
         private static function calculateMouseRegion(_arg_1:WindowController, _arg_2:Rectangle):void
         {
             var _local_3:Rectangle = new Rectangle();
-            _arg_1.WindowController(_local_3);
+            _arg_1.getGlobalRectangle(_local_3);
             var _local_4:int = _arg_1.numChildren;
             var _local_5:int = _local_3.x;
             var _local_6:int = _local_3.y;
@@ -119,7 +119,7 @@ package com.sulake.core.window
                 _local_7++;
             };
         }
-        public static function WindowController(_arg_1:WindowController, _arg_2:IWindow):void
+        public static function expandToAccommodateChild(_arg_1:WindowController, _arg_2:IWindow):void
         {
             var _local_9:uint;
             var _local_10:uint;
@@ -155,7 +155,7 @@ package com.sulake.core.window
                 if (_local_9){
                     _arg_1.setParamFlag(_local_9, false);
                 };
-                _arg_1.WindowController((_arg_1.x + _local_3), (_arg_1.y + _local_4), _local_5, _local_6);
+                _arg_1.setRectangle((_arg_1.x + _local_3), (_arg_1.y + _local_4), _local_5, _local_6);
                 if (((!((_local_4 == 0))) || (!((_local_3 == 0))))){
                     _local_11 = _arg_1.numChildren;
                     _local_10 = 0;
@@ -204,7 +204,7 @@ package com.sulake.core.window
                     _local_2 = 0;
                     while (_local_2 < _local_9) {
                         _local_11 = _arg_1.getChildAt(_local_2);
-                        _local_12 = _local_11.IWindow(WindowParam._SafeStr_7445);
+                        _local_12 = _local_11.testParamFlag(WindowParam._SafeStr_7445);
                         if (_local_12){
                             _local_11.setParamFlag(WindowParam._SafeStr_7445, false);
                         };
@@ -229,11 +229,11 @@ package com.sulake.core.window
         }
         public function get procedure():Function
         {
-            return ((((this._procedure)!=null) ? this._procedure : (((this._parent)!=null) ? this._parent.procedure : this.WindowController)));
+            return ((((this._procedure)!=null) ? this._procedure : (((this._parent)!=null) ? this._parent.procedure : this.nullEventProc)));
         }
         public function get filters():Array
         {
-            return (((this.WindowController()) ? this.getGraphicContext(true).filters : []));
+            return (((this.hasGraphicsContext()) ? this.getGraphicContext(true).filters : []));
         }
         public function get parent():IWindow
         {
@@ -253,13 +253,13 @@ package com.sulake.core.window
         public function set x(_arg_1:int):void
         {
             if (_arg_1 != _rectangle.x){
-                this.WindowController(_arg_1, _rectangle.y, _rectangle.width, _rectangle.height);
+                this.setRectangle(_arg_1, _rectangle.y, _rectangle.width, _rectangle.height);
             };
         }
         public function set y(_arg_1:int):void
         {
             if (_arg_1 != _rectangle.y){
-                this.WindowController(_rectangle.x, _arg_1, _rectangle.width, _rectangle.height);
+                this.setRectangle(_rectangle.x, _arg_1, _rectangle.width, _rectangle.height);
             };
         }
         public function set id(_arg_1:uint):void
@@ -273,22 +273,22 @@ package com.sulake.core.window
         public function set width(_arg_1:int):void
         {
             if (_arg_1 != _rectangle.width){
-                this.WindowController(_rectangle.x, _rectangle.y, _arg_1, _rectangle.height);
+                this.setRectangle(_rectangle.x, _rectangle.y, _arg_1, _rectangle.height);
             };
         }
         public function set height(_arg_1:int):void
         {
             if (_arg_1 != _rectangle.height){
-                this.WindowController(_rectangle.x, _rectangle.y, _rectangle.width, _arg_1);
+                this.setRectangle(_rectangle.x, _rectangle.y, _rectangle.width, _arg_1);
             };
         }
         public function set position(_arg_1:Point):void
         {
-            this.WindowController(_arg_1.x, _arg_1.y, _rectangle.width, _rectangle.height);
+            this.setRectangle(_arg_1.x, _arg_1.y, _rectangle.width, _rectangle.height);
         }
         public function set rectangle(_arg_1:Rectangle):void
         {
-            this.WindowController(_arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
+            this.setRectangle(_arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
         }
         public function set background(_arg_1:Boolean):void
         {
@@ -355,7 +355,7 @@ package com.sulake.core.window
         }
         public function set filters(_arg_1:Array):void
         {
-            if (this.WindowController()){
+            if (this.hasGraphicsContext()){
                 this.getGraphicContext(true).filters = _arg_1;
             };
         }
@@ -381,7 +381,7 @@ package com.sulake.core.window
             if (_arg_1 != _style){
                 _style = _arg_1;
                 _local_2 = new Array();
-                this.WindowController(WindowController.TAG_INTERNAL, _local_2);
+                this.groupChildrenWithTag(WindowController.TAG_INTERNAL, _local_2);
                 _local_3 = _local_2.length;
                 while (--_local_3 > -1) {
                     _local_4 = (_local_2[_local_3] as WindowController);
@@ -446,9 +446,9 @@ package com.sulake.core.window
                 _local_4.recycle();
             };
         }
-        public function WindowController():Boolean
+        public function hasGraphicsContext():Boolean
         {
-            return (((!((this._SafeStr_9166 == null))) || (!(IWindow(WindowParam._SafeStr_7443)))));
+            return (((!((this._SafeStr_9166 == null))) || (!(testParamFlag(WindowParam._SafeStr_7443)))));
         }
         public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
@@ -458,26 +458,26 @@ package com.sulake.core.window
             };
             return (this._SafeStr_9166);
         }
-        public function WindowController():IGraphicContext
+        public function setupGraphicsContext():IGraphicContext
         {
             var _local_1:int;
             var _local_2:WindowController;
             this._SafeStr_9166 = this.getGraphicContext(true);
             if (this._parent){
-                this._parent.WindowController();
+                this._parent.setupGraphicsContext();
             };
             if (this._children.length > 0){
                 if (this._SafeStr_9166.numChildContexts != this.numChildren){
                     _local_1 = 0;
                     for each (_local_2 in this._children) {
-                        this._SafeStr_9166.IGraphicContext(_local_2.getGraphicContext(true), _local_1++);
+                        this._SafeStr_9166.addChildContextAt(_local_2.getGraphicContext(true), _local_1++);
                     };
                 };
             };
             this._SafeStr_9837 = true;
             return (this._SafeStr_9166);
         }
-        public function WindowController():void
+        public function releaseGraphicsContext():void
         {
             this._SafeStr_9837 = false;
             if (this._SafeStr_9166){
@@ -509,10 +509,10 @@ package com.sulake.core.window
             _local_2._id = _id;
             _local_2.caption = _caption;
             _local_2.background = _background;
-            this.WindowController(_local_2);
+            this.cloneChildWindows(_local_2);
             return (_local_2);
         }
-        protected function WindowController(_arg_1:WindowController):void
+        protected function cloneChildWindows(_arg_1:WindowController):void
         {
             var _local_2:WindowController;
             for each (_local_2 in this._children) {
@@ -527,8 +527,8 @@ package com.sulake.core.window
             if (!_disposed){
                 this._procedure = null;
                 if (!_context.disposed){
-                    if (!this.WindowController()){
-                        if (this.WindowController(WindowState._SafeStr_4586)){
+                    if (!this.isChildWindow()){
+                        if (this.getStateFlag(WindowState._SafeStr_4586)){
                             this.deactivate();
                         };
                     };
@@ -567,7 +567,7 @@ package com.sulake.core.window
             };
             _context.invalidate(this, _arg_1, WindowRedrawFlag._SafeStr_9133);
         }
-        public function WindowController():uint
+        public function resolve():uint
         {
             return (0);
         }
@@ -578,7 +578,7 @@ package com.sulake.core.window
                 this.y = ((this._parent.height / 2) - (_rectangle.height / 2));
             };
         }
-        public function WindowController(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
+        public function setRectangle(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
         {
             var _local_7:uint;
             var _local_8:Rectangle;
@@ -615,7 +615,7 @@ package com.sulake.core.window
                     };
                 };
             };
-            if (IWindow(WindowParam._SafeStr_7445)){
+            if (testParamFlag(WindowParam._SafeStr_7445)){
                 if (this._parent != null){
                     _local_8 = this._parent.rectangle;
                     _arg_1 = (((_arg_1)<0) ? 0 : _arg_1);
@@ -675,7 +675,7 @@ package com.sulake.core.window
                 };
             };
         }
-        public function WindowController(_arg_1:Rectangle=null, _arg_2:Rectangle=null, _arg_3:Rectangle=null, _arg_4:Rectangle=null):void
+        public function getRegionProperties(_arg_1:Rectangle=null, _arg_2:Rectangle=null, _arg_3:Rectangle=null, _arg_4:Rectangle=null):void
         {
             if (_arg_1 != null){
                 _arg_1.x = _rectangle.x;
@@ -702,7 +702,7 @@ package com.sulake.core.window
                 _arg_4.height = _SafeStr_9803.height;
             };
         }
-        public function WindowController(_arg_1:Rectangle=null, _arg_2:Rectangle=null, _arg_3:Rectangle=null):void
+        public function setRegionProperties(_arg_1:Rectangle=null, _arg_2:Rectangle=null, _arg_3:Rectangle=null):void
         {
             if (_arg_3 != null){
                 if ((((_arg_3.width < 0)) || ((_arg_3.height < 0)))){
@@ -734,20 +734,20 @@ package com.sulake.core.window
                 throw (new Error("Maximized rectangle can't be smaller than minimized rectangle!"));
             };
             if (_arg_1 != null){
-                this.WindowController(_arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
+                this.setRectangle(_arg_1.x, _arg_1.y, _arg_1.width, _arg_1.height);
             };
         }
         public function buildFromXML(_arg_1:XML, _arg_2:Map=null):Boolean
         {
             return (!((_context.getWindowParser().parseAndConstruct(_arg_1, this, _arg_2) == null)));
         }
-        public function WindowController():IBitmapDrawable
+        public function fetchDrawBuffer():IBitmapDrawable
         {
-            return (((IWindow(WindowParam._SafeStr_7443)) ? (((this._parent)!=null) ? this._parent.WindowController() : null) : this.getGraphicContext(true).WindowController()));
+            return (((testParamFlag(WindowParam._SafeStr_7443)) ? (((this._parent)!=null) ? this._parent.fetchDrawBuffer() : null) : this.getGraphicContext(true).fetchDrawBuffer()));
         }
-        public function WindowController(_arg_1:Rectangle):void
+        public function getDrawRegion(_arg_1:Rectangle):void
         {
-            if (!IWindow(WindowParam._SafeStr_7443)){
+            if (!testParamFlag(WindowParam._SafeStr_7443)){
                 _arg_1.x = 0;
                 _arg_1.y = 0;
                 _arg_1.width = _rectangle.width;
@@ -755,7 +755,7 @@ package com.sulake.core.window
             }
             else {
                 if (this._parent != null){
-                    this._parent.WindowController(_arg_1);
+                    this._parent.getDrawRegion(_arg_1);
                     _arg_1.x = (_arg_1.x + _rectangle.x);
                     _arg_1.y = (_arg_1.y + _rectangle.y);
                     _arg_1.width = _rectangle.width;
@@ -776,7 +776,7 @@ package com.sulake.core.window
             var _local_5:WindowEvent;
             var _local_6:Rectangle;
             var _local_7:uint;
-            if (!IWindow(WindowParam._SafeStr_7442)){
+            if (!testParamFlag(WindowParam._SafeStr_7442)){
                 this.procedure(_arg_2, this);
                 if (_disposed){
                     return (true);
@@ -800,21 +800,21 @@ package com.sulake.core.window
                     case WindowMouseEvent.WME_DOWN:
                         if (this.activate()){
                             if (_arg_2.cancelable){
-                                _arg_2.WindowEvent();
+                                _arg_2.preventDefault();
                             };
                         };
                         if (disposed){
                             return (true);
                         };
-                        this.WindowController(WindowState._SafeStr_6248, true);
+                        this.setStateFlag(WindowState._SafeStr_6248, true);
                         _local_4 = _context.getWindowServices().getMouseListenerService();
                         _local_4.begin(this);
                         _local_4.eventTypes.push(WindowMouseEvent.WME_UP);
                         _local_4.areaLimit = MouseListenerType._SafeStr_9483;
-                        if (IWindow(WindowParam._SafeStr_7488)){
+                        if (testParamFlag(WindowParam._SafeStr_7488)){
                             _local_3 = this;
                             while (_local_3 != null) {
-                                if (_local_3.IWindow(WindowParam._SafeStr_7486)){
+                                if (_local_3.testParamFlag(WindowParam._SafeStr_7486)){
                                     _context.getWindowServices().getMouseDraggingService().begin(_local_3);
                                     break;
                                 };
@@ -824,7 +824,7 @@ package com.sulake.core.window
                         if ((_param & WindowParam._SafeStr_7498) > 0){
                             _local_3 = this;
                             while (_local_3 != null) {
-                                if (_local_3.IWindow(WindowParam._SafeStr_7492)){
+                                if (_local_3.testParamFlag(WindowParam._SafeStr_7492)){
                                     _context.getWindowServices().getMouseScalingService().begin(_local_3, (_param & WindowParam._SafeStr_7498));
                                     break;
                                 };
@@ -833,28 +833,28 @@ package com.sulake.core.window
                         };
                         break;
                     case WindowMouseEvent.WME_UP:
-                        if (IWindow(WindowState._SafeStr_6248)){
-                            this.WindowController(WindowState._SafeStr_6248, false);
+                        if (testStateFlag(WindowState._SafeStr_6248)){
+                            this.setStateFlag(WindowState._SafeStr_6248, false);
                         };
                         _context.getWindowServices().getMouseListenerService().end(this);
-                        if (IWindow(WindowParam._SafeStr_7486)){
+                        if (testParamFlag(WindowParam._SafeStr_7486)){
                             _context.getWindowServices().getMouseDraggingService().end(this);
                         };
-                        if (IWindow(WindowParam._SafeStr_7492)){
+                        if (testParamFlag(WindowParam._SafeStr_7492)){
                             _context.getWindowServices().getMouseScalingService().end(this);
                         };
                         break;
                     case WindowMouseEvent.WME_OUT:
-                        if (IWindow(WindowState._SafeStr_5004)){
-                            this.WindowController(WindowState._SafeStr_5004, false);
+                        if (testStateFlag(WindowState._SafeStr_5004)){
+                            this.setStateFlag(WindowState._SafeStr_5004, false);
                         };
-                        if (IWindow(WindowState._SafeStr_6248)){
-                            this.WindowController(WindowState._SafeStr_6248, false);
+                        if (testStateFlag(WindowState._SafeStr_6248)){
+                            this.setStateFlag(WindowState._SafeStr_6248, false);
                         };
                         break;
                     case WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER:
-                        if (!IWindow(WindowState._SafeStr_5004)){
-                            this.WindowController(WindowState._SafeStr_5004, true);
+                        if (!testStateFlag(WindowState._SafeStr_5004)){
+                            this.setStateFlag(WindowState._SafeStr_5004, true);
                         };
                         break;
                     case WindowMouseEvent.WME_WHEEL:
@@ -868,23 +868,23 @@ package com.sulake.core.window
                             _context.invalidate(this, _rectangle.union(_SafeStr_9801), WindowRedrawFlag.RESIZE);
                             if (_arg_1 == this){
                                 _local_5 = WindowEvent.allocate(WindowEvent.WE_PARENT_RESIZED, this, null);
-                                this.WindowController(_local_5);
+                                this.notifyChildren(_local_5);
                                 _local_5.recycle();
-                                if (IWindow(WindowParam._SafeStr_7452, WindowParam._SafeStr_7454)){
-                                    this.WindowController();
+                                if (testParamFlag(WindowParam._SafeStr_7452, WindowParam._SafeStr_7454)){
+                                    this.updateScaleRelativeToParent();
                                 }
                                 else {
-                                    if (IWindow(WindowParam._SafeStr_7462, WindowParam._SafeStr_7464)){
-                                        this.WindowController();
+                                    if (testParamFlag(WindowParam._SafeStr_7462, WindowParam._SafeStr_7464)){
+                                        this.updateScaleRelativeToParent();
                                     };
                                 };
                                 if (this._parent != null){
                                     _local_7 = _param;
                                     _param = (_param & ~((WindowParam._SafeStr_7454 | WindowParam._SafeStr_7464)));
-                                    if (IWindow(WindowParam._SafeStr_9318)){
+                                    if (testParamFlag(WindowParam._SafeStr_9318)){
                                         this._parent.width = (this._parent.width + (_rectangle.width - _SafeStr_9801.width));
                                     };
-                                    if (IWindow(WindowParam._SafeStr_9319)){
+                                    if (testParamFlag(WindowParam._SafeStr_9319)){
                                         this._parent.height = (this._parent.height + (_rectangle.height - _SafeStr_9801.height));
                                     };
                                     _param = _local_7;
@@ -906,7 +906,7 @@ package com.sulake.core.window
                             _context.invalidate(this, _local_6, WindowRedrawFlag._SafeStr_9614);
                             if (_arg_1 == this){
                                 _local_5 = WindowEvent.allocate(WindowEvent.WE_PARENT_RELOCATED, this, null);
-                                this.WindowController(_local_5);
+                                this.notifyChildren(_local_5);
                                 _local_5.recycle();
                                 if (this._parent != null){
                                     _local_5 = WindowEvent.allocate(WindowEvent.WE_CHILD_RELOCATED, this._parent, this);
@@ -918,7 +918,7 @@ package com.sulake.core.window
                         case WindowEvent.WE_ACTIVATED:
                             if (_arg_1 == this){
                                 _local_5 = WindowEvent.allocate(WindowEvent.WE_PARENT_ACTIVATED, this, null);
-                                this.WindowController(_local_5);
+                                this.notifyChildren(_local_5);
                                 _local_5.recycle();
                                 if (this._parent != null){
                                     _local_5 = WindowEvent.allocate(WindowEvent.WE_CHILD_ACTIVATED, this._parent, this);
@@ -928,55 +928,55 @@ package com.sulake.core.window
                             };
                             break;
                         case WindowEvent.WE_PARENT_ADDED:
-                            if (IWindow(WindowParam._SafeStr_7452, WindowParam._SafeStr_7454)){
-                                this.WindowController();
+                            if (testParamFlag(WindowParam._SafeStr_7452, WindowParam._SafeStr_7454)){
+                                this.updateScaleRelativeToParent();
                             }
                             else {
-                                if (IWindow(WindowParam._SafeStr_7462, WindowParam._SafeStr_7464)){
-                                    this.WindowController();
+                                if (testParamFlag(WindowParam._SafeStr_7462, WindowParam._SafeStr_7464)){
+                                    this.updateScaleRelativeToParent();
                                 };
                             };
                             _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
                             break;
                         case WindowEvent.WE_PARENT_RESIZED:
-                            this._parent.WindowController(null, this._SafeStr_9838);
-                            this.WindowController();
+                            this._parent.getRegionProperties(null, this._SafeStr_9838);
+                            this.updateScaleRelativeToParent();
                             break;
                         case WindowEvent.WE_CHILD_ADDED:
-                            if (IWindow(WindowParam._SafeStr_7436)){
-                                this.WindowController();
+                            if (testParamFlag(WindowParam._SafeStr_7436)){
+                                this.scaleToAccommodateChildren();
                             }
                             else {
-                                if (IWindow(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
-                                    WindowController(this, _arg_2.related);
+                                if (testParamFlag(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
+                                    expandToAccommodateChild(this, _arg_2.related);
                                 };
                             };
                             break;
                         case WindowEvent.WE_CHILD_REMOVED:
-                            if (IWindow(WindowParam._SafeStr_7436)){
-                                this.WindowController();
+                            if (testParamFlag(WindowParam._SafeStr_7436)){
+                                this.scaleToAccommodateChildren();
                             };
                             break;
                         case WindowEvent.WE_CHILD_ACTIVATED:
                             this.activate();
                             break;
                         case WindowEvent.WE_CHILD_RESIZED:
-                            if (IWindow(WindowParam._SafeStr_7436)){
-                                this.WindowController();
+                            if (testParamFlag(WindowParam._SafeStr_7436)){
+                                this.scaleToAccommodateChildren();
                             }
                             else {
-                                if (IWindow(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
-                                    WindowController(this, _arg_2.related);
+                                if (testParamFlag(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
+                                    expandToAccommodateChild(this, _arg_2.related);
                                 };
                             };
                             break;
                         case WindowEvent.WE_CHILD_RELOCATED:
-                            if (IWindow(WindowParam._SafeStr_7436)){
-                                this.WindowController();
+                            if (testParamFlag(WindowParam._SafeStr_7436)){
+                                this.scaleToAccommodateChildren();
                             }
                             else {
-                                if (IWindow(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
-                                    WindowController(this, _arg_2.related);
+                                if (testParamFlag(WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN)){
+                                    expandToAccommodateChild(this, _arg_2.related);
                                 };
                             };
                             break;
@@ -985,7 +985,7 @@ package com.sulake.core.window
             };
             return (true);
         }
-        protected function WindowController(_arg_1:WindowEvent):void
+        protected function notifyEventListeners(_arg_1:WindowEvent):void
         {
             this.procedure(_arg_1, this);
             if (!_arg_1.isWindowOperationPrevented()){
@@ -994,21 +994,21 @@ package com.sulake.core.window
                 };
             };
         }
-        private function WindowController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function nullEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
         }
-        private function WindowController(_arg_1:WindowEvent):void
+        private function notifyChildren(_arg_1:WindowEvent):void
         {
             var _local_2:WindowController;
             for each (_local_2 in this._children) {
                 _local_2.update(this, _arg_1);
             };
         }
-        public function WindowController(_arg_1:Rectangle, _arg_2:Rectangle):Boolean
+        public function childRectToClippedDrawRegion(_arg_1:Rectangle, _arg_2:Rectangle):Boolean
         {
             var _local_4:Rectangle;
             var _local_3:Boolean;
-            if (IWindow(WindowParam._SafeStr_7443)){
+            if (testParamFlag(WindowParam._SafeStr_7443)){
                 _arg_1.offset(_rectangle.x, _rectangle.y);
                 if (clipping){
                     _local_4 = _arg_1.intersection(_rectangle);
@@ -1034,7 +1034,7 @@ package com.sulake.core.window
                     _arg_2.height = _local_4.height;
                 };
                 if (this._parent != null){
-                    _local_3 = ((WindowController(this._parent).WindowController(_arg_1, _arg_2)) || (_local_3));
+                    _local_3 = ((WindowController(this._parent).childRectToClippedDrawRegion(_arg_1, _arg_2)) || (_local_3));
                 };
             }
             else {
@@ -1063,7 +1063,7 @@ package com.sulake.core.window
             };
             return (((_local_3) ? (((_arg_2.width > 0)) && ((_arg_2.height > 0))) : true));
         }
-        public function WindowController(_arg_1:Point):void
+        public function convertPointFromGlobalToLocalSpace(_arg_1:Point):void
         {
             var _local_2:Number = _arg_1.x;
             var _local_3:Number = _arg_1.y;
@@ -1079,7 +1079,7 @@ package com.sulake.core.window
             _arg_1.x = (_local_2 - _arg_1.x);
             _arg_1.y = (_local_3 - _arg_1.y);
         }
-        public function WindowController(_arg_1:Point):void
+        public function convertPointFromLocalToGlobalSpace(_arg_1:Point):void
         {
             var _local_2:Number = _arg_1.x;
             var _local_3:Number = _arg_1.y;
@@ -1095,40 +1095,40 @@ package com.sulake.core.window
             _arg_1.x = (_arg_1.x + _local_2);
             _arg_1.y = (_arg_1.y + _local_3);
         }
-        public function WindowController(_arg_1:Point):void
+        public function getRelativeMousePosition(_arg_1:Point):void
         {
             this.getGlobalPosition(_arg_1);
             _arg_1.x = (_context.getDesktopWindow().mouseX - _arg_1.x);
             _arg_1.y = (_context.getDesktopWindow().mouseY - _arg_1.y);
         }
-        public function WindowController(_arg_1:Point):void
+        public function getAbsoluteMousePosition(_arg_1:Point):void
         {
             _arg_1.x = _context.getDesktopWindow().mouseX;
             _arg_1.y = _context.getDesktopWindow().mouseY;
         }
-        public function WindowController(_arg_1:Point):void
+        public function getLocalPosition(_arg_1:Point):void
         {
             _arg_1.x = _rectangle.x;
             _arg_1.y = _rectangle.y;
         }
-        public function WindowController(_arg_1:Rectangle):void
+        public function getLocalRectangle(_arg_1:Rectangle):void
         {
             _arg_1.x = _rectangle.x;
             _arg_1.y = _rectangle.y;
             _arg_1.width = _rectangle.width;
             _arg_1.height = _rectangle.height;
         }
-        public function WindowController(_arg_1:Point):Boolean
+        public function hitTestLocalPoint(_arg_1:Point):Boolean
         {
             return (_rectangle.containsPoint(_arg_1));
         }
-        public function WindowController(_arg_1:Rectangle):Boolean
+        public function hitTestLocalRectangle(_arg_1:Rectangle):Boolean
         {
             return (_rectangle.intersects(_arg_1));
         }
-        public function WindowController(_arg_1:Point, _arg_2:BitmapData):Boolean
+        public function validateLocalPointIntersection(_arg_1:Point, _arg_2:BitmapData):Boolean
         {
-            return (this.WindowController(_arg_1, _arg_2, _mouseThreshold));
+            return (this.testLocalPointHitAgainstAlpha(_arg_1, _arg_2, _mouseThreshold));
         }
         public function getGlobalPosition(_arg_1:Point):void
         {
@@ -1142,7 +1142,7 @@ package com.sulake.core.window
                 _arg_1.y = _rectangle.y;
             };
         }
-        public function WindowController(_arg_1:Point):void
+        public function setGlobalPosition(_arg_1:Point):void
         {
             var _local_2:Point = new Point();
             if (this._parent != null){
@@ -1157,11 +1157,11 @@ package com.sulake.core.window
             this.x = (x + (_arg_1.x - _local_2.x));
             this.y = (y + (_arg_1.y - _local_2.y));
         }
-        public function WindowController(_arg_1:Rectangle):void
+        public function getGlobalRectangle(_arg_1:Rectangle):void
         {
             var _local_2:Rectangle = _rectangle;
             if (this._parent != null){
-                this._parent.WindowController(_arg_1);
+                this._parent.getGlobalRectangle(_arg_1);
                 _arg_1.x = (_arg_1.x + _local_2.x);
                 _arg_1.y = (_arg_1.y + _local_2.y);
             }
@@ -1172,7 +1172,7 @@ package com.sulake.core.window
             _arg_1.width = _local_2.width;
             _arg_1.height = _local_2.height;
         }
-        public function WindowController(_arg_1:Rectangle):void
+        public function setGlobalRectangle(_arg_1:Rectangle):void
         {
             var _local_2:Point = new Point();
             if (this._parent != null){
@@ -1184,39 +1184,39 @@ package com.sulake.core.window
                 _local_2.x = _rectangle.x;
                 _local_2.y = _rectangle.y;
             };
-            this.WindowController((x + (_arg_1.x - _local_2.x)), (y + (_arg_1.y - _local_2.y)), _arg_1.width, _arg_1.height);
+            this.setRectangle((x + (_arg_1.x - _local_2.x)), (y + (_arg_1.y - _local_2.y)), _arg_1.width, _arg_1.height);
         }
         public function hitTestGlobalPoint(_arg_1:Point):Boolean
         {
             var _local_2:Rectangle = new Rectangle();
-            this.WindowController(_local_2);
+            this.getGlobalRectangle(_local_2);
             return (_local_2.containsPoint(_arg_1));
         }
-        public function WindowController(_arg_1:Rectangle):Boolean
+        public function hitTestGlobalRectangle(_arg_1:Rectangle):Boolean
         {
             var _local_2:Rectangle = new Rectangle();
-            this.WindowController(_local_2);
+            this.getGlobalRectangle(_local_2);
             return (_local_2.intersects(_arg_1));
         }
-        public function WindowController(_arg_1:Point, _arg_2:BitmapData):Boolean
+        public function validateGlobalPointIntersection(_arg_1:Point, _arg_2:BitmapData):Boolean
         {
             var _local_3:Point = new Point();
             this.getGlobalPosition(_local_3);
             _local_3.x = (_arg_1.x - _local_3.x);
             _local_3.y = (_arg_1.y - _local_3.y);
-            return (this.WindowController(_local_3, _arg_2, _mouseThreshold));
+            return (this.testLocalPointHitAgainstAlpha(_local_3, _arg_2, _mouseThreshold));
         }
         public function getMouseRegion(_arg_1:Rectangle):void
         {
             var _local_2:Rectangle;
-            this.WindowController(_arg_1);
+            this.getGlobalRectangle(_arg_1);
             if (_arg_1.width < 0){
                 _arg_1.width = 0;
             };
             if (_arg_1.height < 0){
                 _arg_1.height = 0;
             };
-            if (IWindow(WindowParam._SafeStr_7443)){
+            if (testParamFlag(WindowParam._SafeStr_7443)){
                 _local_2 = new Rectangle();
                 IWindow(this._parent).getMouseRegion(_local_2);
                 if (_arg_1.left < _local_2.left){
@@ -1233,7 +1233,7 @@ package com.sulake.core.window
                 };
             };
         }
-        protected function WindowController(_arg_1:Point, _arg_2:BitmapData, _arg_3:uint):Boolean
+        protected function testLocalPointHitAgainstAlpha(_arg_1:Point, _arg_2:BitmapData, _arg_3:uint):Boolean
         {
             var _local_5:BitmapData;
             var _local_4:Boolean;
@@ -1241,9 +1241,9 @@ package com.sulake.core.window
                 return (false);
             };
             if (((this._SafeStr_9161) && ((_mouseThreshold > 0)))){
-                if (!IWindow(WindowParam._SafeStr_7443)){
+                if (!testParamFlag(WindowParam._SafeStr_7443)){
                     if ((((_arg_1.x <= _rectangle.width)) && ((_arg_1.y <= _rectangle.height)))){
-                        _local_5 = (this.getGraphicContext(true).WindowController() as BitmapData);
+                        _local_5 = (this.getGraphicContext(true).fetchDrawBuffer() as BitmapData);
                         if (_local_5 != null){
                             _local_4 = _local_5.hitTest(_SafeStr_9835, _arg_3, _arg_1);
                         };
@@ -1262,27 +1262,27 @@ package com.sulake.core.window
             };
             return (_local_4);
         }
-        public function WindowController():Boolean
+        public function isCapableOfUsingSharedGraphicContext():Boolean
         {
             return (true);
         }
-        public function WindowController():Number
+        public function resolveVerticalScale():Number
         {
             return ((_rectangle.height / _SafeStr_9800.height));
         }
-        public function WindowController():Number
+        public function resolveHorizontalScale():Number
         {
             return ((_rectangle.width / _SafeStr_9800.width));
         }
         public function offset(_arg_1:Number, _arg_2:Number):void
         {
-            this.WindowController((_rectangle.x + _arg_1), (_rectangle.y + _arg_2), _rectangle.width, _rectangle.height);
+            this.setRectangle((_rectangle.x + _arg_1), (_rectangle.y + _arg_2), _rectangle.width, _rectangle.height);
         }
         public function scale(_arg_1:Number, _arg_2:Number):void
         {
-            this.WindowController(_rectangle.x, _rectangle.y, (_rectangle.width + _arg_1), (_rectangle.height + _arg_2));
+            this.setRectangle(_rectangle.x, _rectangle.y, (_rectangle.width + _arg_1), (_rectangle.height + _arg_2));
         }
-        public function WindowController():void
+        public function scaleToAccommodateChildren():void
         {
             var _local_1:IWindow;
             var _local_6:Rectangle;
@@ -1325,7 +1325,7 @@ package com.sulake.core.window
                 if (_local_8){
                     this.setParamFlag(_local_8, false);
                 };
-                this.WindowController((_rectangle.x + _local_2), (_rectangle.y + _local_3), _local_4, _local_5);
+                this.setRectangle((_rectangle.x + _local_2), (_rectangle.y + _local_3), _local_4, _local_5);
                 for each (_local_1 in this._children) {
                     _local_1.offset(-(_local_2), -(_local_3));
                     _local_1.setParamFlag(_local_9.shift(), true);
@@ -1335,11 +1335,11 @@ package com.sulake.core.window
                 };
             };
         }
-        public function WindowController(_arg_1:uint):Boolean
+        public function getStateFlag(_arg_1:uint):Boolean
         {
             return (!(((_state & _arg_1) == 0)));
         }
-        public function WindowController(_arg_1:uint, _arg_2:Boolean=true):void
+        public function setStateFlag(_arg_1:uint, _arg_2:Boolean=true):void
         {
             var _local_3:uint = _state;
             _state = ((_arg_2) ? _state = (_state | _arg_1) : _state = (_state & ~(_arg_1)));
@@ -1347,11 +1347,11 @@ package com.sulake.core.window
                 _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9615);
             };
         }
-        public function WindowController(_arg_1:uint):Boolean
+        public function getStyleFlag(_arg_1:uint):Boolean
         {
             return (!(((_style & _arg_1) == 0)));
         }
-        public function WindowController(_arg_1:uint, _arg_2:Boolean=true):void
+        public function setStyleFlag(_arg_1:uint, _arg_2:Boolean=true):void
         {
             var _local_4:Array;
             var _local_5:uint;
@@ -1360,7 +1360,7 @@ package com.sulake.core.window
             _style = ((_arg_2) ? _style = (_style | _arg_1) : _style = (_style & ~(_arg_1)));
             if (_style != _local_3){
                 _local_4 = new Array();
-                this.WindowController(WindowController.TAG_INTERNAL, _local_4);
+                this.groupChildrenWithTag(WindowController.TAG_INTERNAL, _local_4);
                 _local_5 = _local_4.length;
                 while (--_local_5 > -1) {
                     _local_6 = (_local_4[_local_5] as WindowController);
@@ -1371,7 +1371,7 @@ package com.sulake.core.window
                 _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
             };
         }
-        public function WindowController(_arg_1:uint):Boolean
+        public function getParamFlag(_arg_1:uint):Boolean
         {
             return (!(((_param & _arg_1) == 0)));
         }
@@ -1382,7 +1382,7 @@ package com.sulake.core.window
             if (_param != _local_3){
                 if (!(_param & WindowParam._SafeStr_7443)){
                     if (!this._SafeStr_9166){
-                        this.WindowController();
+                        this.setupGraphicsContext();
                         _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
                     };
                 }
@@ -1395,7 +1395,7 @@ package com.sulake.core.window
                 };
             };
         }
-        protected function WindowController():void
+        protected function updateScaleRelativeToParent():void
         {
             var _local_3:Rectangle;
             var _local_4:int;
@@ -1405,8 +1405,8 @@ package com.sulake.core.window
             if (this._parent == null){
                 return;
             };
-            var _local_1 = !(IWindow(WindowParam._SafeStr_7447, WindowParam._SafeStr_7454));
-            var _local_2 = !(IWindow(WindowParam._SafeStr_7456, WindowParam._SafeStr_7464));
+            var _local_1 = !(testParamFlag(WindowParam._SafeStr_7447, WindowParam._SafeStr_7454));
+            var _local_2 = !(testParamFlag(WindowParam._SafeStr_7456, WindowParam._SafeStr_7464));
             if (((_local_1) || (_local_2))){
                 _local_3 = _rectangle.clone();
                 if (_local_1){
@@ -1421,7 +1421,7 @@ package com.sulake.core.window
                         }
                         else {
                             if (_local_5 == WindowParam._SafeStr_7452){
-                                if ((((this._parent.width < _local_3.width)) && (this.WindowController(WindowParam._SafeStr_7443)))){
+                                if ((((this._parent.width < _local_3.width)) && (this.getParamFlag(WindowParam._SafeStr_7443)))){
                                     _local_3.x = 0;
                                 }
                                 else {
@@ -1443,7 +1443,7 @@ package com.sulake.core.window
                         }
                         else {
                             if (_local_5 == WindowParam._SafeStr_7462){
-                                if ((((this._parent.height < _local_3.height)) && (this.WindowController(WindowParam._SafeStr_7443)))){
+                                if ((((this._parent.height < _local_3.height)) && (this.getParamFlag(WindowParam._SafeStr_7443)))){
                                     _local_3.y = 0;
                                 }
                                 else {
@@ -1455,11 +1455,11 @@ package com.sulake.core.window
                 };
                 _local_6 = _param;
                 _param = (_param & ~(((WindowParam._SafeStr_9362 | WindowParam._SafeStr_7454) | WindowParam._SafeStr_7464)));
-                this.WindowController(_local_3.x, _local_3.y, _local_3.width, _local_3.height);
+                this.setRectangle(_local_3.x, _local_3.y, _local_3.width, _local_3.height);
                 _param = _local_6;
             }
             else {
-                if (IWindow(WindowParam._SafeStr_7445)){
+                if (testParamFlag(WindowParam._SafeStr_7445)){
                     _local_3 = _rectangle.clone();
                     if (this._parent != null){
                         _local_7 = this._parent.rectangle;
@@ -1472,14 +1472,14 @@ package com.sulake.core.window
                         if (((((((!((_local_3.x == _rectangle.x))) || (!((_local_3.y == _rectangle.y))))) || (!((_local_3.width == _rectangle.width))))) || (!((_local_3.height == _rectangle.height))))){
                             _local_6 = _param;
                             _param = (_param & ~(((WindowParam._SafeStr_9362 | WindowParam._SafeStr_7454) | WindowParam._SafeStr_7464)));
-                            this.WindowController(_local_3.x, _local_3.y, _local_3.width, _local_3.height);
+                            this.setRectangle(_local_3.x, _local_3.y, _local_3.width, _local_3.height);
                             _param = _local_6;
                         };
                     };
                 };
             };
         }
-        protected function WindowController():Boolean
+        protected function isChildWindow():Boolean
         {
             return (!((this._parent == context.getDesktopWindow())));
         }
@@ -1514,13 +1514,13 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9479, true);
+            this.setStateFlag(WindowState._SafeStr_9479, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_MINIMIZED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
             return (true);
         }
-        public function WindowController():Boolean
+        public function maximize():Boolean
         {
             if ((_state & WindowState._SafeStr_9479)){
                 return (false);
@@ -1532,13 +1532,13 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9479, true);
+            this.setStateFlag(WindowState._SafeStr_9479, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_MAXIMIZED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
             return (true);
         }
-        public function WindowController():Boolean
+        public function restore():Boolean
         {
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_RESTORE, this, null);
             this.update(this, _local_1);
@@ -1547,7 +1547,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9479, false);
+            this.setStateFlag(WindowState._SafeStr_9479, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_RESTORED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1562,7 +1562,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_4586, true);
+            this.setStateFlag(WindowState._SafeStr_4586, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_ACTIVATED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1570,7 +1570,7 @@ package com.sulake.core.window
         }
         public function deactivate():Boolean
         {
-            if (!this.WindowController(WindowState._SafeStr_4586)){
+            if (!this.getStateFlag(WindowState._SafeStr_4586)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_DEACTIVATE, this, null);
@@ -1580,7 +1580,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_4586, false);
+            this.setStateFlag(WindowState._SafeStr_4586, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_DEACTIVATED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1588,7 +1588,7 @@ package com.sulake.core.window
         }
         public function lock():Boolean
         {
-            if (this.WindowController(WindowState._SafeStr_9479)){
+            if (this.getStateFlag(WindowState._SafeStr_9479)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_LOCK, this, null);
@@ -1598,7 +1598,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9479, true);
+            this.setStateFlag(WindowState._SafeStr_9479, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_LOCKED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1606,7 +1606,7 @@ package com.sulake.core.window
         }
         public function unlock():Boolean
         {
-            if (!this.WindowController(WindowState._SafeStr_9479)){
+            if (!this.getStateFlag(WindowState._SafeStr_9479)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_UNLOCK, this, null);
@@ -1616,7 +1616,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9479, false);
+            this.setStateFlag(WindowState._SafeStr_9479, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_UNLOCKED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1624,7 +1624,7 @@ package com.sulake.core.window
         }
         public function enable():Boolean
         {
-            if (!this.WindowController(WindowState._SafeStr_9399)){
+            if (!this.getStateFlag(WindowState._SafeStr_9399)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_ENABLE, this, null);
@@ -1634,7 +1634,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9399, false);
+            this.setStateFlag(WindowState._SafeStr_9399, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_ENABLED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1642,7 +1642,7 @@ package com.sulake.core.window
         }
         public function disable():Boolean
         {
-            if (this.WindowController(WindowState._SafeStr_9399)){
+            if (this.getStateFlag(WindowState._SafeStr_9399)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_DISABLE, this, null);
@@ -1652,7 +1652,7 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9399, true);
+            this.setStateFlag(WindowState._SafeStr_9399, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_DISABLED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -1660,7 +1660,7 @@ package com.sulake.core.window
         }
         public function focus():Boolean
         {
-            if (this.WindowController(WindowState._SafeStr_9170)){
+            if (this.getStateFlag(WindowState._SafeStr_9170)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_FOCUS, this, null);
@@ -1670,15 +1670,15 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9170, true);
+            this.setStateFlag(WindowState._SafeStr_9170, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_FOCUSED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
             return (true);
         }
-        public function WindowController():Boolean
+        public function unfocus():Boolean
         {
-            if (!this.WindowController(WindowState._SafeStr_9170)){
+            if (!this.getStateFlag(WindowState._SafeStr_9170)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_UNFOCUS, this, null);
@@ -1688,13 +1688,13 @@ package com.sulake.core.window
                 return (false);
             };
             _local_1.recycle();
-            this.WindowController(WindowState._SafeStr_9170, false);
+            this.setStateFlag(WindowState._SafeStr_9170, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_UNFOCUSED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
             return (true);
         }
-        public function WindowController(_arg_1:Point):IWindow
+        public function getChildUnderPoint(_arg_1:Point):IWindow
         {
             var _local_2:Rectangle;
             var _local_3:Boolean;
@@ -1707,14 +1707,14 @@ package com.sulake.core.window
                 _local_5 = this.numChildren;
                 if (_local_3){
                     while (_local_5 > 0) {
-                        _local_4 = WindowController(this._children[(_local_5 - 1)]).WindowController(_arg_1);
+                        _local_4 = WindowController(this._children[(_local_5 - 1)]).getChildUnderPoint(_arg_1);
                         if (_local_4 != null){
                             return (_local_4);
                         };
                         _local_5--;
                     };
                 };
-                if (this.WindowController(_arg_1, null)){
+                if (this.validateGlobalPointIntersection(_arg_1, null)){
                     return (this);
                 };
             };
@@ -1743,7 +1743,7 @@ package com.sulake.core.window
                 };
             };
         }
-        public function WindowController(_arg_1:Point, _arg_2:Array, _arg_3:uint=0):void
+        public function groupParameterFilteredChildrenUnderPoint(_arg_1:Point, _arg_2:Array, _arg_3:uint=0):void
         {
             var _local_4:WindowController;
             if (_visible){
@@ -1753,7 +1753,7 @@ package com.sulake.core.window
                     };
                     _arg_1.offset(-(_rectangle.x), -(_rectangle.y));
                     for each (_local_4 in this._children) {
-                        _local_4.WindowController(_arg_1, _arg_2, _arg_3);
+                        _local_4.groupParameterFilteredChildrenUnderPoint(_arg_1, _arg_2, _arg_3);
                     };
                     _arg_1.offset(_rectangle.x, _rectangle.y);
                 }
@@ -1761,7 +1761,7 @@ package com.sulake.core.window
                     if (!_clipping){
                         _arg_1.offset(-(_rectangle.x), -(_rectangle.y));
                         for each (_local_4 in this._children) {
-                            _local_4.WindowController(_arg_1, _arg_2, _arg_3);
+                            _local_4.groupParameterFilteredChildrenUnderPoint(_arg_1, _arg_2, _arg_3);
                         };
                         _arg_1.offset(_rectangle.x, _rectangle.y);
                     };
@@ -1799,11 +1799,11 @@ package com.sulake.core.window
                 if (((_local_3) && (!((_local_3.parent == this))))){
                     this._children.push(_local_3);
                     _local_3.parent = this;
-                    _local_2 = ((_local_2) || (_local_3.WindowController()));
+                    _local_2 = ((_local_2) || (_local_3.hasGraphicsContext()));
                 };
             };
             if (((this._SafeStr_9837) || (_local_2))){
-                this.WindowController();
+                this.setupGraphicsContext();
             };
         }
         public function addChild(_arg_1:IWindow):IWindow
@@ -1814,10 +1814,10 @@ package com.sulake.core.window
             };
             this._children.push(_local_2);
             _local_2.parent = this;
-            if (((this._SafeStr_9837) || (_local_2.WindowController()))){
-                this.WindowController();
+            if (((this._SafeStr_9837) || (_local_2.hasGraphicsContext()))){
+                this.setupGraphicsContext();
                 if (_local_2.getGraphicContext(true).parent != this._SafeStr_9166){
-                    this._SafeStr_9166.IGraphicContext(_local_2.getGraphicContext(true));
+                    this._SafeStr_9166.addChildContext(_local_2.getGraphicContext(true));
                 };
             };
             var _local_3:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, _arg_1);
@@ -1833,10 +1833,10 @@ package com.sulake.core.window
             };
             this._children.splice(_arg_2, 0, _local_3);
             _local_3.parent = this;
-            if (((this._SafeStr_9837) || (_local_3.WindowController()))){
-                this.WindowController();
+            if (((this._SafeStr_9837) || (_local_3.hasGraphicsContext()))){
+                this.setupGraphicsContext();
                 if (_local_3.getGraphicContext(true).parent != this._SafeStr_9166){
-                    this._SafeStr_9166.IGraphicContext(_local_3.getGraphicContext(true), _arg_2);
+                    this._SafeStr_9166.addChildContextAt(_local_3.getGraphicContext(true), _arg_2);
                 };
             };
             var _local_4:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, _arg_1);
@@ -1848,7 +1848,7 @@ package com.sulake.core.window
         {
             return ((this._children[_arg_1] as IWindow));
         }
-        public function WindowController(_arg_1:uint):IWindow
+        public function getChildByID(_arg_1:uint):IWindow
         {
             var _local_2:IWindow;
             for each (_local_2 in this._children) {
@@ -1884,7 +1884,7 @@ package com.sulake.core.window
             };
             return (null);
         }
-        public function WindowController(_arg_1:String):IWindow
+        public function getChildByTag(_arg_1:String):IWindow
         {
             var _local_2:IWindow;
             for each (_local_2 in this._children) {
@@ -1899,7 +1899,7 @@ package com.sulake.core.window
             if (_tags.indexOf(_arg_1) > -1){
                 return (this);
             };
-            var _local_2:WindowController = WindowController(this.WindowController(_arg_1));
+            var _local_2:WindowController = WindowController(this.getChildByTag(_arg_1));
             if (_local_2 == null){
                 for each (_local_2 in this._children) {
                     _local_2 = (_local_2.findChildByTag(_arg_1) as WindowController);
@@ -1921,8 +1921,8 @@ package com.sulake.core.window
             this._children.splice(_local_2, 1);
             var _local_3:WindowController = WindowController(_arg_1);
             _local_3.parent = null;
-            if (_local_3.WindowController()){
-                this._SafeStr_9166.IGraphicContext(_local_3.getGraphicContext(true));
+            if (_local_3.hasGraphicsContext()){
+                this._SafeStr_9166.removeChildContext(_local_3.getGraphicContext(true));
             };
             var _local_4:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_REMOVED, this, _arg_1);
             this.update(this, _local_4);
@@ -1941,8 +1941,8 @@ package com.sulake.core.window
                 this._children.splice(_local_3, 1);
                 this._children.splice(_arg_2, 0, _arg_1);
                 _local_4 = WindowController(_arg_1);
-                if (_local_4.WindowController()){
-                    this._SafeStr_9166.IGraphicContext(_local_4.getGraphicContext(true), this.getChildIndex(_local_4));
+                if (_local_4.hasGraphicsContext()){
+                    this._SafeStr_9166.setChildContextIndex(_local_4.getGraphicContext(true), this.getChildIndex(_local_4));
                 };
             };
         }
@@ -1973,17 +1973,17 @@ package com.sulake.core.window
                 this._children.splice(_local_3, 1);
                 this._children.splice(_local_3, 0, _arg_2);
                 this._children.splice(_local_4, 0, _arg_1);
-                if (((WindowController(_arg_1).WindowController()) || (WindowController(_arg_2).WindowController()))){
-                    this._SafeStr_9166.IGraphicContext(WindowController(_arg_1).getGraphicContext(true), WindowController(_arg_2).getGraphicContext(true));
+                if (((WindowController(_arg_1).hasGraphicsContext()) || (WindowController(_arg_2).hasGraphicsContext()))){
+                    this._SafeStr_9166.swapChildContexts(WindowController(_arg_1).getGraphicContext(true), WindowController(_arg_2).getGraphicContext(true));
                 };
             };
         }
         public function swapChildrenAt(_arg_1:int, _arg_2:int):void
         {
             this.swapChildren(this._children[_arg_1], this._children[_arg_2]);
-            this._SafeStr_9166.IGraphicContext(_arg_1, _arg_2);
+            this._SafeStr_9166.swapChildContextsAt(_arg_1, _arg_2);
         }
-        public function WindowController(_arg_1:uint, _arg_2:Array, _arg_3:Boolean=false):uint
+        public function groupChildrenWithID(_arg_1:uint, _arg_2:Array, _arg_3:Boolean=false):uint
         {
             var _local_4:WindowController;
             var _local_5:uint;
@@ -1993,12 +1993,12 @@ package com.sulake.core.window
                     _local_5++;
                 };
                 if (_arg_3){
-                    _local_5 = (_local_5 + _local_4.WindowController(_arg_1, _arg_2, _arg_3));
+                    _local_5 = (_local_5 + _local_4.groupChildrenWithID(_arg_1, _arg_2, _arg_3));
                 };
             };
             return (_local_5);
         }
-        public function WindowController(_arg_1:String, _arg_2:Array, _arg_3:Boolean=false):uint
+        public function groupChildrenWithTag(_arg_1:String, _arg_2:Array, _arg_3:Boolean=false):uint
         {
             var _local_4:WindowController;
             var _local_5:uint;
@@ -2008,12 +2008,12 @@ package com.sulake.core.window
                     _local_5++;
                 };
                 if (_arg_3){
-                    _local_5 = (_local_5 + _local_4.WindowController(_arg_1, _arg_2, _arg_3));
+                    _local_5 = (_local_5 + _local_4.groupChildrenWithTag(_arg_1, _arg_2, _arg_3));
                 };
             };
             return (_local_5);
         }
-        public function WindowController(_arg_1:String):IWindow
+        public function findParentByName(_arg_1:String):IWindow
         {
             if (_name == _arg_1){
                 return (this);
@@ -2022,16 +2022,16 @@ package com.sulake.core.window
                 if (this._parent.name == _arg_1){
                     return (this._parent);
                 };
-                return (this._parent.WindowController(_arg_1));
+                return (this._parent.findParentByName(_arg_1));
             };
             return (null);
         }
-        protected function WindowController():Boolean
+        protected function requiresOwnGraphicContext():Boolean
         {
             var _local_1:WindowController;
-            if (IWindow(WindowParam._SafeStr_7443)){
+            if (testParamFlag(WindowParam._SafeStr_7443)){
                 for each (_local_1 in this._children) {
-                    if (_local_1.WindowController()){
+                    if (_local_1.requiresOwnGraphicContext()){
                         return (true);
                     };
                 };
@@ -2066,8 +2066,8 @@ package com.sulake.core.window
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // _param = "_-2d3" (String#306, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // _SafeStr_4586 = "_-22X" (String#19111, DoABC#2)
 // _SafeStr_5004 = "_-0Yv" (String#15399, DoABC#2)
 // _visible = "_-1SE" (String#363, DoABC#2)
@@ -2076,7 +2076,7 @@ package com.sulake.core.window
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)
 // WE_PARENT_RESIZED = "_-0GO" (String#14697, DoABC#2)
 // WE_PARENT_ADDED = "_-0D7" (String#14572, DoABC#2)
-// WindowController = "_-1jq" (String#5750, DoABC#2)
+// setStateFlag = "_-1jq" (String#5750, DoABC#2)
 // _SafeStr_6248 = "_-3J9" (String#22246, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // _blend = "_-2A2" (String#616, DoABC#2)
@@ -2103,13 +2103,13 @@ package com.sulake.core.window
 // _SafeStr_7492 = "_-0tz" (String#16201, DoABC#2)
 // _SafeStr_7498 = "_-09o" (String#14438, DoABC#2)
 // _caption = "_-p" (String#8690, DoABC#2)
-// WindowController = "_-Rh" (String#8242, DoABC#2)
+// unfocus = "_-Rh" (String#8242, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
-// WindowController = "_-38B" (String#7475, DoABC#2)
-// WindowController = "_-1wW" (String#1785, DoABC#2)
+// getParamFlag = "_-38B" (String#7475, DoABC#2)
+// getRelativeMousePosition = "_-1wW" (String#1785, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // isWindowOperationPrevented = "_-27I" (String#19304, DoABC#2)
-// WindowController = "_-Vb" (String#23476, DoABC#2)
+// setRectangle = "_-Vb" (String#23476, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
 // _background = "_-35x" (String#21726, DoABC#2)
@@ -2118,8 +2118,8 @@ package com.sulake.core.window
 // _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
 // WE_ACTIVATE = "_-3Ek" (String#22065, DoABC#2)
 // _SafeStr_9170 = "_-2FR" (String#19621, DoABC#2)
-// WindowController = "_-0r-" (String#16084, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// setupGraphicsContext = "_-0r-" (String#16084, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 // WE_CHILD_ACTIVATED = "_-f-" (String#23845, DoABC#2)
 // WE_PARENT_ACTIVATED = "_-1o3" (String#18465, DoABC#2)
 // _procedure = "_-1SV" (String#17600, DoABC#2)
@@ -2127,32 +2127,32 @@ package com.sulake.core.window
 // WE_ENABLED = "_-2J1" (String#19767, DoABC#2)
 // WE_DISABLED = "_-xm" (String#24603, DoABC#2)
 // related = "_-2Pu" (String#20039, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 // _COLORIZE = "_-EQ" (String#22789, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // WE_ACTIVATED = "_-0ud" (String#16226, DoABC#2)
-// WindowController = "_-1XU" (String#5508, DoABC#2)
-// WindowController = "_-0xH" (String#1582, DoABC#2)
-// WindowController = "_-0oc" (String#1553, DoABC#2)
+// setGlobalRectangle = "_-1XU" (String#5508, DoABC#2)
+// getDrawRegion = "_-0xH" (String#1582, DoABC#2)
+// fetchDrawBuffer = "_-0oc" (String#1553, DoABC#2)
 // WE_CHILD_REMOVED = "_-r3" (String#24318, DoABC#2)
 // WE_CHILD_RELOCATED = "_-30I" (String#21512, DoABC#2)
 // _SafeStr_9318 = "_-2PC" (String#20010, DoABC#2)
 // _SafeStr_9319 = "_-1jm" (String#18275, DoABC#2)
-// WindowController = "_-1ic" (String#5724, DoABC#2)
-// WindowController = "_-y3" (String#2226, DoABC#2)
-// WindowController = "_-tP" (String#2212, DoABC#2)
-// WindowController = "_-2KM" (String#1856, DoABC#2)
+// cloneChildWindows = "_-1ic" (String#5724, DoABC#2)
+// getChildByID = "_-y3" (String#2226, DoABC#2)
+// getChildByTag = "_-tP" (String#2212, DoABC#2)
+// groupChildrenWithID = "_-2KM" (String#1856, DoABC#2)
 // WE_RESIZE = "_-2Gi" (String#19669, DoABC#2)
 // WME_WHEEL = "_-1Ot" (String#17464, DoABC#2)
 // _SafeStr_9362 = "_-199" (String#16823, DoABC#2)
-// WindowController = "_-s6" (String#8737, DoABC#2)
-// WindowController = "_-0iw" (String#4478, DoABC#2)
+// nullEventProc = "_-s6" (String#8737, DoABC#2)
+// findParentByName = "_-0iw" (String#4478, DoABC#2)
 // limits = "_-2BM" (String#6274, DoABC#2)
 // _SafeStr_9399 = "_-1WJ" (String#17754, DoABC#2)
 // WE_DESTROYED = "_-2PT" (String#20021, DoABC#2)
 // WE_CHILD_ADDED = "_-32L" (String#21593, DoABC#2)
-// WindowController = "_-ZD" (String#8399, DoABC#2)
-// WindowController = "_-03d" (String#14188, DoABC#2)
+// groupParameterFilteredChildrenUnderPoint = "_-ZD" (String#8399, DoABC#2)
+// notifyEventListeners = "_-03d" (String#14188, DoABC#2)
 // _SafeStr_9479 = "_-H4" (String#22893, DoABC#2)
 // _SafeStr_9480 = "_-2cN" (String#20539, DoABC#2)
 // _SafeStr_9483 = "_-1ot" (String#18494, DoABC#2)
@@ -2177,27 +2177,27 @@ package com.sulake.core.window
 // WE_RESTORED = "_-1WN" (String#17757, DoABC#2)
 // WE_PARENT_REMOVED = "_-2NW" (String#19945, DoABC#2)
 // WE_PARENT_RELOCATED = "_-1ei" (String#18086, DoABC#2)
-// WindowEvent = "_-0ee" (String#15611, DoABC#2)
+// preventDefault = "_-0ee" (String#15611, DoABC#2)
 // _SafeStr_9574 = "_-2pO" (String#21053, DoABC#2)
-// WindowController = "_-2yM" (String#7247, DoABC#2)
-// WindowController = "_-313" (String#1987, DoABC#2)
+// hasGraphicsContext = "_-2yM" (String#7247, DoABC#2)
+// getAbsoluteMousePosition = "_-313" (String#1987, DoABC#2)
 // numChildContexts = "_-1cY" (String#5611, DoABC#2)
-// IGraphicContext = "_-1ax" (String#5575, DoABC#2)
-// IGraphicContext = "_-2dP" (String#6819, DoABC#2)
-// IGraphicContext = "_-28x" (String#6224, DoABC#2)
-// IGraphicContext = "_-je" (String#8591, DoABC#2)
-// IGraphicContext = "_-0Zm" (String#4292, DoABC#2)
-// IGraphicContext = "_-2yp" (String#7257, DoABC#2)
+// addChildContext = "_-1ax" (String#5575, DoABC#2)
+// addChildContextAt = "_-2dP" (String#6819, DoABC#2)
+// removeChildContext = "_-28x" (String#6224, DoABC#2)
+// setChildContextIndex = "_-je" (String#8591, DoABC#2)
+// swapChildContexts = "_-0Zm" (String#4292, DoABC#2)
+// swapChildContextsAt = "_-2yp" (String#7257, DoABC#2)
 // _SafeStr_9614 = "_-u3" (String#24452, DoABC#2)
 // _SafeStr_9615 = "_-2xY" (String#21375, DoABC#2)
 // _SafeStr_9616 = "_-1DN" (String#5132, DoABC#2)
-// WindowController = "_-1gm" (String#18166, DoABC#2)
+// childRectToClippedDrawRegion = "_-1gm" (String#18166, DoABC#2)
 // eventTypes = "_-iE" (String#8559, DoABC#2)
 // areaLimit = "_-1I0" (String#5207, DoABC#2)
 // hasRectLimits = "_-2Rg" (String#20108, DoABC#2)
-// WindowController = "_-0Vq" (String#4224, DoABC#2)
-// WindowController = "_-E9" (String#7955, DoABC#2)
-// WindowController = "_-1vM" (String#18771, DoABC#2)
+// convertPointFromGlobalToLocalSpace = "_-0Vq" (String#4224, DoABC#2)
+// hitTestLocalPoint = "_-E9" (String#7955, DoABC#2)
+// validateLocalPointIntersection = "_-1vM" (String#18771, DoABC#2)
 // getWindowFactory = "_-0-h" (String#14041, DoABC#2)
 // _SafeStr_9800 = "_-2AJ" (String#19417, DoABC#2)
 // _SafeStr_9801 = "_-QG" (String#23260, DoABC#2)
@@ -2207,20 +2207,20 @@ package com.sulake.core.window
 // _clipping = "_-38F" (String#21812, DoABC#2)
 // getLayoutByTypeAndStyle = "_-9S" (String#7853, DoABC#2)
 // getDefaultsByTypeAndStyle = "_-2ch" (String#6806, DoABC#2)
-// WindowController = "_-0fS" (String#4413, DoABC#2)
-// WindowController = "_-35W" (String#7418, DoABC#2)
-// WindowController = "_-2j" (String#6932, DoABC#2)
-// WindowController = "_-1sE" (String#5889, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
-// WindowController = "_-Bj" (String#7906, DoABC#2)
-// WindowController = "_-02I" (String#3611, DoABC#2)
-// WindowController = "_-2pw" (String#7076, DoABC#2)
-// WindowController = "_-21w" (String#6085, DoABC#2)
-// WindowController = "_-2Dz" (String#6320, DoABC#2)
-// WindowController = "_-2x8" (String#7224, DoABC#2)
-// WindowController = "_-18B" (String#5040, DoABC#2)
-// WindowController = "_-18X" (String#5049, DoABC#2)
-// WindowController = "_-2TR" (String#6633, DoABC#2)
+// resolve = "_-0fS" (String#4413, DoABC#2)
+// getLocalPosition = "_-35W" (String#7418, DoABC#2)
+// getLocalRectangle = "_-2j" (String#6932, DoABC#2)
+// hitTestLocalRectangle = "_-1sE" (String#5889, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
+// hitTestGlobalRectangle = "_-Bj" (String#7906, DoABC#2)
+// resolveVerticalScale = "_-02I" (String#3611, DoABC#2)
+// resolveHorizontalScale = "_-2pw" (String#7076, DoABC#2)
+// convertPointFromLocalToGlobalSpace = "_-21w" (String#6085, DoABC#2)
+// setStyleFlag = "_-2Dz" (String#6320, DoABC#2)
+// getStyleFlag = "_-2x8" (String#7224, DoABC#2)
+// maximize = "_-18B" (String#5040, DoABC#2)
+// restore = "_-18X" (String#5049, DoABC#2)
+// getChildUnderPoint = "_-2TR" (String#6633, DoABC#2)
 // _SafeStr_9833 = "_-nZ" (String#24174, DoABC#2)
 // _IGNORE_INHERITED_STYLE = "_-UP" (String#23427, DoABC#2)
 // _SafeStr_9835 = "_-29J" (String#19377, DoABC#2)
@@ -2228,17 +2228,17 @@ package com.sulake.core.window
 // _SafeStr_9837 = "_-UD" (String#23416, DoABC#2)
 // _SafeStr_9838 = "_-2Dh" (String#19554, DoABC#2)
 // _SafeStr_9839 = "_-0sU" (String#16142, DoABC#2)
-// WindowController = "_-2qO" (String#21097, DoABC#2)
-// WindowController = "_-3Gk" (String#22153, DoABC#2)
-// WindowController = "_-1Yi" (String#17837, DoABC#2)
-// WindowController = "_-1Wc" (String#17763, DoABC#2)
-// WindowController = "_-1Ld" (String#17341, DoABC#2)
-// WindowController = "_-1sC" (String#18640, DoABC#2)
-// WindowController = "_-1RJ" (String#17558, DoABC#2)
-// WindowController = "_-0kG" (String#15841, DoABC#2)
-// WindowController = "_-Ah" (String#22644, DoABC#2)
-// WindowController = "_-23c" (String#19159, DoABC#2)
-// WindowController = "_-1vG" (String#18767, DoABC#2)
-// WindowController = "_-1XF" (String#17786, DoABC#2)
+// expandToAccommodateChild = "_-2qO" (String#21097, DoABC#2)
+// releaseGraphicsContext = "_-3Gk" (String#22153, DoABC#2)
+// isChildWindow = "_-1Yi" (String#17837, DoABC#2)
+// getRegionProperties = "_-1Wc" (String#17763, DoABC#2)
+// setRegionProperties = "_-1Ld" (String#17341, DoABC#2)
+// notifyChildren = "_-1sC" (String#18640, DoABC#2)
+// updateScaleRelativeToParent = "_-1RJ" (String#17558, DoABC#2)
+// scaleToAccommodateChildren = "_-0kG" (String#15841, DoABC#2)
+// testLocalPointHitAgainstAlpha = "_-Ah" (String#22644, DoABC#2)
+// validateGlobalPointIntersection = "_-23c" (String#19159, DoABC#2)
+// isCapableOfUsingSharedGraphicContext = "_-1vG" (String#18767, DoABC#2)
+// requiresOwnGraphicContext = "_-1XF" (String#17786, DoABC#2)
 
 

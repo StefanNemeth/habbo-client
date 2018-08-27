@@ -15,9 +15,9 @@ package com.sulake.core.window.graphics.renderer
         function get transparent():Boolean;
         function get placeholders():IChildEntityArrayReader;
         function dispose():void;
-        function ISkinLayout():Boolean;
-        function ISkinLayout():Boolean;
-        function ISkinLayout(_arg_1:String, _arg_2:Rectangle):void;
+        function isFixedWidth():Boolean;
+        function isFixedHeight():Boolean;
+        function getDefaultRegion(_arg_1:String, _arg_2:Rectangle):void;
 
     }
 }//package com.sulake.core.window.graphics.renderer
@@ -26,8 +26,8 @@ package com.sulake.core.window.graphics.renderer
 // IChildEntityArray = "_-2oU" (String#7047, DoABC#2)
 // ISkinLayout = "_-m8" (String#2182, DoABC#2)
 // placeholders = "_-b7" (String#8444, DoABC#2)
-// ISkinLayout = "_-CN" (String#7923, DoABC#2)
-// ISkinLayout = "_-3By" (String#7551, DoABC#2)
-// ISkinLayout = "_-1Bw" (String#5109, DoABC#2)
+// isFixedWidth = "_-CN" (String#7923, DoABC#2)
+// isFixedHeight = "_-3By" (String#7551, DoABC#2)
+// getDefaultRegion = "_-1Bw" (String#5109, DoABC#2)
 
 

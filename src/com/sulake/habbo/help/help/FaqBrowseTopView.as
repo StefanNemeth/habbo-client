@@ -42,7 +42,7 @@ package com.sulake.habbo.help.help
             if (_local_2 == null){
                 return;
             };
-            _local_2.IItemListWindow();
+            _local_2.destroyListItems();
             var _local_3:String = "";
             var _local_4:Array = _local_1.getCategoryTitleArray();
             var _local_5:int;
@@ -69,7 +69,7 @@ package com.sulake.habbo.help.help
             if ((((((_local_2 == null)) || ((_arg_1 == null)))) || ((_arg_1.parent == null)))){
                 return;
             };
-            var _local_3:int = _local_2.IItemListWindow(_arg_1.parent);
+            var _local_3:int = _local_2.getListItemIndex(_arg_1.parent);
             var _local_4:FaqIndex = main.getFaq();
             if (_local_4 == null){
                 return;
@@ -97,8 +97,8 @@ package com.sulake.habbo.help.help
 // FaqBrowseTopView = "_-28S" (String#6211, DoABC#2)
 // FaqCategory = "_-0JM" (String#3941, DoABC#2)
 // GetFaqCategoriesMessageComposer = "_-0Ik" (String#14789, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // HHVE_FAQ_CATEGORY = "_-1AU" (String#16879, DoABC#2)
 
 

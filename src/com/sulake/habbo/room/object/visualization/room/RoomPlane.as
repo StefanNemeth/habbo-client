@@ -49,7 +49,7 @@ package com.sulake.habbo.room.object.visualization.room
         private var _SafeStr_12976:Number = 0;
         private var _SafeStr_12977:Number = 0;
         private var _SafeStr_12797:Map = null;
-        private var _RoomPlane:PlaneBitmapData = null;
+        private var _SafeStr_12978:PlaneBitmapData = null;
         private var _SafeStr_12979:Boolean = false;
         private var _SafeStr_12980:Array;
         private var _SafeStr_12981:Array;
@@ -119,7 +119,7 @@ package com.sulake.habbo.room.object.visualization.room
         {
             if (_arg_1 != this._canBeVisible){
                 if (!this._canBeVisible){
-                    this.RoomPlane();
+                    this.resetTextureCache();
                 };
                 this._canBeVisible = _arg_1;
             };
@@ -201,7 +201,7 @@ package com.sulake.habbo.room.object.visualization.room
         public function set id(_arg_1:String):void
         {
             if (_arg_1 != this._id){
-                this.RoomPlane();
+                this.resetTextureCache();
                 this._id = _arg_1;
             };
         }
@@ -228,7 +228,7 @@ package com.sulake.habbo.room.object.visualization.room
                 this._SafeStr_12797.dispose();
                 this._SafeStr_12797 = null;
             };
-            this._RoomPlane = null;
+            this._SafeStr_12978 = null;
             this._loc = null;
             this._SafeStr_12792 = null;
             this._leftSide = null;
@@ -251,7 +251,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             this._disposed = true;
         }
-        public function RoomPlane(_arg_1:BitmapData):BitmapData
+        public function copyBitmapData(_arg_1:BitmapData):BitmapData
         {
             if (this.visible){
                 if (((!((this._bitmapData == null))) && (!((_arg_1 == null))))){
@@ -263,7 +263,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (null);
         }
-        private function RoomPlane(_arg_1:String, _arg_2:PlaneBitmapData):Boolean
+        private function cacheTexture(_arg_1:String, _arg_2:PlaneBitmapData):Boolean
         {
             var _local_3:PlaneBitmapData = (this._SafeStr_12797.remove(_arg_1) as PlaneBitmapData);
             if (_local_3 != null){
@@ -272,11 +272,11 @@ package com.sulake.habbo.room.object.visualization.room
                 };
                 _local_3.dispose();
             };
-            this._RoomPlane = _arg_2;
+            this._SafeStr_12978 = _arg_2;
             this._SafeStr_12797.add(_arg_1, _arg_2);
             return (true);
         }
-        private function RoomPlane(_arg_1:BitmapData=null):void
+        private function resetTextureCache(_arg_1:BitmapData=null):void
         {
             var _local_2:int;
             var _local_3:PlaneBitmapData;
@@ -294,7 +294,7 @@ package com.sulake.habbo.room.object.visualization.room
                 };
                 this._SafeStr_12797.reset();
             };
-            this._RoomPlane = null;
+            this._SafeStr_12978 = null;
         }
         private function getTextureIdentifier(_arg_1:Number):String
         {
@@ -309,7 +309,7 @@ package com.sulake.habbo.room.object.visualization.room
             if (_arg_1 == null){
                 return (false);
             };
-            var _local_3:PlaneBitmapData = this._RoomPlane;
+            var _local_3:PlaneBitmapData = this._SafeStr_12978;
             if (_local_3 == null){
                 _local_4 = this.getTextureIdentifier(_arg_1.scale);
                 _local_3 = (this._SafeStr_12797.getValue(_local_4) as PlaneBitmapData);
@@ -335,10 +335,10 @@ package com.sulake.habbo.room.object.visualization.room
             if (this.needsNewTexture(_arg_1, _arg_2)){
                 _local_5 = (this._leftSide.length * _arg_1.scale);
                 _local_6 = (this._rightSide.length * _arg_1.scale);
-                _local_7 = _arg_1.RoomGeometry(this._normal);
+                _local_7 = _arg_1.getCoordinatePosition(this._normal);
                 _local_4 = this.getTextureIdentifier(_arg_1.scale);
-                if (this._RoomPlane != null){
-                    _local_3 = this._RoomPlane;
+                if (this._SafeStr_12978 != null){
+                    _local_3 = this._SafeStr_12978;
                 }
                 else {
                     _local_3 = (this._SafeStr_12797.getValue(_local_4) as PlaneBitmapData);
@@ -360,13 +360,13 @@ package com.sulake.habbo.room.object.visualization.room
                     _local_3 = new PlaneBitmapData(_local_9, -1);
                 };
                 if (_local_3 != null){
-                    this.PlaneMaskManager(_local_3.bitmap, _arg_1);
-                    this.RoomPlane(_local_4, _local_3);
+                    this.updateMask(_local_3.bitmap, _arg_1);
+                    this.cacheTexture(_local_4, _local_3);
                 };
             }
             else {
-                if (this._RoomPlane != null){
-                    _local_3 = this._RoomPlane;
+                if (this._SafeStr_12978 != null){
+                    _local_3 = this._SafeStr_12978;
                 }
                 else {
                     _local_4 = this.getTextureIdentifier(_arg_1.scale);
@@ -374,7 +374,7 @@ package com.sulake.habbo.room.object.visualization.room
                 };
             };
             if (_local_3 != null){
-                this._RoomPlane = _local_3;
+                this._SafeStr_12978 = _local_3;
                 return (_local_3.bitmap);
             };
             return (null);
@@ -403,7 +403,7 @@ package com.sulake.habbo.room.object.visualization.room
                 };
             };
             if (geometryChanged){
-                this._RoomPlane = null;
+                this._SafeStr_12978 = null;
                 cosAngle = 0;
                 cosAngle = Vector3d.cosAngle(geometry.directionAxis, this.normal);
                 if (cosAngle > -0.001){
@@ -426,7 +426,7 @@ package com.sulake.habbo.room.object.visualization.room
                     i = (i + 1);
                 };
                 this.updateCorners(geometry);
-                originPos = geometry.RoomGeometry(this._SafeStr_12792);
+                originPos = geometry.getScreenPosition(this._SafeStr_12792);
                 originZ = originPos.z;
                 relativeDepth = Math.max((this._SafeStr_12800.z - originZ), (this._SafeStr_12801.z - originZ), (this._SafeStr_12802.z - originZ), (this._SafeStr_12803.z - originZ));
                 if (this._type == TYPE_LANDSCAPE){
@@ -477,11 +477,11 @@ package com.sulake.habbo.room.object.visualization.room
         }
         private function updateCorners(_arg_1:IRoomGeometry):void
         {
-            this._SafeStr_12800.assign(_arg_1.RoomGeometry(this._loc));
-            this._SafeStr_12801.assign(_arg_1.RoomGeometry(Vector3d.sum(this._loc, this._rightSide)));
-            this._SafeStr_12802.assign(_arg_1.RoomGeometry(Vector3d.sum(Vector3d.sum(this._loc, this._leftSide), this._rightSide)));
-            this._SafeStr_12803.assign(_arg_1.RoomGeometry(Vector3d.sum(this._loc, this._leftSide)));
-            this._offset = _arg_1.RoomGeometry(this._SafeStr_12792);
+            this._SafeStr_12800.assign(_arg_1.getScreenPosition(this._loc));
+            this._SafeStr_12801.assign(_arg_1.getScreenPosition(Vector3d.sum(this._loc, this._rightSide)));
+            this._SafeStr_12802.assign(_arg_1.getScreenPosition(Vector3d.sum(Vector3d.sum(this._loc, this._leftSide), this._rightSide)));
+            this._SafeStr_12803.assign(_arg_1.getScreenPosition(Vector3d.sum(this._loc, this._leftSide)));
+            this._offset = _arg_1.getScreenPoint(this._SafeStr_12792);
             this._SafeStr_12800.x = Math.round(this._SafeStr_12800.x);
             this._SafeStr_12800.y = Math.round(this._SafeStr_12800.y);
             this._SafeStr_12801.x = Math.round(this._SafeStr_12801.x);
@@ -697,7 +697,7 @@ package com.sulake.habbo.room.object.visualization.room
                 this._SafeStr_12982 = false;
             };
         }
-        private function PlaneMaskManager(_arg_1:BitmapData, _arg_2:IRoomGeometry):void
+        private function updateMask(_arg_1:BitmapData, _arg_2:IRoomGeometry):void
         {
             var _local_9:IVector3d;
             var _local_10:int;
@@ -732,8 +732,8 @@ package com.sulake.habbo.room.object.visualization.room
                 if (this._SafeStr_12707 != null){
                     this._SafeStr_12707.fillRect(this._SafeStr_12707.rect, 0xFFFFFF);
                 };
-                this.RoomPlane(_arg_1);
-                _local_9 = _arg_2.RoomGeometry(this._normal);
+                this.resetTextureCache(_arg_1);
+                _local_9 = _arg_2.getCoordinatePosition(this._normal);
                 _local_10 = 0;
                 _local_11 = 0;
                 _local_5 = 0;
@@ -743,7 +743,7 @@ package com.sulake.habbo.room.object.visualization.room
                         _local_10 = (this._SafeStr_12707.width - ((this._SafeStr_12707.width * _local_3.leftSideLoc) / this._leftSide.length));
                         _local_11 = (this._SafeStr_12707.height - ((this._SafeStr_12707.height * _local_3.rightSideLoc) / this._rightSide.length));
                         _local_12 = _local_3.type;
-                        this._maskManager.PlaneMaskManager(this._SafeStr_12707, _local_12, _arg_2.scale, _local_9, _local_10, _local_11);
+                        this._maskManager.updateMask(this._SafeStr_12707, _local_12, _arg_2.scale, _local_9, _local_10, _local_11);
                         this._SafeStr_12984.push(new RoomPlaneBitmapMask(_local_12, _local_3.leftSideLoc, _local_3.rightSideLoc));
                     };
                     _local_5++;
@@ -799,16 +799,16 @@ package com.sulake.habbo.room.object.visualization.room
 // _SafeStr_12803 = "_-2iY" (String#6922, DoABC#2)
 // leftSide = "_-3Gi" (String#22151, DoABC#2)
 // rightSide = "_-kB" (String#24043, DoABC#2)
-// RoomPlane = "_-0af" (String#4316, DoABC#2)
-// RoomPlane = "_-0-U" (String#3554, DoABC#2)
+// resetTextureCache = "_-0af" (String#4316, DoABC#2)
+// cacheTexture = "_-0-U" (String#3554, DoABC#2)
 // needsNewTexture = "_-17R" (String#5025, DoABC#2)
 // getTexture = "_-2Aw" (String#1826, DoABC#2)
-// RoomGeometry = "_-05e" (String#3679, DoABC#2)
+// getCoordinatePosition = "_-05e" (String#3679, DoABC#2)
 // directionAxis = "_-3Gq" (String#7644, DoABC#2)
 // updateCorners = "_-1c6" (String#5602, DoABC#2)
-// RoomGeometry = "_-1QP" (String#5358, DoABC#2)
+// getScreenPosition = "_-1QP" (String#5358, DoABC#2)
 // renderTexture = "_-ux" (String#8783, DoABC#2)
-// PlaneMaskManager = "_-1EK" (String#5149, DoABC#2)
+// updateMask = "_-1EK" (String#5149, DoABC#2)
 // _maskManager = "_-2lS" (String#6990, DoABC#2)
 // maskManager = "_-2sw" (String#21196, DoABC#2)
 // _SafeStr_12937 = "_-Z1" (String#23602, DoABC#2)
@@ -817,7 +817,7 @@ package com.sulake.habbo.room.object.visualization.room
 // rasterizer = "_-1Bj" (String#16931, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // addRectangleMask = "_-1aF" (String#17905, DoABC#2)
-// RoomPlane = "_-1Eg" (String#17056, DoABC#2)
+// copyBitmapData = "_-1Eg" (String#17056, DoABC#2)
 // resetBitmapMasks = "_-1Ab" (String#16883, DoABC#2)
 // addBitmapMask = "_-1GD" (String#17124, DoABC#2)
 // _SafeStr_12969 = "_-0Bv" (String#1423, DoABC#2)
@@ -829,7 +829,7 @@ package com.sulake.habbo.room.object.visualization.room
 // _SafeStr_12975 = "_-36v" (String#21762, DoABC#2)
 // _SafeStr_12976 = "_-2v-" (String#21277, DoABC#2)
 // _SafeStr_12977 = "_-0eK" (String#15599, DoABC#2)
-// _RoomPlane = "_-0-T" (String#14031, DoABC#2)
+// _SafeStr_12978 = "_-0-T" (String#14031, DoABC#2)
 // _SafeStr_12979 = "_-eK" (String#8490, DoABC#2)
 // _SafeStr_12980 = "_-0yv" (String#16389, DoABC#2)
 // _SafeStr_12981 = "_-1LR" (String#17330, DoABC#2)
@@ -859,7 +859,7 @@ package com.sulake.habbo.room.object.visualization.room
 // updateId = "_-0TD" (String#1478, DoABC#2)
 // setSeed = "_-2fM" (String#20662, DoABC#2)
 // getTextureIdentifier = "_-0yx" (String#829, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
 // _loc = "_-0OE" (String#185, DoABC#2)
 // mul = "_-tH" (String#24418, DoABC#2)
 // _SafeStr_7291 = "_-00x" (String#1383, DoABC#2)

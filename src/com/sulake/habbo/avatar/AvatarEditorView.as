@@ -245,18 +245,18 @@ package com.sulake.habbo.avatar
             this._SafeStr_10180 = (this._SafeStr_10178.findChildByName("mainTabs") as ITabSelectorWindow);
             var _local_1:int = (this._SafeStr_10180.numSelectables - 1);
             while (_local_1 >= 0) {
-                _local_2 = this._SafeStr_10180.ISelectorWindow(_local_1);
+                _local_2 = this._SafeStr_10180.getSelectableAt(_local_1);
                 if (((!((_local_2 == null))) && ((this._SafeStr_10185.indexOf(_local_2.name) < 0)))){
-                    _local_3 = this._SafeStr_10180.ISelectorWindow(_local_2);
+                    _local_3 = this._SafeStr_10180.removeSelectable(_local_2);
                     _local_4 = (_local_1 + 1);
                     while (_local_4 < this._SafeStr_10180.numSelectables) {
-                        this._SafeStr_10180.ISelectorWindow(_local_4).x = (this._SafeStr_10180.ISelectorWindow(_local_4).x - _local_3.width);
+                        this._SafeStr_10180.getSelectableAt(_local_4).x = (this._SafeStr_10180.getSelectableAt(_local_4).x - _local_3.width);
                         _local_4++;
                     };
                 };
                 _local_1--;
             };
-            this._SafeStr_10180.setSelected(this._SafeStr_10180.ISelectorWindow(0));
+            this._SafeStr_10180.setSelected(this._SafeStr_10180.getSelectableAt(0));
             this.attachImages();
             this.update();
         }
@@ -296,16 +296,16 @@ package com.sulake.habbo.avatar
             };
             var _local_3:IContainerButtonWindow = (this._SafeStr_10178.findChildByName("wardrobe") as IContainerButtonWindow);
             if (((_local_3) && (this._SafeStr_10177.manager.sessionData))){
-                _local_3.visible = (((this._SafeStr_10177.manager.sessionData.clubLevel >= HabboClubLevelEnum._SafeStr_3943)) && (this._SafeStr_10177.HabboAvatarEditor()));
+                _local_3.visible = (((this._SafeStr_10177.manager.sessionData.clubLevel >= HabboClubLevelEnum._SafeStr_3943)) && (this._SafeStr_10177.isSideContentEnabled()));
             };
             var _local_4:String = AvatarEditorSideCategory._SafeStr_9984;
             if (((((this._SafeStr_10177.manager.sessionData) && ((this._SafeStr_10177.manager.sessionData.clubLevel >= HabboClubLevelEnum._SafeStr_3943)))) && ((((this._SafeStr_10183 == AvatarEditorSideCategory._SafeStr_9985)) || (this._SafeStr_10184))))){
                 _local_4 = AvatarEditorSideCategory._SafeStr_9985;
             };
-            if (((this._SafeStr_10177.HabboAvatarEditor()) && ((this._SafeStr_10177.clubMemberLevel <= 0)))){
+            if (((this._SafeStr_10177.isClubTryoutAllowed()) && ((this._SafeStr_10177.clubMemberLevel <= 0)))){
                 _local_4 = AvatarEditorSideCategory._SafeStr_9986;
             };
-            if (!this._SafeStr_10177.HabboAvatarEditor()){
+            if (!this._SafeStr_10177.isSideContentEnabled()){
                 _local_4 = AvatarEditorSideCategory._SafeStr_9984;
             };
             this.setSideContent(_local_4);
@@ -381,14 +381,14 @@ package com.sulake.habbo.avatar
             var _local_3:IWindowContainer = (_local_2.getChildAt(0) as IWindowContainer);
             _local_2.removeChild(_local_3);
             _local_2.invalidate();
-            var _local_4:IWindowContainer = this._SafeStr_10177.HabboInventory(_arg_1);
+            var _local_4:IWindowContainer = this._SafeStr_10177.getCategoryWindowContainer(_arg_1);
             if (_local_4 == null){
                 return;
             };
             _local_4.visible = true;
             _local_2.addChild(_local_4);
             this._SafeStr_10179 = _arg_1;
-            this._SafeStr_10180.setSelected(this._SafeStr_10180.ISelectorWindow(_arg_1));
+            this._SafeStr_10180.setSelected(this._SafeStr_10180.getSelectableByName(_arg_1));
         }
         public function windowEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -410,7 +410,7 @@ package com.sulake.habbo.avatar
                             };
                             this._saveTimer.start();
                             this._SafeStr_10178.findChildByName("save").disable();
-                            this._SafeStr_10177.HabboAvatarEditor();
+                            this._SafeStr_10177.saveCurrentSelection();
                             this._SafeStr_10177.manager.close(this._SafeStr_10177.instanceId);
                             return;
                         case "cancel":
@@ -452,7 +452,7 @@ package com.sulake.habbo.avatar
                     case "header_button_close":
                         this._SafeStr_10182.visible = false;
                         if (this._SafeStr_10177.manager.communication){
-                            this._SafeStr_10177.manager.communication.HabboCommunicationManager(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_close"));
+                            this._SafeStr_10177.manager.communication.getHabboMainConnection(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_close"));
                         };
                         return;
                     case "strip_button_ok":
@@ -461,14 +461,14 @@ package com.sulake.habbo.avatar
                         };
                         this._SafeStr_10182.visible = false;
                         if (this._SafeStr_10177.manager.communication){
-                            this._SafeStr_10177.manager.communication.HabboCommunicationManager(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_ok"));
+                            this._SafeStr_10177.manager.communication.getHabboMainConnection(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_ok"));
                         };
                         return;
                     case "strip_button_club_info":
                         this.openCatalogClubPage();
                         this._SafeStr_10182.visible = false;
                         if (this._SafeStr_10177.manager.communication){
-                            this._SafeStr_10177.manager.communication.HabboCommunicationManager(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_info"));
+                            this._SafeStr_10177.manager.communication.getHabboMainConnection(null).send(new EventLogMessageComposer("AvatarEditor", "click", "strip_club_items_info"));
                         };
                 };
             };
@@ -497,18 +497,18 @@ package com.sulake.habbo.avatar
 // _SafeStr_10184 = "_-2y1" (String#21394, DoABC#2)
 // _SafeStr_10185 = "_-1Yn" (String#17841, DoABC#2)
 // validateAvailableCategories = "_-tJ" (String#24420, DoABC#2)
-// HabboAvatarEditor = "_-j" (String#23999, DoABC#2)
-// HabboAvatarEditor = "_-05h" (String#14269, DoABC#2)
+// isSideContentEnabled = "_-j" (String#23999, DoABC#2)
+// isClubTryoutAllowed = "_-05h" (String#14269, DoABC#2)
 // setSideContent = "_-1NG" (String#17409, DoABC#2)
 // setViewToCategory = "_-211" (String#6066, DoABC#2)
 // toggleCategoryView = "_-wV" (String#24553, DoABC#2)
 // toggleWardrobe = "_-0X4" (String#15317, DoABC#2)
 // getSideContentWindowContainer = "_-24M" (String#19193, DoABC#2)
-// HabboInventory = "_-1yQ" (String#18906, DoABC#2)
+// getCategoryWindowContainer = "_-1yQ" (String#18906, DoABC#2)
 // toggleAvatarEditorPage = "_-2Od" (String#19990, DoABC#2)
 // hasInvalidClubItems = "_-1Si" (String#17611, DoABC#2)
 // displayStripClubDialog = "_-sj" (String#24389, DoABC#2)
-// HabboAvatarEditor = "_-1ER" (String#17045, DoABC#2)
+// saveCurrentSelection = "_-1ER" (String#17045, DoABC#2)
 // stripClubDialogEventProc = "_-1oa" (String#18480, DoABC#2)
 // stripClubItems = "_-bD" (String#23678, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
@@ -533,19 +533,19 @@ package com.sulake.habbo.avatar
 // getFrame = "_-3Jk" (String#923, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // attachImages = "_-2jH" (String#6942, DoABC#2)
 // instanceId = "_-044" (String#3649, DoABC#2)
 // _SafeStr_7388 = "_-0YE" (String#15366, DoABC#2)
 // _SafeStr_7389 = "_-3HR" (String#22176, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // onUpdate = "_-Ck" (String#2075, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 // _allCategories = "_-Wy" (String#8348, DoABC#2)
 // numSelectables = "_-1pQ" (String#5845, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
-// ISelectorWindow = "_-i9" (String#8555, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
+// removeSelectable = "_-i9" (String#8555, DoABC#2)
 // _SafeStr_9637 = "_-2Xg" (String#1895, DoABC#2)
 // _SafeStr_9966 = "_-T9" (String#23371, DoABC#2)
 // _SafeStr_9984 = "_-2VA" (String#20246, DoABC#2)

@@ -34,7 +34,7 @@ package com.sulake.habbo.communication.messages.parser.room.furniture
         {
             return (this._selectedPresetId);
         }
-        public function RoomWidgetDimmerUpdateEvent(_arg_1:int):RoomDimmerPresetsMessageData
+        public function getPreset(_arg_1:int):RoomDimmerPresetsMessageData
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.presetCount)))){
                 return (null);
@@ -86,7 +86,7 @@ package com.sulake.habbo.communication.messages.parser.room.furniture
 // setReadOnly = "_-5p" (String#22456, DoABC#2)
 // selectedPresetId = "_-0Pr" (String#15055, DoABC#2)
 // presetCount = "_-Gt" (String#22886, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0rG" (String#16096, DoABC#2)
+// getPreset = "_-0rG" (String#16096, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

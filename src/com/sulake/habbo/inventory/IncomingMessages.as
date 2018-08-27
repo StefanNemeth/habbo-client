@@ -113,45 +113,45 @@ package com.sulake.habbo.inventory
         {
             this._inventory = _arg_1;
             this._SafeStr_11604 = this._inventory.communication;
-            this._SafeStr_11604.HabboCommunicationManager(new FurniListEvent(this.onFurniList));
-            this._SafeStr_11604.HabboCommunicationManager(new FurniListInsertEvent(this.onFurniListInsert));
-            this._SafeStr_11604.HabboCommunicationManager(new FurniListRemoveEvent(this.onFurniListRemove));
-            this._SafeStr_11604.HabboCommunicationManager(new FurniListUpdateEvent(this.onFurniListUpdate));
-            this._SafeStr_11604.HabboCommunicationManager(new PostItPlacedEvent(this.onPostItPlaced));
-            this._SafeStr_11604.HabboCommunicationManager(new AvatarEffectsMessageEvent(this.onAvatarEffects));
-            this._SafeStr_11604.HabboCommunicationManager(new AvatarEffectActivatedMessageEvent(this.onAvatarEffectActivated));
-            this._SafeStr_11604.HabboCommunicationManager(new AvatarEffectAddedMessageEvent(this.onAvatarEffectAdded));
-            this._SafeStr_11604.HabboCommunicationManager(new AvatarEffectExpiredMessageEvent(this.onAvatarEffectExpired));
-            this._SafeStr_11604.HabboCommunicationManager(new ScrSendUserInfoEvent(this.onClubStatus));
-            this._SafeStr_11604.HabboCommunicationManager(new BadgesEvent(this.onBadges));
-            this._SafeStr_11604.HabboCommunicationManager(new HabboUserBadgesMessageEvent(this.InfostandWidget));
-            this._SafeStr_11604.HabboCommunicationManager(new HabboAchievementNotificationMessageEvent(this.onAchievementReceived));
-            this._SafeStr_11604.HabboCommunicationManager(new BadgePointLimitsEvent(this._SafeStr_11616));
-            this._SafeStr_11604.HabboCommunicationManager(new AchievementsScoreEvent(this.onAchievementsScore));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingAcceptEvent(this.onTradingAccepted, TradingAcceptParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingConfirmationEvent(this.onTradingConfirmation, TradingConfirmationParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingAlreadyOpenEvent(this.onTradingAlreadyOpen, TradingAlreadyOpenParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingCloseEvent(this.onTradingClose, TradingCloseParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingCompletedEvent(this.onTradingCompleted, TradingCompletedParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingItemListEvent(this.onTradingItemList, TradingItemListParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingNotOpenEvent(this.onTradingNotOpen, TradingNotOpenParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingOpenEvent(this.onTradingOpen, TradingOpenParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingOtherNotAllowedEvent(this.onTradingOtherNotAllowed, TradingOtherNotAllowedParser));
-            this._SafeStr_11604.HabboCommunicationManager(new TradingYouAreNotAllowedEvent(this.onTradingYouAreNotAllowed, TradingYouAreNotAllowedParser));
-            this._SafeStr_11604.HabboCommunicationManager(new OpenConnectionMessageEvent(this.onRoomClosed));
-            this._SafeStr_11604.HabboCommunicationManager(new CloseConnectionMessageEvent(this.onRoomClosed));
-            this._SafeStr_11604.HabboCommunicationManager(new FlatAccessDeniedMessageEvent(this.onRoomClosed));
-            this._SafeStr_11604.HabboCommunicationManager(new PetInventoryEvent(this.onPets));
-            this._SafeStr_11604.HabboCommunicationManager(new PetAddedToInventoryEvent(this.onPetAdded));
-            this._SafeStr_11604.HabboCommunicationManager(new PetRemovedFromInventoryEvent(this.onPetRemoved));
-            this._SafeStr_11604.HabboCommunicationManager(new PetInventoryUpdatedEvent(this.onPetInventoryUpdated));
-            this._SafeStr_11604.HabboCommunicationManager(new MarketplaceConfigurationEvent(this.onMarketplaceConfiguration));
-            this._SafeStr_11604.HabboCommunicationManager(new MarketplaceCanMakeOfferResult(this.onMarketplaceCanMakeOfferResult));
-            this._SafeStr_11604.HabboCommunicationManager(new MarketplaceMakeOfferResult(this.onMarketplaceMakeOfferResult));
-            this._SafeStr_11604.HabboCommunicationManager(new MarketplaceItemStatsEvent(this.onMarketplaceItemStats));
-            this._SafeStr_11604.HabboCommunicationManager(new NotEnoughBalanceMessageEvent(this.onNotEnoughCredits));
-            this._SafeStr_11604.HabboCommunicationManager(new UserRightsMessageEvent(this.onUserRights));
-            this._SafeStr_11604.HabboCommunicationManager(new UnseenItemsEvent(this.onUnseenItems));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new FurniListEvent(this.onFurniList));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new FurniListInsertEvent(this.onFurniListInsert));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new FurniListRemoveEvent(this.onFurniListRemove));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new FurniListUpdateEvent(this.onFurniListUpdate));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new PostItPlacedEvent(this.onPostItPlaced));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new AvatarEffectsMessageEvent(this.onAvatarEffects));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new AvatarEffectActivatedMessageEvent(this.onAvatarEffectActivated));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new AvatarEffectAddedMessageEvent(this.onAvatarEffectAdded));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new AvatarEffectExpiredMessageEvent(this.onAvatarEffectExpired));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new ScrSendUserInfoEvent(this.onClubStatus));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new BadgesEvent(this.onBadges));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new HabboUserBadgesMessageEvent(this.onUserBadges));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new HabboAchievementNotificationMessageEvent(this.onAchievementReceived));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new BadgePointLimitsEvent(this._SafeStr_11616));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new AchievementsScoreEvent(this.onAchievementsScore));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingAcceptEvent(this.onTradingAccepted, TradingAcceptParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingConfirmationEvent(this.onTradingConfirmation, TradingConfirmationParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingAlreadyOpenEvent(this.onTradingAlreadyOpen, TradingAlreadyOpenParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingCloseEvent(this.onTradingClose, TradingCloseParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingCompletedEvent(this.onTradingCompleted, TradingCompletedParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingItemListEvent(this.onTradingItemList, TradingItemListParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingNotOpenEvent(this.onTradingNotOpen, TradingNotOpenParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingOpenEvent(this.onTradingOpen, TradingOpenParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingOtherNotAllowedEvent(this.onTradingOtherNotAllowed, TradingOtherNotAllowedParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new TradingYouAreNotAllowedEvent(this.onTradingYouAreNotAllowed, TradingYouAreNotAllowedParser));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new OpenConnectionMessageEvent(this.onRoomClosed));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new CloseConnectionMessageEvent(this.onRoomClosed));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new FlatAccessDeniedMessageEvent(this.onRoomClosed));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new PetInventoryEvent(this.onPets));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new PetAddedToInventoryEvent(this.onPetAdded));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new PetRemovedFromInventoryEvent(this.onPetRemoved));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new PetInventoryUpdatedEvent(this.onPetInventoryUpdated));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new MarketplaceConfigurationEvent(this.onMarketplaceConfiguration));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new MarketplaceCanMakeOfferResult(this.onMarketplaceCanMakeOfferResult));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new MarketplaceMakeOfferResult(this.onMarketplaceMakeOfferResult));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new MarketplaceItemStatsEvent(this.onMarketplaceItemStats));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new NotEnoughBalanceMessageEvent(this.onNotEnoughCredits));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new UserRightsMessageEvent(this.onUserRights));
+            this._SafeStr_11604.addHabboConnectionMessageEvent(new UnseenItemsEvent(this.onUnseenItems));
         }
         public function dispose():void
         {
@@ -163,7 +163,7 @@ package com.sulake.habbo.inventory
             if (this._SafeStr_11604 == null){
                 return (null);
             };
-            return (this._SafeStr_11604.HabboCommunicationManager(null));
+            return (this._SafeStr_11604.getHabboMainConnection(null));
         }
         public function onFurniList(_arg_1:IMessageEvent):void
         {
@@ -175,7 +175,7 @@ package com.sulake.habbo.inventory
             if (_local_3 == null){
                 return;
             };
-            _local_3.FurniModel(_local_2.categoryType, _local_2.getFurni(), _local_2.totalFragments, _local_2.fragmentNo);
+            _local_3.insertFurniList(_local_2.categoryType, _local_2.getFurni(), _local_2.totalFragments, _local_2.fragmentNo);
         }
         public function onFurniListInsert(_arg_1:IMessageEvent):void
         {
@@ -184,7 +184,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_3:FurniModel = this._inventory.furniModel;
-            if ((((_local_3 == null)) || (!(_local_3.FurniModel())))){
+            if ((((_local_3 == null)) || (!(_local_3.isListInited())))){
                 return;
             };
             var _local_4:IItem;
@@ -227,7 +227,7 @@ package com.sulake.habbo.inventory
             if (_local_2 != null){
                 _local_2.send(new RequestFurniInventoryComposer());
             };
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_5995, false);
+            this._inventory.setInventoryCategoryInit(InventoryCategory._SafeStr_5995, false);
         }
         public function onPostItPlaced(_arg_1:IMessageEvent):void
         {
@@ -277,12 +277,12 @@ package com.sulake.habbo.inventory
                         _local_7.secondsLeft = _local_6.duration;
                     };
                 };
-                _local_2.EffectsModel(_local_7, false);
+                _local_2.addEffect(_local_7, false);
                 _local_5++;
             };
-            this._inventory.HabboInventory(InventoryCategory.RWE_EFFECTS);
-            _local_2.PetsModel();
-            this._inventory.HabboInventory();
+            this._inventory.setInventoryCategoryInit(InventoryCategory.RWE_EFFECTS);
+            _local_2.refreshViews();
+            this._inventory.notifyChangedEffects();
         }
         public function onAvatarEffectAdded(_arg_1:IMessageEvent):void
         {
@@ -300,8 +300,8 @@ package com.sulake.habbo.inventory
             _local_6.type = _local_4;
             _local_6.duration = _local_5;
             _local_6.secondsLeft = _local_5;
-            _local_2.EffectsModel(_local_6);
-            this._inventory.HabboInventory();
+            _local_2.addEffect(_local_6);
+            this._inventory.notifyChangedEffects();
         }
         public function onAvatarEffectActivated(_arg_1:IMessageEvent):void
         {
@@ -314,8 +314,8 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_4:int = _local_3.type;
-            _local_2.EffectsModel(_local_4);
-            this._inventory.HabboInventory();
+            _local_2.setEffectActivated(_local_4);
+            this._inventory.notifyChangedEffects();
         }
         public function onAvatarEffectExpired(_arg_1:IMessageEvent):void
         {
@@ -328,14 +328,14 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_4:int = _local_3.type;
-            _local_2.EffectsModel(_local_4);
-            this._inventory.HabboInventory();
+            _local_2.setEffectExpired(_local_4);
+            this._inventory.notifyChangedEffects();
         }
         public function onClubStatus(_arg_1:IMessageEvent):void
         {
             var _local_2:ScrSendUserInfoMessageParser = (_arg_1 as ScrSendUserInfoEvent).getParser();
             if ((((_local_2.productName == "habbo_club")) || ((_local_2.productName == "club_habbo")))){
-                this._inventory.HabboInventory(_local_2.periodsSubscribedAhead, _local_2.daysToPeriodEnd, _local_2.hasEverBeenMember, _local_2.isVIP, (_local_2.responseType == ScrSendUserInfoMessageParser._SafeStr_5852));
+                this._inventory.setClubStatus(_local_2.periodsSubscribedAhead, _local_2.daysToPeriodEnd, _local_2.hasEverBeenMember, _local_2.isVIP, (_local_2.responseType == ScrSendUserInfoMessageParser._SafeStr_5852));
                 this._inventory.events.dispatchEvent(new HabboInventoryHabboClubEvent());
             };
         }
@@ -357,12 +357,12 @@ package com.sulake.habbo.inventory
             var _local_7:Array = _local_2.getActiveBadgeCodes();
             for each (_local_5 in _local_6) {
                 _local_8 = (_local_7.indexOf(_local_5) > -1);
-                _local_9 = _local_2.HabboGroupInfoManager(_local_5);
+                _local_9 = _local_2.getBadgeId(_local_5);
                 _local_3.updateBadge(_local_5, _local_8, _local_9);
             };
             _local_3.forceSelection();
-            _local_3.ProgressBar();
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_7061);
+            _local_3.updateView();
+            this._inventory.setInventoryCategoryInit(InventoryCategory._SafeStr_7061);
         }
         public function _SafeStr_11616(_arg_1:IMessageEvent):void
         {
@@ -372,7 +372,7 @@ package com.sulake.habbo.inventory
                 this._inventory.localization.setBadgePointLimit(_local_3.badgeId, _local_3.limit);
             };
         }
-        public function InfostandWidget(_arg_1:IMessageEvent):void
+        public function onUserBadges(_arg_1:IMessageEvent):void
         {
             var _local_4:String;
             var _local_2:HabboUserBadgesMessageEvent = (_arg_1 as HabboUserBadgesMessageEvent);
@@ -386,7 +386,7 @@ package com.sulake.habbo.inventory
             for each (_local_4 in _local_2.badges) {
                 _local_3.updateBadge(_local_4, true);
             };
-            _local_3.ProgressBar();
+            _local_3.updateView();
         }
         public function onAchievementReceived(_arg_1:IMessageEvent):void
         {
@@ -396,7 +396,7 @@ package com.sulake.habbo.inventory
             if (_local_4 != null){
                 _local_4.updateBadge(_local_3.data.badgeCode, false, _local_3.data.badgeId);
                 _local_4.removeBadge(_local_3.data.removedBadgeCode);
-                _local_4.ProgressBar();
+                _local_4.updateView();
             };
         }
         public function onAchievementsScore(_arg_1:IMessageEvent):void
@@ -427,7 +427,7 @@ package com.sulake.habbo.inventory
                 ErrorReportStorage.addDebugData("IncomingEvent", "Trading open - roomSession not available!");
                 return;
             };
-            this._inventory.HabboInventory(InventorySubCategory._SafeStr_7064);
+            this._inventory.toggleInventorySubPage(InventorySubCategory._SafeStr_7064);
             var _local_4:TradingOpenEvent = (_arg_1 as TradingOpenEvent);
             if (!_local_4){
                 ErrorReportStorage.addDebugData("IncomingEvent", (("event is of unknown type:" + _arg_1) + "!"));
@@ -469,35 +469,35 @@ package com.sulake.habbo.inventory
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingClose(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingCompleted(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingAccepted(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingConfirmation(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingItemList(_arg_1:IMessageEvent):void
@@ -585,33 +585,33 @@ package com.sulake.habbo.inventory
             };
             var _local_12:TradingModel = this._inventory.tradingModel;
             if (_local_12 != null){
-                _local_12.TradingModel(_local_2.firstUserID, _local_3, _local_2.secondUserID, _local_4);
+                _local_12.updateItemGroupMaps(_local_2.firstUserID, _local_3, _local_2.secondUserID, _local_4);
             };
         }
         private function onTradingNotOpen(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingOtherNotAllowed(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onTradingYouAreNotAllowed(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingModel = this._inventory.tradingModel;
             if (_local_2 != null){
-                _local_2.TradingModel(_arg_1);
+                _local_2.handleMessageEvent(_arg_1);
             };
         }
         private function onRoomClosed(_arg_1:IMessageEvent):void
         {
-            this._inventory.HabboInventory();
+            this._inventory.closeView();
         }
         private function onPets(_arg_1:PetInventoryEvent):void
         {
@@ -625,9 +625,9 @@ package com.sulake.habbo.inventory
             };
             var _local_3:PetInventoryMessageParser = _arg_1.getParser();
             for each (_local_4 in _local_3.pets) {
-                _local_2.PetsView(_local_4);
+                _local_2.addPet(_local_4);
             };
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_5996);
+            this._inventory.setInventoryCategoryInit(InventoryCategory._SafeStr_5996);
             this._inventory.petsModel.setListInitialized();
         }
         private function onPetAdded(_arg_1:PetAddedToInventoryEvent):void
@@ -640,7 +640,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_3:PetAddedToInventoryParser = _arg_1.getParser();
-            _local_2.PetsView(_local_3.pet);
+            _local_2.addPet(_local_3.pet);
             this._inventory.furniModel.automaticSwitchToPetCategory();
         }
         private function onPetRemoved(_arg_1:PetRemovedFromInventoryEvent):void
@@ -653,7 +653,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_3:PetRemovedFromInventoryParser = _arg_1.getParser();
-            _local_2.PetsView(_local_3.petId);
+            _local_2.removePet(_local_3.petId);
         }
         private function onPetInventoryUpdated(_arg_1:PetInventoryUpdatedEvent):void
         {
@@ -681,10 +681,10 @@ package com.sulake.habbo.inventory
             _local_2.offerMaxPrice = _local_3.offerMaxPrice;
             _local_2.expirationHours = _local_3.expirationHours;
             _local_2.averagePricePeriod = _local_3.averagePricePeriod;
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_7062);
+            this._inventory.setInventoryCategoryInit(InventoryCategory._SafeStr_7062);
             var _local_4:FurniModel = this._inventory.furniModel;
             if (_local_4 != null){
-                _local_4.ProgressBar();
+                _local_4.updateView();
             };
         }
         private function onMarketplaceCanMakeOfferResult(_arg_1:MarketplaceCanMakeOfferResult):void
@@ -697,7 +697,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_3:MarketplaceCanMakeOfferResultParser = _arg_1.getParser();
-            _local_2.MarketplaceModel(_local_3.resultCode, _local_3.tokenCount);
+            _local_2.proceedOfferMaking(_local_3.resultCode, _local_3.tokenCount);
         }
         private function onMarketplaceMakeOfferResult(_arg_1:MarketplaceMakeOfferResult):void
         {
@@ -721,7 +721,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             var _local_3:MarketplaceItemStatsParser = _arg_1.getParser();
-            _local_2.MarketplaceModel(_local_3.furniCategoryId, _local_3.furniTypeId, _local_3.averagePrice);
+            _local_2.setAveragePrice(_local_3.furniCategoryId, _local_3.furniTypeId, _local_3.averagePrice);
         }
         private function onNotEnoughCredits(_arg_1:NotEnoughBalanceMessageEvent):void
         {
@@ -737,22 +737,22 @@ package com.sulake.habbo.inventory
         private function onUserRights(_arg_1:IMessageEvent):void
         {
             var _local_2:MarketplaceModel;
-            if (this._inventory.HabboInventory(InventoryCategory._SafeStr_7062)){
+            if (this._inventory.isInventoryCategoryInit(InventoryCategory._SafeStr_7062)){
                 _local_2 = this._inventory.marketplaceModel;
                 if (_local_2 == null){
                     return;
                 };
-                _local_2.TradingModel();
+                _local_2.requestInitialization();
             };
         }
         private function onUnseenItems(_arg_1:UnseenItemsEvent):void
         {
             var _local_2:UnseenItemsParser = _arg_1.getParser();
-            this._inventory.furniModel.FurniModel(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6767));
-            this._inventory.furniModel.FurniModel(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6768));
-            this._inventory.petsModel.PetsModel(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6769));
+            this._inventory.furniModel.addUnseenFloorItems(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6767));
+            this._inventory.furniModel.addUnseenWallItems(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6768));
+            this._inventory.petsModel.addUnseenPets(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6769));
             this._inventory.badgesModel.addUnseenBadges(_local_2.getItemsByCategory(UnseenItemCategoryEnum._SafeStr_6770));
-            this._inventory.HabboInventory();
+            this._inventory.updateUnseenItemCounts();
         }
 
     }
@@ -764,9 +764,9 @@ package com.sulake.habbo.inventory
 // onMarketplaceMakeOfferResult = "_-OR" (String#8172, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
 // startTrading = "_-0Ci" (String#14557, DoABC#2)
-// HabboInventory = "_-NR" (String#8153, DoABC#2)
-// TradingModel = "_-1JS" (String#17254, DoABC#2)
-// TradingModel = "_-0mn" (String#15930, DoABC#2)
+// toggleInventorySubPage = "_-NR" (String#8153, DoABC#2)
+// updateItemGroupMaps = "_-1JS" (String#17254, DoABC#2)
+// handleMessageEvent = "_-0mn" (String#15930, DoABC#2)
 // _SafeStr_11604 = "_-1Fz" (String#17115, DoABC#2)
 // onFurniList = "_-0ng" (String#15963, DoABC#2)
 // onFurniListInsert = "_-345" (String#21662, DoABC#2)
@@ -799,11 +799,11 @@ package com.sulake.habbo.inventory
 // onUnseenItems = "_-169" (String#16702, DoABC#2)
 // getConnection = "_-2BQ" (String#19461, DoABC#2)
 // effectsModel = "_-0CR" (String#14547, DoABC#2)
-// HabboInventory = "_-2Bc" (String#19469, DoABC#2)
-// HabboInventory = "_-0VB" (String#15251, DoABC#2)
+// notifyChangedEffects = "_-2Bc" (String#19469, DoABC#2)
+// setClubStatus = "_-0VB" (String#15251, DoABC#2)
 // badgesModel = "_-mf" (String#24135, DoABC#2)
 // setBadgePointLimit = "_-0HA" (String#3898, DoABC#2)
-// HabboInventory = "_-3Jx" (String#22282, DoABC#2)
+// isInventoryCategoryInit = "_-3Jx" (String#22282, DoABC#2)
 // IRoomSession = "_-2e4" (String#6835, DoABC#2)
 // PetData = "_-01G" (String#1387, DoABC#2)
 // ScrSendUserInfoEvent = "_-202" (String#6048, DoABC#2)
@@ -929,8 +929,8 @@ package com.sulake.habbo.inventory
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // isVIP = "_-3K4" (String#7705, DoABC#2)
 // badgeCode = "_-2XO" (String#20338, DoABC#2)
 // removedBadgeCode = "_-4X" (String#22399, DoABC#2)
@@ -942,14 +942,14 @@ package com.sulake.habbo.inventory
 // responseType = "_-0wX" (String#16291, DoABC#2)
 // hasEverBeenMember = "_-iw" (String#23995, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_5996 = "_-Jg" (String#22993, DoABC#2)
 // inactiveEffectsInInventory = "_-66" (String#22469, DoABC#2)
 // secondsLeftIfActive = "_-11s" (String#16532, DoABC#2)
 // getUserData = "_-1-1" (String#4848, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
-// InfostandWidget = "_-8z" (String#2063, DoABC#2)
+// onUserBadges = "_-8z" (String#2063, DoABC#2)
 // onAvatarEffects = "_-33k" (String#7381, DoABC#2)
 // getFurni = "_-0B5" (String#3779, DoABC#2)
 // stripId = "_-28E" (String#19340, DoABC#2)
@@ -964,7 +964,7 @@ package com.sulake.habbo.inventory
 // _SafeStr_6769 = "_-1Y9" (String#17821, DoABC#2)
 // _SafeStr_6770 = "_-39Q" (String#7500, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _SafeStr_7055 = "_-0z3" (String#16396, DoABC#2)
 // _SafeStr_7061 = "_-3KY" (String#22306, DoABC#2)
 // _SafeStr_7062 = "_-1SW" (String#17601, DoABC#2)
@@ -972,8 +972,8 @@ package com.sulake.habbo.inventory
 // S = "_-Ch" (String#22713, DoABC#2)
 // I = "_-3-D" (String#21470, DoABC#2)
 // petsModel = "_-227" (String#19096, DoABC#2)
-// FurniModel = "_-2RU" (String#20098, DoABC#2)
-// HabboInventory = "_-0py" (String#16050, DoABC#2)
+// insertFurniList = "_-2RU" (String#20098, DoABC#2)
+// setInventoryCategoryInit = "_-0py" (String#16050, DoABC#2)
 // objId = "_-1VD" (String#17710, DoABC#2)
 // isGroupable = "_-19p" (String#16849, DoABC#2)
 // isTradeable = "_-2td" (String#21226, DoABC#2)
@@ -983,23 +983,23 @@ package com.sulake.habbo.inventory
 // removeFurni = "_-1-n" (String#16459, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // setListInitialized = "_-Mb" (String#23108, DoABC#2)
-// FurniModel = "_-cQ" (String#23731, DoABC#2)
+// isListInited = "_-cQ" (String#23731, DoABC#2)
 // createNewGroupItemTemplate = "_-0Bl" (String#14518, DoABC#2)
 // automaticSwitchToPetCategory = "_-2NP" (String#19940, DoABC#2)
 // tradingModel = "_-1s3" (String#18635, DoABC#2)
 // updatePostItCount = "_-274" (String#19294, DoABC#2)
 // marketplaceModel = "_-051" (String#14244, DoABC#2)
-// HabboInventory = "_-0fQ" (String#15648, DoABC#2)
-// FurniModel = "_-2XU" (String#20341, DoABC#2)
-// FurniModel = "_-2YX" (String#20379, DoABC#2)
-// HabboInventory = "_-ik" (String#23988, DoABC#2)
+// closeView = "_-0fQ" (String#15648, DoABC#2)
+// addUnseenFloorItems = "_-2XU" (String#20341, DoABC#2)
+// addUnseenWallItems = "_-2YX" (String#20379, DoABC#2)
+// updateUnseenItemCounts = "_-ik" (String#23988, DoABC#2)
 // resultCode = "_-09c" (String#14431, DoABC#2)
-// EffectsModel = "_-1uY" (String#18737, DoABC#2)
-// PetsModel = "_-tx" (String#24446, DoABC#2)
-// EffectsModel = "_-2LA" (String#19854, DoABC#2)
-// EffectsModel = "_-iZ" (String#23980, DoABC#2)
+// addEffect = "_-1uY" (String#18737, DoABC#2)
+// refreshViews = "_-tx" (String#24446, DoABC#2)
+// setEffectActivated = "_-2LA" (String#19854, DoABC#2)
+// setEffectExpired = "_-iZ" (String#23980, DoABC#2)
 // averagePrice = "_-2h" (String#6892, DoABC#2)
-// HabboGroupInfoManager = "_-Jj" (String#22995, DoABC#2)
+// getBadgeId = "_-Jj" (String#22995, DoABC#2)
 // getAllBadgeCodes = "_-0eP" (String#15603, DoABC#2)
 // getActiveBadgeCodes = "_-2pI" (String#21050, DoABC#2)
 // HabboAchievementNotificationMessageParser = "_-Zs" (String#8418, DoABC#2)
@@ -1016,16 +1016,16 @@ package com.sulake.habbo.inventory
 // HabboAchievementNotificationMessageEvent = "_-2LH" (String#6465, DoABC#2)
 // CloseConnectionMessageEvent = "_-2cv" (String#6811, DoABC#2)
 // requestPetInventory = "_-1VZ" (String#17725, DoABC#2)
-// PetsView = "_-3DW" (String#22016, DoABC#2)
-// PetsView = "_-lb" (String#24093, DoABC#2)
-// PetsModel = "_-2Rw" (String#20116, DoABC#2)
+// addPet = "_-3DW" (String#22016, DoABC#2)
+// removePet = "_-lb" (String#24093, DoABC#2)
+// addUnseenPets = "_-2Rw" (String#20116, DoABC#2)
 // updateBadge = "_-0FX" (String#14667, DoABC#2)
 // removeBadge = "_-002" (String#14054, DoABC#2)
 // forceSelection = "_-Jl" (String#22996, DoABC#2)
 // addUnseenBadges = "_-2jp" (String#20839, DoABC#2)
-// MarketplaceModel = "_-11Q" (String#16513, DoABC#2)
+// proceedOfferMaking = "_-11Q" (String#16513, DoABC#2)
 // _SafeStr_8583 = "try" (String#10537, DoABC#2)
-// MarketplaceModel = "_-1q8" (String#18550, DoABC#2)
+// setAveragePrice = "_-1q8" (String#18550, DoABC#2)
 // onNotEnoughCredits = "_-0xN" (String#4799, DoABC#2)
 
 

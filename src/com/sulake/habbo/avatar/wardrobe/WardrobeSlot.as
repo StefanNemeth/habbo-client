@@ -59,7 +59,7 @@ package com.sulake.habbo.avatar.wardrobe
             this._figure = _arg_1;
             this._gender = _arg_2;
             this._isEnabled = _arg_3;
-            this.ProgressBar();
+            this.updateView();
         }
         private function createView():void
         {
@@ -68,7 +68,7 @@ package com.sulake.habbo.avatar.wardrobe
                 return;
             };
             this._view = (this._controller.manager.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
-            this._view.procedure = this.ClubEndingNotification;
+            this._view.procedure = this.eventHandler;
             this._view.visible = false;
             this._SafeStr_8524 = (this._view.findChildByName("image") as IBitmapWrapperWindow);
         }
@@ -88,7 +88,7 @@ package com.sulake.habbo.avatar.wardrobe
         {
             return (this._disposed);
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             var _local_1:BitmapData;
             var _local_5:IAvatarImage;
@@ -135,7 +135,7 @@ package com.sulake.habbo.avatar.wardrobe
                 _local_4.visible = ((this._isEnabled) && (!((this._figure == null))));
             };
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -145,7 +145,7 @@ package com.sulake.habbo.avatar.wardrobe
                     this._figure = this._controller.figureData.getFigureString();
                     this._gender = this._controller.gender;
                     this._controller.handler.saveWardrobeOutfit(this._slotId, this);
-                    this.ProgressBar();
+                    this.updateView();
                     return;
                 case "get_button":
                     if (this._figure){
@@ -168,7 +168,7 @@ package com.sulake.habbo.avatar.wardrobe
         }
         public function avatarImageReady(_arg_1:String):void
         {
-            this.ProgressBar();
+            this.updateView();
         }
 
     }
@@ -185,7 +185,7 @@ package com.sulake.habbo.avatar.wardrobe
 // _controller = "_-18D" (String#59, DoABC#2)
 // _figure = "_-20u" (String#75, DoABC#2)
 // handler = "_-06s" (String#1404, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
@@ -193,7 +193,7 @@ package com.sulake.habbo.avatar.wardrobe
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // _isEnabled = "_-2au" (String#895, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _slotId = "_-34j" (String#911, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)
 // _SafeStr_8524 = "_-24S" (String#19198, DoABC#2)

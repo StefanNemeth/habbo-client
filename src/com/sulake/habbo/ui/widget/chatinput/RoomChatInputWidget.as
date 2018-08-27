@@ -65,11 +65,11 @@ package com.sulake.habbo.ui.widget.chatinput
         {
             return (((getTimer() - this._SafeStr_6195) > _SafeStr_6191));
         }
-        public function RoomChatInputWidget():void
+        public function setLastPasteTime():void
         {
             this._SafeStr_6195 = getTimer();
         }
-        public function RoomChatInputWidget(_arg_1:String, _arg_2:int, _arg_3:String=""):void
+        public function sendChat(_arg_1:String, _arg_2:int, _arg_3:String=""):void
         {
             if (this._floodBlocked){
                 return;
@@ -79,60 +79,60 @@ package com.sulake.habbo.ui.widget.chatinput
                 messageListener.processWidgetMessage(_local_4);
             };
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.RoomChatInputWidget);
-            _arg_1.addEventListener(RoomWidgetChatInputContentUpdateEvent.RWWCIDE_CHAT_INPUT_CONTENT, this.RoomChatInputWidget);
-            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.InfostandWidget);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.onRoomObjectDeselected);
+            _arg_1.addEventListener(RoomWidgetChatInputContentUpdateEvent.RWWCIDE_CHAT_INPUT_CONTENT, this.onChatInputUpdate);
+            _arg_1.addEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.onUserInfo);
             _arg_1.addEventListener(RoomWidgetFloodControlEvent.RWFCE_FLOOD_CONTROL, this.onFloodControl);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.RoomChatInputWidget);
-            _arg_1.removeEventListener(RoomWidgetChatInputContentUpdateEvent.RWWCIDE_CHAT_INPUT_CONTENT, this.RoomChatInputWidget);
-            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.InfostandWidget);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_OBJECT_DESELECTED, this.onRoomObjectDeselected);
+            _arg_1.removeEventListener(RoomWidgetChatInputContentUpdateEvent.RWWCIDE_CHAT_INPUT_CONTENT, this.onChatInputUpdate);
+            _arg_1.removeEventListener(RoomWidgetUserInfoUpdateEvent.RWUIUE_PEER, this.onUserInfo);
             _arg_1.removeEventListener(RoomWidgetFloodControlEvent.RWFCE_FLOOD_CONTROL, this.onFloodControl);
         }
-        private function RoomChatInputWidget(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
+        private function onRoomObjectDeselected(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
             this._selectedUserName = "";
         }
-        private function InfostandWidget(_arg_1:RoomWidgetUserInfoUpdateEvent):void
+        private function onUserInfo(_arg_1:RoomWidgetUserInfoUpdateEvent):void
         {
             this._selectedUserName = _arg_1.name;
         }
-        private function RoomChatInputWidget(_arg_1:RoomWidgetChatInputContentUpdateEvent):void
+        private function onChatInputUpdate(_arg_1:RoomWidgetChatInputContentUpdateEvent):void
         {
             var _local_2:String = "";
             switch (_arg_1.messageType){
                 case RoomWidgetChatInputContentUpdateEvent._SafeStr_6208:
                     _local_2 = localizations.getKey("widgets.chatinput.mode.whisper", ":tell");
-                    this._visualization.RoomChatInputView(_local_2, _arg_1.userName);
+                    this._visualization.displaySpecialChatMessage(_local_2, _arg_1.userName);
                     return;
                 case RoomWidgetChatInputContentUpdateEvent._SafeStr_6209:
                     return;
             };
         }
-        private function RoomChatInputWidget(_arg_1:TimerEvent):void
+        private function onReleaseTimerComplete(_arg_1:TimerEvent):void
         {
             Logger.log("Releasing flood blocking");
             this._floodBlocked = false;
             if (this._visualization != null){
-                this._visualization.RoomChatInputView();
+                this._visualization.hideFloodBlocking();
             };
             this._SafeStr_6194 = null;
         }
-        private function RoomChatInputWidget(_arg_1:TimerEvent):void
+        private function onReleaseTimerTick(_arg_1:TimerEvent):void
         {
             if (this._visualization != null){
-                this._visualization.RoomChatInputView((this._SafeStr_6194.repeatCount - this._SafeStr_6194.currentCount));
+                this._visualization.updateBlockText((this._SafeStr_6194.repeatCount - this._SafeStr_6194.currentCount));
             };
         }
         public function get selectedUserName():String
@@ -148,13 +148,13 @@ package com.sulake.habbo.ui.widget.chatinput
             }
             else {
                 this._SafeStr_6194 = new Timer(1000, _arg_1.seconds);
-                this._SafeStr_6194.addEventListener(TimerEvent.TIMER, this.RoomChatInputWidget);
-                this._SafeStr_6194.addEventListener(TimerEvent.TIMER_COMPLETE, this.RoomChatInputWidget);
+                this._SafeStr_6194.addEventListener(TimerEvent.TIMER, this.onReleaseTimerTick);
+                this._SafeStr_6194.addEventListener(TimerEvent.TIMER_COMPLETE, this.onReleaseTimerComplete);
             };
             this._SafeStr_6194.start();
             if (this._visualization != null){
-                this._visualization.RoomChatInputView(_arg_1.seconds);
-                this._visualization.RoomChatInputView();
+                this._visualization.updateBlockText(_arg_1.seconds);
+                this._visualization.showFloodBlocking();
             };
         }
         override public function get mainWindow():IWindow
@@ -173,11 +173,11 @@ package com.sulake.habbo.ui.widget.chatinput
 // RoomWidgetChatInputContentUpdateEvent = "_-2V7" (String#20243, DoABC#2)
 // RoomWidgetUserInfoUpdateEvent = "_-28z" (String#6226, DoABC#2)
 // RWCM_MESSAGE_CHAT = "_-2Zj" (String#20430, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // RWROUE_OBJECT_DESELECTED = "_-8G" (String#22552, DoABC#2)
-// InfostandWidget = "_-2pH" (String#623, DoABC#2)
+// onUserInfo = "_-2pH" (String#623, DoABC#2)
 // _component = "_-2cU" (String#305, DoABC#2)
 // _SafeStr_6191 = "_-sv" (String#24400, DoABC#2)
 // _selectedUserName = "_-2nf" (String#20985, DoABC#2)
@@ -186,24 +186,24 @@ package com.sulake.habbo.ui.widget.chatinput
 // _SafeStr_6195 = "_-b5" (String#23672, DoABC#2)
 // floodBlocked = "_-1rk" (String#18620, DoABC#2)
 // allowPaste = "_-3Eg" (String#22061, DoABC#2)
-// RoomChatInputWidget = "_-1-D" (String#16438, DoABC#2)
-// RoomChatInputWidget = "_-yT" (String#24634, DoABC#2)
-// RoomChatInputWidget = "_-w7" (String#24534, DoABC#2)
+// setLastPasteTime = "_-1-D" (String#16438, DoABC#2)
+// sendChat = "_-yT" (String#24634, DoABC#2)
+// onRoomObjectDeselected = "_-w7" (String#24534, DoABC#2)
 // RWWCIDE_CHAT_INPUT_CONTENT = "_-Kj" (String#23034, DoABC#2)
-// RoomChatInputWidget = "_-HI" (String#22903, DoABC#2)
+// onChatInputUpdate = "_-HI" (String#22903, DoABC#2)
 // RWUIUE_PEER = "_-2Tv" (String#20195, DoABC#2)
 // RWFCE_FLOOD_CONTROL = "_-1qL" (String#18556, DoABC#2)
 // onFloodControl = "_-xP" (String#8832, DoABC#2)
 // messageType = "_-2PA" (String#20008, DoABC#2)
-// RoomChatInputView = "_-21Z" (String#19076, DoABC#2)
+// displaySpecialChatMessage = "_-21Z" (String#19076, DoABC#2)
 // _SafeStr_6208 = "_-Px" (String#23247, DoABC#2)
 // _SafeStr_6209 = "_-xy" (String#24613, DoABC#2)
-// RoomChatInputWidget = "_-0W5" (String#15281, DoABC#2)
-// RoomChatInputView = "_-5Q" (String#22441, DoABC#2)
-// RoomChatInputWidget = "_-ry" (String#24361, DoABC#2)
-// RoomChatInputView = "_-x2" (String#24571, DoABC#2)
+// onReleaseTimerComplete = "_-0W5" (String#15281, DoABC#2)
+// hideFloodBlocking = "_-5Q" (String#22441, DoABC#2)
+// onReleaseTimerTick = "_-ry" (String#24361, DoABC#2)
+// updateBlockText = "_-x2" (String#24571, DoABC#2)
 // selectedUserName = "_-1YQ" (String#17830, DoABC#2)
-// RoomChatInputView = "_-s0" (String#24364, DoABC#2)
+// showFloodBlocking = "_-s0" (String#24364, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 
 

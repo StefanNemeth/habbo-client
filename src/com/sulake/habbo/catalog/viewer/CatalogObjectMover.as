@@ -38,7 +38,7 @@ package com.sulake.habbo.catalog.viewer
         }
         public function dispose():void
         {
-            this.CatalogObjectMover();
+            this.releaseOverlaySprite();
             this._mainContainer = null;
             this._roomEngine = null;
             this._state = false;
@@ -46,7 +46,7 @@ package com.sulake.habbo.catalog.viewer
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
         }
-        public function RecyclerCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow, _arg_3:ISelectedRoomObjectData):void
+        public function onMainContainerEvent(_arg_1:WindowEvent, _arg_2:IWindow, _arg_3:ISelectedRoomObjectData):void
         {
             var _local_4:WindowMouseEvent;
             var _local_5:int;
@@ -63,34 +63,34 @@ package com.sulake.habbo.catalog.viewer
                     };
                     _local_5 = _local_4.stageX;
                     _local_6 = _local_4.stageY;
-                    if (this.CatalogObjectMover() == null){
-                        _local_7 = this.MarketPlaceCatalogWidget(_arg_3);
+                    if (this.getIconSprite() == null){
+                        _local_7 = this.getFurniImageResult(_arg_3);
                         if (_local_7 == null){
                             return;
                         };
-                        this.CatalogObjectMover(_local_7.data);
+                        this.createOverlaySprite(_local_7.data);
                     };
                     this._state = true;
-                    this.CatalogObjectMover(_local_5, _local_6);
+                    this.moveOverlaySprite(_local_5, _local_6);
                     return;
                 case WindowMouseEvent.WME_OUT:
                     if (this._state){
                         if ((((((((_local_4.localX >= 0)) && ((_local_4.localX < _arg_1.target.width)))) && ((_local_4.localY >= 0)))) && ((_local_4.localY < _arg_1.target.height)))){
                             return;
                         };
-                        this.CatalogObjectMover();
+                        this.resetIcon();
                     };
                     return;
             };
         }
-        public function CatalogObjectMover():void
+        public function resetIcon():void
         {
             if (this._state){
-                this.CatalogObjectMover();
+                this.releaseOverlaySprite();
                 this._state = false;
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:ISelectedRoomObjectData):ImageResult
+        private function getFurniImageResult(_arg_1:ISelectedRoomObjectData):ImageResult
         {
             var _local_2:ImageResult;
             if ((((_arg_1 == null)) || ((this._roomEngine == null)))){
@@ -104,9 +104,9 @@ package com.sulake.habbo.catalog.viewer
             };
             return (null);
         }
-        private function CatalogObjectMover(_arg_1:BitmapData):void
+        private function createOverlaySprite(_arg_1:BitmapData):void
         {
-            if ((((((((_arg_1 == null)) || ((this._mainContainer == null)))) || ((this._mainContainer.desktop == null)))) || (!((this.CatalogObjectMover() == null))))){
+            if ((((((((_arg_1 == null)) || ((this._mainContainer == null)))) || ((this._mainContainer.desktop == null)))) || (!((this.getIconSprite() == null))))){
                 return;
             };
             var _local_2:Sprite = (this._mainContainer.desktop.getDisplayObject() as Sprite);
@@ -118,7 +118,7 @@ package com.sulake.habbo.catalog.viewer
             _local_3.addChild(_local_4);
             _local_2.addChild(_local_3);
         }
-        private function CatalogObjectMover():Sprite
+        private function getIconSprite():Sprite
         {
             if ((((this._mainContainer == null)) || ((this._mainContainer.desktop == null)))){
                 return (null);
@@ -126,18 +126,18 @@ package com.sulake.habbo.catalog.viewer
             var _local_1:Sprite = (this._mainContainer.desktop.getDisplayObject() as Sprite);
             return ((_local_1.getChildByName(_SafeStr_5077) as Sprite));
         }
-        private function CatalogObjectMover(_arg_1:int, _arg_2:int):void
+        private function moveOverlaySprite(_arg_1:int, _arg_2:int):void
         {
-            var _local_3:Sprite = this.CatalogObjectMover();
+            var _local_3:Sprite = this.getIconSprite();
             if (_local_3 == null){
                 return;
             };
             _local_3.x = (_arg_1 - Math.round((_local_3.width / 2)));
             _local_3.y = (_arg_2 - Math.round((_local_3.height / 2)));
         }
-        private function CatalogObjectMover():void
+        private function releaseOverlaySprite():void
         {
-            if ((((((this._mainContainer == null)) || ((this._mainContainer.desktop == null)))) || ((this.CatalogObjectMover() == null)))){
+            if ((((((this._mainContainer == null)) || ((this._mainContainer.desktop == null)))) || ((this.getIconSprite() == null)))){
                 return;
             };
             var _local_1:Sprite = (this._mainContainer.desktop.getDisplayObject() as Sprite);
@@ -166,14 +166,14 @@ package com.sulake.habbo.catalog.viewer
 // _SafeStr_4329 = "_-bN" (String#23687, DoABC#2)
 // _SafeStr_4330 = "_-0cQ" (String#15531, DoABC#2)
 // _SafeStr_5077 = "_-137" (String#16585, DoABC#2)
-// CatalogObjectMover = "_-1rD" (String#18591, DoABC#2)
-// RecyclerCatalogWidget = "_-09V" (String#3748, DoABC#2)
+// releaseOverlaySprite = "_-1rD" (String#18591, DoABC#2)
+// onMainContainerEvent = "_-09V" (String#3748, DoABC#2)
 // operation = "_-0Ag" (String#3770, DoABC#2)
-// CatalogObjectMover = "_-2cF" (String#20533, DoABC#2)
-// MarketPlaceCatalogWidget = "_-2ST" (String#889, DoABC#2)
-// CatalogObjectMover = "_-22q" (String#19126, DoABC#2)
-// CatalogObjectMover = "_-1L4" (String#17317, DoABC#2)
-// CatalogObjectMover = "_-1SZ" (String#17604, DoABC#2)
+// getIconSprite = "_-2cF" (String#20533, DoABC#2)
+// getFurniImageResult = "_-2ST" (String#889, DoABC#2)
+// createOverlaySprite = "_-22q" (String#19126, DoABC#2)
+// moveOverlaySprite = "_-1L4" (String#17317, DoABC#2)
+// resetIcon = "_-1SZ" (String#17604, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

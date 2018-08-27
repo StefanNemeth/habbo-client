@@ -76,10 +76,10 @@ package com.sulake.habbo.catalog.viewer.widgets
                     this._SafeStr_10575.add(MarketPlaceOfferState._SafeStr_10284, _local_2);
                 };
             };
-            this.marketPlace.MarketPlaceLogic(this);
+            this.marketPlace.registerVisualization(this);
             this.displayMainView();
-            this.marketPlace.MarketPlaceLogic();
-            this.MarketPlaceCatalogWidget(this._SafeStr_10508);
+            this.marketPlace.requestOwnItems();
+            this.updateStatusDisplay(this._SafeStr_10508);
             this.showRedeemInfo(false);
             return (true);
         }
@@ -100,7 +100,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             this.updateList(this.marketPlace.latestOwnOffers());
         }
-        private function MarketPlaceCatalogWidget(_arg_1:int, _arg_2:int=-1):void
+        private function updateStatusDisplay(_arg_1:int, _arg_2:int=-1):void
         {
             var _local_5:String;
             if (((!(this.marketPlace)) || (!(window)))){
@@ -170,13 +170,13 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!_local_3){
                 return;
             };
-            _local_3.IItemListWindow();
+            _local_3.destroyListItems();
             var _local_5:int;
             var _local_6:Array = _arg_1.getKeys();
             if (!_local_6){
                 return;
             };
-            this.MarketPlaceCatalogWidget(this._SafeStr_10509, _local_6.length);
+            this.updateStatusDisplay(this._SafeStr_10509, _local_6.length);
             var _local_7:int;
             while (_local_7 < _local_6.length) {
                 _local_10 = _local_6[_local_7];
@@ -230,7 +230,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                             };
                         };
                         if (_local_11.image == null){
-                            _local_25 = this.MarketPlaceCatalogWidget(_local_11.furniId, _local_11.furniType, _local_11.stuffData);
+                            _local_25 = this.getFurniImageResult(_local_11.furniId, _local_11.furniType, _local_11.stuffData);
                             if (((!((_local_25 == null))) && (!((_local_25.data == null))))){
                                 _local_11.image = (_local_25.data as BitmapData);
                                 _local_11.imageCallback = _local_25.id;
@@ -248,7 +248,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                             };
                         };
                         _local_3.addListItem(_local_12);
-                        _local_12.procedure = this.MarketPlaceOwnItemsCatalogWidget;
+                        _local_12.procedure = this.onGridEvent;
                     };
                 };
                 _local_7++;
@@ -280,7 +280,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 return;
             };
             window.addChild(page.viewer.catalog.windowManager.buildFromXML(_local_1));
-            window.procedure = this.MarketPlaceCatalogWidget;
+            window.procedure = this.onWidgetEvent;
             this._itemList = (window.findChildByName("item_list") as IItemListWindow);
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
@@ -293,7 +293,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 return;
             };
             var _local_3:Array = [];
-            if (this._itemList.IItemListWindow(_arg_1, _local_3)){
+            if (this._itemList.groupListItemsWithID(_arg_1, _local_3)){
                 for each (_local_4 in _local_3) {
                     if (_local_4){
                         _local_6 = (_local_4.findChildByName("item_image") as IBitmapWrapperWindow);
@@ -313,7 +313,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:int, _arg_2:int, _arg_3:String=null):ImageResult
+        private function getFurniImageResult(_arg_1:int, _arg_2:int, _arg_3:String=null):ImageResult
         {
             if (((((!(page)) || (!(page.viewer)))) || (!(page.viewer.roomEngine)))){
                 return (null);
@@ -337,7 +337,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             return ((_local_2.content as XML));
         }
-        private function MarketPlaceOwnItemsCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onGridEvent(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             var _local_3:IItemListWindow;
             var _local_4:int;
@@ -352,19 +352,19 @@ package com.sulake.habbo.catalog.viewer.widgets
                     if (_local_3 == null){
                         return;
                     };
-                    _local_4 = _local_3.IItemListWindow(_arg_1.window.parent);
+                    _local_4 = _local_3.getListItemIndex(_arg_1.window.parent);
                     _local_5 = this.marketPlace.latestOwnOffers();
                     if (!_local_5){
                         return;
                     };
                     _local_6 = (_local_5.getWithIndex(_local_4) as MarketPlaceOfferData);
                     if (_local_6){
-                        this.marketPlace.MarketPlaceLogic(_local_6.offerId);
+                        this.marketPlace.redeemExpiredOffer(_local_6.offerId);
                     };
                 };
             };
         }
-        private function MarketPlaceCatalogWidget(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onWidgetEvent(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_2 == null){
                 _arg_2 = (_arg_1.target as IWindow);
@@ -373,7 +373,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 switch (_arg_2.name){
                     case "redeem_sold":
                         if (this.marketPlace){
-                            this.marketPlace.MarketPlaceLogic();
+                            this.marketPlace.redeemSoldOffers();
                         };
                         return;
                 };
@@ -386,9 +386,9 @@ package com.sulake.habbo.catalog.viewer.widgets
     }
 }//package com.sulake.habbo.catalog.viewer.widgets
 
-// MarketPlaceLogic = "_-vS" (String#8793, DoABC#2)
-// MarketPlaceLogic = "_-210" (String#6065, DoABC#2)
-// MarketPlaceLogic = "_-1o8" (String#5820, DoABC#2)
+// requestOwnItems = "_-vS" (String#8793, DoABC#2)
+// redeemExpiredOffer = "_-210" (String#6065, DoABC#2)
+// redeemSoldOffers = "_-1o8" (String#5820, DoABC#2)
 // latestOwnOffers = "_-0sN" (String#4692, DoABC#2)
 // getNameLocalizationKey = "_-0SQ" (String#4147, DoABC#2)
 // getDescriptionLocalizationKey = "_-sT" (String#8746, DoABC#2)
@@ -402,11 +402,11 @@ package com.sulake.habbo.catalog.viewer.widgets
 // _SafeStr_10508 = "_-2Z" (String#6745, DoABC#2)
 // _SafeStr_10509 = "_-Zp" (String#8415, DoABC#2)
 // marketPlace = "_-1D5" (String#5127, DoABC#2)
-// MarketPlaceCatalogWidget = "_-0Gj" (String#3887, DoABC#2)
-// MarketPlaceCatalogWidget = "_-33x" (String#7387, DoABC#2)
+// onWidgetEvent = "_-0Gj" (String#3887, DoABC#2)
+// updateStatusDisplay = "_-33x" (String#7387, DoABC#2)
 // _SafeStr_10575 = "_-0o4" (String#15979, DoABC#2)
 // showRedeemInfo = "_-2W5" (String#20285, DoABC#2)
-// MarketPlaceOwnItemsCatalogWidget = "_-2A" (String#19406, DoABC#2)
+// onGridEvent = "_-2A" (String#19406, DoABC#2)
 // ImageResult = "_-31w" (String#21576, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IMarketPlace = "_-1xE" (String#5977, DoABC#2)
@@ -420,15 +420,15 @@ package com.sulake.habbo.catalog.viewer.widgets
 // furniId = "_-2KO" (String#6454, DoABC#2)
 // stuffData = "_-0vz" (String#1580, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
-// MarketPlaceCatalogWidget = "_-2ST" (String#889, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// MarketPlaceLogic = "_-2z1" (String#7263, DoABC#2)
+// getFurniImageResult = "_-2ST" (String#889, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// registerVisualization = "_-2z1" (String#7263, DoABC#2)
 // getAssetXML = "_-1XT" (String#364, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)
 // furniType = "_-26P" (String#6173, DoABC#2)
 // timeLeftMinutes = "_-09A" (String#3743, DoABC#2)
 // creditsWaiting = "_-1Ru" (String#5396, DoABC#2)
-// IItemListWindow = "_-CS" (String#7927, DoABC#2)
+// groupListItemsWithID = "_-CS" (String#7927, DoABC#2)
 
 

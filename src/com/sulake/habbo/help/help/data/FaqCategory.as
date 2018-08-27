@@ -55,7 +55,7 @@ package com.sulake.habbo.help.help.data
         }
         public function storeItem(_arg_1:int, _arg_2:String, _arg_3:String=null):void
         {
-            var _local_4:FaqItem = this.GroupItem(_arg_1);
+            var _local_4:FaqItem = this.getItem(_arg_1);
             if (_local_4 == null){
                 _local_4 = new FaqItem(_arg_1, _arg_2, this._SafeStr_11366.length, this);
                 this._SafeStr_11366.add(_arg_1, _local_4);
@@ -63,7 +63,7 @@ package com.sulake.habbo.help.help.data
         }
         public function storeItemAnswer(_arg_1:int, _arg_2:String):void
         {
-            var _local_3:FaqItem = this.GroupItem(_arg_1);
+            var _local_3:FaqItem = this.getItem(_arg_1);
             if (_local_3 != null){
                 _local_3.answerText = _arg_2;
             };
@@ -93,13 +93,13 @@ package com.sulake.habbo.help.help.data
         {
             return (!((this._SafeStr_11366.getValue(_arg_1) == null)));
         }
-        public function GroupItem(_arg_1:int):FaqItem
+        public function getItem(_arg_1:int):FaqItem
         {
             return (this._SafeStr_11366.getValue(_arg_1));
         }
         public function getItemIndex(_arg_1:int):int
         {
-            var _local_2:FaqItem = this.GroupItem(_arg_1);
+            var _local_2:FaqItem = this.getItem(_arg_1);
             if (_local_2 == null){
                 return (-1);
             };
@@ -159,7 +159,7 @@ package com.sulake.habbo.help.help.data
 // FaqCategory = "_-0JM" (String#3941, DoABC#2)
 // FaqItem = "_-1u6" (String#5923, DoABC#2)
 // questionId = "_-3-c" (String#21486, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // _description = "_-1a7" (String#164, DoABC#2)
 // _categoryId = "_-1If" (String#186, DoABC#2)
 // itemCount = "_-1fH" (String#18108, DoABC#2)

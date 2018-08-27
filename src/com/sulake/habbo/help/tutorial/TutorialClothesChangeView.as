@@ -20,7 +20,7 @@ package com.sulake.habbo.help.tutorial
             if (_local_3 == null){
                 return;
             };
-            _local_3.procedure = this.TutorialMainView;
+            _local_3.procedure = this.windowProcedure;
             _arg_1.addListItem((_local_3 as IWindow));
             this._help.prepareForTutorial();
         }
@@ -40,12 +40,12 @@ package com.sulake.habbo.help.tutorial
                 this._SafeStr_11455 = null;
             };
         }
-        private function TutorialMainView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowProcedure(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             switch (_arg_2.name){
                 case "button_cancel":
                     if (_arg_1.type == WindowMouseEvent.WME_DOWN){
-                        this._help.HabboInventory(TutorialUI.TUI_MAIN_VIEW);
+                        this._help.showView(TutorialUI.TUI_MAIN_VIEW);
                     };
                     return;
             };
@@ -58,13 +58,13 @@ package com.sulake.habbo.help.tutorial
 // TUI_MAIN_VIEW = "_-0CO" (String#14545, DoABC#2)
 // TUI_CLOTHES_VIEW = "_-2a" (String#20440, DoABC#2)
 // prepareForTutorial = "_-0Yl" (String#15390, DoABC#2)
-// TutorialMainView = "_-1tK" (String#869, DoABC#2)
+// windowProcedure = "_-1tK" (String#869, DoABC#2)
 // _SafeStr_11455 = "_-2to" (String#7155, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // TutorialUI = "_-38o" (String#7488, DoABC#2)
 // ITutorialUIView = "_-2tN" (String#7145, DoABC#2)
 // TutorialClothesChangeView = "_-dF" (String#8473, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 
 

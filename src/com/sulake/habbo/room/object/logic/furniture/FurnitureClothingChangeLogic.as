@@ -16,7 +16,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectWidgetRequestEvent.REOR_REQUEST_CLOTHING_CHANGE];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function initialize(_arg_1:XML):void
         {
@@ -89,7 +89,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomObjectDataUpdateMessage = "_-2N4" (String#19928, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // RoomObjectWidgetRequestEvent = "_-0Oy" (String#15023, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // REOR_REQUEST_CLOTHING_CHANGE = "_-8e" (String#22566, DoABC#2)

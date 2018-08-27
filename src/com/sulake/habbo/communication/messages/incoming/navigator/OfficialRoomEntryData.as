@@ -90,7 +90,7 @@ package com.sulake.habbo.communication.messages.incoming.navigator
         {
             return (this._popupDesc);
         }
-        public function get QuestDetails():Boolean
+        public function get showDetails():Boolean
         {
             return (this._showDetails);
         }
@@ -126,7 +126,7 @@ package com.sulake.habbo.communication.messages.incoming.navigator
         {
             return (this._open);
         }
-        public function OfficialRoomEntryData():void
+        public function toggleOpen():void
         {
             this._open = !(this._open);
         }
@@ -159,11 +159,11 @@ package com.sulake.habbo.communication.messages.incoming.navigator
 // popupCaption = "_-041" (String#14202, DoABC#2)
 // _SafeStr_4124 = "_-2JO" (String#19784, DoABC#2)
 // _SafeStr_4125 = "_-0Hh" (String#14744, DoABC#2)
-// QuestDetails = "_-3H6" (String#7649, DoABC#2)
+// showDetails = "_-3H6" (String#7649, DoABC#2)
 // maxUsers = "_-Rs" (String#23320, DoABC#2)
 // userCount = "_-3Ez" (String#22075, DoABC#2)
 // guestRoomData = "_-ab" (String#23656, DoABC#2)
-// OfficialRoomEntryData = "_-1d6" (String#18017, DoABC#2)
+// toggleOpen = "_-1d6" (String#18017, DoABC#2)
 // popupDesc = "_-204" (String#19013, DoABC#2)
 // maxUserCount = "_-1O9" (String#17440, DoABC#2)
 // folderId = "_-1uf" (String#18744, DoABC#2)

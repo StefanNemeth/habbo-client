@@ -66,7 +66,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (this._SafeStr_6722 == null){
                 return;
             };
-            this._SafeStr_6722.IItemGridWindow();
+            this._SafeStr_6722.removeGridItems();
             var _local_1:Map = this._items;
             var _local_2:Map = new Map();
             var _local_3:Array = _local_1.getKeys();
@@ -90,9 +90,9 @@ package com.sulake.habbo.ui.widget.playlisteditor
                     _local_12 = _local_1[_local_7];
                     _local_3.splice(_local_3.indexOf(_local_7), 1);
                 };
-                _local_12.window.procedure = this.MusicInventoryGridView;
-                _local_12.toPlayListButton.procedure = this.MusicInventoryGridView;
-                this._SafeStr_6722.IItemGridWindow(_local_12.window);
+                _local_12.window.procedure = this.gridItemEventProc;
+                _local_12.toPlayListButton.procedure = this.gridItemEventProc;
+                this._SafeStr_6722.addGridItem(_local_12.window);
                 this._items.add(_local_7, _local_12);
                 _local_5++;
             };
@@ -102,26 +102,26 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_1.remove(_local_6);
             };
         }
-        public function MusicInventoryGridView():void
+        public function setPreviewIconToPause():void
         {
             if (this._SafeStr_6723 != null){
                 this._SafeStr_6723.playButtonState = MusicInventoryGridItem._SafeStr_6731;
             };
         }
-        public function MusicInventoryGridView():void
+        public function setPreviewIconToPlay():void
         {
             if (this._SafeStr_6723 != null){
                 this._SafeStr_6723.playButtonState = MusicInventoryGridItem._SafeStr_6732;
             };
         }
-        public function MusicInventoryGridView():void
+        public function deselectAny():void
         {
             if (this._SafeStr_6723 != null){
-                this._SafeStr_6723.ITab();
+                this._SafeStr_6723.deselect();
                 this._SafeStr_6723 = null;
             };
         }
-        private function MusicInventoryGridView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function gridItemEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_4:int;
             var _local_5:MusicInventoryGridItem;
@@ -129,8 +129,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if ((((_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK)) || (_local_3))){
                 if ((((_arg_2.name == "button_to_playlist")) || (_local_3))){
                     if (this._SafeStr_6723 != null){
-                        this._SafeStr_6723.ITab();
-                        this.MusicInventoryGridView();
+                        this._SafeStr_6723.deselect();
+                        this.stopPreview();
                         this._widget.sendAddToPlayListMessage(this._SafeStr_6723.diskId);
                         this._SafeStr_6723 = null;
                     };
@@ -142,7 +142,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                             this._widget.playUserSong(this._SafeStr_6723.songId);
                         }
                         else {
-                            this.MusicInventoryGridView();
+                            this.stopPreview();
                         };
                     }
                     else {
@@ -151,24 +151,24 @@ package com.sulake.habbo.ui.widget.playlisteditor
                             _local_5 = this._items.getWithIndex(_local_4);
                             if (_local_5 != this._SafeStr_6723){
                                 if (this._SafeStr_6723 != null){
-                                    this._SafeStr_6723.ITab();
+                                    this._SafeStr_6723.deselect();
                                 };
                                 this._SafeStr_6723 = _local_5;
                                 this._SafeStr_6723.select();
-                                this.MusicInventoryGridView();
+                                this.stopPreview();
                             };
                             if (this._widget.mainWindowHandler != null){
-                                this._widget.mainWindowHandler.playListEditorView.MusicInventoryGridView();
+                                this._widget.mainWindowHandler.playListEditorView.deselectAny();
                             };
                         };
                     };
                 };
             };
         }
-        private function MusicInventoryGridView():void
+        private function stopPreview():void
         {
             this._widget.stopUserSong();
-            this.MusicInventoryGridView();
+            this.setPreviewIconToPlay();
         }
         private function onSongInfoReceivedEvent(_arg_1:SongInfoReceivedEvent):void
         {
@@ -200,8 +200,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // MusicInventoryGridItem = "_-Xw" (String#8369, DoABC#2)
 // diskId = "_-0re" (String#4678, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // WME_DOUBLE_CLICK = "_-Y3" (String#23564, DoABC#2)
 // itemCount = "_-1fH" (String#18108, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
@@ -214,22 +214,22 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // stopUserSong = "_-0qi" (String#16075, DoABC#2)
 // _musicController = "_-3Bw" (String#458, DoABC#2)
 // getSongDiskInventorySize = "_-3Lf" (String#7732, DoABC#2)
-// MusicInventoryGridView = "_-ni" (String#24180, DoABC#2)
-// MusicInventoryGridView = "_-2bN" (String#20501, DoABC#2)
+// setPreviewIconToPause = "_-ni" (String#24180, DoABC#2)
+// setPreviewIconToPlay = "_-2bN" (String#20501, DoABC#2)
 // _SafeStr_6722 = "_-1eO" (String#18073, DoABC#2)
 // _SafeStr_6723 = "_-0NS" (String#4030, DoABC#2)
 // SIR_TRAX_SONG_INFO_RECEIVED = "_-02" (String#14127, DoABC#2)
 // onSongInfoReceivedEvent = "_-1Di" (String#360, DoABC#2)
 // getSongDiskInventoryDiskId = "_-1eT" (String#5637, DoABC#2)
 // getSongDiskInventorySongId = "_-23l" (String#6118, DoABC#2)
-// MusicInventoryGridView = "com.sulake.habbo.communication.messages.incoming.inventory.achievements-" (String#24649, DoABC#2)
+// gridItemEventProc = "com.sulake.habbo.communication.messages.incoming.inventory.achievements-" (String#24649, DoABC#2)
 // toPlayListButton = "_-Ig" (String#22953, DoABC#2)
 // playButtonState = "_-2KU" (String#19821, DoABC#2)
 // _SafeStr_6731 = "_-2I-" (String#19729, DoABC#2)
 // _SafeStr_6732 = "_-0cw" (String#15547, DoABC#2)
-// MusicInventoryGridView = "_-21Y" (String#19075, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
-// MusicInventoryGridView = "_-11f" (String#16523, DoABC#2)
+// deselectAny = "_-21Y" (String#19075, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
+// stopPreview = "_-11f" (String#16523, DoABC#2)
 // _SafeStr_6736 = "_-1q4" (String#18546, DoABC#2)
 // songId = "_-2fw" (String#20688, DoABC#2)
 

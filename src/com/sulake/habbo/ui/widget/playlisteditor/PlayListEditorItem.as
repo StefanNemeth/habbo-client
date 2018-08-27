@@ -18,7 +18,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         public static const PLEI_ICON_STATE_NORMAL:String = "PLEI_ICON_STATE_NORMAL";
         public static const PLEI_ICON_STATE_PLAYING:String = "PLEI_ICON_STATE_PLAYING";
         private static const _SafeStr_6749:uint = 14283002;
-        private static const _MusicInventoryGridItem:uint = 0xF1F1F1;
+        private static const _SafeStr_6750:uint = 0xF1F1F1;
 
         private var _widget:PlayListEditorWidget;
         private var _window:IWindowContainer;
@@ -31,7 +31,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             this._colorTransform = _arg_4;
             this.createWindow();
             this.setIconState(PLEI_ICON_STATE_NORMAL);
-            this.ITab();
+            this.deselect();
             this.trackName = _arg_2;
             this.trackAuthor = _arg_3;
             this.diskColor = _arg_4;
@@ -61,8 +61,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
                     this.buttonRemoveBitmap = (_local_2.content as BitmapData);
                 };
             };
-            this.MusicInventoryStatusView("jb_icon_disc", (this._window.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
-            this.MusicInventoryStatusView("jb_icon_composer", (this._window.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
+            this.assignAssetByNameToElement("jb_icon_disc", (this._window.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
+            this.assignAssetByNameToElement("jb_icon_composer", (this._window.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
             var _local_3:IWindowContainer = (this._window.getChildByName("action_buttons") as IWindowContainer);
             if (_local_3 != null){
                 _local_3 = (_local_3.getChildByName("button_border") as IWindowContainer);
@@ -86,11 +86,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_3.visible = true;
             };
         }
-        public function ITab():void
+        public function deselect():void
         {
             var _local_1:IBorderWindow = (this._window.getChildByName("background") as IBorderWindow);
             if (_local_1 != null){
-                _local_1.color = _MusicInventoryGridItem;
+                _local_1.color = _SafeStr_6750;
             };
             var _local_2:IWindowContainer = (this._window.getChildByName("action_buttons") as IWindowContainer);
             if (_local_2 != null){
@@ -183,7 +183,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_3.height = _arg_1.height;
             };
         }
-        private function MusicInventoryStatusView(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
+        private function assignAssetByNameToElement(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
         {
             var _local_4:BitmapData;
             var _local_3:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_1) as BitmapDataAsset);
@@ -204,16 +204,16 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListEditorWidget = "_-1O-" (String#5310, DoABC#2)
 // PlayListEditorItem = "_-01c" (String#3594, DoABC#2)
 // _colorTransform = "_-0yf" (String#300, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 // removeButton = "_-3Fh" (String#22105, DoABC#2)
 // setIconState = "_-so" (String#24393, DoABC#2)
 // PLEI_ICON_STATE_NORMAL = "_-0xa" (String#16336, DoABC#2)
 // PLEI_ICON_STATE_PLAYING = "_-0K7" (String#14848, DoABC#2)
 // _SafeStr_6749 = "_-3Gw" (String#7646, DoABC#2)
-// _MusicInventoryGridItem = "_-0L4" (String#3980, DoABC#2)
+// _SafeStr_6750 = "_-0L4" (String#3980, DoABC#2)
 // trackName = "_-25h" (String#6154, DoABC#2)
 // diskColor = "_-0QW" (String#15082, DoABC#2)
-// MusicInventoryStatusView = "_-2Qz" (String#1879, DoABC#2)
+// assignAssetByNameToElement = "_-2Qz" (String#1879, DoABC#2)
 // diskIconBitmap = "_-08e" (String#3731, DoABC#2)
 // _removeButton = "_-1-e" (String#4861, DoABC#2)
 // trackAuthor = "_-2VW" (String#20263, DoABC#2)

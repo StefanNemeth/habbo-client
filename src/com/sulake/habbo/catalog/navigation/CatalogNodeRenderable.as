@@ -64,7 +64,7 @@ package com.sulake.habbo.catalog.navigation
         {
             return (this._icon);
         }
-        override public function get IssueBrowser():Boolean
+        override public function get isOpen():Boolean
         {
             return (this._isOpen);
         }
@@ -200,11 +200,11 @@ package com.sulake.habbo.catalog.navigation
                     _local_2.visible = false;
                 };
             };
-            this.PendingImage("iconBackgroundBitmap", "icon_bg_img", true, color);
+            this.setElementImage("iconBackgroundBitmap", "icon_bg_img", true, color);
             this.initIcon();
-            this._window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+            this._window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
             };
         }
         private function getLocalizationKey(_arg_1:String, _arg_2:String=""):String
@@ -215,7 +215,7 @@ package com.sulake.habbo.catalog.navigation
             };
             return (_local_3.getKey(_arg_1, _arg_2));
         }
-        private function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        private function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             navigator.activateNode(this);
         }
@@ -227,13 +227,13 @@ package com.sulake.habbo.catalog.navigation
                 return;
             };
             if (navigator.catalog.assets.hasAsset(_local_2)){
-                this.PendingImage(_local_1, _local_2);
+                this.setElementImage(_local_1, _local_2);
             }
             else {
                 this.retrieveIconImage(_local_2);
             };
         }
-        private function PendingImage(_arg_1:String, _arg_2:String, _arg_3:Boolean=true, _arg_4:uint=0):void
+        private function setElementImage(_arg_1:String, _arg_2:String, _arg_3:Boolean=true, _arg_4:uint=0):void
         {
             var _local_6:BitmapDataAsset;
             var _local_7:BitmapData;
@@ -297,7 +297,7 @@ package com.sulake.habbo.catalog.navigation
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             if (_local_2 != null){
                 _local_3 = _local_2.assetName;
-                this.PendingImage("icon", _local_3);
+                this.setElementImage("icon", _local_3);
             };
         }
 
@@ -327,10 +327,10 @@ package com.sulake.habbo.catalog.navigation
 // ICatalogNode = "_-0Td" (String#4172, DoABC#2)
 // CatalogNode = "_-148" (String#4959, DoABC#2)
 // CatalogNodeRenderable = "_-20S" (String#6056, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // initIcon = "_-0Fm" (String#1437, DoABC#2)
 // _SafeStr_7420 = "_-24I" (String#19189, DoABC#2)
 // _SafeStr_7422 = "_-075" (String#14328, DoABC#2)

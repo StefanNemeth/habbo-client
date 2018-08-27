@@ -166,7 +166,7 @@ package com.sulake.habbo.notifications
             queueInterface(new IIDHabboFriendList(), this.onFriendListReady);
             queueInterface(new IIDSessionDataManager(), this.onSessionDataManagerReady);
             queueInterface(new IIDAvatarRenderManager(), this.onAvatarRenderManagerReady);
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboUserDefinedRoomEvents);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
             queueInterface(new IIDRoomEngine(), this.onRoomEngineReady);
             queueInterface(new IIDHabboConfigurationManager(), this.onConfigurationManagerReady);
             queueInterface(new IIDHabboCatalog(), this.onCatalogReady);
@@ -263,7 +263,7 @@ package com.sulake.habbo.notifications
             var _local_1:Array = this._SafeStr_12129.splice(0, 1);
             return ((_local_1[0] as HabboNotificationItem));
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._communication = IHabboCommunicationManager(_arg_2);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
@@ -281,8 +281,8 @@ package com.sulake.habbo.notifications
             this._localization = (_arg_2 as IHabboLocalizationManager);
             this._SafeStr_12132 = new HabboAlertDialogManager(this._windowManager, this._localization);
             if (this._communication){
-                this._communication.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthenticationOk));
-                this._communication.HabboCommunicationManager(new MOTDNotificationEvent(this.onMOTD));
+                this._communication.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOk));
+                this._communication.addHabboConnectionMessageEvent(new MOTDNotificationEvent(this.onMOTD));
             };
         }
         private function onInventoryReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -334,30 +334,30 @@ package com.sulake.habbo.notifications
         function onAuthenticationOk(_arg_1:IMessageEvent):void
         {
             this._SafeStr_12131 = new HabboNotificationViewManager(this._assetLibrary, this._windowManager, this._config, this._SafeStr_6296, this._SafeStr_12130["styles"], this._SafeStr_12130["view"]);
-            this._communication.HabboCommunicationManager(new HabboBroadcastMessageEvent(this.onBroadcastMessageEvent));
-            this._communication.HabboCommunicationManager(new HabboAchievementBonusMessageEvent(this.onAchievementBonus));
-            this._communication.HabboCommunicationManager(new RespectNotificationMessageEvent(this.onRespectNotification));
-            this._communication.HabboCommunicationManager(new PurchaseOKMessageEvent(this.onPurchaseOK));
-            this._communication.HabboCommunicationManager(new RecyclerFinishedMessageEvent(this.onRecyclerFinished));
-            this._communication.HabboCommunicationManager(new ScrSendUserInfoEvent(this.onSubscriptionInfo));
-            this._communication.HabboCommunicationManager(new InfoFeedEnableMessageEvent(this.onInfoFeedEnable));
-            this._communication.HabboCommunicationManager(new ModMessageEvent(this.onModMessageEvent));
-            this._communication.HabboCommunicationManager(new UserBannedMessageEvent(this.onUserBannedMessageEvent));
-            this._communication.HabboCommunicationManager(new InfoHotelClosingMessageEvent(this.onHotelClosing));
-            this._communication.HabboCommunicationManager(new InfoHotelClosedMessageEvent(this.onHotelClosed));
-            this._communication.HabboCommunicationManager(new LoginFailedHotelClosedMessageEvent(this.onLoginFailedHotelClosed));
-            this._communication.HabboCommunicationManager(new ParkBusCannotEnterMessageEvent(this.onParkBusMessageEvent));
-            this._communication.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEnter));
-            this._communication.HabboCommunicationManager(new PetLevelNotificationEvent(this.onPetLevelNotification));
-            this._communication.HabboCommunicationManager(new PetReceivedMessageEvent(this.onPetReceived));
-            this._communication.HabboCommunicationManager(new PetRespectFailedEvent(this.onPetRespectFailed));
-            this._communication.HabboCommunicationManager(new ClubGiftNotificationEvent(this.onClubGiftNotification));
-            this._communication.HabboCommunicationManager(new ClubGiftSelectedEvent(this.onClubGiftSelected));
-            this._communication.HabboCommunicationManager(new RoomMessageNotificationMessageEvent(this.onRoomMessagesNotification));
-            IContext(this._SafeStr_12131, 1);
-            IContext(this, 2);
-            this._sessionDataManager.events.addEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.InfostandWidget);
-            this._communication.HabboCommunicationManager(null).send(new GetMOTDMessageComposer());
+            this._communication.addHabboConnectionMessageEvent(new HabboBroadcastMessageEvent(this.onBroadcastMessageEvent));
+            this._communication.addHabboConnectionMessageEvent(new HabboAchievementBonusMessageEvent(this.onAchievementBonus));
+            this._communication.addHabboConnectionMessageEvent(new RespectNotificationMessageEvent(this.onRespectNotification));
+            this._communication.addHabboConnectionMessageEvent(new PurchaseOKMessageEvent(this.onPurchaseOK));
+            this._communication.addHabboConnectionMessageEvent(new RecyclerFinishedMessageEvent(this.onRecyclerFinished));
+            this._communication.addHabboConnectionMessageEvent(new ScrSendUserInfoEvent(this.onSubscriptionInfo));
+            this._communication.addHabboConnectionMessageEvent(new InfoFeedEnableMessageEvent(this.onInfoFeedEnable));
+            this._communication.addHabboConnectionMessageEvent(new ModMessageEvent(this.onModMessageEvent));
+            this._communication.addHabboConnectionMessageEvent(new UserBannedMessageEvent(this.onUserBannedMessageEvent));
+            this._communication.addHabboConnectionMessageEvent(new InfoHotelClosingMessageEvent(this.onHotelClosing));
+            this._communication.addHabboConnectionMessageEvent(new InfoHotelClosedMessageEvent(this.onHotelClosed));
+            this._communication.addHabboConnectionMessageEvent(new LoginFailedHotelClosedMessageEvent(this.onLoginFailedHotelClosed));
+            this._communication.addHabboConnectionMessageEvent(new ParkBusCannotEnterMessageEvent(this.onParkBusMessageEvent));
+            this._communication.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
+            this._communication.addHabboConnectionMessageEvent(new PetLevelNotificationEvent(this.onPetLevelNotification));
+            this._communication.addHabboConnectionMessageEvent(new PetReceivedMessageEvent(this.onPetReceived));
+            this._communication.addHabboConnectionMessageEvent(new PetRespectFailedEvent(this.onPetRespectFailed));
+            this._communication.addHabboConnectionMessageEvent(new ClubGiftNotificationEvent(this.onClubGiftNotification));
+            this._communication.addHabboConnectionMessageEvent(new ClubGiftSelectedEvent(this.onClubGiftSelected));
+            this._communication.addHabboConnectionMessageEvent(new RoomMessageNotificationMessageEvent(this.onRoomMessagesNotification));
+            registerUpdateReceiver(this._SafeStr_12131, 1);
+            registerUpdateReceiver(this, 2);
+            this._sessionDataManager.events.addEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeImage);
+            this._communication.getHabboMainConnection(null).send(new GetMOTDMessageComposer());
         }
         function onMOTD(_arg_1:IMessageEvent):void
         {
@@ -427,11 +427,11 @@ package com.sulake.habbo.notifications
             for each (_local_6 in _local_4.products) {
                 if (_local_6){
                     if (_local_6.productType == CatalogPageMessageProductData._SafeStr_5017){
-                        _local_7 = this._sessionDataManager.SessionDataManager(_local_6.furniClassId);
+                        _local_7 = this._sessionDataManager.getFloorItemData(_local_6.furniClassId);
                     }
                     else {
                         if (_local_6.productType == CatalogPageMessageProductData._SafeStr_5019){
-                            _local_7 = this._sessionDataManager.SessionDataManager(_local_6.furniClassId);
+                            _local_7 = this._sessionDataManager.getWallItemData(_local_6.furniClassId);
                         };
                     };
                     _local_5 = this.getProductImage(_local_6.productType, _local_6.furniClassId, _local_6.extraParam);
@@ -589,7 +589,7 @@ package com.sulake.habbo.notifications
         public function update(_arg_1:uint):void
         {
             var _local_2:HabboNotificationItem;
-            if (((this._SafeStr_12131.HabboNotificationViewManager()) && ((this._SafeStr_12129.length > 0)))){
+            if (((this._SafeStr_12131.isSpaceAvailable()) && ((this._SafeStr_12129.length > 0)))){
                 _local_2 = this.getNextItemFromQueue();
                 if (!this._SafeStr_12131.showItem(_local_2)){
                     _local_2.dispose();
@@ -603,19 +603,19 @@ package com.sulake.habbo.notifications
                     return;
                 case _SafeStr_12122:
                     if (this._inventory != null){
-                        this._inventory.HabboInventory(InventoryCategory._SafeStr_7061);
+                        this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_7061);
                     };
                     return;
                 case _SafeStr_12123:
                     return;
                 case _SafeStr_12124:
                     if (((!((this._inventory == null))) && (this._inventory.hasRoomSession))){
-                        this._inventory.HabboInventory(InventoryCategory._SafeStr_5995);
+                        this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_5995);
                     };
                     return;
                 case _SafeStr_12127:
                     if (((!((this._inventory == null))) && (this._inventory.hasRoomSession))){
-                        this._inventory.HabboInventory(InventoryCategory._SafeStr_5996);
+                        this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_5996);
                     };
                     return;
                 case _SafeStr_12125:
@@ -631,7 +631,7 @@ package com.sulake.habbo.notifications
                     return;
             };
         }
-        private function InfostandWidget(_arg_1:BadgeImageReadyEvent):void
+        private function onBadgeImage(_arg_1:BadgeImageReadyEvent):void
         {
             if (((!((_arg_1 == null))) && (!((this._SafeStr_12131 == null))))){
                 this._SafeStr_12131.replaceIcon(_arg_1);
@@ -720,7 +720,7 @@ package com.sulake.habbo.notifications
             this._localization.registerParameter("notifications.text.petlevel", "level", _local_2.level.toString());
             var _local_3:ILocalization = this._localization.getLocalization("notifications.text.petlevel");
             if (_local_3){
-                _local_4 = this.RoomEngine(_local_2.petType, _local_2.breed, _local_2.color);
+                _local_4 = this.getPetImage(_local_2.petType, _local_2.breed, _local_2.color);
                 this.addItem(_local_3.value, NotificationType._SafeStr_12061, _local_4);
             };
         }
@@ -741,11 +741,11 @@ package com.sulake.habbo.notifications
             };
             if (_local_3){
                 _local_4 = _local_2.pet;
-                _local_5 = this.RoomEngine(_local_4.type, _local_4.breed, _local_4.color);
+                _local_5 = this.getPetImage(_local_4.type, _local_4.breed, _local_4.color);
                 this.addItem(_local_3.value, NotificationType._SafeStr_12061, _local_5);
             };
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):BitmapData
+        private function getPetImage(_arg_1:int, _arg_2:int, _arg_3:String):BitmapData
         {
             var _local_5:uint;
             var _local_6:IAvatarImage;
@@ -766,7 +766,7 @@ package com.sulake.habbo.notifications
             }
             else {
                 _local_7 = 0;
-                _local_8 = this._roomEngine.RoomEngine(_arg_1, _arg_2, new Vector3d(135), 32, null, _local_7);
+                _local_8 = this._roomEngine.getPetImage(_arg_1, _arg_2, new Vector3d(135), 32, null, _local_7);
                 if (_local_8 != null){
                     _local_4 = _local_8.data;
                 };
@@ -789,16 +789,16 @@ package com.sulake.habbo.notifications
             var _local_3:String = _local_2.messageText;
             var _local_4:RegExp = /\\r/g;
             _local_3 = _local_3.replace(_local_4, "\r");
-            this._windowManager.alert("${notifications.broadcast.title}", _local_3, 0, this.QuestsList);
+            this._windowManager.alert("${notifications.broadcast.title}", _local_3, 0, this.onAlert);
         }
         private function onPetRespectFailed(_arg_1:IMessageEvent):void
         {
             var _local_2:PetRespectFailedParser = (_arg_1 as PetRespectFailedEvent).getParser();
             this._localization.registerParameter("room.error.pets.respectfailed", "required_age", ("" + _local_2.requiredDays));
             this._localization.registerParameter("room.error.pets.respectfailed", "avatar_age", ("" + _local_2.avatarAgeInDays));
-            this._windowManager.alert("${error.title}", "${room.error.pets.respectfailed}", 0, this.QuestsList);
+            this._windowManager.alert("${error.title}", "${room.error.pets.respectfailed}", 0, this.onAlert);
         }
-        public function QuestsList(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        public function onAlert(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             if ((((_arg_2.type == WindowEvent.WE_OK)) || ((_arg_2.type == WindowEvent.WE_CANCEL)))){
                 _arg_1.dispose();
@@ -854,7 +854,7 @@ package com.sulake.habbo.notifications
 // onRecyclerFinished = "_-0RM" (String#4120, DoABC#2)
 // messageCount = "_-Qs" (String#23280, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-1hF" (String#443, DoABC#2)
+// onCommunicationComponentInit = "_-1hF" (String#443, DoABC#2)
 // onConfigurationManagerReady = "_-1OV" (String#604, DoABC#2)
 // hasRoomSession = "_-Iw" (String#8059, DoABC#2)
 // _SafeStr_12057 = "_-2lf" (String#20905, DoABC#2)
@@ -866,7 +866,7 @@ package com.sulake.habbo.notifications
 // _SafeStr_12064 = "_-33z" (String#21656, DoABC#2)
 // replaceIcon = "_-1sg" (String#18663, DoABC#2)
 // showItem = "_-1J5" (String#5224, DoABC#2)
-// HabboNotificationViewManager = "_-0Qv" (String#15099, DoABC#2)
+// isSpaceAvailable = "_-0Qv" (String#15099, DoABC#2)
 // handleModMessage = "_-1Bx" (String#16938, DoABC#2)
 // handleUserBannedMessage = "_-0KQ" (String#14856, DoABC#2)
 // handleHotelClosingMessage = "_-2G7" (String#19647, DoABC#2)
@@ -915,7 +915,7 @@ package com.sulake.habbo.notifications
 // getProductImage = "_-23f" (String#19161, DoABC#2)
 // tempCategoryMapping = "_-2br" (String#20517, DoABC#2)
 // checkClubEndingNotification = "_-1-p" (String#16461, DoABC#2)
-// QuestsList = "_-OQ" (String#23185, DoABC#2)
+// onAlert = "_-OQ" (String#23185, DoABC#2)
 // CatalogPageMessageOfferData = "_-1vw" (String#5957, DoABC#2)
 // ImageResult = "_-31w" (String#21576, DoABC#2)
 // ClubEndingNotification = "_-2YI" (String#6732, DoABC#2)
@@ -991,14 +991,14 @@ package com.sulake.habbo.notifications
 // respectTotal = "_-3KU" (String#22304, DoABC#2)
 // RWBIUE_HABBO_CLUB = "_-0ji" (String#15815, DoABC#2)
 // _SafeStr_3939 = "_-2gR" (String#20706, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_4336 = "_-1wM" (String#18815, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // recyclerFinishedStatus = "_-2UK" (String#20212, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // messageText = "_-0EC" (String#14615, DoABC#2)
 // isVIP = "_-3K4" (String#7705, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
@@ -1023,7 +1023,7 @@ package com.sulake.habbo.notifications
 // basicNormalPrice = "_-1o" (String#18461, DoABC#2)
 // basicPromoPrice = "_-fv" (String#23887, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_5996 = "_-Jg" (String#22993, DoABC#2)
 // _SafeStr_6296 = "_-1UJ" (String#5438, DoABC#2)
@@ -1037,11 +1037,11 @@ package com.sulake.habbo.notifications
 // _SafeStr_7061 = "_-3KY" (String#22306, DoABC#2)
 // requiredDays = "_-Ac" (String#22640, DoABC#2)
 // avatarAgeInDays = "_-0Aw" (String#14486, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
 // createPetImage = "_-0Qk" (String#4105, DoABC#2)
-// SessionDataManager = "_-08L" (String#3728, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
-// InfostandWidget = "_-0fM" (String#1522, DoABC#2)
+// getFloorItemData = "_-08L" (String#3728, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
+// onBadgeImage = "_-0fM" (String#1522, DoABC#2)
 // addItem = "_-3Ev" (String#7610, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)

@@ -31,7 +31,7 @@ package com.sulake.habbo.ui.widget.infostand
         private var _SafeStr_14055:IFrameWindow;
         private var _SafeStr_14056:IFrameWindow;
         private var _enabledCommands:Map;
-        private var _InfoStandPetView:int;
+        private var _SafeStr_13992:int;
         private var _SafeStr_14057:String;
         private var _SafeStr_14058:Timer;
 
@@ -42,7 +42,7 @@ package com.sulake.habbo.ui.widget.infostand
             this._SafeStr_14058 = new Timer(this._SafeStr_14054);
             this._SafeStr_14058.addEventListener(TimerEvent.TIMER, this.onButtonDisableTimeout);
         }
-        public static function InfostandWidget(_arg_1:IWindowContainer):void
+        public static function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -85,7 +85,7 @@ package com.sulake.habbo.ui.widget.infostand
         }
         public function getPetId():int
         {
-            return (this._InfoStandPetView);
+            return (this._SafeStr_13992);
         }
         public function isVisible():Boolean
         {
@@ -98,10 +98,10 @@ package com.sulake.habbo.ui.widget.infostand
         {
             var _local_7:BitmapData;
             var _local_8:Point;
-            if (this._InfoStandPetView == _arg_1){
+            if (this._SafeStr_13992 == _arg_1){
                 return;
             };
-            this._InfoStandPetView = _arg_1;
+            this._SafeStr_13992 = _arg_1;
             this._SafeStr_14057 = _arg_2;
             if (this._SafeStr_14055 == null){
                 return;
@@ -128,7 +128,7 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_6:CommandConfiguration = (this._enabledCommands.getValue(_arg_1) as CommandConfiguration);
             if (_local_6 == null){
                 this.disableAllButtons();
-                this.requestEnabledCommands(this._InfoStandPetView);
+                this.requestEnabledCommands(this._SafeStr_13992);
             }
             else {
                 this.updateCommandButtonsViewState(_local_6);
@@ -136,7 +136,7 @@ package com.sulake.habbo.ui.widget.infostand
         }
         private function onButtonDisableTimeout(_arg_1:TimerEvent):void
         {
-            var _local_2:CommandConfiguration = (this._enabledCommands.getValue(this._InfoStandPetView) as CommandConfiguration);
+            var _local_2:CommandConfiguration = (this._enabledCommands.getValue(this._SafeStr_13992) as CommandConfiguration);
             this.updateCommandButtonsViewState(_local_2);
             this._SafeStr_14058.stop();
         }
@@ -144,7 +144,7 @@ package com.sulake.habbo.ui.widget.infostand
         {
             this._enabledCommands.remove(_arg_1);
             this._enabledCommands.add(_arg_1, _arg_2);
-            if (_arg_1 != this._InfoStandPetView){
+            if (_arg_1 != this._SafeStr_13992){
                 return;
             };
             this.updateCommandButtonsViewState(_arg_2);
@@ -191,7 +191,7 @@ package com.sulake.habbo.ui.widget.infostand
                 return;
             };
             var _local_2:IWindowContainer = IWindowContainer(this._SafeStr_14055.findChildByName("commands_container"));
-            InfostandWidget(_local_2);
+            hideChildren(_local_2);
             var _local_3:Array = _arg_1.allCommandIds;
             var _local_4:int = 25;
             var _local_5:int;
@@ -286,14 +286,14 @@ package com.sulake.habbo.ui.widget.infostand
                     }
                     else {
                         if (_arg_2.name == "avatar_image"){
-                            this._widget.messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._InfoStandPetView));
+                            this._widget.messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._SafeStr_13992));
                         }
                         else {
                             if (_arg_2.name.indexOf("btn_cmd_") > -1){
                                 _local_4 = int(_arg_2.name.substring(8));
                                 _local_5 = ("pet.command." + _local_4);
                                 _local_6 = this._widget.localizations.getKey(_local_5);
-                                _local_7 = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._InfoStandPetView, ((this._SafeStr_14057 + " ") + _local_6));
+                                _local_7 = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._SafeStr_13992, ((this._SafeStr_14057 + " ") + _local_6));
                                 this._widget.messageListener.processWidgetMessage(_local_7);
                                 this.disableAllButtons();
                                 this._SafeStr_14058.start();
@@ -311,7 +311,7 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_3:int = _arg_2.id;
             var _local_4:String = ("pet.command." + _local_3);
             var _local_5:String = this._widget.localizations.getKey(_local_4);
-            var _local_6:RoomWidgetPetCommandMessage = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._InfoStandPetView, ((this._SafeStr_14057 + " ") + _local_5));
+            var _local_6:RoomWidgetPetCommandMessage = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._SafeStr_13992, ((this._SafeStr_14057 + " ") + _local_5));
             this._widget.messageListener.processWidgetMessage(_local_6);
             this.disableAllButtons();
             this._SafeStr_14058.start();
@@ -323,22 +323,22 @@ package com.sulake.habbo.ui.widget.infostand
             if (((this._SafeStr_14055) && (!(this._SafeStr_14055.disposed)))){
                 _local_2 = _arg_1.window;
                 _local_3 = new Rectangle();
-                this._SafeStr_14055.WindowController(_local_3);
+                this._SafeStr_14055.getGlobalRectangle(_local_3);
                 if (_local_3.x > _local_2.width){
                     this._SafeStr_14055.x = (_local_2.width - this._SafeStr_14055.width);
-                    this._SafeStr_14055.WindowController(_local_3);
+                    this._SafeStr_14055.getGlobalRectangle(_local_3);
                 };
                 if ((_local_3.x + _local_3.width) <= 0){
                     this._SafeStr_14055.x = 0;
-                    this._SafeStr_14055.WindowController(_local_3);
+                    this._SafeStr_14055.getGlobalRectangle(_local_3);
                 };
                 if (_local_3.y > _local_2.height){
                     this._SafeStr_14055.y = 0;
-                    this._SafeStr_14055.WindowController(_local_3);
+                    this._SafeStr_14055.getGlobalRectangle(_local_3);
                 };
                 if ((_local_3.y + _local_3.height) <= 0){
                     this._SafeStr_14055.y = 0;
-                    this._SafeStr_14055.WindowController(_local_3);
+                    this._SafeStr_14055.getGlobalRectangle(_local_3);
                 };
             };
         }
@@ -348,7 +348,7 @@ package com.sulake.habbo.ui.widget.infostand
 
 // _SafeStr_10176 = "_-25d" (String#875, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
-// _InfoStandPetView = "_-2l0" (String#6980, DoABC#2)
+// _SafeStr_13992 = "_-2l0" (String#6980, DoABC#2)
 // showCommandToolForPet = "_-19V" (String#16837, DoABC#2)
 // setEnabledCommands = "_-3A2" (String#21886, DoABC#2)
 // getPetId = "_-2AE" (String#19413, DoABC#2)
@@ -375,10 +375,10 @@ package com.sulake.habbo.ui.widget.infostand
 // RWUAM_REQUEST_PET_UPDATE = "_-0Ro" (String#15130, DoABC#2)
 // RWPCM_REQUEST_PET_COMMANDS = "_-1pG" (String#18512, DoABC#2)
 // RWPCM_PET_COMMAND = "_-3K8" (String#22288, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
 // showWindow = "_-2ve" (String#21300, DoABC#2)
 // isEnabled = "_-2ri" (String#21145, DoABC#2)
 // _enabledCommands = "_-1GF" (String#843, DoABC#2)

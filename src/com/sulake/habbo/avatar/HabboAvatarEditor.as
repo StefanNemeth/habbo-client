@@ -50,7 +50,7 @@ package com.sulake.habbo.avatar
         private var _clubMemberLevel:int = 0;
         private var _SafeStr_10228:Boolean;
         private var _SafeStr_10229:IHabboAvatarEditorDataSaver = null;
-        private var _HabboAvatarEditor:Boolean = false;
+        private var _SafeStr_10230:Boolean = false;
 
         public function HabboAvatarEditor(_arg_1:uint, _arg_2:HabboAvatarEditorManager)
         {
@@ -170,7 +170,7 @@ package com.sulake.habbo.avatar
         public function openWindow(_arg_1:IHabboAvatarEditorDataSaver, _arg_2:Array=null, _arg_3:Boolean=false, _arg_4:String=null):IFrameWindow
         {
             this._SafeStr_10229 = _arg_1;
-            this._HabboAvatarEditor = _arg_3;
+            this._SafeStr_10230 = _arg_3;
             this.init(_arg_2);
             if (this._view == null){
                 this._view = new AvatarEditorView(this, _arg_2);
@@ -181,7 +181,7 @@ package com.sulake.habbo.avatar
         public function embedToContext(_arg_1:IWindowContainer=null, _arg_2:IHabboAvatarEditorDataSaver=null, _arg_3:Array=null, _arg_4:Boolean=false):Boolean
         {
             this._SafeStr_10229 = _arg_2;
-            this._HabboAvatarEditor = _arg_4;
+            this._SafeStr_10230 = _arg_4;
             this.init(_arg_3);
             if (this._view == null){
                 this._view = new AvatarEditorView(this, _arg_3);
@@ -207,11 +207,11 @@ package com.sulake.habbo.avatar
         {
             this._view.hide();
         }
-        public function HabboInventory(_arg_1:String):IWindowContainer
+        public function getCategoryWindowContainer(_arg_1:String):IWindowContainer
         {
             var _local_2:IAvatarEditorCategoryModel = (this._categories.getValue(_arg_1) as IAvatarEditorCategoryModel);
             if (_local_2 != null){
-                return (_local_2.TradingModel());
+                return (_local_2.getWindowContainer());
             };
             return (null);
         }
@@ -219,7 +219,7 @@ package com.sulake.habbo.avatar
         {
             var _local_2:ISideContentModel = (this._SafeStr_10225.getValue(_arg_1) as ISideContentModel);
             if (_local_2 != null){
-                return (_local_2.TradingModel());
+                return (_local_2.getWindowContainer());
             };
             return (null);
         }
@@ -244,7 +244,7 @@ package com.sulake.habbo.avatar
         {
             return (this._SafeStr_10226[this._gender]);
         }
-        public function HabboAvatarEditor():void
+        public function saveCurrentSelection():void
         {
             var _local_3:UpdateFigureDataMessageComposer;
             var _local_1:String = this.figureData.getFigureString();
@@ -254,12 +254,12 @@ package com.sulake.habbo.avatar
             }
             else {
                 _local_3 = new UpdateFigureDataMessageComposer(_local_1, _local_2);
-                this._manager.communication.HabboCommunicationManager(null).send(_local_3);
+                this._manager.communication.getHabboMainConnection(null).send(_local_3);
                 _local_3.dispose();
                 _local_3 = null;
             };
         }
-        public function HabboAvatarEditor(_arg_1:IAvatarEditorCategoryModel, _arg_2:String):CategoryData
+        public function generateDataContent(_arg_1:IAvatarEditorCategoryModel, _arg_2:String):CategoryData
         {
             var _local_5:int;
             var _local_6:IFigurePartSet;
@@ -308,7 +308,7 @@ package com.sulake.habbo.avatar
                     _local_10 = new Array();
                 };
                 _local_11 = new Array(_local_10.length);
-                _local_12 = ((this.HabboAvatarEditor()) && (this._SafeStr_10228));
+                _local_12 = ((this.isClubTryoutAllowed()) && (this._SafeStr_10228));
                 for each (_local_13 in _local_9.colors) {
                     if (((_local_13.isSelectable) && (((_local_12) || ((this._clubMemberLevel >= _local_13.clubLevel)))))){
                         _local_17 = 0;
@@ -371,13 +371,13 @@ package com.sulake.habbo.avatar
             };
             return (new CategoryData(_local_3, _local_4));
         }
-        public function HabboAvatarEditor():Boolean
+        public function isClubTryoutAllowed():Boolean
         {
             return (this._manager.configuration.getBoolean("avatareditor.allowclubtryout", false));
         }
-        public function HabboAvatarEditor():Boolean
+        public function isSideContentEnabled():Boolean
         {
-            return (this._HabboAvatarEditor);
+            return (this._SafeStr_10230);
         }
         public function hasInvalidClubItems():Boolean
         {
@@ -398,7 +398,7 @@ package com.sulake.habbo.avatar
             for each (_local_1 in this._categories) {
                 _local_1.stripClubItemsOverLevel(this.clubMemberLevel);
             };
-            this.figureData.ProgressBar();
+            this.figureData.updateView();
         }
         public function getDefaultColour(_arg_1:String):int
         {
@@ -516,14 +516,14 @@ package com.sulake.habbo.avatar
 // getSetType = "_-0CE" (String#3795, DoABC#2)
 // _SafeStr_10173 = "_-20g" (String#19038, DoABC#2)
 // _SafeStr_10174 = "_-0YN" (String#15374, DoABC#2)
-// HabboAvatarEditor = "_-j" (String#23999, DoABC#2)
-// HabboAvatarEditor = "_-05h" (String#14269, DoABC#2)
+// isSideContentEnabled = "_-j" (String#23999, DoABC#2)
+// isClubTryoutAllowed = "_-05h" (String#14269, DoABC#2)
 // toggleCategoryView = "_-wV" (String#24553, DoABC#2)
 // getSideContentWindowContainer = "_-24M" (String#19193, DoABC#2)
-// HabboInventory = "_-1yQ" (String#18906, DoABC#2)
+// getCategoryWindowContainer = "_-1yQ" (String#18906, DoABC#2)
 // toggleAvatarEditorPage = "_-2Od" (String#19990, DoABC#2)
 // hasInvalidClubItems = "_-1Si" (String#17611, DoABC#2)
-// HabboAvatarEditor = "_-1ER" (String#17045, DoABC#2)
+// saveCurrentSelection = "_-1ER" (String#17045, DoABC#2)
 // stripClubItems = "_-bD" (String#23678, DoABC#2)
 // getFigureData = "_-2tG" (String#7143, DoABC#2)
 // getMandatoryAvatarPartSetIds = "_-1un" (String#5934, DoABC#2)
@@ -536,7 +536,7 @@ package com.sulake.habbo.avatar
 // _clubMemberLevel = "_-15N" (String#16669, DoABC#2)
 // _SafeStr_10228 = "_-31W" (String#21559, DoABC#2)
 // _SafeStr_10229 = "_-3Hk" (String#22191, DoABC#2)
-// _HabboAvatarEditor = "_-hu" (String#23960, DoABC#2)
+// _SafeStr_10230 = "_-hu" (String#23960, DoABC#2)
 // getFigureSetType = "_-2MK" (String#19897, DoABC#2)
 // selectDefaultCategory = "_-O1" (String#23169, DoABC#2)
 // orderByClub = "_-0OW" (String#15008, DoABC#2)
@@ -567,9 +567,9 @@ package com.sulake.habbo.avatar
 // getFrame = "_-3Jk" (String#923, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _categories = "_-EJ" (String#373, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // _SafeStr_5401 = "_-06A" (String#14290, DoABC#2)
@@ -577,7 +577,7 @@ package com.sulake.habbo.avatar
 // instanceId = "_-044" (String#3649, DoABC#2)
 // isSelectable = "_-30A" (String#1985, DoABC#2)
 // useClubClothing = "_-38P" (String#21819, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // paletteID = "_-0BG" (String#3784, DoABC#2)
 // partSets = "_-0L3" (String#3979, DoABC#2)
 // _figureString = "_-30g" (String#1986, DoABC#2)
@@ -588,7 +588,7 @@ package com.sulake.habbo.avatar
 // getFigureString = "_-0-z" (String#3563, DoABC#2)
 // hasClubItemsOverLevel = "_-0bi" (String#4340, DoABC#2)
 // stripClubItemsOverLevel = "_-0C1" (String#3793, DoABC#2)
-// HabboAvatarEditor = "_-15w" (String#16694, DoABC#2)
+// generateDataContent = "_-15w" (String#16694, DoABC#2)
 // partColor = "_-1Sa" (String#17605, DoABC#2)
 // _SafeStr_9974 = "_-m7" (String#24114, DoABC#2)
 // _SafeStr_9985 = "_-0g7" (String#15676, DoABC#2)

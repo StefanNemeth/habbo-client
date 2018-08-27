@@ -40,16 +40,16 @@ package com.sulake.habbo.ui.widget.roomqueue
             this._config = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetRoomQueueUpdateEvent.RWRQUE_VISITOR_QUEUE_STATUS, this.onQueueStatus);
             _arg_1.addEventListener(RoomWidgetRoomQueueUpdateEvent.RWRQUE_SPECTATOR_QUEUE_STATUS, this.onQueueStatus);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -110,7 +110,7 @@ package com.sulake.habbo.ui.widget.roomqueue
             };
             _local_2 = this._window.findChildByName("change_button");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSession);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.changeQueue);
             };
             this._window.center();
             return (true);
@@ -157,7 +157,7 @@ package com.sulake.habbo.ui.widget.roomqueue
         {
             messageListener.processWidgetMessage(new RoomWidgetRoomQueueMessage(RoomWidgetRoomQueueMessage.RWRQM_CLUB_LINK));
         }
-        private function RoomSession(_arg_1:WindowMouseEvent):void
+        private function changeQueue(_arg_1:WindowMouseEvent):void
         {
             var _local_2:RoomWidgetRoomQueueMessage;
             if (messageListener == null){
@@ -183,8 +183,8 @@ package com.sulake.habbo.ui.widget.roomqueue
 // RWRQM_EXIT_QUEUE = "_-7I" (String#22514, DoABC#2)
 // RWRQM_CHANGE_TO_VISITOR_QUEUE = "_-KU" (String#23024, DoABC#2)
 // RWRQM_CLUB_LINK = "_-1j3" (String#18248, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // isActive = "_-0q4" (String#4638, DoABC#2)
 // _SafeStr_7082 = "_-V2" (String#23450, DoABC#2)
@@ -200,6 +200,6 @@ package com.sulake.habbo.ui.widget.roomqueue
 // isClubQueue = "_-Gv" (String#22888, DoABC#2)
 // exitQueue = "_-Rg" (String#23310, DoABC#2)
 // openLink = "_-304" (String#21504, DoABC#2)
-// RoomSession = "_-2Ye" (String#1898, DoABC#2)
+// changeQueue = "_-2Ye" (String#1898, DoABC#2)
 
 

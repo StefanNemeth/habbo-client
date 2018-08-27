@@ -24,15 +24,15 @@ package com.sulake.habbo.room.object.visualization.data
         {
             return (this._id);
         }
-        public function AnimationFrameData():Boolean
+        public function hasDirectionalOffsets():Boolean
         {
             return (false);
         }
-        public function AnimationFrameData(_arg_1:int):int
+        public function getX(_arg_1:int):int
         {
             return (this._x);
         }
-        public function AnimationFrameData(_arg_1:int):int
+        public function getY(_arg_1:int):int
         {
             return (this._y);
         }
@@ -60,11 +60,11 @@ package com.sulake.habbo.room.object.visualization.data
     }
 }//package com.sulake.habbo.room.object.visualization.data
 
-// AnimationFrameData = "_-bw" (String#8454, DoABC#2)
-// AnimationFrameData = "_-2Wq" (String#6697, DoABC#2)
+// getX = "_-bw" (String#8454, DoABC#2)
+// getY = "_-2Wq" (String#6697, DoABC#2)
 // repeats = "_-0Lv" (String#14909, DoABC#2)
 // _repeats = "_-3CQ" (String#7561, DoABC#2)
-// AnimationFrameData = "_-jk" (String#24025, DoABC#2)
+// hasDirectionalOffsets = "_-jk" (String#24025, DoABC#2)
 // _randomX = "_-DQ" (String#22746, DoABC#2)
 // _randomY = "_-2Oz" (String#20000, DoABC#2)
 // AnimationFrameData = "_-19W" (String#5067, DoABC#2)

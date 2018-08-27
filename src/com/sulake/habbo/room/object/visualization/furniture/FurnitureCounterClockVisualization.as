@@ -15,7 +15,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         override protected function getFrameNumber(_arg_1:int, _arg_2:int):int
         {
-            var _local_3:String = FurnitureVisualization(_arg_1, direction, _arg_2);
+            var _local_3:String = getSpriteTag(_arg_1, direction, _arg_2);
             var _local_4:int = super.animationId;
             switch (_local_3){
                 case _SafeStr_12695:
@@ -34,7 +34,7 @@ package com.sulake.habbo.room.object.visualization.furniture
     }
 }//package com.sulake.habbo.room.object.visualization.furniture
 
-// FurnitureVisualization = "_-00o" (String#14086, DoABC#2)
+// getSpriteTag = "_-00o" (String#14086, DoABC#2)
 // _SafeStr_12695 = "_-2Ap" (String#19435, DoABC#2)
 // _SafeStr_12696 = "_-0WQ" (String#15296, DoABC#2)
 // _SafeStr_12697 = "_-0yU" (String#16372, DoABC#2)

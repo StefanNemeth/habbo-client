@@ -27,30 +27,30 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
         {
             return (false);
         }
-        public function Element(_arg_1:IWindowContainer):Array
+        public function readIntParamsFromForm(_arg_1:IWindowContainer):Array
         {
             return (new Array());
         }
-        public function Element(_arg_1:IWindowContainer):String
+        public function readStringParamFromForm(_arg_1:IWindowContainer):String
         {
             var _local_2:String = this.getInput().text;
-            return (((this.AvatarEntersRoom().isSelected) ? _local_2 : ""));
+            return (((this.getCertainAvatarRadio().isSelected) ? _local_2 : ""));
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
+        public function onInit(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
         {
             this._cont = _arg_1;
-            this.AvatarEntersRoom().addEventListener(WindowEvent.WE_SELECT, this.AvatarEntersRoom);
-            this.AvatarEntersRoom().addEventListener(WindowEvent.WE_UNSELECT, this.AvatarEntersRoom);
+            this.getCertainAvatarRadio().addEventListener(WindowEvent.WE_SELECT, this.onCertainAvatarSelect);
+            this.getCertainAvatarRadio().addEventListener(WindowEvent.WE_UNSELECT, this.onCertainAvatarUnselect);
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:Triggerable):void
+        public function onEditStart(_arg_1:IWindowContainer, _arg_2:Triggerable):void
         {
             if (_arg_2.stringParam != ""){
-                this.AvatarEntersRoom().setSelected(this.AvatarEntersRoom());
+                this.getSelector().setSelected(this.getCertainAvatarRadio());
                 this.getInput().text = _arg_2.stringParam;
                 this.getInput().visible = true;
             }
             else {
-                this.AvatarEntersRoom().setSelected(this.AvatarEntersRoom());
+                this.getSelector().setSelected(this.getAnyAvatarRadio());
                 this.getInput().text = "";
                 this.getInput().visible = false;
             };
@@ -63,23 +63,23 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
         {
             return (ITextFieldWindow(this._cont.findChildByName("avatar_name_txt")));
         }
-        private function AvatarEntersRoom():IRadioButtonWindow
+        private function getCertainAvatarRadio():IRadioButtonWindow
         {
             return (IRadioButtonWindow(this._cont.findChildByName("certain_avatar_radio")));
         }
-        private function AvatarEntersRoom():IRadioButtonWindow
+        private function getAnyAvatarRadio():IRadioButtonWindow
         {
             return (IRadioButtonWindow(this._cont.findChildByName("any_avatar_radio")));
         }
-        private function AvatarEntersRoom():ISelectorWindow
+        private function getSelector():ISelectorWindow
         {
             return (ISelectorWindow(this._cont.findChildByName("avatar_radio")));
         }
-        private function AvatarEntersRoom(_arg_1:WindowEvent):void
+        private function onCertainAvatarSelect(_arg_1:WindowEvent):void
         {
             this.getInput().visible = true;
         }
-        private function AvatarEntersRoom(_arg_1:WindowEvent):void
+        private function onCertainAvatarUnselect(_arg_1:WindowEvent):void
         {
             this.getInput().text = "";
             this.getInput().visible = false;
@@ -99,19 +99,19 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.triggerconfs
 // code = "_-12Y" (String#4926, DoABC#2)
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
 // stringParam = "_-WR" (String#23508, DoABC#2)
 // WE_SELECT = "_-335" (String#21624, DoABC#2)
 // WE_UNSELECT = "_-sx" (String#24402, DoABC#2)
-// AvatarEntersRoom = "_-2AX" (String#6256, DoABC#2)
-// AvatarEntersRoom = "_-0Id" (String#3926, DoABC#2)
+// getSelector = "_-2AX" (String#6256, DoABC#2)
+// getAnyAvatarRadio = "_-0Id" (String#3926, DoABC#2)
 // _SafeStr_7124 = "_-1mT" (String#18399, DoABC#2)
-// AvatarEntersRoom = "_-1Mb" (String#17383, DoABC#2)
-// AvatarEntersRoom = "_-1VI" (String#17713, DoABC#2)
-// AvatarEntersRoom = "_-dX" (String#23782, DoABC#2)
+// getCertainAvatarRadio = "_-1Mb" (String#17383, DoABC#2)
+// onCertainAvatarSelect = "_-1VI" (String#17713, DoABC#2)
+// onCertainAvatarUnselect = "_-dX" (String#23782, DoABC#2)
 
 

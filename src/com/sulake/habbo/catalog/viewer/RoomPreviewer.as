@@ -81,7 +81,7 @@ package com.sulake.habbo.catalog.viewer
                     _local_3++;
                 };
                 _local_2.initializeFromTileData();
-                this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _local_2.getXML());
+                this._roomEngine.initializeRoom(_SafeStr_4927, _SafeStr_4926, _local_2.getXML());
                 _local_2.dispose();
             };
         }
@@ -93,9 +93,9 @@ package com.sulake.habbo.catalog.viewer
                 _local_1 = this._roomEngine.activeRoomId;
                 _local_2 = this._roomEngine.activeRoomCategory;
                 this._roomEngine.setActiveRoom(_SafeStr_4927, _SafeStr_4926);
-                this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
-                this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
-                this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
+                this._roomEngine.disposeObjectFurniture(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
+                this._roomEngine.disposeObjectWallItem(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
+                this._roomEngine.disposeObjectUser(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929);
                 this.updatePreviewRoomView();
                 this._roomEngine.setActiveRoom(_local_1, _local_2);
             };
@@ -117,7 +117,7 @@ package com.sulake.habbo.catalog.viewer
                 _local_4 = this._roomEngine.activeRoomId;
                 _local_5 = this._roomEngine.activeRoomCategory;
                 this._roomEngine.setActiveRoom(_SafeStr_4927, _SafeStr_4926);
-                if (this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_1, new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), _arg_2, 0, "")){
+                if (this._roomEngine.addObjectFurniture(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_1, new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), _arg_2, 0, "")){
                     this._SafeStr_4945 = getTimer();
                     this._SafeStr_4944 = true;
                     _local_3 = _SafeStr_4929;
@@ -138,7 +138,7 @@ package com.sulake.habbo.catalog.viewer
                 this._SafeStr_4936 = _arg_1;
                 this._SafeStr_4937 = RoomObjectCategoryEnum._SafeStr_4330;
                 this._SafeStr_4938 = _arg_3;
-                if (this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_1, new Vector3d(0.5, 2.3, 1.8), _arg_2, 0, _arg_3)){
+                if (this._roomEngine.addObjectWallItem(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_1, new Vector3d(0.5, 2.3, 1.8), _arg_2, 0, _arg_3)){
                     this._SafeStr_4945 = getTimer();
                     this._SafeStr_4944 = true;
                     return (_SafeStr_4929);
@@ -153,12 +153,12 @@ package com.sulake.habbo.catalog.viewer
                 this._SafeStr_4936 = 1;
                 this._SafeStr_4937 = RoomObjectCategoryEnum.OBJECT_CATEGORY_USER;
                 this._SafeStr_4938 = _arg_1;
-                if (this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), new Vector3d(90, 0, 0), 135, 1, _arg_1)){
+                if (this._roomEngine.addObjectUser(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), new Vector3d(90, 0, 0), 135, 1, _arg_1)){
                     this._SafeStr_4945 = getTimer();
                     this._SafeStr_4944 = true;
-                    this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, 1);
-                    this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_2);
-                    this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, "std");
+                    this._roomEngine.updateObjectUserGesture(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, 1);
+                    this._roomEngine.updateObjectUserEffect(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, _arg_2);
+                    this._roomEngine.updateObjectUserPosture(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, "std");
                 };
                 return (_SafeStr_4929);
             };
@@ -169,7 +169,7 @@ package com.sulake.habbo.catalog.viewer
             if (this._roomEngine != null){
                 this._SafeStr_4944 = false;
                 if (this._SafeStr_4937 != RoomObjectCategoryEnum.OBJECT_CATEGORY_USER){
-                    this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937);
+                    this._roomEngine.changeObjectState(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937);
                 };
             };
         }
@@ -181,21 +181,21 @@ package com.sulake.habbo.catalog.viewer
                 if (_local_1 > (this._SafeStr_4945 + _SafeStr_4935)){
                     this._SafeStr_4945 = _local_1;
                     if (this._roomEngine != null){
-                        this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937);
+                        this._roomEngine.changeObjectState(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937);
                     };
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):DisplayObject
+        public function getRoomCanvas(_arg_1:int, _arg_2:int):DisplayObject
         {
             var _local_3:DisplayObject;
             var _local_4:IRoomGeometry;
             if (this._roomEngine != null){
-                _local_3 = this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, _arg_1, _arg_2, this._SafeStr_4942);
-                this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, true);
-                _local_4 = this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
+                _local_3 = this._roomEngine.createRoomCanvas(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, _arg_1, _arg_2, this._SafeStr_4942);
+                this._roomEngine.setRoomCanvasMask(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, true);
+                _local_4 = this._roomEngine.getRoomCanvasGeometry(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
                 if (_local_4 != null){
-                    _local_4.RoomGeometry(new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), 30);
+                    _local_4.adjustLocation(new Vector3d(_SafeStr_4930, _SafeStr_4931, 0), 30);
                 };
                 this._SafeStr_4940 = _arg_1;
                 this._SafeStr_4941 = _arg_2;
@@ -206,7 +206,7 @@ package com.sulake.habbo.catalog.viewer
         private function updatePreviewObjectBoundingRectangle(_arg_1:Point):void
         {
             var _local_3:Rectangle;
-            var _local_2:Rectangle = this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937, _SafeStr_4928);
+            var _local_2:Rectangle = this._roomEngine.getRoomObjectBoundingRectangle(_SafeStr_4927, _SafeStr_4926, _SafeStr_4929, this._SafeStr_4937, _SafeStr_4928);
             if (((!((_local_2 == null))) && (!((_arg_1 == null))))){
                 _local_2.offset(-((this._SafeStr_4940 >> 1)), -((this._SafeStr_4941 >> 1)));
                 _local_2.offset(-(_arg_1.x), -(_arg_1.y));
@@ -226,10 +226,10 @@ package com.sulake.habbo.catalog.viewer
             if ((((this._SafeStr_4939.width < 1)) || ((this._SafeStr_4939.height < 1)))){
                 return (_arg_1);
             };
-            var _local_2:IRoomGeometry = this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
+            var _local_2:IRoomGeometry = this._roomEngine.getRoomCanvasGeometry(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
             if ((((this._SafeStr_4939.width > (this._SafeStr_4940 * (1 + _SafeStr_4932)))) || ((this._SafeStr_4939.height > (this._SafeStr_4941 * (1 + _SafeStr_4932)))))){
-                if (_local_2.RoomGeometry()){
-                    _local_2.RoomGeometry();
+                if (_local_2.isZoomedIn()){
+                    _local_2.performZoomOut();
                     this._SafeStr_4942 = _SafeStr_4934;
                     this._SafeStr_4943 = true;
                     _arg_1.x = (_arg_1.x >> 1);
@@ -242,8 +242,8 @@ package com.sulake.habbo.catalog.viewer
             }
             else {
                 if (((((this._SafeStr_4939.width << 1) < ((this._SafeStr_4940 * (1 + _SafeStr_4932)) - 5))) && (((this._SafeStr_4939.height << 1) < ((this._SafeStr_4941 * (1 + _SafeStr_4932)) - 5))))){
-                    if (((!(_local_2.RoomGeometry())) && (!(this._SafeStr_4943)))){
-                        _local_2.RoomGeometry();
+                    if (((!(_local_2.isZoomedIn())) && (!(this._SafeStr_4943)))){
+                        _local_2.performZoomIn();
                         this._SafeStr_4942 = _SafeStr_4933;
                         _arg_1.x = (_arg_1.x << 1);
                         _arg_1.y = (_arg_1.y << 1);
@@ -291,7 +291,7 @@ package com.sulake.habbo.catalog.viewer
             var _local_3:Point;
             this.checkAutomaticRoomObjectStateChange();
             if (this._roomEngine != null){
-                _local_1 = this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
+                _local_1 = this._roomEngine.getRoomCanvasScreenOffset(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928);
                 if (_local_1 != null){
                     this.updatePreviewObjectBoundingRectangle(_local_1);
                     if (this._SafeStr_4939 != null){
@@ -299,7 +299,7 @@ package com.sulake.habbo.catalog.viewer
                         _local_1 = this.validatePreviewSize(_local_1);
                         _local_3 = this.getCanvasOffset(_local_1);
                         if (_local_3 != null){
-                            this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, _local_3);
+                            this._roomEngine.setRoomCanvasScreenOffset(_SafeStr_4927, _SafeStr_4926, _SafeStr_4928, _local_3);
                         };
                         if (this._SafeStr_4942 != _local_2){
                             this._SafeStr_4939 = null;
@@ -316,8 +316,8 @@ package com.sulake.habbo.catalog.viewer
             switch (_arg_1.type){
                 case RoomEngineEvent.REE_INITIALIZED:
                     if ((((_arg_1.roomCategory == _SafeStr_4926)) && ((_arg_1.roomId == _SafeStr_4927)))){
-                        this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, 0xFFFFFF, 176, true);
-                        this._roomEngine.RoomEngine(_SafeStr_4927, _SafeStr_4926, "306", "1401");
+                        this._roomEngine.updateObjectRoomColor(_SafeStr_4927, _SafeStr_4926, 0xFFFFFF, 176, true);
+                        this._roomEngine.updateObjectRoom(_SafeStr_4927, _SafeStr_4926, "306", "1401");
                     };
                     return;
             };
@@ -330,12 +330,12 @@ package com.sulake.habbo.catalog.viewer
             if ((((((((_arg_1.roomId == _SafeStr_4927)) && ((_arg_1.roomCategory == _SafeStr_4926)))) && ((_arg_1.objectId == _SafeStr_4929)))) && ((_arg_1.category == this._SafeStr_4937)))){
                 this._SafeStr_4939 = null;
                 this._SafeStr_4943 = false;
-                _local_2 = this._roomEngine.IRoomSpriteCanvasContainer(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId, _arg_1.category);
+                _local_2 = this._roomEngine.getRoomObject(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId, _arg_1.category);
                 if (((((!((_local_2 == null))) && (!((_local_2.getModel() == null))))) && ((_arg_1.category == RoomObjectCategoryEnum._SafeStr_4330)))){
                     _local_3 = _local_2.getModel().getNumber(RoomObjectVariableEnum._SafeStr_4992);
                     _local_4 = _local_2.getModel().getNumber(RoomObjectVariableEnum._SafeStr_4993);
                     if (((!(isNaN(_local_3))) && (!(isNaN(_local_4))))){
-                        this._roomEngine.RoomEngine(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId, new Vector3d(0.5, 2.3, (((3.6 - _local_3) / 2) + _local_4)));
+                        this._roomEngine.updateObjectWallItemLocation(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId, new Vector3d(0.5, 2.3, (((3.6 - _local_3) / 2) + _local_4)));
                     };
                 };
             };
@@ -381,47 +381,47 @@ package com.sulake.habbo.catalog.viewer
 // createRoomForPreviews = "_-3Cv" (String#21993, DoABC#2)
 // initializeTileMap = "_-yM" (String#24629, DoABC#2)
 // initializeFromTileData = "_-34W" (String#21678, DoABC#2)
-// RoomEngine = "_-1SM" (String#1690, DoABC#2)
+// initializeRoom = "_-1SM" (String#1690, DoABC#2)
 // getXML = "_-2Oe" (String#6532, DoABC#2)
 // activeRoomId = "_-kJ" (String#2172, DoABC#2)
 // activeRoomCategory = "_-1qo" (String#1770, DoABC#2)
-// RoomEngine = "_-0Sj" (String#1477, DoABC#2)
-// RoomEngine = "_-0aH" (String#1502, DoABC#2)
-// RoomEngine = "_-Jw" (String#2086, DoABC#2)
+// disposeObjectFurniture = "_-0Sj" (String#1477, DoABC#2)
+// disposeObjectWallItem = "_-0aH" (String#1502, DoABC#2)
+// disposeObjectUser = "_-Jw" (String#2086, DoABC#2)
 // updatePreviewRoomView = "_-3-F" (String#21472, DoABC#2)
 // _SafeStr_4962 = "_-1WC" (String#17750, DoABC#2)
 // addFurnitureIntoRoom = "_-2hJ" (String#20743, DoABC#2)
-// RoomEngine = "_-0G1" (String#1439, DoABC#2)
+// addObjectFurniture = "_-0G1" (String#1439, DoABC#2)
 // addWallItemIntoRoom = "_-0bD" (String#15485, DoABC#2)
-// RoomEngine = "_-J0" (String#2084, DoABC#2)
+// addObjectWallItem = "_-J0" (String#2084, DoABC#2)
 // addAvatarIntoRoom = "_-03t" (String#14198, DoABC#2)
-// RoomEngine = "_-0kK" (String#1540, DoABC#2)
-// RoomEngine = "_-0Yi" (String#1498, DoABC#2)
-// RoomEngine = "_-3-m" (String#1983, DoABC#2)
-// RoomEngine = "_-356" (String#1995, DoABC#2)
+// addObjectUser = "_-0kK" (String#1540, DoABC#2)
+// updateObjectUserGesture = "_-0Yi" (String#1498, DoABC#2)
+// updateObjectUserEffect = "_-3-m" (String#1983, DoABC#2)
+// updateObjectUserPosture = "_-356" (String#1995, DoABC#2)
 // changeRoomObjectState = "_-W1" (String#8322, DoABC#2)
-// RoomEngine = "_-3Dq" (String#2025, DoABC#2)
+// changeObjectState = "_-3Dq" (String#2025, DoABC#2)
 // checkAutomaticRoomObjectStateChange = "_-yp" (String#24644, DoABC#2)
-// RoomEngine = "_-HZ" (String#8028, DoABC#2)
-// RoomEngine = "_-vj" (String#8798, DoABC#2)
-// RoomEngine = "_-0uE" (String#4728, DoABC#2)
-// RoomEngine = "_-1Qw" (String#5373, DoABC#2)
-// RoomGeometry = "_-9w" (String#7863, DoABC#2)
+// getRoomCanvas = "_-HZ" (String#8028, DoABC#2)
+// createRoomCanvas = "_-vj" (String#8798, DoABC#2)
+// setRoomCanvasMask = "_-0uE" (String#4728, DoABC#2)
+// getRoomCanvasGeometry = "_-1Qw" (String#5373, DoABC#2)
+// adjustLocation = "_-9w" (String#7863, DoABC#2)
 // updatePreviewObjectBoundingRectangle = "_-05B" (String#14251, DoABC#2)
-// RoomEngine = "_-0PC" (String#4075, DoABC#2)
+// getRoomObjectBoundingRectangle = "_-0PC" (String#4075, DoABC#2)
 // validatePreviewSize = "_-3G" (String#22114, DoABC#2)
-// RoomGeometry = "_-1S5" (String#5398, DoABC#2)
-// RoomGeometry = "_-2Z0" (String#6746, DoABC#2)
-// RoomGeometry = "_-10E" (String#4875, DoABC#2)
+// isZoomedIn = "_-1S5" (String#5398, DoABC#2)
+// performZoomOut = "_-2Z0" (String#6746, DoABC#2)
+// performZoomIn = "_-10E" (String#4875, DoABC#2)
 // getCanvasOffset = "_-xD" (String#24577, DoABC#2)
-// RoomEngine = "_-3FD" (String#7616, DoABC#2)
-// RoomEngine = "_-2P0" (String#6544, DoABC#2)
-// RoomEngine = "_-o" (String#2192, DoABC#2)
-// RoomEngine = "_-DR" (String#2076, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomCanvasScreenOffset = "_-3FD" (String#7616, DoABC#2)
+// setRoomCanvasScreenOffset = "_-2P0" (String#6544, DoABC#2)
+// updateObjectRoomColor = "_-o" (String#2192, DoABC#2)
+// updateObjectRoom = "_-DR" (String#2076, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // _SafeStr_4992 = "_-0BD" (String#14494, DoABC#2)
 // _SafeStr_4993 = "_-2qH" (String#21091, DoABC#2)
-// RoomEngine = "_-26n" (String#1814, DoABC#2)
+// updateObjectWallItemLocation = "_-26n" (String#1814, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

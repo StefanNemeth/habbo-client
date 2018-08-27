@@ -175,18 +175,18 @@ package com.sulake.habbo.room
             var _local_3:DisplayObjectContainer = _arg_1.displayObjectContainer;
             var _local_4:LoaderInfo = _local_3.loaderInfo;
             this._SafeStr_13450 = new RoomContentLoader(_local_4.loaderURL);
-            queueInterface(new IIDRoomObjectFactory(), this.RoomEngine);
-            queueInterface(new IIDRoomObjectVisualizationFactory(), this.RoomEngine);
-            queueInterface(new IIDRoomManager(), this.RoomEngine);
-            queueInterface(new IIDRoomRendererFactory(), this.RoomEngine);
+            queueInterface(new IIDRoomObjectFactory(), this.onObjectFactoryReady);
+            queueInterface(new IIDRoomObjectVisualizationFactory(), this.onVisualizationFactoryReady);
+            queueInterface(new IIDRoomManager(), this.onRoomManagerReady);
+            queueInterface(new IIDRoomRendererFactory(), this.onRendererFactoryReady);
             queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationReady);
-            queueInterface(new IIDHabboConfigurationManager(), this.RoomEngine);
+            queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationReady);
             queueInterface(new IIDHabboAdManager(), this.onAdManagerReady);
             queueInterface(new IIDSessionDataManager(), this.onSessionDataManagerReady);
             queueInterface(new IIDHabboRoomSessionManager(), this.onRoomSessionManagerReady);
             queueInterface(new IIDHabboToolbar(), this.onToolbarReady);
             this.initialize();
-            IContext(this, 1);
+            registerUpdateReceiver(this, 1);
         }
         public function get isInitialized():Boolean
         {
@@ -212,10 +212,10 @@ package com.sulake.habbo.room
         {
             return (true);
         }
-        public function RoomEngine(_arg_1:String):Boolean
+        public function isPublicRoomWorldType(_arg_1:String):Boolean
         {
             if (this._SafeStr_13450 != null){
-                return (this._SafeStr_13450.RoomEngine(_arg_1));
+                return (this._SafeStr_13450.isPublicRoomWorldType(_arg_1));
             };
             return (false);
         }
@@ -249,7 +249,7 @@ package com.sulake.habbo.room
                 this._habboConfiguration = null;
             };
             if (this._toolbar != null){
-                this._toolbar.events.removeEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.RoomEngine);
+                this._toolbar.events.removeEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onToolbarClicked);
                 this._toolbar.release(new IIDHabboToolbar());
                 this._toolbar = null;
             };
@@ -306,7 +306,7 @@ package com.sulake.habbo.room
         private function initialize():void
         {
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int):RoomInstanceData
+        private function getRoomInstanceData(_arg_1:int, _arg_2:int):RoomInstanceData
         {
             var _local_3:String = this.getRoomIdentifier(_arg_1, _arg_2);
             var _local_4:RoomInstanceData;
@@ -319,59 +319,59 @@ package com.sulake.habbo.room
             };
             return (_local_4);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:TileHeightMap):void
+        public function setTileHeightMap(_arg_1:int, _arg_2:int, _arg_3:TileHeightMap):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.tileHeightMap = _arg_3;
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):TileHeightMap
+        public function getTileHeightMap(_arg_1:int, _arg_2:int):TileHeightMap
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.tileHeightMap);
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):void
+        public function setWorldType(_arg_1:int, _arg_2:int, _arg_3:String):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.worldType = _arg_3;
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):String
+        public function getWorldType(_arg_1:int, _arg_2:int):String
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.worldType);
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):LegacyWallGeometry
+        public function getLegacyGeometry(_arg_1:int, _arg_2:int):LegacyWallGeometry
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.legacyGeometry);
             };
             return (null);
         }
-        private function RoomEngine():RoomCamera
+        private function getDefaultCamera():RoomCamera
         {
-            return (this.RoomEngine(this._activeRoomId, this._activeRoomCategory));
+            return (this.getRoomCamera(this._activeRoomId, this._activeRoomCategory));
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int):RoomCamera
+        private function getRoomCamera(_arg_1:int, _arg_2:int):RoomCamera
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.roomCamera);
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:SelectedRoomObjectData):void
+        public function setSelectedObjectData(_arg_1:int, _arg_2:int, _arg_3:SelectedRoomObjectData):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.selectedObject = _arg_3;
                 if (_arg_3 != null){
@@ -379,24 +379,24 @@ package com.sulake.habbo.room
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):ISelectedRoomObjectData
+        public function getSelectedObjectData(_arg_1:int, _arg_2:int):ISelectedRoomObjectData
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.selectedObject);
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:SelectedRoomObjectData):void
+        public function setPlacedObjectData(_arg_1:int, _arg_2:int, _arg_3:SelectedRoomObjectData):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.placedObject = _arg_3;
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):ISelectedRoomObjectData
+        public function getPlacedObjectData(_arg_1:int, _arg_2:int):ISelectedRoomObjectData
         {
-            var _local_3:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_3:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_3 != null){
                 return (_local_3.placedObject);
             };
@@ -407,23 +407,23 @@ package com.sulake.habbo.room
             var _local_2:int;
             var _local_3:IRoomInstance;
             if (this._roomManager != null){
-                this.RoomEngine();
+                this.createRoomFurniture();
                 this._roomManager.update(_arg_1);
                 _local_2 = 0;
                 while (_local_2 < this._roomManager.getRoomCount()) {
                     _local_3 = this._roomManager.getRoomWithIndex(_local_2);
-                    if (((!((_local_3 == null))) && (!((_local_3.RoomInstance() == null))))){
-                        _local_3.RoomInstance().update(_arg_1);
+                    if (((!((_local_3 == null))) && (!((_local_3.getRenderer() == null))))){
+                        _local_3.getRenderer().update(_arg_1);
                     };
                     _local_2++;
                 };
-                this.RoomEngine(_arg_1);
+                this.updateRoomCameras(_arg_1);
                 if (this._SafeStr_13471){
-                    this.RoomEngine();
+                    this.updateMouseCursor();
                 };
             };
         }
-        private function RoomEngine():void
+        private function updateMouseCursor():void
         {
             this._SafeStr_13471 = false;
             if (((this._SafeStr_13470) && ((this._SafeStr_13470.length > 0)))){
@@ -434,18 +434,18 @@ package com.sulake.habbo.room
             };
             this._SafeStr_13471 = false;
         }
-        public function RoomEngine(_arg_1:String, _arg_2:int, _arg_3:String):void
+        public function requestMouseCursor(_arg_1:String, _arg_2:int, _arg_3:String):void
         {
-            var _local_4:int = this.RoomEngine(_arg_3);
+            var _local_4:int = this.getRoomObjectCategory(_arg_3);
             switch (_arg_1){
                 case RoomObjectFurnitureActionEvent.ROFCAE_MOUSE_BUTTON:
-                    this.RoomEngine(_local_4, _arg_2);
+                    this.addBtnMouseCursorOwner(_local_4, _arg_2);
                     return;
                 default:
-                    this.RoomEngine(_local_4, _arg_2);
+                    this.removeBtnMouseCursorOwner(_local_4, _arg_2);
             };
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int):void
+        private function addBtnMouseCursorOwner(_arg_1:int, _arg_2:int):void
         {
             if (!this._SafeStr_13470){
                 return;
@@ -461,7 +461,7 @@ package com.sulake.habbo.room
                 this._SafeStr_13471 = true;
             };
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int):void
+        private function removeBtnMouseCursorOwner(_arg_1:int, _arg_2:int):void
         {
             if (!this._SafeStr_13470){
                 return;
@@ -473,7 +473,7 @@ package com.sulake.habbo.room
                 this._SafeStr_13471 = true;
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function addFloorHole(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
             var _local_4:IRoomObjectController;
             var _local_5:IRoomObjectController;
@@ -483,8 +483,8 @@ package com.sulake.habbo.room
             var _local_9:int;
             var _local_10:int;
             if (_arg_3 >= 0){
-                _local_4 = this.RoomEngine(_arg_1, _arg_2);
-                _local_5 = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+                _local_4 = this.getObjectRoom(_arg_1, _arg_2);
+                _local_5 = this.getObjectFurniture(_arg_1, _arg_2, _arg_3);
                 if (((((((!((_local_5 == null))) && (!((_local_5.getModel() == null))))) && (!((_local_4 == null))))) && (!((_local_4.getEventHandler() == null))))){
                     _local_6 = RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_ADD;
                     _local_7 = _local_5.getLocation().x;
@@ -495,19 +495,19 @@ package com.sulake.habbo.room
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function removeFloorHole(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
             var _local_4:IRoomObjectController;
             var _local_5:String;
             if (_arg_3 >= 0){
-                _local_4 = this.RoomEngine(_arg_1, _arg_2);
+                _local_4 = this.getObjectRoom(_arg_1, _arg_2);
                 if (((!((_local_4 == null))) && (!((_local_4.getEventHandler() == null))))){
                     _local_5 = RoomObjectRoomFloorHoleUpdateMessage.RORPFHUM_REMOVE;
                     _local_4.getEventHandler().processUpdateMessage(new RoomObjectRoomFloorHoleUpdateMessage(_local_5, _arg_3));
                 };
             };
         }
-        private function RoomEngine():void
+        private function createRoomFurniture():void
         {
             var _local_3:int;
             var _local_4:RoomInstanceData;
@@ -523,7 +523,7 @@ package com.sulake.habbo.room
                 _local_5 = 0;
                 _local_6 = null;
                 while ((_local_6 = _local_4.getFurnitureData()) != null) {
-                    this.RoomEngine(_local_4.roomId, _local_4.roomCategory, _local_6.id, _local_6);
+                    this.addObjectFurnitureFromData(_local_4.roomId, _local_4.roomCategory, _local_6.id, _local_6);
                     if ((++_local_5 % _local_2) == 0){
                         _local_3 = getTimer();
                         if ((_local_3 - _local_1) >= _SafeStr_13445){
@@ -532,8 +532,8 @@ package com.sulake.habbo.room
                         };
                     };
                 };
-                while (((!(this._SafeStr_13469)) && (!(((_local_6 = _local_4.SessionDataManager()) == null))))) {
-                    this.RoomEngine(_local_4.roomId, _local_4.roomCategory, _local_6.id, _local_6);
+                while (((!(this._SafeStr_13469)) && (!(((_local_6 = _local_4.getWallItemData()) == null))))) {
+                    this.addObjectWallItemFromData(_local_4.roomId, _local_4.roomCategory, _local_6.id, _local_6);
                     if ((++_local_5 % _local_2) == 0){
                         _local_3 = getTimer();
                         if ((_local_3 - _local_1) >= _SafeStr_13445){
@@ -547,7 +547,7 @@ package com.sulake.habbo.room
                 };
             };
         }
-        private function RoomEngine(_arg_1:uint):void
+        private function updateRoomCameras(_arg_1:uint):void
         {
             var _local_5:RoomInstanceData;
             var _local_6:RoomCamera;
@@ -571,16 +571,16 @@ package com.sulake.habbo.room
                 if (_local_6 != null){
                     _local_9 = _local_6.targetId;
                     _local_10 = _local_6.targetCategory;
-                    _local_11 = this.IRoomSpriteCanvasContainer(_local_7, _local_8, _local_9, _local_10);
+                    _local_11 = this.getRoomObject(_local_7, _local_8, _local_9, _local_10);
                     if (_local_11 != null){
                         if (((((!((_local_7 == this._activeRoomId))) || (!((_local_8 == this._activeRoomCategory))))) || (!(this._SafeStr_13460)))){
-                            this.RoomEngine(_local_7, _local_8, _local_2, _local_11.getLocation(), _arg_1);
+                            this.updateRoomCamera(_local_7, _local_8, _local_2, _local_11.getLocation(), _arg_1);
                         };
                     };
                 };
                 _local_3++;
             };
-            var _local_4:IRoomRenderingCanvas = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, _local_2);
+            var _local_4:IRoomRenderingCanvas = this.getRoomCanvas(this._activeRoomId, this._activeRoomCategory, _local_2);
             if (_local_4 != null){
                 if (this._SafeStr_13460){
                     _local_4.screenOffsetX = (_local_4.screenOffsetX + this._SafeStr_13464);
@@ -590,7 +590,7 @@ package com.sulake.habbo.room
                 };
             };
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:uint):void
+        private function updateRoomCamera(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:uint):void
         {
             var _local_11:Number;
             var _local_12:Rectangle;
@@ -629,8 +629,8 @@ package com.sulake.habbo.room
             var _local_45:int;
             var _local_46:Point;
             var _local_47:Vector3d;
-            var _local_6:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
-            var _local_7:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_6:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
+            var _local_7:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if ((((_local_6 == null)) || ((_local_7 == null)))){
                 return;
             };
@@ -639,11 +639,11 @@ package com.sulake.habbo.room
             var _local_10:IRoomInstance = this.getRoom(_arg_1, _arg_2);
             if (((((!((_local_8 == null))) && (!((_local_9 == null))))) && (!((_local_10 == null))))){
                 _local_11 = (Math.floor(_arg_4.z) + 1);
-                _local_12 = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+                _local_12 = this.getRoomCanvasRectangle(_arg_1, _arg_2, _arg_3);
                 if (_local_12 != null){
                     _local_13 = Math.round(_local_12.width);
                     _local_14 = Math.round(_local_12.height);
-                    _local_15 = this.RoomEngine(_arg_3);
+                    _local_15 = this.getActiveRoomBoundingRectangle(_arg_3);
                     if (((!((_local_15 == null))) && ((((((((_local_15.right < 0)) || ((_local_15.bottom < 0)))) || ((_local_15.left >= _local_13)))) || ((_local_15.top >= _local_14)))))){
                         _local_9.reset();
                     };
@@ -673,7 +673,7 @@ package com.sulake.habbo.room
                         _local_31 = 0;
                         _local_32 = 0;
                         _local_33 = 0;
-                        _local_34 = _local_8.RoomGeometry(new Vector3d(_local_21, _local_22, _local_23));
+                        _local_34 = _local_8.getScreenPoint(new Vector3d(_local_21, _local_22, _local_23));
                         _local_34.x = (_local_34.x + Math.round((_local_12.width / 2)));
                         _local_34.y = (_local_34.y + Math.round((_local_12.height / 2)));
                         if (_local_15 != null){
@@ -685,12 +685,12 @@ package com.sulake.habbo.room
                                 _local_33 = (((_local_15.bottom - _local_34.y) + (_local_8.scale * 0.5)) / _local_26);
                             }
                             else {
-                                _local_8.RoomGeometry(new Vector3d(-30, -30), 25);
+                                _local_8.adjustLocation(new Vector3d(-30, -30), 25);
                                 return;
                             };
                         }
                         else {
-                            _local_8.RoomGeometry(new Vector3d(0, 0), 25);
+                            _local_8.adjustLocation(new Vector3d(0, 0), 25);
                             return;
                         };
                         _local_35 = false;
@@ -771,7 +771,7 @@ package com.sulake.habbo.room
                         else {
                             _local_12.offset((-(_local_12.width) / 2), (-(_local_12.height) / 2));
                         };
-                        _local_34 = _local_8.RoomGeometry(_local_16);
+                        _local_34 = _local_8.getScreenPoint(_local_16);
                         if (_local_34 != null){
                             _local_34.x = (_local_34.x + _local_6.screenOffsetX);
                             _local_34.y = (_local_34.y + _local_6.screenOffsetY);
@@ -787,7 +787,7 @@ package com.sulake.habbo.room
                                     _local_9.initializeLocation(_local_16);
                                 };
                             };
-                            _local_46 = _local_8.RoomGeometry(_local_16);
+                            _local_46 = _local_8.getScreenPoint(_local_16);
                             _local_47 = new Vector3d(0, 0, 0);
                             if (_local_46 != null){
                                 _local_47.x = _local_46.x;
@@ -831,7 +831,7 @@ package com.sulake.habbo.room
                             _local_6.screenOffsetY = -(_local_9.location.y);
                         }
                         else {
-                            _local_8.RoomGeometry(_local_9.location, 25);
+                            _local_8.adjustLocation(_local_9.location, 25);
                         };
                     }
                     else {
@@ -843,16 +843,16 @@ package com.sulake.habbo.room
                 };
             };
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onObjectFactoryReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
             };
             this._SafeStr_13446 = (_arg_2 as IRoomObjectFactory);
-            this.RoomEngine();
-            this.RoomEngine();
+            this.initializeObjectEvents();
+            this.initializeRoomManager();
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onVisualizationFactoryReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
@@ -861,9 +861,9 @@ package com.sulake.habbo.room
             if (this._SafeStr_13450 != null){
                 this._SafeStr_13450.visualizationFactory = this._visualizationFactory;
             };
-            this.RoomEngine();
+            this.initializeRoomManager();
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onRoomManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
@@ -877,15 +877,15 @@ package com.sulake.habbo.room
                 this._roomManager.addObjectUpdateCategory(RoomObjectCategoryEnum._SafeStr_13133);
                 this._roomManager.setContentLoader(this._SafeStr_13450);
             };
-            this.RoomEngine();
+            this.initializeRoomManager();
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onRendererFactoryReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
             };
             this._roomRendererFactory = (_arg_2 as IRoomRendererFactory);
-            this.RoomEngine();
+            this.initializeRoomManager();
         }
         private function onCommunicationReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
@@ -894,12 +894,12 @@ package com.sulake.habbo.room
             };
             this._communication = (_arg_2 as IHabboCommunicationManager);
             if (this._communication != null){
-                this._connection = this._communication.HabboCommunicationManager(this.onConnectionReady);
+                this._connection = this._communication.getHabboMainConnection(this.onConnectionReady);
                 if (this._connection != null){
                     this.onConnectionReady(this._connection);
                 };
             };
-            this.RoomEngine();
+            this.initializeRoomManager();
         }
         private function onConnectionReady(_arg_1:IConnection):void
         {
@@ -913,24 +913,24 @@ package com.sulake.habbo.room
                 };
             };
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (disposed){
                 return;
             };
             this._habboConfiguration = (_arg_2 as IHabboConfigurationManager);
             if (this._SafeStr_13450 != null){
-                events.addEventListener(RoomContentLoader.RCL_LOADER_READY, this.RoomEngine);
+                events.addEventListener(RoomContentLoader.RCL_LOADER_READY, this.onContentLoaderReady);
                 this._SafeStr_13450.initialize(events, this._habboConfiguration);
             };
             this._SafeStr_13466 = (this._habboConfiguration.getKey("room.dragging.always_center", "0") == "1");
-            this.RoomEngine();
+            this.initializeRoomManager();
         }
-        private function RoomEngine(_arg_1:Event):void
+        private function onContentLoaderReady(_arg_1:Event):void
         {
             if (((!((_arg_1 == null))) && ((_arg_1.type == RoomContentLoader.RCL_LOADER_READY)))){
                 this._SafeStr_13451 = true;
-                this.RoomEngine();
+                this.initializeRoomManager();
             };
         }
         private function onAdManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -939,9 +939,9 @@ package com.sulake.habbo.room
                 return;
             };
             this._adManager = (_arg_2 as IAdManager);
-            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_SHOW, this.RoomEngine);
-            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_IMAGE_LOADED, this.RoomEngine);
-            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_IMAGE_LOADING_FAILED, this.RoomEngine);
+            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_SHOW, this.showRoomAd);
+            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_IMAGE_LOADED, this.onRoomAdImageLoaded);
+            this._adManager.events.addEventListener(AdEvent.AE_ROOM_AD_IMAGE_LOADING_FAILED, this.onRoomAdImageLoaded);
         }
         private function onSessionDataManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
@@ -957,10 +957,10 @@ package com.sulake.habbo.room
                 return;
             };
             this._roomSessionManager = (_arg_2 as IRoomSessionManager);
-            this._roomSessionManager.events.addEventListener(RoomSessionEvent.RSE_STARTED, this.RoomEngine);
-            this._roomSessionManager.events.addEventListener(RoomSessionEvent.RSE_ENDED, this.RoomEngine);
+            this._roomSessionManager.events.addEventListener(RoomSessionEvent.RSE_STARTED, this.onRoomSessionEvent);
+            this._roomSessionManager.events.addEventListener(RoomSessionEvent.RSE_ENDED, this.onRoomSessionEvent);
         }
-        private function RoomEngine(_arg_1:RoomSessionEvent):void
+        private function onRoomSessionEvent(_arg_1:RoomSessionEvent):void
         {
             switch (_arg_1.type){
                 case RoomSessionEvent.RSE_STARTED:
@@ -982,25 +982,25 @@ package com.sulake.habbo.room
                 return;
             };
             this._toolbar = (_arg_2 as IHabboToolbar);
-            this._toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.RoomEngine);
+            this._toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onToolbarClicked);
         }
-        private function RoomEngine(_arg_1:HabboToolbarEvent):void
+        private function onToolbarClicked(_arg_1:HabboToolbarEvent):void
         {
             var _local_2:RoomCamera;
             if (_arg_1.iconId == HabboToolbarIconEnum.MEMENU){
-                _local_2 = this.RoomEngine();
+                _local_2 = this.getDefaultCamera();
                 if (_local_2){
                     _local_2.reset();
                 };
             };
         }
-        private function RoomEngine():void
+        private function initializeObjectEvents():void
         {
             if (this._SafeStr_13446 != null){
                 this._SafeStr_13446.addObjectEventListener(this.roomObjectEventHandler);
             };
         }
-        private function RoomEngine():void
+        private function initializeRoomManager():void
         {
             if ((((((((((((((this._SafeStr_13446 == null)) || ((this._visualizationFactory == null)))) || ((this._roomManager == null)))) || ((this._roomRendererFactory == null)))) || ((this._communication == null)))) || ((this._habboConfiguration == null)))) || (!(this._SafeStr_13451)))){
                 return;
@@ -1019,7 +1019,7 @@ package com.sulake.habbo.room
                 while (_local_2 < this._SafeStr_13467.length) {
                     _local_3 = (this._SafeStr_13467.getWithIndex(_local_2) as RoomData);
                     if (_local_3 != null){
-                        this.RoomEngine(_local_3.roomId, _local_3.roomCategory, _local_3.data);
+                        this.initializeRoom(_local_3.roomId, _local_3.roomCategory, _local_3.data);
                     };
                     _local_2++;
                 };
@@ -1034,7 +1034,7 @@ package com.sulake.habbo.room
         {
             return (String(((_arg_1 + "_") + _arg_2)));
         }
-        private function RoomEngine(_arg_1:String):int
+        private function getRoomId(_arg_1:String):int
         {
             var _local_2:Array;
             if (_arg_1 != null){
@@ -1045,7 +1045,7 @@ package com.sulake.habbo.room
             };
             return (-1);
         }
-        private function RoomEngine(_arg_1:String):int
+        private function getRoomCategory(_arg_1:String):int
         {
             var _local_2:Array;
             if (_arg_1 != null){
@@ -1056,11 +1056,11 @@ package com.sulake.habbo.room
             };
             return (-1);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):Boolean
+        public function isPublicRoom(_arg_1:int, _arg_2:int):Boolean
         {
-            return (this.RoomEngine(this.RoomEngine(_arg_1, _arg_2)));
+            return (this.isPublicRoomWorldType(this.getWorldType(_arg_1, _arg_2)));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):Number
+        public function getRoomNumberValue(_arg_1:int, _arg_2:int, _arg_3:String):Number
         {
             var _local_4:IRoomInstance = this.getRoom(_arg_1, _arg_2);
             if (_local_4 != null){
@@ -1068,7 +1068,7 @@ package com.sulake.habbo.room
             };
             return (NaN);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):String
+        public function getRoomStringValue(_arg_1:int, _arg_2:int, _arg_3:String):String
         {
             var _local_4:IRoomInstance = this.getRoom(_arg_1, _arg_2);
             if (_local_4 != null){
@@ -1076,7 +1076,7 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:Boolean):void
+        public function setIsPlayingGame(_arg_1:int, _arg_2:int, _arg_3:Boolean):void
         {
             var _local_5:int;
             var _local_4:IRoomInstance = this.getRoom(_arg_1, _arg_2);
@@ -1091,7 +1091,7 @@ package com.sulake.habbo.room
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):Boolean
+        public function getIsPlayingGame(_arg_1:int, _arg_2:int):Boolean
         {
             var _local_4:Number;
             var _local_3:IRoomInstance = this.getRoom(_arg_1, _arg_2);
@@ -1111,7 +1111,7 @@ package com.sulake.habbo.room
             var _local_3:String = this.getRoomIdentifier(_arg_1, _arg_2);
             return (this._roomManager.getRoom(_local_3));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:XML):void
+        public function initializeRoom(_arg_1:int, _arg_2:int, _arg_3:XML):void
         {
             var _local_4:String = this.getRoomIdentifier(_arg_1, _arg_2);
             var _local_5:RoomData;
@@ -1149,7 +1149,7 @@ package com.sulake.habbo.room
                     _local_8 = _local_5.landscapeType;
                 };
             };
-            var _local_9:IRoomInstance = this.createRoom(_local_4, _arg_3, _local_6, _local_7, _local_8, this.RoomEngine(_arg_1, _arg_2));
+            var _local_9:IRoomInstance = this.createRoom(_local_4, _arg_3, _local_6, _local_7, _local_8, this.getWorldType(_arg_1, _arg_2));
             if (_local_9 == null){
                 return;
             };
@@ -1188,7 +1188,7 @@ package com.sulake.habbo.room
             var _local_8:int = RoomObjectCategoryEnum._SafeStr_13133;
             var _local_9:IRoomObjectController;
             var _local_10:Number = 1;
-            if (this.RoomEngine(_arg_6)){
+            if (this.isPublicRoomWorldType(_arg_6)){
                 _local_11 = this._SafeStr_13450.getPublicRoomContentType(_arg_6);
                 _local_9 = (_local_7.createRoomObject(_SafeStr_13437, _local_11, _local_8) as IRoomObjectController);
                 _local_9.getModelController().setString(RoomObjectVariableEnum._SafeStr_8503, _arg_6, true);
@@ -1282,15 +1282,15 @@ package com.sulake.habbo.room
             };
             return (_local_7);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):IRoomObjectController
+        public function getObjectRoom(_arg_1:int, _arg_2:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13437, RoomObjectCategoryEnum._SafeStr_13133));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13437, RoomObjectCategoryEnum._SafeStr_13133));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String=null, _arg_4:String=null, _arg_5:String=null, _arg_6:Boolean=false):Boolean
+        public function updateObjectRoom(_arg_1:int, _arg_2:int, _arg_3:String=null, _arg_4:String=null, _arg_5:String=null, _arg_6:Boolean=false):Boolean
         {
             var _local_10:String;
             var _local_11:RoomData;
-            var _local_7:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2);
+            var _local_7:IRoomObjectController = this.getObjectRoom(_arg_1, _arg_2);
             var _local_8:IRoomInstance = this.getRoom(_arg_1, _arg_2);
             if (_local_7 == null){
                 _local_10 = this.getRoomIdentifier(_arg_1, _arg_2);
@@ -1337,9 +1337,9 @@ package com.sulake.habbo.room
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:uint, _arg_4:int, _arg_5:Boolean):Boolean
+        public function updateObjectRoomColor(_arg_1:int, _arg_2:int, _arg_3:uint, _arg_4:int, _arg_5:Boolean):Boolean
         {
-            var _local_6:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2);
+            var _local_6:IRoomObjectController = this.getObjectRoom(_arg_1, _arg_2);
             if ((((_local_6 == null)) || ((_local_6.getEventHandler() == null)))){
                 return (false);
             };
@@ -1349,9 +1349,9 @@ package com.sulake.habbo.room
             events.dispatchEvent(new RoomEngineRoomColorEvent(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5));
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:Boolean=true):Boolean
+        public function updateObjectRoomVisibilities(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:Boolean=true):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2);
+            var _local_5:IRoomObjectController = this.getObjectRoom(_arg_1, _arg_2);
             if ((((_local_5 == null)) || ((_local_5.getEventHandler() == null)))){
                 return (false);
             };
@@ -1362,9 +1362,9 @@ package com.sulake.habbo.room
             _local_5.getEventHandler().processUpdateMessage(_local_6);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number):Boolean
+        public function updateObjectRoomPlaneThicknesses(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2);
+            var _local_5:IRoomObjectController = this.getObjectRoom(_arg_1, _arg_2);
             if ((((_local_5 == null)) || ((_local_5.getEventHandler() == null)))){
                 return (false);
             };
@@ -1385,15 +1385,15 @@ package com.sulake.habbo.room
             };
             events.dispatchEvent(new RoomEngineEvent(RoomEngineEvent.REE_DISPOSED, _arg_1, _arg_2));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function setOwnUserId(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
-            var _local_4:RoomCamera = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomCamera = this.getRoomCamera(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.targetId = _arg_3;
                 _local_4.targetCategory = RoomObjectCategoryEnum.OBJECT_CATEGORY_USER;
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:int):DisplayObject
+        public function createRoomCanvas(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:int):DisplayObject
         {
             var _local_12:String;
             var _local_13:Number;
@@ -1408,7 +1408,7 @@ package com.sulake.habbo.room
             if (_local_8 == null){
                 return (null);
             };
-            var _local_9:IRoomRenderer = (_local_8.RoomInstance() as IRoomRenderer);
+            var _local_9:IRoomRenderer = (_local_8.getRenderer() as IRoomRenderer);
             if (_local_9 == null){
                 _local_9 = this._roomRendererFactory.createRenderer();
             };
@@ -1416,18 +1416,18 @@ package com.sulake.habbo.room
                 return (null);
             };
             _local_9.roomObjectVariableAccurateZ = RoomObjectVariableEnum._SafeStr_13000;
-            _local_8.RoomInstance(_local_9);
-            var _local_10:IRoomRenderingCanvas = _local_9.IRoomRenderer(_arg_3, _arg_4, _arg_5, _arg_6);
+            _local_8.setRenderer(_local_9);
+            var _local_10:IRoomRenderingCanvas = _local_9.createCanvas(_arg_3, _arg_4, _arg_5, _arg_6);
             if (_local_10 == null){
                 return (null);
             };
             _local_10.mouseListener = this._SafeStr_13448;
             if (_local_10.geometry != null){
-                _local_12 = this.RoomEngine(_arg_1, _arg_2);
-                if (this.RoomEngine(_local_12)){
+                _local_12 = this.getWorldType(_arg_1, _arg_2);
+                if (this.isPublicRoomWorldType(_local_12)){
                     if (this._SafeStr_13450 != null){
                         if (this._SafeStr_13450.getPublicRoomWorldSize(_local_12) != 64){
-                            _local_10.geometry.RoomGeometry();
+                            _local_10.geometry.performZoomOut();
                         };
                     };
                 };
@@ -1446,7 +1446,7 @@ package com.sulake.habbo.room
                 if (_local_16 == 180){
                     _local_18 = new Vector3d(0, -1000, 0);
                 };
-                _local_10.geometry.RoomGeometry(_local_17, _local_18);
+                _local_10.geometry.setDisplacement(_local_17, _local_18);
             };
             var _local_11:Sprite = (_local_10.displayObject as Sprite);
             if (_local_11 != null){
@@ -1457,63 +1457,63 @@ package com.sulake.habbo.room
             };
             return (_local_11);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):IRoomRenderingCanvas
+        private function getRoomCanvas(_arg_1:int, _arg_2:int, _arg_3:int):IRoomRenderingCanvas
         {
             var _local_4:String = this.getRoomIdentifier(_arg_1, _arg_2);
             var _local_5:IRoomInstance = this._roomManager.getRoom(_local_4);
             if (_local_5 == null){
                 return (null);
             };
-            var _local_6:IRoomRenderer = (_local_5.RoomInstance() as IRoomRenderer);
+            var _local_6:IRoomRenderer = (_local_5.getRenderer() as IRoomRenderer);
             if (_local_6 == null){
                 return (null);
             };
             return (_local_6.getCanvas(_arg_3));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Boolean
+        public function modifyRoomCanvas(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Boolean
         {
-            var _local_6:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_6:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if (_local_6 == null){
                 return (false);
             };
             _local_6.initialize(_arg_4, _arg_5);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean):void
+        public function setRoomCanvasMask(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean):void
         {
-            var _local_5:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if (_local_5 == null){
                 return;
             };
             _local_5.useMask = _arg_4;
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):Rectangle
+        private function getRoomCanvasRectangle(_arg_1:int, _arg_2:int, _arg_3:int):Rectangle
         {
-            var _local_4:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_4:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if (_local_4 == null){
                 return (null);
             };
             return (new Rectangle(0, 0, _local_4.width, _local_4.height));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):IRoomGeometry
+        public function getRoomCanvasGeometry(_arg_1:int, _arg_2:int, _arg_3:int):IRoomGeometry
         {
-            var _local_4:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_4:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if (_local_4 == null){
                 return (null);
             };
             return (_local_4.geometry);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):Point
+        public function getRoomCanvasScreenOffset(_arg_1:int, _arg_2:int, _arg_3:int):Point
         {
-            var _local_4:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_4:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if (_local_4 == null){
                 return (null);
             };
             return (new Point(_local_4.screenOffsetX, _local_4.screenOffsetY));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Point):Boolean
+        public function setRoomCanvasScreenOffset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Point):Boolean
         {
-            var _local_5:IRoomRenderingCanvas = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomRenderingCanvas = this.getRoomCanvas(_arg_1, _arg_2, _arg_3);
             if ((((_local_5 == null)) || ((_arg_4 == null)))){
                 return (false);
             };
@@ -1521,7 +1521,7 @@ package com.sulake.habbo.room
             _local_5.screenOffsetY = _arg_4.y;
             return (true);
         }
-        private function RoomEngine(_arg_1:IRoomRenderingCanvas, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean):Boolean
+        private function handleRoomDragging(_arg_1:IRoomRenderingCanvas, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean):Boolean
         {
             var _local_10:RoomInstanceData;
             var _local_11:RoomCamera;
@@ -1540,7 +1540,7 @@ package com.sulake.habbo.room
                     if (this._SafeStr_13460){
                         this._SafeStr_13460 = false;
                         if (this._SafeStr_13461){
-                            _local_10 = this.RoomEngine(this._activeRoomId, this._activeRoomCategory);
+                            _local_10 = this.getRoomInstanceData(this._activeRoomId, this._activeRoomCategory);
                             if (_local_10 != null){
                                 _local_11 = _local_10.roomCamera;
                                 if (_local_11 != null){
@@ -1591,23 +1591,23 @@ package com.sulake.habbo.room
             };
             return (false);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean, _arg_8:Boolean):void
+        public function handleRoomCanvasMouseEvent(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:Boolean, _arg_6:Boolean, _arg_7:Boolean, _arg_8:Boolean):void
         {
             var _local_10:Sprite;
             var _local_11:Sprite;
             var _local_12:Rectangle;
             var _local_13:String;
             var _local_14:RoomObjectEvent;
-            var _local_9:IRoomRenderingCanvas = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, _arg_1);
+            var _local_9:IRoomRenderingCanvas = this.getRoomCanvas(this._activeRoomId, this._activeRoomCategory, _arg_1);
             if (_local_9 != null){
-                _local_10 = this.RoomEngine(_local_9);
-                _local_11 = this.RoomEngine(_local_10, _SafeStr_13443);
+                _local_10 = this.getOverlaySprite(_local_9);
+                _local_11 = this.getOverlayIconSprite(_local_10, _SafeStr_13443);
                 if (_local_11 != null){
                     _local_12 = _local_11.getRect(_local_11);
                     _local_11.x = (_arg_2 - (_local_12.width / 2));
                     _local_11.y = (_arg_3 - (_local_12.height / 2));
                 };
-                if (!this.RoomEngine(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7)){
+                if (!this.handleRoomDragging(_local_9, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7)){
                     if (!_local_9.handleMouseEvent(_arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8)){
                         _local_13 = "";
                         if (_arg_4 == MouseEvent.CLICK){
@@ -1637,7 +1637,7 @@ package com.sulake.habbo.room
                 this._SafeStr_13459 = _arg_3;
             };
         }
-        private function RoomEngine(_arg_1:IRoomRenderingCanvas):Sprite
+        private function getOverlaySprite(_arg_1:IRoomRenderingCanvas):Sprite
         {
             if (_arg_1 == null){
                 return (null);
@@ -1648,12 +1648,12 @@ package com.sulake.habbo.room
             };
             return ((_local_2.getChildByName(OVERLAY_SPRITE) as Sprite));
         }
-        private function RoomEngine(_arg_1:Sprite, _arg_2:String, _arg_3:BitmapData):Sprite
+        private function addOverlayIconSprite(_arg_1:Sprite, _arg_2:String, _arg_3:BitmapData):Sprite
         {
             if ((((_arg_1 == null)) || ((_arg_3 == null)))){
                 return (null);
             };
-            var _local_4:Sprite = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:Sprite = this.getOverlayIconSprite(_arg_1, _arg_2);
             if (_local_4 != null){
                 return (null);
             };
@@ -1665,7 +1665,7 @@ package com.sulake.habbo.room
             _arg_1.addChild(_local_4);
             return (_local_4);
         }
-        private function RoomEngine(_arg_1:Sprite, _arg_2:String):Boolean
+        private function removeOverlayIconSprite(_arg_1:Sprite, _arg_2:String):Boolean
         {
             var _local_4:Sprite;
             var _local_5:Bitmap;
@@ -1690,7 +1690,7 @@ package com.sulake.habbo.room
             };
             return (false);
         }
-        private function RoomEngine(_arg_1:Sprite, _arg_2:String):Sprite
+        private function getOverlayIconSprite(_arg_1:Sprite, _arg_2:String):Sprite
         {
             var _local_4:Sprite;
             if (_arg_1 == null){
@@ -1708,7 +1708,7 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:String=null):void
+        public function setObjectMoverIconSprite(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:String=null):void
         {
             var _local_7:String;
             var _local_8:int;
@@ -1716,7 +1716,7 @@ package com.sulake.habbo.room
             var _local_10:Sprite;
             var _local_5:ImageResult;
             if (_arg_3){
-                _local_5 = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, new Vector3d(), 1, null);
+                _local_5 = this.getRoomObjectImage(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, new Vector3d(), 1, null);
             }
             else {
                 if (this._SafeStr_13450 != null){
@@ -1728,14 +1728,14 @@ package com.sulake.habbo.room
                     }
                     else {
                         if (_arg_2 == RoomObjectCategoryEnum._SafeStr_4330){
-                            _local_7 = this._SafeStr_13450.RoomEngine(_arg_1, _arg_4);
-                            _local_8 = this._SafeStr_13450.RoomEngine(_arg_1);
+                            _local_7 = this._SafeStr_13450.getWallItemType(_arg_1, _arg_4);
+                            _local_8 = this._SafeStr_13450.getWallItemColorIndex(_arg_1);
                         };
                     };
                     if (_arg_2 == RoomObjectCategoryEnum.OBJECT_CATEGORY_USER){
-                        _local_7 = this.RoomEngine(_arg_1);
+                        _local_7 = this.getUserType(_arg_1);
                         if (_local_7 == "pet"){
-                            _local_7 = this.RoomEngine(_arg_4);
+                            _local_7 = this.getPetType(_arg_4);
                         };
                         _local_5 = this.getGenericRoomObjectImage(_local_7, _arg_4, new Vector3d(180), 1, null);
                     }
@@ -1747,40 +1747,40 @@ package com.sulake.habbo.room
             if ((((_local_5 == null)) || ((_local_5.data == null)))){
                 return;
             };
-            var _local_6:IRoomRenderingCanvas = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
+            var _local_6:IRoomRenderingCanvas = this.getRoomCanvas(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
             if (_local_6 != null){
-                _local_9 = this.RoomEngine(_local_6);
-                this.RoomEngine(_local_9, _SafeStr_13443);
-                _local_10 = this.RoomEngine(_local_9, _SafeStr_13443, _local_5.data);
+                _local_9 = this.getOverlaySprite(_local_6);
+                this.removeOverlayIconSprite(_local_9, _SafeStr_13443);
+                _local_10 = this.addOverlayIconSprite(_local_9, _SafeStr_13443, _local_5.data);
                 if (_local_10 != null){
                     _local_10.x = (this._SafeStr_13458 - (_local_5.data.width / 2));
                     _local_10.y = (this._SafeStr_13459 - (_local_5.data.height / 2));
                 };
             };
         }
-        public function RoomEngine(_arg_1:Boolean):void
+        public function setObjectMoverIconSpriteVisible(_arg_1:Boolean):void
         {
             var _local_3:Sprite;
             var _local_4:Sprite;
-            var _local_2:IRoomRenderingCanvas = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
+            var _local_2:IRoomRenderingCanvas = this.getRoomCanvas(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
             if (_local_2 != null){
-                _local_3 = this.RoomEngine(_local_2);
-                _local_4 = this.RoomEngine(_local_3, _SafeStr_13443);
+                _local_3 = this.getOverlaySprite(_local_2);
+                _local_4 = this.getOverlayIconSprite(_local_3, _SafeStr_13443);
                 if (_local_4 != null){
                     _local_4.visible = _arg_1;
                 };
             };
         }
-        public function RoomEngine():void
+        public function removeObjectMoverIconSprite():void
         {
             var _local_2:Sprite;
-            var _local_1:IRoomRenderingCanvas = this.RoomEngine(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
+            var _local_1:IRoomRenderingCanvas = this.getRoomCanvas(this._activeRoomId, this._activeRoomCategory, this._SafeStr_13457);
             if (_local_1 != null){
-                _local_2 = this.RoomEngine(_local_1);
-                this.RoomEngine(_local_2, _SafeStr_13443);
+                _local_2 = this.getOverlaySprite(_local_1);
+                this.removeOverlayIconSprite(_local_2, _SafeStr_13443);
             };
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:int, _arg_2:int, _arg_3:int):int
+        public function getRoomObjectCount(_arg_1:int, _arg_2:int, _arg_3:int):int
         {
             if (!this._isInitialized){
                 return (0);
@@ -1790,17 +1790,17 @@ package com.sulake.habbo.room
             if (_local_5 == null){
                 return (0);
             };
-            return (_local_5.RoomInstance(_arg_3));
+            return (_local_5.getObjectCount(_arg_3));
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomObject
+        public function getRoomObject(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomObject
         {
             if (!this._isInitialized){
                 return (null);
             };
             var _local_5:String = this.getRoomIdentifier(_arg_1, _arg_2);
-            return (this.RoomInstance(_local_5, _arg_3, _arg_4));
+            return (this.getObject(_local_5, _arg_3, _arg_4));
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomObject
+        public function getRoomObjectWithIndex(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomObject
         {
             if (!this._isInitialized){
                 return (null);
@@ -1810,25 +1810,25 @@ package com.sulake.habbo.room
             if (_local_6 == null){
                 return (null);
             };
-            return (_local_6.RoomInstance(_arg_3, _arg_4));
+            return (_local_6.getObjectWithIndex(_arg_3, _arg_4));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):Boolean
+        public function modifyRoomObject(_arg_1:int, _arg_2:int, _arg_3:String):Boolean
         {
             if (this._SafeStr_13448 != null){
-                return (this._SafeStr_13448.RoomEngine(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3));
+                return (this._SafeStr_13448.modifyRoomObject(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3));
             };
             return (false);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:Map):Boolean
+        public function modifyRoomObjectDataWithMap(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:Map):Boolean
         {
             if (this._SafeStr_13448 != null){
                 if (_arg_2 == RoomObjectCategoryEnum._SafeStr_4329){
-                    return (this._SafeStr_13448.RoomEngine(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3, _arg_4));
+                    return (this._SafeStr_13448.modifyRoomObjectData(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3, _arg_4));
                 };
             };
             return (false);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String):Boolean
+        public function modifyRoomObjectData(_arg_1:int, _arg_2:int, _arg_3:String):Boolean
         {
             if (this._SafeStr_13448 != null){
                 if (_arg_2 == RoomObjectCategoryEnum._SafeStr_4330){
@@ -1837,7 +1837,7 @@ package com.sulake.habbo.room
             };
             return (false);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):Boolean
+        public function deleteRoomObject(_arg_1:int, _arg_2:int):Boolean
         {
             if (this._SafeStr_13448 != null){
                 if (_arg_2 == RoomObjectCategoryEnum._SafeStr_4330){
@@ -1846,27 +1846,27 @@ package com.sulake.habbo.room
             };
             return (false);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String=null):Boolean
+        public function initializeRoomObjectInsert(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String=null):Boolean
         {
             var _local_5:IRoomInstance = this.getRoom(this._activeRoomId, this._activeRoomCategory);
             if ((((_local_5 == null)) || (!((_local_5.getNumber(RoomVariableEnum._SafeStr_13369) == 0))))){
                 return (false);
             };
             if (this._SafeStr_13448 != null){
-                return (this._SafeStr_13448.RoomEngine(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3, _arg_4));
+                return (this._SafeStr_13448.initializeRoomObjectInsert(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2, _arg_3, _arg_4));
             };
             return (false);
         }
-        public function RoomEngine():void
+        public function cancelRoomObjectInsert():void
         {
             if (this._SafeStr_13448 != null){
-                this._SafeStr_13448.RoomEngine(this._activeRoomId, this._activeRoomCategory);
+                this._SafeStr_13448.cancelRoomObjectInsert(this._activeRoomId, this._activeRoomCategory);
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):Boolean
+        public function useRoomObjectInActiveRoom(_arg_1:int, _arg_2:int):Boolean
         {
             var _local_4:IRoomObjectEventHandler;
-            var _local_3:IRoomObject = this.IRoomSpriteCanvasContainer(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2);
+            var _local_3:IRoomObject = this.getRoomObject(this._activeRoomId, this._activeRoomCategory, _arg_1, _arg_2);
             if (_local_3 != null){
                 _local_4 = (_local_3.getMouseHandler() as IRoomObjectEventHandler);
                 if (_local_4 != null){
@@ -1876,41 +1876,41 @@ package com.sulake.habbo.room
             };
             return (false);
         }
-        private function RoomEngine(_arg_1:String):String
+        private function getRoomObjectAdURL(_arg_1:String):String
         {
             if (this._SafeStr_13450 != null){
-                return (this._SafeStr_13450.RoomEngine(_arg_1));
+                return (this._SafeStr_13450.getRoomObjectAdURL(_arg_1));
             };
             return ("");
         }
-        public function RoomEngine(_arg_1:String, _arg_2:String):void
+        public function setRoomObjectAlias(_arg_1:String, _arg_2:String):void
         {
             if (this._SafeStr_13450 != null){
-                this._SafeStr_13450.RoomEngine(_arg_1, _arg_2);
+                this._SafeStr_13450.setRoomObjectAlias(_arg_1, _arg_2);
             };
         }
-        public function RoomEngine(_arg_1:String):int
+        public function getRoomObjectCategory(_arg_1:String):int
         {
             if (this._SafeStr_13450 != null){
                 return (this._SafeStr_13450.getObjectCategory(_arg_1));
             };
             return (RoomObjectCategoryEnum._SafeStr_4962);
         }
-        public function RoomEngine(_arg_1:int):String
+        public function getFurnitureType(_arg_1:int):String
         {
             if (this._SafeStr_13450 != null){
                 return (this._SafeStr_13450.getActiveObjectType(_arg_1));
             };
             return ("");
         }
-        public function RoomEngine(_arg_1:int, _arg_2:String=null):String
+        public function getWallItemType(_arg_1:int, _arg_2:String=null):String
         {
             if (this._SafeStr_13450 != null){
-                return (this._SafeStr_13450.RoomEngine(_arg_1, _arg_2));
+                return (this._SafeStr_13450.getWallItemType(_arg_1, _arg_2));
             };
             return ("");
         }
-        private function RoomEngine(_arg_1:int):String
+        private function getUserType(_arg_1:int):String
         {
             switch (_arg_1){
                 case 1:
@@ -1922,7 +1922,7 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        private function RoomEngine(_arg_1:String):String
+        private function getPetType(_arg_1:String):String
         {
             var _local_2:Array;
             var _local_3:int;
@@ -1932,7 +1932,7 @@ package com.sulake.habbo.room
                     _local_3 = parseInt(_local_2[0]);
                     if (_local_3 >= 8){
                         if (this._SafeStr_13450 != null){
-                            return (this._SafeStr_13450.RoomEngine(_local_3));
+                            return (this._SafeStr_13450.getPetType(_local_3));
                         };
                     };
                     return ("pet");
@@ -1940,66 +1940,66 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):PetColorResult
+        public function getPetColor(_arg_1:int, _arg_2:int):PetColorResult
         {
             if (this._SafeStr_13450 != null){
-                return (this._SafeStr_13450.RoomEngine(_arg_1, _arg_2));
+                return (this._SafeStr_13450.getPetColor(_arg_1, _arg_2));
             };
             return (null);
         }
-        private function RoomEngine(_arg_1:int):int
+        private function getFurnitureColorIndex(_arg_1:int):int
         {
             if (this._SafeStr_13450 != null){
                 return (this._SafeStr_13450.getActiveObjectColorIndex(_arg_1));
             };
             return (0);
         }
-        private function RoomEngine(_arg_1:int):int
+        private function getWallItemColorIndex(_arg_1:int):int
         {
             if (this._SafeStr_13450 != null){
-                return (this._SafeStr_13450.RoomEngine(_arg_1));
+                return (this._SafeStr_13450.getWallItemColorIndex(_arg_1));
             };
             return (0);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):IRoomObjectController
+        public function getSelectionArrow(_arg_1:int, _arg_2:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13441, RoomObjectCategoryEnum._SafeStr_13134));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13441, RoomObjectCategoryEnum._SafeStr_13134));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):IRoomObjectController
+        public function getTileCursor(_arg_1:int, _arg_2:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13439, RoomObjectCategoryEnum._SafeStr_13134));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _SafeStr_13439, RoomObjectCategoryEnum._SafeStr_13134));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Number=NaN, _arg_10:int=-1, _arg_11:Boolean=false):Boolean
+        public function addObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Number=NaN, _arg_10:int=-1, _arg_11:Boolean=false):Boolean
         {
             var _local_13:FurnitureData;
-            var _local_12:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_12:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_12 != null){
                 _local_13 = new FurnitureData(_arg_3, _arg_4, null, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
                 _local_12.addFurnitureData(_local_13);
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Number=NaN):Boolean
+        public function addObjectFurnitureByName(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Number=NaN):Boolean
         {
             var _local_12:String;
             var _local_13:FurnitureData;
-            var _local_10:String = this.RoomEngine(_arg_1, _arg_2);
-            if (((this.RoomEngine(_local_10)) && (!((this._SafeStr_13450 == null))))){
+            var _local_10:String = this.getWorldType(_arg_1, _arg_2);
+            if (((this.isPublicRoomWorldType(_local_10)) && (!((this._SafeStr_13450 == null))))){
                 _local_12 = (this._SafeStr_13450.getPublicRoomContentType(_local_10) + "_");
                 _arg_4 = (_local_12 + _arg_4);
             };
-            var _local_11:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_11:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_11 != null){
                 _local_13 = new FurnitureData(_arg_3, 0, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, 0);
                 _local_11.addFurnitureData(_local_13);
             };
             return (true);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:FurnitureData):Boolean
+        private function addObjectFurnitureFromData(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:FurnitureData):Boolean
         {
             var _local_11:RoomInstanceData;
             if (_arg_4 == null){
-                _local_11 = this.RoomEngine(_arg_1, _arg_2);
+                _local_11 = this.getRoomInstanceData(_arg_1, _arg_2);
                 if (_local_11 != null){
                     _arg_4 = _local_11.getFurnitureDataWithId(_arg_3);
                 };
@@ -2010,15 +2010,15 @@ package com.sulake.habbo.room
             var _local_5:Boolean;
             var _local_6:String = _arg_4.type;
             if (_local_6 == null){
-                _local_6 = this.RoomEngine(_arg_4.typeId);
+                _local_6 = this.getFurnitureType(_arg_4.typeId);
                 _local_5 = true;
             };
-            var _local_7:int = this.RoomEngine(_arg_4.typeId);
-            var _local_8:String = this.RoomEngine(_local_6);
+            var _local_7:int = this.getFurnitureColorIndex(_arg_4.typeId);
+            var _local_8:String = this.getRoomObjectAdURL(_local_6);
             if (_local_6 == null){
                 _local_6 = "";
             };
-            var _local_9:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3, _local_6);
+            var _local_9:IRoomObjectController = this.createObjectFurniture(_arg_1, _arg_2, _arg_3, _local_6);
             if (_local_9 == null){
                 return (false);
             };
@@ -2033,22 +2033,22 @@ package com.sulake.habbo.room
                     _local_9.getModelController().setNumber(RoomObjectVariableEnum._SafeStr_7348, 1);
                 };
             };
-            if (!this.RoomEngine(_arg_1, _arg_2, _arg_3, _arg_4.loc, _arg_4.dir, _arg_4.state, _arg_4.data, _arg_4.extra)){
+            if (!this.updateObjectFurniture(_arg_1, _arg_2, _arg_3, _arg_4.loc, _arg_4.dir, _arg_4.state, _arg_4.data, _arg_4.extra)){
                 return (false);
             };
             if (events != null){
                 events.dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.REOB_OBJECT_ADDED, _arg_1, _arg_2, _arg_3, RoomObjectCategoryEnum._SafeStr_4329));
             };
-            var _local_10:ISelectedRoomObjectData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_10:ISelectedRoomObjectData = this.getPlacedObjectData(_arg_1, _arg_2);
             if (((((_local_10) && ((Math.abs(_local_10.id) == _arg_3)))) && ((_local_10.category == RoomObjectCategoryEnum._SafeStr_4329)))){
                 this.selectRoomObject(_arg_1, _arg_2, _arg_3, RoomObjectCategoryEnum._SafeStr_4329);
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
+        public function changeObjectState(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
         {
             var _local_6:Number;
-            var _local_5:IRoomObjectController = this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, _arg_4);
+            var _local_5:IRoomObjectController = this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, _arg_4);
             if (((!((_local_5 == null))) && (!((_local_5.getModelController() == null))))){
                 _local_6 = _local_5.getModelController().getNumber(RoomObjectVariableEnum._SafeStr_12644);
                 if (isNaN(_local_6)){
@@ -2060,9 +2060,9 @@ package com.sulake.habbo.room
                 _local_5.getModelController().setNumber(RoomObjectVariableEnum._SafeStr_12644, _local_6);
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:int, _arg_7:String, _arg_8:Number=NaN):Boolean
+        public function updateObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:int, _arg_7:String, _arg_8:Number=NaN):Boolean
         {
-            var _local_9:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_9:IRoomObjectController = this.getObjectFurniture(_arg_1, _arg_2, _arg_3);
             if (_local_9 == null){
                 return (false);
             };
@@ -2074,10 +2074,10 @@ package com.sulake.habbo.room
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d):Boolean
+        public function updateObjectFurnitureLocation(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d):Boolean
         {
             var _local_7:RoomObjectMoveUpdateMessage;
-            var _local_6:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_6:IRoomObjectController = this.getObjectFurniture(_arg_1, _arg_2, _arg_3);
             if (_local_6 == null){
                 return (false);
             };
@@ -2087,39 +2087,39 @@ package com.sulake.habbo.room
             };
             return (true);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
+        private function createObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
         {
             var _local_5:int = RoomObjectCategoryEnum._SafeStr_4329;
             return (this.createObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, _arg_4, _local_5));
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
+        private function getObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4329));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4329));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function disposeObjectFurniture(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.getFurnitureDataWithId(_arg_3);
             };
-            this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4329);
-            this.RoomEngine(RoomObjectCategoryEnum._SafeStr_4329, _arg_3);
+            this.disposeObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4329);
+            this.removeBtnMouseCursorOwner(RoomObjectCategoryEnum._SafeStr_4329, _arg_3);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Boolean=false):Boolean
+        public function addObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:IVector3d, _arg_7:int, _arg_8:String, _arg_9:Boolean=false):Boolean
         {
             var _local_11:FurnitureData;
-            var _local_10:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_10:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_10 != null){
                 _local_11 = new FurnitureData(_arg_3, _arg_4, null, _arg_5, _arg_6, _arg_7, _arg_8, NaN, -1, _arg_9);
                 _local_10.addWallItemData(_local_11);
             };
             return (true);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:FurnitureData):Boolean
+        private function addObjectWallItemFromData(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:FurnitureData):Boolean
         {
             var _local_10:RoomInstanceData;
             if (_arg_4 == null){
-                _local_10 = this.RoomEngine(_arg_1, _arg_2);
+                _local_10 = this.getRoomInstanceData(_arg_1, _arg_2);
                 if (_local_10 != null){
                     _arg_4 = _local_10.getWallItemDataWithId(_arg_3);
                 };
@@ -2127,13 +2127,13 @@ package com.sulake.habbo.room
             if (_arg_4 == null){
                 return (false);
             };
-            var _local_5:String = this.RoomEngine(_arg_4.typeId, _arg_4.data);
-            var _local_6:int = this.RoomEngine(_arg_4.typeId);
-            var _local_7:String = this.RoomEngine(_local_5);
+            var _local_5:String = this.getWallItemType(_arg_4.typeId, _arg_4.data);
+            var _local_6:int = this.getWallItemColorIndex(_arg_4.typeId);
+            var _local_7:String = this.getRoomObjectAdURL(_local_5);
             if (_local_5 == null){
                 _local_5 = "";
             };
-            var _local_8:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3, _local_5);
+            var _local_8:IRoomObjectController = this.createObjectWallItem(_arg_1, _arg_2, _arg_3, _local_5);
             if (_local_8 == null){
                 return (false);
             };
@@ -2146,21 +2146,21 @@ package com.sulake.habbo.room
                     _local_8.getModelController().setNumber(RoomObjectVariableEnum._SafeStr_7348, 1);
                 };
             };
-            if (!this.RoomEngine(_arg_1, _arg_2, _arg_3, _arg_4.loc, _arg_4.dir, _arg_4.state, _arg_4.data)){
+            if (!this.updateObjectWallItem(_arg_1, _arg_2, _arg_3, _arg_4.loc, _arg_4.dir, _arg_4.state, _arg_4.data)){
                 return (false);
             };
             if (events != null){
                 events.dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.REOB_OBJECT_ADDED, _arg_1, _arg_2, _arg_3, RoomObjectCategoryEnum._SafeStr_4330));
             };
-            var _local_9:ISelectedRoomObjectData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_9:ISelectedRoomObjectData = this.getPlacedObjectData(_arg_1, _arg_2);
             if (((((_local_9) && ((_local_9.id == _arg_3)))) && ((_local_9.category == RoomObjectCategoryEnum._SafeStr_4330)))){
                 this.selectRoomObject(_arg_1, _arg_2, _arg_3, RoomObjectCategoryEnum._SafeStr_4330);
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:int, _arg_7:String):Boolean
+        public function updateObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:int, _arg_7:String):Boolean
         {
-            var _local_8:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_8:IRoomObjectController = this.getObjectWallItem(_arg_1, _arg_2, _arg_3);
             if (_local_8 == null){
                 return (false);
             };
@@ -2170,16 +2170,16 @@ package com.sulake.habbo.room
                 _local_8.getEventHandler().processUpdateMessage(_local_9);
                 _local_8.getEventHandler().processUpdateMessage(_local_10);
             };
-            this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            this.updateObjectRoomWindow(_arg_1, _arg_2, _arg_3);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean=true):void
+        public function updateObjectRoomWindow(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean=true):void
         {
             var _local_9:String;
             var _local_10:IVector3d;
             var _local_5:String = ((RoomObjectCategoryEnum._SafeStr_4330 + "_") + _arg_3);
             var _local_6:RoomObjectRoomMaskUpdateMessage;
-            var _local_7:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_7:IRoomObjectController = this.getObjectWallItem(_arg_1, _arg_2, _arg_3);
             if (_local_7 != null){
                 if (_local_7.getModel() != null){
                     if (_local_7.getModel().getNumber(RoomObjectVariableEnum._SafeStr_12483) > 0){
@@ -2197,14 +2197,14 @@ package com.sulake.habbo.room
             else {
                 _local_6 = new RoomObjectRoomMaskUpdateMessage(RoomObjectRoomMaskUpdateMessage.RORMUM_ADD_MASK, _local_5);
             };
-            var _local_8:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2);
+            var _local_8:IRoomObjectController = this.getObjectRoom(_arg_1, _arg_2);
             if (((((!((_local_8 == null))) && (!((_local_8.getEventHandler() == null))))) && (!((_local_6 == null))))){
                 _local_8.getEventHandler().processUpdateMessage(_local_6);
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
+        public function updateObjectWallItemData(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomObjectController = this.getObjectWallItem(_arg_1, _arg_2, _arg_3);
             if (_local_5 == null){
                 return (false);
             };
@@ -2214,19 +2214,19 @@ package com.sulake.habbo.room
             };
             return (true);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
+        private function createObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
         {
             var _local_5:int = RoomObjectCategoryEnum._SafeStr_4330;
             return (this.createObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, _arg_4, _local_5));
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
+        private function getObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4330));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4330));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d):Boolean
+        public function updateObjectWallItemLocation(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d):Boolean
         {
             var _local_6:RoomObjectMoveUpdateMessage;
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomObjectController = this.getObjectWallItem(_arg_1, _arg_2, _arg_3);
             if (_local_5 == null){
                 return (false);
             };
@@ -2234,31 +2234,31 @@ package com.sulake.habbo.room
                 _local_6 = new RoomObjectMoveUpdateMessage(_arg_4, null, null);
                 _local_5.getEventHandler().processUpdateMessage(_local_6);
             };
-            this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            this.updateObjectRoomWindow(_arg_1, _arg_2, _arg_3);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function disposeObjectWallItem(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
-            var _local_4:RoomInstanceData = this.RoomEngine(_arg_1, _arg_2);
+            var _local_4:RoomInstanceData = this.getRoomInstanceData(_arg_1, _arg_2);
             if (_local_4 != null){
                 _local_4.getWallItemDataWithId(_arg_3);
             };
-            this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4330);
-            this.RoomEngine(_arg_1, _arg_2, _arg_3, false);
-            this.RoomEngine(RoomObjectCategoryEnum._SafeStr_4330, _arg_3);
+            this.disposeObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum._SafeStr_4330);
+            this.updateObjectRoomWindow(_arg_1, _arg_2, _arg_3, false);
+            this.removeBtnMouseCursorOwner(RoomObjectCategoryEnum._SafeStr_4330, _arg_3);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:Number, _arg_7:int, _arg_8:String=null):Boolean
+        public function addObjectUser(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:Number, _arg_7:int, _arg_8:String=null):Boolean
         {
             var _local_11:RoomObjectUpdateMessage;
             var _local_12:RoomObjectAvatarFigureUpdateMessage;
-            if (this.RoomEngine(_arg_1, _arg_2, _arg_3) != null){
+            if (this.getObjectUser(_arg_1, _arg_2, _arg_3) != null){
                 return (false);
             };
-            var _local_9:String = this.RoomEngine(_arg_7);
+            var _local_9:String = this.getUserType(_arg_7);
             if (_local_9 == "pet"){
-                _local_9 = this.RoomEngine(_arg_8);
+                _local_9 = this.getPetType(_arg_8);
             };
-            var _local_10:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3, _local_9);
+            var _local_10:IRoomObjectController = this.createObjectUser(_arg_1, _arg_2, _arg_3, _local_9);
             if (_local_10 == null){
                 return (false);
             };
@@ -2275,9 +2275,9 @@ package com.sulake.habbo.room
             };
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:IVector3d=null, _arg_7:Number=NaN):Boolean
+        public function updateObjectUser(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:IVector3d, _arg_5:IVector3d, _arg_6:IVector3d=null, _arg_7:Number=NaN):Boolean
         {
-            var _local_8:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_8:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((((_local_8 == null)) || ((_local_8.getEventHandler() == null)))) || ((_local_8.getModel() == null)))){
                 return (false);
             };
@@ -2294,9 +2294,9 @@ package com.sulake.habbo.room
             _local_8.getEventHandler().processUpdateMessage(_local_9);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
+        public function updateObjectUserFlatControl(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_5 == null)) || ((_local_5.getEventHandler() == null)))){
                 return (false);
             };
@@ -2304,9 +2304,9 @@ package com.sulake.habbo.room
             _local_5.getEventHandler().processUpdateMessage(_local_6);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:String=null, _arg_6:String=null):Boolean
+        public function updateObjectUserFigure(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:String=null, _arg_6:String=null):Boolean
         {
-            var _local_7:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_7:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_7 == null)) || ((_local_7.getEventHandler() == null)))){
                 return (false);
             };
@@ -2314,9 +2314,9 @@ package com.sulake.habbo.room
             _local_7.getEventHandler().processUpdateMessage(_local_8);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:int, _arg_6:String=null):Boolean
+        public function updateObjectUserAction(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:int, _arg_6:String=null):Boolean
         {
-            var _local_7:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_7:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_7 == null)) || ((_local_7.getEventHandler() == null)))){
                 return (false);
             };
@@ -2356,9 +2356,9 @@ package com.sulake.habbo.room
             _local_7.getEventHandler().processUpdateMessage(_local_8);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:String=""):Boolean
+        public function updateObjectUserPosture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String, _arg_5:String=""):Boolean
         {
-            var _local_6:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_6:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_6 == null)) || ((_local_6.getEventHandler() == null)))){
                 return (false);
             };
@@ -2366,9 +2366,9 @@ package com.sulake.habbo.room
             _local_6.getEventHandler().processUpdateMessage(_local_7);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):Boolean
+        public function updateObjectUserGesture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_5 == null)) || ((_local_5.getEventHandler() == null)))){
                 return (false);
             };
@@ -2376,9 +2376,9 @@ package com.sulake.habbo.room
             _local_5.getEventHandler().processUpdateMessage(_local_6);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
+        public function updateObjectPetGesture(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):Boolean
         {
-            var _local_5:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_5:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_5 == null)) || ((_local_5.getEventHandler() == null)))){
                 return (false);
             };
@@ -2386,27 +2386,27 @@ package com.sulake.habbo.room
             _local_5.getEventHandler().processUpdateMessage(_local_6);
             return (true);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int=0):Boolean
+        public function updateObjectUserEffect(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int=0):Boolean
         {
-            var _local_6:IRoomObjectController = this.RoomEngine(_arg_1, _arg_2, _arg_3);
+            var _local_6:IRoomObjectController = this.getObjectUser(_arg_1, _arg_2, _arg_3);
             if ((((_local_6 == null)) || ((_local_6.getEventHandler() == null)))){
                 return (false);
             };
             _local_6.getEventHandler().processUpdateMessage(new RoomObjectAvatarEffectUpdateMessage(_arg_4, _arg_5));
             return (true);
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
+        private function createObjectUser(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:String):IRoomObjectController
         {
             var _local_5:int = RoomObjectCategoryEnum.OBJECT_CATEGORY_USER;
             return (this.createObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, _arg_4, _local_5));
         }
-        private function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
+        private function getObjectUser(_arg_1:int, _arg_2:int, _arg_3:int):IRoomObjectController
         {
-            return (this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER));
+            return (this.getObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function disposeObjectUser(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
-            this.RoomInstance(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            this.disposeObject(this.getRoomIdentifier(_arg_1, _arg_2), _arg_3, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
         }
         private function createObject(_arg_1:String, _arg_2:int, _arg_3:String, _arg_4:int):IRoomObjectController
         {
@@ -2417,7 +2417,7 @@ package com.sulake.habbo.room
             var _local_6:IRoomObjectController;
             return ((_local_5.createRoomObject(_arg_2, _arg_3, _arg_4) as IRoomObjectController));
         }
-        private function RoomInstance(_arg_1:String, _arg_2:int, _arg_3:int):IRoomObjectController
+        private function getObject(_arg_1:String, _arg_2:int, _arg_3:int):IRoomObjectController
         {
             var _local_4:IRoomInstance;
             if (this._roomManager != null){
@@ -2427,22 +2427,22 @@ package com.sulake.habbo.room
                 return (null);
             };
             var _local_5:IRoomObjectController;
-            _local_5 = (_local_4.RoomInstance(_arg_2, _arg_3) as IRoomObjectController);
+            _local_5 = (_local_4.getObject(_arg_2, _arg_3) as IRoomObjectController);
             if (_local_5 == null){
                 if (_arg_3 == RoomObjectCategoryEnum._SafeStr_4329){
-                    this.RoomEngine(this.RoomEngine(_arg_1), this.RoomEngine(_arg_1), _arg_2, null);
-                    _local_5 = (_local_4.RoomInstance(_arg_2, _arg_3) as IRoomObjectController);
+                    this.addObjectFurnitureFromData(this.getRoomId(_arg_1), this.getRoomCategory(_arg_1), _arg_2, null);
+                    _local_5 = (_local_4.getObject(_arg_2, _arg_3) as IRoomObjectController);
                 }
                 else {
                     if (_arg_3 == RoomObjectCategoryEnum._SafeStr_4330){
-                        this.RoomEngine(this.RoomEngine(_arg_1), this.RoomEngine(_arg_1), _arg_2, null);
-                        _local_5 = (_local_4.RoomInstance(_arg_2, _arg_3) as IRoomObjectController);
+                        this.addObjectWallItemFromData(this.getRoomId(_arg_1), this.getRoomCategory(_arg_1), _arg_2, null);
+                        _local_5 = (_local_4.getObject(_arg_2, _arg_3) as IRoomObjectController);
                     };
                 };
             };
             return (_local_5);
         }
-        private function RoomInstance(_arg_1:String, _arg_2:int, _arg_3:int):void
+        private function disposeObject(_arg_1:String, _arg_2:int, _arg_3:int):void
         {
             var _local_4:IRoomInstance;
             if (this._roomManager != null){
@@ -2450,7 +2450,7 @@ package com.sulake.habbo.room
                 if (_local_4 == null){
                     return;
                 };
-                if (_local_4.RoomInstance(_arg_2, _arg_3)){
+                if (_local_4.disposeObject(_arg_2, _arg_3)){
                     if (events != null){
                         events.dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.REOE_OBJECT_REMOVED, this._activeRoomId, this._activeRoomCategory, _arg_2, _arg_3));
                     };
@@ -2481,12 +2481,12 @@ package com.sulake.habbo.room
             };
             return (this.getGenericRoomObjectImage(_local_9, _local_10, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int, _arg_5:IGetImageListener, _arg_6:uint=0):ImageResult
+        public function getPetImage(_arg_1:int, _arg_2:int, _arg_3:IVector3d, _arg_4:int, _arg_5:IGetImageListener, _arg_6:uint=0):ImageResult
         {
             var _local_7:String;
             var _local_8 = (_arg_2 + "");
             if (this._SafeStr_13450 != null){
-                _local_7 = this._SafeStr_13450.RoomEngine(_arg_1);
+                _local_7 = this._SafeStr_13450.getPetType(_arg_1);
             };
             return (this.getGenericRoomObjectImage(_local_7, _local_8, _arg_3, _arg_4, _arg_5, _arg_6));
         }
@@ -2495,8 +2495,8 @@ package com.sulake.habbo.room
             var _local_9:String;
             var _local_10:String = "";
             if (this._SafeStr_13450 != null){
-                _local_9 = this._SafeStr_13450.RoomEngine(_arg_1, _arg_6);
-                _local_10 = String(this._SafeStr_13450.RoomEngine(_arg_1));
+                _local_9 = this._SafeStr_13450.getWallItemType(_arg_1, _arg_6);
+                _local_10 = String(this._SafeStr_13450.getWallItemColorIndex(_arg_1));
             };
             return (this.getGenericRoomObjectImage(_local_9, _local_10, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8));
         }
@@ -2518,7 +2518,7 @@ package com.sulake.habbo.room
             };
             return (this.getGenericRoomObjectImage(_local_7, _local_8, new Vector3d(), _arg_4, _arg_5));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:int, _arg_7:IGetImageListener, _arg_8:uint=0):ImageResult
+        public function getRoomObjectImage(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:IVector3d, _arg_6:int, _arg_7:IGetImageListener, _arg_8:uint=0):ImageResult
         {
             var _local_11:String;
             var _local_14:IRoomObject;
@@ -2527,7 +2527,7 @@ package com.sulake.habbo.room
             var _local_12:String = this.getRoomIdentifier(_arg_1, _arg_2);
             var _local_13:IRoomInstance = this._roomManager.getRoom(_local_12);
             if (_local_13 != null){
-                _local_14 = _local_13.RoomInstance(_arg_3, _arg_4);
+                _local_14 = _local_13.getObject(_arg_3, _arg_4);
                 if (((!((_local_14 == null))) && (!((_local_14.getModel() == null))))){
                     _local_9 = _local_14.getType();
                     switch (_arg_4){
@@ -2544,7 +2544,7 @@ package com.sulake.habbo.room
             };
             return (this.getGenericRoomObjectImage(_local_9, _local_10, _arg_5, _arg_6, _arg_7, _arg_8, _local_11));
         }
-        private function RoomEngine(_arg_1:IRoomObjectController, _arg_2:String):void
+        private function initializeRoomForGettingImage(_arg_1:IRoomObjectController, _arg_2:String):void
         {
             var _local_3:Array;
             var _local_4:String;
@@ -2612,7 +2612,7 @@ package com.sulake.habbo.room
                 };
             };
             var _local_12:int = this._SafeStr_13452.reserveNumber();
-            var _local_13:int = this.RoomEngine(_arg_1);
+            var _local_13:int = this.getRoomObjectCategory(_arg_1);
             if (_local_12 < 0){
                 return (_local_10);
             };
@@ -2636,14 +2636,14 @@ package com.sulake.habbo.room
                     };
                     break;
                 case RoomObjectCategoryEnum._SafeStr_13133:
-                    this.RoomEngine(_local_14, _arg_2);
+                    this.initializeRoomForGettingImage(_local_14, _arg_2);
                     break;
             };
             _local_14.setDirection(_arg_3);
             var _local_15:IRoomObjectSpriteVisualization;
             _local_15 = (_local_14.getVisualization() as IRoomObjectSpriteVisualization);
             if (_local_15 == null){
-                _local_11.RoomInstance(_local_12, _local_13);
+                _local_11.disposeObject(_local_12, _local_13);
                 return (_local_10);
             };
             if (_arg_8 > -1){
@@ -2662,39 +2662,39 @@ package com.sulake.habbo.room
                     _local_20++;
                 };
             };
-            var _local_17:BitmapData = _local_15.TwinkleImages(_arg_6);
+            var _local_17:BitmapData = _local_15.getImage(_arg_6);
             _local_10.data = _local_17;
             _local_10.id = _local_12;
-            if (((!(this.RoomEngine(_arg_1))) && (!((_arg_5 == null))))){
+            if (((!(this.isRoomObjectContentAvailable(_arg_1))) && (!((_arg_5 == null))))){
                 this._SafeStr_13453.add(String(_local_12), _arg_5);
                 _local_14.getModelController().setNumber(RoomObjectVariableEnum._SafeStr_13001, _arg_4, true);
             }
             else {
-                _local_11.RoomInstance(_local_12, _local_13);
+                _local_11.disposeObject(_local_12, _local_13);
                 this._SafeStr_13452.freeNumber((_local_12 - 1));
                 _local_10.id = 0;
             };
             _local_16.dispose();
             return (_local_10);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Rectangle
+        public function getRoomObjectBoundingRectangle(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Rectangle
         {
             var _local_7:IRoomObject;
             var _local_8:IRoomObjectVisualization;
             var _local_9:Rectangle;
             var _local_10:Point;
             var _local_11:IRoomRenderingCanvas;
-            var _local_6:IRoomGeometry = this.RoomEngine(_arg_1, _arg_2, _arg_5);
+            var _local_6:IRoomGeometry = this.getRoomCanvasGeometry(_arg_1, _arg_2, _arg_5);
             if (_local_6 != null){
-                _local_7 = this.IRoomSpriteCanvasContainer(_arg_1, _arg_2, _arg_3, _arg_4);
+                _local_7 = this.getRoomObject(_arg_1, _arg_2, _arg_3, _arg_4);
                 if (_local_7 != null){
                     _local_8 = _local_7.getVisualization();
                     if (_local_8 != null){
                         _local_9 = _local_8.boundingRectangle;
-                        _local_10 = _local_6.RoomGeometry(_local_7.getLocation());
+                        _local_10 = _local_6.getScreenPoint(_local_7.getLocation());
                         if (_local_10 != null){
                             _local_9.offset(_local_10.x, _local_10.y);
-                            _local_11 = this.RoomEngine(_arg_1, _arg_2, _arg_5);
+                            _local_11 = this.getRoomCanvas(_arg_1, _arg_2, _arg_5);
                             if (_local_11 != null){
                                 _local_9.offset(((_local_11.width / 2) + _local_11.screenOffsetX), ((_local_11.height / 2) + _local_11.screenOffsetY));
                                 return (_local_9);
@@ -2705,18 +2705,18 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Point
+        public function getRoomObjectScreenLocation(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):Point
         {
             var _local_7:IRoomObject;
             var _local_8:Point;
             var _local_9:IRoomRenderingCanvas;
-            var _local_6:IRoomGeometry = this.RoomEngine(_arg_1, _arg_2, _arg_5);
+            var _local_6:IRoomGeometry = this.getRoomCanvasGeometry(_arg_1, _arg_2, _arg_5);
             if (_local_6 != null){
-                _local_7 = this.IRoomSpriteCanvasContainer(_arg_1, _arg_2, _arg_3, _arg_4);
+                _local_7 = this.getRoomObject(_arg_1, _arg_2, _arg_3, _arg_4);
                 if (_local_7 != null){
-                    _local_8 = _local_6.RoomGeometry(_local_7.getLocation());
+                    _local_8 = _local_6.getScreenPoint(_local_7.getLocation());
                     if (_local_8 != null){
-                        _local_9 = this.RoomEngine(_arg_1, _arg_2, _arg_5);
+                        _local_9 = this.getRoomCanvas(_arg_1, _arg_2, _arg_5);
                         if (_local_9 != null){
                             _local_8.offset(((_local_9.width / 2) + _local_9.screenOffsetX), ((_local_9.height / 2) + _local_9.screenOffsetY));
                         };
@@ -2726,11 +2726,11 @@ package com.sulake.habbo.room
             };
             return (null);
         }
-        public function RoomEngine(_arg_1:int):Rectangle
+        public function getActiveRoomBoundingRectangle(_arg_1:int):Rectangle
         {
-            return (this.RoomEngine(this._activeRoomId, this._activeRoomCategory, _SafeStr_13437, RoomObjectCategoryEnum._SafeStr_13133, _arg_1));
+            return (this.getRoomObjectBoundingRectangle(this._activeRoomId, this._activeRoomCategory, _SafeStr_13437, RoomObjectCategoryEnum._SafeStr_13133, _arg_1));
         }
-        public function RoomEngine(_arg_1:String):Boolean
+        public function isRoomObjectContentAvailable(_arg_1:String):Boolean
         {
             return (this._roomManager.isContentAvailable(_arg_1));
         }
@@ -2752,10 +2752,10 @@ package com.sulake.habbo.room
             var _local_4:RoomGeometry;
             var _local_5:Number = 0;
             var _local_6:int = this._SafeStr_13450.getObjectCategory(_arg_1);
-            var _local_7:int = _local_3.RoomInstance(_local_6);
+            var _local_7:int = _local_3.getObjectCount(_local_6);
             var _local_8:int = (_local_7 - 1);
             while (_local_8 >= 0) {
-                _local_9 = _local_3.RoomInstance(_local_8, _local_6);
+                _local_9 = _local_3.getObjectWithIndex(_local_8, _local_6);
                 if (((((!((_local_9 == null))) && (!((_local_9.getModel() == null))))) && ((_local_9.getType() == _arg_1)))){
                     _local_10 = _local_9.getId();
                     _local_11 = null;
@@ -2774,7 +2774,7 @@ package com.sulake.habbo.room
                         _local_12.update(_local_4, 0, true, false);
                         _local_11 = _local_12.image;
                     };
-                    _local_3.RoomInstance(_local_10, _local_6);
+                    _local_3.disposeObject(_local_10, _local_6);
                     this._SafeStr_13452.freeNumber((_local_10 - 1));
                     _local_13 = (this._SafeStr_13453.remove(String(_local_10)) as IGetImageListener);
                     if (((!((_local_13 == null))) && (!((_local_11 == null))))){
@@ -2797,12 +2797,12 @@ package com.sulake.habbo.room
             var _local_7:String;
             var _local_8:int;
             var _local_9:RoomObjectDataUpdateMessage;
-            var _local_4:int = this.RoomEngine(_arg_1);
-            var _local_5:int = this.RoomEngine(_arg_1);
+            var _local_4:int = this.getRoomId(_arg_1);
+            var _local_5:int = this.getRoomCategory(_arg_1);
             if (_arg_3 == RoomObjectCategoryEnum._SafeStr_4330){
-                this.RoomEngine(_local_4, _local_5, _arg_2);
+                this.updateObjectRoomWindow(_local_4, _local_5, _arg_2);
             };
-            var _local_6:IRoomObjectController = (this.IRoomSpriteCanvasContainer(_local_4, _local_5, _arg_2, _arg_3) as IRoomObjectController);
+            var _local_6:IRoomObjectController = (this.getRoomObject(_local_4, _local_5, _arg_2, _arg_3) as IRoomObjectController);
             if (((((!((_local_6 == null))) && (!((_local_6.getModel() == null))))) && (!((_local_6.getEventHandler() == null))))){
                 _local_7 = _local_6.getModel().getString(RoomObjectVariableEnum._SafeStr_7217);
                 if (_local_7 != null){
@@ -2815,16 +2815,16 @@ package com.sulake.habbo.room
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int):void
+        public function selectAvatar(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
             if (this._SafeStr_13448 != null){
                 this._SafeStr_13448.setSelectedAvatar(_arg_1, _arg_2, _arg_3, true);
             };
         }
-        public function RoomEngine():int
+        public function getSelectedAvatarId():int
         {
             if (this._SafeStr_13448 != null){
-                return (this._SafeStr_13448.RoomEngine());
+                return (this._SafeStr_13448.getSelectedAvatarId());
             };
             return (-1);
         }
@@ -2835,24 +2835,24 @@ package com.sulake.habbo.room
             };
             this._SafeStr_13448.setSelectedObject(_arg_1, _arg_2, _arg_3, _arg_4);
         }
-        public function RoomEngine(_arg_1:String):Array
+        public function loadRoomResources(_arg_1:String):Array
         {
             if (this._SafeStr_13450 != null){
                 return (this._SafeStr_13450.loadLegacyContent(_arg_1, events));
             };
             return (new Array());
         }
-        private function RoomEngine(_arg_1:AdEvent):void
+        private function showRoomAd(_arg_1:AdEvent):void
         {
             var _local_2:String;
             var _local_3:IRoomObjectController;
             var _local_4:RoomObjectRoomAdUpdateMessage;
             if (this._SafeStr_13450 != null){
-                _local_2 = this.RoomEngine(_arg_1.roomId, _arg_1.roomCategory);
+                _local_2 = this.getWorldType(_arg_1.roomId, _arg_1.roomCategory);
                 this._SafeStr_13450.addGraphicAsset(this._SafeStr_13450.getPublicRoomContentType(_local_2), RoomObjectVariableEnum._SafeStr_5316, _arg_1.image, true);
                 this._SafeStr_13450.addGraphicAsset(this._SafeStr_13450.getPublicRoomContentType(_local_2), RoomObjectVariableEnum._SafeStr_5925, _arg_1.adWarningL, true);
                 this._SafeStr_13450.addGraphicAsset(this._SafeStr_13450.getPublicRoomContentType(_local_2), RoomObjectVariableEnum._SafeStr_5926, _arg_1.adWarningR, true);
-                _local_3 = this.RoomEngine(_arg_1.roomId, _arg_1.roomCategory);
+                _local_3 = this.getObjectRoom(_arg_1.roomId, _arg_1.roomCategory);
                 if (_local_3 == null){
                     return;
                 };
@@ -2861,20 +2861,20 @@ package com.sulake.habbo.room
                 _local_3.getEventHandler().processUpdateMessage(_local_4);
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:String, _arg_6:String):void
+        public function requestRoomAdImage(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:String, _arg_6:String):void
         {
             if (this._adManager != null){
                 this._adManager.loadRoomAdImage(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6);
             };
         }
-        private function RoomEngine(_arg_1:AdEvent):void
+        private function onRoomAdImageLoaded(_arg_1:AdEvent):void
         {
             var _local_4:RoomObjectRoomAdUpdateMessage;
-            var _local_2:IRoomObjectController = this.RoomEngine(_arg_1.roomId, _arg_1.roomCategory);
+            var _local_2:IRoomObjectController = this.getObjectRoom(_arg_1.roomId, _arg_1.roomCategory);
             if (_local_2 == null){
                 return;
             };
-            var _local_3:IRoomObjectController = this.RoomEngine(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId);
+            var _local_3:IRoomObjectController = this.getObjectFurniture(_arg_1.roomId, _arg_1.roomCategory, _arg_1.objectId);
             if ((((_local_3 == null)) || ((_local_3.getEventHandler() == null)))){
                 return;
             };
@@ -2893,13 +2893,13 @@ package com.sulake.habbo.room
                 _local_3.getEventHandler().processUpdateMessage(_local_4);
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:IAssetLibrary):Boolean
+        public function insertContentLibrary(_arg_1:int, _arg_2:int, _arg_3:IAssetLibrary):Boolean
         {
             return (this._SafeStr_13450.insertObjectContent(_arg_1, _arg_2, _arg_3));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:String):void
+        public function setActiveObjectType(_arg_1:int, _arg_2:String):void
         {
-            this._SafeStr_13450.RoomEngine(_arg_1, _arg_2);
+            this._SafeStr_13450.setActiveObjectType(_arg_1, _arg_2);
         }
 
     }
@@ -2908,11 +2908,11 @@ package com.sulake.habbo.room
 // IID = "_-3KV" (String#7712, DoABC#2)
 // onCommunicationReady = "_-3Ix" (String#372, DoABC#2)
 // onSessionDataManagerReady = "_-0C-" (String#240, DoABC#2)
-// RoomEngine = "_-0Ef" (String#3842, DoABC#2)
-// RoomEngine = "_-2oq" (String#899, DoABC#2)
+// getPetColor = "_-0Ef" (String#3842, DoABC#2)
+// getSelectedObjectData = "_-2oq" (String#899, DoABC#2)
 // _roomSessionManager = "_-2nJ" (String#249, DoABC#2)
 // onToolbarReady = "_-3Ep" (String#218, DoABC#2)
-// RoomEngine = "_-10q" (String#1603, DoABC#2)
+// onRoomSessionEvent = "_-10q" (String#1603, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
 // IRoomEngineServices = "_-28G" (String#6208, DoABC#2)
 // IRoomManagerListener = "_-2KC" (String#6449, DoABC#2)
@@ -2959,34 +2959,34 @@ package com.sulake.habbo.room
 // getFurnitureDataWithId = "_-0Xe" (String#15342, DoABC#2)
 // addWallItemData = "_-1vL" (String#18770, DoABC#2)
 // getWallItemDataWithId = "_-0vM" (String#16251, DoABC#2)
-// RoomEngine = "_-0A-" (String#3757, DoABC#2)
-// RoomEngine = "_-136" (String#4935, DoABC#2)
-// RoomEngine = "_-2BD" (String#6272, DoABC#2)
-// RoomEngine = "_-1Nf" (String#5305, DoABC#2)
-// RoomEngine = "_-0Op" (String#4066, DoABC#2)
-// RoomEngine = "_-1tl" (String#5916, DoABC#2)
-// RoomEngine = "_-TO" (String#8274, DoABC#2)
-// RoomEngine = "_-hw" (String#2161, DoABC#2)
-// RoomEngine = "_-2vR" (String#7185, DoABC#2)
-// RoomEngine = "_-2gz" (String#6891, DoABC#2)
-// RoomEngine = "_-0jE" (String#4485, DoABC#2)
-// RoomEngine = "_-25z" (String#6160, DoABC#2)
-// RoomEngine = "_-3Kt" (String#7720, DoABC#2)
-// RoomEngine = "_-L3" (String#8103, DoABC#2)
-// RoomEngine = "_-LV" (String#8113, DoABC#2)
-// RoomEngine = "_-gt" (String#8532, DoABC#2)
-// RoomEngine = "_-2Wi" (String#6694, DoABC#2)
-// RoomEngine = "_-1t-" (String#5901, DoABC#2)
-// RoomEngine = "_-mH" (String#2183, DoABC#2)
-// RoomEngine = "_-2bg" (String#6788, DoABC#2)
-// RoomEngine = "_-0vv" (String#4766, DoABC#2)
-// RoomEngine = "_-0UL" (String#1485, DoABC#2)
-// RoomEngine = "_-0Hd" (String#1444, DoABC#2)
-// RoomEngine = "_-01q" (String#3599, DoABC#2)
-// RoomEngine = "_-qa" (String#8719, DoABC#2)
-// RoomEngine = "_-xX" (String#8834, DoABC#2)
-// RoomEngine = "_-296" (String#6229, DoABC#2)
-// RoomEngine = "_-11O" (String#4903, DoABC#2)
+// addObjectFurnitureByName = "_-0A-" (String#3757, DoABC#2)
+// updateObjectFurniture = "_-136" (String#4935, DoABC#2)
+// updateObjectFurnitureLocation = "_-2BD" (String#6272, DoABC#2)
+// updateObjectWallItem = "_-1Nf" (String#5305, DoABC#2)
+// updateObjectWallItemData = "_-0Op" (String#4066, DoABC#2)
+// updateObjectUser = "_-1tl" (String#5916, DoABC#2)
+// updateObjectUserFlatControl = "_-TO" (String#8274, DoABC#2)
+// updateObjectUserFigure = "_-hw" (String#2161, DoABC#2)
+// updateObjectUserAction = "_-2vR" (String#7185, DoABC#2)
+// updateObjectPetGesture = "_-2gz" (String#6891, DoABC#2)
+// updateObjectRoomVisibilities = "_-0jE" (String#4485, DoABC#2)
+// updateObjectRoomPlaneThicknesses = "_-25z" (String#6160, DoABC#2)
+// setRoomObjectAlias = "_-3Kt" (String#7720, DoABC#2)
+// getRoomObjectCategory = "_-L3" (String#8103, DoABC#2)
+// updateObjectRoomWindow = "_-LV" (String#8113, DoABC#2)
+// setObjectMoverIconSprite = "_-gt" (String#8532, DoABC#2)
+// setObjectMoverIconSpriteVisible = "_-2Wi" (String#6694, DoABC#2)
+// removeObjectMoverIconSprite = "_-1t-" (String#5901, DoABC#2)
+// setSelectedObjectData = "_-mH" (String#2183, DoABC#2)
+// setPlacedObjectData = "_-2bg" (String#6788, DoABC#2)
+// getPlacedObjectData = "_-0vv" (String#4766, DoABC#2)
+// getLegacyGeometry = "_-0UL" (String#1485, DoABC#2)
+// getTileHeightMap = "_-0Hd" (String#1444, DoABC#2)
+// getSelectionArrow = "_-01q" (String#3599, DoABC#2)
+// getTileCursor = "_-qa" (String#8719, DoABC#2)
+// getIsPlayingGame = "_-xX" (String#8834, DoABC#2)
+// requestRoomAdImage = "_-296" (String#6229, DoABC#2)
+// requestMouseCursor = "_-11O" (String#4903, DoABC#2)
 // setSelectedObject = "_-2rr" (String#21149, DoABC#2)
 // setSelectedAvatar = "_-0N6" (String#14961, DoABC#2)
 // getMouseHandler = "_-EC" (String#7957, DoABC#2)
@@ -3001,16 +3001,16 @@ package com.sulake.habbo.room
 // getObjectCategory = "_-3LR" (String#22345, DoABC#2)
 // getActiveObjectType = "_-0em" (String#15616, DoABC#2)
 // getActiveObjectColorIndex = "_-1IK" (String#17208, DoABC#2)
-// RoomEngine = "_-263" (String#6163, DoABC#2)
-// RoomEngine = "_-0se" (String#4700, DoABC#2)
+// getWallItemColorIndex = "_-263" (String#6163, DoABC#2)
+// getRoomObjectAdURL = "_-0se" (String#4700, DoABC#2)
 // getPublicRoomContentType = "_-0ta" (String#16183, DoABC#2)
 // insertObjectContent = "_-Vs" (String#8317, DoABC#2)
 // loadLegacyContent = "_-1nL" (String#18438, DoABC#2)
 // addGraphicAsset = "_-1ul" (String#18748, DoABC#2)
-// RoomEngine = "_-G6" (String#7996, DoABC#2)
+// isPublicRoomWorldType = "_-G6" (String#7996, DoABC#2)
 // getPublicRoomWorldHeightScale = "_-0KP" (String#14855, DoABC#2)
 // getPublicRoomWorldSize = "_-1ld" (String#18360, DoABC#2)
-// RoomEngine = "_-ep" (String#23837, DoABC#2)
+// setActiveObjectType = "_-ep" (String#23837, DoABC#2)
 // _SafeStr_13365 = "_-2Rl" (String#20110, DoABC#2)
 // _SafeStr_13366 = "_-1hg" (String#18197, DoABC#2)
 // _SafeStr_13367 = "_-Ey" (String#22810, DoABC#2)
@@ -3021,22 +3021,22 @@ package com.sulake.habbo.room
 // setCurrentRoom = "_-0HS" (String#14737, DoABC#2)
 // disposeRoom = "_-2ya" (String#904, DoABC#2)
 // resetCurrentRoom = "_-1wU" (String#18820, DoABC#2)
-// RoomEngine = "_-2gw" (String#6889, DoABC#2)
-// RoomEngine = "_-0Mn" (String#4018, DoABC#2)
-// RoomEngine = "_-18W" (String#1625, DoABC#2)
-// RoomEngine = "_-qZ" (String#8718, DoABC#2)
-// RoomEngine = "_-36n" (String#7446, DoABC#2)
-// RoomEngine = "_-0on" (String#4611, DoABC#2)
+// getRoomId = "_-2gw" (String#6889, DoABC#2)
+// getRoomCategory = "_-0Mn" (String#4018, DoABC#2)
+// isPublicRoom = "_-18W" (String#1625, DoABC#2)
+// setWorldType = "_-qZ" (String#8718, DoABC#2)
+// setTileHeightMap = "_-36n" (String#7446, DoABC#2)
+// setOwnUserId = "_-0on" (String#4611, DoABC#2)
 // getRoom = "_-1jg" (String#1750, DoABC#2)
-// RoomEngine = "_-1HB" (String#5193, DoABC#2)
-// RoomEngine = "_-tM" (String#8756, DoABC#2)
-// RoomEngine = "_-1tf" (String#1777, DoABC#2)
-// RoomEngine = "_-2lc" (String#6995, DoABC#2)
-// RoomEngine = "_-2JZ" (String#6430, DoABC#2)
-// RoomEngine = "_-2Ul" (String#6662, DoABC#2)
-// RoomEngine = "_-2u6" (String#7162, DoABC#2)
-// RoomEngine = "_-1VC" (String#5459, DoABC#2)
-// RoomEngine = "_-3-V" (String#7294, DoABC#2)
+// getObjectRoom = "_-1HB" (String#5193, DoABC#2)
+// setIsPlayingGame = "_-tM" (String#8756, DoABC#2)
+// getRoomNumberValue = "_-1tf" (String#1777, DoABC#2)
+// modifyRoomCanvas = "_-2lc" (String#6995, DoABC#2)
+// handleRoomCanvasMouseEvent = "_-2JZ" (String#6430, DoABC#2)
+// getActiveRoomBoundingRectangle = "_-2Ul" (String#6662, DoABC#2)
+// loadRoomResources = "_-2u6" (String#7162, DoABC#2)
+// getWorldType = "_-1VC" (String#5459, DoABC#2)
+// getFurnitureType = "_-3-V" (String#7294, DoABC#2)
 // _SafeStr_13436 = "_-13o" (String#16608, DoABC#2)
 // _SafeStr_13437 = "_-2qI" (String#21092, DoABC#2)
 // _SafeStr_13438 = "_-Ug" (String#23434, DoABC#2)
@@ -3073,76 +3073,76 @@ package com.sulake.habbo.room
 // _SafeStr_13469 = "_-1Km" (String#17303, DoABC#2)
 // _SafeStr_13470 = "_-oq" (String#24230, DoABC#2)
 // _SafeStr_13471 = "_-0x8" (String#16318, DoABC#2)
-// RoomEngine = "_-CK" (String#22702, DoABC#2)
-// RoomEngine = "_-0W-" (String#15275, DoABC#2)
-// RoomEngine = "_-GN" (String#22868, DoABC#2)
-// RoomEngine = "_-1Gw" (String#17148, DoABC#2)
+// onObjectFactoryReady = "_-CK" (String#22702, DoABC#2)
+// onVisualizationFactoryReady = "_-0W-" (String#15275, DoABC#2)
+// onRoomManagerReady = "_-GN" (String#22868, DoABC#2)
+// onRendererFactoryReady = "_-1Gw" (String#17148, DoABC#2)
 // onAdManagerReady = "_-0Xv" (String#1496, DoABC#2)
 // roomManager = "_-3L" (String#22322, DoABC#2)
 // useOffsetScrolling = "_-1HS" (String#17168, DoABC#2)
-// RoomEngine = "_-0V0" (String#15243, DoABC#2)
+// getRoomInstanceData = "_-0V0" (String#15243, DoABC#2)
 // getRoomIdentifier = "_-0yJ" (String#1587, DoABC#2)
-// RoomEngine = "_-xR" (String#24587, DoABC#2)
-// RoomEngine = "_-1z-" (String#18927, DoABC#2)
-// RoomEngine = "_-0Ye" (String#15386, DoABC#2)
+// getDefaultCamera = "_-xR" (String#24587, DoABC#2)
+// getRoomCamera = "_-1z-" (String#18927, DoABC#2)
+// createRoomFurniture = "_-0Ye" (String#15386, DoABC#2)
 // getRoomCount = "_-1cQ" (String#5608, DoABC#2)
 // getRoomWithIndex = "_-0lP" (String#4533, DoABC#2)
-// RoomInstance = "_-05z" (String#3684, DoABC#2)
-// RoomEngine = "_-1gY" (String#18160, DoABC#2)
-// RoomEngine = "_-028" (String#14131, DoABC#2)
-// RoomEngine = "_-1n1" (String#18423, DoABC#2)
-// RoomEngine = "_-0WP" (String#15295, DoABC#2)
-// RoomEngine = "_-28I" (String#19342, DoABC#2)
-// RoomEngine = "_-XO" (String#23539, DoABC#2)
-// RoomEngine = "_-1BW" (String#16919, DoABC#2)
-// RoomEngine = "_-28c" (String#19356, DoABC#2)
+// getRenderer = "_-05z" (String#3684, DoABC#2)
+// updateRoomCameras = "_-1gY" (String#18160, DoABC#2)
+// updateMouseCursor = "_-028" (String#14131, DoABC#2)
+// addBtnMouseCursorOwner = "_-1n1" (String#18423, DoABC#2)
+// removeBtnMouseCursorOwner = "_-0WP" (String#15295, DoABC#2)
+// getObjectFurniture = "_-28I" (String#19342, DoABC#2)
+// addObjectFurnitureFromData = "_-XO" (String#23539, DoABC#2)
+// addObjectWallItemFromData = "_-1BW" (String#16919, DoABC#2)
+// updateRoomCamera = "_-28c" (String#19356, DoABC#2)
 // screenOffsetX = "_-08x" (String#3738, DoABC#2)
 // screenOffsetY = "_-01t" (String#3600, DoABC#2)
-// RoomEngine = "_-CX" (String#22706, DoABC#2)
-// RoomEngine = "_-zy" (String#24683, DoABC#2)
-// RoomEngine = "_-1jF" (String#18254, DoABC#2)
+// getRoomCanvasRectangle = "_-CX" (String#22706, DoABC#2)
+// initializeObjectEvents = "_-zy" (String#24683, DoABC#2)
+// initializeRoomManager = "_-1jF" (String#18254, DoABC#2)
 // addObjectUpdateCategory = "_-2A6" (String#6251, DoABC#2)
 // setContentLoader = "_-2Q-" (String#6563, DoABC#2)
-// RoomEngine = "_-0Pv" (String#15058, DoABC#2)
-// RoomEngine = "_-2za" (String#21442, DoABC#2)
+// onContentLoaderReady = "_-0Pv" (String#15058, DoABC#2)
+// onRoomAdImageLoaded = "_-2za" (String#21442, DoABC#2)
 // addObjectEventListener = "_-Jk" (String#8078, DoABC#2)
 // roomObjectEventHandler = "_-0ub" (String#1574, DoABC#2)
 // roomManagerInitialized = "_-1lC" (String#5771, DoABC#2)
 // createRoom = "_-1mK" (String#1756, DoABC#2)
 // createRoomObject = "_-20d" (String#1799, DoABC#2)
 // createRenderer = "_-0Gk" (String#3888, DoABC#2)
-// RoomInstance = "_-1zT" (String#6024, DoABC#2)
-// IRoomRenderer = "_-24l" (String#6132, DoABC#2)
+// setRenderer = "_-1zT" (String#6024, DoABC#2)
+// createCanvas = "_-24l" (String#6132, DoABC#2)
 // mouseListener = "_-2K" (String#6442, DoABC#2)
 // z_scale = "_-2LM" (String#6468, DoABC#2)
-// RoomGeometry = "_-03w" (String#3646, DoABC#2)
+// setDisplacement = "_-03w" (String#3646, DoABC#2)
 // useMask = "_-1iM" (String#5719, DoABC#2)
-// RoomEngine = "_-1WD" (String#17751, DoABC#2)
-// RoomEngine = "_-3D3" (String#21998, DoABC#2)
-// RoomEngine = "_-2nI" (String#20971, DoABC#2)
+// handleRoomDragging = "_-1WD" (String#17751, DoABC#2)
+// getOverlaySprite = "_-3D3" (String#21998, DoABC#2)
+// getOverlayIconSprite = "_-2nI" (String#20971, DoABC#2)
 // handleMouseEvent = "_-Xa" (String#8360, DoABC#2)
-// RoomEngine = "_-278" (String#19297, DoABC#2)
-// RoomEngine = "_-2iV" (String#20788, DoABC#2)
-// RoomEngine = "_-12F" (String#16547, DoABC#2)
-// RoomInstance = "_-252" (String#1807, DoABC#2)
-// RoomEngine = "_-2SJ" (String#20130, DoABC#2)
-// RoomEngine = "_-1Fq" (String#17108, DoABC#2)
+// addOverlayIconSprite = "_-278" (String#19297, DoABC#2)
+// removeOverlayIconSprite = "_-2iV" (String#20788, DoABC#2)
+// getUserType = "_-12F" (String#16547, DoABC#2)
+// getObjectWithIndex = "_-252" (String#1807, DoABC#2)
+// getFurnitureColorIndex = "_-2SJ" (String#20130, DoABC#2)
+// createObjectFurniture = "_-1Fq" (String#17108, DoABC#2)
 // createObject = "_-j8" (String#2167, DoABC#2)
-// RoomInstance = "_-3E-" (String#921, DoABC#2)
-// RoomEngine = "_-0g9" (String#15678, DoABC#2)
-// RoomEngine = "_-2rB" (String#21126, DoABC#2)
+// disposeObject = "_-3E-" (String#921, DoABC#2)
+// createObjectWallItem = "_-0g9" (String#15678, DoABC#2)
+// getObjectWallItem = "_-2rB" (String#21126, DoABC#2)
 // IRoomObjectController = "_-17p" (String#5034, DoABC#2)
-// RoomEngine = "_-U8" (String#23412, DoABC#2)
-// RoomEngine = "_-1hd" (String#18195, DoABC#2)
-// RoomEngine = "_-6a" (String#22484, DoABC#2)
+// getObjectUser = "_-U8" (String#23412, DoABC#2)
+// createObjectUser = "_-1hd" (String#18195, DoABC#2)
+// initializeRoomForGettingImage = "_-6a" (String#22484, DoABC#2)
 // reserveNumber = "_-2zo" (String#21453, DoABC#2)
 // getVisualization = "_-1At" (String#5090, DoABC#2)
-// RoomEngine = "_-Vx" (String#23491, DoABC#2)
+// isRoomObjectContentAvailable = "_-Vx" (String#23491, DoABC#2)
 // freeNumber = "_-PP" (String#23222, DoABC#2)
 // isContentAvailable = "_-0ic" (String#4474, DoABC#2)
 // contentLoaded = "_-3K1" (String#7703, DoABC#2)
 // objectInitialized = "_-ih" (String#8571, DoABC#2)
-// RoomEngine = "_-2Sf" (String#20143, DoABC#2)
+// insertContentLibrary = "_-2Sf" (String#20143, DoABC#2)
 // RoomEngineObjectEvent = "_-10r" (String#16492, DoABC#2)
 // RoomObjectVariableEnum = "_-1MH" (String#17370, DoABC#2)
 // IRoomObjectEventHandler = "_-2c8" (String#6797, DoABC#2)
@@ -3199,15 +3199,15 @@ package com.sulake.habbo.room
 // RoomObjectAvatarSignUpdateMessage = "_-V" (String#23446, DoABC#2)
 // IRoomRenderingCanvas = "_-22o" (String#6102, DoABC#2)
 // IGetImageListener = "_-2i7" (String#6909, DoABC#2)
-// RoomInstance = "_-09y" (String#1415, DoABC#2)
-// RoomInstance = "_-1GT" (String#844, DoABC#2)
+// getObjectCount = "_-09y" (String#1415, DoABC#2)
+// getObject = "_-1GT" (String#844, DoABC#2)
 // floorType = "_-1D4" (String#16985, DoABC#2)
 // wallType = "_-0n5" (String#15942, DoABC#2)
 // landscapeType = "_-29h" (String#19391, DoABC#2)
 // extra = "_-2We" (String#6693, DoABC#2)
 // expiryTime = "_-1FG" (String#17083, DoABC#2)
-// RoomEngine = "_-hN" (String#941, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// onToolbarClicked = "_-hN" (String#941, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_4329 = "_-bN" (String#23687, DoABC#2)
 // _SafeStr_4330 = "_-0cQ" (String#15531, DoABC#2)
 // _SafeStr_4374 = "_-GG" (String#22862, DoABC#2)
@@ -3216,46 +3216,46 @@ package com.sulake.habbo.room
 // _SafeStr_4377 = "_-cz" (String#23755, DoABC#2)
 // _SafeStr_4443 = "_-2Lr" (String#19878, DoABC#2)
 // updateId = "_-0TD" (String#1478, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // IRoomObjectFactory = "_-2Bh" (String#6281, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // RSE_STARTED = "_-oj" (String#24224, DoABC#2)
 // RSE_ENDED = "_-ar" (String#23665, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
 // getFurnitureData = "_-40" (String#7745, DoABC#2)
 // REOB_OBJECT_ADDED = "_-rY" (String#24341, DoABC#2)
 // REOB_OBJECT_CONTENT_UPDATED = "_-31j" (String#21568, DoABC#2)
 // REE_INITIALIZED = "_-0c3" (String#15515, DoABC#2)
 // initializeTileMap = "_-yM" (String#24629, DoABC#2)
 // initializeFromTileData = "_-34W" (String#21678, DoABC#2)
-// RoomEngine = "_-1SM" (String#1690, DoABC#2)
+// initializeRoom = "_-1SM" (String#1690, DoABC#2)
 // getXML = "_-2Oe" (String#6532, DoABC#2)
 // activeRoomId = "_-kJ" (String#2172, DoABC#2)
 // activeRoomCategory = "_-1qo" (String#1770, DoABC#2)
-// RoomEngine = "_-0Sj" (String#1477, DoABC#2)
-// RoomEngine = "_-0aH" (String#1502, DoABC#2)
-// RoomEngine = "_-Jw" (String#2086, DoABC#2)
+// disposeObjectFurniture = "_-0Sj" (String#1477, DoABC#2)
+// disposeObjectWallItem = "_-0aH" (String#1502, DoABC#2)
+// disposeObjectUser = "_-Jw" (String#2086, DoABC#2)
 // _SafeStr_4962 = "_-1WC" (String#17750, DoABC#2)
-// RoomEngine = "_-0G1" (String#1439, DoABC#2)
-// RoomEngine = "_-J0" (String#2084, DoABC#2)
-// RoomEngine = "_-0kK" (String#1540, DoABC#2)
-// RoomEngine = "_-0Yi" (String#1498, DoABC#2)
-// RoomEngine = "_-3-m" (String#1983, DoABC#2)
-// RoomEngine = "_-356" (String#1995, DoABC#2)
-// RoomEngine = "_-3Dq" (String#2025, DoABC#2)
-// RoomEngine = "_-HZ" (String#8028, DoABC#2)
-// RoomEngine = "_-vj" (String#8798, DoABC#2)
-// RoomEngine = "_-0uE" (String#4728, DoABC#2)
-// RoomEngine = "_-1Qw" (String#5373, DoABC#2)
-// RoomGeometry = "_-9w" (String#7863, DoABC#2)
-// RoomEngine = "_-0PC" (String#4075, DoABC#2)
-// RoomGeometry = "_-2Z0" (String#6746, DoABC#2)
-// RoomEngine = "_-3FD" (String#7616, DoABC#2)
-// RoomEngine = "_-2P0" (String#6544, DoABC#2)
-// RoomEngine = "_-o" (String#2192, DoABC#2)
-// RoomEngine = "_-DR" (String#2076, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
-// RoomEngine = "_-26n" (String#1814, DoABC#2)
+// addObjectFurniture = "_-0G1" (String#1439, DoABC#2)
+// addObjectWallItem = "_-J0" (String#2084, DoABC#2)
+// addObjectUser = "_-0kK" (String#1540, DoABC#2)
+// updateObjectUserGesture = "_-0Yi" (String#1498, DoABC#2)
+// updateObjectUserEffect = "_-3-m" (String#1983, DoABC#2)
+// updateObjectUserPosture = "_-356" (String#1995, DoABC#2)
+// changeObjectState = "_-3Dq" (String#2025, DoABC#2)
+// getRoomCanvas = "_-HZ" (String#8028, DoABC#2)
+// createRoomCanvas = "_-vj" (String#8798, DoABC#2)
+// setRoomCanvasMask = "_-0uE" (String#4728, DoABC#2)
+// getRoomCanvasGeometry = "_-1Qw" (String#5373, DoABC#2)
+// adjustLocation = "_-9w" (String#7863, DoABC#2)
+// getRoomObjectBoundingRectangle = "_-0PC" (String#4075, DoABC#2)
+// performZoomOut = "_-2Z0" (String#6746, DoABC#2)
+// getRoomCanvasScreenOffset = "_-3FD" (String#7616, DoABC#2)
+// setRoomCanvasScreenOffset = "_-2P0" (String#6544, DoABC#2)
+// updateObjectRoomColor = "_-o" (String#2192, DoABC#2)
+// updateObjectRoom = "_-DR" (String#2076, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
+// updateObjectWallItemLocation = "_-26n" (String#1814, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // isMoving = "_-2Cl" (String#19515, DoABC#2)
 // loc = "_-0fh" (String#15660, DoABC#2)
@@ -3292,8 +3292,8 @@ package com.sulake.habbo.room
 // RORPVUM_WALL_VISIBILITY = "_-1sU" (String#18653, DoABC#2)
 // RORPVUM_FLOOR_THICKNESS = "_-2pM" (String#7067, DoABC#2)
 // RORPPUM_WALL_THICKNESS = "_-GT" (String#8005, DoABC#2)
-// RoomEngine = "_-u-" (String#8766, DoABC#2)
-// RoomEngine = "_-1hN" (String#5693, DoABC#2)
+// addFloorHole = "_-u-" (String#8766, DoABC#2)
+// removeFloorHole = "_-1hN" (String#5693, DoABC#2)
 // _SafeStr_5925 = "_-3Ks" (String#22318, DoABC#2)
 // _SafeStr_5926 = "_-1Vb" (String#17726, DoABC#2)
 // _habboConfiguration = "_-Mv" (String#637, DoABC#2)
@@ -3312,34 +3312,34 @@ package com.sulake.habbo.room
 // ROE_MOUSE_DOWN = "_-va" (String#24512, DoABC#2)
 // _SafeStr_7217 = "_-1mr" (String#18416, DoABC#2)
 // _SafeStr_7220 = "_-1eF" (String#18068, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
-// RoomEngine = "_-2j0" (String#6933, DoABC#2)
-// RoomEngine = "_-1aj" (String#5572, DoABC#2)
-// RoomEngine = "_-1qN" (String#867, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
+// getSelectedAvatarId = "_-2j0" (String#6933, DoABC#2)
+// selectAvatar = "_-1aj" (String#5572, DoABC#2)
+// getPetType = "_-1qN" (String#867, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // iconId = "_-2di" (String#20590, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
 // _SafeStr_7294 = "_-Uf" (String#23433, DoABC#2)
 // _SafeStr_7295 = "_-2nE" (String#20969, DoABC#2)
-// RoomEngine = "_-0Eh" (String#3843, DoABC#2)
-// RoomEngine = "_-1YS" (String#5529, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1Hy" (String#1654, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-cJ" (String#2140, DoABC#2)
-// RoomEngine = "_-09k" (String#3753, DoABC#2)
-// RoomEngine = "_-2p8" (String#7061, DoABC#2)
-// RoomEngine = "_-1Vg" (String#5468, DoABC#2)
-// RoomEngine = "_-4G" (String#7750, DoABC#2)
+// modifyRoomObjectData = "_-0Eh" (String#3843, DoABC#2)
+// deleteRoomObject = "_-1YS" (String#5529, DoABC#2)
+// getRoomObjectCount = "_-1Hy" (String#1654, DoABC#2)
+// getRoomObjectWithIndex = "_-cJ" (String#2140, DoABC#2)
+// modifyRoomObject = "_-09k" (String#3753, DoABC#2)
+// useRoomObjectInActiveRoom = "_-2p8" (String#7061, DoABC#2)
+// modifyRoomObjectDataWithMap = "_-1Vg" (String#5468, DoABC#2)
+// getRoomObjectImage = "_-4G" (String#7750, DoABC#2)
 // _SafeStr_7348 = "_-2Po" (String#20036, DoABC#2)
 // _SafeStr_7353 = "_-0su" (String#16158, DoABC#2)
 // _SafeStr_7354 = "_-2xF" (String#21360, DoABC#2)
-// RoomEngine = "_-0BC" (String#3783, DoABC#2)
-// RoomEngine = "_-3l" (String#7742, DoABC#2)
+// getWallItemType = "_-0BC" (String#3783, DoABC#2)
+// getRoomObjectScreenLocation = "_-3l" (String#7742, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
-// RoomEngine = "_-0w6" (String#4772, DoABC#2)
-// RoomEngine = "_-QC" (String#8205, DoABC#2)
-// RoomEngine = "_-Ht" (String#2080, DoABC#2)
+// cancelRoomObjectInsert = "_-0w6" (String#4772, DoABC#2)
+// initializeRoomObjectInsert = "_-QC" (String#8205, DoABC#2)
+// getRoomStringValue = "_-Ht" (String#2080, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
-// RoomEngine = "_-1P4" (String#1679, DoABC#2)
+// onHabboConfigurationReady = "_-1P4" (String#1679, DoABC#2)
 // IRoomRendererFactory = "_-2zw" (String#7283, DoABC#2)
 // IRoomObjectVisualizationFactory = "_-T7" (String#8269, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
@@ -3354,7 +3354,7 @@ package com.sulake.habbo.room
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)
 // useObject = "_-0zi" (String#1594, DoABC#2)
 // isInitialized = "_-1Cr" (String#840, DoABC#2)
-// RoomEngine = "_-1ii" (String#1747, DoABC#2)
+// showRoomAd = "_-1ii" (String#1747, DoABC#2)
 // loadRoomAdImage = "_-vu" (String#8803, DoABC#2)
 // onConnectionReady = "_-0k8" (String#359, DoABC#2)
 

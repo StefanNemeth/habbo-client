@@ -42,7 +42,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (this._tabs){
                 _local_3 = 0;
                 while (_local_3 < this._tabs.numSelectables) {
-                    _local_4 = this._tabs.ISelectorWindow(_local_3);
+                    _local_4 = this._tabs.getSelectableAt(_local_3);
                     if ((_local_4 is ISelectableWindow)){
                         _local_4.addEventListener(WindowEvent.WE_SELECTED, this.onSelectGroup);
                     };
@@ -163,7 +163,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             var _local_3:int;
             var _local_2:ISelectableWindow = (_arg_1.target as ISelectableWindow);
             if (_local_2){
-                _local_3 = this._tabs.ISelectorWindow(_local_2);
+                _local_3 = this._tabs.getSelectableIndex(_local_2);
                 Logger.log(("select: " + [_local_2.name, _local_3]));
                 this.switchCategory(_local_2.name);
             };
@@ -177,7 +177,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!this._tabs){
                 return;
             };
-            this._tabs.setSelected(this._tabs.ISelectorWindow(_arg_1));
+            this._tabs.setSelected(this._tabs.getSelectableByName(_arg_1));
             var _local_2:int = -1;
             switch (_arg_1){
                 case "group.walls":
@@ -256,11 +256,11 @@ package com.sulake.habbo.catalog.viewer.widgets
 // populateItemGrid = "_-2Ws" (String#892, DoABC#2)
 // _SafeStr_5297 = "_-0Gy" (String#355, DoABC#2)
 // _groups = "_-3S" (String#2047, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // _SafeStr_8482 = "_-2IF" (String#618, DoABC#2)
 // _tabs = "_-0QO" (String#585, DoABC#2)
 // numSelectables = "_-1pQ" (String#5845, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
-// ISelectorWindow = "_-2bS" (String#6782, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
+// getSelectableIndex = "_-2bS" (String#6782, DoABC#2)
 
 

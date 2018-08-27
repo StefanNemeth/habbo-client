@@ -30,7 +30,7 @@ package com.sulake.habbo.avatar.hotlooks
         public function init():void
         {
             if (this._SafeStr_4831){
-                this._SafeStr_4831.IItemGridWindow();
+                this._SafeStr_4831.removeGridItems();
             };
             if (this._window){
                 this._window.dispose();
@@ -44,7 +44,7 @@ package com.sulake.habbo.avatar.hotlooks
         public function dispose():void
         {
             while (this._SafeStr_4831.numGridItems > 0) {
-                this._SafeStr_4831.IItemGridWindow(0);
+                this._SafeStr_4831.removeGridItemAt(0);
             };
             this._window.dispose();
             this._window = null;
@@ -56,14 +56,14 @@ package com.sulake.habbo.avatar.hotlooks
         {
             var _local_1:IWindow;
             var _local_2:Outfit;
-            this._SafeStr_4831.IItemGridWindow();
+            this._SafeStr_4831.removeGridItems();
             for each (_local_2 in this._SafeStr_4830.hotLooks) {
                 _local_1 = _local_2.view.window;
-                this._SafeStr_4831.IItemGridWindow(_local_1);
+                this._SafeStr_4831.addGridItem(_local_1);
                 _local_1.procedure = this.hotLooksEventProc;
             };
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (this._window);
         }
@@ -97,12 +97,12 @@ package com.sulake.habbo.avatar.hotlooks
 // HotLooksView = "_-K1" (String#8084, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_4831 = "_-wt" (String#24565, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-Rm" (String#8243, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// removeGridItemAt = "_-Rm" (String#8243, DoABC#2)
 // hotLooks = "_-2aX" (String#20465, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // hotLooksEventProc = "_-0ph" (String#16041, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // selectHotLook = "_-2PP" (String#20019, DoABC#2)
 // showPalettes = "_-3AL" (String#7520, DoABC#2)
 

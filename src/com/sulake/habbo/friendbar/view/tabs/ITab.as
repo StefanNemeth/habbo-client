@@ -11,7 +11,7 @@ package com.sulake.habbo.friendbar.view.tabs
         function get selected():Boolean;
         function get recycled():Boolean;
         function select(_arg_1:Boolean):void;
-        function ITab(_arg_1:Boolean):void;
+        function deselect(_arg_1:Boolean):void;
         function recycle():void;
 
     }
@@ -19,6 +19,6 @@ package com.sulake.habbo.friendbar.view.tabs
 
 // recycled = "_-0Zq" (String#4294, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 
 

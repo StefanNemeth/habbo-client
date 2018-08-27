@@ -36,14 +36,14 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
             createWindow("purse_indicator_shells_xml", _SafeStr_5356[0]);
             this.setAmount(0);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (!_arg_1){
                 return;
             };
             _arg_1.addEventListener(PurseEvent.RWPUE_SHELL_BALANCE, this.onShellBalance);
         }
-        override protected function CurrencyIndicatorBase(_arg_1:WindowMouseEvent):void
+        override protected function onContainerClick(_arg_1:WindowMouseEvent):void
         {
             this._catalog.openCatalogPage(CatalogPageName._SafeStr_5369, true);
         }
@@ -52,10 +52,10 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
             this.setAmount(_arg_1.balance);
             if (this._SafeStr_5359 != 0){
                 if (this._SafeStr_5359 > _arg_1.balance){
-                    CurrencyIndicatorBase(CurrencyIndicatorBase.ANIM_DIRECTION_FORWARD);
+                    animateIcon(CurrencyIndicatorBase.ANIM_DIRECTION_FORWARD);
                 }
                 else {
-                    CurrencyIndicatorBase(CurrencyIndicatorBase.ANIM_DIRECTION_BACKWARD);
+                    animateIcon(CurrencyIndicatorBase.ANIM_DIRECTION_BACKWARD);
                 };
             };
             this._SafeStr_5359 = _arg_1.balance;
@@ -65,12 +65,12 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
             var _local_2:String = _arg_1.toString();
             if (_arg_1 == 0){
                 _local_2 = this.amountZeroText;
-                CurrencyIndicatorBase(true);
+                setTextUnderline(true);
             }
             else {
-                CurrencyIndicatorBase(false);
+                setTextUnderline(false);
             };
-            CurrencyIndicatorBase(_local_2);
+            setText(_local_2);
         }
 
     }
@@ -81,7 +81,7 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // CurrencyIndicatorBase = "_-0Dt" (String#3824, DoABC#2)
 // ShellsIndicator = "_-2HW" (String#6394, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // _SafeStr_5356 = "_-12s" (String#1608, DoABC#2)
 // _SafeStr_5357 = "_-1Cp" (String#839, DoABC#2)
 // _SafeStr_5358 = "_-1BZ" (String#837, DoABC#2)
@@ -94,10 +94,10 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
 // setAmount = "_-0Y3" (String#4267, DoABC#2)
 // RWPUE_SHELL_BALANCE = "_-0Se" (String#15158, DoABC#2)
 // onShellBalance = "_-F3" (String#22816, DoABC#2)
-// CurrencyIndicatorBase = "_-1M3" (String#602, DoABC#2)
+// onContainerClick = "_-1M3" (String#602, DoABC#2)
 // _SafeStr_5369 = "_-06q" (String#14318, DoABC#2)
-// CurrencyIndicatorBase = "_-L5" (String#23050, DoABC#2)
-// CurrencyIndicatorBase = "_-uZ" (String#24474, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// animateIcon = "_-L5" (String#23050, DoABC#2)
+// setTextUnderline = "_-uZ" (String#24474, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 
 

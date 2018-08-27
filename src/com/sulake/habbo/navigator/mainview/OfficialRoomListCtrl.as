@@ -78,7 +78,7 @@ package com.sulake.habbo.navigator.mainview
                 if (!_arg_1){
                     return (true);
                 };
-                _local_4 = this._navigator.officialRoomEntryManager.OfficialRoomEntryManager(_arg_2);
+                _local_4 = this._navigator.officialRoomEntryManager.createEntry(_arg_2);
                 this._content.addListItem(_local_4);
                 _local_5 = true;
             };
@@ -92,7 +92,7 @@ package com.sulake.habbo.navigator.mainview
 // IViewCtrl = "_-D9" (String#7935, DoABC#2)
 // OfficialRoomListCtrl = "_-0ZB" (String#4283, DoABC#2)
 // OfficialRoomEntryData = "_-0vy" (String#4767, DoABC#2)
-// OfficialRoomEntryManager = "_-1v" (String#18754, DoABC#2)
+// createEntry = "_-1v" (String#18754, DoABC#2)
 // refreshEntry = "_-2v6" (String#308, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // officialRooms = "_-f3" (String#23847, DoABC#2)

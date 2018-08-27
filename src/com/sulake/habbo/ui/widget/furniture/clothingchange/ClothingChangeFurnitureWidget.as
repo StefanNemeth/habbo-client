@@ -42,16 +42,16 @@ package com.sulake.habbo.ui.widget.furniture.clothingchange
             this.hideGenderSelectionInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetClothingChangeUpdateEvent.RWCCUE_SHOW_GENDER_SELECTION, this.onUpdate);
             _arg_1.addEventListener(RoomWidgetClothingChangeUpdateEvent.RWCCUE_SHOW_CLOTHING_EDITOR, this.onUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -158,8 +158,8 @@ package com.sulake.habbo.ui.widget.furniture.clothingchange
 // _objectId = "_-1YP" (String#18, DoABC#2)
 // RWCCM_REQUEST_EDITOR = "_-14O" (String#16632, DoABC#2)
 // _objectCategory = "_-2Bf" (String#367, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3730 = "_-1rZ" (String#18611, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)

@@ -90,7 +90,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             this.getImageList(_arg_2).push(_local_4);
             this.getImageMap(_arg_2)[_arg_1] = _local_4;
         }
-        public function TwinkleImages(_arg_1:int, _arg_2:int):ThumbnailImageConfiguration
+        public function getImage(_arg_1:int, _arg_2:int):ThumbnailImageConfiguration
         {
             return (this.getImageMap(_arg_1)[_arg_2]);
         }
@@ -118,7 +118,7 @@ package com.sulake.habbo.navigator.roomthumbnails
 
 // ThumbnailImageConfigurations = "_-1RB" (String#5378, DoABC#2)
 // ThumbnailImageConfiguration = "_-1Ew" (String#5156, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // _SafeStr_6034 = "_-gy" (String#23927, DoABC#2)
 // _SafeStr_6036 = "_-0-d" (String#14037, DoABC#2)
 // _SafeStr_6037 = "_-3FA" (String#22084, DoABC#2)

@@ -7,7 +7,7 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
         private var _id:int = 0;
         private var _x:Number = 0;
         private var _y:Number = 0;
-        private var _Vector3d:Number = 0;
+        private var _z:Number = 0;
         private var _dir:int = 0;
         private var _sizeX:int = 0;
         private var _sizeY:int = 0;
@@ -55,12 +55,12 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
         }
         public function get z():Number
         {
-            return (this._Vector3d);
+            return (this._z);
         }
         public function set z(_arg_1:Number):void
         {
             if (!this._SafeStr_4520){
-                this._Vector3d = _arg_1;
+                this._z = _arg_1;
             };
         }
         public function get dir():int
@@ -176,7 +176,7 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
 // _y = "_-02f" (String#64, DoABC#2)
 // _dir = "_-1kY" (String#187, DoABC#2)
 // _SafeStr_4520 = "_-18k" (String#440, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // _sizeX = "_-sQ" (String#946, DoABC#2)
 // _sizeY = "_-36G" (String#912, DoABC#2)
 // _SafeStr_5154 = "_-2Mh" (String#6494, DoABC#2)

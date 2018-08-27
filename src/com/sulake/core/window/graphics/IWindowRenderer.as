@@ -12,10 +12,10 @@ package com.sulake.core.window.graphics
 
         function set debug(_arg_1:Boolean):void;
         function get allocatedByteCount():uint;
-        function WindowRenderer(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void;
-        function WindowRenderer():void;
+        function addToRenderQueue(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void;
+        function flushRenderQueue():void;
         function invalidate(_arg_1:IWindowContext, _arg_2:Rectangle):void;
-        function WindowRenderer(_arg_1:IWindow):BitmapData;
+        function getDrawBufferForRenderable(_arg_1:IWindow):BitmapData;
 
     }
 }//package com.sulake.core.window.graphics
@@ -24,8 +24,8 @@ package com.sulake.core.window.graphics
 // IWindowRenderer = "_-2Oq" (String#6539, DoABC#2)
 // allocatedByteCount = "_-2p5" (String#7060, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
-// WindowRenderer = "_-1zA" (String#6020, DoABC#2)
-// WindowRenderer = "_-2wd" (String#7216, DoABC#2)
-// WindowRenderer = "_-2bf" (String#6787, DoABC#2)
+// addToRenderQueue = "_-1zA" (String#6020, DoABC#2)
+// flushRenderQueue = "_-2wd" (String#7216, DoABC#2)
+// getDrawBufferForRenderable = "_-2bf" (String#6787, DoABC#2)
 
 

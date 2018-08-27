@@ -78,7 +78,7 @@ package com.sulake.habbo.friendbar.view.tabs
                 _local_3.dispose();
             };
             var _local_4:Array = [];
-            _local_2.IItemListWindow(RWUNE_NOTIFICATION, _local_4);
+            _local_2.groupListItemsWithTag(RWUNE_NOTIFICATION, _local_4);
             if (_local_4.length > 0){
                 for each (_local_5 in _local_4) {
                     _local_5.parent = null;
@@ -181,7 +181,7 @@ package com.sulake.habbo.friendbar.view.tabs
                 };
             };
         }
-        override public function ITab(_arg_1:Boolean):void
+        override public function deselect(_arg_1:Boolean):void
         {
             var _local_2:int;
             var _local_3:Token;
@@ -199,7 +199,7 @@ package com.sulake.habbo.friendbar.view.tabs
                         };
                     };
                 };
-                super.ITab(_arg_1);
+                super.deselect(_arg_1);
             };
         }
         override protected function expose():void
@@ -242,15 +242,15 @@ package com.sulake.habbo.friendbar.view.tabs
             _local_1.y = 0;
             _local_1.width = _SafeStr_9007;
             _local_1.height = _SafeStr_9008;
-            _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-            _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, ClubGiftNotification);
-            _local_1.addEventListener(WindowMouseEvent.WME_OUT, ClubGiftNotification);
-            _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-            _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, ClubGiftNotification);
-            _local_3.addEventListener(WindowMouseEvent.WME_OUT, ClubGiftNotification);
-            _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-            _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, ClubGiftNotification);
-            _local_4.addEventListener(WindowMouseEvent.WME_OUT, ClubGiftNotification);
+            _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+            _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseOver);
+            _local_1.addEventListener(WindowMouseEvent.WME_OUT, onMouseOut);
+            _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+            _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseOver);
+            _local_3.addEventListener(WindowMouseEvent.WME_OUT, onMouseOut);
+            _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+            _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseOver);
+            _local_4.addEventListener(WindowMouseEvent.WME_OUT, onMouseOut);
             _local_2.disposesBitmap = true;
             return (_local_1);
         }
@@ -261,17 +261,17 @@ package com.sulake.habbo.friendbar.view.tabs
             var _local_4:IBitmapWrapperWindow;
             if (((_arg_1) && (!(_arg_1.disposed)))){
                 _arg_1.procedure = null;
-                _arg_1.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-                _arg_1.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, ClubGiftNotification);
-                _arg_1.removeEventListener(WindowMouseEvent.WME_OUT, ClubGiftNotification);
+                _arg_1.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+                _arg_1.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseOver);
+                _arg_1.removeEventListener(WindowMouseEvent.WME_OUT, onMouseOut);
                 _local_2 = IRegionWindow(_arg_1.findChildByName(_SafeStr_7540));
-                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, ClubGiftNotification);
-                _local_2.removeEventListener(WindowMouseEvent.WME_OUT, ClubGiftNotification);
+                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseOver);
+                _local_2.removeEventListener(WindowMouseEvent.WME_OUT, onMouseOut);
                 _local_3 = _arg_1.findChildByName(_SafeStr_11047);
-                _local_3.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
-                _local_3.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, WelcomeScreenController);
-                _local_3.removeEventListener(WindowMouseEvent.WME_OUT, WelcomeScreenController);
+                _local_3.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
+                _local_3.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseClick);
+                _local_3.removeEventListener(WindowMouseEvent.WME_OUT, onMouseClick);
                 _arg_1.width = _SafeStr_9007;
                 _arg_1.height = _SafeStr_9008;
                 _arg_1.color = _SafeStr_4861;
@@ -293,7 +293,7 @@ package com.sulake.habbo.friendbar.view.tabs
                         this.removeNotificationToken(FriendNotification._SafeStr_10917, true);
                         if (((_SafeStr_11013) && (this._friend))){
                             _SafeStr_11013.startConversation(this._friend.id);
-                            this.ITab(true);
+                            this.deselect(true);
                             if (_arg_1.window.name == _SafeStr_11060){
                                 _SafeStr_11014.setMessengerIconNotify(false);
                             };
@@ -302,7 +302,7 @@ package com.sulake.habbo.friendbar.view.tabs
                     case _SafeStr_11061:
                         if (((_SafeStr_11013) && (this._friend))){
                             _SafeStr_11013.followToRoom(this._friend.id);
-                            this.ITab(true);
+                            this.deselect(true);
                         };
                         return;
                 };
@@ -322,24 +322,24 @@ package com.sulake.habbo.friendbar.view.tabs
             if (_local_3){
                 _local_6 = this._SafeStr_11066;
                 this._SafeStr_11066 = null;
-                this.ITab(false);
+                this.deselect(false);
                 this._SafeStr_11066 = _local_6;
             };
             var _local_5:String = _SafeStr_11062;
             switch (_arg_1.typeCode){
                 case FriendNotification._SafeStr_10926:
                     _local_4 = new RoomEventToken(this.friend, _arg_1, _arg_2);
-                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
+                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
                     _local_5 = _SafeStr_11063;
                     break;
                 case FriendNotification.TYPE_ACHIEVEMENT:
                     _local_4 = new AchievementToken(this.friend, _arg_1, _arg_2, _SafeStr_11015);
-                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
+                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
                     _local_5 = _SafeStr_11063;
                     break;
                 case FriendNotification._SafeStr_10927:
                     _local_4 = new QuestToken(this.friend, _arg_1, _arg_2, _SafeStr_11015);
-                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, WelcomeScreenController);
+                    _local_4.iconElement.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMouseClick);
                     _local_5 = _SafeStr_11063;
                     break;
                 case FriendNotification._SafeStr_10917:
@@ -355,12 +355,12 @@ package com.sulake.habbo.friendbar.view.tabs
                 this._SafeStr_11066.push(_local_4);
                 if (_local_5 != _SafeStr_11062){
                     _local_7 = IItemListWindow(_window.findChildByName(_SafeStr_11047));
-                    if (!_local_7.IItemListWindow(_local_5)){
+                    if (!_local_7.getListItemByTag(_local_5)){
                         _local_8 = _local_4.iconElement;
                         if (_local_8.tags.indexOf(_local_5) == -1){
                             _local_8.tags.push(_local_5);
                         };
-                        _local_7.IItemListWindow(_local_8, 0);
+                        _local_7.addListItemAt(_local_8, 0);
                     };
                 };
             };
@@ -446,19 +446,19 @@ package com.sulake.habbo.friendbar.view.tabs
 // AchievementToken = "_-2Zn" (String#6755, DoABC#2)
 // QuestToken = "_-8N" (String#7829, DoABC#2)
 // realName = "_-3HH" (String#922, DoABC#2)
-// IItemListWindow = "_-2CT" (String#6293, DoABC#2)
+// addListItemAt = "_-2CT" (String#6293, DoABC#2)
 // trackEventLog = "_-0ML" (String#14927, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
 // typeCode = "_-vq" (String#24522, DoABC#2)
 // _SafeStr_4861 = "_-0CJ" (String#582, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
-// IItemListWindow = "_-0gQ" (String#4432, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
+// groupListItemsWithTag = "_-0gQ" (String#4432, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
 // RWUNE_NOTIFICATION = "_-0Vj" (String#4221, DoABC#2)
 // _SafeStr_7515 = "_-1xV" (String#871, DoABC#2)
 // _SafeStr_7540 = "_-1l4" (String#444, DoABC#2)
@@ -468,7 +468,7 @@ package com.sulake.habbo.friendbar.view.tabs
 // _SafeStr_9008 = "_-hz" (String#2162, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // bitmapAssetName = "_-1XS" (String#5507, DoABC#2)
-// IItemListWindow = "_-Ml" (String#8136, DoABC#2)
+// getListItemByTag = "_-Ml" (String#8136, DoABC#2)
 // _recycled = "_-2vB" (String#1963, DoABC#2)
 
 

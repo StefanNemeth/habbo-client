@@ -60,7 +60,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
         public function open(_arg_1:int=-1, _arg_2:int=-1):void
         {
             this.prepareWindow();
-            this.ICatalogNavigator();
+            this.openPage();
             this._window.visible = true;
             if (_arg_1 >= 0){
                 this._window.x = _arg_1;
@@ -93,7 +93,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
         {
             this._window.visible = !(this._window.visible);
         }
-        private function ICatalogNavigator():void
+        private function openPage():void
         {
             this.localize();
             this.checkButtons();
@@ -117,13 +117,13 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
         {
             this._SafeStr_8302++;
             this._SafeStr_8302 = Math.min(this._SafeStr_8302, (this._localizations.length - 1));
-            this.ICatalogNavigator();
+            this.openPage();
         }
         private function previousPage():void
         {
             this._SafeStr_8302--;
             this._SafeStr_8302 = Math.max(this._SafeStr_8302, 0);
-            this.ICatalogNavigator();
+            this.openPage();
         }
         private function initLocalizations():void
         {
@@ -173,7 +173,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
                 this.setPreviewFromAsset(_local_4);
             };
         }
-        private function PendingImage(_arg_1:IBitmapWrapperWindow, _arg_2:BitmapData):void
+        private function setElementImage(_arg_1:IBitmapWrapperWindow, _arg_2:BitmapData):void
         {
             if (_arg_2 == null){
                 return;
@@ -200,15 +200,15 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
             };
             var _local_2:BitmapDataAsset = (this._SafeStr_5221.assets.getAssetByName(_arg_1) as BitmapDataAsset);
             if (_local_2 == null){
-                this.PendingImage(_arg_1);
+                this.retrievePreviewAsset(_arg_1);
                 return;
             };
             var _local_3:IBitmapWrapperWindow = (this.find(this._window, "help_image") as IBitmapWrapperWindow);
             if (_local_3){
-                this.PendingImage(_local_3, (_local_2.content as BitmapData));
+                this.setElementImage(_local_3, (_local_2.content as BitmapData));
             };
         }
-        private function PendingImage(_arg_1:String):void
+        private function retrievePreviewAsset(_arg_1:String):void
         {
             if (((((!(_arg_1)) || (!(this._SafeStr_5221)))) || (!(this._SafeStr_5221.assets)))){
                 return;
@@ -221,9 +221,9 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
             if (!_local_5){
                 return;
             };
-            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.PendingImage);
+            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.onPreviewImageReady);
         }
-        private function PendingImage(_arg_1:AssetLoaderEvent):void
+        private function onPreviewImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             if (_local_2 != null){
@@ -239,10 +239,10 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IContainerButtonWindow = "_-0UF" (String#1484, DoABC#2)
 // UserDefinedRoomEventsHelp = "_-2tb" (String#7150, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
 // toggle = "_-2MR" (String#19903, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
-// PendingImage = "_-30x" (String#625, DoABC#2)
+// onPreviewImageReady = "_-30x" (String#625, DoABC#2)
 // localize = "_-2KD" (String#6450, DoABC#2)
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
 // _localizations = "_-0il" (String#358, DoABC#2)
@@ -253,12 +253,12 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.help
 // _SafeStr_8304 = "_-gG" (String#23904, DoABC#2)
 // initLocalizations = "_-1MJ" (String#17372, DoABC#2)
 // onButtonClick = "_-1S0" (String#1689, DoABC#2)
-// ICatalogNavigator = "_-6Z" (String#2052, DoABC#2)
+// openPage = "_-6Z" (String#2052, DoABC#2)
 // checkButtons = "_-c6" (String#23718, DoABC#2)
 // nextPage = "_-UK" (String#23422, DoABC#2)
 // previousPage = "_-1SN" (String#17596, DoABC#2)
 // setPreviewFromAsset = "_-1qV" (String#1768, DoABC#2)
-// PendingImage = "_-04a" (String#579, DoABC#2)
+// retrievePreviewAsset = "_-04a" (String#579, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

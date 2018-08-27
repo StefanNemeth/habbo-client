@@ -97,13 +97,13 @@ package com.sulake.habbo.toolbar.extensions.purse
             };
             this._disposed = true;
         }
-        public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
         }
-        public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
         }
-        protected function CurrencyIndicatorBase(_arg_1:WindowMouseEvent):void
+        protected function onContainerClick(_arg_1:WindowMouseEvent):void
         {
         }
         protected function createWindow(_arg_1:String, _arg_2:String):void
@@ -114,11 +114,11 @@ package com.sulake.habbo.toolbar.extensions.purse
             if (_local_3){
                 this._view = (this._windowManager.buildFromXML((_local_3.content as XML), 1) as IWindowContainer);
                 if (this._view){
-                    this._view.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.CurrencyIndicatorBase);
-                    this._view.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.CurrencyIndicatorBase);
-                    this._view.addEventListener(WindowMouseEvent.WME_OUT, this.CurrencyIndicatorBase);
+                    this._view.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onContainerClick);
+                    this._view.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onContainerMouseOver);
+                    this._view.addEventListener(WindowMouseEvent.WME_OUT, this.onContainerMouseOut);
                     _local_4 = [];
-                    if (this._view.WindowController("ICON", _local_4, true) == 1){
+                    if (this._view.groupChildrenWithTag("ICON", _local_4, true) == 1){
                         this._SafeStr_13731 = (_local_4[0] as IBitmapWrapperWindow);
                         _local_5 = (this._assets.getAssetByName(_arg_2).content as BitmapData);
                         if (_local_5){
@@ -128,7 +128,7 @@ package com.sulake.habbo.toolbar.extensions.purse
                 };
             };
         }
-        protected function CurrencyIndicatorBase(_arg_1:int):void
+        protected function animateIcon(_arg_1:int):void
         {
             this._SafeStr_13739 = _arg_1;
             if (((this._SafeStr_13731) && ((this._SafeStr_13736.length > 0)))){
@@ -139,20 +139,20 @@ package com.sulake.habbo.toolbar.extensions.purse
                     this._SafeStr_13740 = (this._SafeStr_13736.length - 1);
                 };
                 this._SafeStr_6266 = new Timer(this._iconAnimationDelay, this._SafeStr_13736.length);
-                this._SafeStr_6266.addEventListener(TimerEvent.TIMER, this.CurrencyIndicatorBase);
-                this._SafeStr_6266.addEventListener(TimerEvent.TIMER_COMPLETE, this.CurrencyIndicatorBase);
+                this._SafeStr_6266.addEventListener(TimerEvent.TIMER, this.onAnimationTimer);
+                this._SafeStr_6266.addEventListener(TimerEvent.TIMER_COMPLETE, this.onAnimationTimerComplete);
                 this._SafeStr_6266.start();
-                this.CurrencyIndicatorBase(null);
+                this.onAnimationTimer(null);
             };
         }
-        protected function CurrencyIndicatorBase(_arg_1:String):void
+        protected function setText(_arg_1:String):void
         {
             if (this._view){
                 this._view.findChildByName(this._textElementName).caption = _arg_1;
                 this._view.findChildByName(this._textElementShadowName).caption = _arg_1;
             };
         }
-        protected function CurrencyIndicatorBase(_arg_1:Boolean):void
+        protected function setTextUnderline(_arg_1:Boolean):void
         {
             var _local_2:ITextWindow;
             var _local_3:ITextWindow;
@@ -178,7 +178,7 @@ package com.sulake.habbo.toolbar.extensions.purse
                 };
             };
         }
-        private function CurrencyIndicatorBase(_arg_1:TimerEvent):void
+        private function onAnimationTimer(_arg_1:TimerEvent):void
         {
             if (((this._SafeStr_13731) && ((this._SafeStr_13736.length > 0)))){
                 this.setIconBitmap(this._SafeStr_13736[this._SafeStr_13740]);
@@ -192,7 +192,7 @@ package com.sulake.habbo.toolbar.extensions.purse
                 };
             };
         }
-        private function CurrencyIndicatorBase(_arg_1:TimerEvent):void
+        private function onAnimationTimerComplete(_arg_1:TimerEvent):void
         {
             if (this._SafeStr_13736.length > 0){
                 this.setIconBitmap(this._SafeStr_13736[0]);
@@ -207,11 +207,11 @@ package com.sulake.habbo.toolbar.extensions.purse
                 this._SafeStr_13731.invalidate();
             };
         }
-        private function CurrencyIndicatorBase(_arg_1:WindowMouseEvent):void
+        private function onContainerMouseOver(_arg_1:WindowMouseEvent):void
         {
             this._view.color = this._bgColorDark;
         }
-        private function CurrencyIndicatorBase(_arg_1:WindowMouseEvent):void
+        private function onContainerMouseOut(_arg_1:WindowMouseEvent):void
         {
             this._view.color = this._bgColorLight;
         }
@@ -229,25 +229,25 @@ package com.sulake.habbo.toolbar.extensions.purse
 // _amountZeroText = "_-1U9" (String#17673, DoABC#2)
 // _SafeStr_13739 = "_-0pN" (String#16029, DoABC#2)
 // _SafeStr_13740 = "_-AO" (String#22632, DoABC#2)
-// CurrencyIndicatorBase = "_-2Nb" (String#19948, DoABC#2)
-// CurrencyIndicatorBase = "_-o5" (String#24192, DoABC#2)
+// onContainerMouseOver = "_-2Nb" (String#19948, DoABC#2)
+// onContainerMouseOut = "_-o5" (String#24192, DoABC#2)
 // CurrencyIndicatorBase = "_-0Dt" (String#3824, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // bgColorLight = "_-OA" (String#23175, DoABC#2)
 // bgColorDark = "_-ic" (String#23983, DoABC#2)
 // textElementShadowName = "_-1dv" (String#18053, DoABC#2)
 // iconAnimationDelay = "_-1Yv" (String#17847, DoABC#2)
 // amountZeroText = "_-Md" (String#23110, DoABC#2)
-// CurrencyIndicatorBase = "_-1M3" (String#602, DoABC#2)
-// CurrencyIndicatorBase = "_-L5" (String#23050, DoABC#2)
-// CurrencyIndicatorBase = "_-uZ" (String#24474, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// onContainerClick = "_-1M3" (String#602, DoABC#2)
+// animateIcon = "_-L5" (String#23050, DoABC#2)
+// setTextUnderline = "_-uZ" (String#24474, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_6266 = "_-0bu" (String#4344, DoABC#2)
-// CurrencyIndicatorBase = "_-1j1" (String#5735, DoABC#2)
-// CurrencyIndicatorBase = "_-2Lp" (String#6480, DoABC#2)
+// onAnimationTimer = "_-1j1" (String#5735, DoABC#2)
+// onAnimationTimerComplete = "_-2Lp" (String#6480, DoABC#2)
 // setIconBitmap = "_-27Q" (String#1818, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 
 

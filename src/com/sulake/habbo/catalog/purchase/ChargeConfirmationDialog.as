@@ -35,7 +35,7 @@ package com.sulake.habbo.catalog.purchase
         public function refresh():void
         {
             if (((!((this._window == null))) && (this._window.visible))){
-                this.ChargeConfirmationDialog(this._chargeInfo);
+                this.showChargeInfo(this._chargeInfo);
             };
         }
         public function dispose():void
@@ -56,7 +56,7 @@ package com.sulake.habbo.catalog.purchase
         {
             return (this._disposed);
         }
-        public function ChargeConfirmationDialog(_arg_1:ChargeInfo):void
+        public function showChargeInfo(_arg_1:ChargeInfo):void
         {
             var _local_4:IWindow;
             var _local_5:IWindow;
@@ -64,7 +64,7 @@ package com.sulake.habbo.catalog.purchase
             if (this._window == null){
                 this._window = (this.createWindow("charge_confirmation") as IFrameWindow);
                 _local_4 = this._window.findChildByName("charge_button");
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ChargeConfirmationDialog);
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCharge);
                 _local_5 = this._window.findChildByTag("close");
                 _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onWindowClose);
                 this._window.center();
@@ -85,7 +85,7 @@ package com.sulake.habbo.catalog.purchase
             var _local_2:XmlAsset = (this._catalog.assets.getAssetByName(_arg_1) as XmlAsset);
             return (this._catalog.windowManager.buildFromXML((_local_2.content as XML)));
         }
-        private function ChargeConfirmationDialog(_arg_1:WindowEvent):void
+        private function onCharge(_arg_1:WindowEvent):void
         {
             this._catalog.connection.send(new UseFurnitureMessageComposer(this._chargeInfo.stuffId, 2));
         }
@@ -110,8 +110,8 @@ package com.sulake.habbo.catalog.purchase
 // refresh = "_-s9" (String#189, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
 // _chargeInfo = "_-0NE" (String#4023, DoABC#2)
-// ChargeConfirmationDialog = "_-re" (String#24346, DoABC#2)
-// ChargeConfirmationDialog = "_-2Kl" (String#19834, DoABC#2)
+// showChargeInfo = "_-re" (String#24346, DoABC#2)
+// onCharge = "_-2Kl" (String#19834, DoABC#2)
 // chargePatchSize = "_-pz" (String#24273, DoABC#2)
 
 

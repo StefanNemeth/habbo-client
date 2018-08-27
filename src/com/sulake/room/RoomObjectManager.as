@@ -53,19 +53,19 @@ package com.sulake.room
             };
             return (_local_3);
         }
-        public function RoomInstance(_arg_1:int):IRoomObjectController
+        public function getObject(_arg_1:int):IRoomObjectController
         {
             return ((this._objects.getValue(String(_arg_1)) as IRoomObjectController));
         }
-        public function RoomInstance(_arg_1:int):IRoomObjectController
+        public function getObjectWithIndex(_arg_1:int):IRoomObjectController
         {
             return ((this._objects.getWithIndex(_arg_1) as IRoomObjectController));
         }
-        public function RoomInstance():int
+        public function getObjectCount():int
         {
             return (this._objects.length);
         }
-        public function RoomInstance(_arg_1:String):int
+        public function getObjectCountForType(_arg_1:String):int
         {
             var _local_2:Map = this.getObjectsForType(_arg_1, false);
             if (_local_2 != null){
@@ -73,7 +73,7 @@ package com.sulake.room
             };
             return (0);
         }
-        public function RoomInstance(_arg_1:int, _arg_2:String):IRoomObjectController
+        public function getObjectWithIndexAndType(_arg_1:int, _arg_2:String):IRoomObjectController
         {
             var _local_4:IRoomObjectController;
             var _local_3:Map = this.getObjectsForType(_arg_2, false);
@@ -82,7 +82,7 @@ package com.sulake.room
             };
             return (null);
         }
-        public function RoomInstance(_arg_1:int):Boolean
+        public function disposeObject(_arg_1:int):Boolean
         {
             var _local_4:String;
             var _local_5:Map;
@@ -132,18 +132,18 @@ package com.sulake.room
     }
 }//package com.sulake.room
 
-// RoomInstance = "_-252" (String#1807, DoABC#2)
+// getObjectWithIndex = "_-252" (String#1807, DoABC#2)
 // createObject = "_-j8" (String#2167, DoABC#2)
-// RoomInstance = "_-3E-" (String#921, DoABC#2)
+// disposeObject = "_-3E-" (String#921, DoABC#2)
 // IRoomObjectController = "_-17p" (String#5034, DoABC#2)
-// RoomInstance = "_-2T0" (String#1882, DoABC#2)
-// RoomInstance = "_-2OS" (String#1870, DoABC#2)
+// getObjectCountForType = "_-2T0" (String#1882, DoABC#2)
+// getObjectWithIndexAndType = "_-2OS" (String#1870, DoABC#2)
 // _SafeStr_14526 = "_-00A" (String#14060, DoABC#2)
 // getObjectsForType = "_-2He" (String#19711, DoABC#2)
 // IRoomObjectManager = "_-iT" (String#8568, DoABC#2)
 // RoomObjectManager = "_-0zf" (String#16415, DoABC#2)
-// RoomInstance = "_-09y" (String#1415, DoABC#2)
-// RoomInstance = "_-1GT" (String#844, DoABC#2)
+// getObjectCount = "_-09y" (String#1415, DoABC#2)
+// getObject = "_-1GT" (String#844, DoABC#2)
 // addObject = "_-0EW" (String#1435, DoABC#2)
 
 

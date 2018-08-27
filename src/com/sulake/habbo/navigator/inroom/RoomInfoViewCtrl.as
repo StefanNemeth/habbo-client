@@ -225,7 +225,7 @@ package com.sulake.habbo.navigator.inroom
             this.refreshRoom();
             this.refreshEvent();
             this.refreshEmbed();
-            this.ModActionCtrl();
+            this.refreshButtons();
             Util.moveChildrenToColumn(this._content, ["room_info", "event_info", "embed_info", "buttons_container"], 0, 2);
             this._content.height = Util.getLowestPoint(this._content);
             var _local_1:int = ((this._window.desktop.height - this._window.height) - this._SafeStr_8378);
@@ -235,7 +235,7 @@ package com.sulake.habbo.navigator.inroom
         }
         private function refreshRoom():void
         {
-            Util.InfostandWidget(this._SafeStr_6253);
+            Util.hideChildren(this._SafeStr_6253);
             var _local_1:GuestRoomData = this._navigator.data.enteredGuestRoom;
             var _local_2:Boolean = ((!((_local_1 == null))) && ((_local_1.flatId == this._navigator.data.homeRoomId)));
             this.refreshRoomDetails(_local_1, _local_2);
@@ -250,7 +250,7 @@ package com.sulake.habbo.navigator.inroom
         }
         private function refreshEvent():void
         {
-            Util.InfostandWidget(this._SafeStr_8394);
+            Util.hideChildren(this._SafeStr_8394);
             var _local_1:RoomEventData = this._navigator.data.roomEventData;
             this.refreshEventDetails(_local_1);
             this.refreshEventButtons(_local_1);
@@ -277,7 +277,7 @@ package com.sulake.habbo.navigator.inroom
                 this._SafeStr_8406.visible = false;
             };
         }
-        private function ModActionCtrl():void
+        private function refreshButtons():void
         {
             var _local_1:Boolean;
             if (!this._buttons){
@@ -432,21 +432,21 @@ package com.sulake.habbo.navigator.inroom
             this._SafeStr_8408 = ITextFieldWindow(this.find("embed_src_txt"));
             this._buttons = IWindowContainer(this.find("buttons_container"));
             this._SafeStr_8409 = IButtonWindow(this.find("zoom_button"));
-            this.RoomEventViewCtrl(this._SafeStr_8401, this.onAddFavouriteClick);
-            this.RoomEventViewCtrl(this._remFavouriteButton, this.onRemoveFavouriteClick);
-            this.RoomEventViewCtrl(this._SafeStr_8403, this.onRoomSettingsClick);
-            this.RoomEventViewCtrl(this._SafeStr_8402, this.onMakeHomeClick);
-            this.RoomEventViewCtrl(this._SafeStr_8404, this.onEventSettingsClick);
-            this.RoomEventViewCtrl(this._SafeStr_8405, this.onEventSettingsClick);
-            this.RoomEventViewCtrl(this._SafeStr_8408, this.onEmbedSrcClick);
-            this.RoomEventViewCtrl(this._SafeStr_8399, this.onThumbUp);
-            this.RoomEventViewCtrl(this._SafeStr_8398, this.onStaffPick);
-            this.RoomEventViewCtrl(this._SafeStr_8400, this.onFacebookLike);
-            this.RoomEventViewCtrl(this._SafeStr_8409, this.onZoomClick);
+            this.addMouseClickListener(this._SafeStr_8401, this.onAddFavouriteClick);
+            this.addMouseClickListener(this._remFavouriteButton, this.onRemoveFavouriteClick);
+            this.addMouseClickListener(this._SafeStr_8403, this.onRoomSettingsClick);
+            this.addMouseClickListener(this._SafeStr_8402, this.onMakeHomeClick);
+            this.addMouseClickListener(this._SafeStr_8404, this.onEventSettingsClick);
+            this.addMouseClickListener(this._SafeStr_8405, this.onEventSettingsClick);
+            this.addMouseClickListener(this._SafeStr_8408, this.onEmbedSrcClick);
+            this.addMouseClickListener(this._SafeStr_8399, this.onThumbUp);
+            this.addMouseClickListener(this._SafeStr_8398, this.onStaffPick);
+            this.addMouseClickListener(this._SafeStr_8400, this.onFacebookLike);
+            this.addMouseClickListener(this._SafeStr_8409, this.onZoomClick);
             this._navigator.refreshButton(this._SafeStr_8401, "favourite", true, null, 0);
             this._navigator.refreshButton(this._remFavouriteButton, "favourite", true, null, 0);
             this._navigator.refreshButton(this._SafeStr_8402, "home", true, null, 0);
-            this.RoomEventViewCtrl(this._window.findChildByTag("close"), this.onCloseButtonClick);
+            this.addMouseClickListener(this._window.findChildByTag("close"), this.onCloseButtonClick);
             this.addMouseOverListener(this._SafeStr_6253, this.onHover);
             this.addMouseOverListener(this._SafeStr_8394, this.onHover);
             this._SafeStr_8392.width = this._SafeStr_8392.textWidth;
@@ -458,7 +458,7 @@ package com.sulake.habbo.navigator.inroom
             this._SafeStr_8406.height = (Util.getLowestPoint(this._SafeStr_8406) + 5);
             this._SafeStr_8379 = (this._window.y + this._window.height);
         }
-        private function RoomEventViewCtrl(_arg_1:IWindow, _arg_2:Function):void
+        private function addMouseClickListener(_arg_1:IWindow, _arg_2:Function):void
         {
             if (_arg_1 != null){
                 _arg_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, _arg_2);
@@ -553,7 +553,7 @@ package com.sulake.habbo.navigator.inroom
         {
             this._navigator.events.dispatchEvent(new HabboNavigatorEvent(HabboNavigatorEvent.HTIE_ICON_ZOOM));
             this._SafeStr_8410 = !(this._SafeStr_8410);
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         private function onHover(_arg_1:WindowEvent):void
         {
@@ -563,7 +563,7 @@ package com.sulake.habbo.navigator.inroom
         {
             this._window.visible = false;
             if (this._SafeStr_8382 != null){
-                this._SafeStr_8382.RoomSettingsCtrl();
+                this._SafeStr_8382.resetView();
             };
         }
         private function getEmbedData():String
@@ -609,7 +609,7 @@ package com.sulake.habbo.navigator.inroom
 // RoomEventViewCtrl = "_-Od" (String#8176, DoABC#2)
 // UpdateNavigatorSettingsMessageComposer = "_-0C2" (String#14528, DoABC#2)
 // CanCreateEventMessageComposer = "_-0T6" (String#15175, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // flatId = "_-3CK" (String#21973, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // getPublicSpaceName = "_-Zw" (String#23629, DoABC#2)
@@ -628,7 +628,7 @@ package com.sulake.habbo.navigator.inroom
 // hasVisibleChildren = "_-0js" (String#15823, DoABC#2)
 // facebookLike = "_-2nq" (String#20993, DoABC#2)
 // _roomName = "_-bX" (String#253, DoABC#2)
-// RoomEventViewCtrl = "_-10B" (String#595, DoABC#2)
+// addMouseClickListener = "_-10B" (String#595, DoABC#2)
 // enteredGuestRoom = "_-2Qx" (String#20085, DoABC#2)
 // prepareWindow = "_-RN" (String#219, DoABC#2)
 // backToRoomSettings = "_-fe" (String#23873, DoABC#2)
@@ -639,7 +639,7 @@ package com.sulake.habbo.navigator.inroom
 // eventName = "_-1tL" (String#18690, DoABC#2)
 // eventDescription = "_-1i8" (String#18215, DoABC#2)
 // roomSettingsRefreshNeeded = "_-QW" (String#8214, DoABC#2)
-// RoomSettingsCtrl = "_-1Go" (String#17143, DoABC#2)
+// resetView = "_-1Go" (String#17143, DoABC#2)
 // startThumbnailEdit = "_-S7" (String#23329, DoABC#2)
 // _rating = "_-PE" (String#8188, DoABC#2)
 // HabboRoomSettingsTrackingEvent = "_-1NO" (String#17413, DoABC#2)
@@ -686,7 +686,7 @@ package com.sulake.habbo.navigator.inroom
 // refreshRoom = "_-1kB" (String#18295, DoABC#2)
 // refreshEvent = "_-29G" (String#19375, DoABC#2)
 // refreshEmbed = "_-1jy" (String#18284, DoABC#2)
-// ModActionCtrl = "_-1ep" (String#859, DoABC#2)
+// refreshButtons = "_-1ep" (String#859, DoABC#2)
 // refreshRoomDetails = "_-1k2" (String#18290, DoABC#2)
 // refreshPublicSpaceDetails = "_-1Wg" (String#17765, DoABC#2)
 // enteredPublicSpace = "_-2Gp" (String#19674, DoABC#2)

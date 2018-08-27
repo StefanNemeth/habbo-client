@@ -46,7 +46,7 @@ package com.sulake.habbo.ui.widget
             this._messageListener = null;
             this._windowManager = null;
             if (((!((this._events == null))) && (!(this._events.disposed)))){
-                this.RoomChatWidget(this._events);
+                this.unregisterUpdateEvents(this._events);
             };
             if (this._handler){
                 this._handler.dispose();
@@ -77,13 +77,13 @@ package com.sulake.habbo.ui.widget
         {
             return (this._localizations);
         }
-        public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if ((_arg_1 is EventDispatcher)){
                 this._events = (_arg_1 as EventDispatcher);
             };
         }
-        public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
         }
         public function get mainWindow():IWindow
@@ -97,8 +97,8 @@ package com.sulake.habbo.ui.widget
 // IRoomWidgetMessageListener = "_-2FI" (String#6349, DoABC#2)
 // IRoomWidget = "_-1r4" (String#5876, DoABC#2)
 // RoomWidgetBase = "_-0eQ" (String#4398, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _handler = "_-1Eb" (String#5153, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // _localizations = "_-0il" (String#358, DoABC#2)

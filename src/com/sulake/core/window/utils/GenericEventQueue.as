@@ -63,7 +63,7 @@ package com.sulake.core.window.utils
             this._SafeStr_9714.splice(0, this._SafeStr_9714.length);
             this._index = 0;
         }
-        protected function GenericEventQueue(_arg_1:Event):void
+        protected function eventListener(_arg_1:Event):void
         {
             this._SafeStr_9714.push(_arg_1);
         }
@@ -75,6 +75,6 @@ package com.sulake.core.window.utils
 // GenericEventQueue = "_-0Tz" (String#4181, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // _SafeStr_9714 = "_-0an" (String#15466, DoABC#2)
-// GenericEventQueue = "_-1Qe" (String#17539, DoABC#2)
+// eventListener = "_-1Qe" (String#17539, DoABC#2)
 
 

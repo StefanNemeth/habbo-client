@@ -59,39 +59,39 @@ package com.sulake.habbo.inventory.furni
             };
             return (this._view);
         }
-        public function FurniGridView():void
+        public function clearGrid():void
         {
             if (this._grid != null){
-                this._grid.IItemGridWindow();
+                this._grid.removeGridItems();
             };
         }
         public function updateItem(_arg_1:int, _arg_2:IWindowContainer):void
         {
-            var _local_3:IWindow = this._grid.IItemGridWindow(_arg_1);
+            var _local_3:IWindow = this._grid.getGridItemAt(_arg_1);
             if (_local_3){
                 _local_3 = _arg_2;
             };
         }
-        public function FurniGridView(_arg_1:IWindowContainer):void
+        public function addItemToBottom(_arg_1:IWindowContainer):void
         {
-            this._grid.IItemGridWindow(_arg_1);
-            _arg_1.procedure = this.FurniGridView;
+            this._grid.addGridItem(_arg_1);
+            _arg_1.procedure = this.itemEventProc;
         }
-        public function FurniGridView(_arg_1:IWindowContainer, _arg_2:int):void
+        public function addItemAt(_arg_1:IWindowContainer, _arg_2:int):void
         {
-            this._grid.IItemGridWindow(_arg_1, _arg_2);
-            _arg_1.procedure = this.FurniGridView;
+            this._grid.addGridItemAt(_arg_1, _arg_2);
+            _arg_1.procedure = this.itemEventProc;
         }
         public function removeItem(_arg_1:int):IWindow
         {
-            return (this._grid.IItemGridWindow(_arg_1));
+            return (this._grid.removeGridItemAt(_arg_1));
         }
-        public function FurniGridView(_arg_1:IWindowContainer, _arg_2:int):void
+        public function moveItemTo(_arg_1:IWindowContainer, _arg_2:int):void
         {
-            this._grid.IItemGridWindow(_arg_1);
-            this._grid.IItemGridWindow(_arg_1, _arg_2);
+            this._grid.removeGridItem(_arg_1);
+            this._grid.addGridItemAt(_arg_1, _arg_2);
         }
-        public function FurniGridView(_arg_1:Boolean):void
+        public function setLock(_arg_1:Boolean):void
         {
             if (_arg_1){
                 this._grid.autoArrangeItems = false;
@@ -102,7 +102,7 @@ package com.sulake.habbo.inventory.furni
                 this._grid.unlock();
             };
         }
-        private function FurniGridView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function itemEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:Boolean;
             if (_arg_1.type == WindowMouseEvent.WME_UP){
@@ -119,7 +119,7 @@ package com.sulake.habbo.inventory.furni
                 }
                 else {
                     if ((((((((_arg_1.type == WindowMouseEvent.WME_OUT)) && (!((this._SafeStr_5001 == null))))) && ((this._SafeStr_5001 == _arg_2)))) && (!(this._SafeStr_4830.isTradingOpen)))){
-                        _local_3 = this._SafeStr_4830.FurniModel(true);
+                        _local_3 = this._SafeStr_4830.requestSelectedFurniPlacement(true);
                         if (_local_3){
                             this._SafeStr_5001 = null;
                         };
@@ -134,7 +134,7 @@ package com.sulake.habbo.inventory.furni
                             }
                             else {
                                 if (_arg_1.type == WindowMouseEvent.WME_DOUBLE_CLICK){
-                                    this._SafeStr_4830.FurniModel();
+                                    this._SafeStr_4830.requestCurrentActionOnSelection();
                                     this._SafeStr_5001 = null;
                                 };
                             };
@@ -155,26 +155,26 @@ package com.sulake.habbo.inventory.furni
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-Rm" (String#8243, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// removeGridItemAt = "_-Rm" (String#8243, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // _grid = "_-CU" (String#2073, DoABC#2)
 // _SafeStr_5001 = "_-1CR" (String#1632, DoABC#2)
 // WME_DOUBLE_CLICK = "_-Y3" (String#23564, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
 // removeItem = "_-2gu" (String#6888, DoABC#2)
-// FurniGridView = "_-2KN" (String#6453, DoABC#2)
+// itemEventProc = "_-2KN" (String#6453, DoABC#2)
 // toggleItemSelection = "_-Qk" (String#23275, DoABC#2)
-// FurniGridView = "_-SJ" (String#23337, DoABC#2)
-// FurniGridView = "_-3AS" (String#21898, DoABC#2)
+// addItemAt = "_-SJ" (String#23337, DoABC#2)
+// addItemToBottom = "_-3AS" (String#21898, DoABC#2)
 // cancelFurniInMover = "_-1Xa" (String#17797, DoABC#2)
-// FurniModel = "_-17E" (String#16744, DoABC#2)
+// requestSelectedFurniPlacement = "_-17E" (String#16744, DoABC#2)
 // isTradingOpen = "_-0Yq" (String#15394, DoABC#2)
-// FurniModel = "_-14j" (String#16642, DoABC#2)
-// FurniGridView = "_-3JU" (String#22263, DoABC#2)
-// FurniGridView = "_-1n7" (String#18429, DoABC#2)
-// FurniGridView = "_-2VO" (String#20257, DoABC#2)
-// IItemGridWindow = "_-1Xz" (String#5519, DoABC#2)
-// IItemGridWindow = "_-3CS" (String#7563, DoABC#2)
+// requestCurrentActionOnSelection = "_-14j" (String#16642, DoABC#2)
+// moveItemTo = "_-3JU" (String#22263, DoABC#2)
+// clearGrid = "_-1n7" (String#18429, DoABC#2)
+// setLock = "_-2VO" (String#20257, DoABC#2)
+// addGridItemAt = "_-1Xz" (String#5519, DoABC#2)
+// removeGridItem = "_-3CS" (String#7563, DoABC#2)
 
 

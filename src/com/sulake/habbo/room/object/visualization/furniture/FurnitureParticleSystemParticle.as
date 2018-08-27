@@ -9,7 +9,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 
         private var _x:Number;
         private var _y:Number;
-        private var _Vector3d:Number;
+        private var _z:Number;
         private var _lastX:Number;
         private var _lastY:Number;
         private var _lastZ:Number;
@@ -43,12 +43,12 @@ package com.sulake.habbo.room.object.visualization.furniture
         {
             this._x = _arg_1;
             this._y = _arg_2;
-            this._Vector3d = _arg_3;
+            this._z = _arg_3;
             this._direction = new Vector3D(_arg_4.x, _arg_4.y, _arg_4.z);
             this._direction.scaleBy(_arg_5);
             this._lastX = (this._x - (this._direction.x * _arg_6));
             this._lastY = (this._y - (this._direction.y * _arg_6));
-            this._lastZ = (this._Vector3d - (this._direction.z * _arg_6));
+            this._lastZ = (this._z - (this._direction.z * _arg_6));
             this._age = 0;
             this._hasMoved = false;
             this._SafeStr_12757 = _arg_7;
@@ -102,7 +102,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         public function get z():Number
         {
-            return (this._Vector3d);
+            return (this._z);
         }
         public function set x(_arg_1:Number):void
         {
@@ -114,7 +114,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         public function set z(_arg_1:Number):void
         {
-            this._Vector3d = _arg_1;
+            this._z = _arg_1;
         }
         public function get lastX():Number
         {
@@ -149,7 +149,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         public function toString():String
         {
-            return ([this._x, this._y, this._Vector3d].toString());
+            return ([this._x, this._y, this._z].toString());
         }
 
     }
@@ -171,7 +171,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // IGraphicAsset = "_-1HF" (String#5195, DoABC#2)
 // FurnitureParticleSystemParticle = "_-0Ku" (String#3974, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // _SafeStr_6839 = "_-2dx" (String#6832, DoABC#2)
 // _age = "_-07p" (String#581, DoABC#2)
 

@@ -27,7 +27,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         private var _SafeStr_12899:Array;
         private var _SafeStr_12885:int = 1;
         private var _align:int = 1;
-        private var _PlaneMaterialCell:BitmapData;
+        private var _SafeStr_12879:BitmapData;
         private var _cachedBitmapNormal:Vector3d = null;
         private var _SafeStr_12900:int = 0;
         private var _SafeStr_12886:Boolean = false;
@@ -81,9 +81,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         }
         public function dispose():void
         {
-            if (this._PlaneMaterialCell != null){
-                this._PlaneMaterialCell.dispose();
-                this._PlaneMaterialCell = null;
+            if (this._SafeStr_12879 != null){
+                this._SafeStr_12879.dispose();
+                this._SafeStr_12879 = null;
             };
             if (this._cachedBitmapNormal != null){
                 this._cachedBitmapNormal = null;
@@ -95,9 +95,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             if (!this._SafeStr_12886){
                 return;
             };
-            if (this._PlaneMaterialCell != null){
-                this._PlaneMaterialCell.dispose();
-                this._PlaneMaterialCell = null;
+            if (this._SafeStr_12879 != null){
+                this._SafeStr_12879.dispose();
+                this._SafeStr_12879 = null;
             };
             if (this._cachedBitmapNormal != null){
                 this._cachedBitmapNormal.x = 0;
@@ -148,26 +148,26 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 this._cachedBitmapNormal = new Vector3d();
             };
             if (this.isStatic){
-                if (this._PlaneMaterialCell != null){
-                    if ((((((this._PlaneMaterialCell.width == _arg_2)) && ((this._PlaneMaterialCell.height == _arg_3)))) && (Vector3d.isEqual(this._cachedBitmapNormal, _arg_4)))){
+                if (this._SafeStr_12879 != null){
+                    if ((((((this._SafeStr_12879.width == _arg_2)) && ((this._SafeStr_12879.height == _arg_3)))) && (Vector3d.isEqual(this._cachedBitmapNormal, _arg_4)))){
                         if (_arg_1 != null){
                             this.copyCachedBitmapOnCanvas(_arg_1, this._SafeStr_12900, _arg_6, _arg_7);
                             return (_arg_1);
                         };
-                        return (this._PlaneMaterialCell);
+                        return (this._SafeStr_12879);
                     };
-                    this._PlaneMaterialCell.dispose();
-                    this._PlaneMaterialCell = null;
+                    this._SafeStr_12879.dispose();
+                    this._SafeStr_12879 = null;
                 };
             }
             else {
-                if (this._PlaneMaterialCell != null){
-                    if ((((this._PlaneMaterialCell.width == _arg_2)) && ((this._PlaneMaterialCell.height == _arg_3)))){
-                        this._PlaneMaterialCell.fillRect(this._PlaneMaterialCell.rect, 0xFFFFFF);
+                if (this._SafeStr_12879 != null){
+                    if ((((this._SafeStr_12879.width == _arg_2)) && ((this._SafeStr_12879.height == _arg_3)))){
+                        this._SafeStr_12879.fillRect(this._SafeStr_12879.rect, 0xFFFFFF);
                     }
                     else {
-                        this._PlaneMaterialCell.dispose();
-                        this._PlaneMaterialCell = null;
+                        this._SafeStr_12879.dispose();
+                        this._SafeStr_12879 = null;
                     };
                 };
             };
@@ -175,21 +175,21 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             this._cachedBitmapNormal.assign(_arg_4);
             if (!_arg_5){
                 this._SafeStr_12900 = _arg_3;
-                if (this._PlaneMaterialCell == null){
-                    this._PlaneMaterialCell = new BitmapData(_arg_2, _arg_3, true, 0xFFFFFFFF);
+                if (this._SafeStr_12879 == null){
+                    this._SafeStr_12879 = new BitmapData(_arg_2, _arg_3, true, 0xFFFFFFFF);
                 }
                 else {
-                    this._PlaneMaterialCell.fillRect(this._PlaneMaterialCell.rect, 0xFFFFFFFF);
+                    this._SafeStr_12879.fillRect(this._SafeStr_12879.rect, 0xFFFFFFFF);
                 };
                 if (_arg_1 != null){
                     this.copyCachedBitmapOnCanvas(_arg_1, _arg_3, _arg_6, _arg_7);
                     return (_arg_1);
                 };
-                return (this._PlaneMaterialCell);
+                return (this._SafeStr_12879);
             };
-            if (this._PlaneMaterialCell == null){
+            if (this._SafeStr_12879 == null){
                 this._SafeStr_12900 = _arg_3;
-                this._PlaneMaterialCell = new BitmapData(_arg_2, _arg_3, true, 0xFFFFFF);
+                this._SafeStr_12879 = new BitmapData(_arg_2, _arg_3, true, 0xFFFFFF);
             };
             var _local_8:Array = [];
             var _local_9:int;
@@ -207,38 +207,38 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 if (_arg_1 != null){
                     return (_arg_1);
                 };
-                return (this._PlaneMaterialCell);
+                return (this._SafeStr_12879);
             };
             var _local_10:int;
             switch (this._SafeStr_12885){
                 case _SafeStr_12861:
-                    _local_10 = this.renderRepeatBorders(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatBorders(this._SafeStr_12879, _local_8);
                     break;
                 case _SafeStr_12862:
-                    _local_10 = this.renderRepeatCenter(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatCenter(this._SafeStr_12879, _local_8);
                     break;
                 case _SafeStr_12863:
-                    _local_10 = this.renderRepeatFirst(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatFirst(this._SafeStr_12879, _local_8);
                     break;
                 case _SafeStr_12864:
-                    _local_10 = this.renderRepeatLast(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatLast(this._SafeStr_12879, _local_8);
                     break;
                 case _SafeStr_12865:
-                    _local_10 = this.renderRepeatRandom(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatRandom(this._SafeStr_12879, _local_8);
                     break;
                 default:
-                    _local_10 = this.renderRepeatAll(this._PlaneMaterialCell, _local_8);
+                    _local_10 = this.renderRepeatAll(this._SafeStr_12879, _local_8);
             };
             this._SafeStr_12900 = _local_10;
             if (_arg_1 != null){
                 this.copyCachedBitmapOnCanvas(_arg_1, _local_10, _arg_6, _arg_7);
                 return (_arg_1);
             };
-            return (this._PlaneMaterialCell);
+            return (this._SafeStr_12879);
         }
         private function copyCachedBitmapOnCanvas(_arg_1:BitmapData, _arg_2:int, _arg_3:int, _arg_4:Boolean):void
         {
-            if ((((((_arg_1 == null)) || ((this._PlaneMaterialCell == null)))) || ((_arg_1 == this._PlaneMaterialCell)))){
+            if ((((((_arg_1 == null)) || ((this._SafeStr_12879 == null)))) || ((_arg_1 == this._SafeStr_12879)))){
                 return;
             };
             if (!_arg_4){
@@ -246,12 +246,12 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             };
             var _local_5:Rectangle;
             if (this._align == _SafeStr_4863){
-                _local_5 = new Rectangle(0, 0, this._PlaneMaterialCell.width, this._SafeStr_12900);
+                _local_5 = new Rectangle(0, 0, this._SafeStr_12879.width, this._SafeStr_12900);
             }
             else {
-                _local_5 = new Rectangle(0, (this._PlaneMaterialCell.height - this._SafeStr_12900), this._PlaneMaterialCell.width, this._SafeStr_12900);
+                _local_5 = new Rectangle(0, (this._SafeStr_12879.height - this._SafeStr_12900), this._SafeStr_12879.width, this._SafeStr_12900);
             };
-            _arg_1.copyPixels(this._PlaneMaterialCell, _local_5, new Point(0, _arg_3), null, null, true);
+            _arg_1.copyPixels(this._SafeStr_12879, _local_5, new Point(0, _arg_3), null, null, true);
         }
         private function getColumnsWidth(_arg_1:Array):int
         {
@@ -529,7 +529,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             var _local_4:BitmapData;
             var _local_5:int;
             while (_local_5 < _arg_1.width) {
-                _local_6 = Randomizer.Map(1, 0, (_arg_2.length * 17631));
+                _local_6 = Randomizer.getValues(1, 0, (_arg_2.length * 17631));
                 _local_7 = (_local_6[0] % _arg_2.length);
                 _local_4 = (_arg_2[_local_7] as BitmapData);
                 if (_local_4 != null){
@@ -562,7 +562,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 // _SafeStr_12865 = "_-1Bd" (String#16925, DoABC#2)
 // _SafeStr_12868 = "_-2X0" (String#20323, DoABC#2)
 // createColumn = "_-0iO" (String#15767, DoABC#2)
-// _PlaneMaterialCell = "_-3BZ" (String#917, DoABC#2)
+// _SafeStr_12879 = "_-3BZ" (String#917, DoABC#2)
 // _SafeStr_12885 = "_-2gh" (String#6884, DoABC#2)
 // _SafeStr_12886 = "_-1qn" (String#868, DoABC#2)
 // _isStatic = "_-3Ce" (String#7569, DoABC#2)
@@ -585,7 +585,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 // Randomizer = "_-FS" (String#7982, DoABC#2)
 // _SafeStr_4862 = "_-3BX" (String#7541, DoABC#2)
 // _SafeStr_4863 = "_-0Ny" (String#4045, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // isStatic = "_-2HT" (String#19704, DoABC#2)
 
 

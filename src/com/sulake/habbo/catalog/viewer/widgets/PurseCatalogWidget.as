@@ -34,7 +34,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             for each (_local_2 in _local_1) {
                 _local_6 = (_window.findChildByName(_local_2) as IButtonWindow);
                 if (_local_6 != null){
-                    _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
+                    _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
                 };
             };
             _local_3 = (_window.findChildByName("purse_info_tickets") as ITextWindow);
@@ -43,7 +43,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             _local_5.text = page.viewer.catalog.getPurse().credits.toString();
             return (true);
         }
-        private function WelcomeScreenController(event:WindowMouseEvent):void
+        private function onMouseClick(event:WindowMouseEvent):void
         {
             var element:IWindow = (event.target as IWindow);
             var id:String = element.name;
@@ -73,6 +73,6 @@ package com.sulake.habbo.catalog.viewer.widgets
 // CatalogWidget = "_-1pJ" (String#5844, DoABC#2)
 // ICatalogWidget = "_-016" (String#3585, DoABC#2)
 // PurseCatalogWidget = "_-3I4" (String#22204, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
 
 

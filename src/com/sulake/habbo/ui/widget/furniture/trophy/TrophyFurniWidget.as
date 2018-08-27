@@ -38,15 +38,15 @@ package com.sulake.habbo.ui.widget.furniture.trophy
             this.disposeInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetTrophyDataUpdateEvent.RWTDUE_TROPHY_DATA, this.onObjectUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -135,9 +135,9 @@ package com.sulake.habbo.ui.widget.furniture.trophy
 // RoomWidgetBase = "_-0eQ" (String#4398, DoABC#2)
 // TrophyFurniWidget = "_-0HP" (String#3903, DoABC#2)
 // RoomWidgetTrophyDataUpdateEvent = "_-3LM" (String#7726, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // onMouseEvent = "_-0ZW" (String#357, DoABC#2)
 // _date = "_-1Dw" (String#1636, DoABC#2)

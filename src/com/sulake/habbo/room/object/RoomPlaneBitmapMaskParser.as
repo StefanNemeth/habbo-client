@@ -83,13 +83,13 @@ package com.sulake.habbo.room.object
             };
             this._SafeStr_12837.reset();
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:String, _arg_2:String, _arg_3:IVector3d, _arg_4:String):void
+        public function addMask(_arg_1:String, _arg_2:String, _arg_3:IVector3d, _arg_4:String):void
         {
             var _local_5:RoomPlaneBitmapMaskData = new RoomPlaneBitmapMaskData(_arg_2, _arg_3, _arg_4);
             this._SafeStr_12837.remove(_arg_1);
             this._SafeStr_12837.add(_arg_1, _local_5);
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:String):Boolean
+        public function removeMask(_arg_1:String):Boolean
         {
             var _local_2:RoomPlaneBitmapMaskData = (this._SafeStr_12837.remove(_arg_1) as RoomPlaneBitmapMaskData);
             if (_local_2 != null){
@@ -108,10 +108,10 @@ package com.sulake.habbo.room.object
             ;
             var _local_2:int;
             while (_local_2 < this.maskCount) {
-                _local_3 = this.RoomPlaneBitmapMaskParser(_local_2);
-                _local_4 = this.RoomPlaneBitmapMaskParser(_local_2);
+                _local_3 = this.getMaskType(_local_2);
+                _local_4 = this.getMaskCategory(_local_2);
                 _local_5 = new (XML)((((((('<planeMask id="' + _local_2) + '" type="') + _local_3) + '" category="') + _local_4) + '"/>'));
-                _local_6 = this.RoomPlaneBitmapMaskParser(_local_2);
+                _local_6 = this.getMaskLocation(_local_2);
                 if (_local_6 != null){
                     _local_5.appendChild(new (XML)((((((('<location x="' + _local_6.x) + '" y="') + _local_6.y) + '" z="') + _local_6.z) + '"/>')));
                     _local_1.appendChild(_local_5);
@@ -120,7 +120,7 @@ package com.sulake.habbo.room.object
             };
             return (_local_1);
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:int):IVector3d
+        public function getMaskLocation(_arg_1:int):IVector3d
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.maskCount)))){
                 return (null);
@@ -131,7 +131,7 @@ package com.sulake.habbo.room.object
             };
             return (null);
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:int):String
+        public function getMaskType(_arg_1:int):String
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.maskCount)))){
                 return (null);
@@ -142,7 +142,7 @@ package com.sulake.habbo.room.object
             };
             return (null);
         }
-        public function RoomPlaneBitmapMaskParser(_arg_1:int):String
+        public function getMaskCategory(_arg_1:int):String
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.maskCount)))){
                 return (null);
@@ -161,14 +161,14 @@ package com.sulake.habbo.room.object
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // maskCount = "_-3BF" (String#21934, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-rP" (String#24334, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-3Di" (String#22023, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-1wz" (String#18845, DoABC#2)
+// getMaskType = "_-rP" (String#24334, DoABC#2)
+// getMaskLocation = "_-3Di" (String#22023, DoABC#2)
+// getMaskCategory = "_-1wz" (String#18845, DoABC#2)
 // RoomPlaneBitmapMaskParser = "_-27E" (String#6188, DoABC#2)
 // RoomPlaneBitmapMaskData = "_-2dh" (String#6826, DoABC#2)
 // getXML = "_-2Oe" (String#6532, DoABC#2)
 // loc = "_-0fh" (String#15660, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-0SM" (String#15149, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-07G" (String#14336, DoABC#2)
+// addMask = "_-0SM" (String#15149, DoABC#2)
+// removeMask = "_-07G" (String#14336, DoABC#2)
 
 

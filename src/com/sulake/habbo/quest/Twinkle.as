@@ -32,11 +32,11 @@ package com.sulake.habbo.quest
         {
             return ((this._twinkleImages == null));
         }
-        public function Twinkle():void
+        public function onAnimationStart():void
         {
             this._position = new Point(Math.round((Math.random() * APPEAR_AREA.x)), Math.round((Math.random() * APPEAR_AREA.y)));
         }
-        public function Twinkle(_arg_1:int):Point
+        public function getPosition(_arg_1:int):Point
         {
             return (this._position);
         }
@@ -47,7 +47,7 @@ package com.sulake.habbo.quest
         public function getBitmap(_arg_1:int):BitmapData
         {
             var _local_2:int = this.getFrame(_arg_1);
-            return (this._twinkleImages.TwinkleImages(_SafeStr_12189[_local_2]));
+            return (this._twinkleImages.getImage(_SafeStr_12189[_local_2]));
         }
         private function getFrame(_arg_1:int):int
         {
@@ -65,7 +65,7 @@ package com.sulake.habbo.quest
     }
 }//package com.sulake.habbo.quest
 
-// Twinkle = "_-3Hw" (String#7665, DoABC#2)
+// onAnimationStart = "_-3Hw" (String#7665, DoABC#2)
 // isFinished = "_-2pC" (String#7064, DoABC#2)
 // getBitmap = "_-0zS" (String#4837, DoABC#2)
 // _SafeStr_12188 = "_-1kr" (String#18325, DoABC#2)
@@ -79,7 +79,7 @@ package com.sulake.habbo.quest
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // _position = "_-0Pf" (String#433, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
-// Twinkle = "_-GB" (String#7997, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
+// getPosition = "_-GB" (String#7997, DoABC#2)
 
 

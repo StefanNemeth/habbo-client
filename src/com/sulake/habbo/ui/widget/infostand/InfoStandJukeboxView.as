@@ -49,19 +49,19 @@ package com.sulake.habbo.ui.widget.infostand
             _widget.mainContainer.addChild(_window);
             var _local_3:IWindow = _border.findChildByTag("close");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onClose);
             };
             if (_buttons != null){
                 _local_9 = 0;
                 while (_local_9 < _buttons.numListItems) {
                     _local_4 = _buttons.getListItemAt(_local_9);
-                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, InfoStandUserView);
+                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onButtonClicked);
                     _local_9++;
                 };
             };
             _SafeStr_14009 = _border.findChildByTag("catalog");
             if (_SafeStr_14009 != null){
-                _SafeStr_14009.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, InfoStandFurniView);
+                _SafeStr_14009.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onCatalogButtonClicked);
             };
             var _local_7:IBitmapWrapperWindow = (_border.findChildByName("icon_disc") as IBitmapWrapperWindow);
             if (_local_7 != null){
@@ -104,7 +104,7 @@ package com.sulake.habbo.ui.widget.infostand
             _local_3.visible = true;
             _local_3.height = (_local_3.textHeight + 5);
         }
-        public function InfoStandJukeboxView(_arg_1:RoomWidgetSongUpdateEvent):void
+        public function updateSongInfo(_arg_1:RoomWidgetSongUpdateEvent):void
         {
             if (_arg_1.type == RoomWidgetSongUpdateEvent.RWSUE_PLAYING_CHANGED){
                 this._songId = _arg_1.songId;
@@ -112,10 +112,10 @@ package com.sulake.habbo.ui.widget.infostand
             if (_arg_1.songId == this._songId){
                 this._songName = _arg_1.songName;
                 this._songAuthor = _arg_1.songAuthor;
-                this.InfoStandJukeboxView((this._songId >= 0));
+                this.updateNowPlaying((this._songId >= 0));
             };
         }
-        private function InfoStandJukeboxView(_arg_1:Boolean):void
+        private function updateNowPlaying(_arg_1:Boolean):void
         {
             var _local_3:String;
             var _local_2:ITextWindow = (_SafeStr_13990.getListItemByName("now_playing_text") as ITextWindow);
@@ -136,7 +136,7 @@ package com.sulake.habbo.ui.widget.infostand
                 this.nowPlayingTrackName = "";
                 this.nowPlayingAuthorName = "";
             };
-            InfoStandUserView();
+            updateWindow();
         }
 
     }
@@ -148,22 +148,22 @@ package com.sulake.habbo.ui.widget.infostand
 // songAuthor = "_-0Jg" (String#14829, DoABC#2)
 // _SafeStr_13990 = "_-38U" (String#2009, DoABC#2)
 // _SafeStr_14009 = "_-ST" (String#23345, DoABC#2)
-// InfoStandFurniView = "_-TK" (String#23378, DoABC#2)
-// InfoStandJukeboxView = "_-oi" (String#24223, DoABC#2)
-// InfoStandJukeboxView = "_-pL" (String#24247, DoABC#2)
+// onCatalogButtonClicked = "_-TK" (String#23378, DoABC#2)
+// updateSongInfo = "_-oi" (String#24223, DoABC#2)
+// updateNowPlaying = "_-pL" (String#24247, DoABC#2)
 // IBorderWindow = "_-0Br" (String#1422, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // InfoStandFurniView = "_-1e5" (String#5631, DoABC#2)
 // InfoStandJukeboxView = "_-3Fa" (String#7621, DoABC#2)
 // RoomWidgetSongUpdateEvent = "_-0rz" (String#16120, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // _songId = "_-0a-" (String#241, DoABC#2)
 // nowPlayingTrackName = "_-2VF" (String#6669, DoABC#2)
 // nowPlayingAuthorName = "_-2zC" (String#7269, DoABC#2)
 // songName = "_-uT" (String#24469, DoABC#2)
 // songId = "_-2fw" (String#20688, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
 // RWSUE_PLAYING_CHANGED = "_-3LG" (String#22337, DoABC#2)
 
 

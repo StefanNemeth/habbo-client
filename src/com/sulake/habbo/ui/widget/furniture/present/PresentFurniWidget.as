@@ -39,7 +39,7 @@ package com.sulake.habbo.ui.widget.furniture.present
             this.hideInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -50,11 +50,11 @@ package com.sulake.habbo.ui.widget.furniture.present
             _arg_1.addEventListener(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_FLOOR, this.onObjectUpdate);
             _arg_1.addEventListener(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_LANDSCAPE, this.onObjectUpdate);
             _arg_1.addEventListener(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_WALLPAPER, this.onObjectUpdate);
-            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.InfostandWidget);
+            _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.onRoomObjectRemoved);
             _arg_1.addEventListener(RoomWidgetEcotronBoxDataUpdateEvent.RWEBDUE_PACKAGEINFO, this.onEcotronUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -66,7 +66,7 @@ package com.sulake.habbo.ui.widget.furniture.present
             _arg_1.removeEventListener(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_LANDSCAPE, this.onObjectUpdate);
             _arg_1.removeEventListener(RoomWidgetPresentDataUpdateEvent.RWPDUE_CONTENTS_WALLPAPER, this.onObjectUpdate);
             _arg_1.removeEventListener(RoomWidgetEcotronBoxDataUpdateEvent.RWEBDUE_PACKAGEINFO, this.onEcotronUpdate);
-            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.InfostandWidget);
+            _arg_1.removeEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.onRoomObjectRemoved);
         }
         private function onObjectUpdate(_arg_1:RoomWidgetPresentDataUpdateEvent):void
         {
@@ -135,7 +135,7 @@ package com.sulake.habbo.ui.widget.furniture.present
                 this._window.findChildByName("text").caption = "${widget.furni.present.instructions}";
             };
         }
-        private function InfostandWidget(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
+        private function onRoomObjectRemoved(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
             if (_arg_1.id == this._objectId){
                 this.hideInterface();
@@ -283,13 +283,13 @@ package com.sulake.habbo.ui.widget.furniture.present
 // _controller = "_-18D" (String#59, DoABC#2)
 // _SafeStr_3713 = "_-0ty" (String#4724, DoABC#2)
 // hideInterface = "_-29" (String#304, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // RWEBDUE_PACKAGEINFO = "_-1FM" (String#17088, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
 // RWEBDUE_CONTENTS = "_-k8" (String#24041, DoABC#2)
 // RWROUE_FURNI_REMOVED = "_-2L6" (String#19851, DoABC#2)
-// InfostandWidget = "_-1GC" (String#842, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// onRoomObjectRemoved = "_-1GC" (String#842, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // showIcon = "_-0R" (String#4111, DoABC#2)
 // iconBitmapData = "_-1Ok" (String#17458, DoABC#2)

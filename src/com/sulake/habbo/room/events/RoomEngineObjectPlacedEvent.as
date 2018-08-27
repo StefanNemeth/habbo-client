@@ -7,7 +7,7 @@ package com.sulake.habbo.room.events
         private var _wallLocation:String = "";
         private var _x:Number = 0;
         private var _y:Number = 0;
-        private var _Vector3d:Number = 0;
+        private var _z:Number = 0;
         private var _direction:int = 0;
         private var _placedInRoom:Boolean = false;
         private var _placedOnFloor:Boolean = false;
@@ -20,7 +20,7 @@ package com.sulake.habbo.room.events
             this._wallLocation = _arg_6;
             this._x = _arg_7;
             this._y = _arg_8;
-            this._Vector3d = _arg_9;
+            this._z = _arg_9;
             this._direction = _arg_10;
             this._placedInRoom = _arg_11;
             this._placedOnFloor = _arg_12;
@@ -41,7 +41,7 @@ package com.sulake.habbo.room.events
         }
         public function get z():Number
         {
-            return (this._Vector3d);
+            return (this._z);
         }
         public function get direction():int
         {
@@ -71,7 +71,7 @@ package com.sulake.habbo.room.events
 // RoomEngineObjectPlacedEvent = "_-2zd" (String#21445, DoABC#2)
 // _wallLocation = "_-1p1" (String#1763, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // wallLocation = "_-12C" (String#16544, DoABC#2)
 // _placedInRoom = "_-07y" (String#14363, DoABC#2)
 // _placedOnFloor = "_-1Tz" (String#17665, DoABC#2)

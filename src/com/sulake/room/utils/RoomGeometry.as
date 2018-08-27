@@ -8,12 +8,12 @@ package com.sulake.room.utils
     {
 
         public static const _SafeStr_14327:Number = 64;
-        public static const _RoomGeometry:Number = 32;
+        public static const _SafeStr_14508:Number = 32;
 
         private var _updateId:int = 0;
         private var _x:Vector3d;
         private var _y:Vector3d;
-        private var _Vector3d:Vector3d;
+        private var _z:Vector3d;
         private var _directionAxis:Vector3d;
         private var _location:Vector3d;
         private var _direction:Vector3d;
@@ -36,7 +36,7 @@ package com.sulake.room.utils
             this.scale = _arg_1;
             this._x = new Vector3d();
             this._y = new Vector3d();
-            this._Vector3d = new Vector3d();
+            this._z = new Vector3d();
             this._directionAxis = new Vector3d();
             this._location = new Vector3d();
             this._direction = new Vector3d();
@@ -50,10 +50,10 @@ package com.sulake.room.utils
             this.location = new Vector3d(_arg_3.x, _arg_3.y, _arg_3.z);
             this.direction = new Vector3d(_arg_2.x, _arg_2.y, _arg_2.z);
             if (_arg_4 != null){
-                this.RoomGeometry(_arg_4);
+                this.setDepthVector(_arg_4);
             }
             else {
-                this.RoomGeometry(_arg_2);
+                this.setDepthVector(_arg_2);
             };
             this._SafeStr_14519 = new Map();
         }
@@ -188,21 +188,21 @@ package com.sulake.room.utils
                 _local_25 = new Vector3d(_local_20.x, _local_20.y, _local_20.z);
                 this._x.assign(_local_23);
                 this._y.assign(_local_24);
-                this._Vector3d.assign(_local_25);
-                this._directionAxis.assign(this._Vector3d);
+                this._z.assign(_local_25);
+                this._directionAxis.assign(this._z);
             }
             else {
                 this._x.assign(_local_18);
                 this._y.assign(_local_19);
-                this._Vector3d.assign(_local_20);
-                this._directionAxis.assign(this._Vector3d);
+                this._z.assign(_local_20);
+                this._directionAxis.assign(this._z);
             };
         }
         public function dispose():void
         {
             this._x = null;
             this._y = null;
-            this._Vector3d = null;
+            this._z = null;
             this._loc = null;
             this._dir = null;
             this._directionAxis = null;
@@ -212,7 +212,7 @@ package com.sulake.room.utils
                 this._SafeStr_14519 = null;
             };
         }
-        public function RoomGeometry(_arg_1:IVector3d, _arg_2:IVector3d):void
+        public function setDisplacement(_arg_1:IVector3d, _arg_2:IVector3d):void
         {
             var _local_3:String;
             var _local_4:Vector3d;
@@ -228,7 +228,7 @@ package com.sulake.room.utils
                 this._updateId++;
             };
         }
-        private function RoomGeometry(_arg_1:IVector3d):IVector3d
+        private function getDisplacenent(_arg_1:IVector3d):IVector3d
         {
             var _local_2:String;
             if (this._SafeStr_14519 != null){
@@ -237,7 +237,7 @@ package com.sulake.room.utils
             };
             return (null);
         }
-        public function RoomGeometry(_arg_1:IVector3d):void
+        public function setDepthVector(_arg_1:IVector3d):void
         {
             var _local_18:Number;
             var _local_19:Number;
@@ -273,26 +273,26 @@ package com.sulake.room.utils
             };
             this._updateId++;
         }
-        public function RoomGeometry(_arg_1:IVector3d, _arg_2:Number):void
+        public function adjustLocation(_arg_1:IVector3d, _arg_2:Number):void
         {
-            if ((((_arg_1 == null)) || ((this._Vector3d == null)))){
+            if ((((_arg_1 == null)) || ((this._z == null)))){
                 return;
             };
-            var _local_3:Vector3d = Vector3d.product(this._Vector3d, -(_arg_2));
+            var _local_3:Vector3d = Vector3d.product(this._z, -(_arg_2));
             var _local_4:Vector3d = new Vector3d((_arg_1.x + _local_3.x), (_arg_1.y + _local_3.y), (_arg_1.z + _local_3.z));
             this.location = _local_4;
         }
-        public function RoomGeometry(_arg_1:IVector3d):IVector3d
+        public function getCoordinatePosition(_arg_1:IVector3d):IVector3d
         {
             if (_arg_1 == null){
                 return (null);
             };
             var _local_2:Number = Vector3d.scalarProjection(_arg_1, this._x);
             var _local_3:Number = Vector3d.scalarProjection(_arg_1, this._y);
-            var _local_4:Number = Vector3d.scalarProjection(_arg_1, this._Vector3d);
+            var _local_4:Number = Vector3d.scalarProjection(_arg_1, this._z);
             return (new Vector3d(_local_2, _local_3, _local_4));
         }
-        public function RoomGeometry(_arg_1:IVector3d):IVector3d
+        public function getScreenPosition(_arg_1:IVector3d):IVector3d
         {
             var _local_2:Vector3d = Vector3d.dif(_arg_1, this._loc);
             _local_2.x = (_local_2.x * this._SafeStr_14511);
@@ -306,7 +306,7 @@ package com.sulake.room.utils
             var _local_5:Number = -(Vector3d.scalarProjection(_local_2, this._y));
             _local_4 = (_local_4 * this._scale);
             _local_5 = (_local_5 * this._scale);
-            var _local_6:IVector3d = this.RoomGeometry(_arg_1);
+            var _local_6:IVector3d = this.getDisplacenent(_arg_1);
             if (_local_6 != null){
                 _local_2 = Vector3d.dif(_arg_1, this._loc);
                 _local_2.add(_local_6);
@@ -320,15 +320,15 @@ package com.sulake.room.utils
             _local_2.z = _local_3;
             return (_local_2);
         }
-        public function RoomGeometry(_arg_1:IVector3d):Point
+        public function getScreenPoint(_arg_1:IVector3d):Point
         {
-            var _local_2:IVector3d = this.RoomGeometry(_arg_1);
+            var _local_2:IVector3d = this.getScreenPosition(_arg_1);
             if (_local_2 == null){
                 return (null);
             };
             return (new Point(_local_2.x, _local_2.y));
         }
-        public function RoomGeometry(_arg_1:Point, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:IVector3d):Point
+        public function getPlanePosition(_arg_1:Point, _arg_2:IVector3d, _arg_3:IVector3d, _arg_4:IVector3d):Point
         {
             var _local_15:Number;
             var _local_16:Number;
@@ -338,7 +338,7 @@ package com.sulake.room.utils
             _local_7.add(Vector3d.product(this._y, _local_6));
             var _local_8:Vector3d = new Vector3d((this._loc.x * this._SafeStr_14511), (this._loc.y * this._SafeStr_14512), (this._loc.z * this._SafeStr_14513));
             _local_8.add(_local_7);
-            var _local_9:IVector3d = this._Vector3d;
+            var _local_9:IVector3d = this._z;
             var _local_10:Vector3d = new Vector3d((_arg_2.x * this._SafeStr_14511), (_arg_2.y * this._SafeStr_14512), (_arg_2.z * this._SafeStr_14513));
             var _local_11:Vector3d = new Vector3d((_arg_3.x * this._SafeStr_14511), (_arg_3.y * this._SafeStr_14512), (_arg_3.z * this._SafeStr_14513));
             var _local_12:Vector3d = new Vector3d((_arg_4.x * this._SafeStr_14511), (_arg_4.y * this._SafeStr_14512), (_arg_4.z * this._SafeStr_14513));
@@ -353,24 +353,24 @@ package com.sulake.room.utils
             };
             return (null);
         }
-        public function RoomGeometry():void
+        public function performZoom():void
         {
-            if (this.RoomGeometry()){
-                this.scale = _RoomGeometry;
+            if (this.isZoomedIn()){
+                this.scale = _SafeStr_14508;
             }
             else {
                 this.scale = _SafeStr_14327;
             };
         }
-        public function RoomGeometry():Boolean
+        public function isZoomedIn():Boolean
         {
             return ((this.scale == _SafeStr_14327));
         }
-        public function RoomGeometry():void
+        public function performZoomOut():void
         {
-            this.scale = _RoomGeometry;
+            this.scale = _SafeStr_14508;
         }
-        public function RoomGeometry():void
+        public function performZoomIn():void
         {
             this.scale = _SafeStr_14327;
         }
@@ -380,17 +380,17 @@ package com.sulake.room.utils
 
 // dif = "_-wu" (String#24566, DoABC#2)
 // crossProduct = "_-0hD" (String#15719, DoABC#2)
-// RoomGeometry = "_-05e" (String#3679, DoABC#2)
+// getCoordinatePosition = "_-05e" (String#3679, DoABC#2)
 // directionAxis = "_-3Gq" (String#7644, DoABC#2)
-// RoomGeometry = "_-1QP" (String#5358, DoABC#2)
+// getScreenPosition = "_-1QP" (String#5358, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // scalarProjection = "_-2p1" (String#21043, DoABC#2)
 // z_scale = "_-2LM" (String#6468, DoABC#2)
-// RoomGeometry = "_-03w" (String#3646, DoABC#2)
+// setDisplacement = "_-03w" (String#3646, DoABC#2)
 // _SafeStr_14327 = "_-H5" (String#22894, DoABC#2)
-// RoomGeometry = "_-2Oh" (String#6534, DoABC#2)
-// _RoomGeometry = "_-06M" (String#14302, DoABC#2)
+// performZoom = "_-2Oh" (String#6534, DoABC#2)
+// _SafeStr_14508 = "_-06M" (String#14302, DoABC#2)
 // _updateId = "_-3HO" (String#22174, DoABC#2)
 // _directionAxis = "_-0e7" (String#15590, DoABC#2)
 // _SafeStr_14511 = "_-1Dg" (String#17011, DoABC#2)
@@ -404,23 +404,23 @@ package com.sulake.room.utils
 // _SafeStr_14519 = "_-Kb" (String#23027, DoABC#2)
 // x_scale = "_-1qI" (String#18555, DoABC#2)
 // y_scale = "_-02y" (String#14160, DoABC#2)
-// RoomGeometry = "_-2Ch" (String#19512, DoABC#2)
-// RoomGeometry = "_-2h8" (String#20733, DoABC#2)
+// setDepthVector = "_-2Ch" (String#19512, DoABC#2)
+// getDisplacenent = "_-2h8" (String#20733, DoABC#2)
 // IRoomGeometry = "_-0z9" (String#4829, DoABC#2)
 // RoomGeometry = "_-2l9" (String#20887, DoABC#2)
 // _location = "_-245" (String#244, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
 // _dir = "_-1kY" (String#187, DoABC#2)
 // updateId = "_-0TD" (String#1478, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
-// RoomGeometry = "_-9w" (String#7863, DoABC#2)
-// RoomGeometry = "_-1S5" (String#5398, DoABC#2)
-// RoomGeometry = "_-2Z0" (String#6746, DoABC#2)
-// RoomGeometry = "_-10E" (String#4875, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
+// adjustLocation = "_-9w" (String#7863, DoABC#2)
+// isZoomedIn = "_-1S5" (String#5398, DoABC#2)
+// performZoomOut = "_-2Z0" (String#6746, DoABC#2)
+// performZoomIn = "_-10E" (String#4875, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // _loc = "_-0OE" (String#185, DoABC#2)
 // _depth = "_-XX" (String#935, DoABC#2)
-// RoomGeometry = "_-eX" (String#8492, DoABC#2)
+// getPlanePosition = "_-eX" (String#8492, DoABC#2)
 // product = "_-Bd" (String#22675, DoABC#2)
 // sub = "_-2e2" (String#20605, DoABC#2)
 

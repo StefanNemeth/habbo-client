@@ -18,16 +18,16 @@ package com.sulake.habbo.catalog.viewer
         override public function initProductIcon(_arg_1:IRoomEngine):void
         {
             var _local_2:IProduct = firstProduct;
-            var _local_3:BitmapData = _local_2.initIcon(this, this, (offer as IPurchasableOffer), _icon, this.PendingImage);
-            this.ProductGridItem(_local_3, true);
+            var _local_3:BitmapData = _local_2.initIcon(this, this, (offer as IPurchasableOffer), _icon, this.onPreviewImageReady);
+            this.setIconImage(_local_3, true);
         }
-        private function PendingImage(_arg_1:AssetLoaderEvent):void
+        private function onPreviewImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct;
             if (((!(disposed)) && (!((offer.page.viewer.catalog == null))))){
                 _local_2 = (_arg_1.target as AssetLoaderStruct);
                 if (_local_2 != null){
-                    (offer.page.viewer.catalog as HabboCatalog).PendingImage(_icon, _local_2.assetName, null);
+                    (offer.page.viewer.catalog as HabboCatalog).setImageFromAsset(_icon, _local_2.assetName, null);
                 };
             };
         }
@@ -41,10 +41,10 @@ package com.sulake.habbo.catalog.viewer
 // SingleProductContainer = "_-1RF" (String#5380, DoABC#2)
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 // initIcon = "_-0Fm" (String#1437, DoABC#2)
-// PendingImage = "_-1q7" (String#18549, DoABC#2)
-// PendingImage = "_-30x" (String#625, DoABC#2)
+// setImageFromAsset = "_-1q7" (String#18549, DoABC#2)
+// onPreviewImageReady = "_-30x" (String#625, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

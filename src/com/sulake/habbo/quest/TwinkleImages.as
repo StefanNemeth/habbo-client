@@ -23,7 +23,7 @@ package com.sulake.habbo.quest
             this._SafeStr_8017 = _arg_1;
             var _local_2:int = 1;
             while (_local_2 <= _SafeStr_12252) {
-                this.TwinkleImages(_local_2);
+                this.loadImage(_local_2);
                 _local_2++;
             };
         }
@@ -42,15 +42,15 @@ package com.sulake.habbo.quest
         {
             return ((this._SafeStr_8017 == null));
         }
-        private function TwinkleImages(_arg_1:int):void
+        private function loadImage(_arg_1:int):void
         {
-            PendingImage.PendingImage(this._SafeStr_8017, ("ach_twinkle" + _arg_1), this.TwinkleImages);
+            PendingImage.retrievePreviewAsset(this._SafeStr_8017, ("ach_twinkle" + _arg_1), this.onImageReady);
         }
-        public function TwinkleImages(_arg_1:int):BitmapData
+        public function getImage(_arg_1:int):BitmapData
         {
             return (this._images[("ach_twinkle" + _arg_1)]);
         }
-        private function TwinkleImages(_arg_1:AssetLoaderEvent):void
+        private function onImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             if (_local_2 == null){
@@ -72,14 +72,14 @@ package com.sulake.habbo.quest
 }//package com.sulake.habbo.quest
 
 // _SafeStr_12252 = "_-2Yc" (String#20381, DoABC#2)
-// TwinkleImages = "_-0DI" (String#14581, DoABC#2)
+// loadImage = "_-0DI" (String#14581, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // TwinkleImages = "_-0vX" (String#4758, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// TwinkleImages = "_-1qK" (String#1767, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// onImageReady = "_-1qK" (String#1767, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
-// PendingImage = "_-04a" (String#579, DoABC#2)
+// retrievePreviewAsset = "_-04a" (String#579, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

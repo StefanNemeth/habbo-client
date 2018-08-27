@@ -31,13 +31,13 @@ package com.sulake.habbo.ui.widget.playlisteditor
             super();
             this._container = _arg_2;
             this._widget = _arg_1;
-            this.MusicInventoryStatusView();
+            this.createWindows();
             this.hide();
         }
         public function destroy():void
         {
             var _local_1:IWindowContainer;
-            for each (_local_1 in this._SafeStr_6738.Map()) {
+            for each (_local_1 in this._SafeStr_6738.getValues()) {
                 _local_1.destroy();
             };
             this._SafeStr_6738 = null;
@@ -50,7 +50,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         {
             this._container.visible = false;
         }
-        public function InfostandWidget(_arg_1:String):void
+        public function selectView(_arg_1:String):void
         {
             this._container.removeChildAt(0);
             this._container.addChildAt((this._SafeStr_6738[_arg_1] as IWindowContainer), 0);
@@ -70,21 +70,21 @@ package com.sulake.habbo.ui.widget.playlisteditor
             };
             this._SafeStr_6763.text = _arg_1;
         }
-        public function MusicInventoryStatusView(_arg_1:BitmapData, _arg_2:Boolean=true):void
+        public function setPreviewPlayingBackgroundImage(_arg_1:BitmapData, _arg_2:Boolean=true):void
         {
-            this.MusicInventoryStatusView(MISV_PREVIEW_PLAYING, "preview_play_background_image", _arg_1);
+            this.blitBackgroundImage(MISV_PREVIEW_PLAYING, "preview_play_background_image", _arg_1);
             if (((_arg_2) && (!((_arg_1 == null))))){
                 _arg_1.dispose();
             };
         }
-        public function MusicInventoryStatusView(_arg_1:BitmapData, _arg_2:Boolean=true):void
+        public function setGetMoreMusicBackgroundImage(_arg_1:BitmapData, _arg_2:Boolean=true):void
         {
-            this.MusicInventoryStatusView(MISV_BUY_MORE, "get_more_music_background_image", _arg_1);
+            this.blitBackgroundImage(MISV_BUY_MORE, "get_more_music_background_image", _arg_1);
             if (((_arg_2) && (!((_arg_1 == null))))){
                 _arg_1.dispose();
             };
         }
-        private function MusicInventoryStatusView():void
+        private function createWindows():void
         {
             var _local_1:IWindowContainer;
             var _local_2:XmlAsset;
@@ -97,21 +97,21 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 this._SafeStr_6762 = (_local_1.getChildByName("preview_play_track_name") as ITextWindow);
                 this._SafeStr_6763 = (_local_1.getChildByName("preview_play_author_name") as ITextWindow);
                 _local_3 = (_local_1.getChildByName("stop_preview_button") as IButtonWindow);
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.MusicInventoryStatusView);
-                this.MusicInventoryStatusView(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6689));
-                this.MusicInventoryStatusView("jb_icon_disc", (_local_1.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
-                this.MusicInventoryStatusView("jb_icon_composer", (_local_1.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onStopPreviewClicked);
+                this.setPreviewPlayingBackgroundImage(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6689));
+                this.assignAssetByNameToElement("jb_icon_disc", (_local_1.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
+                this.assignAssetByNameToElement("jb_icon_composer", (_local_1.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
             };
             _local_2 = (this._widget.assets.getAssetByName("playlisteditor_inventory_subwindow_get_more_music") as XmlAsset);
             _local_1 = (this._widget.windowManager.buildFromXML((_local_2.content as XML)) as IWindowContainer);
             if (_local_1 != null){
                 this._SafeStr_6738.add(MISV_BUY_MORE, _local_1);
                 _local_4 = (_local_1.getChildByName("open_catalog_button") as IButtonWindow);
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.MusicInventoryStatusView);
-                this.MusicInventoryStatusView(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6690));
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOpenCatalogButtonClicked);
+                this.setGetMoreMusicBackgroundImage(this._widget.getImageGalleryAssetBitmap(PlayListEditorWidgetAssetsEnum._SafeStr_6690));
             };
         }
-        private function MusicInventoryStatusView(_arg_1:String, _arg_2:String, _arg_3:BitmapData):void
+        private function blitBackgroundImage(_arg_1:String, _arg_2:String, _arg_3:BitmapData):void
         {
             var _local_6:BitmapData;
             var _local_4:IWindowContainer = (this._SafeStr_6738[_arg_1] as IWindowContainer);
@@ -128,7 +128,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_5.bitmap = _local_6;
             };
         }
-        private function MusicInventoryStatusView(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
+        private function assignAssetByNameToElement(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
         {
             var _local_4:BitmapData;
             var _local_3:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_1) as BitmapDataAsset);
@@ -139,11 +139,11 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 };
             };
         }
-        private function MusicInventoryStatusView(_arg_1:WindowMouseEvent):void
+        private function onOpenCatalogButtonClicked(_arg_1:WindowMouseEvent):void
         {
             this._widget.openSongDiskShopCataloguePage();
         }
-        private function MusicInventoryStatusView(_arg_1:WindowMouseEvent):void
+        private function onStopPreviewClicked(_arg_1:WindowMouseEvent):void
         {
             this._widget.stopUserSong();
         }
@@ -155,27 +155,27 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListEditorWidget = "_-1O-" (String#5310, DoABC#2)
 // PlayListEditorWidgetAssetsEnum = "_-0jk" (String#4497, DoABC#2)
 // _SafeStr_3864 = "_-2-T" (String#446, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // stopUserSong = "_-0qi" (String#16075, DoABC#2)
 // getImageGalleryAssetBitmap = "_-0PQ" (String#15039, DoABC#2)
 // openSongDiskShopCataloguePage = "_-0v8" (String#16242, DoABC#2)
 // _SafeStr_6689 = "_-1Bz" (String#16940, DoABC#2)
 // _SafeStr_6690 = "_-1DW" (String#17003, DoABC#2)
-// MusicInventoryStatusView = "_-2kT" (String#20863, DoABC#2)
-// MusicInventoryStatusView = "_-2ww" (String#21345, DoABC#2)
-// InfostandWidget = "_-1-8" (String#1597, DoABC#2)
+// setPreviewPlayingBackgroundImage = "_-2kT" (String#20863, DoABC#2)
+// setGetMoreMusicBackgroundImage = "_-2ww" (String#21345, DoABC#2)
+// selectView = "_-1-8" (String#1597, DoABC#2)
 // MISV_PREVIEW_PLAYING = "_-1fR" (String#18115, DoABC#2)
 // MISV_BUY_MORE = "_-1sd" (String#18660, DoABC#2)
 // songName = "_-uT" (String#24469, DoABC#2)
 // authorName = "_-1Y5" (String#5522, DoABC#2)
 // _SafeStr_6738 = "_-ge" (String#8526, DoABC#2)
-// MusicInventoryStatusView = "_-1Lv" (String#5276, DoABC#2)
-// MusicInventoryStatusView = "_-2Qz" (String#1879, DoABC#2)
+// createWindows = "_-1Lv" (String#5276, DoABC#2)
+// assignAssetByNameToElement = "_-2Qz" (String#1879, DoABC#2)
 // _SafeStr_6762 = "_-029" (String#14132, DoABC#2)
 // _SafeStr_6763 = "_-0AS" (String#14465, DoABC#2)
-// MusicInventoryStatusView = "_-Fn" (String#22843, DoABC#2)
-// MusicInventoryStatusView = "_-NW" (String#23146, DoABC#2)
-// MusicInventoryStatusView = "_-2wu" (String#21343, DoABC#2)
+// blitBackgroundImage = "_-Fn" (String#22843, DoABC#2)
+// onStopPreviewClicked = "_-NW" (String#23146, DoABC#2)
+// onOpenCatalogButtonClicked = "_-2wu" (String#21343, DoABC#2)
 
 

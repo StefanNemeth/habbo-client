@@ -69,21 +69,21 @@ package com.sulake.habbo.communication.demo
                 this._events = null;
             };
         }
-        public function HabboHotelView(_arg_1:String, _arg_2:Function=null):void
+        public function loadHotelViewImage(_arg_1:String, _arg_2:Function=null):void
         {
             var _local_3:AssetLoaderStruct = this._SafeStr_5255.loadAssetFromFile("hotelview_png", new URLRequest(_arg_1), "image/png");
             if (_arg_2 == null){
-                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.hotelViewLoadedHandler);
+                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.hotelViewLoadedHandler);
             }
             else {
                 this._SafeStr_10698 = _arg_2;
-                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.hotelViewLoadedCallbackHandler);
+                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.hotelViewLoadedCallbackHandler);
             };
             this._SafeStr_10699++;
         }
-        private function HabboHotelView(_arg_1:AssetLoaderEvent):void
+        private function hotelViewLoadedHandler(_arg_1:AssetLoaderEvent):void
         {
             var _local_4:BitmapData;
             var _local_5:IDisplayObjectWrapper;
@@ -103,10 +103,10 @@ package com.sulake.habbo.communication.demo
             if (!this._SafeStr_10700){
                 this.hide();
             };
-            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.hotelViewLoadedHandler);
+            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.hotelViewLoadedHandler);
         }
-        private function HabboHotelView(_arg_1:AssetLoaderEvent):void
+        private function hotelViewLoadedCallbackHandler(_arg_1:AssetLoaderEvent):void
         {
             var _local_4:BitmapData;
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
@@ -128,35 +128,35 @@ package com.sulake.habbo.communication.demo
                     };
                 };
             };
-            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.hotelViewLoadedCallbackHandler);
+            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.hotelViewLoadedCallbackHandler);
         }
-        public function HabboHotelView(_arg_1:String, _arg_2:Function):void
+        public function loadBannerImage(_arg_1:String, _arg_2:Function):void
         {
             var _local_3:AssetLoaderStruct = this._SafeStr_5255.loadAssetFromFile(("hotel_view_banner_" + this._SafeStr_10699), new URLRequest(_arg_1), "image/png");
             if (_arg_2 == null){
-                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.bannerLoadedHandler);
+                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.bannerLoadedHandler);
             }
             else {
                 if (this._events != null){
                     this._events.dispatchEvent(new Event(HabboHotelViewEvent.HHVE_START_LOAD));
                 };
                 this._SafeStr_10697 = _arg_2;
-                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+                _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.bannerLoadedCallbackHandler);
+                _local_3.addEventListener(AssetLoaderEvent._SafeStr_4221, this.bannerLoadedCallbackHandler);
             };
             this._SafeStr_10699++;
         }
-        private function HabboHotelView(_arg_1:AssetLoaderEvent):void
+        private function bannerLoadedHandler(_arg_1:AssetLoaderEvent):void
         {
             var _local_4:BitmapData;
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             var _local_3:IAsset = this._SafeStr_5255.getAssetByName(_local_2.assetName);
-            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.bannerLoadedHandler);
+            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.bannerLoadedHandler);
         }
-        private function HabboHotelView(_arg_1:AssetLoaderEvent):void
+        private function bannerLoadedCallbackHandler(_arg_1:AssetLoaderEvent):void
         {
             var _local_4:BitmapData;
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
@@ -178,8 +178,8 @@ package com.sulake.habbo.communication.demo
                     };
                 };
             };
-            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HabboHotelView);
-            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.HabboHotelView);
+            _local_2.removeEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.bannerLoadedCallbackHandler);
+            _local_2.removeEventListener(AssetLoaderEvent._SafeStr_4221, this.bannerLoadedCallbackHandler);
         }
         public function show():void
         {
@@ -201,12 +201,12 @@ package com.sulake.habbo.communication.demo
 // _SafeStr_10698 = "_-0wl" (String#16301, DoABC#2)
 // _SafeStr_10699 = "_-2M8" (String#19890, DoABC#2)
 // _SafeStr_10700 = "_-2Ih" (String#19756, DoABC#2)
-// HabboHotelView = "_-0BN" (String#14500, DoABC#2)
-// HabboHotelView = "_-1eI" (String#18070, DoABC#2)
-// HabboHotelView = "_-2Ca" (String#19509, DoABC#2)
-// HabboHotelView = "_-2ad" (String#20471, DoABC#2)
-// HabboHotelView = "_-Ny" (String#23164, DoABC#2)
-// HabboHotelView = "_-0J5" (String#14803, DoABC#2)
+// loadHotelViewImage = "_-0BN" (String#14500, DoABC#2)
+// hotelViewLoadedHandler = "_-1eI" (String#18070, DoABC#2)
+// hotelViewLoadedCallbackHandler = "_-2Ca" (String#19509, DoABC#2)
+// loadBannerImage = "_-2ad" (String#20471, DoABC#2)
+// bannerLoadedHandler = "_-Ny" (String#23164, DoABC#2)
+// bannerLoadedCallbackHandler = "_-0J5" (String#14803, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IDisplayObjectWrapper = "_-FC" (String#2078, DoABC#2)
 // HabboHotelView = "_-FN" (String#7979, DoABC#2)

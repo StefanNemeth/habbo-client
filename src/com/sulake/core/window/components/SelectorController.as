@@ -37,7 +37,7 @@ package com.sulake.core.window.components
         {
             return (numChildren);
         }
-        public function ISelectorWindow():ISelectableWindow
+        public function getSelected():ISelectableWindow
         {
             return ((this._selected as ISelectableWindow));
         }
@@ -46,7 +46,7 @@ package com.sulake.core.window.components
             if (_arg_1 != null){
                 if (_arg_1 != this._selected){
                     if (this._selected != null){
-                        this._selected.ISelectableWindow();
+                        this._selected.unselect();
                     };
                     this._selected = _arg_1;
                     this._selected.select();
@@ -60,41 +60,41 @@ package com.sulake.core.window.components
                 };
             };
         }
-        public function ISelectorWindow(_arg_1:ISelectableWindow):ISelectableWindow
+        public function addSelectable(_arg_1:ISelectableWindow):ISelectableWindow
         {
             return (ISelectableWindow(addChild(_arg_1)));
         }
-        public function ISelectorWindow(_arg_1:ISelectableWindow, _arg_2:int):ISelectableWindow
+        public function addSelectableAt(_arg_1:ISelectableWindow, _arg_2:int):ISelectableWindow
         {
             return (ISelectableWindow(addChildAt(_arg_1, _arg_2)));
         }
-        public function ISelectorWindow(_arg_1:int):ISelectableWindow
+        public function getSelectableAt(_arg_1:int):ISelectableWindow
         {
             return ((getChildAt(_arg_1) as ISelectableWindow));
         }
-        public function ISelectorWindow(_arg_1:uint):ISelectableWindow
+        public function getSelectableByID(_arg_1:uint):ISelectableWindow
         {
-            return ((WindowController(_arg_1) as ISelectableWindow));
+            return ((getChildByID(_arg_1) as ISelectableWindow));
         }
-        public function ISelectorWindow(_arg_1:String):ISelectableWindow
+        public function getSelectableByTag(_arg_1:String):ISelectableWindow
         {
-            return ((WindowController(_arg_1) as ISelectableWindow));
+            return ((getChildByTag(_arg_1) as ISelectableWindow));
         }
-        public function ISelectorWindow(_arg_1:String):ISelectableWindow
+        public function getSelectableByName(_arg_1:String):ISelectableWindow
         {
             return ((getChildByName(_arg_1) as ISelectableWindow));
         }
-        public function ISelectorWindow(_arg_1:ISelectableWindow):int
+        public function getSelectableIndex(_arg_1:ISelectableWindow):int
         {
             return (getChildIndex(_arg_1));
         }
-        public function ISelectorWindow(_arg_1:ISelectableWindow):ISelectableWindow
+        public function removeSelectable(_arg_1:ISelectableWindow):ISelectableWindow
         {
             var _local_2:int = getChildIndex(_arg_1);
             if (_local_2 > -1){
                 if (_arg_1 == this._selected){
                     if (this.numSelectables > 1){
-                        this.setSelected(this.ISelectorWindow((((_local_2 == 0)) ? 1 : 0)));
+                        this.setSelected(this.getSelectableAt((((_local_2 == 0)) ? 1 : 0)));
                     }
                     else {
                         this._selected = null;
@@ -117,20 +117,20 @@ package com.sulake.core.window.components
 // InteractiveController = "_-25D" (String#6146, DoABC#2)
 // SelectorController = "_-0GX" (String#3886, DoABC#2)
 // Iterator = "_-G2" (String#7994, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // numSelectables = "_-1pQ" (String#5845, DoABC#2)
-// ISelectorWindow = "_-1uz" (String#5941, DoABC#2)
-// ISelectorWindow = "_-0Vv" (String#4227, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
-// ISelectorWindow = "_-lI" (String#8633, DoABC#2)
-// ISelectorWindow = "_-06i" (String#3695, DoABC#2)
-// ISelectorWindow = "_-2bS" (String#6782, DoABC#2)
-// ISelectorWindow = "_-i9" (String#8555, DoABC#2)
+// addSelectable = "_-1uz" (String#5941, DoABC#2)
+// addSelectableAt = "_-0Vv" (String#4227, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
+// getSelectableByID = "_-lI" (String#8633, DoABC#2)
+// getSelectableByTag = "_-06i" (String#3695, DoABC#2)
+// getSelectableIndex = "_-2bS" (String#6782, DoABC#2)
+// removeSelectable = "_-i9" (String#8555, DoABC#2)
 // WE_CHILD_ACTIVATED = "_-f-" (String#23845, DoABC#2)
-// WindowController = "_-y3" (String#2226, DoABC#2)
-// WindowController = "_-tP" (String#2212, DoABC#2)
+// getChildByID = "_-y3" (String#2226, DoABC#2)
+// getChildByTag = "_-tP" (String#2212, DoABC#2)
 // _SafeStr_9419 = "_-2b5" (String#20491, DoABC#2)
 
 

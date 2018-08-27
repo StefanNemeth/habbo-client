@@ -64,13 +64,13 @@ package com.sulake.habbo.moderation
             this._SafeStr_4247.addEventListener(TimerEvent.TIMER, this.onResizeTimer);
             this._frame = IFrameWindow(this._help.getXmlWindow("chatlog_frame"));
             this._content = IItemListWindow(this._frame.findChildByName("chatline_list"));
-            this._frame.procedure = this.RoomVisitsCtrl;
+            this._frame.procedure = this.onWindow;
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
+            _local_1.procedure = this.onClose;
             this._help.connection.send(this._msg);
             this._help.messageHandler.addChatlogListener(this);
         }
-        public function ChatlogCtrl(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:Array, _arg_5:Dictionary):void
+        public function onChatlog(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:Array, _arg_5:Dictionary):void
         {
             if (((((!((_arg_2 == this._type))) || (!((_arg_3 == this._id))))) || (this._disposed))){
                 return;
@@ -100,14 +100,14 @@ package com.sulake.habbo.moderation
             var _local_1:RoomChatlogData;
             this._content.autoArrangeItems = false;
             for each (_local_1 in this._rooms) {
-                this.ChatlogCtrl(_local_1);
+                this.populateRoomChat(_local_1);
             };
             this._content.autoArrangeItems = true;
         }
-        private function ChatlogCtrl(_arg_1:RoomChatlogData):void
+        private function populateRoomChat(_arg_1:RoomChatlogData):void
         {
             var _local_5:ChatlineData;
-            var _local_2:IWindowContainer = this.ChatlogCtrl();
+            var _local_2:IWindowContainer = this.getChatHeaderWindow();
             var _local_3:ITextWindow = ITextWindow(_local_2.findChildByName("room_name_txt"));
             if (_arg_1.roomId > 0){
                 _local_3.caption = _arg_1.roomName;
@@ -118,36 +118,36 @@ package com.sulake.habbo.moderation
                 _local_3.caption = "Not in room";
                 _local_3.underline = false;
             };
-            this.ChatlogCtrl(_local_2, this._content);
+            this.addHeaderLineToList(_local_2, this._content);
             var _local_4:Boolean = true;
             for each (_local_5 in _arg_1.chatlog) {
-                this.ChatlogCtrl(this._content, _local_5, _local_4);
+                this.populateChatline(this._content, _local_5, _local_4);
                 _local_4 = !(_local_4);
             };
         }
-        private function ChatlogCtrl(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
+        private function addChatLineToList(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
         {
             _arg_2.addListItem(_arg_1);
             this._SafeStr_11809.push(_arg_1);
         }
-        private function ChatlogCtrl(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
+        private function addHeaderLineToList(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
         {
             _arg_2.addListItem(_arg_1);
             this._SafeStr_11810.push(_arg_1);
         }
-        private function ChatlogCtrl():IWindowContainer
+        private function getChatLineWindow():IWindowContainer
         {
             if (_SafeStr_11801.length > 0){
                 return ((_SafeStr_11801.pop() as IWindowContainer));
             };
             return (IWindowContainer(this._SafeStr_11806.clone()));
         }
-        private function ChatlogCtrl(_arg_1:IWindowContainer):void
+        private function storeChatLineWindow(_arg_1:IWindowContainer):void
         {
             var _local_2:ITextWindow;
             if (_SafeStr_11801.length < _SafeStr_11802){
                 _local_2 = ITextWindow(_arg_1.findChildByName("chatter_txt"));
-                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ChatlogCtrl);
+                _local_2.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onChatLogUserClick);
                 _arg_1.width = this._SafeStr_11806.width;
                 _arg_1.height = this._SafeStr_11806.height;
                 _SafeStr_11801.push(_arg_1);
@@ -156,14 +156,14 @@ package com.sulake.habbo.moderation
                 _arg_1.dispose();
             };
         }
-        private function ChatlogCtrl():IWindowContainer
+        private function getChatHeaderWindow():IWindowContainer
         {
             if (_SafeStr_11803.length > 0){
                 return ((_SafeStr_11803.pop() as IWindowContainer));
             };
             return (IWindowContainer(this._SafeStr_11805.clone()));
         }
-        private function ChatlogCtrl(_arg_1:IWindowContainer):void
+        private function storeChatHeaderWindow(_arg_1:IWindowContainer):void
         {
             var _local_2:ITextWindow;
             if (_SafeStr_11803.length < _SafeStr_11804){
@@ -177,18 +177,18 @@ package com.sulake.habbo.moderation
                 _arg_1.dispose();
             };
         }
-        private function ChatlogCtrl(_arg_1:IItemListWindow, _arg_2:ChatlineData, _arg_3:Boolean):void
+        private function populateChatline(_arg_1:IItemListWindow, _arg_2:ChatlineData, _arg_3:Boolean):void
         {
-            var _local_4:IWindowContainer = this.ChatlogCtrl();
+            var _local_4:IWindowContainer = this.getChatLineWindow();
             _local_4.color = (((this._SafeStr_11807[_arg_2.chatterId])!=null) ? ((_arg_3) ? 4294623571 : 0xFFFFE240) : ((_arg_3) ? 4288861930 : 0xFFFFFFFF));
             var _local_5:ITextWindow = ITextWindow(_local_4.findChildByName("time_txt"));
-            _local_5.text = RoomVisitsCtrl.RoomVisitsCtrl(_arg_2.hour, _arg_2.minute);
+            _local_5.text = RoomVisitsCtrl.getFormattedTime(_arg_2.hour, _arg_2.minute);
             var _local_6:ITextWindow = ITextWindow(_local_4.findChildByName("chatter_txt"));
             _local_6.color = _local_4.color;
             if (_arg_2.chatterId > 0){
                 _local_6.text = _arg_2.chatterName;
                 _local_6.underline = true;
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ChatlogCtrl);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onChatLogUserClick);
                 if (!this._SafeStr_11808.getValue(_arg_2.chatterName)){
                     this._SafeStr_11808.add(_arg_2.chatterName, _arg_2.chatterId);
                 };
@@ -207,22 +207,22 @@ package com.sulake.habbo.moderation
             _local_7.text = _arg_2.msg;
             _local_7.height = (_local_7.textHeight + 5);
             _local_4.height = _local_7.height;
-            this.ChatlogCtrl(_local_4, _arg_1);
+            this.addChatLineToList(_local_4, _arg_1);
         }
-        private function ChatlogCtrl(_arg_1:WindowMouseEvent):void
+        private function onChatLogUserClick(_arg_1:WindowMouseEvent):void
         {
             var _local_2:String = _arg_1.target.caption;
             var _local_3:int = this._SafeStr_11808.getValue(_local_2);
             this._help.windowTracker.show(new UserInfoFrameCtrl(this._help, _local_3), this._frame, false, false, true);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this.dispose();
         }
-        private function RoomVisitsCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._frame))))){
                 return;
@@ -232,10 +232,10 @@ package com.sulake.habbo.moderation
         }
         private function onResizeTimer(_arg_1:TimerEvent):void
         {
-            this.ChatlogCtrl();
-            var _local_2:Boolean = this.ChatlogCtrl();
+            this.refreshListDims();
+            var _local_2:Boolean = this.refreshScrollBarVisibility();
         }
-        private function ChatlogCtrl():void
+        private function refreshListDims():void
         {
             var _local_1:IWindowContainer;
             var _local_2:ITextWindow;
@@ -254,7 +254,7 @@ package com.sulake.habbo.moderation
             };
             this._content.autoArrangeItems = true;
         }
-        private function ChatlogCtrl():Boolean
+        private function refreshScrollBarVisibility():Boolean
         {
             var _local_1:IWindowContainer = IWindowContainer(this._content.parent);
             var _local_2:IWindow = (_local_1.getChildByName("scroller") as IWindow);
@@ -285,7 +285,7 @@ package com.sulake.habbo.moderation
             this._help = null;
             this._msg = null;
             if (this._content != null){
-                this._content.IItemListWindow();
+                this._content.removeListItems();
                 this._content.dispose();
                 this._content = null;
             };
@@ -301,10 +301,10 @@ package com.sulake.habbo.moderation
                 this._SafeStr_4247 = null;
             };
             for each (_local_1 in this._SafeStr_11809) {
-                this.ChatlogCtrl(_local_1);
+                this.storeChatLineWindow(_local_1);
             };
             for each (_local_1 in this._SafeStr_11810) {
-                this.ChatlogCtrl(_local_1);
+                this.storeChatHeaderWindow(_local_1);
             };
             this._SafeStr_11809 = [];
             this._SafeStr_11810 = [];
@@ -321,12 +321,12 @@ package com.sulake.habbo.moderation
     }
 }//package com.sulake.habbo.moderation
 
-// RoomVisitsCtrl = "_-1zg" (String#873, DoABC#2)
-// ChatlogCtrl = "_-0E4" (String#1434, DoABC#2)
+// onWindow = "_-1zg" (String#873, DoABC#2)
+// refreshScrollBarVisibility = "_-0E4" (String#1434, DoABC#2)
 // _help = "_-3HG" (String#114, DoABC#2)
-// ChatlogCtrl = "_-2MQ" (String#6490, DoABC#2)
+// refreshListDims = "_-2MQ" (String#6490, DoABC#2)
 // windowTracker = "_-1CG" (String#16953, DoABC#2)
-// ChatlogCtrl = "_-Ps" (String#2103, DoABC#2)
+// onChatlog = "_-Ps" (String#2103, DoABC#2)
 // addChatlogListener = "_-2oH" (String#21014, DoABC#2)
 // removeChatlogListener = "_-1MZ" (String#17381, DoABC#2)
 // _SafeStr_11801 = "_-0gK" (String#15687, DoABC#2)
@@ -340,16 +340,16 @@ package com.sulake.habbo.moderation
 // _SafeStr_11809 = "_-0LL" (String#14889, DoABC#2)
 // _SafeStr_11810 = "_-4Q" (String#22394, DoABC#2)
 // messageHandler = "_-2T6" (String#20168, DoABC#2)
-// ChatlogCtrl = "_-2hC" (String#20736, DoABC#2)
-// ChatlogCtrl = "_-0vg" (String#16263, DoABC#2)
-// ChatlogCtrl = "_-3C3" (String#21962, DoABC#2)
-// ChatlogCtrl = "_-0kI" (String#15842, DoABC#2)
-// ChatlogCtrl = "_-rQ" (String#24335, DoABC#2)
-// ChatlogCtrl = "_-Nr" (String#23158, DoABC#2)
-// ChatlogCtrl = "_-Ha" (String#22916, DoABC#2)
-// ChatlogCtrl = "_-1x6" (String#18852, DoABC#2)
-// ChatlogCtrl = "_-00z" (String#14093, DoABC#2)
-// RoomVisitsCtrl = "_-1qM" (String#18557, DoABC#2)
+// populateRoomChat = "_-2hC" (String#20736, DoABC#2)
+// getChatHeaderWindow = "_-0vg" (String#16263, DoABC#2)
+// addHeaderLineToList = "_-3C3" (String#21962, DoABC#2)
+// populateChatline = "_-0kI" (String#15842, DoABC#2)
+// addChatLineToList = "_-rQ" (String#24335, DoABC#2)
+// getChatLineWindow = "_-Nr" (String#23158, DoABC#2)
+// storeChatLineWindow = "_-Ha" (String#22916, DoABC#2)
+// onChatLogUserClick = "_-1x6" (String#18852, DoABC#2)
+// storeChatHeaderWindow = "_-00z" (String#14093, DoABC#2)
+// getFormattedTime = "_-1qM" (String#18557, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // TrackedWindow = "_-Xp" (String#8365, DoABC#2)
 // UserInfoFrameCtrl = "_-1D1" (String#5125, DoABC#2)
@@ -365,8 +365,8 @@ package com.sulake.habbo.moderation
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
 // _msg = "_-Zx" (String#937, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// IItemListWindow = "_-aG" (String#8425, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// removeListItems = "_-aG" (String#8425, DoABC#2)
 // chatlog = "_-26z" (String#19292, DoABC#2)
 // isPublic = "_-2lD" (String#20891, DoABC#2)
 // hour = "_-20F" (String#19022, DoABC#2)

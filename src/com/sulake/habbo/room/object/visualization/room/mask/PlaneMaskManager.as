@@ -54,9 +54,9 @@ package com.sulake.habbo.room.object.visualization.room.mask
                 return;
             };
             this._assetCollection = _arg_1;
-            this.PlaneMaskManager(this.data, _arg_1);
+            this.parseMasks(this.data, _arg_1);
         }
-        private function PlaneMaskManager(_arg_1:XML, _arg_2:IGraphicAssetCollection):void
+        private function parseMasks(_arg_1:XML, _arg_2:IGraphicAssetCollection):void
         {
             var _local_7:XML;
             var _local_8:String;
@@ -89,7 +89,7 @@ package com.sulake.habbo.room.object.visualization.room.mask
                                 _local_14 = _local_9.createMaskVisualization(_local_13);
                                 if (_local_14 != null){
                                     _local_15 = _local_12.bitmap;
-                                    this.PlaneMaskManager(_local_15, _local_14, _arg_2);
+                                    this.parseMaskBitmaps(_local_15, _local_14, _arg_2);
                                 };
                             };
                             _local_11++;
@@ -100,7 +100,7 @@ package com.sulake.habbo.room.object.visualization.room.mask
                 _local_6++;
             };
         }
-        private function PlaneMaskManager(_arg_1:XMLList, _arg_2:PlaneMaskVisualization, _arg_3:IGraphicAssetCollection):void
+        private function parseMaskBitmaps(_arg_1:XMLList, _arg_2:PlaneMaskVisualization, _arg_3:IGraphicAssetCollection):void
         {
             var _local_5:XML;
             var _local_6:Number;
@@ -141,7 +141,7 @@ package com.sulake.habbo.room.object.visualization.room.mask
                 _local_4++;
             };
         }
-        public function PlaneMaskManager(_arg_1:BitmapData, _arg_2:String, _arg_3:Number, _arg_4:IVector3d, _arg_5:int, _arg_6:int):Boolean
+        public function updateMask(_arg_1:BitmapData, _arg_2:String, _arg_3:Number, _arg_4:IVector3d, _arg_5:int, _arg_6:int):Boolean
         {
             var _local_8:IGraphicAsset;
             var _local_9:BitmapDataAsset;
@@ -188,12 +188,12 @@ package com.sulake.habbo.room.object.visualization.room.mask
 }//package com.sulake.habbo.room.object.visualization.room.mask
 
 // _SafeStr_12837 = "_-014" (String#1385, DoABC#2)
-// PlaneMaskManager = "_-Kt" (String#23039, DoABC#2)
+// parseMasks = "_-Kt" (String#23039, DoABC#2)
 // createMaskVisualization = "_-0nN" (String#15951, DoABC#2)
-// PlaneMaskManager = "_-U-" (String#23408, DoABC#2)
+// parseMaskBitmaps = "_-U-" (String#23408, DoABC#2)
 // _SafeStr_12841 = "_-TR" (String#23383, DoABC#2)
 // addBitmap = "_-0pF" (String#16025, DoABC#2)
-// PlaneMaskManager = "_-1EK" (String#5149, DoABC#2)
+// updateMask = "_-1EK" (String#5149, DoABC#2)
 // getGraphicAsset = "_-2Gu" (String#19679, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)

@@ -65,7 +65,7 @@ package com.sulake.habbo.ui.handler
         private var _catalog:IHabboCatalog;
         private var _SafeStr_7262:String;
         private var _SafeStr_7263:BitmapData;
-        private var _MeMenuWidgetHandler:BitmapData;
+        private var _SafeStr_7264:BitmapData;
         private var _widget:MeMenuWidget;
 
         public function MeMenuWidgetHandler()
@@ -88,7 +88,7 @@ package com.sulake.habbo.ui.handler
             this._catalog = null;
             this._SafeStr_7262 = null;
             this._SafeStr_7263 = null;
-            this._MeMenuWidgetHandler = null;
+            this._SafeStr_7264 = null;
         }
         public function get disposed():Boolean
         {
@@ -105,15 +105,15 @@ package com.sulake.habbo.ui.handler
                     this._container.sessionDataManager.events.removeEventListener(HabboSessionFigureUpdatedEvent.HABBO_SESSION_FIGURE_UPDATE, this.onFigureUpdate);
                 };
                 if (((((this._inventory) && (!(this._inventory.disposed)))) && (this._inventory.events))){
-                    this._inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.MeMenuWidgetHandler);
-                    this._inventory.events.removeEventListener(HabboInventoryHabboClubEvent.HIHCE_HABBO_CLUB_CHANGED, this.MeMenuWidgetHandler);
+                    this._inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onAvatarEffectsChanged);
+                    this._inventory.events.removeEventListener(HabboInventoryHabboClubEvent.HIHCE_HABBO_CLUB_CHANGED, this.onHabboClubSubscriptionChanged);
                 };
                 if (((((this._toolbar) && (!(this._toolbar.disposed)))) && (this._toolbar.events))){
                     this._toolbar.events.removeEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onHabboToolbarEvent);
                 };
                 if (((((this._container.habboHelp) && (!(this._container.habboHelp.disposed)))) && (this._container.habboHelp.events))){
-                    this._container.habboHelp.events.removeEventListener(HabboHelpTutorialEvent.HHTPNUFWE_LIGHT_CLOTHES_ICON, this.MeMenuWidgetHandler);
-                    this._container.habboHelp.events.removeEventListener(HabboHelpTutorialEvent.HHTPNUFWE_AE_STARTED, this.MeMenuWidgetHandler);
+                    this._container.habboHelp.events.removeEventListener(HabboHelpTutorialEvent.HHTPNUFWE_LIGHT_CLOTHES_ICON, this.onHelpTutorialEvent);
+                    this._container.habboHelp.events.removeEventListener(HabboHelpTutorialEvent.HHTPNUFWE_AE_STARTED, this.onHelpTutorialEvent);
                 };
                 if (((((this._container.catalog) && (!(this._container.catalog.disposed)))) && (this._container.catalog.events))){
                     this._container.catalog.events.removeEventListener(PurseEvent.RWPUE_CREDIT_BALANCE, this.onCreditBalance);
@@ -128,17 +128,17 @@ package com.sulake.habbo.ui.handler
             };
             this._inventory = this._container.inventory;
             if (this._inventory != null){
-                this._inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.MeMenuWidgetHandler);
-                this._inventory.events.addEventListener(HabboInventoryHabboClubEvent.HIHCE_HABBO_CLUB_CHANGED, this.MeMenuWidgetHandler);
+                this._inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onAvatarEffectsChanged);
+                this._inventory.events.addEventListener(HabboInventoryHabboClubEvent.HIHCE_HABBO_CLUB_CHANGED, this.onHabboClubSubscriptionChanged);
             };
             this._toolbar = this._container.toolbar;
             if (((this._toolbar) && (this._toolbar.events))){
                 this._toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onHabboToolbarEvent);
-                this.MeMenuWidgetHandler();
+                this.setMeMenuToolbarIcon();
             };
             if (this._container.habboHelp != null){
-                this._container.habboHelp.events.addEventListener(HabboHelpTutorialEvent.HHTPNUFWE_LIGHT_CLOTHES_ICON, this.MeMenuWidgetHandler);
-                this._container.habboHelp.events.addEventListener(HabboHelpTutorialEvent.HHTPNUFWE_AE_STARTED, this.MeMenuWidgetHandler);
+                this._container.habboHelp.events.addEventListener(HabboHelpTutorialEvent.HHTPNUFWE_LIGHT_CLOTHES_ICON, this.onHelpTutorialEvent);
+                this._container.habboHelp.events.addEventListener(HabboHelpTutorialEvent.HHTPNUFWE_AE_STARTED, this.onHelpTutorialEvent);
             };
             this._catalog = this._container.catalog;
             if (this._container.catalog != null){
@@ -149,7 +149,7 @@ package com.sulake.habbo.ui.handler
         {
             return (this._container);
         }
-        private function MeMenuWidgetHandler():void
+        private function setMeMenuToolbarIcon():void
         {
             var _local_1:BitmapData;
             var _local_2:BitmapData;
@@ -172,11 +172,11 @@ package com.sulake.habbo.ui.handler
                     };
                     this._SafeStr_7262 = _local_3;
                     this._SafeStr_7263 = _local_1;
-                    this._MeMenuWidgetHandler = _local_2;
+                    this._SafeStr_7264 = _local_2;
                 }
                 else {
                     _local_1 = this._SafeStr_7263;
-                    _local_2 = this._MeMenuWidgetHandler;
+                    _local_2 = this._SafeStr_7264;
                 };
             };
             if (this._toolbar != null){
@@ -210,7 +210,7 @@ package com.sulake.habbo.ui.handler
                 };
             };
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetWaveMessage.RWCM_MESSAGE_WAVE);
@@ -268,33 +268,33 @@ package com.sulake.habbo.ui.handler
                     break;
                 case RoomWidgetWaveMessage.RWCM_MESSAGE_WAVE:
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession();
+                        this._container.roomSession.sendWaveMessage();
                     };
                     break;
                 case RoomWidgetDanceMessage.RWCM_MESSAGE_DANCE:
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
                         _local_6 = (_arg_1 as RoomWidgetDanceMessage);
                         if (_local_6 != null){
-                            this._container.roomSession.RoomSession(_local_6.style);
+                            this._container.roomSession.sendDanceMessage(_local_6.style);
                         };
                     };
                     break;
                 case RoomWidgetGetEffectsMessage.RWCM_MESSAGE_GET_EFFECTS:
                     if (this._inventory != null){
-                        _local_7 = this._inventory.HabboInventory();
+                        _local_7 = this._inventory.getAvatarEffects();
                         this._container.events.dispatchEvent(new RoomWidgetUpdateEffectsUpdateEvent(_local_7));
                     };
                     break;
                 case RoomWidgetSelectEffectMessage.RWCM_MESSAGE_SELECT_EFFECT:
                     if (this._inventory != null){
                         _local_8 = (_arg_1 as RoomWidgetSelectEffectMessage);
-                        this._inventory.HabboInventory(_local_8.effectType);
+                        this._inventory.setEffectSelected(_local_8.effectType);
                     };
                     break;
                 case RoomWidgetSelectEffectMessage.RWCM_MESSAGE_UNSELECT_EFFECT:
                     if (this._inventory != null){
                         _local_9 = (_arg_1 as RoomWidgetSelectEffectMessage);
-                        this._inventory.HabboInventory(_local_9.effectType);
+                        this._inventory.setEffectDeselected(_local_9.effectType);
                     };
                     break;
                 case RoomWidgetOpenCatalogMessage.RWGOI_MESSAGE_OPEN_CATALOG:
@@ -312,10 +312,10 @@ package com.sulake.habbo.ui.handler
                                 this._catalog.openCatalogPage(CatalogPageName._SafeStr_6005, true);
                                 break;
                             case RoomWidgetOpenInventoryMessage._SafeStr_3551:
-                                this._inventory.HabboInventory(InventoryCategory._SafeStr_7061);
+                                this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_7061);
                                 break;
                             case RoomWidgetOpenInventoryMessage._SafeStr_3553:
-                                this._inventory.HabboInventory(InventoryCategory._SafeStr_5995);
+                                this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_5995);
                                 break;
                             case RoomWidgetOpenInventoryMessage._SafeStr_3552:
                                 break;
@@ -328,7 +328,7 @@ package com.sulake.habbo.ui.handler
                 case RoomWidgetStopEffectMessage.RWGOI_MESSAGE_STOP_EFFECT:
                     Logger.log("STOP ALL EFFECTS");
                     if (this._inventory != null){
-                        this._inventory.HabboInventory();
+                        this._inventory.deselectAllEffects();
                     };
                     break;
                 case RoomWidgetNavigateToRoomMessage.RWGOI_MESSAGE_NAVIGATE_HOME:
@@ -365,7 +365,7 @@ package com.sulake.habbo.ui.handler
                         };
                         _local_13 = 0;
                         _local_14 = 0;
-                        this._container.roomEngine.RoomEngine(_local_13, _local_14, _local_12.id);
+                        this._container.roomEngine.selectAvatar(_local_13, _local_14, _local_12.id);
                     };
                     break;
                 case RoomWidgetAvatarEditorMessage.RWCM_OPEN_AVATAR_EDITOR:
@@ -399,17 +399,17 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
         {
         }
-        private function MeMenuWidgetHandler(_arg_1:Event=null):void
+        private function onAvatarEffectsChanged(_arg_1:Event=null):void
         {
             var _local_2:Array;
             if (this._container == null){
@@ -417,11 +417,11 @@ package com.sulake.habbo.ui.handler
             };
             Logger.log("[MeMenuWidgetHandler] Received Avatar Effects Have Changed Event...\t");
             if (this._inventory != null){
-                _local_2 = this._inventory.HabboInventory();
+                _local_2 = this._inventory.getAvatarEffects();
                 this._container.events.dispatchEvent(new RoomWidgetUpdateEffectsUpdateEvent(_local_2));
             };
         }
-        private function MeMenuWidgetHandler(_arg_1:Event=null):void
+        private function onHabboClubSubscriptionChanged(_arg_1:Event=null):void
         {
             var _local_2:Boolean;
             if (this._inventory != null){
@@ -442,7 +442,7 @@ package com.sulake.habbo.ui.handler
             };
             var _local_2 = (_arg_1.userId == this._container.sessionDataManager.userId);
             if (_local_2){
-                this.MeMenuWidgetHandler();
+                this.setMeMenuToolbarIcon();
             };
             if (((!((this._container == null))) && (!((this._container.events == null))))){
             };
@@ -454,7 +454,7 @@ package com.sulake.habbo.ui.handler
             };
             this._container.events.dispatchEvent(new RoomWidgetPurseUpdateEvent(RoomWidgetPurseUpdateEvent.RWPUE_CREDIT_BALANCE, _arg_1.balance));
         }
-        private function MeMenuWidgetHandler(_arg_1:HabboHelpTutorialEvent):void
+        private function onHelpTutorialEvent(_arg_1:HabboHelpTutorialEvent):void
         {
             if (this._container == null){
                 return;
@@ -471,7 +471,7 @@ package com.sulake.habbo.ui.handler
         public function avatarImageReady(_arg_1:String):void
         {
             this._SafeStr_7262 = "";
-            this.MeMenuWidgetHandler();
+            this.setMeMenuToolbarIcon();
         }
 
     }
@@ -568,7 +568,7 @@ package com.sulake.habbo.ui.handler
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_6005 = "_-25o" (String#19251, DoABC#2)
 // _toolbar = "_-1LG" (String#93, DoABC#2)
@@ -581,33 +581,33 @@ package com.sulake.habbo.ui.handler
 // _SafeStr_6812 = "_-2OT" (String#19984, DoABC#2)
 // loadOwnAvatarInEditor = "_-ae" (String#2135, DoABC#2)
 // _SafeStr_7061 = "_-3KY" (String#22306, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)
-// RoomSession = "_-3BE" (String#7533, DoABC#2)
-// RoomEngine = "_-1aj" (String#5572, DoABC#2)
+// sendWaveMessage = "_-3BE" (String#7533, DoABC#2)
+// selectAvatar = "_-1aj" (String#5572, DoABC#2)
 // _SafeStr_7260 = "_-0oq" (String#16005, DoABC#2)
 // _SafeStr_7261 = "_-1SQ" (String#17597, DoABC#2)
 // _SafeStr_7262 = "_-17s" (String#16768, DoABC#2)
 // _SafeStr_7263 = "_-xH" (String#24579, DoABC#2)
-// _MeMenuWidgetHandler = "_-13N" (String#16593, DoABC#2)
+// _SafeStr_7264 = "_-13N" (String#16593, DoABC#2)
 // onFigureUpdate = "_-2uZ" (String#1961, DoABC#2)
-// MeMenuWidgetHandler = "_-386" (String#21807, DoABC#2)
-// MeMenuWidgetHandler = "_-1tT" (String#18696, DoABC#2)
+// onAvatarEffectsChanged = "_-386" (String#21807, DoABC#2)
+// onHabboClubSubscriptionChanged = "_-1tT" (String#18696, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // onHabboToolbarEvent = "_-0Ve" (String#435, DoABC#2)
 // habboHelp = "_-015" (String#3584, DoABC#2)
 // HHTPNUFWE_LIGHT_CLOTHES_ICON = "_-Ft" (String#22847, DoABC#2)
-// MeMenuWidgetHandler = "_-0Yy" (String#15400, DoABC#2)
-// MeMenuWidgetHandler = "_-2fH" (String#20658, DoABC#2)
+// onHelpTutorialEvent = "_-0Yy" (String#15400, DoABC#2)
+// setMeMenuToolbarIcon = "_-2fH" (String#20658, DoABC#2)
 // setIconBitmap = "_-27Q" (String#1818, DoABC#2)
 // iconId = "_-2di" (String#20590, DoABC#2)
-// RoomSession = "_-1SB" (String#5401, DoABC#2)
-// HabboInventory = "_-aN" (String#2133, DoABC#2)
-// HabboInventory = "_-1Ct" (String#1634, DoABC#2)
-// HabboInventory = "_-2rY" (String#1952, DoABC#2)
-// HabboInventory = "_-0tu" (String#4721, DoABC#2)
+// sendDanceMessage = "_-1SB" (String#5401, DoABC#2)
+// getAvatarEffects = "_-aN" (String#2133, DoABC#2)
+// setEffectSelected = "_-1Ct" (String#1634, DoABC#2)
+// setEffectDeselected = "_-2rY" (String#1952, DoABC#2)
+// deselectAllEffects = "_-0tu" (String#4721, DoABC#2)
 // goToHomeRoom = "_-LH" (String#8108, DoABC#2)
 // showOwnRooms = "_-0Z5" (String#4281, DoABC#2)
 // HHTE_DONE_AVATAR_EDITOR_OPENING = "_-2Gq" (String#19675, DoABC#2)

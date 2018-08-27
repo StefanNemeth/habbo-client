@@ -26,7 +26,7 @@ package com.sulake.core.runtime
         public static const _SafeStr_8979:uint = 4;
 
         protected var _references:uint = 0;
-        protected var _WindowContext:String = "";
+        protected var _SafeStr_8959:String = "";
         protected var _SafeStr_8955:String = "";
         protected var _lastWarning:String = "";
         private var _assets:IAssetLibrary;
@@ -48,7 +48,7 @@ package com.sulake.core.runtime
                 throw (new InvalidComponentException("IContext not provided to Component's constructor!"));
             };
         }
-        public static function Component(_arg_1:Component):InterfaceStructList
+        public static function getInterfaceStructList(_arg_1:Component):InterfaceStructList
         {
             return (_arg_1._SafeStr_8981);
         }
@@ -85,7 +85,7 @@ package com.sulake.core.runtime
             if (this._locked){
                 return (null);
             };
-            _local_3.InterfaceStruct();
+            _local_3.reserve();
             var _local_4:IUnknown = (_local_3.unknown as IUnknown);
             if (_arg_2 != null){
                 (_arg_2(_arg_1, _local_4));
@@ -99,14 +99,14 @@ package com.sulake.core.runtime
             };
             var _local_2:InterfaceStruct = this._SafeStr_8981.getStructByInterface(_arg_1);
             if (_local_2 == null){
-                this._WindowContext = (("Attempting to release unknown interface:" + _arg_1) + "!");
-                throw (new Error(this._WindowContext));
+                this._SafeStr_8959 = (("Attempting to release unknown interface:" + _arg_1) + "!");
+                throw (new Error(this._SafeStr_8959));
             };
             var _local_3:uint = _local_2.release();
             if ((this._SafeStr_8916 & _SafeStr_8979)){
                 if (_local_3 == 0){
-                    if (this._SafeStr_8981.InterfaceStructList() == 0){
-                        this._context.IContext(this);
+                    if (this._SafeStr_8981.getTotalReferenceCount() == 0){
+                        this._context.detachComponent(this);
                         this.dispose();
                     };
                 };
@@ -160,16 +160,16 @@ package com.sulake.core.runtime
             var _local_7:uint = this._SafeStr_8981.length;
             var _local_8:uint;
             while (_local_8 < _local_7) {
-                _local_6 = this._SafeStr_8981.InterfaceStructList(_local_8);
+                _local_6 = this._SafeStr_8981.getStructByIndex(_local_8);
                 _local_5 = (_local_5 + (((((_local_2 + '\t<interface iid="') + _local_6.iis) + '" refs="') + _local_6.references) + '"/>\n'));
                 _local_8++;
             };
             return ((_local_5 + (_local_2 + "</component>\n")));
         }
-        public function IContext(_arg_1:IUpdateReceiver, _arg_2:uint):void
+        public function registerUpdateReceiver(_arg_1:IUpdateReceiver, _arg_2:uint):void
         {
             if (!this._disposed){
-                this._context.IContext(_arg_1, _arg_2);
+                this._context.registerUpdateReceiver(_arg_1, _arg_2);
             };
         }
         public function removeUpdateReceiver(_arg_1:IUpdateReceiver):void
@@ -183,7 +183,7 @@ package com.sulake.core.runtime
 }//package com.sulake.core.runtime
 
 // IID = "_-3KV" (String#7712, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // LockEvent = "_-4a" (String#22400, DoABC#2)
@@ -192,10 +192,10 @@ package com.sulake.core.runtime
 // InterfaceStruct = "_-2vc" (String#7189, DoABC#2)
 // ComponentDisposedException = "_-CC" (String#7918, DoABC#2)
 // _SafeStr_8916 = "_-27n" (String#877, DoABC#2)
-// IContext = "_-28T" (String#6212, DoABC#2)
+// detachComponent = "_-28T" (String#6212, DoABC#2)
 // _SafeStr_8955 = "_-0qy" (String#16083, DoABC#2)
-// _WindowContext = "_-0NR" (String#4029, DoABC#2)
-// Component = "_-1xl" (String#18879, DoABC#2)
+// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
+// getInterfaceStructList = "_-1xl" (String#18879, DoABC#2)
 // _INTERNAL_EVENT_UNLOCKED = "_-1Ik" (String#17224, DoABC#2)
 // iis = "_-2RW" (String#20099, DoABC#2)
 // references = "_-1yb" (String#18912, DoABC#2)
@@ -204,8 +204,8 @@ package com.sulake.core.runtime
 // _references = "_-02V" (String#3617, DoABC#2)
 // _SafeStr_8981 = "_-3EA" (String#22041, DoABC#2)
 // _locked = "_-2vv" (String#902, DoABC#2)
-// InterfaceStruct = "_-k-" (String#24033, DoABC#2)
-// InterfaceStructList = "_-2A5" (String#19408, DoABC#2)
-// InterfaceStructList = "_-1BO" (String#16913, DoABC#2)
+// reserve = "_-k-" (String#24033, DoABC#2)
+// getTotalReferenceCount = "_-2A5" (String#19408, DoABC#2)
+// getStructByIndex = "_-1BO" (String#16913, DoABC#2)
 
 

@@ -243,7 +243,7 @@ package com.sulake.habbo.friendbar.stream
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 if (((_SafeStr_10964) && (!(_SafeStr_10964.disposed)))){
-                    _SafeStr_10964.IHabboEventStream(this);
+                    _SafeStr_10964.likeStreamEvent(this);
                 };
             }
             else {
@@ -297,7 +297,7 @@ package com.sulake.habbo.friendbar.stream
 // imageFilePath = "_-18y" (String#16814, DoABC#2)
 // numberOfLikes = "_-aS" (String#23651, DoABC#2)
 // isLikable = "_-0TJ" (String#15183, DoABC#2)
-// IHabboEventStream = "_-1tw" (String#5918, DoABC#2)
+// likeStreamEvent = "_-1tw" (String#5918, DoABC#2)
 // _SafeStr_10962 = "_-2hq" (String#20767, DoABC#2)
 // ASSETS = "_-391" (String#21846, DoABC#2)
 // _SafeStr_10964 = "_-0ri" (String#16110, DoABC#2)

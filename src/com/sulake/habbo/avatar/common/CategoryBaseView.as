@@ -64,7 +64,7 @@ package com.sulake.habbo.avatar.common
             this._SafeStr_6466 = "";
             this._isInitialized = false;
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             if (!this._isInitialized){
                 this.init();
@@ -85,7 +85,7 @@ package com.sulake.habbo.avatar.common
             };
             _local_3.showPalettes(_arg_2);
         }
-        protected function PendingImage(bmpWindow:IBitmapWrapperWindow, active:Boolean):void
+        protected function setElementImage(bmpWindow:IBitmapWrapperWindow, active:Boolean):void
         {
             var asset:IAsset;
             var assetName:String;
@@ -135,7 +135,7 @@ package com.sulake.habbo.avatar.common
             _local_1.addChild(_local_3);
             _local_1.invalidate();
             if (_local_2.firstView){
-                _local_2.AvatarEditorGridView();
+                _local_2.initFromList();
             };
         }
         protected function activateTab(_arg_1:String):void
@@ -147,7 +147,7 @@ package com.sulake.habbo.avatar.common
             var _local_2:IWindowContainer = (this._window.findChildByName(_arg_1) as IWindowContainer);
             if (_local_2){
                 _local_3 = (_local_2.findChildByTag("bitmap") as IBitmapWrapperWindow);
-                this.PendingImage(_local_3, true);
+                this.setElementImage(_local_3, true);
             };
         }
         protected function inactivateTab(_arg_1:String):void
@@ -159,7 +159,7 @@ package com.sulake.habbo.avatar.common
             var _local_2:IWindowContainer = (this._window.findChildByName(_arg_1) as IWindowContainer);
             if (_local_2){
                 _local_3 = (_local_2.findChildByTag("bitmap") as IBitmapWrapperWindow);
-                this.PendingImage(_local_3, false);
+                this.setElementImage(_local_3, false);
             };
         }
         protected function attachImages():void
@@ -169,9 +169,9 @@ package com.sulake.habbo.avatar.common
                 return;
             };
             var _local_1:Array = new Array();
-            this._window.WindowController("bitmap", _local_1, true);
+            this._window.groupChildrenWithTag("bitmap", _local_1, true);
             for each (_local_2 in _local_1) {
-                this.PendingImage(_local_2, false);
+                this.setElementImage(_local_2, false);
             };
         }
 
@@ -184,19 +184,19 @@ package com.sulake.habbo.avatar.common
 // AvatarEditorView = "_-06P" (String#3690, DoABC#2)
 // CategoryBaseView = "_-2Mf" (String#6492, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // showPalettes = "_-3AL" (String#7520, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)
 // _SafeStr_5402 = "_-0Lb" (String#14897, DoABC#2)
-// AvatarEditorGridView = "_-ME" (String#23093, DoABC#2)
+// initFromList = "_-ME" (String#23093, DoABC#2)
 // updateGridView = "_-BT" (String#22671, DoABC#2)
 // attachImages = "_-2jH" (String#6942, DoABC#2)
 // activateTab = "_-339" (String#21625, DoABC#2)
 // inactivateTab = "_-SE" (String#23334, DoABC#2)
 // _SafeStr_6466 = "_-1DU" (String#17001, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 // _SafeStr_9966 = "_-T9" (String#23371, DoABC#2)
 // firstView = "_-L" (String#23045, DoABC#2)
 

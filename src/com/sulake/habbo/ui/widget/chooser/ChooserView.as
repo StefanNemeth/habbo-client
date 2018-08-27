@@ -39,7 +39,7 @@ package com.sulake.habbo.ui.widget.chooser
                 this._window = null;
             };
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
             return (((!((this._window == null))) && (this._window.visible)));
         }
@@ -58,7 +58,7 @@ package com.sulake.habbo.ui.widget.chooser
             if ((((((this._window == null)) || ((this._itemList == null)))) || ((_arg_1 == null)))){
                 return;
             };
-            this._itemList.IItemListWindow();
+            this._itemList.destroyListItems();
             var _local_3:XmlAsset = XmlAsset(this._widget.assets.getAssetByName("chooser_item"));
             if (_local_3 == null){
                 return;
@@ -114,7 +114,7 @@ package com.sulake.habbo.ui.widget.chooser
             this._itemList = (this._window.findChildByName("item_list") as IItemListWindow);
             var _local_2:IWindow = this._window.findChildByTag("close");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             if (this._window.parent != null){
                 this._window.x = (this._window.parent.width - this._window.width);
@@ -181,7 +181,7 @@ package com.sulake.habbo.ui.widget.chooser
             };
             this.populate(this._items, this._SafeStr_6606);
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this.hideWindow();
         }
@@ -192,10 +192,10 @@ package com.sulake.habbo.ui.widget.chooser
 // ChooserWidgetBase = "_-1UM" (String#5439, DoABC#2)
 // ChooserView = "_-2b-" (String#6772, DoABC#2)
 // ChooserItem = "_-2XQ" (String#6710, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // hideWindow = "_-0Lm" (String#3998, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // _SafeStr_5582 = "_-2ih" (String#1929, DoABC#2)
 // _SafeStr_5583 = "_-2HF" (String#1846, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)

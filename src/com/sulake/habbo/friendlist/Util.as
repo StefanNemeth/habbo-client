@@ -59,7 +59,7 @@ package com.sulake.habbo.friendlist
         public static function print(_arg_1:String, _arg_2:IWindow):void
         {
             var _local_4:int;
-            Logger.log((((((((_arg_1 + _arg_2) + " (") + _arg_2.width) + ", ") + _arg_2.height) + "), ") + _arg_2.WindowController(HabboWindowParam._SafeStr_6023)));
+            Logger.log((((((((_arg_1 + _arg_2) + " (") + _arg_2.width) + ", ") + _arg_2.height) + "), ") + _arg_2.getParamFlag(HabboWindowParam._SafeStr_6023)));
             var _local_3:IWindowContainer = (_arg_2 as IWindowContainer);
             if (_local_3 != null){
                 _local_4 = 0;
@@ -69,7 +69,7 @@ package com.sulake.habbo.friendlist
                 };
             };
         }
-        public static function InfostandWidget(_arg_1:IWindowContainer):void
+        public static function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -115,11 +115,11 @@ package com.sulake.habbo.friendlist
 // print = "_-2k6" (String#20851, DoABC#2)
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // Util = "_-1ve" (String#445, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // layoutChildrenInArea = "_-0f9" (String#15635, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // _SafeStr_6023 = "_-Mr" (String#23121, DoABC#2)
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
-// WindowController = "_-38B" (String#7475, DoABC#2)
+// getParamFlag = "_-38B" (String#7475, DoABC#2)
 
 

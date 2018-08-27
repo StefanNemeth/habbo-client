@@ -36,7 +36,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_TROPHY]);
         }
@@ -57,7 +57,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_TROPHY:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_4 = _local_3.getModel();
                         if (_local_4 != null){
@@ -75,11 +75,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:Event;
         }
@@ -100,11 +100,11 @@ package com.sulake.habbo.ui.handler
 // RWFWM_MESSAGE_REQUEST_TROPHY = "_-2dM" (String#20578, DoABC#2)
 // RWE_FURNI_TROPHY_WIDGET = "_-2lt" (String#20911, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // RWTDUE_TROPHY_DATA = "_-0ag" (String#15461, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7217 = "_-1mr" (String#18416, DoABC#2)
 // _SafeStr_7220 = "_-1eF" (String#18068, DoABC#2)
 

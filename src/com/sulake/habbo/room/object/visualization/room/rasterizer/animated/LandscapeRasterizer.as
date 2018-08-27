@@ -196,7 +196,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
             };
             if (_arg_2.length > 0){
                 _local_4 = 10000;
-                _local_5 = Randomizer.Map(1, 0, _local_4);
+                _local_5 = Randomizer.getValues(1, 0, _local_4);
                 _local_6 = (_local_5[0] / _local_4);
                 if (_arg_2.charAt((_arg_2.length - 1)) == "%"){
                     _arg_2 = _arg_2.substr(0, (_arg_2.length - 1));
@@ -272,7 +272,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
 // getCoordinateValue = "_-1Rd" (String#17570, DoABC#2)
 // setAnimationLayer = "_-16q" (String#16729, DoABC#2)
 // addPlane = "_-0lr" (String#4544, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // getPlane = "_-2oL" (String#21017, DoABC#2)
 // _SafeStr_4870 = "_-2b8" (String#20494, DoABC#2)
 // isStatic = "_-2HT" (String#19704, DoABC#2)

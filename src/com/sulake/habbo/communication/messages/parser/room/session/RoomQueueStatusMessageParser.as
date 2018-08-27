@@ -57,7 +57,7 @@ package com.sulake.habbo.communication.messages.parser.room.session
                 _local_3 = _arg_1.readInteger();
                 _local_8 = 0;
                 while (_local_8 < _local_3) {
-                    _local_4.RoomQueueSet(_arg_1.readString(), _arg_1.readInteger());
+                    _local_4.addQueue(_arg_1.readString(), _arg_1.readInteger());
                     _local_8++;
                 };
                 this._SafeStr_8507.add(_local_4.target, _local_4);
@@ -81,7 +81,7 @@ package com.sulake.habbo.communication.messages.parser.room.session
 // RoomQueueSet = "_-0bO" (String#4330, DoABC#2)
 // RoomQueueStatusMessageParser = "_-1qx" (String#5873, DoABC#2)
 // readString = "_-2y7" (String#1973, DoABC#2)
-// RoomQueueSet = "_-RF" (String#23293, DoABC#2)
+// addQueue = "_-RF" (String#23293, DoABC#2)
 // getQueueSetTargets = "_-0lJ" (String#15877, DoABC#2)
 // activeTarget = "_-38N" (String#21817, DoABC#2)
 // getQueueSet = "_-1sT" (String#18652, DoABC#2)

@@ -28,7 +28,7 @@ package com.sulake.habbo.inventory
 
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
-        private var _InventoryMainView:IFrameWindow;
+        private var _mainWindow:IFrameWindow;
         private var _SafeStr_11642:String;
         private var _SafeStr_11643:IWindowContainer;
         private var _SafeStr_11644:String;
@@ -45,23 +45,23 @@ package com.sulake.habbo.inventory
             this._windowManager = _arg_2;
             var _local_4:IAsset = this._assetLibrary.getAssetByName("inventory_xml");
             var _local_5:XmlAsset = XmlAsset(_local_4);
-            this._InventoryMainView = (this._windowManager.buildFromXML(XML(_local_5.content)) as IFrameWindow);
-            if (this._InventoryMainView != null){
-                this._InventoryMainView.position = this._SafeStr_4231;
-                this._InventoryMainView.visible = false;
-                this._InventoryMainView.procedure = this.windowEventProc;
+            this._mainWindow = (this._windowManager.buildFromXML(XML(_local_5.content)) as IFrameWindow);
+            if (this._mainWindow != null){
+                this._mainWindow.position = this._SafeStr_4231;
+                this._mainWindow.visible = false;
+                this._mainWindow.procedure = this.windowEventProc;
                 this.setCreditBalance(0);
                 this.setPixelBalance(0);
-                this.HabboInventory(0, 0);
+                this.setClubStatus(0, 0);
             };
         }
         public function get isVisible():Boolean
         {
-            return (((this._InventoryMainView) ? this._InventoryMainView.visible : false));
+            return (((this._mainWindow) ? this._mainWindow.visible : false));
         }
         public function get isActive():Boolean
         {
-            return (((this._InventoryMainView) ? this._InventoryMainView.WindowController(WindowState._SafeStr_4586) : false));
+            return (((this._mainWindow) ? this._mainWindow.getStateFlag(WindowState._SafeStr_4586) : false));
         }
         public function dispose():void
         {
@@ -69,9 +69,9 @@ package com.sulake.habbo.inventory
             this._controller = null;
             this._SafeStr_11643 = null;
             this._SafeStr_11645 = null;
-            if (this._InventoryMainView){
-                this._InventoryMainView.dispose();
-                this._InventoryMainView = null;
+            if (this._mainWindow){
+                this._mainWindow.dispose();
+                this._mainWindow = null;
             };
             if (this._toolbar){
                 if (this._toolbar.events){
@@ -84,19 +84,19 @@ package com.sulake.habbo.inventory
         }
         public function getWindow():IFrameWindow
         {
-            return (this._InventoryMainView);
+            return (this._mainWindow);
         }
-        public function HabboInventory():String
+        public function getCategoryViewId():String
         {
             return (this._SafeStr_11642);
         }
-        public function HabboInventory():String
+        public function getSubCategoryViewId():String
         {
             return (this._SafeStr_11644);
         }
         public function hideInventory():void
         {
-            this._controller.TradingModel();
+            this._controller.closingInventoryView();
             var _local_1:IWindow = this.getWindow();
             if (_local_1 == null){
                 return;
@@ -110,7 +110,7 @@ package com.sulake.habbo.inventory
                 return;
             };
             _local_1.visible = true;
-            this._controller.HabboInventory(this._SafeStr_11644);
+            this._controller.inventoryViewOpened(this._SafeStr_11644);
         }
         public function toggleCategoryView(_arg_1:String, _arg_2:Boolean=true, _arg_3:Boolean=false):void
         {
@@ -121,7 +121,7 @@ package com.sulake.habbo.inventory
             if (_local_4.visible){
                 if (this._SafeStr_11642 == _arg_1){
                     if (_arg_2){
-                        if (WindowToggle.WindowToggle(_local_4)){
+                        if (WindowToggle.isHiddenByOtherWindows(_local_4)){
                             _local_4.activate();
                         }
                         else {
@@ -140,10 +140,10 @@ package com.sulake.habbo.inventory
                 };
                 _local_4.visible = true;
                 _local_4.activate();
-                if (((!((_arg_1 == this._SafeStr_11642))) || (!(this._controller.HabboInventory(_arg_1))))){
+                if (((!((_arg_1 == this._SafeStr_11642))) || (!(this._controller.isInventoryCategoryInit(_arg_1))))){
                     this.setViewToCategory(_arg_1);
                 };
-                this._controller.HabboInventory(_arg_1);
+                this._controller.inventoryViewOpened(_arg_1);
             };
         }
         public function toggleSubCategoryView(_arg_1:String, _arg_2:Boolean=true):void
@@ -184,7 +184,7 @@ package com.sulake.habbo.inventory
         {
             this._windowManager.registerLocalizationParameter("inventory.purse.pixelbalance", "balance", String(_arg_1));
         }
-        public function HabboInventory(_arg_1:int, _arg_2:int):void
+        public function setClubStatus(_arg_1:int, _arg_2:int):void
         {
             this._windowManager.registerLocalizationParameter("inventory.purse.clubdays", "months", String(_arg_1));
             this._windowManager.registerLocalizationParameter("inventory.purse.clubdays", "days", String(_arg_2));
@@ -219,14 +219,14 @@ package com.sulake.habbo.inventory
             if (_arg_1 != this._SafeStr_11642){
                 this.resetUnseenCounters(this._SafeStr_11642);
             };
-            this._controller.HabboInventory(_arg_1);
-            var _local_2:ITabContextWindow = (this._InventoryMainView.findChildByName("contentArea") as ITabContextWindow);
+            this._controller.checkCategoryInitilization(_arg_1);
+            var _local_2:ITabContextWindow = (this._mainWindow.findChildByName("contentArea") as ITabContextWindow);
             if (_local_2 == null){
                 return;
             };
             _local_2.container.removeChild(this._SafeStr_11643);
             _local_2.invalidate();
-            var _local_3:IWindowContainer = this._controller.HabboInventory(_arg_1);
+            var _local_3:IWindowContainer = this._controller.getCategoryWindowContainer(_arg_1);
             if (_local_3 == null){
                 return;
             };
@@ -234,19 +234,19 @@ package com.sulake.habbo.inventory
             _local_2.container.addChild(_local_3);
             this._SafeStr_11643 = _local_3;
             this._SafeStr_11642 = _arg_1;
-            _local_2.selector.setSelected(_local_2.selector.ISelectorWindow(_arg_1));
+            _local_2.selector.setSelected(_local_2.selector.getSelectableByName(_arg_1));
         }
         private function setSubViewToCategory(_arg_1:String):void
         {
             if ((((_arg_1 == null)) || ((_arg_1 == "")))){
                 return;
             };
-            this._controller.HabboInventory(_arg_1);
-            var _local_2:IWindowContainer = (this._InventoryMainView.findChildByName("subContentArea") as IWindowContainer);
+            this._controller.checkCategoryInitilization(_arg_1);
+            var _local_2:IWindowContainer = (this._mainWindow.findChildByName("subContentArea") as IWindowContainer);
             while (_local_2.numChildren > 0) {
                 _local_2.removeChildAt(0);
             };
-            var _local_3:IWindowContainer = this._controller.HabboInventory(_arg_1);
+            var _local_3:IWindowContainer = this._controller.getCategorySubWindowContainer(_arg_1);
             if (_local_3 != null){
                 _local_2.visible = true;
                 _local_3.visible = true;
@@ -257,13 +257,13 @@ package com.sulake.habbo.inventory
                 _local_2.visible = false;
                 _local_2.height = 0;
             };
-            this._InventoryMainView.IFrameWindow();
-            if (this._InventoryMainView.parent != null){
-                if ((this._InventoryMainView.x + this._InventoryMainView.width) > this._InventoryMainView.parent.width){
-                    this._InventoryMainView.x = (this._InventoryMainView.parent.width - this._InventoryMainView.width);
+            this._mainWindow.resizeToFitContent();
+            if (this._mainWindow.parent != null){
+                if ((this._mainWindow.x + this._mainWindow.width) > this._mainWindow.parent.width){
+                    this._mainWindow.x = (this._mainWindow.parent.width - this._mainWindow.width);
                 };
-                if ((this._InventoryMainView.y + this._InventoryMainView.height) > this._InventoryMainView.parent.height){
-                    this._InventoryMainView.y = (this._InventoryMainView.parent.height - this._InventoryMainView.height);
+                if ((this._mainWindow.y + this._mainWindow.height) > this._mainWindow.parent.height){
+                    this._mainWindow.y = (this._mainWindow.parent.height - this._mainWindow.height);
                 };
             };
             this._SafeStr_11645 = _local_3;
@@ -284,7 +284,7 @@ package com.sulake.habbo.inventory
                     }
                     else {
                         if (this._controller != null){
-                            this._controller.HabboInventory(InventoryCategory._SafeStr_5995);
+                            this._controller.toggleInventoryPage(InventoryCategory._SafeStr_5995);
                         };
                     };
                 };
@@ -294,9 +294,9 @@ package com.sulake.habbo.inventory
         {
             var _local_3:String;
             if (_arg_1.type == WindowEvent.WE_SELECTED){
-                _local_3 = ITabContextWindow(_arg_2).selector.ISelectorWindow().name;
+                _local_3 = ITabContextWindow(_arg_2).selector.getSelected().name;
                 if (_local_3 != this._SafeStr_11642){
-                    this._controller.HabboInventory(_local_3);
+                    this._controller.toggleInventoryPage(_local_3);
                 };
             }
             else {
@@ -307,7 +307,7 @@ package com.sulake.habbo.inventory
                 };
             };
         }
-        public function HabboInventory():void
+        public function updateUnseenItemCounts():void
         {
             this.updateUnseenFurniCount();
             this.updateUnseenBadgeCount();
@@ -319,8 +319,8 @@ package com.sulake.habbo.inventory
             };
             var _local_1:int = (this._controller.furniModel.getUnseenItemCount() + this._controller.petsModel.getUnseenItemCount());
             this.updateCounter(this._SafeStr_11646, _local_1);
-            this._controller.furniModel.ProgressBar();
-            this._controller.petsModel.ProgressBar();
+            this._controller.furniModel.updateView();
+            this._controller.petsModel.updateView();
         }
         private function updateUnseenBadgeCount():void
         {
@@ -329,13 +329,13 @@ package com.sulake.habbo.inventory
             };
             var _local_1:int = this._controller.badgesModel.getUnseenItemCount();
             this.updateCounter(this._SafeStr_11647, _local_1);
-            this._controller.badgesModel.ProgressBar();
+            this._controller.badgesModel.updateView();
         }
         private function createCounter(_arg_1:String):IWindowContainer
         {
             var _local_2:XmlAsset = (this._assetLibrary.getAssetByName("unseen_items_counter_xml") as XmlAsset);
             var _local_3:IWindowContainer = (this._windowManager.buildFromXML((_local_2.content as XML)) as IWindowContainer);
-            var _local_4:IWindowContainer = (this._InventoryMainView.findChildByName(_arg_1) as IWindowContainer);
+            var _local_4:IWindowContainer = (this._mainWindow.findChildByName(_arg_1) as IWindowContainer);
             if (_local_4){
                 _local_4.addChild(_local_3);
                 _local_3.x = ((_local_4.width - _local_3.width) - _SafeStr_11641);
@@ -354,10 +354,10 @@ package com.sulake.habbo.inventory
 
 // setViewToCategory = "_-211" (String#6066, DoABC#2)
 // toggleCategoryView = "_-wV" (String#24553, DoABC#2)
-// HabboInventory = "_-1yQ" (String#18906, DoABC#2)
-// HabboInventory = "_-0VB" (String#15251, DoABC#2)
+// getCategoryWindowContainer = "_-1yQ" (String#18906, DoABC#2)
+// setClubStatus = "_-0VB" (String#15251, DoABC#2)
 // badgesModel = "_-mf" (String#24135, DoABC#2)
-// HabboInventory = "_-3Jx" (String#22282, DoABC#2)
+// isInventoryCategoryInit = "_-3Jx" (String#22282, DoABC#2)
 // _SafeStr_11641 = "_-1xb" (String#5983, DoABC#2)
 // _SafeStr_11642 = "_-1ln" (String#18366, DoABC#2)
 // _SafeStr_11643 = "_-04q" (String#14234, DoABC#2)
@@ -367,16 +367,16 @@ package com.sulake.habbo.inventory
 // _SafeStr_11647 = "_-1zD" (String#18935, DoABC#2)
 // setCreditBalance = "_-2kx" (String#20881, DoABC#2)
 // setPixelBalance = "_-38m" (String#21833, DoABC#2)
-// HabboInventory = "_-2Yl" (String#20385, DoABC#2)
+// getCategoryViewId = "_-2Yl" (String#20385, DoABC#2)
 // hideInventory = "_-2bi" (String#20512, DoABC#2)
 // showInventory = "_-0xY" (String#16334, DoABC#2)
-// HabboInventory = "_-zv" (String#24680, DoABC#2)
+// inventoryViewOpened = "_-zv" (String#24680, DoABC#2)
 // toggleSubCategoryView = "_-1KC" (String#17281, DoABC#2)
 // setSubViewToCategory = "_-1lK" (String#18344, DoABC#2)
 // updateSubCategoryView = "_-37w" (String#21802, DoABC#2)
 // setToolbar = "_-zP" (String#24669, DoABC#2)
 // resetUnseenCounters = "_-181" (String#16777, DoABC#2)
-// HabboInventory = "_-SM" (String#23340, DoABC#2)
+// getCategorySubWindowContainer = "_-SM" (String#23340, DoABC#2)
 // updateUnseenFurniCount = "_-0Cd" (String#14554, DoABC#2)
 // updateUnseenBadgeCount = "_-1pT" (String#18523, DoABC#2)
 // createCounter = "_-24F" (String#19187, DoABC#2)
@@ -388,34 +388,34 @@ package com.sulake.habbo.inventory
 // ITabContextWindow = "_-0L6" (String#1455, DoABC#2)
 // InventoryMainView = "_-kQ" (String#8610, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
-// _InventoryMainView = "_-1P" (String#361, DoABC#2)
-// WindowToggle = "_-1OQ" (String#17449, DoABC#2)
+// _mainWindow = "_-1P" (String#361, DoABC#2)
+// isHiddenByOtherWindows = "_-1OQ" (String#17449, DoABC#2)
 // isActive = "_-0q4" (String#4638, DoABC#2)
 // _SafeStr_4231 = "_-37t" (String#2006, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // _SafeStr_4586 = "_-22X" (String#19111, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // _SafeStr_5996 = "_-Jg" (String#22993, DoABC#2)
 // _toolbar = "_-1LG" (String#93, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // _SafeStr_7061 = "_-3KY" (String#22306, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // onHabboToolbarEvent = "_-0Ve" (String#435, DoABC#2)
 // iconId = "_-2di" (String#20590, DoABC#2)
 // petsModel = "_-227" (String#19096, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
-// HabboInventory = "_-vi" (String#24517, DoABC#2)
+// checkCategoryInitilization = "_-vi" (String#24517, DoABC#2)
 // resetUnseenItems = "_-0qm" (String#16077, DoABC#2)
-// HabboInventory = "_-p7" (String#24238, DoABC#2)
+// getSubCategoryViewId = "_-p7" (String#24238, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
-// HabboInventory = "_-ik" (String#23988, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// updateUnseenItemCounts = "_-ik" (String#23988, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
-// IFrameWindow = "_-09S" (String#3746, DoABC#2)
+// resizeToFitContent = "_-09S" (String#3746, DoABC#2)
 
 

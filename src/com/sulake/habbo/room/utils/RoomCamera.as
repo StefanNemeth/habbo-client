@@ -15,7 +15,7 @@ package com.sulake.habbo.room.utils
         private var _SafeStr_13158:Number = 0;
         private var _SafeStr_13159:Number = 0;
         private var _SafeStr_13160:Boolean = false;
-        private var _RoomCamera:Vector3d = null;
+        private var _location:Vector3d = null;
         private var _targetObjectLoc:Vector3d;
         private var _limitedLocationX:Boolean = false;
         private var _limitedLocationY:Boolean = false;
@@ -37,7 +37,7 @@ package com.sulake.habbo.room.utils
         }
         public function get location():IVector3d
         {
-            return (this._RoomCamera);
+            return (this._location);
         }
         public function get targetId():int
         {
@@ -93,7 +93,7 @@ package com.sulake.habbo.room.utils
         }
         public function get isMoving():Boolean
         {
-            if (((!((this._realTargetLoc == null))) && (!((this._RoomCamera == null))))){
+            if (((!((this._realTargetLoc == null))) && (!((this._location == null))))){
                 return (true);
             };
             return (false);
@@ -162,7 +162,7 @@ package com.sulake.habbo.room.utils
             if (((((!((this._realTargetLoc.x == _arg_1.x))) || (!((this._realTargetLoc.y == _arg_1.y))))) || (!((this._realTargetLoc.z == _arg_1.z))))){
                 this._realTargetLoc.assign(_arg_1);
                 this._SafeStr_13170 = 0;
-                _local_2 = Vector3d.dif(this._realTargetLoc, this._RoomCamera);
+                _local_2 = Vector3d.dif(this._realTargetLoc, this._location);
                 this._SafeStr_13158 = _local_2.length;
                 this._SafeStr_13160 = true;
             };
@@ -170,22 +170,22 @@ package com.sulake.habbo.room.utils
         public function dispose():void
         {
             this._realTargetLoc = null;
-            this._RoomCamera = null;
+            this._location = null;
         }
         public function initializeLocation(_arg_1:IVector3d):void
         {
-            if (this._RoomCamera != null){
+            if (this._location != null){
                 return;
             };
-            this._RoomCamera = new Vector3d();
-            this._RoomCamera.assign(_arg_1);
+            this._location = new Vector3d();
+            this._location.assign(_arg_1);
         }
         public function resetLocation(_arg_1:IVector3d):void
         {
-            if (this._RoomCamera == null){
-                this._RoomCamera = new Vector3d();
+            if (this._location == null){
+                this._location = new Vector3d();
             };
-            this._RoomCamera.assign(_arg_1);
+            this._location.assign(_arg_1);
         }
         public function update(_arg_1:uint, _arg_2:Number):void
         {
@@ -194,20 +194,20 @@ package com.sulake.habbo.room.utils
             var _local_5:Number;
             var _local_6:Number;
             var _local_7:Number;
-            if (((!((this._realTargetLoc == null))) && (!((this._RoomCamera == null))))){
+            if (((!((this._realTargetLoc == null))) && (!((this._location == null))))){
                 this._SafeStr_13170++;
                 if (this._SafeStr_13171){
                     this._SafeStr_13171 = false;
-                    this._RoomCamera = this._realTargetLoc;
+                    this._location = this._realTargetLoc;
                     this._realTargetLoc = null;
                     return;
                 };
-                _local_3 = Vector3d.dif(this._realTargetLoc, this._RoomCamera);
+                _local_3 = Vector3d.dif(this._realTargetLoc, this._location);
                 if (_local_3.length > this._SafeStr_13158){
                     this._SafeStr_13158 = _local_3.length;
                 };
                 if (_local_3.length <= _arg_2){
-                    this._RoomCamera = this._realTargetLoc;
+                    this._location = this._realTargetLoc;
                     this._realTargetLoc = null;
                     this._SafeStr_13159 = 0;
                 }
@@ -230,7 +230,7 @@ package com.sulake.habbo.room.utils
                     this._SafeStr_13159 = _local_7;
                     _local_3.div(_local_3.length);
                     _local_3.mul(_local_7);
-                    this._RoomCamera = Vector3d.sum(this._RoomCamera, _local_3);
+                    this._location = Vector3d.sum(this._location, _local_3);
                 };
             };
         }
@@ -242,7 +242,7 @@ package com.sulake.habbo.room.utils
     }
 }//package com.sulake.habbo.room.utils
 
-// _RoomCamera = "_-1Xk" (String#5512, DoABC#2)
+// _location = "_-1Xk" (String#5512, DoABC#2)
 // dif = "_-wu" (String#24566, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)

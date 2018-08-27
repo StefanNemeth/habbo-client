@@ -12,7 +12,7 @@ package com.sulake.habbo.catalog.viewer
         function getImageElementContent(_arg_1:int):String;
         function dispose():void;
         function hasLinks(_arg_1:String):Boolean;
-        function PageLocalization(_arg_1:String):Array;
+        function getLinks(_arg_1:String):Array;
         function hasColors(_arg_1:String):Boolean;
         function getColorTargets(_arg_1:String):Array;
         function getColorSources(_arg_1:String):Array;
@@ -22,6 +22,6 @@ package com.sulake.habbo.catalog.viewer
 }//package com.sulake.habbo.catalog.viewer
 
 // IPageLocalization = "_-0gS" (String#4433, DoABC#2)
-// PageLocalization = "_-Eu" (String#7970, DoABC#2)
+// getLinks = "_-Eu" (String#7970, DoABC#2)
 
 

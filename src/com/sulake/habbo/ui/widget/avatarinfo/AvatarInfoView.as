@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
         protected static var _SafeStr_6827:Boolean = false;
 
         protected var _window:IWindowContainer;
-        protected var _AvatarInfoView:IWindowContainer;
+        protected var _SafeStr_6828:IWindowContainer;
         protected var _activeView:IWindowContainer;
         private var _SafeStr_6830:Boolean;
         protected var _widget:AvatarInfoWidget;
@@ -79,12 +79,12 @@ package com.sulake.habbo.ui.widget.avatarinfo
             if (_arg_1._SafeStr_6841){
                 if (!_arg_1._SafeStr_6834){
                     _arg_1._SafeStr_6834 = new Timer(_arg_1._SafeStr_6835, 1);
-                    _arg_1._SafeStr_6834.addEventListener(TimerEvent.TIMER_COMPLETE, _arg_1.AvatarInfoView);
+                    _arg_1._SafeStr_6834.addEventListener(TimerEvent.TIMER_COMPLETE, _arg_1.onTimerComplete);
                 };
                 _arg_1._SafeStr_6834.reset();
                 _arg_1._SafeStr_6834.start();
             };
-            _arg_1.InfoStandUserView();
+            _arg_1.updateWindow();
         }
 
         public function get userId():int
@@ -119,30 +119,30 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 this._window.dispose();
                 this._window = null;
             };
-            if (this._AvatarInfoView){
-                this._AvatarInfoView.dispose();
-                this._AvatarInfoView = null;
+            if (this._SafeStr_6828){
+                this._SafeStr_6828.dispose();
+                this._SafeStr_6828 = null;
             };
             if (this._SafeStr_6834){
-                this._SafeStr_6834.removeEventListener(TimerEvent.TIMER_COMPLETE, this.AvatarInfoView);
+                this._SafeStr_6834.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onTimerComplete);
                 this._SafeStr_6834.reset();
                 this._SafeStr_6834 = null;
             };
             this._disposed = true;
         }
-        private function AvatarInfoView(_arg_1:TimerEvent):void
+        private function onTimerComplete(_arg_1:TimerEvent):void
         {
             this._SafeStr_6837 = true;
             this._SafeStr_6839 = 0;
             this.hide(true);
         }
-        protected function RoomEventViewCtrl(_arg_1:IWindow, _arg_2:Function):void
+        protected function addMouseClickListener(_arg_1:IWindow, _arg_2:Function):void
         {
             if (_arg_1 != null){
                 _arg_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, _arg_2);
             };
         }
-        protected function InfoStandUserView():void
+        protected function updateWindow():void
         {
             var _local_2:XML;
             var _local_3:IWindow;
@@ -167,7 +167,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 _local_3 = this._window.findChildByName("change_name_container");
                 _local_3.visible = true;
                 this._window.height = (39 + _local_3.height);
-                this.RoomEventViewCtrl(this._window.findChildByName("change_name_container"), this.clickHandler);
+                this.addMouseClickListener(this._window.findChildByName("change_name_container"), this.clickHandler);
             };
             this.activeView = this._window;
         }
@@ -176,7 +176,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
             this._widget.messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_START_NAME_CHANGE));
             this._widget.removeView(this, false);
         }
-        public function AvatarInfoView(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
+        public function setImageAsset(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
         {
             if (((((!(_arg_1)) || (!(this._widget)))) || (!(this._widget.assets)))){
                 return;
@@ -228,7 +228,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 return;
             };
             if (!this._activeView){
-                this.InfoStandUserView();
+                this.updateWindow();
             };
             if (this._SafeStr_6837){
                 this._SafeStr_6839 = (this._SafeStr_6839 + _arg_3);
@@ -264,7 +264,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
             this._activeView.blend = this._blend;
             this.show();
         }
-        protected function AvatarInfoView(_arg_1:WindowMouseEvent):void
+        protected function onMouseHoverEvent(_arg_1:WindowMouseEvent):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
                 this._SafeStr_5951 = true;
@@ -281,21 +281,21 @@ package com.sulake.habbo.ui.widget.avatarinfo
         {
             _SafeStr_6827 = _arg_1;
             this._SafeStr_6830 = true;
-            this.InfoStandUserView();
+            this.updateWindow();
         }
-        protected function AvatarInfoView():IWindowContainer
+        protected function getMinimizedView():IWindowContainer
         {
             var _local_1:XML;
-            if (!this._AvatarInfoView){
+            if (!this._SafeStr_6828){
                 _local_1 = (XmlAsset(this._widget.assets.getAssetByName("minimized_menu")).content as XML);
-                this._AvatarInfoView = (this._widget.windowManager.buildFromXML(_local_1, 0) as IWindowContainer);
-                this._AvatarInfoView.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMaximize);
-                this._AvatarInfoView.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMinimizeHover);
-                this._AvatarInfoView.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, this.onMinimizeHover);
-                this._AvatarInfoView.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.AvatarInfoView);
-                this._AvatarInfoView.addEventListener(WindowMouseEvent.WME_OUT, this.AvatarInfoView);
+                this._SafeStr_6828 = (this._widget.windowManager.buildFromXML(_local_1, 0) as IWindowContainer);
+                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMaximize);
+                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMinimizeHover);
+                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, this.onMinimizeHover);
+                this._SafeStr_6828.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseHoverEvent);
+                this._SafeStr_6828.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseHoverEvent);
             };
-            return (this._AvatarInfoView);
+            return (this._SafeStr_6828);
         }
         private function onMaximize(_arg_1:WindowMouseEvent):void
         {
@@ -353,8 +353,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // addValue = "_-0YF" (String#15367, DoABC#2)
 // getMax = "_-pu" (String#24268, DoABC#2)
 // _SafeStr_5951 = "_-1Ge" (String#5180, DoABC#2)
-// RoomEventViewCtrl = "_-10B" (String#595, DoABC#2)
-// AvatarInfoView = "_-3-s" (String#21496, DoABC#2)
+// addMouseClickListener = "_-10B" (String#595, DoABC#2)
+// setImageAsset = "_-3-s" (String#21496, DoABC#2)
 // allowNameChange = "_-KQ" (String#23022, DoABC#2)
 // _SafeStr_6816 = "_-9d" (String#22605, DoABC#2)
 // _SafeStr_6817 = "_-31y" (String#21577, DoABC#2)
@@ -368,7 +368,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6825 = "_-0FW" (String#14666, DoABC#2)
 // _SafeStr_6826 = "_-2If" (String#19754, DoABC#2)
 // _SafeStr_6827 = "_-0Pc" (String#4085, DoABC#2)
-// _AvatarInfoView = "_-3Gz" (String#22162, DoABC#2)
+// _SafeStr_6828 = "_-3Gz" (String#22162, DoABC#2)
 // _activeView = "_-0q0" (String#16052, DoABC#2)
 // _SafeStr_6830 = "_-0fx" (String#15668, DoABC#2)
 // _allowNameChange = "_-21h" (String#1802, DoABC#2)
@@ -382,12 +382,12 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6839 = "_-2dx" (String#6832, DoABC#2)
 // _SafeStr_6840 = "_-1QZ" (String#17535, DoABC#2)
 // _SafeStr_6841 = "_-Jp" (String#22999, DoABC#2)
-// AvatarInfoView = "_-085" (String#14369, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
+// onTimerComplete = "_-085" (String#14369, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
 // activeView = "_-2aO" (String#20459, DoABC#2)
-// AvatarInfoView = "_-k9" (String#24042, DoABC#2)
+// onMouseHoverEvent = "_-k9" (String#24042, DoABC#2)
 // setMinimized = "_-2Cz" (String#6306, DoABC#2)
-// AvatarInfoView = "_-03T" (String#14180, DoABC#2)
+// getMinimizedView = "_-03T" (String#14180, DoABC#2)
 // onMaximize = "_-0aM" (String#15452, DoABC#2)
 // onMinimizeHover = "_-DL" (String#22744, DoABC#2)
 // onMinimize = "_-1Gr" (String#17145, DoABC#2)

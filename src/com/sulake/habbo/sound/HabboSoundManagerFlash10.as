@@ -48,7 +48,7 @@ package com.sulake.habbo.sound
         private var _communication:IHabboCommunicationManager;
         private var _connection:IConnection;
         private var _roomEngine:IRoomEngine;
-        private var _HabboSoundManagerFlash10:IHabboNotifications;
+        private var _notifications:IHabboNotifications;
         private var _volume:Number = 1;
         private var _SafeStr_13702:Map;
         private var _SafeStr_13703:Array;
@@ -71,13 +71,13 @@ package com.sulake.habbo.sound
             this._SafeStr_13709 = new ByteArray();
             super(_arg_1, _arg_2, _arg_3);
             if (_arg_4){
-                queueInterface(new IIDHabboConfigurationManager(), this.HabboSoundManagerFlash10);
+                queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationInit);
                 queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationManagerReady);
                 queueInterface(new IIDRoomEngine(), this.onRoomEngineReady);
-                queueInterface(new IIDHabboNotifications(), this.HabboSoundManagerFlash10);
+                queueInterface(new IIDHabboNotifications(), this.onNotificationsReady);
             };
             events.addEventListener(TraxSongLoadEvent.TSLE_TRAX_LOAD_COMPLETE, this.onTraxLoadComplete);
-            IContext(this, 1);
+            registerUpdateReceiver(this, 1);
             Logger.log("Sound manager 10 init");
         }
         public function get musicController():IHabboMusicController
@@ -128,9 +128,9 @@ package com.sulake.habbo.sound
                 this._roomEngine.release(new IIDRoomEngine());
                 this._roomEngine = null;
             };
-            if (this._HabboSoundManagerFlash10){
-                this._HabboSoundManagerFlash10.release(new IIDHabboNotifications());
-                this._HabboSoundManagerFlash10 = null;
+            if (this._notifications){
+                this._notifications.release(new IIDHabboNotifications());
+                this._notifications = null;
             };
             super.dispose();
         }
@@ -178,7 +178,7 @@ package com.sulake.habbo.sound
             _local_2.volume = this._volume;
             _local_2.play();
         }
-        private function HabboSoundManagerFlash10(_arg_1:int):void
+        private function loadSample(_arg_1:int):void
         {
             if (this._configuration == null){
                 return;
@@ -193,35 +193,35 @@ package com.sulake.habbo.sound
             _local_4.load(_local_3);
             this._SafeStr_13702.add(_local_4, _arg_1);
         }
-        public function HabboSoundManagerFlash10(_arg_1:int, _arg_2:String):IHabboSound
+        public function loadTraxSong(_arg_1:int, _arg_2:String):IHabboSound
         {
             if (this._SafeStr_13707 != null){
-                return (this.HabboSoundManagerFlash10(_arg_1, _arg_2));
+                return (this.addTraxSongForDownload(_arg_1, _arg_2));
             };
-            var _local_3:TraxSequencer = this.HabboSoundManagerFlash10(_arg_1, _arg_2);
+            var _local_3:TraxSequencer = this.createTraxInstance(_arg_1, _arg_2);
             if (!_local_3.ready){
                 this._SafeStr_13707 = _local_3;
                 this._SafeStr_13706 = _arg_1;
             };
             return ((_local_3 as IHabboSound));
         }
-        private function HabboSoundManagerFlash10(_arg_1:int, _arg_2:String):IHabboSound
+        private function addTraxSongForDownload(_arg_1:int, _arg_2:String):IHabboSound
         {
-            var _local_3:TraxSequencer = this.HabboSoundManagerFlash10(_arg_1, _arg_2, false);
+            var _local_3:TraxSequencer = this.createTraxInstance(_arg_1, _arg_2, false);
             if (!_local_3.ready){
                 this._SafeStr_13708.add(_arg_1, _local_3);
             };
             return (_local_3);
         }
-        private function HabboSoundManagerFlash10(_arg_1:int, _arg_2:String, _arg_3:Boolean=true):TraxSequencer
+        private function createTraxInstance(_arg_1:int, _arg_2:String, _arg_3:Boolean=true):TraxSequencer
         {
             var _local_4:TraxData = new TraxData(_arg_2);
             var _local_5:TraxSequencer = new TraxSequencer(_arg_1, _local_4, this._SafeStr_13704, events);
             _local_5.volume = this._volume;
-            this.HabboSoundManagerFlash10(_local_5, _arg_3);
+            this.validateSampleAvailability(_local_5, _arg_3);
             return (_local_5);
         }
-        private function HabboSoundManagerFlash10(_arg_1:TraxSequencer, _arg_2:Boolean):void
+        private function validateSampleAvailability(_arg_1:TraxSequencer, _arg_2:Boolean):void
         {
             var _local_3:TraxData = _arg_1.traxData;
             var _local_4:Array = _local_3.getSampleIds();
@@ -230,7 +230,7 @@ package com.sulake.habbo.sound
             while (_local_6 < _local_4.length) {
                 if (this._SafeStr_13704.getValue(int(_local_4[_local_6])) == null){
                     if (_arg_2){
-                        this.HabboSoundManagerFlash10(int(_local_4[_local_6]));
+                        this.loadSample(int(_local_4[_local_6]));
                     };
                     _local_5 = true;
                 };
@@ -243,14 +243,14 @@ package com.sulake.habbo.sound
                 _arg_1.ready = true;
             };
         }
-        public function HabboSoundManagerFlash10(_arg_1:String, _arg_2:String):void
+        public function notifyPlayedSong(_arg_1:String, _arg_2:String):void
         {
-            if (this._HabboSoundManagerFlash10 == null){
+            if (this._notifications == null){
                 return;
             };
-            this._HabboSoundManagerFlash10.addSongPlayingNotification(_arg_1, _arg_2);
+            this._notifications.addSongPlayingNotification(_arg_1, _arg_2);
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (_arg_2 != null){
                 this._configuration = (_arg_2 as IHabboConfigurationManager);
@@ -259,7 +259,7 @@ package com.sulake.habbo.sound
                 };
             };
         }
-        protected function HabboSoundManagerFlash10(_arg_1:IHabboConfigurationManager):void
+        protected function setHabboConfiguration(_arg_1:IHabboConfigurationManager):void
         {
             this._configuration = _arg_1;
         }
@@ -267,12 +267,12 @@ package com.sulake.habbo.sound
         {
             if (_arg_2 != null){
                 this._communication = IHabboCommunicationManager(_arg_2);
-                this._communication.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
+                this._communication.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
             };
         }
         private function onAuthenticationOK(_arg_1:IMessageEvent):void
         {
-            var _local_2:IConnection = this._communication.HabboCommunicationManager(this.onConnectionReady);
+            var _local_2:IConnection = this._communication.getHabboMainConnection(this.onConnectionReady);
             if (_local_2 != null){
                 _local_2.addMessageEvent(new SoundSettingsEvent(this.onSoundSettingsEvent));
                 _local_2.send(new GetSoundSettingsComposer());
@@ -288,12 +288,12 @@ package com.sulake.habbo.sound
             this._roomEngine = IRoomEngine(_arg_2);
             this.initMusicController();
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onNotificationsReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (_arg_2 == null){
                 return;
             };
-            this._HabboSoundManagerFlash10 = IHabboNotifications(_arg_2);
+            this._notifications = IHabboNotifications(_arg_2);
         }
         private function onConnectionReady(_arg_1:IConnection):void
         {
@@ -410,7 +410,7 @@ package com.sulake.habbo.sound
                 _local_1 = this._SafeStr_13708.getKey(0);
                 _local_2 = this._SafeStr_13708.remove(_local_1);
                 if (((!((_local_2 == null))) && (!(_local_2.disposed)))){
-                    this.HabboSoundManagerFlash10(_local_2, true);
+                    this.validateSampleAvailability(_local_2, true);
                     if (_local_2.ready){
                         events.dispatchEvent(new TraxSongLoadEvent(TraxSongLoadEvent.TSLE_TRAX_LOAD_COMPLETE, _local_1));
                     }
@@ -498,11 +498,11 @@ package com.sulake.habbo.sound
 // IID = "_-3KV" (String#7712, DoABC#2)
 // _SafeStr_10666 = "_-218" (String#19056, DoABC#2)
 // _SafeStr_10667 = "_-1Ze" (String#17876, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1NP" (String#851, DoABC#2)
+// onHabboConfigurationInit = "_-1NP" (String#851, DoABC#2)
 // onAuthenticationOK = "_-20A" (String#612, DoABC#2)
 // ioErrorHandler = "_-1tF" (String#5906, DoABC#2)
-// _HabboSoundManagerFlash10 = "_-ef" (String#940, DoABC#2)
-// HabboSoundManagerFlash10 = "_-AF" (String#2065, DoABC#2)
+// _notifications = "_-ef" (String#940, DoABC#2)
+// onNotificationsReady = "_-AF" (String#2065, DoABC#2)
 // _SafeStr_11737 = "_-0u3" (String#16205, DoABC#2)
 // _SafeStr_11740 = "_-WS" (String#23509, DoABC#2)
 // _SafeStr_11957 = "_-0BV" (String#14505, DoABC#2)
@@ -527,12 +527,12 @@ package com.sulake.habbo.sound
 // onTraxLoadComplete = "_-1sM" (String#18647, DoABC#2)
 // updateVolumeSetting = "_-0Xn" (String#15348, DoABC#2)
 // storeVolumeSetting = "_-14X" (String#16636, DoABC#2)
-// HabboSoundManagerFlash10 = "_-F7" (String#22819, DoABC#2)
+// loadSample = "_-F7" (String#22819, DoABC#2)
 // onSampleLoadComplete = "_-1E0" (String#17027, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1y6" (String#18892, DoABC#2)
-// HabboSoundManagerFlash10 = "_-12E" (String#16546, DoABC#2)
-// HabboSoundManagerFlash10 = "_-0V6" (String#15246, DoABC#2)
-// HabboSoundManagerFlash10 = "_-2ws" (String#21341, DoABC#2)
+// addTraxSongForDownload = "_-1y6" (String#18892, DoABC#2)
+// createTraxInstance = "_-12E" (String#16546, DoABC#2)
+// validateSampleAvailability = "_-0V6" (String#15246, DoABC#2)
+// setHabboConfiguration = "_-2ws" (String#21341, DoABC#2)
 // onSoundSettingsEvent = "_-3IE" (String#22211, DoABC#2)
 // initMusicController = "_-1KQ" (String#17291, DoABC#2)
 // setMusicController = "_-1m4" (String#18382, DoABC#2)
@@ -558,9 +558,9 @@ package com.sulake.habbo.sound
 // volume = "_-0SB" (String#1473, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // getSampleIds = "_-1c-" (String#17971, DoABC#2)
 // traxData = "_-2S4" (String#20122, DoABC#2)
 // _SafeStr_6173 = "_-1W8" (String#17748, DoABC#2)
@@ -571,12 +571,12 @@ package com.sulake.habbo.sound
 // _musicController = "_-3Bw" (String#458, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // previewVolume = "_-1fh" (String#5660, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1OI" (String#5318, DoABC#2)
+// loadTraxSong = "_-1OI" (String#5318, DoABC#2)
 // updateVolume = "_-31S" (String#7334, DoABC#2)
 // onSongLoaded = "_-1iX" (String#5723, DoABC#2)
 // samplesUnloaded = "_-1dU" (String#5623, DoABC#2)
 // samplesIdsInUse = "_-0Sc" (String#4152, DoABC#2)
-// HabboSoundManagerFlash10 = "_-3FC" (String#22085, DoABC#2)
+// notifyPlayedSong = "_-3FC" (String#22085, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // onCommunicationManagerReady = "_-3A0" (String#914, DoABC#2)

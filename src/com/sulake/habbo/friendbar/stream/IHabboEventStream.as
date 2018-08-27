@@ -9,13 +9,13 @@ package com.sulake.habbo.friendbar.stream
         function set visible(_arg_1:Boolean):void;
         function get visible():Boolean;
         function refreshEventStream():void;
-        function IHabboEventStream(_arg_1:EventStreamEntity):void;
+        function likeStreamEvent(_arg_1:EventStreamEntity):void;
 
     }
 }//package com.sulake.habbo.friendbar.stream
 
 // refreshEventStream = "_-1Zw" (String#1711, DoABC#2)
-// IHabboEventStream = "_-1tw" (String#5918, DoABC#2)
+// likeStreamEvent = "_-1tw" (String#5918, DoABC#2)
 // IHabboEventStream = "_-2Uk" (String#6661, DoABC#2)
 
 

@@ -19,7 +19,7 @@ package com.sulake.core.window.utils
         {
             return (this._SafeStr_3708[_arg_1]);
         }
-        public function WindowController(_arg_1:uint):IChildEntity
+        public function getChildByID(_arg_1:uint):IChildEntity
         {
             var _local_3:IChildEntity;
             var _local_2:uint = this._SafeStr_3708.length;
@@ -33,7 +33,7 @@ package com.sulake.core.window.utils
             };
             return (null);
         }
-        public function WindowController(_arg_1:String):IChildEntity
+        public function getChildByTag(_arg_1:String):IChildEntity
         {
             var _local_3:IChildEntity;
             var _local_2:uint = this._SafeStr_3708.length;
@@ -65,7 +65,7 @@ package com.sulake.core.window.utils
         {
             return (this._SafeStr_3708.indexOf(_arg_1));
         }
-        public function WindowController(_arg_1:uint, _arg_2:Array):uint
+        public function groupChildrenWithID(_arg_1:uint, _arg_2:Array):uint
         {
             var _local_3:IChildEntity;
             var _local_6:uint;
@@ -82,7 +82,7 @@ package com.sulake.core.window.utils
             };
             return (_local_4);
         }
-        public function WindowController(_arg_1:String, _arg_2:Array):uint
+        public function groupChildrenWithTag(_arg_1:String, _arg_2:Array):uint
         {
             var _local_3:IChildEntity;
             var _local_6:uint;
@@ -107,9 +107,9 @@ package com.sulake.core.window.utils
 // IChildEntity = "_-1NX" (String#5302, DoABC#2)
 // ChildEntityArrayReader = "_-1e2" (String#5629, DoABC#2)
 // _SafeStr_3708 = "_-2oC" (String#11, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
-// WindowController = "_-y3" (String#2226, DoABC#2)
-// WindowController = "_-tP" (String#2212, DoABC#2)
-// WindowController = "_-2KM" (String#1856, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
+// getChildByID = "_-y3" (String#2226, DoABC#2)
+// getChildByTag = "_-tP" (String#2212, DoABC#2)
+// groupChildrenWithID = "_-2KM" (String#1856, DoABC#2)
 
 

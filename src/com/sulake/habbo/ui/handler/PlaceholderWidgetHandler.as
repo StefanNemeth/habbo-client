@@ -30,7 +30,7 @@ package com.sulake.habbo.ui.handler
         {
             this._container = _arg_1;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_PLACEHOLDER]);
         }
@@ -44,11 +44,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return (null);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -65,8 +65,8 @@ package com.sulake.habbo.ui.handler
 // RoomWidgetShowPlaceholderEvent = "_-3-p" (String#7300, DoABC#2)
 // RWFWM_MESSAGE_REQUEST_PLACEHOLDER = "_-2S8" (String#20125, DoABC#2)
 // RWSPE_SHOW_PLACEHOLDER = "_-1-S" (String#16446, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 
 

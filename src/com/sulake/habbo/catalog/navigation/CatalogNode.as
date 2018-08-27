@@ -33,7 +33,7 @@ package com.sulake.habbo.catalog.navigation
             this._iconId = _arg_2.icon;
             this._children = [];
         }
-        public function get IssueBrowser():Boolean
+        public function get isOpen():Boolean
         {
             return (false);
         }
@@ -146,7 +146,7 @@ package com.sulake.habbo.catalog.navigation
 // NodeData = "_-02P" (String#3615, DoABC#2)
 // ICatalogNode = "_-0Td" (String#4172, DoABC#2)
 // CatalogNode = "_-148" (String#4959, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // _pageId = "_-251" (String#366, DoABC#2)
 // _depth = "_-XX" (String#935, DoABC#2)
 // navigateable = "_-0EP" (String#14623, DoABC#2)

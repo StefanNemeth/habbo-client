@@ -49,7 +49,7 @@ package com.sulake.habbo.help.cfh
             var _local_2:IWindow = container.findChildByName("cancel");
             if (_local_2 != null){
                 _local_2.setParamFlag(WindowParam._SafeStr_7434);
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
             };
             super.render();
         }
@@ -57,7 +57,7 @@ package com.sulake.habbo.help.cfh
         {
             this.sendCallForHelp();
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onCancel(_arg_1:WindowMouseEvent):void
         {
             main.showUI(HabboHelpViewEnum.HHVE_HELP_FRONTPAGE);
         }
@@ -131,7 +131,7 @@ package com.sulake.habbo.help.cfh
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
 // onTextWindowEvent = "_-0hH" (String#820, DoABC#2)
 // onSend = "_-0qb" (String#4653, DoABC#2)
-// PollOfferDialog = "_-3JX" (String#633, DoABC#2)
+// onCancel = "_-3JX" (String#633, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // HHVE_HELP_FRONTPAGE = "_-2WD" (String#20292, DoABC#2)
 

@@ -105,9 +105,9 @@ package com.sulake.habbo.navigator.mainview
             var _local_2:IWindowContainer = IWindowContainer(this._navigator.getXmlWindow("grs_guest_room_details_short"));
             _local_2.background = true;
             _local_2.addEventListener(WindowMouseEvent.WME_MOVE, this.onMouseMove);
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ClubGiftNotification);
-            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.ClubGiftNotification);
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseOver);
+            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseOut);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
             _local_2.setParamFlag(HabboWindowParam._SafeStr_3731, true);
             _local_2.setParamFlag(HabboWindowParam._SafeStr_4184, true);
             _local_2.color = this.getBgColor(_arg_1);
@@ -130,7 +130,7 @@ package com.sulake.habbo.navigator.mainview
                 this._content.addListItem(_local_4);
                 _local_5 = true;
             };
-            Util.InfostandWidget(_local_4);
+            Util.hideChildren(_local_4);
             if (_arg_1){
                 this.refreshEntryDetails(_local_4, _arg_3);
                 _local_4.visible = true;
@@ -148,7 +148,7 @@ package com.sulake.habbo.navigator.mainview
         public function refreshEntryDetails(_arg_1:IWindowContainer, _arg_2:GuestRoomData):void
         {
             _arg_1.visible = true;
-            Util.InfostandWidget(_arg_1);
+            Util.hideChildren(_arg_1);
             this.refreshFavouriteIcon(_arg_1, _arg_2);
             this._navigator.refreshButton(_arg_1, "home", this.isHome(_arg_2), null, 0);
             this._navigator.refreshButton(_arg_1, "doormode_doorbell_small", (_arg_2.doorMode == RoomSettingsFlatInfo._SafeStr_4188), null, 0);
@@ -167,7 +167,7 @@ package com.sulake.habbo.navigator.mainview
         {
             this.checkFastHorizontalMove(_arg_1);
         }
-        private function ClubGiftNotification(_arg_1:WindowEvent):void
+        private function onMouseOver(_arg_1:WindowEvent):void
         {
             var _local_2:IWindow = _arg_1.target;
             if (((this._SafeStr_4171.visible) && (this._SafeStr_4175))){
@@ -185,9 +185,9 @@ package com.sulake.habbo.navigator.mainview
                 return;
             };
             this._SafeStr_4171.room = _local_4;
-            this._SafeStr_4171.PopupCtrl(_local_2);
+            this._SafeStr_4171.showPopup(_local_2);
         }
-        private function ClubGiftNotification(_arg_1:WindowEvent):void
+        private function onMouseOut(_arg_1:WindowEvent):void
         {
             var _local_2:IWindow = _arg_1.target;
             if (Util.containsMouse(_local_2)){
@@ -196,9 +196,9 @@ package com.sulake.habbo.navigator.mainview
             };
             var _local_3:int = _local_2.tags[0];
             _local_2.color = this.getBgColor(_local_3);
-            this._SafeStr_4171.PopupCtrl();
+            this._SafeStr_4171.closePopup();
         }
-        private function WelcomeScreenController(_arg_1:WindowEvent):void
+        private function onMouseClick(_arg_1:WindowEvent):void
         {
             var _local_5:Point;
             var _local_2:IWindow = _arg_1.target;
@@ -224,7 +224,7 @@ package com.sulake.habbo.navigator.mainview
                 };
             };
             this._navigator.goToRoom(_local_4.flatId, true, "", _local_3);
-            this._SafeStr_4171.PopupCtrl();
+            this._SafeStr_4171.hideInstantly();
         }
         private function refreshFavouriteIcon(_arg_1:IWindowContainer, _arg_2:GuestRoomData):void
         {
@@ -330,7 +330,7 @@ package com.sulake.habbo.navigator.mainview
 // _SafeStr_4104 = "_-2dY" (String#6821, DoABC#2)
 // refreshEntry = "_-2v6" (String#308, DoABC#2)
 // getBgColor = "_-1GR" (String#600, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refreshUserCount = "_-2dF" (String#6816, DoABC#2)
 // userCount = "_-3Ez" (String#22075, DoABC#2)
 // flatId = "_-3CK" (String#21973, DoABC#2)
@@ -351,9 +351,9 @@ package com.sulake.habbo.navigator.mainview
 // getListEntry = "_-S4" (String#8248, DoABC#2)
 // WME_MOVE = "_-1ee" (String#18084, DoABC#2)
 // onMouseMove = "_-of" (String#24221, DoABC#2)
-// ClubGiftNotification = "_-21W" (String#613, DoABC#2)
-// ClubGiftNotification = "_-1ap" (String#608, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
+// onMouseOver = "_-21W" (String#613, DoABC#2)
+// onMouseOut = "_-1ap" (String#608, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
 // _SafeStr_4184 = "_-17w" (String#16770, DoABC#2)
 // refreshEntryDetails = "_-xU" (String#24589, DoABC#2)
 // stretchNewEntryIfNeeded = "_-1D8" (String#16986, DoABC#2)
@@ -364,12 +364,12 @@ package com.sulake.habbo.navigator.mainview
 // cutTextToWidth = "_-1qz" (String#18580, DoABC#2)
 // checkFastHorizontalMove = "_-0ED" (String#14616, DoABC#2)
 // hilite = "_-0UM" (String#15218, DoABC#2)
-// PopupCtrl = "_-0pi" (String#16042, DoABC#2)
+// showPopup = "_-0pi" (String#16042, DoABC#2)
 // containsMouse = "_-0ij" (String#15781, DoABC#2)
-// PopupCtrl = "_-1eW" (String#18078, DoABC#2)
+// closePopup = "_-1eW" (String#18078, DoABC#2)
 // ownerName = "_-1e1" (String#1730, DoABC#2)
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
-// PopupCtrl = "_-DX" (String#22750, DoABC#2)
+// hideInstantly = "_-DX" (String#22750, DoABC#2)
 // isRoomFavourite = "_-0Wv" (String#15312, DoABC#2)
 // refreshRegion = "_-x8" (String#24574, DoABC#2)
 // onAddFavouriteClick = "_-2CO" (String#6291, DoABC#2)

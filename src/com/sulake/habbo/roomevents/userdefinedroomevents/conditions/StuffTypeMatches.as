@@ -21,17 +21,17 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.conditions
         {
             return (false);
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
+        public function onInit(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
         {
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:Triggerable):void
+        public function onEditStart(_arg_1:IWindowContainer, _arg_2:Triggerable):void
         {
         }
-        public function Element(_arg_1:IWindowContainer):Array
+        public function readIntParamsFromForm(_arg_1:IWindowContainer):Array
         {
             return (new Array());
         }
-        public function Element(_arg_1:IWindowContainer):String
+        public function readStringParamFromForm(_arg_1:IWindowContainer):String
         {
             return ("");
         }
@@ -50,10 +50,10 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.conditions
 // code = "_-12Y" (String#4926, DoABC#2)
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
 // _SafeStr_7661 = "_-2rb" (String#21141, DoABC#2)
 

@@ -56,14 +56,14 @@ package com.sulake.habbo.ui.widget.avatarinfo
             this._data = null;
             super.dispose();
         }
-        override protected function InfoStandUserView():void
+        override protected function updateWindow():void
         {
             var _local_1:XML;
             if (((((!(_widget)) || (!(_widget.assets)))) || (!(_widget.windowManager)))){
                 return;
             };
             if (_SafeStr_6827){
-                activeView = AvatarInfoView();
+                activeView = getMinimizedView();
             }
             else {
                 if (!_window){
@@ -72,8 +72,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     if (!_window){
                         return;
                     };
-                    _window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, AvatarInfoView);
-                    _window.addEventListener(WindowMouseEvent.WME_OUT, AvatarInfoView);
+                    _window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseHoverEvent);
+                    _window.addEventListener(WindowMouseEvent.WME_OUT, onMouseHoverEvent);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMinimize);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMinimizeHover);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, onMinimizeHover);
@@ -83,10 +83,10 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 _window.findChildByName("name").caption = _userName;
                 _window.visible = false;
                 activeView = _window;
-                this.InfoStandUserView();
+                this.updateButtons();
             };
         }
-        public function InfoStandUserView():void
+        public function updateButtons():void
         {
             if (((((!(_window)) || (!(this._data)))) || (!(this._buttons)))){
                 return;
@@ -100,31 +100,31 @@ package com.sulake.habbo.ui.widget.avatarinfo
             };
             switch (this._mode){
                 case _SafeStr_6851:
-                    this.InfoStandUserView("change_name", this._data.allowNameChange);
-                    this.InfoStandUserView("change_looks");
-                    this.InfoStandUserView("dance_menu", _widget.hasClub, !(_widget.hasEffectOn));
-                    this.InfoStandUserView("dance", ((!(_widget.hasClub)) && (!(_widget.isDancing))), !(_widget.hasEffectOn));
-                    this.InfoStandUserView("dance_stop", ((!(_widget.hasClub)) && (_widget.isDancing)));
-                    this.InfoStandUserView("wave", true, !(_widget.hasEffectOn));
-                    this.InfoStandUserView("effects", true);
+                    this.showButton("change_name", this._data.allowNameChange);
+                    this.showButton("change_looks");
+                    this.showButton("dance_menu", _widget.hasClub, !(_widget.hasEffectOn));
+                    this.showButton("dance", ((!(_widget.hasClub)) && (!(_widget.isDancing))), !(_widget.hasEffectOn));
+                    this.showButton("dance_stop", ((!(_widget.hasClub)) && (_widget.isDancing)));
+                    this.showButton("wave", true, !(_widget.hasEffectOn));
+                    this.showButton("effects", true);
                     break;
                 case _SafeStr_6852:
-                    this.InfoStandUserView("dance_stop", true, _widget.isDancing);
-                    this.InfoStandUserView("dance_1");
-                    this.InfoStandUserView("dance_2");
-                    this.InfoStandUserView("dance_3");
-                    this.InfoStandUserView("dance_4");
-                    this.InfoStandUserView("back");
+                    this.showButton("dance_stop", true, _widget.isDancing);
+                    this.showButton("dance_1");
+                    this.showButton("dance_2");
+                    this.showButton("dance_3");
+                    this.showButton("dance_4");
+                    this.showButton("back");
                     break;
                 case _SafeStr_6853:
-                    this.InfoStandUserView("change_name");
-                    this.InfoStandUserView("more");
+                    this.showButton("change_name");
+                    this.showButton("more");
                     break;
             };
             this._buttons.autoArrangeItems = true;
             this._buttons.visible = true;
         }
-        private function InfoStandUserView(_arg_1:String, _arg_2:Boolean=true, _arg_3:Boolean=true):void
+        private function showButton(_arg_1:String, _arg_2:Boolean=true, _arg_3:Boolean=true):void
         {
             if (!this._buttons){
                 return;
@@ -253,7 +253,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
         private function changeMode(_arg_1:int):void
         {
             this._mode = _arg_1;
-            this.InfoStandUserView();
+            this.updateButtons();
         }
 
     }
@@ -276,7 +276,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _mode = "_-1kk" (String#611, DoABC#2)
-// InfoStandUserView = "_-i5" (String#942, DoABC#2)
+// updateButtons = "_-i5" (String#942, DoABC#2)
 // allowNameChange = "_-KQ" (String#23022, DoABC#2)
 // _SafeStr_6816 = "_-9d" (String#22605, DoABC#2)
 // _SafeStr_6817 = "_-31y" (String#21577, DoABC#2)
@@ -288,10 +288,10 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6824 = "_-3Hu" (String#22198, DoABC#2)
 // _SafeStr_6827 = "_-0Pc" (String#4085, DoABC#2)
 // _SafeStr_6841 = "_-Jp" (String#22999, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
 // activeView = "_-2aO" (String#20459, DoABC#2)
-// AvatarInfoView = "_-k9" (String#24042, DoABC#2)
-// AvatarInfoView = "_-03T" (String#14180, DoABC#2)
+// onMouseHoverEvent = "_-k9" (String#24042, DoABC#2)
+// getMinimizedView = "_-03T" (String#14180, DoABC#2)
 // onMinimizeHover = "_-DL" (String#22744, DoABC#2)
 // onMinimize = "_-1Gr" (String#17145, DoABC#2)
 // _SafeStr_6851 = "_-0t4" (String#16162, DoABC#2)
@@ -299,7 +299,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6853 = "_-38R" (String#21821, DoABC#2)
 // _SafeStr_6854 = "_-0qg" (String#4655, DoABC#2)
 // buttonEventProc = "_-kN" (String#8608, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
 // changeMode = "_-03X" (String#14183, DoABC#2)
 
 

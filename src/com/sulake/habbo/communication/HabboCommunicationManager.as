@@ -59,8 +59,8 @@ package com.sulake.habbo.communication
             this._a4 = [65191, 65178, 65178, 65177, 65185];
             super(_arg_1, _arg_2, _arg_3);
             lock();
-            this.queueInterface(new IIDCoreCommunicationManager(), this.HabboCommunicationManager);
-            this.queueInterface(new IIDHabboConfigurationManager(), this.HabboSoundManagerFlash10);
+            this.queueInterface(new IIDCoreCommunicationManager(), this.onCoreCommunicationManagerInit);
+            this.queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationInit);
             _arg_1.events.addEventListener(Event.UNLOAD, this.unloading);
         }
         public function get mode():int
@@ -102,7 +102,7 @@ package com.sulake.habbo.communication
             };
             super.dispose();
         }
-        private function HabboCommunicationManager(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCoreCommunicationManagerInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             var _local_3:IProtocol;
             Logger.log(("Habbo Communication Manager: Core Communication Manager found:: " + [_arg_1, _arg_2]));
@@ -114,13 +114,13 @@ package com.sulake.habbo.communication
                 _local_3 = this._communicationManager.getProtocolInstanceOfType(HabboProtocolType._SafeStr_6099);
                 this._connection.registerMessageClasses(this._messages);
                 this._connection.protocol = _local_3;
-                this._connection.addEventListener(IOErrorEvent.IO_ERROR, this.HabboCommunicationManager);
-                this._connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.HabboCommunicationManager);
-                this._connection.addEventListener(Event.CONNECT, this.HabboCommunicationManager);
-                this.HabboCommunicationManager();
+                this._connection.addEventListener(IOErrorEvent.IO_ERROR, this.onIOError);
+                this._connection.addEventListener(SecurityErrorEvent.SECURITY_ERROR, this.onSecurityError);
+                this._connection.addEventListener(Event.CONNECT, this.onConnect);
+                this.tryUnlock();
             };
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             var _local_3:Array;
             var _local_4:Array;
@@ -140,7 +140,7 @@ package com.sulake.habbo.communication
                 _local_6 = [65186, 65168, 65178, 65171, 65171];
                 _local_8 = this._habboConfiguration.getKey(this.getKey([this._a4, _local_6, _local_4, _local_5], 0), null);
                 if (_local_8 == null){
-                    Core.Core(this.getKey([this._a4, _local_6, _local_4, _local_5], 0), Core._SafeStr_9858);
+                    Core.crash(this.getKey([this._a4, _local_6, _local_4, _local_5], 0), Core._SafeStr_9858);
                     return;
                 };
                 if (false == false){
@@ -167,7 +167,7 @@ package com.sulake.habbo.communication
                     _local_7 = this._habboConfiguration.getKey(this.getKey(_local_11, 0), null);
                 };
                 if (_local_7 == null){
-                    Core.Core(this.getKey([this._a4, _local_6, _local_4, _local_3], 0), Core._SafeStr_9858);
+                    Core.crash(this.getKey([this._a4, _local_6, _local_4, _local_3], 0), Core._SafeStr_9858);
                     return;
                 };
                 this._SafeStr_10828 = [];
@@ -178,9 +178,9 @@ package com.sulake.habbo.communication
                 this._SafeStr_9768 = _local_8;
                 this._SafeStr_10834 = true;
                 if (this._SafeStr_10835){
-                    this.HabboCommunicationManager();
+                    this.nextPort();
                 };
-                this.HabboCommunicationManager();
+                this.tryUnlock();
             };
         }
         private function getKey(_arg_1:Array, _arg_2:int):String
@@ -195,34 +195,34 @@ package com.sulake.habbo.communication
             };
             return (_local_3);
         }
-        private function HabboCommunicationManager():void
+        private function tryUnlock():void
         {
             if (((this._habboConfiguration) && (this._communicationManager))){
                 unlock();
             };
         }
-        public function HabboCommunicationManager(_arg_1:String):void
+        public function initConnection(_arg_1:String):void
         {
             switch (_arg_1){
                 case HabboConnectionType._SafeStr_6096:
                     if (this._habboConfiguration == null){
-                        Core.Core("Tried to connect to proxy but configuration was null", Core._SafeStr_9858);
+                        Core.crash("Tried to connect to proxy but configuration was null", Core._SafeStr_9858);
                         return;
                     };
                     if (this._connection == null){
-                        Core.Core("Tried to connect to proxy but connection was null", Core._SafeStr_9858);
+                        Core.crash("Tried to connect to proxy but connection was null", Core._SafeStr_9858);
                         return;
                     };
                     this._SafeStr_10835 = true;
                     if (this._SafeStr_10834){
-                        this.HabboCommunicationManager();
+                        this.nextPort();
                     };
                     return;
                 default:
                     Logger.log(("Unknown Habbo Connection Type: " + _arg_1));
             };
         }
-        private function HabboCommunicationManager():void
+        private function nextPort():void
         {
             var _local_1:int;
             if (this._connection.connected){
@@ -254,7 +254,7 @@ package com.sulake.habbo.communication
                 this._connection.init((this._SafeStr_9768 + this.getKey(null, 0)), this._SafeStr_10828[this._SafeStr_10829]);
             };
         }
-        private function HabboCommunicationManager(_arg_1:IOErrorEvent):void
+        private function onIOError(_arg_1:IOErrorEvent):void
         {
             Logger.log(("[HabboCommunicationManager] IO Error: " + _arg_1.text));
             switch (_arg_1.type){
@@ -268,39 +268,39 @@ package com.sulake.habbo.communication
                     break;
             };
             ErrorReportStorage.addDebugData("Communication IO Error", ((((("IOError " + _arg_1.type) + " on connect: ") + _arg_1.text) + ". Port was ") + this._SafeStr_10828[this._SafeStr_10829]));
-            this.HabboCommunicationManager();
+            this.tryNextPort();
         }
-        private function HabboCommunicationManager(_arg_1:Event):void
+        private function onConnect(_arg_1:Event):void
         {
             ErrorReportStorage.addDebugData("Connection", (("Connected with " + this._SafeStr_10831) + " attempts"));
         }
-        private function HabboCommunicationManager():void
+        private function tryNextPort():void
         {
-            this._SafeStr_10830.addEventListener(TimerEvent.TIMER, this.HabboCommunicationManager);
+            this._SafeStr_10830.addEventListener(TimerEvent.TIMER, this.onTryNextPort);
             this._SafeStr_10830.start();
         }
-        private function HabboCommunicationManager(_arg_1:TimerEvent):void
+        private function onTryNextPort(_arg_1:TimerEvent):void
         {
             this._SafeStr_10830.stop();
-            this.HabboCommunicationManager();
+            this.nextPort();
         }
-        private function HabboCommunicationManager(_arg_1:SecurityErrorEvent):void
+        private function onSecurityError(_arg_1:SecurityErrorEvent):void
         {
             Logger.log(("[HabboCommunicationManager] Security Error: " + _arg_1.text));
             ErrorReportStorage.addDebugData("Communication Security Error", ((("SecurityError on connect: " + _arg_1.text) + ". Port was ") + this._SafeStr_10828[this._SafeStr_10829]));
-            this.HabboCommunicationManager();
+            this.tryNextPort();
         }
-        public function HabboCommunicationManager(_arg_1:Function):IConnection
+        public function getHabboMainConnection(_arg_1:Function):IConnection
         {
             return (((this._communicationManager) ? this._communicationManager.queueConnection(HabboConnectionType._SafeStr_6096, _arg_1) : null));
         }
-        public function HabboCommunicationManager(_arg_1:IMessageEvent):void
+        public function addHabboConnectionMessageEvent(_arg_1:IMessageEvent):void
         {
             if (this._communicationManager){
                 this._communicationManager.addConnectionMessageEvent(HabboConnectionType._SafeStr_6096, _arg_1);
             };
         }
-        public function HabboCommunicationManager(_arg_1:String, _arg_2:String):IHabboWebLogin
+        public function habboWebLogin(_arg_1:String, _arg_2:String):IHabboWebLogin
         {
             var _local_3:String = "";
             _local_3 = this._habboConfiguration.getKey("url.prefix", _local_3);
@@ -308,12 +308,12 @@ package com.sulake.habbo.communication
             _local_3 = _local_3.replace("https://", "");
             return (new HabboWebLogin(_arg_1, _arg_2, _local_3));
         }
-        public function HabboCommunicationManager(_arg_1:String, _arg_2:int):void
+        public function connectionInit(_arg_1:String, _arg_2:int):void
         {
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10841, _arg_1);
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10842, String(_arg_2));
         }
-        public function HabboCommunicationManager(_arg_1:String, _arg_2:String):void
+        public function messageReceived(_arg_1:String, _arg_2:String):void
         {
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10843, String(new Date().getTime()));
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10844, ((_arg_1 + " ") + _arg_2));
@@ -328,7 +328,7 @@ package com.sulake.habbo.communication
             };
             ErrorReportStorage.addDebugData("MESSAGE_QUEUE", this._SafeStr_10832);
         }
-        public function HabboCommunicationManager(_arg_1:String, _arg_2:String):void
+        public function messageSent(_arg_1:String, _arg_2:String):void
         {
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10845, String(new Date().getTime()));
             ErrorReportStorage.setParameter(HabboErrorVariableEnum._SafeStr_10846, ((_arg_1 + " ") + _arg_2));
@@ -348,9 +348,9 @@ package com.sulake.habbo.communication
 }//package com.sulake.habbo.communication
 
 // IID = "_-3KV" (String#7712, DoABC#2)
-// HabboCommunicationManager = "_-0kp" (String#4518, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1NP" (String#851, DoABC#2)
-// HabboCommunicationManager = "_-31b" (String#7337, DoABC#2)
+// habboWebLogin = "_-0kp" (String#4518, DoABC#2)
+// onHabboConfigurationInit = "_-1NP" (String#851, DoABC#2)
+// initConnection = "_-31b" (String#7337, DoABC#2)
 // _SafeStr_10827 = "_-0G4" (String#14687, DoABC#2)
 // _SafeStr_10828 = "_-3KA" (String#22289, DoABC#2)
 // _SafeStr_10829 = "_-1Pn" (String#17500, DoABC#2)
@@ -360,11 +360,11 @@ package com.sulake.habbo.communication
 // _SafeStr_10833 = "_-0vl" (String#16265, DoABC#2)
 // _SafeStr_10834 = "_-Xb" (String#23545, DoABC#2)
 // _SafeStr_10835 = "_-0Ia" (String#14783, DoABC#2)
-// HabboCommunicationManager = "_-0p2" (String#16016, DoABC#2)
-// HabboCommunicationManager = "_-1yu" (String#18922, DoABC#2)
-// HabboCommunicationManager = "_-0PH" (String#15034, DoABC#2)
-// HabboCommunicationManager = "_-0N1" (String#14958, DoABC#2)
-// HabboCommunicationManager = "_-2nO" (String#20973, DoABC#2)
+// onCoreCommunicationManagerInit = "_-0p2" (String#16016, DoABC#2)
+// tryUnlock = "_-1yu" (String#18922, DoABC#2)
+// nextPort = "_-0PH" (String#15034, DoABC#2)
+// tryNextPort = "_-0N1" (String#14958, DoABC#2)
+// onTryNextPort = "_-2nO" (String#20973, DoABC#2)
 // _SafeStr_10841 = "_-2Qw" (String#20084, DoABC#2)
 // _SafeStr_10842 = "_-1CP" (String#16962, DoABC#2)
 // _SafeStr_10843 = "_-T3" (String#23368, DoABC#2)
@@ -383,8 +383,8 @@ package com.sulake.habbo.communication
 // HabboProtocolType = "_-02R" (String#3616, DoABC#2)
 // DisconnectMessageComposer = "_-YP" (String#8381, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _messages = "_-1AO" (String#835, DoABC#2)
 // _SafeStr_5164 = "_-1Dd" (String#17008, DoABC#2)
 // _habboConfiguration = "_-Mv" (String#637, DoABC#2)
@@ -397,22 +397,22 @@ package com.sulake.habbo.communication
 // IConnectionStateListener = "_-1qk" (String#5868, DoABC#2)
 // HabboErrorVariableEnum = "_-zF" (String#24662, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
-// HabboCommunicationManager = "_-0sV" (String#4696, DoABC#2)
-// HabboCommunicationManager = "_-1zG" (String#6021, DoABC#2)
-// HabboCommunicationManager = "_-0AA" (String#3762, DoABC#2)
+// connectionInit = "_-0sV" (String#4696, DoABC#2)
+// messageReceived = "_-1zG" (String#6021, DoABC#2)
+// messageSent = "_-0AA" (String#3762, DoABC#2)
 // timeout = "_-1Ga" (String#5177, DoABC#2)
 // registerMessageClasses = "_-2m6" (String#7007, DoABC#2)
 // protocol = "_-0Fr" (String#3870, DoABC#2)
 // _communicationManager = "_-0-x" (String#432, DoABC#2)
-// HabboCommunicationManager = "_-16F" (String#4999, DoABC#2)
-// HabboCommunicationManager = "_-39M" (String#7498, DoABC#2)
-// HabboCommunicationManager = "_-3LV" (String#7728, DoABC#2)
+// onConnect = "_-16F" (String#4999, DoABC#2)
+// onSecurityError = "_-39M" (String#7498, DoABC#2)
+// onIOError = "_-3LV" (String#7728, DoABC#2)
 // addConnectionMessageEvent = "_-2QH" (String#6565, DoABC#2)
 // queueConnection = "_-25p" (String#6156, DoABC#2)
 // createConnection = "_-0Yf" (String#4276, DoABC#2)
 // getProtocolInstanceOfType = "_-2R0" (String#6579, DoABC#2)
 // connectionStateListener = "_-3Ik" (String#7685, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 // setParameter = "_-33Y" (String#21643, DoABC#2)
 // _SafeStr_9768 = "_-30e" (String#7318, DoABC#2)
 // _SafeStr_9858 = "_-1oR" (String#18474, DoABC#2)

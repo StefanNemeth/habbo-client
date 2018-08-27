@@ -24,7 +24,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectFurnitureActionEvent.ROFCAE_JUKEBOX_START, RoomObjectFurnitureActionEvent.ROFCAE_JUKEBOX_MACHINE_STOP, RoomObjectFurnitureActionEvent.ROFCAE_JUKEBOX_DISPOSE, RoomObjectFurnitureActionEvent.ROFCAE_JUKEBOX_INIT, RoomObjectWidgetRequestEvent.REOR_WIDGET_REQUEST_PLAYLIST_EDITOR];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -57,7 +57,7 @@ package com.sulake.habbo.room.object.logic.furniture
                 if (_local_4 != this._SafeStr_7903){
                     this._SafeStr_7903 = _local_4;
                     if (_local_4 == 1){
-                        this.IPlayListController();
+                        this.requestPlayList();
                     }
                     else {
                         if (_local_4 == 0){
@@ -106,7 +106,7 @@ package com.sulake.habbo.room.object.logic.furniture
             eventDispatcher.dispatchEvent(_local_1);
             this._isInitialized = true;
         }
-        private function IPlayListController():void
+        private function requestPlayList():void
         {
             if ((((object == null)) || ((eventDispatcher == null)))){
                 return;
@@ -157,7 +157,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomWidgetInfostandExtraParamEnum = "_-2ru" (String#7121, DoABC#2)
 // RWEIEP_INFOSTAND_EXTRA_PARAM = "_-3J-" (String#22238, DoABC#2)
 // RWEIEP_JUKEBOX = "_-2Bo" (String#19475, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // REOR_WIDGET_REQUEST_PLAYLIST_EDITOR = "_-0k" (String#15828, DoABC#2)
@@ -166,7 +166,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // ROFCAE_JUKEBOX_MACHINE_STOP = "_-24A" (String#19183, DoABC#2)
 // ROFCAE_JUKEBOX_DISPOSE = "_-00m" (String#14084, DoABC#2)
 // ROSCE_STATE_CHANGE = "_-RU" (String#23304, DoABC#2)
-// IPlayListController = "_-0Vy" (String#817, DoABC#2)
+// requestPlayList = "_-0Vy" (String#817, DoABC#2)
 // _SafeStr_7903 = "_-04-" (String#577, DoABC#2)
 // useObject = "_-0zi" (String#1594, DoABC#2)
 

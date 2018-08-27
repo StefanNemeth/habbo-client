@@ -23,15 +23,15 @@ package com.sulake.habbo.navigator.roomsettings
             this._SafeStr_6967 = _arg_3;
             this._SafeStr_6968 = _arg_2;
             this._SafeStr_6969 = _arg_4;
-            this._window.findChildByTag("close").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
-            this._window.findChildByName("cancel").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
-            this._window.findChildByName("ok").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+            this._window.findChildByTag("close").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
+            this._window.findChildByName("cancel").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
+            this._window.findChildByName("ok").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onCancel(_arg_1:WindowMouseEvent):void
         {
             this.dispose();
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onOk(_arg_1:WindowMouseEvent):void
         {
             this._SafeStr_6967.apply(this._SafeStr_6968, [_arg_1].concat(this._SafeStr_6969));
             this.dispose();
@@ -77,7 +77,7 @@ package com.sulake.habbo.navigator.roomsettings
 // _SafeStr_6967 = "_-1Ff" (String#17102, DoABC#2)
 // _SafeStr_6968 = "_-1Kg" (String#17301, DoABC#2)
 // _SafeStr_6969 = "_-0uz" (String#1576, DoABC#2)
-// PollOfferDialog = "_-3JX" (String#633, DoABC#2)
-// PollOfferDialog = "_-39j" (String#457, DoABC#2)
+// onCancel = "_-3JX" (String#633, DoABC#2)
+// onOk = "_-39j" (String#457, DoABC#2)
 
 

@@ -17,7 +17,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
         private var _view:DimmerView;
         private var _sliderContainer:IWindowContainer;
         private var _SafeStr_3956:BitmapData;
-        private var _DimmerViewAlphaSlider:BitmapData;
+        private var _SafeStr_3957:BitmapData;
         private var _SafeStr_3958:int;
         private var _SafeStr_13962:int;
         private var _minValue:int = 0;
@@ -30,14 +30,14 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             this._minValue = _arg_4;
             this._max = _arg_5;
             this.storeAssets(_arg_3);
-            this.DimmerViewAlphaSlider();
+            this.displaySlider();
         }
         public function dispose():void
         {
             this._view = null;
             this._sliderContainer = null;
             this._SafeStr_3956 = null;
-            this._DimmerViewAlphaSlider = null;
+            this._SafeStr_3957 = null;
         }
         public function setValue(_arg_1:int):void
         {
@@ -46,7 +46,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             };
             var _local_2:IWindow = this._sliderContainer.findChildByName("slider_button");
             if (_local_2 != null){
-                _local_2.x = this.DimmerViewAlphaSlider(_arg_1);
+                _local_2.x = this.getSliderPosition(_arg_1);
             };
         }
         public function set min(_arg_1:Number):void
@@ -59,7 +59,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             this._max = _arg_1;
             this.setValue(this._view.selectedBrightness);
         }
-        private function DimmerViewAlphaSlider(_arg_1:int):int
+        private function getSliderPosition(_arg_1:int):int
         {
             return (int((this._SafeStr_3958 * (Number((_arg_1 - this._minValue)) / (this._max - this._minValue)))));
         }
@@ -67,14 +67,14 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
         {
             return ((int(((_arg_1 / this._SafeStr_3958) * (this._max - this._minValue))) + this._minValue));
         }
-        private function DimmerViewAlphaSlider(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function buttonProcedure(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((!((_arg_1.type == WindowMouseEvent.WME_UP))) && (!((_arg_1.type == WindowMouseEvent.WME_UP_OUTSIDE))))){
                 return;
             };
             this._view.selectedBrightness = this.getValue(_arg_2.x);
         }
-        private function DimmerViewAlphaSlider():void
+        private function displaySlider():void
         {
             var _local_1:IWindowContainer;
             var _local_2:IBitmapWrapperWindow;
@@ -89,10 +89,10 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             _local_1 = (this._sliderContainer.findChildByName("slider_movement_area") as IWindowContainer);
             if (_local_1 != null){
                 _local_2 = (_local_1.findChildByName("slider_button") as IBitmapWrapperWindow);
-                if (((!((_local_2 == null))) && (!((this._DimmerViewAlphaSlider == null))))){
-                    _local_2.bitmap = new BitmapData(this._DimmerViewAlphaSlider.width, this._DimmerViewAlphaSlider.height, true, 0xFFFFFF);
-                    _local_2.bitmap.copyPixels(this._DimmerViewAlphaSlider, this._DimmerViewAlphaSlider.rect, new Point(0, 0), null, null, true);
-                    _local_2.procedure = this.DimmerViewAlphaSlider;
+                if (((!((_local_2 == null))) && (!((this._SafeStr_3957 == null))))){
+                    _local_2.bitmap = new BitmapData(this._SafeStr_3957.width, this._SafeStr_3957.height, true, 0xFFFFFF);
+                    _local_2.bitmap.copyPixels(this._SafeStr_3957, this._SafeStr_3957.rect, new Point(0, 0), null, null, true);
+                    _local_2.procedure = this.buttonProcedure;
                     this._SafeStr_3958 = (_local_1.width - _local_2.width);
                 };
             };
@@ -106,7 +106,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             _local_2 = BitmapDataAsset(_arg_1.getAssetByName("dimmer_slider_base"));
             this._SafeStr_3956 = BitmapData(_local_2.content);
             _local_2 = BitmapDataAsset(_arg_1.getAssetByName("dimmer_slider_button"));
-            this._DimmerViewAlphaSlider = BitmapData(_local_2.content);
+            this._SafeStr_3957 = BitmapData(_local_2.content);
         }
 
     }
@@ -119,12 +119,12 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
 // DimmerView = "_-1QW" (String#5361, DoABC#2)
 // DimmerViewAlphaSlider = "_-1Oj" (String#5328, DoABC#2)
 // _SafeStr_3956 = "_-1ds" (String#1728, DoABC#2)
-// _DimmerViewAlphaSlider = "_-pS" (String#2201, DoABC#2)
+// _SafeStr_3957 = "_-pS" (String#2201, DoABC#2)
 // _SafeStr_3958 = "_-0zE" (String#1593, DoABC#2)
 // _max = "_-0Os" (String#1462, DoABC#2)
-// DimmerViewAlphaSlider = "_-2mk" (String#1938, DoABC#2)
-// DimmerViewAlphaSlider = "_-0BT" (String#1421, DoABC#2)
-// DimmerViewAlphaSlider = "_-1aH" (String#5565, DoABC#2)
+// displaySlider = "_-2mk" (String#1938, DoABC#2)
+// getSliderPosition = "_-0BT" (String#1421, DoABC#2)
+// buttonProcedure = "_-1aH" (String#5565, DoABC#2)
 // WME_UP_OUTSIDE = "_-2qi" (String#21110, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 

@@ -25,7 +25,7 @@ package com.sulake.habbo.navigator
             this._SafeStr_11205 = _arg_2;
             this._title = _arg_3;
         }
-        public static function AlertView(_arg_1:IWindow):AlertView
+        public static function findAlertView(_arg_1:IWindow):AlertView
         {
             var _local_2:AlertView;
             if (_SafeStr_11204 != null){
@@ -73,7 +73,7 @@ package com.sulake.habbo.navigator
         function setupAlertWindow(_arg_1:IFrameWindow):void
         {
         }
-        function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        function onClose(_arg_1:WindowMouseEvent):void
         {
             this.dispose();
         }
@@ -82,7 +82,7 @@ package com.sulake.habbo.navigator
             var _local_1:IFrameWindow = (this._navigator.getXmlWindow(this._SafeStr_11205, 2) as IFrameWindow);
             var _local_2:IWindow = _local_1.findChildByTag("close");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             return (_local_1);
         }
@@ -100,14 +100,14 @@ package com.sulake.habbo.navigator
 
 // _SafeStr_11204 = "_-05E" (String#3670, DoABC#2)
 // _SafeStr_11205 = "_-2Cx" (String#881, DoABC#2)
-// AlertView = "_-3F7" (String#22083, DoABC#2)
+// findAlertView = "_-3F7" (String#22083, DoABC#2)
 // _SafeStr_12012 = "_-2ko" (String#20877, DoABC#2)
 // getAlertWindow = "_-3FQ" (String#22095, DoABC#2)
 // setupAlertWindow = "_-2MF" (String#19894, DoABC#2)
 // Util = "_-1ve" (String#445, DoABC#2)
 // AlertView = "_-2G6" (String#883, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
 

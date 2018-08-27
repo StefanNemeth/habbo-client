@@ -48,7 +48,7 @@ package com.sulake.habbo.moderation
                 return;
             };
             if ((((_arg_1 == null)) || ((_arg_1.length == 0)))){
-                this._content.IItemListWindow();
+                this._content.destroyListItems();
                 return;
             };
             _arg_1.sortOn("prioritySum", (Array.DESCENDING | Array.NUMERIC));
@@ -69,7 +69,7 @@ package com.sulake.habbo.moderation
                 if (_local_4 > _local_5){
                     _local_2 = 0;
                     while (_local_2 < (_local_4 - _local_5)) {
-                        _local_9 = this._content.IItemListWindow(0);
+                        _local_9 = this._content.removeListItemAt(0);
                         _local_9.dispose();
                         _local_2++;
                     };
@@ -147,8 +147,8 @@ package com.sulake.habbo.moderation
                 _local_6 = _local_3.findChildByName("release_button");
                 if (_local_6 != null){
                     _local_6.id = _local_7.id;
-                    _local_6.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.IssueHandler);
-                    _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.IssueHandler);
+                    _local_6.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onRelease);
+                    _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onRelease);
                 };
             };
         }
@@ -166,7 +166,7 @@ package com.sulake.habbo.moderation
             };
             this._issueManager.handleBundle(_arg_1.window.id);
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onRelease(_arg_1:WindowMouseEvent):void
         {
             if (this._issueManager == null){
                 return;
@@ -177,7 +177,7 @@ package com.sulake.habbo.moderation
     }
 }//package com.sulake.habbo.moderation
 
-// IssueHandler = "_-2Qb" (String#6571, DoABC#2)
+// onRelease = "_-2Qb" (String#6571, DoABC#2)
 // getHighestPriorityIssue = "_-22z" (String#19134, DoABC#2)
 // getCategoryName = "_-0mq" (String#15933, DoABC#2)
 // releaseBundle = "_-2Nx" (String#19962, DoABC#2)
@@ -199,9 +199,9 @@ package com.sulake.habbo.moderation
 // IssueCategoryNames = "_-2eJ" (String#6840, DoABC#2)
 // IssueListView = "_-0Hb" (String#3909, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
 // _assetName = "_-33u" (String#910, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // reportedCategoryId = "_-eV" (String#23822, DoABC#2)
 // getOpenTime = "_-P3" (String#23209, DoABC#2)
 

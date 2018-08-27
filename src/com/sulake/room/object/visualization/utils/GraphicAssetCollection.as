@@ -61,7 +61,7 @@ package com.sulake.room.object.visualization.utils
         {
             this._assetLibrary = _arg_1;
         }
-        public function ExtendedBitmapData():void
+        public function addReference():void
         {
             this._referenceCount++;
         }
@@ -275,8 +275,8 @@ package com.sulake.room.object.visualization.utils
             };
             var _local_8:BitmapDataAsset = this.getLibraryAsset(_arg_1);
             if (_local_8 == null){
-                _local_8 = new BitmapDataAsset(this._assetLibrary.IAssetLibrary(BitmapDataAsset));
-                this._assetLibrary.IAssetLibrary(_arg_1, _local_8);
+                _local_8 = new BitmapDataAsset(this._assetLibrary.getAssetTypeDeclarationByClass(BitmapDataAsset));
+                this._assetLibrary.setAsset(_arg_1, _local_8);
                 _local_8.setUnknownContent(_arg_2);
                 return (this.createAsset(_arg_1, _arg_1, _local_8, _arg_6, _arg_7, _arg_4, _arg_5, false));
             };
@@ -310,8 +310,8 @@ package com.sulake.room.object.visualization.utils
         {
             var _local_3:BitmapDataAsset = this.getLibraryAsset(_arg_1);
             if (_local_3 == null){
-                _local_3 = new BitmapDataAsset(this._assetLibrary.IAssetLibrary(BitmapDataAsset));
-                this._assetLibrary.IAssetLibrary(_arg_1, _local_3);
+                _local_3 = new BitmapDataAsset(this._assetLibrary.getAssetTypeDeclarationByClass(BitmapDataAsset));
+                this._assetLibrary.setAsset(_arg_1, _local_3);
                 _local_3.setUnknownContent(_arg_2);
                 return (_local_3);
             };
@@ -356,12 +356,12 @@ package com.sulake.room.object.visualization.utils
 // GraphicAssetCollection = "_-2uG" (String#7165, DoABC#2)
 // IGraphicAsset = "_-1HF" (String#5195, DoABC#2)
 // GraphicAssetPalette = "_-1-H" (String#4852, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 // _SafeStr_6867 = "_-2YU" (String#893, DoABC#2)
 // colorizeBitmap = "_-1Af" (String#16887, DoABC#2)
 // setUnknownContent = "_-2zE" (String#7271, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
 // createAsset = "_-0rD" (String#1562, DoABC#2)
-// IAssetLibrary = "_-5x" (String#7779, DoABC#2)
+// getAssetTypeDeclarationByClass = "_-5x" (String#7779, DoABC#2)
 
 

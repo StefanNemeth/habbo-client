@@ -45,21 +45,21 @@ package com.sulake.habbo.ui.widget.avatarinfo
         override public function dispose():void
         {
             if (_window){
-                _window.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, AvatarInfoView);
-                _window.removeEventListener(WindowMouseEvent.WME_OUT, AvatarInfoView);
+                _window.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseHoverEvent);
+                _window.removeEventListener(WindowMouseEvent.WME_OUT, onMouseHoverEvent);
             };
             this._buttons = null;
             this._data = null;
             super.dispose();
         }
-        override protected function InfoStandUserView():void
+        override protected function updateWindow():void
         {
             var _local_1:XML;
             if (((((!(_widget)) || (!(_widget.assets)))) || (!(_widget.windowManager)))){
                 return;
             };
             if (_SafeStr_6827){
-                activeView = AvatarInfoView();
+                activeView = getMinimizedView();
             }
             else {
                 if (!_window){
@@ -68,8 +68,8 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     if (!_window){
                         return;
                     };
-                    _window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, AvatarInfoView);
-                    _window.addEventListener(WindowMouseEvent.WME_OUT, AvatarInfoView);
+                    _window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMouseHoverEvent);
+                    _window.addEventListener(WindowMouseEvent.WME_OUT, onMouseHoverEvent);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, onMinimize);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, onMinimizeHover);
                     _window.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, onMinimizeHover);
@@ -79,10 +79,10 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 _window.findChildByName("name").caption = _userName;
                 _window.visible = false;
                 activeView = _window;
-                this.InfoStandUserView();
+                this.updateButtons();
             };
         }
-        protected function InfoStandUserView():void
+        protected function updateButtons():void
         {
             var _local_4:int;
             var _local_5:String;
@@ -110,12 +110,12 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 };
             };
             if (this._mode == _SafeStr_6858){
-                this.InfoStandUserView("moderate");
-                this.InfoStandUserView("friend", this._data.canBeAskedAsFriend);
+                this.showButton("moderate");
+                this.showButton("friend", this._data.canBeAskedAsFriend);
                 _local_4 = this._data.respectLeft;
                 _widget.localizations.registerParameter("infostand.button.respect", "count", _local_4.toString());
-                this.InfoStandUserView("respect", (_local_4 > 0));
-                this.InfoStandUserView("trade", this._data.canTrade);
+                this.showButton("respect", (_local_4 > 0));
+                this.showButton("trade", this._data.canTrade);
                 switch (this._data.canTradeReason){
                     case RoomWidgetUserInfoUpdateEvent._SafeStr_6864:
                         _local_5 = "${infostand.button.trade.tooltip.shutdown}";
@@ -127,24 +127,24 @@ package com.sulake.habbo.ui.widget.avatarinfo
                         _local_5 = "";
                 };
                 IInteractiveWindow(IWindowContainer(_local_1.getListItemByName("trade")).getChildByName("button")).toolTipCaption = _local_5;
-                this.InfoStandUserView("whisper");
+                this.showButton("whisper");
             };
             if (this._mode == _SafeStr_6859){
-                this.InfoStandUserView("ignore", !(this._data.isIgnored));
-                this.InfoStandUserView("unignore", this._data.isIgnored);
-                this.InfoStandUserView("kick", ((((((this._data.amIOwner) || (this._data.amIController))) || (this._data.amIAnyRoomController))) && (this._data.canBeKicked)));
-                this.InfoStandUserView("ban", ((((this._data.amIOwner) || (this._data.amIAnyRoomController))) && (this._data.canBeKicked)));
-                this.InfoStandUserView("report", ((_widget.configuration) && (_widget.configuration.getBoolean("infostand.report.show", false))));
-                this.InfoStandUserView("give_rights", ((this._data.amIOwner) && (!(this._data.hasFlatControl))));
-                this.InfoStandUserView("remove_rights", ((this._data.amIOwner) && (this._data.hasFlatControl)));
-                this.InfoStandUserView("actions");
+                this.showButton("ignore", !(this._data.isIgnored));
+                this.showButton("unignore", this._data.isIgnored);
+                this.showButton("kick", ((((((this._data.amIOwner) || (this._data.amIController))) || (this._data.amIAnyRoomController))) && (this._data.canBeKicked)));
+                this.showButton("ban", ((((this._data.amIOwner) || (this._data.amIAnyRoomController))) && (this._data.canBeKicked)));
+                this.showButton("report", ((_widget.configuration) && (_widget.configuration.getBoolean("infostand.report.show", false))));
+                this.showButton("give_rights", ((this._data.amIOwner) && (!(this._data.hasFlatControl))));
+                this.showButton("remove_rights", ((this._data.amIOwner) && (this._data.hasFlatControl)));
+                this.showButton("actions");
             };
             _local_1.autoArrangeItems = true;
             _local_1.visible = true;
             _SafeStr_6860 = this._mode;
             this._SafeStr_6863 = false;
         }
-        private function InfoStandUserView(_arg_1:String, _arg_2:Boolean=true):void
+        private function showButton(_arg_1:String, _arg_2:Boolean=true):void
         {
             if (!this._buttons){
                 return;
@@ -194,7 +194,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                             this._data.respectLeft--;
                             _local_5 = this._data.respectLeft;
                             _widget.localizations.registerParameter("infostand.button.respect", "count", _local_5.toString());
-                            this.InfoStandUserView("respect", (this._data.respectLeft > 0));
+                            this.showButton("respect", (this._data.respectLeft > 0));
                             _local_4 = RoomWidgetUserActionMessage.RWUAM_RESPECT_USER;
                             if (_local_5 > 0){
                                 _local_3 = false;
@@ -253,7 +253,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
                     _widget.messageListener.processWidgetMessage(_local_6);
                     HabboTracking.getInstance().trackEventLog("InfoStand", "click", _local_4);
                 };
-                this.InfoStandUserView();
+                this.updateButtons();
             }
             else {
                 if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
@@ -327,7 +327,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _mode = "_-1kk" (String#611, DoABC#2)
-// InfoStandUserView = "_-i5" (String#942, DoABC#2)
+// updateButtons = "_-i5" (String#942, DoABC#2)
 // amIAnyRoomController = "_-09r" (String#14441, DoABC#2)
 // amIController = "_-01W" (String#14111, DoABC#2)
 // amIOwner = "_-15r" (String#16691, DoABC#2)
@@ -344,15 +344,15 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6820 = "_-gZ" (String#23915, DoABC#2)
 // _SafeStr_6827 = "_-0Pc" (String#4085, DoABC#2)
 // _SafeStr_6841 = "_-Jp" (String#22999, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
 // activeView = "_-2aO" (String#20459, DoABC#2)
-// AvatarInfoView = "_-k9" (String#24042, DoABC#2)
-// AvatarInfoView = "_-03T" (String#14180, DoABC#2)
+// onMouseHoverEvent = "_-k9" (String#24042, DoABC#2)
+// getMinimizedView = "_-03T" (String#14180, DoABC#2)
 // onMinimizeHover = "_-DL" (String#22744, DoABC#2)
 // onMinimize = "_-1Gr" (String#17145, DoABC#2)
 // _SafeStr_6854 = "_-0qg" (String#4655, DoABC#2)
 // buttonEventProc = "_-kN" (String#8608, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
 // _SafeStr_6858 = "_-Q-" (String#23250, DoABC#2)
 // _SafeStr_6859 = "_-0If" (String#14787, DoABC#2)
 // _SafeStr_6860 = "_-W2" (String#23494, DoABC#2)

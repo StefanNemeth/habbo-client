@@ -32,13 +32,13 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             this._roomCategory = 0;
             return (true);
         }
-        public function ItemsMessageParser():int
+        public function getItemCount():int
         {
             return (this._items.length);
         }
-        public function GroupItem(_arg_1:int):ItemMessageData
+        public function getItem(_arg_1:int):ItemMessageData
         {
-            if ((((_arg_1 < 0)) || ((_arg_1 >= this.ItemsMessageParser())))){
+            if ((((_arg_1 < 0)) || ((_arg_1 >= this.getItemCount())))){
                 return (null);
             };
             var _local_2:ItemMessageData = (this._items[_arg_1] as ItemMessageData);
@@ -72,8 +72,8 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // ItemDataParser = "_-15y" (String#4993, DoABC#2)
 // setReadOnly = "_-5p" (String#22456, DoABC#2)
 // parseItemData = "_-34d" (String#7401, DoABC#2)
-// ItemsMessageParser = "_-1vN" (String#18772, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItemCount = "_-1vN" (String#18772, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

@@ -76,10 +76,10 @@ package com.sulake.habbo.catalog.viewer.widgets
         }
         public function update():void
         {
-            this.InfoStandUserView();
+            this.updateInfo();
             this.updateList();
         }
-        private function InfoStandUserView():void
+        private function updateInfo():void
         {
             var _local_2:String;
             var _local_3:int;
@@ -165,7 +165,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!_local_4){
                 return;
             };
-            _local_4.IItemListWindow();
+            _local_4.destroyListItems();
             for each (_local_6 in _local_2) {
                 _local_7 = new Array();
                 _local_8 = this._controller.catalog.getProductData(_local_6.localizationId);
@@ -205,8 +205,8 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!_local_5){
                 return (null);
             };
-            this.CurrencyIndicatorBase(_local_3.findChildByName("gift_name"), _local_5.name);
-            this.CurrencyIndicatorBase(_local_3.findChildByName("gift_desc"), _local_5.description);
+            this.setText(_local_3.findChildByName("gift_name"), _local_5.name);
+            this.setText(_local_3.findChildByName("gift_desc"), _local_5.description);
             if (_arg_2.isVip){
                 _local_6 = (_arg_2.daysRequired - this._controller.purse.pastVipDays);
             }
@@ -236,7 +236,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                     _local_7 = "";
                 };
             };
-            this.CurrencyIndicatorBase(_local_3.findChildByName("months_required"), (((_local_7.length > 0)) ? this._controller.localization.getKey(_local_7) : ""));
+            this.setText(_local_3.findChildByName("months_required"), (((_local_7.length > 0)) ? this._controller.localization.getKey(_local_7) : ""));
             var _local_8:IIconWindow = (_local_3.findChildByName("vip_icon") as IIconWindow);
             if (_local_8){
                 _local_8.visible = _arg_2.isVip;
@@ -267,7 +267,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             return (_local_3);
         }
-        private function CurrencyIndicatorBase(_arg_1:IWindow, _arg_2:String):void
+        private function setText(_arg_1:IWindow, _arg_2:String):void
         {
             var _local_3:ITextWindow = (_arg_1 as ITextWindow);
             if (!_local_3){
@@ -307,7 +307,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
                 _local_4 = new Rectangle();
-                _arg_2.WindowController(_local_4);
+                _arg_2.getGlobalRectangle(_local_4);
             };
             if (_arg_1.type == WindowMouseEvent.WME_OUT){
                 this.hidePreview();
@@ -358,7 +358,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             _local_4.bitmap.draw(_local_5.data);
             _local_5.data.dispose();
             var _local_6:Point = Point.interpolate(_arg_2.topLeft, _arg_2.bottomRight, 0.5);
-            this._SafeStr_10387.WindowController(_local_6.subtract(new Point((this._SafeStr_10387.width / 2), (this._SafeStr_10387.height / 2))));
+            this._SafeStr_10387.setGlobalPosition(_local_6.subtract(new Point((this._SafeStr_10387.width / 2), (this._SafeStr_10387.height / 2))));
             this._SafeStr_10387.visible = true;
             this._SafeStr_10387.activate();
         }
@@ -389,7 +389,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 
 // _SafeStr_10386 = "_-3Ct" (String#21991, DoABC#2)
 // _SafeStr_10387 = "_-3JF" (String#22252, DoABC#2)
-// InfoStandUserView = "_-jx" (String#8602, DoABC#2)
+// updateInfo = "_-jx" (String#8602, DoABC#2)
 // mouseOverHandler = "_-0OC" (String#14996, DoABC#2)
 // hidePreview = "_-mZ" (String#24129, DoABC#2)
 // showPreview = "_-18e" (String#16798, DoABC#2)
@@ -413,7 +413,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // widget = "_-1yo" (String#18920, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // clickHandler = "_-34y" (String#630, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // localizationId = "_-0nF" (String#4575, DoABC#2)
 // priceInCredits = "_-0Is" (String#3931, DoABC#2)
@@ -427,9 +427,9 @@ package com.sulake.habbo.catalog.viewer.widgets
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
 // furniClassId = "_-1lo" (String#18367, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
 // createListItem = "_-mV" (String#2185, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // daysUntilNextGift = "_-12R" (String#16556, DoABC#2)
 // giftsAvailable = "_-GA" (String#22860, DoABC#2)
 // selectGift = "_-2IU" (String#19745, DoABC#2)
@@ -441,6 +441,6 @@ package com.sulake.habbo.catalog.viewer.widgets
 // pastClubDays = "_-2W7" (String#6687, DoABC#2)
 // pastVipDays = "_-373" (String#7449, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
 
 

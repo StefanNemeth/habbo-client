@@ -39,9 +39,9 @@ package com.sulake.habbo.session.handler
             _local_7.selectedPresetId = _local_3.selectedPresetId;
             var _local_8:int;
             while (_local_8 < _local_3.presetCount) {
-                _local_9 = _local_3.RoomWidgetDimmerUpdateEvent(_local_8);
+                _local_9 = _local_3.getPreset(_local_8);
                 if (_local_9 != null){
-                    _local_7.RoomWidgetDimmerUpdateEvent(_local_9.id, _local_9.type, _local_9.color, _local_9.light);
+                    _local_7.storePreset(_local_9.id, _local_9.type, _local_9.color, _local_9.light);
                 };
                 _local_8++;
             };
@@ -65,8 +65,8 @@ package com.sulake.habbo.session.handler
 // RSDPE_PRESETS = "_-3B3" (String#21925, DoABC#2)
 // selectedPresetId = "_-0Pr" (String#15055, DoABC#2)
 // presetCount = "_-Gt" (String#22886, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0k4" (String#15834, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0rG" (String#16096, DoABC#2)
+// storePreset = "_-0k4" (String#15834, DoABC#2)
+// getPreset = "_-0rG" (String#16096, DoABC#2)
 // _SafeStr_6312 = "_-2JJ" (String#19781, DoABC#2)
 // onRoomDimmerPresets = "_-0zr" (String#16421, DoABC#2)
 

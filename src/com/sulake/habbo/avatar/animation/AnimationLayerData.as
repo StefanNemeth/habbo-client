@@ -45,7 +45,7 @@ package com.sulake.habbo.avatar.animation
             };
             _local_7 = "";
             if (this._base != ""){
-                _local_7 = String(this.AnimationLayerData());
+                _local_7 = String(this.baseAsInt());
             };
             if (_arg_5 != null){
                 this._action = new ActiveActionData(_arg_5.state, this.base);
@@ -56,7 +56,7 @@ package com.sulake.habbo.avatar.animation
         {
             return (this._items);
         }
-        private function AnimationLayerData():int
+        private function baseAsInt():int
         {
             var _local_1:int;
             var _local_2:int;
@@ -121,6 +121,6 @@ package com.sulake.habbo.avatar.animation
 // _dz = "_-p8" (String#8693, DoABC#2)
 // _directionOffset = "_-0Rv" (String#1472, DoABC#2)
 // _frameCounter = "_-2HG" (String#884, DoABC#2)
-// AnimationLayerData = "_-0Mr" (String#14947, DoABC#2)
+// baseAsInt = "_-0Mr" (String#14947, DoABC#2)
 
 

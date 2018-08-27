@@ -33,12 +33,12 @@ package com.sulake.habbo.toolbar.extensions.purse
             if (_local_7){
                 this._window = (_arg_1.buildFromXML((_local_7.content as XML), 1) as IItemGridWindow);
                 if (this._window){
-                    this.PurseExtension(this._window, (new CreditsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
-                    this.PurseExtension(this._window, (new ClubDaysIndicator(_arg_1, _arg_2, _arg_4, _arg_5, _arg_6) as ICurrencyIndicator), _arg_5.events);
+                    this.addIndicator(this._window, (new CreditsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
+                    this.addIndicator(this._window, (new ClubDaysIndicator(_arg_1, _arg_2, _arg_4, _arg_5, _arg_6) as ICurrencyIndicator), _arg_5.events);
                     if (_arg_3.getKey("purse.widget.currency.shells.enabled", "0") == "1"){
-                        this.PurseExtension(this._window, (new ShellsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
+                        this.addIndicator(this._window, (new ShellsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
                     };
-                    this.PurseExtension(this._window, (new PixelsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
+                    this.addIndicator(this._window, (new PixelsIndicator(_arg_1, _arg_2, _arg_4, _arg_6) as ICurrencyIndicator), _arg_4.events);
                 };
                 this._window.x = 0;
                 this._window.y = 0;
@@ -62,11 +62,11 @@ package com.sulake.habbo.toolbar.extensions.purse
                 this._disposed = true;
             };
         }
-        private function PurseExtension(_arg_1:IItemGridWindow, _arg_2:ICurrencyIndicator, _arg_3:IEventDispatcher):void
+        private function addIndicator(_arg_1:IItemGridWindow, _arg_2:ICurrencyIndicator, _arg_3:IEventDispatcher):void
         {
             if (_arg_2.view){
-                _arg_1.IItemGridWindow(_arg_2.view);
-                _arg_2.RoomChatWidget(_arg_3);
+                _arg_1.addGridItem(_arg_2.view);
+                _arg_2.registerUpdateEvents(_arg_3);
                 this._SafeStr_13729.push(_arg_2);
             }
             else {
@@ -78,7 +78,7 @@ package com.sulake.habbo.toolbar.extensions.purse
 }//package com.sulake.habbo.toolbar.extensions.purse
 
 // _SafeStr_13729 = "_-0XD" (String#15323, DoABC#2)
-// PurseExtension = "_-16k" (String#16725, DoABC#2)
+// addIndicator = "_-16k" (String#16725, DoABC#2)
 // IItemGridWindow = "_-265" (String#1809, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // PurseExtension = "_-0kV" (String#4510, DoABC#2)
@@ -86,8 +86,8 @@ package com.sulake.habbo.toolbar.extensions.purse
 // PixelsIndicator = "_-19r" (String#5074, DoABC#2)
 // ClubDaysIndicator = "_-Vj" (String#8315, DoABC#2)
 // CreditsIndicator = "_-0zT" (String#4838, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
 
 

@@ -31,12 +31,12 @@ package com.sulake.habbo.ui.widget.events
         {
             this._selectedPresetId = _arg_1;
         }
-        public function RoomWidgetDimmerUpdateEvent(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
+        public function storePreset(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):void
         {
             var _local_5:RoomWidgetDimmerUpdateEventPresetItem = new RoomWidgetDimmerUpdateEventPresetItem(_arg_1, _arg_2, _arg_3, _arg_4);
             this._presets[(_arg_1 - 1)] = _local_5;
         }
-        public function RoomWidgetDimmerUpdateEvent(_arg_1:int):RoomWidgetDimmerUpdateEventPresetItem
+        public function getPreset(_arg_1:int):RoomWidgetDimmerUpdateEventPresetItem
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this._presets.count)))){
                 return (null);
@@ -53,8 +53,8 @@ package com.sulake.habbo.ui.widget.events
 // RoomWidgetDimmerUpdateEventPresetItem = "_-0U1" (String#4184, DoABC#2)
 // selectedPresetId = "_-0Pr" (String#15055, DoABC#2)
 // presetCount = "_-Gt" (String#22886, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0k4" (String#15834, DoABC#2)
-// RoomWidgetDimmerUpdateEvent = "_-0rG" (String#16096, DoABC#2)
+// storePreset = "_-0k4" (String#15834, DoABC#2)
+// getPreset = "_-0rG" (String#16096, DoABC#2)
 // RWDUE_PRESETS = "_-1i5" (String#18213, DoABC#2)
 // RWDUE_HIDE = "_-0KF" (String#14852, DoABC#2)
 

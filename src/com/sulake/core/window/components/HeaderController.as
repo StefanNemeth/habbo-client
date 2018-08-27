@@ -40,7 +40,7 @@ package com.sulake.core.window.components
             var _local_3:IWindow;
             super.color = _arg_1;
             var _local_2:Array = new Array();
-            WindowController(_COLORIZE, _local_2, true);
+            groupChildrenWithTag(_COLORIZE, _local_2, true);
             for each (_local_3 in _local_2) {
                 _local_3.color = _arg_1;
             };
@@ -56,7 +56,7 @@ package com.sulake.core.window.components
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // _TITLE = "_-zu" (String#8882, DoABC#2)
 // _CONTROLS = "_-0vd" (String#16262, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 // _COLORIZE = "_-EQ" (String#22789, DoABC#2)
 
 

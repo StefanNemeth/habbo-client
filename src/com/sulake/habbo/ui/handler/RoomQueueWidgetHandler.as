@@ -35,7 +35,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetRoomQueueMessage.RWRQM_EXIT_QUEUE);
@@ -55,13 +55,13 @@ package com.sulake.habbo.ui.handler
             };
             switch (_arg_1.type){
                 case RoomWidgetRoomQueueMessage.RWRQM_EXIT_QUEUE:
-                    this._container.roomSession.RoomSession();
+                    this._container.roomSession.quit();
                     break;
                 case RoomWidgetRoomQueueMessage.CHANGE_TO_SPECTATOR_QUEUE:
-                    this._container.roomSession.RoomSession(RoomSessionQueueEvent._SafeStr_4778);
+                    this._container.roomSession.changeQueue(RoomSessionQueueEvent._SafeStr_4778);
                     break;
                 case RoomWidgetRoomQueueMessage.RWRQM_CHANGE_TO_VISITOR_QUEUE:
-                    this._container.roomSession.RoomSession(RoomSessionQueueEvent._SafeStr_4777);
+                    this._container.roomSession.changeQueue(RoomSessionQueueEvent._SafeStr_4777);
                     break;
                 case RoomWidgetRoomQueueMessage.RWRQM_CLUB_LINK:
                     if (this._container.catalog != null){
@@ -71,11 +71,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionQueueEvent.RSQE_QUEUE_STATUS]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionQueueEvent;
             var _local_3:String;
@@ -112,15 +112,15 @@ package com.sulake.habbo.ui.handler
                     _local_7 = false;
                     if (_local_5.length > 1){
                         if (((_local_4) && (!((_local_2.queueTypes.indexOf(RoomSessionQueueEvent._SafeStr_4775) == -1))))){
-                            _local_6 = (_local_2.RoomQueueSet(RoomSessionQueueEvent._SafeStr_4775) + 1);
+                            _local_6 = (_local_2.getQueueSize(RoomSessionQueueEvent._SafeStr_4775) + 1);
                             _local_7 = true;
                         }
                         else {
-                            _local_6 = (_local_2.RoomQueueSet(RoomSessionQueueEvent._SafeStr_4776) + 1);
+                            _local_6 = (_local_2.getQueueSize(RoomSessionQueueEvent._SafeStr_4776) + 1);
                         };
                     }
                     else {
-                        _local_6 = (_local_2.RoomQueueSet(_local_5[0]) + 1);
+                        _local_6 = (_local_2.getQueueSize(_local_5[0]) + 1);
                     };
                     _local_8 = new RoomWidgetRoomQueueUpdateEvent(_local_3, _local_6, _local_4, _local_2.isActive, _local_7);
                     this._container.events.dispatchEvent(_local_8);
@@ -154,15 +154,15 @@ package com.sulake.habbo.ui.handler
 // _SafeStr_4778 = "_-06D" (String#14293, DoABC#2)
 // queueSetTarget = "_-O2" (String#23170, DoABC#2)
 // queueTypes = "_-1Hm" (String#17182, DoABC#2)
-// RoomQueueSet = "_-2ar" (String#20482, DoABC#2)
+// getQueueSize = "_-2ar" (String#20482, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
 // RWRQUE_VISITOR_QUEUE_STATUS = "_-mB" (String#24117, DoABC#2)
 // RWRQUE_SPECTATOR_QUEUE_STATUS = "_-UO" (String#23426, DoABC#2)
-// RoomSession = "_-2Ye" (String#1898, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-3A4" (String#7513, DoABC#2)
+// changeQueue = "_-2Ye" (String#1898, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// quit = "_-3A4" (String#7513, DoABC#2)
 
 

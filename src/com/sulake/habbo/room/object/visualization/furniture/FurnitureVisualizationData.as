@@ -185,7 +185,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return (_local_2);
         }
-        public function FurnitureVisualization(_arg_1:int):int
+        public function getSize(_arg_1:int):int
         {
             if (_arg_1 == this._SafeStr_12606){
                 return (this._SafeStr_12605);
@@ -327,7 +327,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // getLayerCount = "_-0wW" (String#16290, DoABC#2)
 // _SafeStr_4401 = "_-1Tp" (String#17658, DoABC#2)
 // getZOffset = "_-1iZ" (String#18230, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 // _SafeStr_4405 = "_-0gZ" (String#15695, DoABC#2)
 // getDirectionValue = "_-0Fe" (String#14670, DoABC#2)
 // getTag = "_-01m" (String#14120, DoABC#2)

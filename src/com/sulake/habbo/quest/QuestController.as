@@ -32,36 +32,36 @@ package com.sulake.habbo.quest
         {
             this._questsList.onQuests(_arg_1, _arg_2);
         }
-        public function QuestTracker(_arg_1:QuestMessageData):void
+        public function onQuest(_arg_1:QuestMessageData):void
         {
-            this._questTracker.QuestTracker(_arg_1);
-            this._questDetails.QuestTracker(_arg_1);
-            this._questCompleted.QuestTracker(_arg_1);
-            this._SafeStr_12177.QuestTracker(_arg_1);
+            this._questTracker.onQuest(_arg_1);
+            this._questDetails.onQuest(_arg_1);
+            this._questCompleted.onQuest(_arg_1);
+            this._SafeStr_12177.onQuest(_arg_1);
         }
-        public function QuestTracker(_arg_1:QuestMessageData):void
+        public function onQuestCompleted(_arg_1:QuestMessageData):void
         {
-            this._questTracker.QuestTracker(_arg_1);
-            this._questDetails.QuestTracker(_arg_1);
-            this._questCompleted.QuestTracker(_arg_1);
+            this._questTracker.onQuestCompleted(_arg_1);
+            this._questDetails.onQuestCompleted(_arg_1);
+            this._questCompleted.onQuestCompleted(_arg_1);
         }
-        public function QuestTracker():void
+        public function onQuestCancelled():void
         {
-            this._questTracker.QuestTracker();
-            this._questDetails.QuestTracker();
-            this._questCompleted.QuestTracker();
-            this._SafeStr_12177.QuestTracker();
+            this._questTracker.onQuestCancelled();
+            this._questDetails.onQuestCancelled();
+            this._questCompleted.onQuestCancelled();
+            this._SafeStr_12177.onQuestCancelled();
         }
         public function onRoomEnter():void
         {
             this._questTracker.onRoomEnter();
         }
-        public function HabboGroupInfoManager():void
+        public function onRoomExit():void
         {
-            this._questsList.HabboGroupInfoManager();
-            this._questTracker.HabboGroupInfoManager();
-            this._questDetails.HabboGroupInfoManager();
-            this._SafeStr_12177.HabboGroupInfoManager();
+            this._questsList.onRoomExit();
+            this._questTracker.onRoomExit();
+            this._questDetails.onRoomExit();
+            this._SafeStr_12177.onRoomExit();
         }
         public function update(_arg_1:uint):void
         {
@@ -115,10 +115,10 @@ package com.sulake.habbo.quest
     }
 }//package com.sulake.habbo.quest
 
-// QuestTracker = "_-2Ht" (String#6400, DoABC#2)
-// QuestTracker = "_-0wk" (String#4785, DoABC#2)
+// onQuestCompleted = "_-2Ht" (String#6400, DoABC#2)
+// onQuestCancelled = "_-0wk" (String#4785, DoABC#2)
 // onQuests = "_-1uj" (String#5933, DoABC#2)
-// QuestTracker = "_-kW" (String#8614, DoABC#2)
+// onQuest = "_-kW" (String#8614, DoABC#2)
 // _questsList = "_-09d" (String#14432, DoABC#2)
 // _questDetails = "_-0ai" (String#15463, DoABC#2)
 // _questTracker = "_-0QX" (String#15083, DoABC#2)
@@ -135,6 +135,6 @@ package com.sulake.habbo.quest
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

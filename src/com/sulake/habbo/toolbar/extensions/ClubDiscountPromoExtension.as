@@ -116,7 +116,7 @@ package com.sulake.habbo.toolbar.extensions
         {
             if (!this._disposed){
                 if (this._extensionView){
-                    this._extensionView.ExtensionView(_SafeStr_6262);
+                    this._extensionView.detachExtension(_SafeStr_6262);
                     this._extensionView = null;
                 };
                 this.animate(false);
@@ -151,16 +151,16 @@ package com.sulake.habbo.toolbar.extensions
         {
             switch (this._inventory.clubLevel){
                 case HabboClubLevelEnum._SafeStr_3942:
-                    this.CurrencyIndicatorBase(this._localization.getKey("discount.bar.no.club.promo"));
-                    this.ClubGiftNotification(_SafeStr_5378);
+                    this.setText(this._localization.getKey("discount.bar.no.club.promo"));
+                    this.setClubIcon(_SafeStr_5378);
                     break;
                 case HabboClubLevelEnum._SafeStr_3943:
-                    this.CurrencyIndicatorBase(this._localization.getKey("discount.bar.hc.expiring", "Save 5 cr by extending your HC subscription now!"));
-                    this.ClubGiftNotification(_SafeStr_5377);
+                    this.setText(this._localization.getKey("discount.bar.hc.expiring", "Save 5 cr by extending your HC subscription now!"));
+                    this.setClubIcon(_SafeStr_5377);
                     break;
                 case HabboClubLevelEnum._SafeStr_3939:
-                    this.CurrencyIndicatorBase(this._localization.getKey("discount.bar.vip.expiring", "Save 5 cr by extending your VIP subscription now!"));
-                    this.ClubGiftNotification(_SafeStr_5378);
+                    this.setText(this._localization.getKey("discount.bar.vip.expiring", "Save 5 cr by extending your VIP subscription now!"));
+                    this.setClubIcon(_SafeStr_5378);
                     break;
             };
             this.animate(true);
@@ -170,10 +170,10 @@ package com.sulake.habbo.toolbar.extensions
             if (((((this._inventory.clubIsExpiring) && (!(this._view)))) && (this.isExtensionEnabled()))){
                 this._view = this.createWindow(this._assets, this._windowManager);
                 this.assignState();
-                this._extensionView.ExtensionView(_SafeStr_6262, this._view, ExtensionFixedSlotsEnum._SafeStr_6282);
+                this._extensionView.attachExtension(_SafeStr_6262, this._view, ExtensionFixedSlotsEnum._SafeStr_6282);
             }
             else {
-                this._extensionView.ExtensionView(_SafeStr_6262);
+                this._extensionView.detachExtension(_SafeStr_6262);
                 this.destroyWindow();
             };
         }
@@ -187,7 +187,7 @@ package com.sulake.habbo.toolbar.extensions
             };
             return (false);
         }
-        private function CurrencyIndicatorBase(_arg_1:String):void
+        private function setText(_arg_1:String):void
         {
             var _local_2:ITextWindow;
             var _local_3:ITextWindow;
@@ -257,11 +257,11 @@ package com.sulake.habbo.toolbar.extensions
         private function startAnimationTimer():void
         {
             this._SafeStr_6266 = new Timer(25, 26);
-            this._SafeStr_6266.addEventListener(TimerEvent.TIMER, this.CurrencyIndicatorBase);
-            this._SafeStr_6266.addEventListener(TimerEvent.TIMER_COMPLETE, this.CurrencyIndicatorBase);
+            this._SafeStr_6266.addEventListener(TimerEvent.TIMER, this.onAnimationTimer);
+            this._SafeStr_6266.addEventListener(TimerEvent.TIMER_COMPLETE, this.onAnimationTimerComplete);
             this._SafeStr_6266.start();
         }
-        private function CurrencyIndicatorBase(_arg_1:TimerEvent):void
+        private function onAnimationTimer(_arg_1:TimerEvent):void
         {
             var _local_2:int;
             var _local_3:BitmapData;
@@ -276,11 +276,11 @@ package com.sulake.habbo.toolbar.extensions
             this._SafeStr_6265.invalidate();
             this._SafeStr_6267++;
         }
-        private function CurrencyIndicatorBase(_arg_1:TimerEvent):void
+        private function onAnimationTimerComplete(_arg_1:TimerEvent):void
         {
             this.clearAnimation();
         }
-        private function ClubGiftNotification(_arg_1:int):void
+        private function setClubIcon(_arg_1:int):void
         {
             var _local_2:IIconWindow;
             if (this._view){
@@ -326,13 +326,13 @@ package com.sulake.habbo.toolbar.extensions
 // _SafeStr_3942 = "_-0G0" (String#14684, DoABC#2)
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
 // clubIsExpiring = "_-0Gw" (String#3893, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_5377 = "_-0wg" (String#1581, DoABC#2)
 // _SafeStr_5378 = "_-374" (String#2003, DoABC#2)
 // _inventory = "_-1O" (String#113, DoABC#2)
 // HIHCE_HABBO_CLUB_CHANGED = "_-36p" (String#21757, DoABC#2)
 // onClubChanged = "_-0NQ" (String#1461, DoABC#2)
-// ClubGiftNotification = "_-1YR" (String#1707, DoABC#2)
+// setClubIcon = "_-1YR" (String#1707, DoABC#2)
 // clearAnimation = "_-16P" (String#5001, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
 // _SafeStr_6262 = "_-FZ" (String#7985, DoABC#2)
@@ -351,16 +351,16 @@ package com.sulake.habbo.toolbar.extensions
 // onTextRegionMouseOut = "_-mG" (String#8648, DoABC#2)
 // assignState = "_-2wt" (String#21342, DoABC#2)
 // destroyWindow = "_-1pr" (String#5854, DoABC#2)
-// ExtensionView = "_-gb" (String#8524, DoABC#2)
+// detachExtension = "_-gb" (String#8524, DoABC#2)
 // animate = "_-2u9" (String#21245, DoABC#2)
 // isExtensionEnabled = "_-0nb" (String#15960, DoABC#2)
-// ExtensionView = "_-01F" (String#3587, DoABC#2)
+// attachExtension = "_-01F" (String#3587, DoABC#2)
 // _SafeStr_6282 = "_-3GU" (String#22141, DoABC#2)
 // onTriggerTimer = "_-1cR" (String#17988, DoABC#2)
 // resetAnimationVariables = "_-1aI" (String#17907, DoABC#2)
 // startAnimationTimer = "_-1VP" (String#17715, DoABC#2)
-// CurrencyIndicatorBase = "_-1j1" (String#5735, DoABC#2)
-// CurrencyIndicatorBase = "_-2Lp" (String#6480, DoABC#2)
+// onAnimationTimer = "_-1j1" (String#5735, DoABC#2)
+// onAnimationTimerComplete = "_-2Lp" (String#6480, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 
 

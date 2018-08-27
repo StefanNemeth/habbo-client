@@ -19,7 +19,7 @@ package com.sulake.habbo.friendlist
 
         private var _friendList:HabboFriendList;
         private var _SafeStr_11215:FriendListTabsView;
-        private var _InventoryMainView:IFrameWindow;
+        private var _mainWindow:IFrameWindow;
         private var _SafeStr_11216:IWindowContainer;
         private var _SafeStr_4233:IWindowContainer;
         private var _SafeStr_11217:ITextWindow;
@@ -34,17 +34,17 @@ package com.sulake.habbo.friendlist
         }
         public function isFriendListOpen():Boolean
         {
-            return (((!((this._InventoryMainView == null))) && (this._InventoryMainView.visible)));
+            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
         }
         public function openFriendList():void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 this.prepare();
-                this._InventoryMainView.position = _SafeStr_10176;
+                this._mainWindow.position = _SafeStr_10176;
             }
             else {
-                this._InventoryMainView.visible = true;
-                this._InventoryMainView.activate();
+                this._mainWindow.visible = true;
+                this._mainWindow.activate();
             };
         }
         public function showInfo(_arg_1:WindowEvent, _arg_2:String):void
@@ -64,7 +64,7 @@ package com.sulake.habbo.friendlist
         }
         public function refresh(_arg_1:String):void
         {
-            if (this._InventoryMainView == null){
+            if (this._mainWindow == null){
                 return;
             };
             this._SafeStr_11215.refresh(_arg_1);
@@ -72,37 +72,37 @@ package com.sulake.habbo.friendlist
         }
         public function close():void
         {
-            if (this._InventoryMainView != null){
-                this._InventoryMainView.visible = false;
+            if (this._mainWindow != null){
+                this._mainWindow.visible = false;
             };
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
-            return (((this._InventoryMainView) && (this._InventoryMainView.visible)));
+            return (((this._mainWindow) && (this._mainWindow.visible)));
         }
         private function prepare():void
         {
-            this._InventoryMainView = IFrameWindow(this._friendList.getXmlWindow("main_window"));
-            this._InventoryMainView.findChildByTag("close").procedure = this.onWindowClose;
-            this._SafeStr_11216 = IWindowContainer(this._InventoryMainView.content.findChildByName("main_content"));
-            this._SafeStr_4233 = IWindowContainer(this._InventoryMainView.content.findChildByName("footer"));
+            this._mainWindow = IFrameWindow(this._friendList.getXmlWindow("main_window"));
+            this._mainWindow.findChildByTag("close").procedure = this.onWindowClose;
+            this._SafeStr_11216 = IWindowContainer(this._mainWindow.content.findChildByName("main_content"));
+            this._SafeStr_4233 = IWindowContainer(this._mainWindow.content.findChildByName("footer"));
             this._SafeStr_11215.prepare(this._SafeStr_11216);
-            this._InventoryMainView.procedure = this.RoomVisitsCtrl;
-            this._InventoryMainView.content.setParamFlag(HabboWindowParam._SafeStr_7463, false);
-            this._InventoryMainView.content.setParamFlag(HabboWindowParam._SafeStr_7455, true);
-            this._InventoryMainView.header.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._InventoryMainView.header.setParamFlag(HabboWindowParam._SafeStr_7446, true);
-            this._InventoryMainView.content.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._InventoryMainView.content.setParamFlag(HabboWindowParam._SafeStr_7446, true);
-            this._InventoryMainView.findChildByName("open_edit_ctgs_but").procedure = this.onEditCategoriesButtonClick;
-            this._SafeStr_11217 = ITextWindow(this._InventoryMainView.findChildByName("info_text"));
+            this._mainWindow.procedure = this.onWindow;
+            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7463, false);
+            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7455, true);
+            this._mainWindow.header.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._mainWindow.header.setParamFlag(HabboWindowParam._SafeStr_7446, true);
+            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7446, true);
+            this._mainWindow.findChildByName("open_edit_ctgs_but").procedure = this.onEditCategoriesButtonClick;
+            this._SafeStr_11217 = ITextWindow(this._mainWindow.findChildByName("info_text"));
             this._SafeStr_11217.text = "";
-            this._friendList.refreshButton(this._InventoryMainView, "open_edit_ctgs", true, null, 0);
-            this._InventoryMainView.title.color = 0xFFFAC200;
-            this._InventoryMainView.title.textColor = 4287851525;
+            this._friendList.refreshButton(this._mainWindow, "open_edit_ctgs", true, null, 0);
+            this._mainWindow.title.color = 0xFFFAC200;
+            this._mainWindow.title.textColor = 4287851525;
             this.refresh("prepare");
-            this._InventoryMainView.height = 350;
-            this._InventoryMainView.width = 230;
+            this._mainWindow.height = 350;
+            this._mainWindow.width = 230;
         }
         private function onWindowClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -110,19 +110,19 @@ package com.sulake.habbo.friendlist
                 return;
             };
             Logger.log("Close window");
-            this._InventoryMainView.visible = false;
+            this._mainWindow.visible = false;
             this._friendList.trackFriendListEvent(HabboFriendListTrackingEvent.HABBO_FRIENDLIST_TRACKIG_EVENT_CLOSED);
         }
-        private function RoomVisitsCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
-            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._InventoryMainView))))){
+            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._mainWindow))))){
                 return;
             };
             if (this._SafeStr_11220){
                 return;
             };
-            var _local_3:int = (((this._SafeStr_11218 == -1)) ? 0 : (this._InventoryMainView.height - this._SafeStr_11218));
-            var _local_4:int = (((this._SafeStr_11219 == -1)) ? 0 : (this._InventoryMainView.width - this._SafeStr_11219));
+            var _local_3:int = (((this._SafeStr_11218 == -1)) ? 0 : (this._mainWindow.height - this._SafeStr_11218));
+            var _local_4:int = (((this._SafeStr_11219 == -1)) ? 0 : (this._mainWindow.width - this._SafeStr_11219));
             this._friendList.tabs.tabContentHeight = Math.max(100, (this._friendList.tabs.tabContentHeight + _local_3));
             this._friendList.tabs.windowWidth = Math.max(147, (this._friendList.tabs.windowWidth + _local_4));
             this.refresh(("resize: " + _local_3));
@@ -131,23 +131,23 @@ package com.sulake.habbo.friendlist
         {
             this._SafeStr_11220 = true;
             this._SafeStr_4233.visible = false;
-            this._SafeStr_4233.y = Util.getLowestPoint(this._InventoryMainView.content);
+            this._SafeStr_4233.y = Util.getLowestPoint(this._mainWindow.content);
             this._SafeStr_4233.width = this._friendList.tabs.windowWidth;
             this._SafeStr_4233.visible = true;
-            this._InventoryMainView.content.height = Util.getLowestPoint(this._InventoryMainView.content);
-            this._InventoryMainView.content.width = (this._friendList.tabs.windowWidth - 10);
-            this._InventoryMainView.header.width = (this._friendList.tabs.windowWidth - 10);
-            this._InventoryMainView.height = (this._InventoryMainView.content.height + 30);
-            this._InventoryMainView.width = this._friendList.tabs.windowWidth;
+            this._mainWindow.content.height = Util.getLowestPoint(this._mainWindow.content);
+            this._mainWindow.content.width = (this._friendList.tabs.windowWidth - 10);
+            this._mainWindow.header.width = (this._friendList.tabs.windowWidth - 10);
+            this._mainWindow.height = (this._mainWindow.content.height + 30);
+            this._mainWindow.width = this._friendList.tabs.windowWidth;
             this._SafeStr_11220 = false;
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, !((this._friendList.tabs.findSelectedTab() == null)));
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._InventoryMainView.scaler.setParamFlag(HabboWindowParam._SafeStr_7463, false);
-            this._InventoryMainView.scaler.x = (this._InventoryMainView.width - this._InventoryMainView.scaler.width);
-            this._InventoryMainView.scaler.y = (this._InventoryMainView.height - this._InventoryMainView.scaler.height);
-            this._SafeStr_11218 = this._InventoryMainView.height;
-            this._SafeStr_11219 = this._InventoryMainView.width;
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, !((this._friendList.tabs.findSelectedTab() == null)));
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7463, false);
+            this._mainWindow.scaler.x = (this._mainWindow.width - this._mainWindow.scaler.width);
+            this._mainWindow.scaler.y = (this._mainWindow.height - this._mainWindow.scaler.height);
+            this._SafeStr_11218 = this._mainWindow.height;
+            this._SafeStr_11219 = this._mainWindow.width;
             Logger.log(("RESIZED: " + this._friendList.tabs.windowWidth));
         }
         private function onEditCategoriesButtonClick(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -162,7 +162,7 @@ package com.sulake.habbo.friendlist
         }
         public function get mainWindow():IWindowContainer
         {
-            return (this._InventoryMainView);
+            return (this._mainWindow);
         }
 
     }
@@ -181,7 +181,7 @@ package com.sulake.habbo.friendlist
 // isFriendListOpen = "_-10v" (String#16495, DoABC#2)
 // showInfo = "_-er" (String#23838, DoABC#2)
 // refreshWindowSize = "_-UF" (String#23418, DoABC#2)
-// RoomVisitsCtrl = "_-1zg" (String#873, DoABC#2)
+// onWindow = "_-1zg" (String#873, DoABC#2)
 // onEditCategoriesButtonClick = "_-1ai" (String#17923, DoABC#2)
 // trackFriendListEvent = "_-1w6" (String#18802, DoABC#2)
 // openHabboWebPage = "_-2w" (String#7202, DoABC#2)
@@ -190,14 +190,14 @@ package com.sulake.habbo.friendlist
 // Util = "_-1ve" (String#445, DoABC#2)
 // FriendListView = "_-1CA" (String#5113, DoABC#2)
 // FriendListTabsView = "_-2wH" (String#7206, DoABC#2)
-// _InventoryMainView = "_-1P" (String#361, DoABC#2)
+// _mainWindow = "_-1P" (String#361, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // _SafeStr_4233 = "_-Kp" (String#8099, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // _SafeStr_4267 = "_-36k" (String#21755, DoABC#2)

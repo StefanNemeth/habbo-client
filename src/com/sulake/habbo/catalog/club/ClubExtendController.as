@@ -27,7 +27,7 @@ package com.sulake.habbo.catalog.club
             if (this._disposed){
                 return;
             };
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
             this._offer = null;
             this._catalog = null;
             this._disposed = true;
@@ -49,7 +49,7 @@ package com.sulake.habbo.catalog.club
                 };
             };
         }
-        public function ExtraToolsExtension():void
+        public function closeConfirmation():void
         {
             if (this._SafeStr_5427){
                 this._SafeStr_5427.dispose();
@@ -58,7 +58,7 @@ package com.sulake.habbo.catalog.club
         }
         public function showConfirmation():void
         {
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
             this._SafeStr_5427 = new ClubExtendConfirmationDialog(this, this._offer);
             this._SafeStr_5427.showConfirmation();
         }
@@ -73,7 +73,7 @@ package com.sulake.habbo.catalog.club
             else {
                 this._catalog.purchaseBasicMembershipExtension(this._offer.offerId);
             };
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
         }
         public function get windowManager():IHabboWindowManager
         {
@@ -108,7 +108,7 @@ package com.sulake.habbo.catalog.club
 // offerId = "_-9g" (String#928, DoABC#2)
 // _offer = "_-1jb" (String#165, DoABC#2)
 // _SafeStr_5427 = "_-au" (String#638, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
 // confirmSelection = "_-fK" (String#23861, DoABC#2)
 // onOffer = "_-3Ge" (String#22147, DoABC#2)
 // purchaseVipMembershipExtension = "_-0mj" (String#15926, DoABC#2)

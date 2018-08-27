@@ -33,21 +33,21 @@ package com.sulake.habbo.avatar.animation
                 this._dz[_local_4] = parseInt(_local_3.@dz);
             };
         }
-        public function ISpriteDataContainer(_arg_1:int):int
+        public function getDirectionOffsetX(_arg_1:int):int
         {
             if (_arg_1 < this._dx.length){
                 return (this._dx[_arg_1]);
             };
             return (0);
         }
-        public function ISpriteDataContainer(_arg_1:int):int
+        public function getDirectionOffsetY(_arg_1:int):int
         {
             if (_arg_1 < this._dy.length){
                 return (this._dy[_arg_1]);
             };
             return (0);
         }
-        public function ISpriteDataContainer(_arg_1:int):int
+        public function getDirectionOffsetZ(_arg_1:int):int
         {
             if (_arg_1 < this._dz.length){
                 return (this._dz[_arg_1]);
@@ -81,9 +81,9 @@ package com.sulake.habbo.avatar.animation
 // ISpriteDataContainer = "_-2J5" (String#6422, DoABC#2)
 // IAnimation = "_-2l8" (String#6983, DoABC#2)
 // SpriteDataContainer = "_-0cR" (String#15532, DoABC#2)
-// ISpriteDataContainer = "_-1Oo" (String#5331, DoABC#2)
-// ISpriteDataContainer = "_-31k" (String#7340, DoABC#2)
-// ISpriteDataContainer = "_-3HQ" (String#7657, DoABC#2)
+// getDirectionOffsetX = "_-1Oo" (String#5331, DoABC#2)
+// getDirectionOffsetY = "_-31k" (String#7340, DoABC#2)
+// getDirectionOffsetZ = "_-3HQ" (String#7657, DoABC#2)
 // hasDirections = "_-1RM" (String#5383, DoABC#2)
 // _ink = "_-23x" (String#874, DoABC#2)
 // _dy = "_-2Hh" (String#1847, DoABC#2)

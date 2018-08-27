@@ -49,8 +49,8 @@ package com.sulake.habbo.catalog.viewer.widgets
             this._offers = [];
             this.displayMainView();
             this._controller = (page.viewer.catalog as HabboCatalog).getClubBuyController();
-            this._controller.MarketPlaceLogic(this);
-            this._controller.MarketPlaceLogic();
+            this._controller.registerVisualization(this);
+            this._controller.requestOffers();
             return (true);
         }
         private function displayMainView():void
@@ -139,7 +139,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
         }
-        public function PollSession(offer:ClubBuyOfferData):void
+        public function showOffer(offer:ClubBuyOfferData):void
         {
             var target:IItemListWindow;
             var item:ClubBuyItem;
@@ -247,10 +247,10 @@ package com.sulake.habbo.catalog.viewer.widgets
 // daysLeftAfterPurchase = "_-2JK" (String#19782, DoABC#2)
 // upgradeHcPeriodToVip = "_-1Gg" (String#17139, DoABC#2)
 // initClubType = "_-EO" (String#22787, DoABC#2)
-// PollSession = "_-2nW" (String#20980, DoABC#2)
+// showOffer = "_-2nW" (String#20980, DoABC#2)
 // unRegisterVisualization = "_-3BS" (String#21941, DoABC#2)
-// MarketPlaceLogic = "_-2z1" (String#7263, DoABC#2)
-// MarketPlaceLogic = "_-1ST" (String#5406, DoABC#2)
+// registerVisualization = "_-2z1" (String#7263, DoABC#2)
+// requestOffers = "_-1ST" (String#5406, DoABC#2)
 // getAssetXML = "_-1XT" (String#364, DoABC#2)
 // getClubBuyController = "_-2nZ" (String#20982, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)

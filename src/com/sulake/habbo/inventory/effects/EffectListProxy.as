@@ -20,7 +20,7 @@ package com.sulake.habbo.inventory.effects
         }
         public function getDrawableList():Array
         {
-            return (this._SafeStr_4830.EffectsModel(this._SafeStr_6615));
+            return (this._SafeStr_4830.getEffects(this._SafeStr_6615));
         }
 
     }
@@ -32,6 +32,6 @@ package com.sulake.habbo.inventory.effects
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
 // getDrawableList = "_-1QO" (String#5357, DoABC#2)
 // _SafeStr_6615 = "_-3Aj" (String#915, DoABC#2)
-// EffectsModel = "_-1VO" (String#17714, DoABC#2)
+// getEffects = "_-1VO" (String#17714, DoABC#2)
 
 

@@ -19,9 +19,9 @@ package com.sulake.habbo.friendbar
         {
             super(_arg_1, _arg_2, _arg_3);
             LinkResolver.unknown = this;
-            IContext(new HabboFriendBarData(this, 0, _arg_3), [new IIDHabboFriendBarData()]);
-            IContext(new HabboFriendBarView(this, 0, _arg_3), [new IIDHabboFriendBarView()]);
-            IContext(new HabboEventStream(this, 0, _arg_3), [new IIDHabboEventStream()]);
+            attachComponent(new HabboFriendBarData(this, 0, _arg_3), [new IIDHabboFriendBarData()]);
+            attachComponent(new HabboFriendBarView(this, 0, _arg_3), [new IIDHabboFriendBarView()]);
+            attachComponent(new HabboEventStream(this, 0, _arg_3), [new IIDHabboEventStream()]);
         }
     }
 }//package com.sulake.habbo.friendbar
@@ -31,6 +31,6 @@ package com.sulake.habbo.friendbar
 // HabboFriendBarData = "_-3DB" (String#7579, DoABC#2)
 // LinkResolver = "_-0WN" (String#4235, DoABC#2)
 // ComponentContext = "_-0jP" (String#4488, DoABC#2)
-// IContext = "_-1G" (String#5169, DoABC#2)
+// attachComponent = "_-1G" (String#5169, DoABC#2)
 
 

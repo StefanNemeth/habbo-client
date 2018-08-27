@@ -45,13 +45,13 @@ package com.sulake.habbo.ui.widget.poll
             this._SafeStr_14114 = null;
             this._disposed = true;
         }
-        public function PollSession(_arg_1:String):void
+        public function showOffer(_arg_1:String):void
         {
-            this.PollSession();
+            this.hideOffer();
             this._SafeStr_14115 = new PollOfferDialog(this._id, _arg_1, this._SafeStr_14114);
             this._SafeStr_14115.start();
         }
-        public function PollSession():void
+        public function hideOffer():void
         {
             if ((this._SafeStr_14115 is PollOfferDialog)){
                 if (!this._SafeStr_14115.disposed){
@@ -60,15 +60,15 @@ package com.sulake.habbo.ui.widget.poll
                 this._SafeStr_14115 = null;
             };
         }
-        public function PollSession(_arg_1:String, _arg_2:String, _arg_3:Array):void
+        public function showContent(_arg_1:String, _arg_2:String, _arg_3:Array):void
         {
-            this.PollSession();
-            this.PollSession();
+            this.hideOffer();
+            this.hideContent();
             this._endMessage = _arg_2;
             this._SafeStr_14116 = new PollContentDialog(this._id, _arg_1, _arg_3, this._SafeStr_14114);
             this._SafeStr_14116.start();
         }
-        public function PollSession():void
+        public function hideContent():void
         {
             if ((this._SafeStr_14116 is PollContentDialog)){
                 if (!this._SafeStr_14116.disposed){
@@ -77,7 +77,7 @@ package com.sulake.habbo.ui.widget.poll
                 this._SafeStr_14116 = null;
             };
         }
-        public function PollSession():void
+        public function showThanks():void
         {
             this._SafeStr_14114.windowManager.alert("${poll_thanks_title}", this._endMessage, 0, function (_arg_1:IAlertDialog, _arg_2:WindowEvent):void
             {
@@ -90,13 +90,13 @@ package com.sulake.habbo.ui.widget.poll
 
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
-// PollSession = "_-ly" (String#24108, DoABC#2)
-// PollSession = "_-1Tx" (String#17664, DoABC#2)
+// showContent = "_-ly" (String#24108, DoABC#2)
+// showThanks = "_-1Tx" (String#17664, DoABC#2)
 // _SafeStr_14114 = "_-16c" (String#16721, DoABC#2)
 // _SafeStr_14115 = "_-Nx" (String#23163, DoABC#2)
 // _SafeStr_14116 = "_-1E2" (String#17029, DoABC#2)
-// PollSession = "_-0Ng" (String#14979, DoABC#2)
-// PollSession = "_-0Qn" (String#15093, DoABC#2)
+// hideOffer = "_-0Ng" (String#14979, DoABC#2)
+// hideContent = "_-0Qn" (String#15093, DoABC#2)
 // PollWidget = "_-0pz" (String#4635, DoABC#2)
 // PollSession = "_-2C-" (String#6285, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
@@ -104,6 +104,6 @@ package com.sulake.habbo.ui.widget.poll
 // PollContentDialog = "_-1QT" (String#5360, DoABC#2)
 // PollOfferDialog = "_-JC" (String#8066, DoABC#2)
 // _endMessage = "_-0ua" (String#826, DoABC#2)
-// PollSession = "_-2nW" (String#20980, DoABC#2)
+// showOffer = "_-2nW" (String#20980, DoABC#2)
 
 

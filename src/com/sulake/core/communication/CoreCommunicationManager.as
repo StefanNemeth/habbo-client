@@ -30,7 +30,7 @@ package com.sulake.core.communication
             this._SafeStr_8855 = new Dictionary();
             this._SafeStr_8856 = new Dictionary();
             this._SafeStr_8857 = new Array();
-            IContext(this, 1);
+            registerUpdateReceiver(this, 1);
         }
         public function set connectionStateListener(_arg_1:IConnectionStateListener):void
         {
@@ -193,7 +193,7 @@ package com.sulake.core.communication
 // ICoreCommunicationManager = "_-XS" (String#8357, DoABC#2)
 // IProtocol = "_-2N9" (String#6505, DoABC#2)
 // ConnectionType = "_-2cZ" (String#20548, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_5164 = "_-1Dd" (String#17008, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // IConnectionStateListener = "_-1qk" (String#5868, DoABC#2)

@@ -10,7 +10,7 @@ package com.sulake.habbo.communication.messages.parser.availability
         private var _isOpen:Boolean;
         private var _onShutDown:Boolean;
 
-        public function get IssueBrowser():Boolean
+        public function get isOpen():Boolean
         {
             return (this._isOpen);
         }
@@ -36,7 +36,7 @@ package com.sulake.habbo.communication.messages.parser.availability
 
 // IMessageDataWrapper = "_-0Mb" (String#4014, DoABC#2)
 // AvailabilityStatusMessageParser = "_-h8" (String#23936, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 // _isOpen = "_-by" (String#2139, DoABC#2)
 // _onShutDown = "_-1YH" (String#17827, DoABC#2)

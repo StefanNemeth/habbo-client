@@ -90,18 +90,18 @@ package com.sulake.habbo.moderation
             };
             var _local_2:IWindow = this._window.findChildByTag("close");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             _local_2 = this._window.findChildByName("issue_cont");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowEvent.WE_RESIZED, this.IssueHandler);
+                _local_2.addEventListener(WindowEvent.WE_RESIZED, this.onResized);
             };
-            this.setProc("close_useless", this.IssueHandler);
-            this.setProc("close_abusive", this.IssueHandler);
-            this.setProc("close_resolved", this.IssueHandler);
-            this.setProc("release", this.IssueHandler);
-            this.setProc("move_to_player_support", this.IssueHandler);
-            this.setProc("show_chatlog", this.IssueHandler);
+            this.setProc("close_useless", this.onCloseUseless);
+            this.setProc("close_abusive", this.onCloseAbusive);
+            this.setProc("close_resolved", this.onCloseResolved);
+            this.setProc("release", this.onRelease);
+            this.setProc("move_to_player_support", this.onMoveToPlayerSupport);
+            this.setProc("show_chatlog", this.onShowChatlog);
             this._SafeStr_11757.disableButton(this._SafeStr_11757.initMsg.chatlogsPermission, this._window, "show_chatlog");
             _local_2 = this._window.findChildByName("move_to_player_support");
             if (_local_2 != null){
@@ -126,10 +126,10 @@ package com.sulake.habbo.moderation
                 _local_5.select();
             };
             Logger.log(("HARASSER: " + this._SafeStr_11880.reportedUserId));
-            this.IssueHandler();
-            this.IssueHandler();
+            this.updateIssueList();
+            this.updateMessages();
         }
-        private function IssueHandler(_arg_1:WindowEvent):void
+        private function onResized(_arg_1:WindowEvent):void
         {
             if (_arg_1 == null){
                 return;
@@ -149,7 +149,7 @@ package com.sulake.habbo.moderation
             _local_4.height = _local_5;
             _local_2.autoArrangeItems = true;
         }
-        private function IssueHandler():void
+        private function updateIssueList():void
         {
             var _local_4:IWindowContainer;
             var _local_7:IssueMessageData;
@@ -192,7 +192,7 @@ package com.sulake.habbo.moderation
                 if (_local_5 > _local_6){
                     _local_3 = 0;
                     while (_local_3 < (_local_5 - _local_6)) {
-                        _local_11 = _local_1.IItemListWindow(0);
+                        _local_11 = _local_1.removeListItemAt(0);
                         _local_11.dispose();
                         _local_3++;
                     };
@@ -210,15 +210,15 @@ package com.sulake.habbo.moderation
                 if (_local_12 != null){
                     _local_12.caption = _local_7.reporterUserName;
                     _local_12.id = _local_7.reporterUserId;
-                    _local_12.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.IssueHandler);
-                    _local_12.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.IssueHandler);
+                    _local_12.removeEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onReporterClicked);
+                    _local_12.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onReporterClicked);
                 };
-                this.IssueHandler(_local_4.findChildByName("category"), IssueCategoryNames.getCategoryName(_local_7.reportedCategoryId));
-                this.IssueHandler(_local_4.findChildByName("room"), _local_7.roomName);
-                this.IssueHandler(_local_4.findChildByName("time_open"), _local_7.getOpenTime(_local_8));
+                this.setCaption(_local_4.findChildByName("category"), IssueCategoryNames.getCategoryName(_local_7.reportedCategoryId));
+                this.setCaption(_local_4.findChildByName("room"), _local_7.roomName);
+                this.setCaption(_local_4.findChildByName("time_open"), _local_7.getOpenTime(_local_8));
             };
         }
-        private function IssueHandler():void
+        private function updateMessages():void
         {
             var _local_4:ITextWindow;
             var _local_7:IssueMessageData;
@@ -260,7 +260,7 @@ package com.sulake.habbo.moderation
                 if (_local_5 > _local_6){
                     _local_3 = 0;
                     while (_local_3 < (_local_5 - _local_6)) {
-                        _local_10 = _local_1.IItemListWindow(0);
+                        _local_10 = _local_1.removeListItemAt(0);
                         _local_10.dispose();
                         _local_3++;
                     };
@@ -278,7 +278,7 @@ package com.sulake.habbo.moderation
                 _local_4.height = (_local_4.textHeight + 10);
             };
         }
-        private function IssueHandler(_arg_1:IWindow, _arg_2:String):void
+        private function setCaption(_arg_1:IWindow, _arg_2:String):void
         {
             if (_arg_1 != null){
                 _arg_1.caption = _arg_2;
@@ -288,52 +288,52 @@ package com.sulake.habbo.moderation
         {
             this._window.findChildByName(_arg_1).addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, _arg_2);
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             if (((((!((this._SafeStr_11757 == null))) && (!((this._SafeStr_11757.issueManager == null))))) && (!((this._SafeStr_11880 == null))))){
                 this._SafeStr_11757.issueManager.removeHandler(this._SafeStr_11880.id);
             };
             this.dispose();
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onCloseUseless(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Close useless clicked");
             this._SafeStr_11757.issueManager.closeBundle(this._SafeStr_11880.id, 1);
-            this.IssueHandler();
+            this.checkAutoHandling();
             this.dispose();
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onCloseAbusive(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Close abusive clicked");
             this._SafeStr_11757.issueManager.closeBundle(this._SafeStr_11880.id, 2);
-            this.IssueHandler();
+            this.checkAutoHandling();
             this.dispose();
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onCloseResolved(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Close resolved clicked");
             this._SafeStr_11757.issueManager.closeBundle(this._SafeStr_11880.id, 3);
-            this.IssueHandler();
+            this.checkAutoHandling();
             this.dispose();
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onRelease(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Release clicked");
             this._SafeStr_11757.issueManager.releaseBundle(this._SafeStr_11880.id);
-            this.IssueHandler();
+            this.checkAutoHandling();
             this.dispose();
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onMoveToPlayerSupport(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Move to player support clicked");
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onShowChatlog(_arg_1:WindowMouseEvent):void
         {
             Logger.log("Show chatlog clicked");
             var _local_2:int = this._SafeStr_11880.getHighestPriorityIssue().issueId;
             this._SafeStr_11757.windowTracker.show(new ChatlogCtrl(new GetCfhChatlogMessageComposer(_local_2), this._SafeStr_11757, WindowTracker._SafeStr_11779, _local_2), this._window, false, false, true);
         }
-        private function IssueHandler(_arg_1:WindowMouseEvent):void
+        private function onReporterClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_3:IssueMessageData;
             var _local_2:int = _arg_1.window.id;
@@ -348,10 +348,10 @@ package com.sulake.habbo.moderation
         }
         public function update():void
         {
-            this.IssueHandler();
-            this.IssueHandler();
+            this.updateIssueList();
+            this.updateMessages();
         }
-        private function IssueHandler():void
+        private function checkAutoHandling():void
         {
             if ((((((this._window == null)) || ((this._SafeStr_11757 == null)))) || ((this._SafeStr_11757.issueManager == null)))){
                 return;
@@ -375,22 +375,22 @@ package com.sulake.habbo.moderation
 // _SafeStr_11880 = "_-2p-" (String#21041, DoABC#2)
 // _SafeStr_11881 = "_-09K" (String#14422, DoABC#2)
 // _SafeStr_11882 = "_-29C" (String#19373, DoABC#2)
-// IssueHandler = "_-3L7" (String#22329, DoABC#2)
+// onResized = "_-3L7" (String#22329, DoABC#2)
 // setProc = "_-333" (String#1990, DoABC#2)
-// IssueHandler = "_-1rh" (String#18617, DoABC#2)
-// IssueHandler = "_-1bJ" (String#17949, DoABC#2)
-// IssueHandler = "_-1TN" (String#17641, DoABC#2)
-// IssueHandler = "_-2Qb" (String#6571, DoABC#2)
-// IssueHandler = "_-0tb" (String#16184, DoABC#2)
-// IssueHandler = "_-Qf" (String#23273, DoABC#2)
+// onCloseUseless = "_-1rh" (String#18617, DoABC#2)
+// onCloseAbusive = "_-1bJ" (String#17949, DoABC#2)
+// onCloseResolved = "_-1TN" (String#17641, DoABC#2)
+// onRelease = "_-2Qb" (String#6571, DoABC#2)
+// onMoveToPlayerSupport = "_-0tb" (String#16184, DoABC#2)
+// onShowChatlog = "_-Qf" (String#23273, DoABC#2)
 // getHighestPriorityIssue = "_-22z" (String#19134, DoABC#2)
-// IssueHandler = "_-1uU" (String#18736, DoABC#2)
-// IssueHandler = "_-da" (String#23785, DoABC#2)
-// IssueHandler = "_-0gC" (String#15681, DoABC#2)
+// updateIssueList = "_-1uU" (String#18736, DoABC#2)
+// updateMessages = "_-da" (String#23785, DoABC#2)
+// onReporterClicked = "_-0gC" (String#15681, DoABC#2)
 // getCategoryName = "_-0mq" (String#15933, DoABC#2)
 // removeHandler = "_-mr" (String#24145, DoABC#2)
 // closeBundle = "_-06c" (String#14311, DoABC#2)
-// IssueHandler = "_-2TB" (String#20171, DoABC#2)
+// checkAutoHandling = "_-2TB" (String#20171, DoABC#2)
 // releaseBundle = "_-2Nx" (String#19962, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ICheckBoxWindow = "_-1zu" (String#1793, DoABC#2)
@@ -406,14 +406,14 @@ package com.sulake.habbo.moderation
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // chatlogsPermission = "_-Cg" (String#22712, DoABC#2)
 // issueId = "_-1yh" (String#18916, DoABC#2)
 // reportedCategoryId = "_-eV" (String#23822, DoABC#2)
 // reporterUserId = "_-8I" (String#22554, DoABC#2)
 // reporterUserName = "_-2fY" (String#20671, DoABC#2)
 // getOpenTime = "_-P3" (String#23209, DoABC#2)
-// IssueHandler = "_-rz" (String#8735, DoABC#2)
+// setCaption = "_-rz" (String#8735, DoABC#2)
 
 

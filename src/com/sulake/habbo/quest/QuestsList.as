@@ -71,23 +71,23 @@ package com.sulake.habbo.quest
                 this._window.visible = false;
             };
         }
-        public function HabboGroupInfoManager():void
+        public function onRoomExit():void
         {
             this.close();
         }
         public function onToolbarClick():void
         {
             if (!this._window){
-                this.QuestsList();
+                this.requestQuests();
                 return;
             };
             if (((!(this._SafeStr_4248)) || (this._SafeStr_4248.disposed))){
-                this._SafeStr_4248 = new WindowToggle(this._window, this._window.desktop, this.QuestsList, this.close);
+                this._SafeStr_4248 = new WindowToggle(this._window, this._window.desktop, this.requestQuests, this.close);
             };
             this._SafeStr_4248.toggle();
             this._SafeStr_12258 = false;
         }
-        private function QuestsList():void
+        private function requestQuests():void
         {
             this._SafeStr_8017.send(new GetQuestsMessageComposer());
         }
@@ -146,13 +146,13 @@ package com.sulake.habbo.quest
                 if (!_arg_1){
                     return (true);
                 };
-                _local_5 = this.QuestsList();
+                _local_5 = this.createListEntry();
                 this._content.addListItem(_local_5);
                 _local_6 = true;
             };
             if (_arg_1){
                 if (_arg_4){
-                    this.QuestsList(_local_5, _arg_3);
+                    this.refreshDelay(_local_5, _arg_3);
                 }
                 else {
                     this.refreshEntryDetails(_local_5, _arg_3);
@@ -164,7 +164,7 @@ package com.sulake.habbo.quest
             };
             return (false);
         }
-        public function QuestsList():IWindowContainer
+        public function createListEntry():IWindowContainer
         {
             var _local_1:IWindowContainer = IWindowContainer(this._SafeStr_8017.getXmlWindow("QuestEntry"));
             var _local_2:IWindowContainer = IWindowContainer(this._SafeStr_8017.getXmlWindow("Campaign"));
@@ -175,8 +175,8 @@ package com.sulake.habbo.quest
             _local_1.addChild(_local_3);
             _local_1.addChild(_local_5);
             _local_1.addChild(_local_4);
-            _local_3.findChildByName("accept_button").procedure = this.QuestsList;
-            _local_3.findChildByName("cancel_region").procedure = this.QuestsList;
+            _local_3.findChildByName("accept_button").procedure = this.onAcceptQuest;
+            _local_3.findChildByName("cancel_region").procedure = this.onCancelQuest;
             _local_1.findChildByName("hint_txt").visible = false;
             _local_1.findChildByName("link_region").visible = false;
             var _local_6:IWindow = _local_1.findChildByName("cancel_region");
@@ -192,10 +192,10 @@ package com.sulake.habbo.quest
             _local_3.x = ((_local_2.x + _local_2.width) + _SafeStr_12254);
             _local_1.width = (_local_3.x + _local_3.width);
             _local_5.x = _local_3.x;
-            this.QuestsList(_local_1);
+            this.setEntryHeight(_local_1);
             return (_local_1);
         }
-        public function QuestsList(_arg_1:IWindowContainer):void
+        public function setEntryHeight(_arg_1:IWindowContainer):void
         {
             var _local_2:IWindowContainer = IWindowContainer(_arg_1.findChildByName("campaign_container"));
             var _local_3:IWindowContainer = IWindowContainer(_arg_1.findChildByName("quest_container"));
@@ -226,11 +226,11 @@ package com.sulake.habbo.quest
             _arg_1.findChildByName("quest_container").visible = !(_arg_2.completedCampaign);
             _arg_1.findChildByName("campaign_completed_container").visible = _arg_2.completedCampaign;
             if (!_arg_2.completedCampaign){
-                this.QuestsList(IWindowContainer(_arg_1.findChildByName("quest_container")), _arg_2);
-                this.QuestsList(_arg_1, _arg_2);
+                this.refreshEntryQuestDetails(IWindowContainer(_arg_1.findChildByName("quest_container")), _arg_2);
+                this.refreshDelay(_arg_1, _arg_2);
             };
         }
-        private function QuestsList(_arg_1:IWindowContainer, _arg_2:QuestMessageData):void
+        private function refreshEntryQuestDetails(_arg_1:IWindowContainer, _arg_2:QuestMessageData):void
         {
             _arg_1.findChildByName("quest_header_txt").caption = this._SafeStr_8017.getQuestRowTitle(_arg_2);
             _arg_1.findChildByName("desc_txt").caption = this._SafeStr_8017.getQuestDesc(_arg_2);
@@ -247,7 +247,7 @@ package com.sulake.habbo.quest
             _arg_1.findChildByName("delay_txt").visible = (_arg_2.waitPeriodSeconds > 0);
             _arg_1.findChildByName("desc_txt").visible = (_arg_2.waitPeriodSeconds < 1);
         }
-        public function QuestsList(_arg_1:IWindowContainer, _arg_2:QuestMessageData):Boolean
+        public function refreshDelay(_arg_1:IWindowContainer, _arg_2:QuestMessageData):Boolean
         {
             var _local_3:int;
             var _local_4:String;
@@ -258,7 +258,7 @@ package com.sulake.habbo.quest
                     _arg_1.findChildByName("delay_txt").caption = _local_4;
                 }
                 else {
-                    this.QuestsList(_arg_1, _arg_2);
+                    this.refreshEntryQuestDetails(_arg_1, _arg_2);
                     return (true);
                 };
             };
@@ -276,7 +276,7 @@ package com.sulake.habbo.quest
                 };
             };
         }
-        private function QuestsList(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onAcceptQuest(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -286,7 +286,7 @@ package com.sulake.habbo.quest
             this._SafeStr_8017.send(new AcceptQuestMessageComposer(_local_3));
             this._window.visible = false;
         }
-        private function QuestsList(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onCancelQuest(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -298,7 +298,7 @@ package com.sulake.habbo.quest
         {
             (((_arg_2 == null)) ? _arg_1 : _arg_1.findChildByName(_arg_2)).color = ((_arg_3) ? _arg_4 : _arg_5);
         }
-        public function QuestsList(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        public function onAlert(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             if ((((_arg_2.type == WindowEvent.WE_OK)) || ((_arg_2.type == WindowEvent.WE_CANCEL)))){
                 _arg_1.dispose();
@@ -321,7 +321,7 @@ package com.sulake.habbo.quest
 }//package com.sulake.habbo.quest
 
 // showWelcomeScreen = "_-QV" (String#8213, DoABC#2)
-// QuestsList = "_-OQ" (String#23185, DoABC#2)
+// onAlert = "_-OQ" (String#23185, DoABC#2)
 // onQuests = "_-1uj" (String#5933, DoABC#2)
 // onToolbarClick = "_-2UP" (String#6654, DoABC#2)
 // refreshReward = "_-13f" (String#16604, DoABC#2)
@@ -332,16 +332,16 @@ package com.sulake.habbo.quest
 // _SafeStr_12258 = "_-2CF" (String#19493, DoABC#2)
 // _SafeStr_12259 = "_-U" (String#23407, DoABC#2)
 // _SafeStr_12260 = "_-0Pq" (String#1467, DoABC#2)
-// QuestsList = "_-2tB" (String#21209, DoABC#2)
-// QuestsList = "_-0F6" (String#14648, DoABC#2)
-// QuestsList = "_-0uc" (String#16225, DoABC#2)
-// QuestsList = "_-2SV" (String#20137, DoABC#2)
-// QuestsList = "_-0he" (String#15733, DoABC#2)
-// QuestsList = "_-2zx" (String#21458, DoABC#2)
+// requestQuests = "_-2tB" (String#21209, DoABC#2)
+// createListEntry = "_-0F6" (String#14648, DoABC#2)
+// refreshDelay = "_-0uc" (String#16225, DoABC#2)
+// onAcceptQuest = "_-2SV" (String#20137, DoABC#2)
+// onCancelQuest = "_-0he" (String#15733, DoABC#2)
+// setEntryHeight = "_-2zx" (String#21458, DoABC#2)
 // getCampaignName = "_-24T" (String#19199, DoABC#2)
 // setupCampaignImage = "_-Ux" (String#23445, DoABC#2)
 // setColor = "_-0-w" (String#3562, DoABC#2)
-// QuestsList = "_-1d3" (String#18016, DoABC#2)
+// refreshEntryQuestDetails = "_-1d3" (String#18016, DoABC#2)
 // getQuestRowTitle = "_-2cY" (String#20547, DoABC#2)
 // getQuestDesc = "_-0-A" (String#14017, DoABC#2)
 // setupQuestImage = "_-1a5" (String#17898, DoABC#2)
@@ -380,7 +380,7 @@ package com.sulake.habbo.quest
 // completedCampaign = "_-35O" (String#21710, DoABC#2)
 // _quests = "_-0jY" (String#4492, DoABC#2)
 // WE_OK = "_-0UB" (String#15212, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 // WE_CANCEL = "_-0gf" (String#15696, DoABC#2)
 
 

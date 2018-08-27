@@ -90,14 +90,14 @@ package com.sulake.core.utils.profiler
         {
             return (this._children.length);
         }
-        public function ProfilerAgentTask(_arg_1:ProfilerAgentTask):void
+        public function addSubTask(_arg_1:ProfilerAgentTask):void
         {
-            if (this.ProfilerAgentTask(_arg_1.name) != null){
+            if (this.getSubTaskByName(_arg_1.name) != null){
                 throw (new Error((('Component profiler task with name "' + _arg_1.name) + '" already exists!')));
             };
             this._children.push(_arg_1);
         }
-        public function ProfilerAgentTask(_arg_1:ProfilerAgentTask):ProfilerAgentTask
+        public function removeSubTask(_arg_1:ProfilerAgentTask):ProfilerAgentTask
         {
             var _local_2:int = this._children.indexOf(_arg_1);
             if (_local_2 > -1){
@@ -105,11 +105,11 @@ package com.sulake.core.utils.profiler
             };
             return (_arg_1);
         }
-        public function ProfilerAgentTask(_arg_1:uint):ProfilerAgentTask
+        public function getSubTaskAt(_arg_1:uint):ProfilerAgentTask
         {
             return ((this._children[_arg_1] as ProfilerAgentTask));
         }
-        public function ProfilerAgentTask(_arg_1:String):ProfilerAgentTask
+        public function getSubTaskByName(_arg_1:String):ProfilerAgentTask
         {
             var _local_4:ProfilerAgentTask;
             var _local_2:uint = this._children.length;
@@ -139,9 +139,9 @@ package com.sulake.core.utils.profiler
 // total = "_-2Ok" (String#19993, DoABC#2)
 // latest = "_-0Hv" (String#14754, DoABC#2)
 // numSubTasks = "_-25m" (String#19249, DoABC#2)
-// ProfilerAgentTask = "_-0mE" (String#15905, DoABC#2)
-// ProfilerAgentTask = "_-dU" (String#23780, DoABC#2)
-// ProfilerAgentTask = "_-2HI" (String#19695, DoABC#2)
-// ProfilerAgentTask = "_-2T5" (String#20167, DoABC#2)
+// addSubTask = "_-0mE" (String#15905, DoABC#2)
+// getSubTaskByName = "_-dU" (String#23780, DoABC#2)
+// removeSubTask = "_-2HI" (String#19695, DoABC#2)
+// getSubTaskAt = "_-2T5" (String#20167, DoABC#2)
 
 

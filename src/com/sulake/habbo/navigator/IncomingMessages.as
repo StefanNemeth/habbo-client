@@ -92,47 +92,47 @@ package com.sulake.habbo.navigator
         {
             this._navigator = _arg_1;
             var _local_2:IHabboCommunicationManager = this._navigator.communication;
-            _local_2.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthOK));
-            _local_2.HabboCommunicationManager(new UserObjectEvent(this.onUserObject));
-            _local_2.HabboCommunicationManager(new UserRightsMessageEvent(this.onUserRights));
-            _local_2.HabboCommunicationManager(new OfficialRoomsEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new GuestRoomSearchResultEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new PopularRoomTagsResultEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomEventEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new CanCreateRoomEventEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEnter));
-            _local_2.HabboCommunicationManager(new CloseConnectionMessageEvent(this.HabboGroupInfoManager));
-            _local_2.HabboCommunicationManager(new GetGuestRoomResultEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new PublicSpaceCastLibsEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FlatCreatedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new ScrSendUserInfoEvent(this.onSubscriptionInfo));
-            _local_2.HabboCommunicationManager(new RoomForwardMessageEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new NavigatorSettingsEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new UserFlatCatsEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomSettingsDataEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomSettingsErrorEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomSettingsSavedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomSettingsSaveErrorEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomInfoUpdatedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomThumbnailUpdateResultEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FavouritesEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FavouriteChangedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FlatControllerAddedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FlatControllerRemovedEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new NoSuchFlatEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new RoomRatingEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new CanCreateRoomEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new GenericErrorEvent(this.onError));
-            _local_2.HabboCommunicationManager(new DoorbellMessageEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FlatAccessibleMessageEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new FlatAccessDeniedMessageEvent(this.IncomingMessages));
-            _local_2.HabboCommunicationManager(new CantConnectMessageEvent(this.IncomingMessages));
+            _local_2.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK));
+            _local_2.addHabboConnectionMessageEvent(new UserObjectEvent(this.onUserObject));
+            _local_2.addHabboConnectionMessageEvent(new UserRightsMessageEvent(this.onUserRights));
+            _local_2.addHabboConnectionMessageEvent(new OfficialRoomsEvent(this.onOfficialRooms));
+            _local_2.addHabboConnectionMessageEvent(new GuestRoomSearchResultEvent(this.onGuestRoomSearchResult));
+            _local_2.addHabboConnectionMessageEvent(new PopularRoomTagsResultEvent(this.onPopularRoomTagsResult));
+            _local_2.addHabboConnectionMessageEvent(new RoomEventEvent(this.onRoomEventEvent));
+            _local_2.addHabboConnectionMessageEvent(new CanCreateRoomEventEvent(this.onCanCreateRoomEventEvent));
+            _local_2.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
+            _local_2.addHabboConnectionMessageEvent(new CloseConnectionMessageEvent(this.onRoomExit));
+            _local_2.addHabboConnectionMessageEvent(new GetGuestRoomResultEvent(this.onRoomInfo));
+            _local_2.addHabboConnectionMessageEvent(new PublicSpaceCastLibsEvent(this.onPublicSpaceCastLibs));
+            _local_2.addHabboConnectionMessageEvent(new FlatCreatedEvent(this.onFlatCreated));
+            _local_2.addHabboConnectionMessageEvent(new ScrSendUserInfoEvent(this.onSubscriptionInfo));
+            _local_2.addHabboConnectionMessageEvent(new RoomForwardMessageEvent(this.onRoomForward));
+            _local_2.addHabboConnectionMessageEvent(new NavigatorSettingsEvent(this.onNavigatorSettings));
+            _local_2.addHabboConnectionMessageEvent(new UserFlatCatsEvent(this.onUserFlatCats));
+            _local_2.addHabboConnectionMessageEvent(new RoomSettingsDataEvent(this.onRoomSettingsData));
+            _local_2.addHabboConnectionMessageEvent(new RoomSettingsErrorEvent(this.onRoomSettingsError));
+            _local_2.addHabboConnectionMessageEvent(new RoomSettingsSavedEvent(this.onRoomSettingsSaved));
+            _local_2.addHabboConnectionMessageEvent(new RoomSettingsSaveErrorEvent(this.onRoomSettingsSaveError));
+            _local_2.addHabboConnectionMessageEvent(new RoomInfoUpdatedEvent(this.onRoomInfoUpdated));
+            _local_2.addHabboConnectionMessageEvent(new RoomThumbnailUpdateResultEvent(this.onThumbnailUpdated));
+            _local_2.addHabboConnectionMessageEvent(new FavouritesEvent(this.onFavourites));
+            _local_2.addHabboConnectionMessageEvent(new FavouriteChangedEvent(this.onFavouriteChanged));
+            _local_2.addHabboConnectionMessageEvent(new FlatControllerAddedEvent(this.onFlatControllerAdded));
+            _local_2.addHabboConnectionMessageEvent(new FlatControllerRemovedEvent(this.onFlatControllerRemoved));
+            _local_2.addHabboConnectionMessageEvent(new NoSuchFlatEvent(this.onNoSuchFlat));
+            _local_2.addHabboConnectionMessageEvent(new RoomRatingEvent(this.onRoomRating));
+            _local_2.addHabboConnectionMessageEvent(new CanCreateRoomEvent(this.onCanCreateRoom));
+            _local_2.addHabboConnectionMessageEvent(new GenericErrorEvent(this.onError));
+            _local_2.addHabboConnectionMessageEvent(new DoorbellMessageEvent(this.onDoorbell));
+            _local_2.addHabboConnectionMessageEvent(new FlatAccessibleMessageEvent(this.onDoorOpened));
+            _local_2.addHabboConnectionMessageEvent(new FlatAccessDeniedMessageEvent(this.onFlatAccessDenied));
+            _local_2.addHabboConnectionMessageEvent(new CantConnectMessageEvent(this.onCantConnect));
         }
         public function get data():NavigatorData
         {
             return (this._navigator.data);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onNoSuchFlat(_arg_1:IMessageEvent):void
         {
         }
         private function onAuthOK(_arg_1:IMessageEvent):void
@@ -155,33 +155,33 @@ package com.sulake.habbo.navigator
                 this._navigator.data.roomPicker = true;
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onOfficialRooms(_arg_1:IMessageEvent):void
         {
             var _local_2:OfficialRoomsMessageParser = OfficialRoomsEvent(_arg_1).getParser();
             this.data.officialRooms = _local_2.data;
             this.data.adRoom = _local_2.adRoom;
             Logger.log(("Received Official rooms: " + this.data.officialRooms.entries.length));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onGuestRoomSearchResult(_arg_1:IMessageEvent):void
         {
             var _local_2:GuestRoomSearchResultData = GuestRoomSearchResultEvent(_arg_1).getParser().data;
             this.data.guestRoomSearchResults = _local_2;
             Logger.log(("Received GuestRoomSearch: " + this.data.guestRoomSearchResults.rooms.length));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onPopularRoomTagsResult(_arg_1:IMessageEvent):void
         {
             var _local_2:PopularRoomTagsData = PopularRoomTagsResultEvent(_arg_1).getParser().data;
             this.data.popularTags = _local_2;
             Logger.log(("Received popular room tags: " + this.data.popularTags.tags.length));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomEventEvent(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomEventMessageParser = RoomEventEvent(_arg_1).getParser();
             Logger.log(((("Got room event: " + _local_2.data.ownerAvatarId) + ", ") + _local_2.data.eventName));
             this.data.roomEventData = (((_local_2.data.ownerAvatarId > 0)) ? _local_2.data : null);
             this._navigator.roomInfoViewCtrl.reload();
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onCanCreateRoomEventEvent(_arg_1:IMessageEvent):void
         {
             var _local_3:SimpleAlertView;
             var _local_2:CanCreateRoomEventMessageParser = CanCreateRoomEventEvent(_arg_1).getParser();
@@ -200,17 +200,17 @@ package com.sulake.habbo.navigator
             var _local_2:RoomEntryInfoMessageParser = RoomEntryInfoMessageEvent(_arg_1).getParser();
             Logger.log("Navigator: entering room");
             this.data.onRoomEnter(_local_2);
-            this.IncomingMessages();
+            this.closeOpenCantConnectAlerts();
             this._navigator.roomInfoViewCtrl.close();
             if (_local_2.privateRoom){
                 this._navigator.send(new GetGuestRoomMessageComposer(_local_2.guestRoomId, true, false));
                 Logger.log("Sent get guest room...");
             }
             else {
-                this.IncomingMessages();
+                this.requestRoomEnterAd();
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomInfo(_arg_1:IMessageEvent):void
         {
             var _local_3:Boolean;
             var _local_2:GetGuestRoomResultMessageParser = GetGuestRoomResultEvent(_arg_1).getParser();
@@ -220,7 +220,7 @@ package com.sulake.habbo.navigator
                 this.data.currentRoomIsStaffPick = _local_2.staffPick;
                 _local_3 = (this.data.createdFlatId == _local_2.data.flatId);
                 if (((!(_local_3)) && (_local_2.data.displayRoomEntryAd))){
-                    this.IncomingMessages();
+                    this.requestRoomEnterAd();
                 };
                 this.data.createdFlatId = 0;
             }
@@ -245,20 +245,20 @@ package com.sulake.habbo.navigator
                 };
             };
         }
-        private function IncomingMessages():void
+        private function requestRoomEnterAd():void
         {
             if ((((this._navigator.configuration.getKey("roomenterad.habblet.enabled") == "true")) && (ExternalInterface.available))){
                 ExternalInterface.call("FlashExternalInterface.openHabblet", "roomenterad", "");
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onPublicSpaceCastLibs(_arg_1:IMessageEvent):void
         {
             var _local_2:PublicSpaceCastLibsMessageParser = PublicSpaceCastLibsEvent(_arg_1).getParser();
             Logger.log(((((("Got public space cast libs: " + _local_2.nodeId) + ", ") + _local_2.unitPort) + ", ") + _local_2.castLibs));
             this._navigator.data.publicSpaceNodeId = _local_2.nodeId;
             this._navigator.goToPublicSpace(_local_2.unitPort, _local_2.castLibs);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFlatCreated(_arg_1:IMessageEvent):void
         {
             var _local_2:FlatCreatedMessageParser = FlatCreatedEvent(_arg_1).getParser();
             ErrorReportStorage.addDebugData("IncomingEvent", ((("Flat created: " + _local_2.flatId) + ", ") + _local_2.flatName));
@@ -272,13 +272,13 @@ package com.sulake.habbo.navigator
             Logger.log(((((((((("Got subscription info: " + _local_2.productName) + ", ") + _local_2.daysToPeriodEnd) + ", ") + _local_2.memberPeriods) + ", ") + _local_2.periodsSubscribedAhead) + ", ") + _local_2.responseType));
             this.data.hcMember = (_local_2.daysToPeriodEnd > 0);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomForward(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomForwardMessageParser = RoomForwardMessageEvent(_arg_1).getParser();
             Logger.log(((("Got room forward: " + _local_2.publicRoom) + ", ") + _local_2.roomId));
-            this.IncomingMessages(_local_2.publicRoom, _local_2.roomId);
+            this.forwardToRoom(_local_2.publicRoom, _local_2.roomId);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onNavigatorSettings(_arg_1:IMessageEvent):void
         {
             var _local_6:Boolean;
             var _local_7:Boolean;
@@ -307,12 +307,12 @@ package com.sulake.habbo.navigator
                 };
                 if (_local_4 == 2){
                     Logger.log(("Guest room forward on enter: " + _local_5));
-                    this.IncomingMessages(false, _local_5);
+                    this.forwardToRoom(false, _local_5);
                 }
                 else {
                     if (_local_4 == 1){
                         Logger.log(("Public room forward on enter: " + _local_5));
-                        this.IncomingMessages(true, _local_5);
+                        this.forwardToRoom(true, _local_5);
                     }
                     else {
                         if (_local_4 == -1){
@@ -323,41 +323,41 @@ package com.sulake.habbo.navigator
                         };
                     };
                 };
-                if (((_local_6) && (!(this._navigator.mainViewCtrl.IssueBrowser())))){
-                    this._navigator.mainViewCtrl.MainViewCtrl();
+                if (((_local_6) && (!(this._navigator.mainViewCtrl.isOpen())))){
+                    this._navigator.mainViewCtrl.onNavigatorToolBarIconClick();
                 };
             }
             else {
                 this._navigator.roomInfoViewCtrl.reload();
             };
         }
-        private function HabboGroupInfoManager(_arg_1:IMessageEvent):void
+        private function onRoomExit(_arg_1:IMessageEvent):void
         {
             Logger.log("Navigator: exiting room");
-            this.data.HabboGroupInfoManager();
+            this.data.onRoomExit();
             this._navigator.roomInfoViewCtrl.close();
-            if (!this._navigator.mainViewCtrl.IssueBrowser()){
-                this._navigator.mainViewCtrl.MainViewCtrl();
+            if (!this._navigator.mainViewCtrl.isOpen()){
+                this._navigator.mainViewCtrl.onNavigatorToolBarIconClick();
             };
             if (ExternalInterface.available){
                 ExternalInterface.call("FlashExternalInterface.openHabblet", "news");
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onUserFlatCats(_arg_1:IMessageEvent):void
         {
             var _local_2:UserFlatCatsMessageParser = (_arg_1 as UserFlatCatsEvent).getParser();
             this._navigator.data.categories = _local_2.nodes;
             var _local_3:RoomsTabPageDecorator = RoomsTabPageDecorator(this._navigator.tabs.getTab(Tabs._SafeStr_4288).tabPageDecorator);
             _local_3.prepareRoomCategories();
         }
-        private function IncomingMessages(event:IMessageEvent):void
+        private function onRoomSettingsData(event:IMessageEvent):void
         {
             var parser:RoomSettingsDataMessageParser;
             var ctrl:RoomSettingsCtrl;
             try {
                 parser = (event as RoomSettingsDataEvent).getParser();
                 for each (ctrl in this._navigator.roomSettingsCtrls) {
-                    ctrl.RoomSettingsCtrl(parser.data);
+                    ctrl.onRoomSettings(parser.data);
                 };
                 Logger.log(((((("GOT ROOM SETTINGS DATA: " + parser.data.name) + ", ") + parser.data.maximumVisitors) + ", ") + parser.data.maximumVisitorsLimit));
             }
@@ -365,48 +365,48 @@ package com.sulake.habbo.navigator
                 Logger.log("CRASHED WHILE PROCESSING ROOM SETTINGS DATA!");
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomSettingsError(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomSettingsErrorMessageParser = (_arg_1 as RoomSettingsErrorEvent).getParser();
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomSettingsSaved(_arg_1:IMessageEvent):void
         {
             var _local_3:RoomSettingsCtrl;
             var _local_2:RoomSettingsSavedMessageParser = (_arg_1 as RoomSettingsSavedEvent).getParser();
             ErrorReportStorage.addDebugData("IncomingEvent", ("Room settings saved: " + _local_2.roomId));
             for each (_local_3 in this._navigator.roomSettingsCtrls) {
-                _local_3.IncomingMessages(_local_2.roomId);
+                _local_3.onRoomSettingsSaved(_local_2.roomId);
             };
             this._navigator.mainViewCtrl.reloadRoomList(Tabs._SafeStr_4301);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomSettingsSaveError(_arg_1:IMessageEvent):void
         {
             var _local_3:RoomSettingsCtrl;
             var _local_2:RoomSettingsSaveErrorMessageParser = (_arg_1 as RoomSettingsSaveErrorEvent).getParser();
             for each (_local_3 in this._navigator.roomSettingsCtrls) {
-                _local_3.IncomingMessages(_local_2.roomId, _local_2.errorCode, _local_2.info);
+                _local_3.onRoomSettingsSaveError(_local_2.roomId, _local_2.errorCode, _local_2.info);
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomInfoUpdated(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomInfoUpdatedMessageParser = (_arg_1 as RoomInfoUpdatedEvent).getParser();
             Logger.log(("ROOM UPDATED: " + _local_2.flatId));
             this._navigator.send(new GetGuestRoomMessageComposer(_local_2.flatId, false, false));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onThumbnailUpdated(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomThumbnailUpdateResultMessageParser = (_arg_1 as RoomThumbnailUpdateResultEvent).getParser();
             Logger.log(("THUMBNAIL UPDATED: " + _local_2.resultCode));
             this._navigator.roomInfoViewCtrl.backToRoomSettings();
             this._navigator.send(new GetGuestRoomMessageComposer(_local_2.flatId, false, false));
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFavourites(_arg_1:IMessageEvent):void
         {
             var _local_2:FavouritesMessageParser = (_arg_1 as FavouritesEvent).getParser();
             Logger.log(((("Received favourites: " + _local_2.limit) + ", ") + _local_2.favouriteRoomIds.length));
-            this._navigator.data.IncomingMessages(_local_2);
+            this._navigator.data.onFavourites(_local_2);
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFavouriteChanged(_arg_1:IMessageEvent):void
         {
             var _local_2:FavouriteChangedMessageParser = (_arg_1 as FavouriteChangedEvent).getParser();
             Logger.log(((("Received favourite changed: " + _local_2.flatId) + ", ") + _local_2.added));
@@ -414,7 +414,7 @@ package com.sulake.habbo.navigator
             this._navigator.roomInfoViewCtrl.reload();
             this._navigator.mainViewCtrl.refresh();
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onCanCreateRoom(_arg_1:IMessageEvent):void
         {
             var _local_3:AlertView;
             var _local_2:CanCreateRoomMessageParser = (_arg_1 as CanCreateRoomEvent).getParser();
@@ -433,22 +433,22 @@ package com.sulake.habbo.navigator
                 _local_3.show();
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFlatControllerAdded(_arg_1:IMessageEvent):void
         {
             var _local_3:RoomSettingsCtrl;
             var _local_2:FlatControllerAddedMessageParser = (_arg_1 as FlatControllerAddedEvent).getParser();
             Logger.log(((((("Flat controller added: " + _local_2.flatId) + ", ") + _local_2.data.userId) + ", ") + _local_2.data.userName));
             for each (_local_3 in this._navigator.roomSettingsCtrls) {
-                _local_3.IncomingMessages(_local_2.flatId, _local_2.data);
+                _local_3.onFlatControllerAdded(_local_2.flatId, _local_2.data);
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFlatControllerRemoved(_arg_1:IMessageEvent):void
         {
             var _local_3:RoomSettingsCtrl;
             var _local_2:FlatControllerRemovedMessageParser = (_arg_1 as FlatControllerRemovedEvent).getParser();
             Logger.log(((("Flat controller removed: " + _local_2.flatId) + ", ") + _local_2.userId));
             for each (_local_3 in this._navigator.roomSettingsCtrls) {
-                _local_3.IncomingMessages(_local_2.flatId, _local_2.userId);
+                _local_3.onFlatControllerRemoved(_local_2.flatId, _local_2.userId);
             };
         }
         private function onError(_arg_1:IMessageEvent):void
@@ -463,7 +463,7 @@ package com.sulake.habbo.navigator
                     return;
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onDoorbell(_arg_1:IMessageEvent):void
         {
             var _local_2:DoorbellMessageEvent = (_arg_1 as DoorbellMessageEvent);
             if (_local_2 == null){
@@ -474,7 +474,7 @@ package com.sulake.habbo.navigator
             };
             this._navigator.doorbell.showWaiting();
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onDoorOpened(_arg_1:IMessageEvent):void
         {
             var _local_2:FlatAccessibleMessageEvent = (_arg_1 as FlatAccessibleMessageEvent);
             if (_local_2 == null){
@@ -485,26 +485,26 @@ package com.sulake.habbo.navigator
                 this._navigator.doorbell.hide();
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onRoomRating(_arg_1:IMessageEvent):void
         {
             var _local_2:RoomRatingMessageParser = (_arg_1 as RoomRatingEvent).getParser();
             Logger.log(("Received room rating: " + _local_2.rating));
             this._navigator.data.currentRoomRating = _local_2.rating;
             this._navigator.roomInfoViewCtrl.reload();
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onFlatAccessDenied(_arg_1:IMessageEvent):void
         {
             var _local_2:FlatAccessDeniedMessageParser = (_arg_1 as FlatAccessDeniedMessageEvent).getParser();
             if ((((_local_2.userName == null)) || ((_local_2.userName == "")))){
                 this._navigator.doorbell.showNoAnswer();
             };
         }
-        private function IncomingMessages(_arg_1:Boolean, _arg_2:int):void
+        private function forwardToRoom(_arg_1:Boolean, _arg_2:int):void
         {
             this._navigator.send(((_arg_1) ? new GetPublicSpaceCastLibsMessageComposer(_arg_2) : new GetGuestRoomMessageComposer(_arg_2, false, true)));
             this._navigator.trackNavigationDataPoint("Room Forward", "go.roomforward", "", _arg_2);
         }
-        private function IncomingMessages():void
+        private function closeOpenCantConnectAlerts():void
         {
             var _local_1:Array;
             var _local_2:IWindowContext;
@@ -527,7 +527,7 @@ package com.sulake.habbo.navigator
                 };
                 if (_local_1.length > 0){
                     for each (_local_6 in _local_1) {
-                        _local_7 = AlertView.AlertView(_local_6);
+                        _local_7 = AlertView.findAlertView(_local_6);
                         if (_local_7 != null){
                             _local_7.dispose();
                         };
@@ -535,7 +535,7 @@ package com.sulake.habbo.navigator
                 };
             };
         }
-        private function IncomingMessages(_arg_1:IMessageEvent):void
+        private function onCantConnect(_arg_1:IMessageEvent):void
         {
             var _local_3:SimpleAlertView;
             var _local_2:CantConnectMessageParser = (_arg_1 as CantConnectMessageEvent).getParser();
@@ -567,39 +567,39 @@ package com.sulake.habbo.navigator
 // keyExists = "_-2ME" (String#6487, DoABC#2)
 // onAuthOK = "_-lL" (String#2177, DoABC#2)
 // onUserObject = "_-2A9" (String#617, DoABC#2)
-// IncomingMessages = "_-az" (String#2136, DoABC#2)
-// IncomingMessages = "_-0X3" (String#4251, DoABC#2)
-// IncomingMessages = "_-0Sp" (String#15162, DoABC#2)
-// IncomingMessages = "_-1F2" (String#17073, DoABC#2)
-// IncomingMessages = "_-2tQ" (String#21217, DoABC#2)
-// IncomingMessages = "_-bv" (String#23710, DoABC#2)
-// IncomingMessages = "_-0wQ" (String#16288, DoABC#2)
-// IncomingMessages = "_-2s9" (String#21164, DoABC#2)
-// IncomingMessages = "_-2TZ" (String#20184, DoABC#2)
-// IncomingMessages = "_-0uy" (String#16237, DoABC#2)
-// IncomingMessages = "_-2nK" (String#20972, DoABC#2)
-// IncomingMessages = "_-11e" (String#16522, DoABC#2)
-// IncomingMessages = "_-0qN" (String#16065, DoABC#2)
-// IncomingMessages = "_-1mi" (String#18409, DoABC#2)
-// IncomingMessages = "_-2AS" (String#19425, DoABC#2)
-// IncomingMessages = "_-11T" (String#16516, DoABC#2)
-// IncomingMessages = "_-te" (String#24433, DoABC#2)
-// IncomingMessages = "_-bi" (String#23701, DoABC#2)
-// IncomingMessages = "_-1zk" (String#18957, DoABC#2)
-// IncomingMessages = "_-1QL" (String#17526, DoABC#2)
-// IncomingMessages = "_-2UL" (String#20213, DoABC#2)
+// onRoomInfo = "_-az" (String#2136, DoABC#2)
+// onPublicSpaceCastLibs = "_-0X3" (String#4251, DoABC#2)
+// onOfficialRooms = "_-0Sp" (String#15162, DoABC#2)
+// onGuestRoomSearchResult = "_-1F2" (String#17073, DoABC#2)
+// onPopularRoomTagsResult = "_-2tQ" (String#21217, DoABC#2)
+// onRoomEventEvent = "_-bv" (String#23710, DoABC#2)
+// onCanCreateRoomEventEvent = "_-0wQ" (String#16288, DoABC#2)
+// onFlatCreated = "_-2s9" (String#21164, DoABC#2)
+// onRoomForward = "_-2TZ" (String#20184, DoABC#2)
+// onNavigatorSettings = "_-0uy" (String#16237, DoABC#2)
+// onUserFlatCats = "_-2nK" (String#20972, DoABC#2)
+// onRoomSettingsData = "_-11e" (String#16522, DoABC#2)
+// onRoomSettingsError = "_-0qN" (String#16065, DoABC#2)
+// onRoomInfoUpdated = "_-1mi" (String#18409, DoABC#2)
+// onThumbnailUpdated = "_-2AS" (String#19425, DoABC#2)
+// onFavouriteChanged = "_-11T" (String#16516, DoABC#2)
+// onNoSuchFlat = "_-te" (String#24433, DoABC#2)
+// onRoomRating = "_-bi" (String#23701, DoABC#2)
+// onCanCreateRoom = "_-1zk" (String#18957, DoABC#2)
+// onDoorOpened = "_-1QL" (String#17526, DoABC#2)
+// onCantConnect = "_-2UL" (String#20213, DoABC#2)
 // onAuthOk = "_-0iC" (String#15758, DoABC#2)
 // _SafeStr_11990 = "_-1wS" (String#18819, DoABC#2)
 // _SafeStr_11991 = "_-2W9" (String#20288, DoABC#2)
-// IncomingMessages = "_-2tZ" (String#21223, DoABC#2)
-// IncomingMessages = "_-LX" (String#23064, DoABC#2)
+// closeOpenCantConnectAlerts = "_-2tZ" (String#21223, DoABC#2)
+// requestRoomEnterAd = "_-LX" (String#23064, DoABC#2)
 // goToPublicSpace = "_-080" (String#14367, DoABC#2)
-// IncomingMessages = "_-0u6" (String#16207, DoABC#2)
+// forwardToRoom = "_-0u6" (String#16207, DoABC#2)
 // roomCreateViewCtrl = "_-0RP" (String#15117, DoABC#2)
 // showRetry = "_-0pv" (String#16049, DoABC#2)
 // showWaiting = "_-0jH" (String#15802, DoABC#2)
 // showNoAnswer = "_-45" (String#22381, DoABC#2)
-// AlertView = "_-3F7" (String#22083, DoABC#2)
+// findAlertView = "_-3F7" (String#22083, DoABC#2)
 // ScrSendUserInfoEvent = "_-202" (String#6048, DoABC#2)
 // ScrSendUserInfoMessageParser = "_-1vA" (String#18764, DoABC#2)
 // IncomingMessages = "_-2Xb" (String#216, DoABC#2)
@@ -696,17 +696,17 @@ package com.sulake.habbo.navigator
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // homeRoomId = "_-0jF" (String#15801, DoABC#2)
 // popularTags = "_-dQ" (String#23778, DoABC#2)
-// MainViewCtrl = "_-2Ic" (String#19751, DoABC#2)
+// onNavigatorToolBarIconClick = "_-2Ic" (String#19751, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
 // tabPageDecorator = "_-09G" (String#14418, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // getTab = "_-0mC" (String#15903, DoABC#2)
 // _SafeStr_4288 = "_-1Ja" (String#17261, DoABC#2)
 // reloadRoomList = "_-1n6" (String#18428, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
 // _SafeStr_4301 = "_-1o0" (String#18463, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // onError = "_-1cU" (String#1723, DoABC#2)
 // maximumVisitors = "_-1Ex" (String#17069, DoABC#2)
 // maximumVisitorsLimit = "_-S3" (String#23327, DoABC#2)
@@ -718,19 +718,19 @@ package com.sulake.habbo.navigator
 // backToRoomSettings = "_-fe" (String#23873, DoABC#2)
 // roomInfoViewCtrl = "_-HS" (String#22911, DoABC#2)
 // reload = "_-3AK" (String#7519, DoABC#2)
-// IncomingMessages = "_-nT" (String#8667, DoABC#2)
-// IncomingMessages = "_-1qT" (String#5863, DoABC#2)
+// onDoorbell = "_-nT" (String#8667, DoABC#2)
+// onFlatAccessDenied = "_-1qT" (String#5863, DoABC#2)
 // displayRoomEntryAd = "_-2mS" (String#20938, DoABC#2)
 // ownerAvatarId = "_-34" (String#21657, DoABC#2)
 // eventName = "_-1tL" (String#18690, DoABC#2)
 // unitPort = "_-2js" (String#20840, DoABC#2)
 // prepareRoomCategories = "_-1PU" (String#17488, DoABC#2)
 // trackNavigationDataPoint = "_-17A" (String#16741, DoABC#2)
-// RoomSettingsCtrl = "_-1Tg" (String#17652, DoABC#2)
-// IncomingMessages = "_-9F" (String#7848, DoABC#2)
-// IncomingMessages = "_-MZ" (String#8134, DoABC#2)
-// IncomingMessages = "_-1-A" (String#4849, DoABC#2)
-// IncomingMessages = "_-0Fh" (String#3867, DoABC#2)
+// onRoomSettings = "_-1Tg" (String#17652, DoABC#2)
+// onFlatControllerAdded = "_-9F" (String#7848, DoABC#2)
+// onFlatControllerRemoved = "_-MZ" (String#8134, DoABC#2)
+// onRoomSettingsSaved = "_-1-A" (String#4849, DoABC#2)
+// onRoomSettingsSaveError = "_-0Fh" (String#3867, DoABC#2)
 // goToHomeRoom = "_-LH" (String#8108, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // enterRoom = "_-Lu" (String#23077, DoABC#2)
@@ -758,12 +758,12 @@ package com.sulake.habbo.navigator
 // _SafeStr_8512 = "_-2ja" (String#20829, DoABC#2)
 // _SafeStr_8513 = "_-xJ" (String#24581, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 // enteredRoom = "_-7F" (String#22511, DoABC#2)
 // hcMember = "_-Pz" (String#23249, DoABC#2)
 // createdFlatId = "_-0bB" (String#15484, DoABC#2)
 // settingsReceived = "_-197" (String#16822, DoABC#2)
-// IncomingMessages = "_-2ms" (String#7018, DoABC#2)
+// onFavourites = "_-2ms" (String#7018, DoABC#2)
 // favouriteChanged = "_-GF" (String#22861, DoABC#2)
 
 

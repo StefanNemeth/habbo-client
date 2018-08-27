@@ -124,7 +124,7 @@ package com.sulake.core.window.graphics
                         _local_17.width_max = ((_local_5.@width_max[0]) ? int(_local_5.@width_max[0]) : int.MAX_VALUE);
                         _local_17.height_min = ((_local_5.@height_min[0]) ? int(_local_5.@height_min[0]) : int.MIN_VALUE);
                         _local_17.height_max = ((_local_5.@height_max[0]) ? int(_local_5.@height_max[0]) : int.MAX_VALUE);
-                        this.SkinContainer(this._SafeStr_9569[_local_7], uint(_local_8), _local_14, _local_17);
+                        this.addSkinRenderer(this._SafeStr_9569[_local_7], uint(_local_8), _local_14, _local_17);
                         _local_18++;
                     };
                 };
@@ -141,7 +141,7 @@ package com.sulake.core.window.graphics
             this._assetLibrary = null;
             this._disposed = true;
         }
-        public function SkinContainer(_arg_1:uint, _arg_2:uint, _arg_3:ISkinRenderer, _arg_4:DefaultAttStruct):void
+        public function addSkinRenderer(_arg_1:uint, _arg_2:uint, _arg_3:ISkinRenderer, _arg_4:DefaultAttStruct):void
         {
             if (this._SafeStr_9566[_arg_1] == null){
                 this._SafeStr_9566[_arg_1] = new Array(_SafeStr_9559);
@@ -239,6 +239,6 @@ package com.sulake.core.window.graphics
 // _SafeStr_9572 = "_-2kM" (String#20860, DoABC#2)
 // fillTables = "_-15n" (String#16687, DoABC#2)
 // _SafeStr_9574 = "_-2pO" (String#21053, DoABC#2)
-// SkinContainer = "_-08E" (String#14373, DoABC#2)
+// addSkinRenderer = "_-08E" (String#14373, DoABC#2)
 
 

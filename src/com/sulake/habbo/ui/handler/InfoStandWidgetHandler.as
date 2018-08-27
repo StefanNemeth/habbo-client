@@ -74,7 +74,7 @@ package com.sulake.habbo.ui.handler
             super();
             this._musicController = _arg_1;
             if (this._musicController != null){
-                this._musicController.events.addEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.InfoStandWidgetHandler);
+                this._musicController.events.addEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.onNowPlayingChanged);
                 this._musicController.events.addEventListener(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, this.onSongInfoReceivedEvent);
             };
         }
@@ -98,14 +98,14 @@ package com.sulake.habbo.ui.handler
         {
             if (this._container != null){
                 if (this._container.sessionDataManager != null){
-                    this._container.sessionDataManager.events.removeEventListener(UserTagsReceivedEvent.RWUTUE_USER_TAGS, this.InfostandWidget);
-                    this._container.sessionDataManager.events.removeEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.InfostandWidget);
+                    this._container.sessionDataManager.events.removeEventListener(UserTagsReceivedEvent.RWUTUE_USER_TAGS, this.onUserTags);
+                    this._container.sessionDataManager.events.removeEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeImage);
                 };
                 if (this._container.roomSessionManager != null){
                     this._container.roomSessionManager.events.removeEventListener(RoomSessionUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.onFigureUpdate);
-                    this._container.roomSessionManager.events.removeEventListener(RoomSessionPetInfoUpdateEvent.PET_INFO, this.InfostandWidget);
+                    this._container.roomSessionManager.events.removeEventListener(RoomSessionPetInfoUpdateEvent.PET_INFO, this.onPetInfo);
                     this._container.roomSessionManager.events.removeEventListener(RoomSessionPetCommandsUpdateEvent.PET_COMMANDS, this.onPetCommands);
-                    this._container.roomSessionManager.events.removeEventListener(RoomSessionFavouriteGroupUpdateEvent._SafeStr_4800, this.InfoStandWidgetHandler);
+                    this._container.roomSessionManager.events.removeEventListener(RoomSessionFavouriteGroupUpdateEvent._SafeStr_4800, this.onFavouriteGroupUpdated);
                 };
             };
             this._container = _arg_1;
@@ -113,14 +113,14 @@ package com.sulake.habbo.ui.handler
                 return;
             };
             if (this._container.sessionDataManager != null){
-                this._container.sessionDataManager.events.addEventListener(UserTagsReceivedEvent.RWUTUE_USER_TAGS, this.InfostandWidget);
-                this._container.sessionDataManager.events.addEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.InfostandWidget);
+                this._container.sessionDataManager.events.addEventListener(UserTagsReceivedEvent.RWUTUE_USER_TAGS, this.onUserTags);
+                this._container.sessionDataManager.events.addEventListener(BadgeImageReadyEvent.BIRE_BADGE_IMAGE_READY, this.onBadgeImage);
             };
             if (this._container.roomSessionManager != null){
                 this._container.roomSessionManager.events.addEventListener(RoomSessionUserFigureUpdateEvent.RWUTUE_USER_FIGURE, this.onFigureUpdate);
-                this._container.roomSessionManager.events.addEventListener(RoomSessionPetInfoUpdateEvent.PET_INFO, this.InfostandWidget);
+                this._container.roomSessionManager.events.addEventListener(RoomSessionPetInfoUpdateEvent.PET_INFO, this.onPetInfo);
                 this._container.roomSessionManager.events.addEventListener(RoomSessionPetCommandsUpdateEvent.PET_COMMANDS, this.onPetCommands);
-                this._container.roomSessionManager.events.addEventListener(RoomSessionFavouriteGroupUpdateEvent._SafeStr_4800, this.InfoStandWidgetHandler);
+                this._container.roomSessionManager.events.addEventListener(RoomSessionFavouriteGroupUpdateEvent._SafeStr_4800, this.onFavouriteGroupUpdated);
             };
         }
         public function dispose():void
@@ -141,14 +141,14 @@ package com.sulake.habbo.ui.handler
                 this._SafeStr_7318 = null;
             };
             if (this._musicController != null){
-                this._musicController.events.removeEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.InfoStandWidgetHandler);
+                this._musicController.events.removeEventListener(NowPlayingEvent.RWPLENPE_SONG_CHANGED, this.onNowPlayingChanged);
                 this._musicController.events.removeEventListener(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, this.onSongInfoReceivedEvent);
                 this._musicController = null;
             };
             this._disposed = true;
             this.container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetRoomObjectMessage.RWROM_GET_OBJECT_INFO);
@@ -238,9 +238,9 @@ package com.sulake.habbo.ui.handler
             };
             switch (_arg_1.type){
                 case RoomWidgetRoomObjectMessage.RWROM_GET_OBJECT_INFO:
-                    return (this.InfoStandWidgetHandler((_arg_1 as RoomWidgetRoomObjectMessage)));
+                    return (this.handleGetObjectInfoMessage((_arg_1 as RoomWidgetRoomObjectMessage)));
                 case RoomWidgetRoomObjectMessage.RWROM_GET_OBJECT_NAME:
-                    return (this.InfoStandWidgetHandler((_arg_1 as RoomWidgetRoomObjectMessage)));
+                    return (this.handleGetObjectNameMessage((_arg_1 as RoomWidgetRoomObjectMessage)));
                 case RoomWidgetUserActionMessage.RWUAM_SEND_FRIEND_REQUEST:
                     this._container.friendList.askForAFriend(_local_2, _local_3.name);
                     break;
@@ -255,44 +255,44 @@ package com.sulake.habbo.ui.handler
                     this._container.events.dispatchEvent(_local_8);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_IGNORE_USER:
-                    this._container.sessionDataManager.SessionDataManager(_local_3.name);
+                    this._container.sessionDataManager.ignoreUser(_local_3.name);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_UNIGNORE_USER:
-                    this._container.sessionDataManager.SessionDataManager(_local_3.name);
+                    this._container.sessionDataManager.unignoreUser(_local_3.name);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_KICK_USER:
-                    this._container.roomSession.RoomSession(_local_3.webID);
+                    this._container.roomSession.kickUser(_local_3.webID);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_BAN_USER:
-                    this._container.roomSession.RoomSession(_local_3.webID);
+                    this._container.roomSession.banUser(_local_3.webID);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_GIVE_RIGHTS:
-                    this._container.roomSession.RoomSession(_local_3.webID);
+                    this._container.roomSession.assignRights(_local_3.webID);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_TAKE_RIGHTS:
-                    this._container.roomSession.RoomSession(_local_3.webID);
+                    this._container.roomSession.removeRights(_local_3.webID);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_START_TRADING:
                     _local_9 = this._container.roomSession.userDataManager.getUserData(_local_4.userId);
-                    this._container.inventory.HabboInventory(_local_9.id, _local_9.name);
+                    this._container.inventory.setupTrading(_local_9.id, _local_9.name);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_OPEN_HOME_PAGE:
-                    this._container.sessionDataManager.SessionDataManager(_local_3.webID);
+                    this._container.sessionDataManager.openHabboHomePage(_local_3.webID);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_PICKUP_PET:
-                    this._container.roomSession.RoomSession(_local_2);
+                    this._container.roomSession.pickUpPet(_local_2);
                     break;
                 case RoomWidgetFurniActionMessage.RWFUAM_ROTATE:
-                    this._container.roomEngine.RoomEngine(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_ROTATE_POSITIVE);
+                    this._container.roomEngine.modifyRoomObject(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_ROTATE_POSITIVE);
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_MOVE:
-                    this._container.roomEngine.RoomEngine(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_MOVE);
+                    this._container.roomEngine.modifyRoomObject(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_MOVE);
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_PICKUP:
-                    this._container.roomEngine.RoomEngine(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_PICKUP);
+                    this._container.roomEngine.modifyRoomObject(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_PICKUP);
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_USE:
-                    this._container.roomEngine.RoomEngine(_local_5, _local_6);
+                    this._container.roomEngine.useRoomObjectInActiveRoom(_local_5, _local_6);
                     break;
                 case RoomWidgetFurniActionMessage.RWFAM_SAVE_STUFF_DATA:
                     _local_10 = _local_7.objectData;
@@ -309,7 +309,7 @@ package com.sulake.habbo.ui.handler
                                 };
                             };
                         };
-                        this._container.roomEngine.RoomEngine(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_SAVE_STUFF_DATA, _local_18);
+                        this._container.roomEngine.modifyRoomObjectDataWithMap(_local_5, _local_6, RoomObjectOperationEnum.OBJECT_SAVE_STUFF_DATA, _local_18);
                         if (!_local_18.disposed){
                             _local_18.dispose();
                         };
@@ -332,20 +332,20 @@ package com.sulake.habbo.ui.handler
                     if (_local_12 == null){
                         return (null);
                     };
-                    this._container.sessionDataManager.InfoStandUserView(_local_12.groupId);
+                    this._container.sessionDataManager.showGroupBadgeInfo(_local_12.groupId);
                     break;
                 case RoomWidgetGetBadgeImageMessage.RWGOI_MESSAGE_GET_BADGE_IMAGE:
                     _local_13 = (_arg_1 as RoomWidgetGetBadgeImageMessage);
                     if (_local_13 == null){
                         return (null);
                     };
-                    _local_14 = this._container.sessionDataManager.SessionDataManager(_local_13.badgeId);
+                    _local_14 = this._container.sessionDataManager.getBadgeImage(_local_13.badgeId);
                     if (_local_14 != null){
                         this._container.events.dispatchEvent(new RoomWidgetBadgeImageUpdateEvent(_local_13.badgeId, _local_14));
                     };
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_KICK_BOT:
-                    this._container.roomSession.RoomSession(_local_2);
+                    this._container.roomSession.kickBot(_local_2);
                     break;
                 case RoomWidgetUserActionMessage.RWUAM_REPORT:
                     if ((((this._container == null)) || ((this._container.habboHelp == null)))) break;
@@ -354,20 +354,20 @@ package com.sulake.habbo.ui.handler
                     break;
                 case RoomWidgetPetCommandMessage.RWPCM_REQUEST_PET_COMMANDS:
                     _local_15 = (_arg_1 as RoomWidgetPetCommandMessage);
-                    this._container.roomSession.RoomSession(_local_15.petId);
+                    this._container.roomSession.requestPetCommands(_local_15.petId);
                     break;
                 case RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND:
                     _local_16 = (_arg_1 as RoomWidgetPetCommandMessage);
-                    this._container.roomSession.RoomSession(_local_16.value);
+                    this._container.roomSession.sendChatMessage(_local_16.value);
                     break;
                 case RoomWidgetChangeMottoMessage.RWVM_CHANGE_MOTTO_MESSAGE:
                     _local_17 = (_arg_1 as RoomWidgetChangeMottoMessage);
-                    this._container.roomSession.RoomSession(_local_17.motto);
+                    this._container.roomSession.sendChangeMottoMessage(_local_17.motto);
                     break;
             };
             return (null);
         }
-        private function InfoStandWidgetHandler(_arg_1:RoomWidgetRoomObjectMessage):RoomWidgetUpdateEvent
+        private function handleGetObjectNameMessage(_arg_1:RoomWidgetRoomObjectMessage):RoomWidgetUpdateEvent
         {
             var _local_2:int;
             var _local_3:int;
@@ -388,7 +388,7 @@ package com.sulake.habbo.ui.handler
                     if ((((this._container.events == null)) || ((this._container.roomEngine == null)))){
                         return (null);
                     };
-                    _local_7 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2, _local_3, _arg_1.id, _arg_1.category);
+                    _local_7 = this._container.roomEngine.getRoomObject(_local_2, _local_3, _arg_1.id, _arg_1.category);
                     _local_8 = _local_7.getType();
                     if (_local_8.indexOf("poster") == 0){
                         _local_10 = int(_local_8.replace("poster", ""));
@@ -399,11 +399,11 @@ package com.sulake.habbo.ui.handler
                     else {
                         _local_11 = _local_7.getModel().getNumber(RoomObjectVariableEnum._SafeStr_7294);
                         if (_arg_1.category == RoomObjectCategoryEnum._SafeStr_4329){
-                            _local_12 = this._container.sessionDataManager.SessionDataManager(_local_11);
+                            _local_12 = this._container.sessionDataManager.getFloorItemData(_local_11);
                         }
                         else {
                             if (_arg_1.category == RoomObjectCategoryEnum._SafeStr_4330){
-                                _local_12 = this._container.sessionDataManager.SessionDataManager(_local_11);
+                                _local_12 = this._container.sessionDataManager.getWallItemData(_local_11);
                             };
                         };
                         if (_local_12 == null){
@@ -432,7 +432,7 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        private function InfoStandWidgetHandler(_arg_1:RoomWidgetRoomObjectMessage):RoomWidgetUpdateEvent
+        private function handleGetObjectInfoMessage(_arg_1:RoomWidgetRoomObjectMessage):RoomWidgetUpdateEvent
         {
             var _local_2:int;
             var _local_3:int;
@@ -486,11 +486,11 @@ package com.sulake.habbo.ui.handler
                         return (null);
                     };
                     _local_4 = 4282203453;
-                    _local_5 = this._container.roomEngine.RoomEngine(_local_2, _local_3, _arg_1.id, _arg_1.category, new Vector3d(180), 32, null, _local_4);
+                    _local_5 = this._container.roomEngine.getRoomObjectImage(_local_2, _local_3, _arg_1.id, _arg_1.category, new Vector3d(180), 32, null, _local_4);
                     _local_6 = new RoomWidgetFurniInfoUpdateEvent(RoomWidgetFurniInfoUpdateEvent.RWFIUE_FURNI);
                     _local_6.id = _arg_1.id;
                     _local_6.category = _arg_1.category;
-                    _local_7 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2, _local_3, _arg_1.id, _arg_1.category);
+                    _local_7 = this._container.roomEngine.getRoomObject(_local_2, _local_3, _arg_1.id, _arg_1.category);
                     _local_8 = _local_7.getModel();
                     if (_local_8.getString(RoomWidgetInfostandExtraParamEnum.RWEIEP_INFOSTAND_EXTRA_PARAM) != null){
                         _local_6.extraParam = _local_8.getString(RoomWidgetInfostandExtraParamEnum.RWEIEP_INFOSTAND_EXTRA_PARAM);
@@ -509,11 +509,11 @@ package com.sulake.habbo.ui.handler
                     else {
                         _local_24 = _local_8.getNumber(RoomObjectVariableEnum._SafeStr_7294);
                         if (_arg_1.category == RoomObjectCategoryEnum._SafeStr_4329){
-                            _local_25 = this._container.sessionDataManager.SessionDataManager(_local_24);
+                            _local_25 = this._container.sessionDataManager.getFloorItemData(_local_24);
                         }
                         else {
                             if (_arg_1.category == RoomObjectCategoryEnum._SafeStr_4330){
-                                _local_25 = this._container.sessionDataManager.SessionDataManager(_local_24);
+                                _local_25 = this._container.sessionDataManager.getWallItemData(_local_24);
                             };
                         };
                         if (_local_25 != null){
@@ -601,7 +601,7 @@ package com.sulake.habbo.ui.handler
                     _local_14.webID = _local_12.webID;
                     _local_14.userRoomId = _arg_1.id;
                     _local_15 = new Array();
-                    _local_17 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2, _local_3, _arg_1.id, _arg_1.category);
+                    _local_17 = this._container.roomEngine.getRoomObject(_local_2, _local_3, _arg_1.id, _arg_1.category);
                     if (_local_17 != null){
                         _local_14.carryItem = _local_17.getModel().getNumber(RoomObjectVariableEnum._SafeStr_6552);
                     };
@@ -636,8 +636,8 @@ package com.sulake.habbo.ui.handler
                             _local_14.canTradeReason = RoomWidgetUserInfoUpdateEvent._SafeStr_6865;
                         };
                         _local_36 = this._container.sessionDataManager.userId;
-                        _local_37 = this._container.sessionDataManager.SessionDataManager(_local_36);
-                        this.InfoStandWidgetHandler(_local_36, _local_37);
+                        _local_37 = this._container.sessionDataManager.getUserTags(_local_36);
+                        this.dispatchUserTags(_local_36, _local_37);
                     };
                     if (_local_13 == RoomWidgetUserInfoUpdateEvent.BOT){
                         _local_14.canBeKicked = this._container.roomSession.isRoomOwner;
@@ -645,7 +645,7 @@ package com.sulake.habbo.ui.handler
                     }
                     else {
                         _local_15 = this._container.roomSession.userDataManager.getUserBadges(_local_12.webID);
-                        _local_16 = this._container.sessionDataManager.SessionDataManager(int(_local_12.groupID));
+                        _local_16 = this._container.sessionDataManager.getGroupBadgeId(int(_local_12.groupID));
                         _local_14.groupId = int(_local_12.groupID);
                         _local_14.groupBadgeId = _local_16;
                     };
@@ -655,25 +655,25 @@ package com.sulake.habbo.ui.handler
                     _local_20 = this._container.avatarRenderManager.createAvatarImage(_local_18, AvatarScaleType._SafeStr_4336, _local_19);
                     if (_local_20 != null){
                         _local_20.setDirection(AvatarSetType._SafeStr_4457, 4);
-                        _local_14.image = _local_20.TwinkleImages(AvatarSetType._SafeStr_4457, true);
+                        _local_14.image = _local_20.getImage(AvatarSetType._SafeStr_4457, true);
                         _local_20.dispose();
                     };
                     this._container.events.dispatchEvent(_local_14);
                     if (_local_12.type == RoomObjectTypeEnum._SafeStr_3740){
-                        _local_39 = this._container.sessionDataManager.SessionDataManager(_local_12.webID);
-                        this.InfoStandWidgetHandler(_local_12.webID, _local_39);
+                        _local_39 = this._container.sessionDataManager.getUserTags(_local_12.webID);
+                        this.dispatchUserTags(_local_12.webID, _local_39);
                     };
                     _local_40 = 0;
                     while (_local_40 < _local_15.length) {
                         _local_22 = _local_15[_local_40];
-                        _local_21 = this._container.sessionDataManager.SessionDataManager(_local_22);
+                        _local_21 = this._container.sessionDataManager.getBadgeImage(_local_22);
                         if (_local_21 != null){
                             this._container.events.dispatchEvent(new RoomWidgetBadgeImageUpdateEvent(_local_22, _local_21));
                         };
                         _local_40++;
                     };
                     if (_local_16 != null){
-                        _local_41 = this._container.sessionDataManager.SessionDataManager(_local_16);
+                        _local_41 = this._container.sessionDataManager.getGroupBadgeImage(_local_16);
                         if (_local_41 != null){
                             this._container.events.dispatchEvent(new RoomWidgetBadgeImageUpdateEvent(_local_16, _local_41));
                         };
@@ -682,11 +682,11 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionUserBadgesEvent.RWUBUE_USER_BADGES]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionUserBadgesEvent;
             var _local_3:int;
@@ -702,7 +702,7 @@ package com.sulake.habbo.ui.handler
                     _local_3 = 0;
                     while (_local_3 < _local_2.badges.length) {
                         _local_4 = _local_2.badges[_local_3];
-                        _local_5 = this._container.sessionDataManager.SessionDataManager(_local_4);
+                        _local_5 = this._container.sessionDataManager.getBadgeImage(_local_4);
                         if (_local_5 != null){
                             this._container.events.dispatchEvent(new RoomWidgetBadgeImageUpdateEvent(_local_4, _local_5));
                         };
@@ -711,11 +711,11 @@ package com.sulake.habbo.ui.handler
                     return;
             };
         }
-        private function InfostandWidget(_arg_1:UserTagsReceivedEvent):void
+        private function onUserTags(_arg_1:UserTagsReceivedEvent):void
         {
-            this.InfoStandWidgetHandler(_arg_1.userId, _arg_1.tags);
+            this.dispatchUserTags(_arg_1.userId, _arg_1.tags);
         }
-        private function InfoStandWidgetHandler(_arg_1:int, _arg_2:Array):void
+        private function dispatchUserTags(_arg_1:int, _arg_2:Array):void
         {
             if (_arg_2 == null){
                 return;
@@ -728,7 +728,7 @@ package com.sulake.habbo.ui.handler
                 this._container.events.dispatchEvent(new RoomWidgetUserTagsUpdateEvent(_arg_1, _arg_2, _local_3));
             };
         }
-        private function InfostandWidget(_arg_1:BadgeImageReadyEvent):void
+        private function onBadgeImage(_arg_1:BadgeImageReadyEvent):void
         {
             if (((!((this._container == null))) && (!((this._container.events == null))))){
                 this._container.events.dispatchEvent(new RoomWidgetBadgeImageUpdateEvent(_arg_1.badgeId, _arg_1.badgeImage));
@@ -757,7 +757,7 @@ package com.sulake.habbo.ui.handler
                 _local_5 = this._container.avatarRenderManager.createAvatarImage(_arg_1.figure, AvatarScaleType._SafeStr_4336, _arg_1.gender);
                 if (_local_5 != null){
                     _local_5.setDirection(AvatarSetType._SafeStr_4457, 4);
-                    _local_4 = _local_5.TwinkleImages(AvatarSetType._SafeStr_4457, true);
+                    _local_4 = _local_5.getImage(AvatarSetType._SafeStr_4457, true);
                     _local_5.dispose();
                 };
                 _local_6 = (_local_3 == this._container.sessionDataManager.userId);
@@ -766,7 +766,7 @@ package com.sulake.habbo.ui.handler
                 };
             };
         }
-        private function InfostandWidget(_arg_1:RoomSessionPetInfoUpdateEvent):void
+        private function onPetInfo(_arg_1:RoomSessionPetInfoUpdateEvent):void
         {
             var _local_8:Boolean;
             var _local_9:RoomWidgetPetInfoUpdateEvent;
@@ -785,11 +785,11 @@ package com.sulake.habbo.ui.handler
                 return;
             };
             var _local_4:String = _local_3.figure;
-            var _local_5:int = this.RoomEngine(_local_4);
-            var _local_6:int = this.InfoStandWidgetHandler(_local_4);
+            var _local_5:int = this.getPetType(_local_4);
+            var _local_6:int = this.getPetRace(_local_4);
             var _local_7:BitmapData = (this._SafeStr_7318.getValue(_local_4) as BitmapData);
             if (_local_7 == null){
-                _local_7 = this.RoomEngine(_local_4);
+                _local_7 = this.getPetImage(_local_4);
                 this._SafeStr_7318.add(_local_4, _local_7);
             };
             if (((!((this._container == null))) && (!((this._container.events == null))))){
@@ -811,7 +811,7 @@ package com.sulake.habbo.ui.handler
                 _local_12 = this._container.roomSession.roomCategory;
                 _local_13 = this._container.roomSession.userDataManager.getUserData(_local_2.ownerId);
                 if (_local_13 != null){
-                    _local_14 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_11, _local_12, _local_13.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+                    _local_14 = this._container.roomEngine.getRoomObject(_local_11, _local_12, _local_13.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
                     if (_local_14 != null){
                         _local_15 = _local_14.getModel().getString(RoomObjectVariableEnum._SafeStr_7361);
                         _local_10 = ((((((((((this._container.roomSession.isRoomOwner) || (this._container.roomSession.isRoomController))) || (this._container.sessionDataManager.isAnyRoomController))) && (!((_local_15 == "useradmin"))))) && (this._container.roomSession.isPrivateRoom))) && (!(_local_8)));
@@ -829,23 +829,23 @@ package com.sulake.habbo.ui.handler
                 this._container.events.dispatchEvent(_local_2);
             };
         }
-        private function InfoStandWidgetHandler(_arg_1:RoomSessionFavouriteGroupUpdateEvent):void
+        private function onFavouriteGroupUpdated(_arg_1:RoomSessionFavouriteGroupUpdateEvent):void
         {
             if (this._widget){
-                this._widget.InfostandWidget(_arg_1.roomIndex, _arg_1.habboGroupId, _arg_1.status);
+                this._widget.favouriteGroupUpdated(_arg_1.roomIndex, _arg_1.habboGroupId, _arg_1.status);
             };
         }
         public function update():void
         {
         }
-        private function RoomEngine(_arg_1:String):BitmapData
+        private function getPetImage(_arg_1:String):BitmapData
         {
             var _local_4:IAvatarImage;
             var _local_5:int;
             var _local_6:uint;
             var _local_7:ImageResult;
             var _local_2:BitmapData;
-            var _local_3:int = this.RoomEngine(_arg_1);
+            var _local_3:int = this.getPetType(_arg_1);
             if (_local_3 < 8){
                 _local_4 = this._container.avatarRenderManager.createPetImageFromFigure(_arg_1, AvatarScaleType._SafeStr_4336, null);
                 if (_local_4 != null){
@@ -854,9 +854,9 @@ package com.sulake.habbo.ui.handler
                 };
             }
             else {
-                _local_5 = this.InfoStandWidgetHandler(_arg_1);
+                _local_5 = this.getPetRace(_arg_1);
                 _local_6 = 0;
-                _local_7 = this._container.roomEngine.RoomEngine(_local_3, _local_5, new Vector3d(90), 64, null, _local_6);
+                _local_7 = this._container.roomEngine.getPetImage(_local_3, _local_5, new Vector3d(90), 64, null, _local_6);
                 if (_local_7 != null){
                     _local_2 = _local_7.data;
                 };
@@ -866,15 +866,15 @@ package com.sulake.habbo.ui.handler
             };
             return (_local_2);
         }
-        private function RoomEngine(_arg_1:String):int
+        private function getPetType(_arg_1:String):int
         {
-            return (this.InfoStandWidgetHandler(_arg_1, 0));
+            return (this.getSpaceSeparatedInteger(_arg_1, 0));
         }
-        private function InfoStandWidgetHandler(_arg_1:String):int
+        private function getPetRace(_arg_1:String):int
         {
-            return (this.InfoStandWidgetHandler(_arg_1, 1));
+            return (this.getSpaceSeparatedInteger(_arg_1, 1));
         }
-        private function InfoStandWidgetHandler(_arg_1:String, _arg_2:int):int
+        private function getSpaceSeparatedInteger(_arg_1:String, _arg_2:int):int
         {
             var _local_3:Array;
             if (_arg_1 != null){
@@ -885,7 +885,7 @@ package com.sulake.habbo.ui.handler
             };
             return (-1);
         }
-        private function InfoStandWidgetHandler(_arg_1:NowPlayingEvent):void
+        private function onNowPlayingChanged(_arg_1:NowPlayingEvent):void
         {
             var _local_2:int;
             var _local_3:String;
@@ -1022,7 +1022,7 @@ package com.sulake.habbo.ui.handler
 // _SafeStr_4336 = "_-1wM" (String#18815, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // BIRE_BADGE_IMAGE_READY = "_-38f" (String#21828, DoABC#2)
 // badgeImage = "_-250" (String#19222, DoABC#2)
 // RWUBUE_USER_BADGES = "_-21B" (String#19059, DoABC#2)
@@ -1035,7 +1035,7 @@ package com.sulake.habbo.ui.handler
 // offerId = "_-9g" (String#928, DoABC#2)
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // expiration = "_-1G1" (String#1648, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // creator = "_-1U2" (String#5433, DoABC#2)
@@ -1044,7 +1044,7 @@ package com.sulake.habbo.ui.handler
 // getUserData = "_-1-1" (String#4848, DoABC#2)
 // userDataManager = "_-lZ" (String#8636, DoABC#2)
 // getPetUserData = "_-2Rz" (String#6606, DoABC#2)
-// InfostandWidget = "_-0dE" (String#1512, DoABC#2)
+// onPetInfo = "_-0dE" (String#1512, DoABC#2)
 // getUserDataByIndex = "_-1XZ" (String#5510, DoABC#2)
 // levelMax = "_-2dd" (String#6823, DoABC#2)
 // experienceMax = "_-1bq" (String#5596, DoABC#2)
@@ -1061,7 +1061,7 @@ package com.sulake.habbo.ui.handler
 // RWPLENPE_SONG_CHANGED = "_-5w" (String#22462, DoABC#2)
 // getRoomItemPlaylist = "_-2Su" (String#6624, DoABC#2)
 // getSongInfo = "_-0Fc" (String#3864, DoABC#2)
-// InfoStandWidgetHandler = "_-17C" (String#5020, DoABC#2)
+// onNowPlayingChanged = "_-17C" (String#5020, DoABC#2)
 // _musicController = "_-3Bw" (String#458, DoABC#2)
 // nowPlayingSongId = "_-2A0" (String#6248, DoABC#2)
 // SIR_TRAX_SONG_INFO_RECEIVED = "_-02" (String#14127, DoABC#2)
@@ -1080,49 +1080,49 @@ package com.sulake.habbo.ui.handler
 // isIgnored = "_-0NV" (String#4031, DoABC#2)
 // _SafeStr_6864 = "_-19C" (String#16825, DoABC#2)
 // _SafeStr_6865 = "_-2u2" (String#21240, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
-// RoomSession = "_-3D4" (String#7576, DoABC#2)
-// RoomEngine = "_-1qN" (String#867, DoABC#2)
-// InfoStandWidgetHandler = "_-33i" (String#7380, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
+// sendChatMessage = "_-3D4" (String#7576, DoABC#2)
+// getPetType = "_-1qN" (String#867, DoABC#2)
+// getPetRace = "_-33i" (String#7380, DoABC#2)
 // onFigureUpdate = "_-2uZ" (String#1961, DoABC#2)
 // habboHelp = "_-015" (String#3584, DoABC#2)
-// SessionDataManager = "_-08L" (String#3728, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
+// getFloorItemData = "_-08L" (String#3728, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
 // _SafeStr_7294 = "_-Uf" (String#23433, DoABC#2)
 // hasChangedName = "_-33G" (String#7371, DoABC#2)
 // _SafeStr_7318 = "_-2Ym" (String#20386, DoABC#2)
-// InfostandWidget = "_-T6" (String#2113, DoABC#2)
-// InfostandWidget = "_-0fM" (String#1522, DoABC#2)
+// onUserTags = "_-T6" (String#2113, DoABC#2)
+// onBadgeImage = "_-0fM" (String#1522, DoABC#2)
 // roomSessionManager = "_-1bj" (String#5594, DoABC#2)
-// InfoStandWidgetHandler = "_-17d" (String#16760, DoABC#2)
-// InfoStandWidgetHandler = "_-01D" (String#14100, DoABC#2)
-// InfoStandWidgetHandler = "_-2wG" (String#21322, DoABC#2)
+// onFavouriteGroupUpdated = "_-17d" (String#16760, DoABC#2)
+// handleGetObjectInfoMessage = "_-01D" (String#14100, DoABC#2)
+// handleGetObjectNameMessage = "_-2wG" (String#21322, DoABC#2)
 // askForAFriend = "_-3Iw" (String#7688, DoABC#2)
 // givePetRespect = "_-0Gq" (String#3891, DoABC#2)
-// SessionDataManager = "_-2nM" (String#7029, DoABC#2)
-// SessionDataManager = "_-2jq" (String#6950, DoABC#2)
-// RoomSession = "_-3-1" (String#7287, DoABC#2)
-// RoomSession = "_-1Hb" (String#5200, DoABC#2)
-// RoomSession = "_-32C" (String#7350, DoABC#2)
-// RoomSession = "_-MI" (String#8128, DoABC#2)
-// HabboInventory = "_-26E" (String#6170, DoABC#2)
-// SessionDataManager = "_-25Y" (String#6152, DoABC#2)
-// RoomSession = "_-Tm" (String#8281, DoABC#2)
-// RoomEngine = "_-09k" (String#3753, DoABC#2)
-// RoomEngine = "_-2p8" (String#7061, DoABC#2)
-// RoomEngine = "_-1Vg" (String#5468, DoABC#2)
+// ignoreUser = "_-2nM" (String#7029, DoABC#2)
+// unignoreUser = "_-2jq" (String#6950, DoABC#2)
+// kickUser = "_-3-1" (String#7287, DoABC#2)
+// banUser = "_-1Hb" (String#5200, DoABC#2)
+// assignRights = "_-32C" (String#7350, DoABC#2)
+// removeRights = "_-MI" (String#8128, DoABC#2)
+// setupTrading = "_-26E" (String#6170, DoABC#2)
+// openHabboHomePage = "_-25Y" (String#6152, DoABC#2)
+// pickUpPet = "_-Tm" (String#8281, DoABC#2)
+// modifyRoomObject = "_-09k" (String#3753, DoABC#2)
+// useRoomObjectInActiveRoom = "_-2p8" (String#7061, DoABC#2)
+// modifyRoomObjectDataWithMap = "_-1Vg" (String#5468, DoABC#2)
 // requestPetInfo = "_-12z" (String#4933, DoABC#2)
 // performTagSearch = "_-29O" (String#6238, DoABC#2)
-// InfoStandUserView = "_-1Qo" (String#1680, DoABC#2)
-// SessionDataManager = "_-3DK" (String#7581, DoABC#2)
-// RoomSession = "_-YS" (String#8382, DoABC#2)
+// showGroupBadgeInfo = "_-1Qo" (String#1680, DoABC#2)
+// getBadgeImage = "_-3DK" (String#7581, DoABC#2)
+// kickBot = "_-YS" (String#8382, DoABC#2)
 // reportUser = "_-233" (String#6107, DoABC#2)
-// RoomSession = "_-q5" (String#8711, DoABC#2)
-// RoomSession = "_-mX" (String#8653, DoABC#2)
-// RoomEngine = "_-4G" (String#7750, DoABC#2)
+// requestPetCommands = "_-q5" (String#8711, DoABC#2)
+// sendChangeMottoMessage = "_-mX" (String#8653, DoABC#2)
+// getRoomObjectImage = "_-4G" (String#7750, DoABC#2)
 // _SafeStr_7348 = "_-2Po" (String#20036, DoABC#2)
 // catalogPageId = "_-2oc" (String#7050, DoABC#2)
 // userDefinedRoomEvents = "_-2pN" (String#7068, DoABC#2)
@@ -1139,17 +1139,17 @@ package com.sulake.habbo.ui.handler
 // _SafeStr_7361 = "_-0xm" (String#16345, DoABC#2)
 // isPrivateRoom = "_-1Wr" (String#5489, DoABC#2)
 // systemShutDown = "_-0D0" (String#3809, DoABC#2)
-// SessionDataManager = "_-cs" (String#8469, DoABC#2)
-// InfoStandWidgetHandler = "_-Sc" (String#23351, DoABC#2)
+// getUserTags = "_-cs" (String#8469, DoABC#2)
+// dispatchUserTags = "_-Sc" (String#23351, DoABC#2)
 // BOT = "_-1T3" (String#17627, DoABC#2)
 // getUserBadges = "_-2Ny" (String#6521, DoABC#2)
-// SessionDataManager = "_-3Cg" (String#2022, DoABC#2)
+// getGroupBadgeId = "_-3Cg" (String#2022, DoABC#2)
 // groupBadgeId = "_-s" (String#24362, DoABC#2)
-// SessionDataManager = "_-KC" (String#2087, DoABC#2)
+// getGroupBadgeImage = "_-KC" (String#2087, DoABC#2)
 // petRespect = "_-2a9" (String#6762, DoABC#2)
 // canOwnerBeKicked = "_-2Yz" (String#20395, DoABC#2)
-// InfostandWidget = "_-X4" (String#23525, DoABC#2)
-// InfoStandWidgetHandler = "_-0iF" (String#15761, DoABC#2)
+// favouriteGroupUpdated = "_-X4" (String#23525, DoABC#2)
+// getSpaceSeparatedInteger = "_-0iF" (String#15761, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

@@ -46,7 +46,7 @@ package com.sulake.core.window.components
             if (!_local_2.isWindowOperationPrevented()){
                 _local_2.recycle();
                 this._selection = _arg_1;
-                this.DropMenuController();
+                this.closeMenuView();
                 _local_2 = WindowEvent.allocate(WindowEvent.WE_SELECTED, this, null);
                 this.update(this, _local_2);
             };
@@ -55,7 +55,7 @@ package com.sulake.core.window.components
         override public function set caption(_arg_1:String):void
         {
             super.caption = _arg_1;
-            this.DropMenuController().text = _arg_1;
+            this.getTitleLabel().text = _arg_1;
         }
         override public function dispose():void
         {
@@ -72,19 +72,19 @@ package com.sulake.core.window.components
             };
             return (super.activate());
         }
-        private function DropMenuController():ILabelWindow
+        private function getTitleLabel():ILabelWindow
         {
             return ((getChildByName(DropMenuController._BTN_TEXT) as ILabelWindow));
         }
-        private function DropMenuController():DropMenuController
+        private function getSubMenu():DropMenuController
         {
             var _local_1:Rectangle = new Rectangle();
-            WindowController(_local_1);
+            getGlobalRectangle(_local_1);
             if ((((this._SafeStr_9263 == null)) || (this._SafeStr_9263.disposed))){
-                this._SafeStr_9263 = (context.create((name + "::submenu"), "", WindowType._SafeStr_7548, _style, (WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN | WindowParam._SafeStr_7433), _local_1, this.DropMenuController, null, 0, null, [WindowController.TAG_EXCLUDE]) as DropMenuController);
+                this._SafeStr_9263 = (context.create((name + "::submenu"), "", WindowType._SafeStr_7548, _style, (WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN | WindowParam._SafeStr_7433), _local_1, this.subMenuEventProc, null, 0, null, [WindowController.TAG_EXCLUDE]) as DropMenuController);
             }
             else {
-                this._SafeStr_9263.WindowController(_local_1);
+                this._SafeStr_9263.setGlobalRectangle(_local_1);
             };
             this._SafeStr_9263.activate();
             return (this._SafeStr_9263);
@@ -101,34 +101,34 @@ package com.sulake.core.window.components
                 _local_2++;
             };
             this._SafeStr_9262 = true;
-            this.DropMenuController();
+            this.closeMenuView();
         }
-        public function DropMenuController(_arg_1:IDropMenuItemWindow):int
+        public function getMenuItemIndex(_arg_1:IDropMenuItemWindow):int
         {
             var _local_2:int = -1;
             var _local_3:IItemListWindow = (getChildByName(DropMenuController.ITEMLIST_NAME) as IItemListWindow);
             if (_local_3 != null){
-                _local_2 = _local_3.IItemListWindow(_arg_1);
+                _local_2 = _local_3.getListItemIndex(_arg_1);
             };
             if (_local_2 == -1){
                 if (this._SafeStr_9263 != null){
-                    _local_2 = this._SafeStr_9263.DropMenuController(_arg_1);
+                    _local_2 = this._SafeStr_9263.getMenuItemIndex(_arg_1);
                 };
             };
             return (_local_2);
         }
-        protected function DropMenuController():void
+        protected function openMenuView():void
         {
             if (!this._SafeStr_9262){
                 if (this.open()){
                     if (this._SafeStr_9260.length){
-                        this.DropMenuController(this._SafeStr_9260, this.DropMenuController(), this.DropMenuController);
+                        this.populateMenuItemContainer(this._SafeStr_9260, this.getSubMenu(), this.subMenuEventProc);
                         this._SafeStr_9262 = true;
                     };
                 };
             };
         }
-        protected function DropMenuController():void
+        protected function closeMenuView():void
         {
             if (this.close()){
                 if (this._SafeStr_9263 != null){
@@ -136,10 +136,10 @@ package com.sulake.core.window.components
                     this._SafeStr_9263 = null;
                 };
                 this._SafeStr_9262 = false;
-                this.DropMenuController().text = (((((this._selection < this._SafeStr_9260.length)) && ((this._selection > -1)))) ? this._SafeStr_9260[this._selection] : caption);
+                this.getTitleLabel().text = (((((this._selection < this._SafeStr_9260.length)) && ((this._selection > -1)))) ? this._SafeStr_9260[this._selection] : caption);
             };
         }
-        protected function DropMenuController(_arg_1:Array, _arg_2:DropMenuController, _arg_3:Function):void
+        protected function populateMenuItemContainer(_arg_1:Array, _arg_2:DropMenuController, _arg_3:Function):void
         {
             var _local_6:IDropMenuItemWindow;
             var _local_4:IItemListWindow = (_arg_2.getChildByName(DropMenuController.ITEMLIST_NAME) as IItemListWindow);
@@ -166,16 +166,16 @@ package com.sulake.core.window.components
             var _local_10:IWindow = context.create((name + "::padding"), "", WindowType._SafeStr_7544, _style, (((WindowParam._SafeStr_7447 | WindowParam._SafeStr_7456) | WindowParam._SafeStr_7443) | WindowParam._SafeStr_7433), new Rectangle(0, 0, 1, 2), null, null, 0, null, ["_EXCLUDE"]);
             _local_4.addListItem(_local_10);
             _local_4.autoArrangeItems = true;
-            this.DropMenuController(_arg_2);
+            this.fitToDesktop(_arg_2);
             _arg_2.activate();
             if ((((this._selection > -1)) && (_local_5))){
-                _local_4.getListItemAt(this._selection).WindowController(WindowState._SafeStr_9258, true);
+                _local_4.getListItemAt(this._selection).setStateFlag(WindowState._SafeStr_9258, true);
             };
         }
-        private function DropMenuController(_arg_1:IWindow):void
+        private function fitToDesktop(_arg_1:IWindow):void
         {
             var _local_2:Rectangle = new Rectangle();
-            _arg_1.WindowController(_local_2);
+            _arg_1.getGlobalRectangle(_local_2);
             if (_local_2.bottom > desktop.rectangle.bottom){
                 _arg_1.offset(0, (desktop.rectangle.bottom - _local_2.bottom));
             }
@@ -193,36 +193,36 @@ package com.sulake.core.window.components
                 };
             };
         }
-        private function DropMenuController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function menuItemEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:uint;
             if ((((_arg_1.type == WindowMouseEvent.WME_DOWN)) || ((_arg_1.type == WindowTouchEvent.WTE_TAP)))){
                 if ((_arg_2 is IDropMenuItemWindow)){
-                    _local_3 = this.DropMenuController((_arg_2 as IDropMenuItemWindow));
+                    _local_3 = this.getMenuItemIndex((_arg_2 as IDropMenuItemWindow));
                     this.selection = _local_3;
                 };
             };
         }
-        private function DropMenuController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function subMenuEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             switch (_arg_1.type){
                 case WindowTouchEvent.WTE_END:
                 case WindowMouseEvent.WME_UP:
                     if ((_arg_2 is IDropMenuItemWindow)){
-                        if (_arg_2.IWindow(WindowState._SafeStr_5004)){
-                            this.selection = this.DropMenuController((_arg_2 as IDropMenuItemWindow));
+                        if (_arg_2.testStateFlag(WindowState._SafeStr_5004)){
+                            this.selection = this.getMenuItemIndex((_arg_2 as IDropMenuItemWindow));
                         };
                     };
                     return;
                 case WindowTouchEvent.WTE_BEGIN:
                 case WindowMouseEvent.WME_DOWN:
                     if ((_arg_2 is IDropMenuItemWindow)){
-                        this.selection = this.DropMenuController((_arg_2 as IDropMenuItemWindow));
+                        this.selection = this.getMenuItemIndex((_arg_2 as IDropMenuItemWindow));
                     };
                     return;
                 case WindowEvent.WE_DEACTIVATED:
                     if (_arg_2 == this._SafeStr_9263){
-                        this.DropMenuController();
+                        this.closeMenuView();
                     };
                     return;
             };
@@ -233,7 +233,7 @@ package com.sulake.core.window.components
                 case WindowTouchEvent.WTE_BEGIN:
                 case WindowMouseEvent.WME_DOWN:
                     if (!this._SafeStr_9262){
-                        this.DropMenuController();
+                        this.openMenuView();
                     };
                     break;
             };
@@ -241,7 +241,7 @@ package com.sulake.core.window.components
         }
         public function open():Boolean
         {
-            if (WindowController(WindowState._SafeStr_4075)){
+            if (getStateFlag(WindowState._SafeStr_4075)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_OPEN, this, null);
@@ -259,7 +259,7 @@ package com.sulake.core.window.components
         }
         public function close():Boolean
         {
-            if (!WindowController(WindowState._SafeStr_4075)){
+            if (!getStateFlag(WindowState._SafeStr_4075)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CLOSE, this, null);
@@ -275,7 +275,7 @@ package com.sulake.core.window.components
             _local_1.recycle();
             return (true);
         }
-        public function IDropMenuWindow():Array
+        public function enumerateSelection():Array
         {
             var _local_2:int;
             var _local_1:Array = new Array();
@@ -333,14 +333,14 @@ package com.sulake.core.window.components
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // _SafeStr_5004 = "_-0Yv" (String#15399, DoABC#2)
 // WE_SELECT = "_-335" (String#21624, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // WE_DEACTIVATED = "_-1oi" (String#18485, DoABC#2)
-// WindowController = "_-1jq" (String#5750, DoABC#2)
-// IDropMenuWindow = "_-2oo" (String#7052, DoABC#2)
+// setStateFlag = "_-1jq" (String#5750, DoABC#2)
+// enumerateSelection = "_-2oo" (String#7052, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // _SafeStr_7433 = "_-222" (String#19092, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
@@ -357,22 +357,22 @@ package com.sulake.core.window.components
 // WTE_BEGIN = "_-17q" (String#16767, DoABC#2)
 // WTE_END = "_-0i9" (String#15755, DoABC#2)
 // WTE_TAP = "_-2Ox" (String#19999, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // _SafeStr_9258 = "const" (String#44694, DoABC#2)
 // _SafeStr_9260 = "_-20c" (String#19035, DoABC#2)
 // _selection = "_-rB" (String#24323, DoABC#2)
 // _SafeStr_9262 = "_-oT" (String#24212, DoABC#2)
 // _SafeStr_9263 = "_-25Q" (String#19236, DoABC#2)
-// DropMenuController = "_-2NK" (String#19936, DoABC#2)
-// DropMenuController = "_-2K5" (String#19810, DoABC#2)
-// DropMenuController = "_-22A" (String#19098, DoABC#2)
-// DropMenuController = "_-1jz" (String#18285, DoABC#2)
-// WindowController = "_-1XU" (String#5508, DoABC#2)
-// DropMenuController = "_-7n" (String#22534, DoABC#2)
-// DropMenuController = "_-2jU" (String#20825, DoABC#2)
-// DropMenuController = "_-10z" (String#16498, DoABC#2)
-// DropMenuController = "_-1R8" (String#17551, DoABC#2)
-// DropMenuController = "_-2zn" (String#21452, DoABC#2)
+// closeMenuView = "_-2NK" (String#19936, DoABC#2)
+// getTitleLabel = "_-2K5" (String#19810, DoABC#2)
+// getSubMenu = "_-22A" (String#19098, DoABC#2)
+// subMenuEventProc = "_-1jz" (String#18285, DoABC#2)
+// setGlobalRectangle = "_-1XU" (String#5508, DoABC#2)
+// getMenuItemIndex = "_-7n" (String#22534, DoABC#2)
+// openMenuView = "_-2jU" (String#20825, DoABC#2)
+// populateMenuItemContainer = "_-10z" (String#16498, DoABC#2)
+// fitToDesktop = "_-1R8" (String#17551, DoABC#2)
+// menuItemEventProc = "_-2zn" (String#21452, DoABC#2)
 // WE_OPEN = "_-0hq" (String#15741, DoABC#2)
 // WE_OPENED = "_-2AP" (String#19423, DoABC#2)
 // WE_CLOSE = "_-1dD" (String#18023, DoABC#2)

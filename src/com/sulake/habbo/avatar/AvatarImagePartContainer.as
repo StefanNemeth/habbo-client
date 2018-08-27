@@ -40,7 +40,7 @@ package com.sulake.habbo.avatar
                 this._isColorable = false;
             };
         }
-        public function AnimationFrameSequenceData(_arg_1:int):int
+        public function getFrameIndex(_arg_1:int):int
         {
             return (this._frames[(_arg_1 % this._frames.length)]);
         }
@@ -110,7 +110,7 @@ package com.sulake.habbo.avatar
 // _SafeStr_7968 = "include" (String#45700, DoABC#2)
 // bodyPartId = "_-219" (String#19057, DoABC#2)
 // partId = "_-0hk" (String#15738, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // flippedPartType = "_-39x" (String#21882, DoABC#2)
 // paletteMapId = "_-0GZ" (String#14702, DoABC#2)
 // isBlendable = "_-2Ao" (String#19434, DoABC#2)

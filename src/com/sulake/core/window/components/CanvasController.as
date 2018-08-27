@@ -17,8 +17,8 @@ package com.sulake.core.window.components
         }
         public function retrieveDrawBuffer(_arg_1:Point, _arg_2:Rectangle):BitmapData
         {
-            WindowController(_arg_2);
-            return ((WindowController() as BitmapData));
+            getDrawRegion(_arg_2);
+            return ((fetchDrawBuffer() as BitmapData));
         }
 
     }
@@ -28,7 +28,7 @@ package com.sulake.core.window.components
 // ICanvasWindow = "_-1Ij" (String#1656, DoABC#2)
 // CanvasController = "_-0SU" (String#4149, DoABC#2)
 // retrieveDrawBuffer = "_-ak" (String#8433, DoABC#2)
-// WindowController = "_-0xH" (String#1582, DoABC#2)
-// WindowController = "_-0oc" (String#1553, DoABC#2)
+// getDrawRegion = "_-0xH" (String#1582, DoABC#2)
+// fetchDrawBuffer = "_-0oc" (String#1553, DoABC#2)
 
 

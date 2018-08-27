@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([]);
         }
@@ -42,7 +42,7 @@ package com.sulake.habbo.ui.handler
         {
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             var _local_1:Array = [];
             _local_1.push(InterstitialEvent.AE_INTERSTITIAL_SHOW);
@@ -51,7 +51,7 @@ package com.sulake.habbo.ui.handler
             _local_1.push(RoomWidgetLoadingBarUpdateEvent.RWLBUW_HIDE_LOADING_BAR);
             return (_local_1);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:InterstitialEvent;
             var _local_3:RoomWidgetInterstitialUpdateEvent;
@@ -68,7 +68,7 @@ package com.sulake.habbo.ui.handler
                     this._container.events.dispatchEvent(_local_3);
                     return;
                 case InterstitialEvent.AE_INTERSTITIAL_COMPLETE:
-                    this._container.IRoomWidgetHandlerContainer();
+                    this._container.setInterstitialCompleted();
                     return;
                 case RoomWidgetLoadingBarUpdateEvent.RWIUE_SHOW:
                     this._container.events.dispatchEvent(_arg_1);
@@ -98,9 +98,9 @@ package com.sulake.habbo.ui.handler
 // AE_INTERSTITIAL_SHOW = "_-2Fx" (String#19641, DoABC#2)
 // AE_INTERSTITIAL_COMPLETE = "_-7z" (String#22543, DoABC#2)
 // clickURL = "_-0-5" (String#14015, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-0lq" (String#4543, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// setInterstitialCompleted = "_-0lq" (String#4543, DoABC#2)
 
 

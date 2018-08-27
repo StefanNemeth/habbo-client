@@ -62,16 +62,16 @@ package com.sulake.habbo.ui.widget.poll
             this._config = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetVoteUpdateEvent.RWPUE_VOTE_QUESTION, this.showVoteQuestion);
             _arg_1.addEventListener(RoomWidgetVoteUpdateEvent.RWPUE_VOTE_RESULT, this.showVoteResult);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -122,7 +122,7 @@ package com.sulake.habbo.ui.widget.poll
             if (_local_10 != null){
                 _local_12 = new Point((_local_10.width - this._window.width), (_local_10.height - this._window.height));
                 _local_12.offset(-10, -10);
-                this._window.WindowController(_local_12);
+                this._window.setGlobalPosition(_local_12);
             };
             this._window.visible = true;
             this._vote = -1;
@@ -351,8 +351,8 @@ package com.sulake.habbo.ui.widget.poll
 // RoomWidgetVoteUpdateEvent = "_-2qd" (String#7089, DoABC#2)
 // _vote = "_-1EJ" (String#5148, DoABC#2)
 // vote = "_-AW" (String#7878, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // RWPUE_VOTE_QUESTION = "_-1cE" (String#17980, DoABC#2)
@@ -360,6 +360,6 @@ package com.sulake.habbo.ui.widget.poll
 // votes = "_-2a2" (String#20443, DoABC#2)
 // totalVotes = "_-0EU" (String#14625, DoABC#2)
 // _SafeStr_8077 = "_-3HJ" (String#2035, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
 
 

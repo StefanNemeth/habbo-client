@@ -41,17 +41,17 @@ package com.sulake.core.utils
         }
         public function push(_arg_1:LibraryLoader):void
         {
-            if (((((!(disposed)) && (!(this.LibraryLoaderQueue(_arg_1.url))))) && (!(this.LibraryLoaderQueue(_arg_1.url))))){
+            if (((((!(disposed)) && (!(this.isUrlInQueue(_arg_1.url))))) && (!(this.findLibraryLoaderByURL(_arg_1.url))))){
                 if (_arg_1.paused){
                     this._SafeStr_8771.push(_arg_1);
                 }
                 else {
                     this._SafeStr_8954.push(_arg_1);
                 };
-                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.LibraryLoaderQueue);
-                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_PROGRESS, this.LibraryLoaderQueue);
-                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DISPOSE, this.LibraryLoaderQueue);
-                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.LibraryLoaderQueue);
+                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.libraryLoadedHandler);
+                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_PROGRESS, this.loadProgressHandler);
+                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DISPOSE, this.loaderDisposeHandler);
+                _arg_1.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.loadErrorHandler);
                 this.next();
             };
         }
@@ -66,40 +66,40 @@ package com.sulake.core.utils
                 };
             };
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function libraryLoadedHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
             if (_local_2){
-                this.LibraryLoaderQueue(_local_2);
+                this.removeLoader(_local_2);
             };
             this.next();
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function loadProgressHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function loaderDisposeHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
-            this.LibraryLoaderQueue(_local_2);
+            this.removeLoader(_local_2);
             this.next();
         }
-        private function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        private function loadErrorHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
             if (_local_2){
                 Logger.log(("Failed to download  specified file: " + _local_2.url));
-                this.LibraryLoaderQueue(_local_2);
+                this.removeLoader(_local_2);
             };
             this.next();
         }
-        private function LibraryLoaderQueue(loader:LibraryLoader):void
+        private function removeLoader(loader:LibraryLoader):void
         {
             var index:int;
-            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.LibraryLoaderQueue);
-            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_PROGRESS, this.LibraryLoaderQueue);
-            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DISPOSE, this.LibraryLoaderQueue);
-            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.LibraryLoaderQueue);
+            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.libraryLoadedHandler);
+            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_PROGRESS, this.loadProgressHandler);
+            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DISPOSE, this.loaderDisposeHandler);
+            loader.removeEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.loadErrorHandler);
             try {
                 index = this._SafeStr_8771.indexOf(loader);
                 if (index > -1){
@@ -114,7 +114,7 @@ package com.sulake.core.utils
                 Logger.log("LibraryLoaderQueue was propably disposed!");
             };
         }
-        private function LibraryLoaderQueue(_arg_1:String, _arg_2:Boolean=true):Boolean
+        private function isUrlInQueue(_arg_1:String, _arg_2:Boolean=true):Boolean
         {
             var _local_3:LibraryLoader;
             if (!disposed){
@@ -136,7 +136,7 @@ package com.sulake.core.utils
             };
             return (false);
         }
-        public function LibraryLoaderQueue(_arg_1:String, _arg_2:Boolean=true):LibraryLoader
+        public function findLibraryLoaderByURL(_arg_1:String, _arg_2:Boolean=true):LibraryLoader
         {
             var _local_3:LibraryLoader;
             if (!disposed){
@@ -166,15 +166,15 @@ package com.sulake.core.utils
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // LibraryLoader = "_-T1" (String#8267, DoABC#2)
 // _SafeStr_8771 = "_-13w" (String#4953, DoABC#2)
-// LibraryLoaderQueue = "_-0GL" (String#3878, DoABC#2)
-// LibraryLoaderQueue = "_-0IT" (String#1448, DoABC#2)
+// libraryLoadedHandler = "_-0GL" (String#3878, DoABC#2)
+// loadErrorHandler = "_-0IT" (String#1448, DoABC#2)
 // _SafeStr_8954 = "_-3CG" (String#2020, DoABC#2)
 // _SafeStr_9017 = "_-aZ" (String#2134, DoABC#2)
-// LibraryLoaderQueue = "_-08i" (String#14394, DoABC#2)
-// LibraryLoaderQueue = "_-0Ss" (String#15165, DoABC#2)
+// findLibraryLoaderByURL = "_-08i" (String#14394, DoABC#2)
+// isUrlInQueue = "_-0Ss" (String#15165, DoABC#2)
 // paused = "_-1WA" (String#17749, DoABC#2)
-// LibraryLoaderQueue = "_-2Fz" (String#19642, DoABC#2)
-// LibraryLoaderQueue = "_-0Z3" (String#15405, DoABC#2)
-// LibraryLoaderQueue = "_-1II" (String#17206, DoABC#2)
+// loadProgressHandler = "_-2Fz" (String#19642, DoABC#2)
+// loaderDisposeHandler = "_-0Z3" (String#15405, DoABC#2)
+// removeLoader = "_-1II" (String#17206, DoABC#2)
 
 

@@ -25,7 +25,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
             var _local_3:IWindowContainer = (_arg_1.getChildByName(_local_2) as IWindowContainer);
             if (this._SafeStr_6615 == null){
                 this._SafeStr_6615 = IDropMenuWindow(_local_3.findChildByName("eventCtgFilter"));
-                this.RoomEventViewCtrl();
+                this.prepareEventTypes();
                 this._SafeStr_6615.addEventListener(WindowEvent.WE_SELECTED, this.onFilterSelected);
             };
             _local_3.visible = true;
@@ -40,13 +40,13 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
         }
         public function refreshFooter(_arg_1:IWindowContainer):void
         {
-            this._navigator.officialRoomEntryManager.OfficialRoomEntryManager(_arg_1);
+            this._navigator.officialRoomEntryManager.refreshAdFooter(_arg_1);
         }
         public function navigatorOpenedWhileInTab():void
         {
             this.startSearch();
         }
-        private function RoomEventViewCtrl():void
+        private function prepareEventTypes():void
         {
             var _local_4:String;
             var _local_5:String;
@@ -79,7 +79,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
         }
         public function get filterCategory():String
         {
-            return (((this._SafeStr_6615) ? this._SafeStr_6615.IDropMenuWindow()[this._SafeStr_6615.selection] : null));
+            return (((this._SafeStr_6615) ? this._SafeStr_6615.enumerateSelection()[this._SafeStr_6615.selection] : null));
         }
 
     }
@@ -90,7 +90,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // IDropMenuWindow = "_-4Z" (String#2049, DoABC#2)
 // ITabPageDecorator = "_-0h3" (String#4447, DoABC#2)
 // EventsTabPageDecorator = "_-11C" (String#4898, DoABC#2)
-// OfficialRoomEntryManager = "_-2qK" (String#21094, DoABC#2)
+// refreshAdFooter = "_-2qK" (String#21094, DoABC#2)
 // officialRoomEntryManager = "_-aX" (String#23654, DoABC#2)
 // navigatorOpenedWhileInTab = "_-2IQ" (String#6410, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
@@ -102,7 +102,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // filterCategory = "_-1T1" (String#5414, DoABC#2)
 // _SafeStr_6615 = "_-3Aj" (String#915, DoABC#2)
 // onFilterSelected = "_-yH" (String#2229, DoABC#2)
-// IDropMenuWindow = "_-2oo" (String#7052, DoABC#2)
-// RoomEventViewCtrl = "_-0lu" (String#4546, DoABC#2)
+// enumerateSelection = "_-2oo" (String#7052, DoABC#2)
+// prepareEventTypes = "_-0lu" (String#4546, DoABC#2)
 
 

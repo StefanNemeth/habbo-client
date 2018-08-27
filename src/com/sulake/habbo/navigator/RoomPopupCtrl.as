@@ -24,7 +24,7 @@ package com.sulake.habbo.navigator
         {
             super(_arg_1, _arg_2, _arg_3, "grs_guest_room_details_long");
             this._thumbRenderer = new RoomThumbnailRenderer(_arg_1);
-            this._SafeStr_4206 = new TagRenderer(_arg_1, PopupCtrl);
+            this._SafeStr_4206 = new TagRenderer(_arg_1, hideInstantly);
         }
         public function set room(_arg_1:GuestRoomData):void
         {
@@ -36,7 +36,7 @@ package com.sulake.habbo.navigator
                 this._SafeStr_12043 = IWindowContainer(_arg_1.findChildByName("details_container"));
             };
             this._SafeStr_12043.visible = true;
-            Util.InfostandWidget(this._SafeStr_12043);
+            Util.hideChildren(this._SafeStr_12043);
             this.refreshRoomName(this._SafeStr_12043, this._room);
             if (((!((this._room.ownerName == ""))) && (!((this._room.ownerName == "-"))))){
             };
@@ -68,7 +68,7 @@ package com.sulake.habbo.navigator
         private function refreshExtraCont():void
         {
             var _local_1:IWindowContainer = IWindowContainer(this._SafeStr_12043.findChildByName("extra_cont"));
-            Util.InfostandWidget(_local_1);
+            Util.hideChildren(_local_1);
             this._SafeStr_4206.refreshTags(_local_1, this._room.tags);
             this.refreshTextWithCaption("rating", _local_1, ("" + this._room.score));
             if (this._room.event){
@@ -139,7 +139,7 @@ package com.sulake.habbo.navigator
             var _local_3:ITextWindow = ITextWindow(_arg_2);
             if (_local_3 != null){
                 navigator.mainViewCtrl.startSearch(Tabs._SafeStr_4151, Tabs._SafeStr_4306, _local_3.text);
-                this.PopupCtrl();
+                this.hideInstantly();
             };
         }
 
@@ -167,14 +167,14 @@ package com.sulake.habbo.navigator
 // TagRenderer = "_-35E" (String#7412, DoABC#2)
 // PopupCtrl = "_-0f4" (String#818, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // thumbnail = "_-02n" (String#14150, DoABC#2)
 // doorMode = "_-2zu" (String#21456, DoABC#2)
 // _SafeStr_4151 = "_-5z" (String#22464, DoABC#2)
 // nodeId = "_-3K6" (String#22286, DoABC#2)
 // refreshRoomName = "_-gr" (String#8530, DoABC#2)
 // ownerName = "_-1e1" (String#1730, DoABC#2)
-// PopupCtrl = "_-DX" (String#22750, DoABC#2)
+// hideInstantly = "_-DX" (String#22750, DoABC#2)
 // _SafeStr_4206 = "_-2ux" (String#901, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // moveChildrenToColumn = "_-fI" (String#23859, DoABC#2)

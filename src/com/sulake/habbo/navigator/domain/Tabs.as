@@ -46,7 +46,7 @@ package com.sulake.habbo.navigator.domain
         }
         public function onFrontPage():Boolean
         {
-            return ((this.ISelectorWindow().id == _SafeStr_4287));
+            return ((this.getSelected().id == _SafeStr_4287));
         }
         public function get tabs():Array
         {
@@ -57,7 +57,7 @@ package com.sulake.habbo.navigator.domain
             this.clearSelected();
             this.getTab(_arg_1).selected = true;
         }
-        public function ISelectorWindow():Tab
+        public function getSelected():Tab
         {
             var _local_1:Tab;
             for each (_local_1 in this._tabs) {
@@ -100,7 +100,7 @@ package com.sulake.habbo.navigator.domain
 // _SafeStr_4223 = "_-2Wh" (String#20312, DoABC#2)
 // _SafeStr_4224 = "_-2gj" (String#20718, DoABC#2)
 // _SafeStr_4226 = "_-1kG" (String#18300, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
 // getTab = "_-0mC" (String#15903, DoABC#2)
 // _SafeStr_4285 = "_-20q" (String#19046, DoABC#2)

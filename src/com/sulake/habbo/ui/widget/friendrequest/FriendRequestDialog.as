@@ -24,7 +24,7 @@ package com.sulake.habbo.ui.widget.friendrequest
         private var _userName:String;
         private var _SafeStr_5951:Boolean = false;
         private var _SafeStr_5952:Boolean = false;
-        private var _FriendRequestDialog:Boolean = false;
+        private var _SafeStr_5953:Boolean = false;
 
         public function FriendRequestDialog(_arg_1:FriendRequestWidget, _arg_2:int, _arg_3:int, _arg_4:String)
         {
@@ -41,7 +41,7 @@ package com.sulake.habbo.ui.widget.friendrequest
             };
             this._window = null;
         }
-        private function RoomEventViewCtrl(_arg_1:IWindow, _arg_2:Function):void
+        private function addMouseClickListener(_arg_1:IWindow, _arg_2:Function):void
         {
             if (_arg_1 != null){
                 _arg_1.setParamFlag(HabboWindowParam._SafeStr_3731, true);
@@ -61,21 +61,21 @@ package com.sulake.habbo.ui.widget.friendrequest
             if (!this._window){
                 return;
             };
-            this._window.addEventListener(WindowEvent.WE_DEACTIVATED, this.FriendRequestDialog);
+            this._window.addEventListener(WindowEvent.WE_DEACTIVATED, this.onDeactivated);
             var _local_2:ITextWindow = (this._window.findChildByName("text") as ITextWindow);
             if (_local_2){
                 _local_2.text = this._widget.localizations.registerParameter("widget.friendrequest.from", "username", this._userName);
             };
             var _local_3:IWindow = this._window.findChildByName("accept_button");
-            this.RoomEventViewCtrl(_local_3, this.onAccept);
+            this.addMouseClickListener(_local_3, this.onAccept);
             var _local_4:IWindow = this._window.findChildByName("decline_button");
-            this.RoomEventViewCtrl(_local_4, this.onDecline);
+            this.addMouseClickListener(_local_4, this.onDecline);
             var _local_5:IWindow = this._window.findChildByName("close_button");
-            this.RoomEventViewCtrl(_local_5, this.PollOfferDialog);
-            this._window.procedure = this.NameChangeView;
+            this.addMouseClickListener(_local_5, this.onClose);
+            this._window.procedure = this.windowEventHandler;
             this._window.visible = false;
         }
-        private function NameChangeView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (!_arg_1){
                 return;
@@ -96,7 +96,7 @@ package com.sulake.habbo.ui.widget.friendrequest
                     return;
             };
         }
-        public function AvatarInfoView(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
+        public function setImageAsset(_arg_1:IBitmapWrapperWindow, _arg_2:String):void
         {
             if (((((!(_arg_1)) || (!(this._widget)))) || (!(this._widget.assets)))){
                 return;
@@ -158,16 +158,16 @@ package com.sulake.habbo.ui.widget.friendrequest
             if (!this._window.visible){
                 this.show();
             };
-            if (this._FriendRequestDialog){
+            if (this._SafeStr_5953){
                 this.show();
-                this._FriendRequestDialog = false;
+                this._SafeStr_5953 = false;
             };
         }
-        private function FriendRequestDialog(_arg_1:WindowEvent):void
+        private function onDeactivated(_arg_1:WindowEvent):void
         {
-            this._FriendRequestDialog = true;
+            this._SafeStr_5953 = true;
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             if (this._widget != null){
                 this._widget.ignoreRequest(this._requestId);
@@ -200,20 +200,20 @@ package com.sulake.habbo.ui.widget.friendrequest
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP_OUTSIDE = "_-2qi" (String#21110, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// NameChangeView = "_-36j" (String#371, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// windowEventHandler = "_-36j" (String#371, DoABC#2)
 // targetRect = "_-2aZ" (String#20467, DoABC#2)
 // acceptRequest = "_-3CU" (String#7565, DoABC#2)
 // declineRequest = "_-1A2" (String#5078, DoABC#2)
 // ignoreRequest = "_-30P" (String#21518, DoABC#2)
 // _SafeStr_5951 = "_-1Ge" (String#5180, DoABC#2)
 // _SafeStr_5952 = "_-8M" (String#22557, DoABC#2)
-// _FriendRequestDialog = "_-1e3" (String#18060, DoABC#2)
-// RoomEventViewCtrl = "_-10B" (String#595, DoABC#2)
+// _SafeStr_5953 = "_-1e3" (String#18060, DoABC#2)
+// addMouseClickListener = "_-10B" (String#595, DoABC#2)
 // WE_DEACTIVATED = "_-1oi" (String#18485, DoABC#2)
-// FriendRequestDialog = "_-0p6" (String#16020, DoABC#2)
+// onDeactivated = "_-0p6" (String#16020, DoABC#2)
 // onAccept = "_-0Mj" (String#14941, DoABC#2)
 // onDecline = "_-10S" (String#16481, DoABC#2)
-// AvatarInfoView = "_-3-s" (String#21496, DoABC#2)
+// setImageAsset = "_-3-s" (String#21496, DoABC#2)
 
 

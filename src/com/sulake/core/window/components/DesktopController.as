@@ -14,7 +14,7 @@ package com.sulake.core.window.components
 
         public function DesktopController(_arg_1:String, _arg_2:WindowContext, _arg_3:Rectangle)
         {
-            super(_arg_1, 0, 0, 0, _arg_2, _arg_3, null, this.DesktopController, null, null, 0);
+            super(_arg_1, 0, 0, 0, _arg_2, _arg_3, null, this.defaultProcedure, null, null, 0);
         }
         public function get mouseX():int
         {
@@ -30,7 +30,7 @@ package com.sulake.core.window.components
         }
         override public function set procedure(_arg_1:Function):void
         {
-            _procedure = (((_arg_1)!=null) ? _arg_1 : this.DesktopController);
+            _procedure = (((_arg_1)!=null) ? _arg_1 : this.defaultProcedure);
         }
         override public function get host():IWindow
         {
@@ -53,7 +53,7 @@ package com.sulake.core.window.components
         {
             return (getActiveChild());
         }
-        public function IDesktopWindow(_arg_1:IWindow):IWindow
+        public function setActiveWindow(_arg_1:IWindow):IWindow
         {
             return (setActiveChild(_arg_1));
         }
@@ -68,7 +68,7 @@ package com.sulake.core.window.components
         override public function invalidate(_arg_1:Rectangle=null):void
         {
         }
-        private function DesktopController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function defaultProcedure(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
         }
 
@@ -86,9 +86,9 @@ package com.sulake.core.window.components
 // _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
 // setActiveChild = "_-lC" (String#24077, DoABC#2)
 // getActiveChild = "_-1cK" (String#17983, DoABC#2)
-// DesktopController = "_-SI" (String#23336, DoABC#2)
+// defaultProcedure = "_-SI" (String#23336, DoABC#2)
 // _procedure = "_-1SV" (String#17600, DoABC#2)
 // getActiveWindow = "_-1h8" (String#1744, DoABC#2)
-// IDesktopWindow = "_-Lc" (String#8117, DoABC#2)
+// setActiveWindow = "_-Lc" (String#8117, DoABC#2)
 
 

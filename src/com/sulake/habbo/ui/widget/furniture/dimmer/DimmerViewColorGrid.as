@@ -49,7 +49,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             if ((((_arg_1 < 0)) || ((_arg_1 >= this._SafeStr_13963.numGridItems)))){
                 return;
             };
-            this.select((this._SafeStr_13963.IItemGridWindow(_arg_1) as IWindowContainer));
+            this.select((this._SafeStr_13963.getGridItemAt(_arg_1) as IWindowContainer));
         }
         private function populate(_arg_1:IHabboWindowManager):void
         {
@@ -97,7 +97,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
                 _local_3.color = 0xFFFFFFFF;
                 _local_3.width = this._SafeStr_13965.width;
                 _local_3.height = this._SafeStr_13965.height;
-                this._SafeStr_13963.IItemGridWindow(_local_3);
+                this._SafeStr_13963.addGridItem(_local_3);
                 _local_4 = (_local_3.findChildByTag("BG_BORDER") as IBitmapWrapperWindow);
                 if (_local_4 != null){
                     _local_4.bitmap = new BitmapData(this._SafeStr_13965.width, this._SafeStr_13965.height, true, 0);
@@ -170,8 +170,8 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
 // IItemGridWindow = "_-265" (String#1809, DoABC#2)
 // DimmerView = "_-1QW" (String#5361, DoABC#2)
 // DimmerViewColorGrid = "_-2WW" (String#6690, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
 // onClick = "_-2US" (String#368, DoABC#2)
 // _SafeStr_8482 = "_-2IF" (String#618, DoABC#2)
 

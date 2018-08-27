@@ -49,7 +49,7 @@ package com.sulake.habbo.friendlist
             this._SafeStr_11292 = this.initButton("open_homepage", this.onHomeButtonClick, _arg_1);
             this._SafeStr_11293 = this.initButton("room_invite", this.onInviteButtonClick, _arg_1);
             this._removeButton = this.initButton("remove_friend", this.onRemoveButtonClick, _arg_1);
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         public function fillList(_arg_1:IItemListWindow):void
         {
@@ -95,7 +95,7 @@ package com.sulake.habbo.friendlist
                 _local_1++;
             };
             this._content.autoArrangeItems = true;
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         private function initButton(_arg_1:String, _arg_2:Function, _arg_3:IWindowContainer):IContainerButtonWindow
         {
@@ -118,7 +118,7 @@ package com.sulake.habbo.friendlist
                 _local_6 = IWindowContainer(this._friendList.getXmlWindow("friend_entry"));
                 this._content.addListItem(_local_6);
             };
-            Util.InfostandWidget(_local_6);
+            Util.hideChildren(_local_6);
             if (!_arg_1){
                 _local_6.height = 0;
                 _local_6.visible = false;
@@ -129,7 +129,7 @@ package com.sulake.habbo.friendlist
             _local_6.color = this._friendList.laf.getRowShadingColor(FriendListTab._SafeStr_11144, _local_5);
             if (_arg_4 == null){
                 _arg_3.view = _local_6;
-                this.AchievementController(_arg_3, _local_5);
+                this.refreshCategoryEntry(_arg_3, _local_5);
             }
             else {
                 _arg_4.view = _local_6;
@@ -137,7 +137,7 @@ package com.sulake.habbo.friendlist
             };
             return (false);
         }
-        public function AchievementController(_arg_1:FriendCategory, _arg_2:Boolean):void
+        public function refreshCategoryEntry(_arg_1:FriendCategory, _arg_2:Boolean):void
         {
             if (this._content == null){
                 return;
@@ -235,7 +235,7 @@ package com.sulake.habbo.friendlist
         {
             return (this._friendList.laf.getRowShadingColor(FriendListTab._SafeStr_11144, _arg_1));
         }
-        private function ModActionCtrl():void
+        private function refreshButtons():void
         {
             var _local_1:Array = this._friendList.categories.getSelectedFriends();
             this.setEnabled(this._SafeStr_11291, this.isEnableMinimailButton(_local_1));
@@ -310,17 +310,17 @@ package com.sulake.habbo.friendlist
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
                 _local_3 = this._friendList.categories.findFriend(_arg_2.id);
                 this._SafeStr_11247.setData(_local_3.online, _local_3.name, _local_3.motto, _local_3.figure, _local_3.lastAccess);
-                this._SafeStr_11247.PopupCtrl(this._friendList.view.mainWindow, _local_3.view);
+                this._SafeStr_11247.showPopup(this._friendList.view.mainWindow, _local_3.view);
             }
             else {
                 if (_arg_1.type == WindowMouseEvent.WME_OUT){
-                    this._SafeStr_11247.PopupCtrl();
+                    this._SafeStr_11247.closePopup();
                 }
                 else {
                     if ((((_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK)) || ((_arg_1.type == WindowMouseEvent.WME_DOUBLE_CLICK)))){
                         _local_4 = this._friendList.categories.findFriend(_arg_2.id);
                         _local_4.selected = !(_local_4.selected);
-                        this.ModActionCtrl();
+                        this.refreshButtons();
                         this.refreshList();
                         if ((((_arg_1.type == WindowMouseEvent.WME_DOUBLE_CLICK)) && (_local_4.online))){
                             this._friendList.messenger.startConversation(_local_4.id);
@@ -423,7 +423,7 @@ package com.sulake.habbo.friendlist
                 return;
             };
             _local_3.visible = true;
-            Util.InfostandWidget(_local_3);
+            Util.hideChildren(_local_3);
             var _local_4:int;
             while (_local_4 < _arg_1.getPageCount()) {
                 this.refreshPageLink(_local_3, _local_4, _arg_1.pageIndex, _arg_2);
@@ -502,7 +502,7 @@ package com.sulake.habbo.friendlist
 // onHomeButtonClick = "_-8s" (String#22574, DoABC#2)
 // onInviteButtonClick = "_-1j0" (String#18246, DoABC#2)
 // onRemoveButtonClick = "_-2C7" (String#19487, DoABC#2)
-// AchievementController = "_-1yX" (String#6003, DoABC#2)
+// refreshCategoryEntry = "_-1yX" (String#6003, DoABC#2)
 // refreshFriendEntry = "_-0UG" (String#15216, DoABC#2)
 // refreshCatIcon = "_-3Il" (String#22227, DoABC#2)
 // onCategoryClick = "_-0QB" (String#15070, DoABC#2)
@@ -531,11 +531,11 @@ package com.sulake.habbo.friendlist
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // refreshEntry = "_-2v6" (String#308, DoABC#2)
 // getBgColor = "_-1GR" (String#600, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// PopupCtrl = "_-0pi" (String#16042, DoABC#2)
-// PopupCtrl = "_-1eW" (String#18078, DoABC#2)
+// showPopup = "_-0pi" (String#16042, DoABC#2)
+// closePopup = "_-1eW" (String#18078, DoABC#2)
 // layoutChildrenInArea = "_-0f9" (String#15635, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
@@ -549,7 +549,7 @@ package com.sulake.habbo.friendlist
 // getCategories = "_-3E" (String#22033, DoABC#2)
 // _removeButton = "_-1-e" (String#4861, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
-// ModActionCtrl = "_-1ep" (String#859, DoABC#2)
+// refreshButtons = "_-1ep" (String#859, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 
 

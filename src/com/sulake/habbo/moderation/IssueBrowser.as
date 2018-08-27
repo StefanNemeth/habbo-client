@@ -26,7 +26,7 @@ package com.sulake.habbo.moderation
         private var _window:IFrameWindow;
         private var _SafeStr_4238:ITabContextWindow;
         private var _SafeStr_11873:IIssueBrowserView;
-        private var _IssueBrowser:IIssueBrowserView;
+        private var _SafeStr_11874:IIssueBrowserView;
         private var _SafeStr_11875:IIssueBrowserView;
         private var _SafeStr_11876:PickedIssuesView;
 
@@ -51,17 +51,17 @@ package com.sulake.habbo.moderation
         public function show():void
         {
             if (this._window == null){
-                this.IssueBrowser();
+                this.createMainFrame();
             };
             this._window.visible = true;
             this._window.activate();
             this.update();
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
             return (((!((this._window == null))) && (this._window.visible)));
         }
-        private function IssueBrowser():void
+        private function createMainFrame():void
         {
             var _local_2:IWindow;
             var _local_3:IWindow;
@@ -78,7 +78,7 @@ package com.sulake.habbo.moderation
                 this._window.y = ((_local_2.height / 2) - (this._window.height / 2));
                 _local_3 = this._window.findChildByTag("close");
                 if (_local_3 != null){
-                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
                 };
                 _local_4 = this._window.findChildByName("auto_pick");
                 if (_local_4 != null){
@@ -87,7 +87,7 @@ package com.sulake.habbo.moderation
                 this._SafeStr_4238 = (this._window.findChildByName("tab_context") as ITabContextWindow);
                 _local_6 = 0;
                 while (_local_6 < this._SafeStr_4238.numTabItems) {
-                    _local_5 = this._SafeStr_4238.TabContextController(_local_6);
+                    _local_5 = this._SafeStr_4238.getTabItemAt(_local_6);
                     _local_5.addEventListener(WindowEvent.WE_SELECTED, this.onTabSelected);
                     _local_6++;
                 };
@@ -96,12 +96,12 @@ package com.sulake.habbo.moderation
             if ((((this._SafeStr_4238 == null)) || ((this._SafeStr_4238.container == null)))){
                 return;
             };
-            var _local_1:ISelectableWindow = this._SafeStr_4238.selector.ISelectorWindow("open_issues");
+            var _local_1:ISelectableWindow = this._SafeStr_4238.selector.getSelectableByName("open_issues");
             this._SafeStr_4238.selector.setSelected(_local_1);
         }
-        private function InfostandWidget(_arg_1:String):void
+        private function selectView(_arg_1:String):void
         {
-            var _local_2:IIssueBrowserView = this.IssueBrowser(_arg_1);
+            var _local_2:IIssueBrowserView = this.getView(_arg_1);
             if (this._SafeStr_11873 == _local_2){
                 return;
             };
@@ -117,14 +117,14 @@ package com.sulake.habbo.moderation
             this._SafeStr_11873.visible = true;
             this._SafeStr_11873.update();
         }
-        private function IssueBrowser(_arg_1:String):IIssueBrowserView
+        private function getView(_arg_1:String):IIssueBrowserView
         {
             switch (_arg_1){
                 case this._SafeStr_11869:
-                    if (this._IssueBrowser == null){
-                        this._IssueBrowser = new MyIssuesView(this.issueManager, this, this._SafeStr_4238.container);
+                    if (this._SafeStr_11874 == null){
+                        this._SafeStr_11874 = new MyIssuesView(this.issueManager, this, this._SafeStr_4238.container);
                     };
-                    return (this._IssueBrowser);
+                    return (this._SafeStr_11874);
                 case this._SafeStr_11870:
                     if (this._SafeStr_11875 == null){
                         this._SafeStr_11875 = new OpenIssuesView(this.issueManager, this, this._SafeStr_4238.container);
@@ -144,7 +144,7 @@ package com.sulake.habbo.moderation
             if ((((_arg_1 == null)) || ((_arg_1.window == null)))){
                 return;
             };
-            this.InfostandWidget(_arg_1.window.name);
+            this.selectView(_arg_1.window.name);
         }
         public function update():void
         {
@@ -167,7 +167,7 @@ package com.sulake.habbo.moderation
             };
             return (this._windowManager.buildFromXML((_local_2.content as XML)));
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             this._window.visible = false;
         }
@@ -188,12 +188,12 @@ package com.sulake.habbo.moderation
 // _SafeStr_11871 = "_-eG" (String#23812, DoABC#2)
 // _SafeStr_11872 = "_-0M4" (String#14918, DoABC#2)
 // _SafeStr_11873 = "_-1gD" (String#18149, DoABC#2)
-// _IssueBrowser = "_-1iL" (String#18222, DoABC#2)
+// _SafeStr_11874 = "_-1iL" (String#18222, DoABC#2)
 // _SafeStr_11875 = "_-0W0" (String#15276, DoABC#2)
 // _SafeStr_11876 = "_-31H" (String#21550, DoABC#2)
-// IssueBrowser = "_-1KJ" (String#17286, DoABC#2)
+// createMainFrame = "_-1KJ" (String#17286, DoABC#2)
 // onAutoPick = "_-22y" (String#19133, DoABC#2)
-// IssueBrowser = "_-1vU" (String#18777, DoABC#2)
+// getView = "_-1vU" (String#18777, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // ISelectableWindow = "_-nA" (String#2188, DoABC#2)
 // ITabButtonWindow = "_-1Gf" (String#1649, DoABC#2)
@@ -204,13 +204,13 @@ package com.sulake.habbo.moderation
 // OpenIssuesView = "_-2gC" (String#6873, DoABC#2)
 // MyIssuesView = "_-08j" (String#3734, DoABC#2)
 // _SafeStr_4238 = "_-1WR" (String#1704, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // onTabSelected = "_-2da" (String#6822, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// InfostandWidget = "_-1-8" (String#1597, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// selectView = "_-1-8" (String#1597, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // numTabItems = "_-2Dt" (String#6317, DoABC#2)
-// TabContextController = "_-0XL" (String#4256, DoABC#2)
+// getTabItemAt = "_-0XL" (String#4256, DoABC#2)
 
 

@@ -15,7 +15,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectWidgetRequestEvent.ROOM_OBJECT_WIDGET_REQUEST_CREDITFURNI];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -79,7 +79,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // IRoomGeometry = "_-0z9" (String#4829, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // RoomObjectWidgetRequestEvent = "_-0Oy" (String#15023, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // _SafeStr_7286 = "_-2UO" (String#20216, DoABC#2)
 // useObject = "_-0zi" (String#1594, DoABC#2)

@@ -35,7 +35,7 @@ package com.sulake.core.window.components
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
             this._ready = true;
             activate();
-            this.FrameController();
+            this.setupScaling();
         }
         public function get title():ILabelWindow
         {
@@ -76,7 +76,7 @@ package com.sulake.core.window.components
             var _local_1:Rectangle;
             if (!this._margins){
                 _local_1 = this.content.rectangle;
-                this._margins = new TextMargins(_local_1.left, _local_1.top, _local_1.right, _local_1.bottom, this.FrameController);
+                this._margins = new TextMargins(_local_1.left, _local_1.top, _local_1.right, _local_1.bottom, this.marginsCallback);
             };
             return (this._margins);
         }
@@ -94,7 +94,7 @@ package com.sulake.core.window.components
             var _local_3:IWindow;
             super.color = _arg_1;
             var _local_2:Array = new Array();
-            WindowController(_COLORIZE, _local_2, false);
+            groupChildrenWithTag(_COLORIZE, _local_2, false);
             for each (_local_3 in _local_2) {
                 _local_3.color = _arg_1;
             };
@@ -110,14 +110,14 @@ package com.sulake.core.window.components
         override public function setParamFlag(_arg_1:uint, _arg_2:Boolean=true):void
         {
             super.setParamFlag(_arg_1, _arg_2);
-            this.FrameController();
+            this.setupScaling();
         }
-        private function FrameController():void
+        private function setupScaling():void
         {
             var _local_1:IWindow = this.scaler;
-            var _local_2:Boolean = IWindow(WindowParam._SafeStr_7492);
-            var _local_3:Boolean = IWindow(WindowParam._SafeStr_7497);
-            var _local_4:Boolean = IWindow(WindowParam._SafeStr_7496);
+            var _local_2:Boolean = testParamFlag(WindowParam._SafeStr_7492);
+            var _local_3:Boolean = testParamFlag(WindowParam._SafeStr_7497);
+            var _local_4:Boolean = testParamFlag(WindowParam._SafeStr_7496);
             if (_local_1){
                 if (((_local_3) || (_local_2))){
                     _local_1.setParamFlag(WindowParam._SafeStr_7497, true);
@@ -134,11 +134,11 @@ package com.sulake.core.window.components
                 _local_1.visible = ((((_local_3) || (_local_4))) || (_local_2));
             };
         }
-        public function IFrameWindow():void
+        public function resizeToFitContent():void
         {
             resizeToAccommodateChildren((this.content as WindowController));
         }
-        private function FrameController(_arg_1:IMargins):void
+        private function marginsCallback(_arg_1:IMargins):void
         {
             var _local_2:IWindow = this.content;
             var _local_3:uint = _local_2.param;
@@ -218,17 +218,17 @@ package com.sulake.core.window.components
 // _SafeStr_9122 = "_-3-3" (String#21463, DoABC#2)
 // _SafeStr_9123 = "_-Vu" (String#23489, DoABC#2)
 // _SafeStr_9124 = "_-tF" (String#24416, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 // _TITLE = "_-zu" (String#8882, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
 // _COLORIZE = "_-EQ" (String#22789, DoABC#2)
 // _HEADER = "_-0Uw" (String#15239, DoABC#2)
 // _CONTENT = "_-0gl" (String#15699, DoABC#2)
 // _SCALER = "_-1Vd" (String#17727, DoABC#2)
 // _header = "_-oJ" (String#24204, DoABC#2)
-// FrameController = "_-Ov" (String#23202, DoABC#2)
-// FrameController = "_-eR" (String#23819, DoABC#2)
-// IFrameWindow = "_-09S" (String#3746, DoABC#2)
+// setupScaling = "_-Ov" (String#23202, DoABC#2)
+// marginsCallback = "_-eR" (String#23819, DoABC#2)
+// resizeToFitContent = "_-09S" (String#3746, DoABC#2)
 // _SafeStr_9362 = "_-199" (String#16823, DoABC#2)
 
 

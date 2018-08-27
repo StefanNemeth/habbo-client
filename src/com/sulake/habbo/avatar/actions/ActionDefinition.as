@@ -65,7 +65,7 @@ package com.sulake.habbo.avatar.actions
                 this._types[_local_7] = new ActionType(_local_4);
             };
         }
-        public function IActionDefinition(_arg_1:String, _arg_2:int, _arg_3:Array):void
+        public function setOffsets(_arg_1:String, _arg_2:int, _arg_3:Array):void
         {
             if (this._SafeStr_9904 == null){
                 this._SafeStr_9904 = new Map();
@@ -76,7 +76,7 @@ package com.sulake.habbo.avatar.actions
             var _local_4:Map = this._SafeStr_9904.getValue(_arg_1);
             _local_4.add(_arg_2, _arg_3);
         }
-        public function IActionDefinition(_arg_1:String, _arg_2:int):Array
+        public function getOffsets(_arg_1:String, _arg_2:int):Array
         {
             if (this._SafeStr_9904 == null){
                 return (null);
@@ -153,11 +153,11 @@ package com.sulake.habbo.avatar.actions
         {
             return (this._isAnimation);
         }
-        public function IActionDefinition(_arg_1:String=""):Array
+        public function getPrevents(_arg_1:String=""):Array
         {
             return (this._prevents.concat(this.getTypePrevents(_arg_1)));
         }
-        public function IActionDefinition(_arg_1:String=""):Boolean
+        public function getPreventHeadTurn(_arg_1:String=""):Boolean
         {
             if (_arg_1 == ""){
                 return (this._preventHeadTurn);
@@ -168,14 +168,14 @@ package com.sulake.habbo.avatar.actions
             };
             return (this._preventHeadTurn);
         }
-        public function IActionDefinition(_arg_1:String):Boolean
+        public function isAnimated(_arg_1:String):Boolean
         {
             if (_arg_1 == ""){
                 return (true);
             };
             var _local_2:ActionType = this._types[_arg_1];
             if (_local_2 != null){
-                return (_local_2.IActionDefinition);
+                return (_local_2.isAnimated);
             };
             return (true);
         }
@@ -194,7 +194,7 @@ package com.sulake.habbo.avatar.actions
 // isAnimation = "_-1QB" (String#5356, DoABC#2)
 // assetPartDefinition = "_-1ID" (String#5210, DoABC#2)
 // preventHeadTurn = "_-1Cd" (String#16970, DoABC#2)
-// IActionDefinition = "_-0q7" (String#4640, DoABC#2)
+// isAnimated = "_-0q7" (String#4640, DoABC#2)
 // _precedence = "_-1RV" (String#17564, DoABC#2)
 // _activePartSet = "_-0hW" (String#15728, DoABC#2)
 // _assetPartDefinition = "_-1Y8" (String#17820, DoABC#2)
@@ -204,12 +204,12 @@ package com.sulake.habbo.avatar.actions
 // _SafeStr_9904 = "_-16y" (String#1623, DoABC#2)
 // _SafeStr_9905 = "_-0Z6" (String#15407, DoABC#2)
 // _SafeStr_9906 = "default" (String#139, DoABC#2)
-// IActionDefinition = "_-30r" (String#7323, DoABC#2)
-// IActionDefinition = "_-336" (String#7368, DoABC#2)
+// setOffsets = "_-30r" (String#7323, DoABC#2)
+// getOffsets = "_-336" (String#7368, DoABC#2)
 // getParameterValue = "_-1M2" (String#17360, DoABC#2)
 // getTypePrevents = "_-3GO" (String#22138, DoABC#2)
 // isDefault = "_-Dn" (String#7947, DoABC#2)
-// IActionDefinition = "_-0Rn" (String#4130, DoABC#2)
-// IActionDefinition = "_-S-" (String#8246, DoABC#2)
+// getPrevents = "_-0Rn" (String#4130, DoABC#2)
+// getPreventHeadTurn = "_-S-" (String#8246, DoABC#2)
 
 

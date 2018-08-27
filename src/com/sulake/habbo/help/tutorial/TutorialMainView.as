@@ -24,7 +24,7 @@ package com.sulake.habbo.help.tutorial
             if (_local_3 == null){
                 return;
             };
-            _local_3.procedure = this.TutorialMainView;
+            _local_3.procedure = this.windowProcedure;
             var _local_4:IItemListWindow = (_local_3.findChildByName("button_list") as IItemListWindow);
             var _local_5:int;
             _local_6 = _local_3.findChildByName("container_name");
@@ -32,7 +32,7 @@ package com.sulake.habbo.help.tutorial
                 _local_4.removeListItem(_local_6);
             }
             else {
-                this.TutorialMainView(_local_3.findChildByName("button_name"));
+                this.setButtonStateNormal(_local_3.findChildByName("button_name"));
                 _local_5 = (_local_5 + _local_6.width);
             };
             _local_6 = _local_3.findChildByName("container_looks");
@@ -40,7 +40,7 @@ package com.sulake.habbo.help.tutorial
                 _local_4.removeListItem(_local_6);
             }
             else {
-                this.TutorialMainView(_local_3.findChildByName("button_looks"));
+                this.setButtonStateNormal(_local_3.findChildByName("button_looks"));
                 _local_5 = (_local_5 + _local_6.width);
             };
             _local_6 = _local_3.findChildByName("container_guidebot");
@@ -48,7 +48,7 @@ package com.sulake.habbo.help.tutorial
                 _local_4.removeListItem(_local_6);
             }
             else {
-                this.TutorialMainView(_local_3.findChildByName("button_guidebot"));
+                this.setButtonStateNormal(_local_3.findChildByName("button_guidebot"));
                 _local_5 = (_local_5 + _local_6.width);
             };
             _local_4.width = _local_5;
@@ -67,7 +67,7 @@ package com.sulake.habbo.help.tutorial
         public function dispose():void
         {
         }
-        private function TutorialMainView(_arg_1:IWindow):void
+        private function setButtonStateNormal(_arg_1:IWindow):void
         {
             var _local_3:BitmapDataAsset;
             var _local_2:IBitmapWrapperWindow = (_arg_1 as IBitmapWrapperWindow);
@@ -86,7 +86,7 @@ package com.sulake.habbo.help.tutorial
                 _local_2.bitmap = (_local_3.content as BitmapData).clone();
             };
         }
-        private function TutorialMainView(_arg_1:IWindow):void
+        private function setButtonStateOver(_arg_1:IWindow):void
         {
             var _local_3:BitmapDataAsset;
             var _local_2:IBitmapWrapperWindow = (_arg_1 as IBitmapWrapperWindow);
@@ -105,45 +105,45 @@ package com.sulake.habbo.help.tutorial
                 _local_2.bitmap = (_local_3.content as BitmapData).clone();
             };
         }
-        private function TutorialMainView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowProcedure(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             switch (_arg_2.name){
                 case "button_looks":
                     switch (_arg_1.type){
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
-                            this._help.HabboInventory(TutorialUI.TUI_CLOTHES_VIEW);
+                            this._help.showView(TutorialUI.TUI_CLOTHES_VIEW);
                             break;
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateOver(_arg_2);
                             break;
                         case WindowMouseEvent.WME_OUT:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateNormal(_arg_2);
                             break;
                     };
                     return;
                 case "button_name":
                     switch (_arg_1.type){
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
-                            this._help.HabboInventory(TutorialUI.TUI_NAME_VIEW);
+                            this._help.showView(TutorialUI.TUI_NAME_VIEW);
                             break;
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateOver(_arg_2);
                             break;
                         case WindowMouseEvent.WME_OUT:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateNormal(_arg_2);
                             break;
                     };
                     return;
                 case "button_guidebot":
                     switch (_arg_1.type){
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
-                            this._help.HabboInventory(TutorialUI.TUI_GUIDEBOT_VIEW);
+                            this._help.showView(TutorialUI.TUI_GUIDEBOT_VIEW);
                             break;
                         case WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateOver(_arg_2);
                             break;
                         case WindowMouseEvent.WME_OUT:
-                            this.TutorialMainView(_arg_2);
+                            this.setButtonStateNormal(_arg_2);
                             break;
                     };
                     return;
@@ -159,9 +159,9 @@ package com.sulake.habbo.help.tutorial
 // TUI_MAIN_VIEW = "_-0CO" (String#14545, DoABC#2)
 // TUI_CLOTHES_VIEW = "_-2a" (String#20440, DoABC#2)
 // TUI_GUIDEBOT_VIEW = "_-0n" (String#15938, DoABC#2)
-// TutorialMainView = "_-1tK" (String#869, DoABC#2)
-// TutorialMainView = "_-7" (String#22499, DoABC#2)
-// TutorialMainView = "_-Yr" (String#23594, DoABC#2)
+// windowProcedure = "_-1tK" (String#869, DoABC#2)
+// setButtonStateNormal = "_-7" (String#22499, DoABC#2)
+// setButtonStateOver = "_-Yr" (String#23594, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // TutorialUI = "_-38o" (String#7488, DoABC#2)
@@ -171,6 +171,6 @@ package com.sulake.habbo.help.tutorial
 // hasChangedName = "_-33G" (String#7371, DoABC#2)
 // hasChangedLooks = "_-32V" (String#21597, DoABC#2)
 // hasCalledGuideBot = "_-l6" (String#24074, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 
 

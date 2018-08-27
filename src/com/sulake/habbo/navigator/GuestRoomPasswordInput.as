@@ -34,7 +34,7 @@ package com.sulake.habbo.navigator
             };
             if (_arg_2 != null){
                 _arg_2.offset((-(this._window.width) / 2), (-(this._window.height) / 2));
-                this._window.WindowController(_arg_2);
+                this._window.setGlobalPosition(_arg_2);
             };
             this._window.visible = true;
             this._window.activate();
@@ -134,6 +134,6 @@ package com.sulake.habbo.navigator
 // GuestRoomData = "_-06S" (String#3692, DoABC#2)
 // flatId = "_-3CK" (String#21973, DoABC#2)
 // goToRoom = "_-2Jw" (String#6438, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
 
 

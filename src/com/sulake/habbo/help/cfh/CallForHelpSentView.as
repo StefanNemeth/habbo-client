@@ -34,10 +34,10 @@ package com.sulake.habbo.help.cfh
             var _local_1:IWindow = container.findChildByTag("close");
             if (_local_1 != null){
                 _local_1.setParamFlag(WindowParam._SafeStr_7434);
-                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onClose(_arg_1:WindowMouseEvent):void
         {
             main.hideUI();
         }
@@ -49,7 +49,7 @@ package com.sulake.habbo.help.cfh
 // HelpViewController = "_-IY" (String#8052, DoABC#2)
 // CallForHelpSentView = "_-0am" (String#4318, DoABC#2)
 // _SafeStr_5032 = "_-0Tq" (String#4176, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 
 

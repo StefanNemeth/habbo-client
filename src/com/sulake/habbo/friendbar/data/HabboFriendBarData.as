@@ -82,7 +82,7 @@ package com.sulake.habbo.friendbar.data
             this._SafeStr_10888 = new Map();
             this._friendRequests = new Array();
             queueInterface(new IIDHabboConfigurationManager(), this.onConfigurationAvailable);
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboEventStream);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationManagerAvailable);
             queueInterface(new IIDHabboFriendList(), this.onFriendListComponentAvailable);
             queueInterface(new IIDHabboMessenger(), this.onMessengerComponentAvailable);
             queueInterface(new IIDHabboEventStream(), this.onOfflineStreamAvailable);
@@ -125,15 +125,15 @@ package com.sulake.habbo.friendbar.data
         {
             return (this._SafeStr_10887.length);
         }
-        public function HabboFriendBarData(_arg_1:int):IFriendEntity
+        public function getFriendAt(_arg_1:int):IFriendEntity
         {
             return (this._SafeStr_10887[_arg_1]);
         }
-        public function HabboFriendBarData(_arg_1:int):IFriendEntity
+        public function getFriendByID(_arg_1:int):IFriendEntity
         {
             return (this._SafeStr_10888.getValue(_arg_1));
         }
-        public function HabboFriendBarData(_arg_1:String):IFriendEntity
+        public function getFriendByName(_arg_1:String):IFriendEntity
         {
             var _local_2:FriendEntity;
             for each (_local_2 in this._SafeStr_10887) {
@@ -143,7 +143,7 @@ package com.sulake.habbo.friendbar.data
             };
             return (null);
         }
-        public function HabboFriendBarData(_arg_1:IFriendEntity, _arg_2:int):void
+        public function setFriendAt(_arg_1:IFriendEntity, _arg_2:int):void
         {
             var _local_3:int = this._SafeStr_10887.indexOf(_arg_1);
             if ((((_local_3 > -1)) && (!((_local_3 == _arg_2))))){
@@ -156,11 +156,11 @@ package com.sulake.habbo.friendbar.data
         {
             return (((this._friendRequests) ? this._friendRequests.length : 0));
         }
-        public function HabboFriendBarData(_arg_1:int):FriendRequest
+        public function getFriendRequestAt(_arg_1:int):FriendRequest
         {
             return (((this._friendRequests) ? this._friendRequests[_arg_1] : null));
         }
-        public function HabboFriendBarData(_arg_1:int):FriendRequest
+        public function getFriendRequestByID(_arg_1:int):FriendRequest
         {
             var _local_2:FriendRequest;
             if (this._friendRequests){
@@ -172,7 +172,7 @@ package com.sulake.habbo.friendbar.data
             };
             return (null);
         }
-        public function HabboFriendBarData(_arg_1:String):FriendRequest
+        public function getFriendRequestByName(_arg_1:String):FriendRequest
         {
             var _local_2:FriendRequest;
             if (this._friendRequests){
@@ -184,7 +184,7 @@ package com.sulake.habbo.friendbar.data
             };
             return (null);
         }
-        public function HabboFriendBarData():Array
+        public function getFriendRequestList():Array
         {
             return (this._friendRequests);
         }
@@ -234,8 +234,8 @@ package com.sulake.habbo.friendbar.data
         public function followToRoom(_arg_1:int):void
         {
             if (this._SafeStr_10883){
-                this._SafeStr_10883.HabboCommunicationManager(null).send(new FollowFriendMessageComposer(_arg_1));
-                this._SafeStr_10883.HabboCommunicationManager(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10874));
+                this._SafeStr_10883.getHabboMainConnection(null).send(new FollowFriendMessageComposer(_arg_1));
+                this._SafeStr_10883.getHabboMainConnection(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10874));
             };
         }
         public function startConversation(_arg_1:int):void
@@ -244,15 +244,15 @@ package com.sulake.habbo.friendbar.data
                 this._SafeStr_10885.startConversation(_arg_1);
                 events.dispatchEvent(new NewMessageEvent(false, _arg_1));
                 if (this._SafeStr_10883){
-                    this._SafeStr_10883.HabboCommunicationManager(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10875));
+                    this._SafeStr_10883.getHabboMainConnection(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10875));
                 };
             };
         }
         public function findNewFriends():void
         {
             if (this._SafeStr_10883){
-                this._SafeStr_10883.HabboCommunicationManager(null).send(new FindNewFriendsMessageComposer());
-                this._SafeStr_10883.HabboCommunicationManager(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10876));
+                this._SafeStr_10883.getHabboMainConnection(null).send(new FindNewFriendsMessageComposer());
+                this._SafeStr_10883.getHabboMainConnection(null).send(new EventLogMessageComposer(_SafeStr_10872, _SafeStr_10873, _SafeStr_10876));
             };
         }
         public function toggleFriendList():void
@@ -260,7 +260,7 @@ package com.sulake.habbo.friendbar.data
             var _local_1:IWindowContainer;
             if (this._SafeStr_10884){
                 if (!this._SafeStr_10884.disposed){
-                    if (!this._SafeStr_10884.IssueBrowser()){
+                    if (!this._SafeStr_10884.isOpen()){
                         if (this._friendRequests.length > 0){
                             this._SafeStr_10884.openFriendRequests();
                         }
@@ -270,14 +270,14 @@ package com.sulake.habbo.friendbar.data
                     }
                     else {
                         _local_1 = this._SafeStr_10884.mainWindow;
-                        if (((!((_local_1 == null))) && (WindowToggle.WindowToggle(_local_1)))){
+                        if (((!((_local_1 == null))) && (WindowToggle.isHiddenByOtherWindows(_local_1)))){
                             _local_1.activate();
                             return;
                         };
                         this._SafeStr_10884.close();
                     };
                     if (this._SafeStr_10883){
-                        this._SafeStr_10883.HabboCommunicationManager(null).send(new EventLogMessageComposer(_SafeStr_10877, FRIENDLIST, ((this._SafeStr_10884.IssueBrowser()) ? _SafeStr_10878 : _SafeStr_10879)));
+                        this._SafeStr_10883.getHabboMainConnection(null).send(new EventLogMessageComposer(_SafeStr_10877, FRIENDLIST, ((this._SafeStr_10884.isOpen()) ? _SafeStr_10878 : _SafeStr_10879)));
                     };
                 };
             };
@@ -288,7 +288,7 @@ package com.sulake.habbo.friendbar.data
                 if (!this._SafeStr_10885.disposed){
                     this._SafeStr_10885.toggleMessenger();
                     if (this._SafeStr_10883){
-                        this._SafeStr_10883.HabboCommunicationManager(null).send(new EventLogMessageComposer(_SafeStr_10877, MESSENGER, ((this._SafeStr_10885.IssueBrowser()) ? _SafeStr_10878 : _SafeStr_10879)));
+                        this._SafeStr_10883.getHabboMainConnection(null).send(new EventLogMessageComposer(_SafeStr_10877, MESSENGER, ((this._SafeStr_10885.isOpen()) ? _SafeStr_10878 : _SafeStr_10879)));
                     };
                 };
             };
@@ -315,17 +315,17 @@ package com.sulake.habbo.friendbar.data
             this._SafeStr_10891 = this._SafeStr_10882.getBoolean("friendbar.notifications.enabled", false);
             this._SafeStr_10892 = this._SafeStr_10882.getBoolean("friendbar.requests.enabled", false);
         }
-        private function HabboEventStream(_arg_1:IID, _arg_2:IUnknown):void
+        private function onCommunicationManagerAvailable(_arg_1:IID, _arg_2:IUnknown):void
         {
             this._SafeStr_10883 = (_arg_2 as IHabboCommunicationManager);
-            this._SafeStr_10883.HabboCommunicationManager(new MessengerInitEvent(this.onMessengerInitialized));
-            this._SafeStr_10883.HabboCommunicationManager(new FriendListUpdateEvent(this.onFriendListUpdate));
-            this._SafeStr_10883.HabboCommunicationManager(new FindFriendsProcessResultEvent(this.onFindFriendProcessResult));
-            this._SafeStr_10883.HabboCommunicationManager(new NewBuddyRequestEvent(this.onNewFriendRequest));
-            this._SafeStr_10883.HabboCommunicationManager(new BuddyRequestsEvent(this.onFriendRequestList));
-            this._SafeStr_10883.HabboCommunicationManager(new NewConsoleMessageEvent(this.onNewConsoleMessage));
-            this._SafeStr_10883.HabboCommunicationManager(new RoomInviteEvent(this.onRoomInvite));
-            this._SafeStr_10883.HabboCommunicationManager(new FriendNotificationEvent(this.HabboFriendBarView));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new MessengerInitEvent(this.onMessengerInitialized));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new FriendListUpdateEvent(this.onFriendListUpdate));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new FindFriendsProcessResultEvent(this.onFindFriendProcessResult));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new NewBuddyRequestEvent(this.onNewFriendRequest));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new BuddyRequestsEvent(this.onFriendRequestList));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new NewConsoleMessageEvent(this.onNewConsoleMessage));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new RoomInviteEvent(this.onRoomInvite));
+            this._SafeStr_10883.addHabboConnectionMessageEvent(new FriendNotificationEvent(this.onFriendNotification));
         }
         private function onMessengerComponentAvailable(_arg_1:IID, _arg_2:IUnknown):void
         {
@@ -439,7 +439,7 @@ package com.sulake.habbo.friendbar.data
             this._SafeStr_10890 = _local_2.senderId;
             var _local_3:Boolean = true;
             if (this._SafeStr_10885){
-                if (this._SafeStr_10885.IssueBrowser()){
+                if (this._SafeStr_10885.isOpen()){
                     _local_4 = this._SafeStr_10885.getActiveConversation();
                     if (_local_4){
                         if (_local_4.id == this._SafeStr_10890){
@@ -457,12 +457,12 @@ package com.sulake.habbo.friendbar.data
         {
             var _local_2:RoomInviteMessageParser = _arg_1.getParser();
             this._SafeStr_10890 = _local_2.senderId;
-            if (((this._SafeStr_10885) && (!(this._SafeStr_10885.IssueBrowser())))){
+            if (((this._SafeStr_10885) && (!(this._SafeStr_10885.isOpen())))){
                 events.dispatchEvent(new NewMessageEvent(true, this._SafeStr_10890));
                 this.makeNotification(String(this._SafeStr_10890), FriendNotification._SafeStr_10917, null, true, false);
             };
         }
-        private function HabboFriendBarView(_arg_1:FriendNotificationEvent):void
+        private function onFriendNotification(_arg_1:FriendNotificationEvent):void
         {
             var _local_2:FriendNotificationMessageParser = _arg_1.getParser();
             this.makeNotification(_local_2.avatarId, _local_2.typeCode, _local_2.message, true, true);
@@ -473,7 +473,7 @@ package com.sulake.habbo.friendbar.data
             var _local_7:FriendNotification;
             var _local_8:Vector.<FriendNotification>;
             if (this._SafeStr_10891){
-                _local_6 = this.HabboFriendBarData(parseInt(_arg_1));
+                _local_6 = this.getFriendByID(parseInt(_arg_1));
                 if (_local_6){
                     _local_8 = _local_6.notifications;
                     for each (_local_7 in _local_8) {
@@ -490,10 +490,10 @@ package com.sulake.habbo.friendbar.data
                     };
                     events.dispatchEvent(new NotificationEvent(_local_6.id, _local_7));
                     if (_arg_5){
-                        this.HabboFriendBarData(_local_6, 0);
+                        this.setFriendAt(_local_6, 0);
                     };
                     if (_local_6.logEventId < 0){
-                        _local_6.logEventId = _local_6.IFriendEntity();
+                        _local_6.logEventId = _local_6.getNextLogEventId();
                     };
                     HabboTracking.getInstance().trackEventLog("FriendBar", FriendNotification.typeCodeToString(_arg_2), "notified", "", (((_local_6.logEventId > 0)) ? _local_6.logEventId : 0));
                 };
@@ -552,14 +552,14 @@ package com.sulake.habbo.friendbar.data
 // IID = "_-3KV" (String#7712, DoABC#2)
 // lastAccess = "_-Es" (String#7968, DoABC#2)
 // numFriends = "_-nN" (String#8666, DoABC#2)
-// HabboFriendBarData = "_-1K4" (String#5244, DoABC#2)
-// HabboFriendBarData = "_-m3" (String#8644, DoABC#2)
-// HabboFriendBarData = "_-0QT" (String#4102, DoABC#2)
+// getFriendAt = "_-1K4" (String#5244, DoABC#2)
+// getFriendByID = "_-m3" (String#8644, DoABC#2)
+// getFriendByName = "_-0QT" (String#4102, DoABC#2)
 // numFriendRequests = "_-0" (String#3548, DoABC#2)
-// HabboFriendBarData = "_-3-l" (String#7299, DoABC#2)
-// HabboFriendBarData = "_-1LM" (String#5268, DoABC#2)
-// HabboFriendBarData = "_-GP" (String#8003, DoABC#2)
-// HabboFriendBarData = "_-0Wl" (String#4243, DoABC#2)
+// getFriendRequestAt = "_-3-l" (String#7299, DoABC#2)
+// getFriendRequestByID = "_-1LM" (String#5268, DoABC#2)
+// getFriendRequestByName = "_-GP" (String#8003, DoABC#2)
+// getFriendRequestList = "_-0Wl" (String#4243, DoABC#2)
 // toggleFriendList = "_-tA" (String#8753, DoABC#2)
 // toggleMessenger = "_-2E7" (String#1838, DoABC#2)
 // toggleOfflineStream = "_-2ED" (String#6325, DoABC#2)
@@ -588,12 +588,12 @@ package com.sulake.habbo.friendbar.data
 // _SafeStr_10891 = "_-0Rc" (String#15125, DoABC#2)
 // _SafeStr_10892 = "_-1ws" (String#18840, DoABC#2)
 // onConfigurationAvailable = "_-pU" (String#2202, DoABC#2)
-// HabboEventStream = "_-1id" (String#5725, DoABC#2)
+// onCommunicationManagerAvailable = "_-1id" (String#5725, DoABC#2)
 // onFriendListComponentAvailable = "_-0xC" (String#16320, DoABC#2)
 // onMessengerComponentAvailable = "_-NQ" (String#23142, DoABC#2)
 // onOfflineStreamAvailable = "_-0wR" (String#16289, DoABC#2)
 // onFriendRequestEvent = "_-01J" (String#14103, DoABC#2)
-// HabboFriendBarData = "_-1B2" (String#16902, DoABC#2)
+// setFriendAt = "_-1B2" (String#16902, DoABC#2)
 // removeFriendRequest = "_-04n" (String#14231, DoABC#2)
 // openFriendRequests = "_-20l" (String#6059, DoABC#2)
 // refreshEventStream = "_-1Zw" (String#1711, DoABC#2)
@@ -604,7 +604,7 @@ package com.sulake.habbo.friendbar.data
 // onFriendRequestList = "_-gu" (String#23925, DoABC#2)
 // onNewConsoleMessage = "_-1Gn" (String#5184, DoABC#2)
 // onRoomInvite = "_-3Fn" (String#7626, DoABC#2)
-// HabboFriendBarView = "_-Mx" (String#8141, DoABC#2)
+// onFriendNotification = "_-Mx" (String#8141, DoABC#2)
 // buildFriendList = "_-06H" (String#14297, DoABC#2)
 // allowFollow = "_-1Va" (String#5466, DoABC#2)
 // sortByNameAndOnlineStatus = "_-0YI" (String#15370, DoABC#2)
@@ -615,7 +615,7 @@ package com.sulake.habbo.friendbar.data
 // notifications = "_-1zJ" (String#1789, DoABC#2)
 // viewOnce = "_-3JO" (String#22260, DoABC#2)
 // logEventId = "_-Vm" (String#8316, DoABC#2)
-// IFriendEntity = "_-0OK" (String#4053, DoABC#2)
+// getNextLogEventId = "_-0OK" (String#4053, DoABC#2)
 // typeCodeToString = "_-AL" (String#22630, DoABC#2)
 // WindowToggle = "_-1Ud" (String#17689, DoABC#2)
 // IHabboEventStream = "_-2Uk" (String#6661, DoABC#2)
@@ -651,14 +651,14 @@ package com.sulake.habbo.friendbar.data
 // figureString = "_-P1" (String#23207, DoABC#2)
 // realName = "_-3HH" (String#922, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
-// WindowToggle = "_-1OQ" (String#17449, DoABC#2)
+// isHiddenByOtherWindows = "_-1OQ" (String#17449, DoABC#2)
 // trackEventLog = "_-0ML" (String#14927, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // RWDE_ACCEPTED = "_-1OB" (String#17441, DoABC#2)
 // FRE_DECLINED = "_-2IY" (String#19749, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // senderId = "_-2GI" (String#19654, DoABC#2)
 // reqs = "_-31c" (String#21563, DoABC#2)
 // friends = "_-10-" (String#16467, DoABC#2)

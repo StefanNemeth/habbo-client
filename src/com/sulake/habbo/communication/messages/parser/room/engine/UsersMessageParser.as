@@ -18,7 +18,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             this._users = [];
             super();
         }
-        public static function UsersMessageParser(_arg_1:String):String
+        public static function convertOldPetFigure(_arg_1:String):String
         {
             var _local_8:int;
             var _local_9:int;
@@ -60,13 +60,13 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             this._roomCategory = 0;
             return (true);
         }
-        public function UsersMessageParser():int
+        public function getUserCount():int
         {
             return (this._users.length);
         }
-        public function UsersMessageParser(_arg_1:int):UserMessageData
+        public function getUser(_arg_1:int):UserMessageData
         {
-            if ((((_arg_1 < 0)) || ((_arg_1 >= this.UsersMessageParser())))){
+            if ((((_arg_1 < 0)) || ((_arg_1 >= this.getUserCount())))){
                 return (null);
             };
             var _local_2:UserMessageData = (this._users[_arg_1] as UserMessageData);
@@ -116,13 +116,13 @@ package com.sulake.habbo.communication.messages.parser.room.engine
                     Logger.log("Got user member.");
                     _local_14.webID = _local_4;
                     _local_14.userType = RoomObjectTypeEnum._SafeStr_3740;
-                    _local_14.sex = this.UsersMessageParser(_arg_1.readString());
+                    _local_14.sex = this.resolveSex(_arg_1.readString());
                     _local_14.xp = _arg_1.readInteger();
                     _local_14.groupID = ("" + _arg_1.readInteger());
                     _local_14.groupStatus = _arg_1.readInteger();
                     _local_15 = _arg_1.readString();
                     if (_local_15 != ""){
-                        _local_7 = this.UsersMessageParser(_local_15, _local_7, _local_14.sex);
+                        _local_7 = this.convertSwimFigure(_local_15, _local_7, _local_14.sex);
                     };
                     _local_14.figure = _local_7;
                     _local_14.achievementScore = _arg_1.readInteger();
@@ -152,14 +152,14 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             };
             return (true);
         }
-        private function UsersMessageParser(_arg_1:String):String
+        private function resolveSex(_arg_1:String):String
         {
             if (_arg_1.substr(0, 1).toLowerCase() == "f"){
                 return (UserMessageData.F);
             };
             return (UserMessageData.M);
         }
-        private function UsersMessageParser(_arg_1:String, _arg_2:String, _arg_3:String):String
+        private function convertSwimFigure(_arg_1:String, _arg_2:String, _arg_3:String):String
         {
             var _local_13:String;
             var _local_14:Array;
@@ -213,18 +213,18 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // RoomObjectTypeEnum = "_-2hK" (String#20744, DoABC#2)
 // userType = "_-0Dh" (String#14596, DoABC#2)
 // readString = "_-2y7" (String#1973, DoABC#2)
-// UsersMessageParser = "_-0Cp" (String#14563, DoABC#2)
-// UsersMessageParser = "_-xV" (String#24590, DoABC#2)
-// UsersMessageParser = "_-0C8" (String#14534, DoABC#2)
+// convertOldPetFigure = "_-0Cp" (String#14563, DoABC#2)
+// getUserCount = "_-xV" (String#24590, DoABC#2)
+// getUser = "_-0C8" (String#14534, DoABC#2)
 // setReadOnly = "_-5p" (String#22456, DoABC#2)
 // custom = "_-1sW" (String#5894, DoABC#2)
 // webID = "_-2uI" (String#7166, DoABC#2)
 // _SafeStr_3740 = "_-39-" (String#21844, DoABC#2)
 // sex = "_-0tG" (String#4712, DoABC#2)
-// UsersMessageParser = "_-22e" (String#19117, DoABC#2)
+// resolveSex = "_-22e" (String#19117, DoABC#2)
 // groupID = "_-37J" (String#7452, DoABC#2)
 // groupStatus = "_-1Sq" (String#5411, DoABC#2)
-// UsersMessageParser = "_-20t" (String#19047, DoABC#2)
+// convertSwimFigure = "_-20t" (String#19047, DoABC#2)
 // achievementScore = "_-16Z" (String#5005, DoABC#2)
 // _SafeStr_3747 = "_-gF" (String#23903, DoABC#2)
 // subType = "_-uO" (String#24467, DoABC#2)

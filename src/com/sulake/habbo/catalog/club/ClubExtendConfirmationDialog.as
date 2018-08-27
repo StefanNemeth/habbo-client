@@ -105,7 +105,7 @@ package com.sulake.habbo.catalog.club
             if (!this._view){
                 return;
             };
-            this._view.procedure = this.NameChangeView;
+            this._view.procedure = this.windowEventHandler;
             this._view.center();
             if (!this._offer.vip){
                 this._localizationKey = (this._localizationKey + "basic.");
@@ -308,7 +308,7 @@ package com.sulake.habbo.catalog.club
                 this.setElementBitmapData("club_teaser", _local_3);
             };
         }
-        private function NameChangeView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((((((((!(_arg_1)) || (!(_arg_2)))) || (!(this._controller)))) || (!(this._offer)))) || (this._disposed))){
                 return;
@@ -322,7 +322,7 @@ package com.sulake.habbo.catalog.club
                     return;
                 case "header_button_close":
                 case "maybe_later_region":
-                    this._controller.ExtraToolsExtension();
+                    this._controller.closeConfirmation();
                     return;
             };
         }
@@ -355,9 +355,9 @@ package com.sulake.habbo.catalog.club
 // _controller = "_-18D" (String#59, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _offer = "_-1jb" (String#165, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
 // confirmSelection = "_-fK" (String#23861, DoABC#2)
-// NameChangeView = "_-36j" (String#371, DoABC#2)
+// windowEventHandler = "_-36j" (String#371, DoABC#2)
 // _SafeStr_5468 = "_-1lM" (String#18346, DoABC#2)
 // _SafeStr_5469 = "_-2RG" (String#20091, DoABC#2)
 // _SafeStr_5470 = "_-iK" (String#23973, DoABC#2)

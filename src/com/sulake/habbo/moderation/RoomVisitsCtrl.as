@@ -38,11 +38,11 @@ package com.sulake.habbo.moderation
             this._help = _arg_1;
             this._userId = _arg_2;
         }
-        public static function RoomVisitsCtrl(_arg_1:int, _arg_2:int):String
+        public static function getFormattedTime(_arg_1:int, _arg_2:int):String
         {
-            return (((RoomVisitsCtrl(_arg_1) + ":") + RoomVisitsCtrl(_arg_2)));
+            return (((padToTwoDigits(_arg_1) + ":") + padToTwoDigits(_arg_2)));
         }
-        public static function RoomVisitsCtrl(_arg_1:int):String
+        public static function padToTwoDigits(_arg_1:int):String
         {
             return ((((_arg_1 < 10)) ? ("0" + _arg_1) : ("" + _arg_1)));
         }
@@ -60,11 +60,11 @@ package com.sulake.habbo.moderation
             this._help.connection.send(new GetRoomVisitsMessageComposer(this._userId));
             this._frame = IFrameWindow(this._help.getXmlWindow("roomvisits_frame"));
             this._content = IItemListWindow(this._frame.findChildByName("visits_list"));
-            this._frame.procedure = this.RoomVisitsCtrl;
+            this._frame.procedure = this.onWindow;
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
+            _local_1.procedure = this.onClose;
         }
-        public function RoomVisitsCtrl(_arg_1:RoomVisitsData):void
+        public function onRoomVisits(_arg_1:RoomVisitsData):void
         {
             if (_arg_1.userId != this._userId){
                 return;
@@ -96,13 +96,13 @@ package com.sulake.habbo.moderation
             var _local_2:RoomVisitData;
             var _local_1:Boolean = true;
             for each (_local_2 in this._rooms) {
-                this.RoomVisitsCtrl(_local_2, _local_1);
+                this.populateRoomRow(_local_2, _local_1);
                 _local_1 = !(_local_1);
             };
         }
-        private function RoomVisitsCtrl(_arg_1:RoomVisitData, _arg_2:Boolean):void
+        private function populateRoomRow(_arg_1:RoomVisitData, _arg_2:Boolean):void
         {
-            var _local_3:IWindowContainer = this.RoomVisitsCtrl();
+            var _local_3:IWindowContainer = this.getRoomRowWindow();
             var _local_4:uint = ((_arg_2) ? 4288861930 : 0xFFFFFFFF);
             _local_3.color = _local_4;
             var _local_5:IWindow = _local_3.findChildByName("room_name_txt");
@@ -110,25 +110,25 @@ package com.sulake.habbo.moderation
             new OpenRoomTool(this._frame, this._help, _local_5, _arg_1.isPublic, _arg_1.roomId);
             _local_5.color = _local_4;
             var _local_6:ITextWindow = ITextWindow(_local_3.findChildByName("time_txt"));
-            _local_6.text = RoomVisitsCtrl(_arg_1.enterHour, _arg_1.enterMinute);
+            _local_6.text = getFormattedTime(_arg_1.enterHour, _arg_1.enterMinute);
             var _local_7:ITextWindow = ITextWindow(_local_3.findChildByName("view_room_txt"));
             new OpenRoomInSpectatorMode(this._help, _local_7, _arg_1.isPublic, _arg_1.roomId);
             _local_7.color = _local_4;
-            this.RoomVisitsCtrl(_local_3, this._content);
+            this.addRoomRowToList(_local_3, this._content);
         }
-        private function RoomVisitsCtrl(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
+        private function addRoomRowToList(_arg_1:IWindowContainer, _arg_2:IItemListWindow):void
         {
             _arg_2.addListItem(_arg_1);
             this._SafeStr_11863.push(_arg_1);
         }
-        private function RoomVisitsCtrl():IWindowContainer
+        private function getRoomRowWindow():IWindowContainer
         {
             if (_SafeStr_11860.length > 0){
                 return ((_SafeStr_11860.pop() as IWindowContainer));
             };
             return (IWindowContainer(this._SafeStr_11862.clone()));
         }
-        private function RoomVisitsCtrl(_arg_1:IWindowContainer):void
+        private function storeRoomRowWindow(_arg_1:IWindowContainer):void
         {
             var _local_2:IWindow;
             var _local_3:IWindow;
@@ -145,14 +145,14 @@ package com.sulake.habbo.moderation
                 _arg_1.dispose();
             };
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this.dispose();
         }
-        private function RoomVisitsCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._frame))))){
                 return;
@@ -189,7 +189,7 @@ package com.sulake.habbo.moderation
             };
             this._disposed = true;
             if (this._content != null){
-                this._content.IItemListWindow();
+                this._content.removeListItems();
                 this._content.dispose();
                 this._content = null;
             };
@@ -204,7 +204,7 @@ package com.sulake.habbo.moderation
                 this._SafeStr_4247 = null;
             };
             for each (_local_1 in this._SafeStr_11863) {
-                this.RoomVisitsCtrl(_local_1);
+                this.storeRoomRowWindow(_local_1);
             };
             if (this._SafeStr_11862 != null){
                 this._SafeStr_11862.dispose();
@@ -216,23 +216,23 @@ package com.sulake.habbo.moderation
     }
 }//package com.sulake.habbo.moderation
 
-// RoomVisitsCtrl = "_-1zg" (String#873, DoABC#2)
+// onWindow = "_-1zg" (String#873, DoABC#2)
 // _help = "_-3HG" (String#114, DoABC#2)
-// RoomVisitsCtrl = "_-hX" (String#8545, DoABC#2)
+// onRoomVisits = "_-hX" (String#8545, DoABC#2)
 // addRoomVisitsListener = "_-2Zz" (String#20439, DoABC#2)
 // removeRoomVisitsListener = "_-0DH" (String#14580, DoABC#2)
 // _SafeStr_11795 = "_-1mM" (String#18393, DoABC#2)
 // messageHandler = "_-2T6" (String#20168, DoABC#2)
-// RoomVisitsCtrl = "_-1qM" (String#18557, DoABC#2)
+// getFormattedTime = "_-1qM" (String#18557, DoABC#2)
 // _SafeStr_11860 = "_-2Sh" (String#20145, DoABC#2)
 // _SafeStr_11861 = "_-TZ" (String#23389, DoABC#2)
 // _SafeStr_11862 = "_-2Lu" (String#19880, DoABC#2)
 // _SafeStr_11863 = "_-2gp" (String#20722, DoABC#2)
-// RoomVisitsCtrl = "_-0Oo" (String#15018, DoABC#2)
-// RoomVisitsCtrl = "_-HN" (String#22907, DoABC#2)
-// RoomVisitsCtrl = "_-34i" (String#21685, DoABC#2)
-// RoomVisitsCtrl = "_-0d5" (String#15552, DoABC#2)
-// RoomVisitsCtrl = "_-3J3" (String#22242, DoABC#2)
+// padToTwoDigits = "_-0Oo" (String#15018, DoABC#2)
+// populateRoomRow = "_-HN" (String#22907, DoABC#2)
+// getRoomRowWindow = "_-34i" (String#21685, DoABC#2)
+// addRoomRowToList = "_-0d5" (String#15552, DoABC#2)
+// storeRoomRowWindow = "_-3J3" (String#22242, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // WindowTracker = "_-2m9" (String#7008, DoABC#2)
 // GetRoomVisitsMessageComposer = "_-1AB" (String#16866, DoABC#2)
@@ -248,8 +248,8 @@ package com.sulake.habbo.moderation
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// IItemListWindow = "_-aG" (String#8425, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// removeListItems = "_-aG" (String#8425, DoABC#2)
 // isPublic = "_-2lD" (String#20891, DoABC#2)
 // _rooms = "_-36o" (String#456, DoABC#2)
 // enterHour = "_-0oR" (String#15992, DoABC#2)

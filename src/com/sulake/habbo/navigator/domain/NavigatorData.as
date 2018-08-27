@@ -78,7 +78,7 @@ package com.sulake.habbo.navigator.domain
                 this._roomEventData = null;
             };
         }
-        public function HabboGroupInfoManager():void
+        public function onRoomExit():void
         {
             if (this._roomEventData != null){
                 this._roomEventData.dispose();
@@ -298,7 +298,7 @@ package com.sulake.habbo.navigator.domain
         {
             return (this._visibleCategories);
         }
-        public function IncomingMessages(_arg_1:FavouritesMessageParser):void
+        public function onFavourites(_arg_1:FavouritesMessageParser):void
         {
             var _local_2:int;
             this._SafeStr_8639 = _arg_1.limit;
@@ -414,14 +414,14 @@ package com.sulake.habbo.navigator.domain
 // _currentRoomIsStaffPick = "_-1je" (String#18270, DoABC#2)
 // _adIndex = "_-jd" (String#24022, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 // enteredRoom = "_-7F" (String#22511, DoABC#2)
 // disposeCurrentMsg = "_-0Qp" (String#15094, DoABC#2)
 // hcMember = "_-Pz" (String#23249, DoABC#2)
 // createdFlatId = "_-0bB" (String#15484, DoABC#2)
 // hotRoomPopupOpen = "_-3ET" (String#22054, DoABC#2)
 // settingsReceived = "_-197" (String#16822, DoABC#2)
-// IncomingMessages = "_-2ms" (String#7018, DoABC#2)
+// onFavourites = "_-2ms" (String#7018, DoABC#2)
 // favouriteChanged = "_-GF" (String#22861, DoABC#2)
 // isCurrentRoomHome = "_-1kn" (String#18322, DoABC#2)
 

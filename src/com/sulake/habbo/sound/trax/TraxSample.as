@@ -127,7 +127,7 @@ package com.sulake.habbo.sound.trax
                 this._SafeStr_6186 = null;
             };
         }
-        public function TraxSample(_arg_1:Vector.<int>, _arg_2:int, _arg_3:int, _arg_4:int):int
+        public function setSample(_arg_1:Vector.<int>, _arg_2:int, _arg_3:int, _arg_4:int):int
         {
             var _local_8:int;
             var _local_9:int;
@@ -245,7 +245,7 @@ package com.sulake.habbo.sound.trax
             };
             return ((_arg_4 * _local_5));
         }
-        public function TraxSample(_arg_1:Vector.<int>, _arg_2:int, _arg_3:int, _arg_4:int):int
+        public function addSample(_arg_1:Vector.<int>, _arg_2:int, _arg_3:int, _arg_4:int):int
         {
             var _local_7:int;
             var _local_8:int;
@@ -354,7 +354,7 @@ package com.sulake.habbo.sound.trax
             };
             return ((_arg_4 * _local_5));
         }
-        public function TraxSample(_arg_1:int, _arg_2:uint):void
+        public function setUsageFromSong(_arg_1:int, _arg_2:uint):void
         {
             if (this._SafeStr_6186 == null){
                 return;
@@ -364,7 +364,7 @@ package com.sulake.habbo.sound.trax
             };
             this._usageTimeStamp = _arg_2;
         }
-        public function TraxSample(_arg_1:int):Boolean
+        public function isUsedFromSong(_arg_1:int):Boolean
         {
             if (this._SafeStr_6186 == null){
                 return (false);
@@ -377,9 +377,9 @@ package com.sulake.habbo.sound.trax
 
 // TraxSample = "_-285" (String#6206, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// TraxSample = "_-2Qm" (String#20078, DoABC#2)
-// TraxSample = "_-1IC" (String#17201, DoABC#2)
-// TraxSample = "_-tt" (String#24443, DoABC#2)
+// setUsageFromSong = "_-2Qm" (String#20078, DoABC#2)
+// setSample = "_-1IC" (String#17201, DoABC#2)
+// addSample = "_-tt" (String#24443, DoABC#2)
 // _SafeStr_6173 = "_-1W8" (String#17748, DoABC#2)
 // _SafeStr_6174 = "_-17c" (String#16759, DoABC#2)
 // _SafeStr_6175 = "_-3Em" (String#22067, DoABC#2)
@@ -397,6 +397,6 @@ package com.sulake.habbo.sound.trax
 // _usageTimeStamp = "_-1fB" (String#18104, DoABC#2)
 // usageCount = "_-1s-" (String#18631, DoABC#2)
 // usageTimeStamp = "_-V9" (String#23455, DoABC#2)
-// TraxSample = "_-1Vj" (String#17730, DoABC#2)
+// isUsedFromSong = "_-1Vj" (String#17730, DoABC#2)
 
 

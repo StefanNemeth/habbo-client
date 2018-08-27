@@ -186,7 +186,7 @@ package com.sulake.core.window.tools
             _arg_3++;
             var _local_9:uint;
             while (_local_9 < _arg_1.numSubTasks) {
-                _arg_3 = this.recursiveRedraw(_arg_1.ProfilerAgentTask(_local_9), _arg_2, _arg_3, (_arg_4 + 1));
+                _arg_3 = this.recursiveRedraw(_arg_1.getSubTaskAt(_local_9), _arg_2, _arg_3, (_arg_4 + 1));
                 _local_9++;
             };
             return (_arg_3);
@@ -263,7 +263,7 @@ package com.sulake.core.window.tools
 // total = "_-2Ok" (String#19993, DoABC#2)
 // latest = "_-0Hv" (String#14754, DoABC#2)
 // numSubTasks = "_-25m" (String#19249, DoABC#2)
-// ProfilerAgentTask = "_-2T5" (String#20167, DoABC#2)
+// getSubTaskAt = "_-2T5" (String#20167, DoABC#2)
 // addStopEventListener = "_-3A-" (String#7511, DoABC#2)
 // padAlign = "_-0pr" (String#4630, DoABC#2)
 // removeStopEventListener = "_-1u8" (String#5924, DoABC#2)

@@ -25,7 +25,7 @@ package com.sulake.core.window.components
             _arg_4 = (_arg_4 | WindowParam._SafeStr_7434);
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
         }
-        public static function InteractiveController(_arg_1:IInteractiveWindow, _arg_2:WindowEvent):void
+        public static function processInteractiveWindowEvents(_arg_1:IInteractiveWindow, _arg_2:WindowEvent):void
         {
             if (_arg_1.toolTipCaption != PropertyDefaults.){
                 if (_arg_2.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
@@ -58,7 +58,7 @@ package com.sulake.core.window.components
                 };
             };
         }
-        public static function InteractiveController(_arg_1:IInteractiveWindow, _arg_2:Array):Array
+        public static function writeInteractiveWindowProperties(_arg_1:IInteractiveWindow, _arg_2:Array):Array
         {
             if (_arg_1.toolTipCaption != PropertyDefaults.){
                 _arg_2.push(new PropertyStruct(PropertyDefaults._SafeStr_9233, _arg_1.toolTipCaption, PropertyStruct._SafeStr_8998, true));
@@ -105,7 +105,7 @@ package com.sulake.core.window.components
             };
             return (_local_3);
         }
-        public function MouseEventProcessor(_arg_1:uint):uint
+        public function getMouseCursorByState(_arg_1:uint):uint
         {
             if (!this._cursorByState){
                 return (MouseCursorType._SafeStr_3729);
@@ -115,7 +115,7 @@ package com.sulake.core.window.components
         override public function update(_arg_1:WindowController, _arg_2:WindowEvent):Boolean
         {
             if (_arg_1 == this){
-                InteractiveController(this, _arg_2);
+                processInteractiveWindowEvents(this, _arg_2);
             };
             return (super.update(_arg_1, _arg_2));
         }
@@ -127,7 +127,7 @@ package com.sulake.core.window.components
         }
         override public function get properties():Array
         {
-            return (InteractiveController(this, super.properties));
+            return (writeInteractiveWindowProperties(this, super.properties));
         }
         override public function set properties(_arg_1:Array):void
         {
@@ -156,11 +156,11 @@ package com.sulake.core.window.components
 // _SafeStr_8998 = "_-1lW" (String#18353, DoABC#2)
 // toolTipDelay = "_-2W1" (String#6685, DoABC#2)
 // hideToolTip = "_-2VZ" (String#1889, DoABC#2)
-// MouseEventProcessor = "_-0Bd" (String#3788, DoABC#2)
+// getMouseCursorByState = "_-0Bd" (String#3788, DoABC#2)
 // _toolTipDelay = "_-0Bo" (String#810, DoABC#2)
 // _toolTipCaption = "_-03Q" (String#806, DoABC#2)
-// InteractiveController = "_-10V" (String#16483, DoABC#2)
-// InteractiveController = "_-3LB" (String#22332, DoABC#2)
+// processInteractiveWindowEvents = "_-10V" (String#16483, DoABC#2)
+// writeInteractiveWindowProperties = "_-3LB" (String#22332, DoABC#2)
 //  = "_-0Mq" (String#14946, DoABC#2)
 // _SafeStr_9233 = "_-2rP" (String#21134, DoABC#2)
 // _SafeStr_9234 = "_-0nj" (String#15965, DoABC#2)

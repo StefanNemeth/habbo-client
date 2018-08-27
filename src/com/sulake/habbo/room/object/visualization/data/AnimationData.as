@@ -160,7 +160,7 @@ package com.sulake.habbo.room.object.visualization.data
                     _local_22 = int(_local_18.@randomX);
                     _local_23 = int(_local_18.@randomY);
                     _local_24 = this.readDirectionalOffsets(_local_18);
-                    _local_15.AnimationFrameSequenceData(_local_19, _local_20, _local_21, _local_22, _local_23, _local_24);
+                    _local_15.addFrame(_local_19, _local_20, _local_21, _local_22, _local_23, _local_24);
                     _local_17++;
                 };
                 _local_15.initialize();
@@ -240,7 +240,7 @@ package com.sulake.habbo.room.object.visualization.data
 // addLayer = "_-0In" (String#14792, DoABC#2)
 // addFrameSequence = "_-XJ" (String#23535, DoABC#2)
 // readDirectionalOffsets = "_-AX" (String#22636, DoABC#2)
-// AnimationFrameSequenceData = "_-0Xl" (String#15346, DoABC#2)
+// addFrame = "_-0Xl" (String#15346, DoABC#2)
 // calculateLength = "_-2L8" (String#19853, DoABC#2)
 // setOffset = "_-2O1" (String#19966, DoABC#2)
 // getFrameFromSequence = "_-1rq" (String#18624, DoABC#2)

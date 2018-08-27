@@ -26,14 +26,14 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
         {
             return (true);
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
+        public function onInit(_arg_1:IWindowContainer, _arg_2:HabboUserDefinedRoomEvents):void
         {
         }
-        public function Element(_arg_1:IWindowContainer, _arg_2:Triggerable):void
+        public function onEditStart(_arg_1:IWindowContainer, _arg_2:Triggerable):void
         {
-            this.select(this.StatesMatch(_arg_1), _arg_2.getBoolean(0));
-            this.select(this.StatesMatch(_arg_1), _arg_2.getBoolean(1));
-            this.select(this.StatesMatch(_arg_1), _arg_2.getBoolean(2));
+            this.select(this.getStateInput(_arg_1), _arg_2.getBoolean(0));
+            this.select(this.getRotationInput(_arg_1), _arg_2.getBoolean(1));
+            this.select(this.getLocationInput(_arg_1), _arg_2.getBoolean(2));
         }
         private function select(_arg_1:ICheckBoxWindow, _arg_2:Boolean):void
         {
@@ -41,22 +41,22 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
                 _arg_1.select();
             }
             else {
-                _arg_1.ISelectableWindow();
+                _arg_1.unselect();
             };
         }
-        public function Element(_arg_1:IWindowContainer):Array
+        public function readIntParamsFromForm(_arg_1:IWindowContainer):Array
         {
             var _local_2:Array = new Array();
-            _local_2.push(this.StatesMatch(this.StatesMatch(_arg_1)));
-            _local_2.push(this.StatesMatch(this.StatesMatch(_arg_1)));
-            _local_2.push(this.StatesMatch(this.StatesMatch(_arg_1)));
+            _local_2.push(this.getIntState(this.getStateInput(_arg_1)));
+            _local_2.push(this.getIntState(this.getRotationInput(_arg_1)));
+            _local_2.push(this.getIntState(this.getLocationInput(_arg_1)));
             return (_local_2);
         }
-        public function Element(_arg_1:IWindowContainer):String
+        public function readStringParamFromForm(_arg_1:IWindowContainer):String
         {
             return ("");
         }
-        private function StatesMatch(_arg_1:ICheckBoxWindow):int
+        private function getIntState(_arg_1:ICheckBoxWindow):int
         {
             return (((_arg_1.isSelected) ? 1 : 0));
         }
@@ -64,15 +64,15 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
         {
             return (true);
         }
-        private function StatesMatch(_arg_1:IWindowContainer):ICheckBoxWindow
+        private function getStateInput(_arg_1:IWindowContainer):ICheckBoxWindow
         {
             return (ICheckBoxWindow(_arg_1.findChildByName("include_state_checkbox")));
         }
-        private function StatesMatch(_arg_1:IWindowContainer):ICheckBoxWindow
+        private function getRotationInput(_arg_1:IWindowContainer):ICheckBoxWindow
         {
             return (ICheckBoxWindow(_arg_1.findChildByName("include_rotation_checkbox")));
         }
-        private function StatesMatch(_arg_1:IWindowContainer):ICheckBoxWindow
+        private function getLocationInput(_arg_1:IWindowContainer):ICheckBoxWindow
         {
             return (ICheckBoxWindow(_arg_1.findChildByName("include_location_checkbox")));
         }
@@ -89,16 +89,16 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.actiontypes
 // code = "_-12Y" (String#4926, DoABC#2)
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
 // _SafeStr_5228 = "_-5Z" (String#22444, DoABC#2)
-// StatesMatch = "_-Uz" (String#8304, DoABC#2)
-// StatesMatch = "_-2Sb" (String#6622, DoABC#2)
-// StatesMatch = "_-3Kh" (String#7716, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
-// StatesMatch = "_-092" (String#3739, DoABC#2)
+// getStateInput = "_-Uz" (String#8304, DoABC#2)
+// getRotationInput = "_-2Sb" (String#6622, DoABC#2)
+// getLocationInput = "_-3Kh" (String#7716, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
+// getIntState = "_-092" (String#3739, DoABC#2)
 
 

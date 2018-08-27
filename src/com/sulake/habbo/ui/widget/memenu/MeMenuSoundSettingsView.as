@@ -31,7 +31,7 @@ package com.sulake.habbo.ui.widget.memenu
         }
         public function dispose():void
         {
-            this.MeMenuSoundSettingsView(this._volume);
+            this.saveVolume(this._volume);
             this._widget = null;
             if (this._window != null){
                 this._window.dispose();
@@ -62,13 +62,13 @@ package com.sulake.habbo.ui.widget.memenu
         {
             return (this._window);
         }
-        public function MeMenuSoundSettingsView(_arg_1:RoomWidgetSettingsUpdateEvent):void
+        public function updateSettings(_arg_1:RoomWidgetSettingsUpdateEvent):void
         {
             this._volume = _arg_1.volume;
             if (this._SafeStr_3945 != null){
                 this._SafeStr_3945.setValue(this._volume);
             };
-            this.MeMenuSoundSettingsView();
+            this.updateSoundIcons();
         }
         private function createWindow(_arg_1:String):void
         {
@@ -86,7 +86,7 @@ package com.sulake.habbo.ui.widget.memenu
             var _local_4:int;
             while (_local_4 < this._window.numChildren) {
                 _local_3 = this._window.getChildAt(_local_4);
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
                 _local_4++;
             };
             _local_5 = (this._widget.assets.getAssetByName("sounds_off_color") as BitmapDataAsset);
@@ -106,90 +106,90 @@ package com.sulake.habbo.ui.widget.memenu
                 this._SafeStr_3949 = (_local_5.content as BitmapData).clone();
             };
             this._SafeStr_3945 = new MeMenuSoundSettingsSlider(this, (this._window.findChildByName("volume_container") as IWindowContainer), this._widget.assets, 0, 1);
-            this.MeMenuSoundSettingsView();
+            this.updateSoundIcons();
             _local_6 = this._window.findChildByName("sounds_off");
             if (_local_6 != null){
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.MeMenuSoundSettingsView);
-                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.MeMenuSoundSettingsView);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onButtonOver);
+                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.onButtonOut);
             };
             _local_6 = this._window.findChildByName("sounds_on");
             if (_local_6 != null){
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.InfoStandUserView);
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.MeMenuSoundSettingsView);
-                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.MeMenuSoundSettingsView);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onButtonClicked);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onButtonOver);
+                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.onButtonOut);
             };
             this._widget.messageListener.processWidgetMessage(new RoomWidgetGetSettingsMessage(RoomWidgetGetSettingsMessage.RWGSM_GET_SETTINGS));
         }
-        private function MeMenuSoundSettingsView():void
+        private function updateSoundIcons():void
         {
             if (this._volume == 0){
-                this.MeMenuSoundSettingsView("sounds_on_icon", this._SafeStr_3949);
-                this.MeMenuSoundSettingsView("sounds_off_icon", this._SafeStr_3946);
+                this.setBitmapWrapperContent("sounds_on_icon", this._SafeStr_3949);
+                this.setBitmapWrapperContent("sounds_off_icon", this._SafeStr_3946);
             }
             else {
-                this.MeMenuSoundSettingsView("sounds_on_icon", this._SafeStr_3948);
-                this.MeMenuSoundSettingsView("sounds_off_icon", this._SafeStr_3947);
+                this.setBitmapWrapperContent("sounds_on_icon", this._SafeStr_3948);
+                this.setBitmapWrapperContent("sounds_off_icon", this._SafeStr_3947);
             };
         }
-        private function MeMenuSoundSettingsView(_arg_1:String, _arg_2:BitmapData):void
+        private function setBitmapWrapperContent(_arg_1:String, _arg_2:BitmapData):void
         {
             var _local_3:IBitmapWrapperWindow = (this._window.findChildByName(_arg_1) as IBitmapWrapperWindow);
             if (((!((_local_3 == null))) && (!((_arg_2 == null))))){
                 _local_3.bitmap = _arg_2.clone();
             };
         }
-        private function MeMenuSoundSettingsView(_arg_1:WindowMouseEvent):void
+        private function onButtonOver(_arg_1:WindowMouseEvent):void
         {
             var _local_2:IWindow = (_arg_1.target as IWindow);
             var _local_3:String = _local_2.name;
             switch (_local_3){
                 case "sounds_off_icon":
                 case "sounds_off":
-                    this.MeMenuSoundSettingsView("sounds_off_icon", this._SafeStr_3946);
+                    this.setBitmapWrapperContent("sounds_off_icon", this._SafeStr_3946);
                     return;
                 case "sounds_on_icon":
                 case "sounds_on":
-                    this.MeMenuSoundSettingsView("sounds_on_icon", this._SafeStr_3948);
+                    this.setBitmapWrapperContent("sounds_on_icon", this._SafeStr_3948);
                     return;
             };
         }
-        private function MeMenuSoundSettingsView(_arg_1:WindowMouseEvent):void
+        private function onButtonOut(_arg_1:WindowMouseEvent):void
         {
             var _local_2:IWindow = (_arg_1.target as IWindow);
             var _local_3:String = _local_2.name;
             switch (_local_3){
                 case "sounds_off":
                     if (this._volume != 0){
-                        this.MeMenuSoundSettingsView("sounds_off_icon", this._SafeStr_3947);
+                        this.setBitmapWrapperContent("sounds_off_icon", this._SafeStr_3947);
                     };
                     return;
                 case "sounds_on":
                     if (this._volume != 1){
-                        this.MeMenuSoundSettingsView("sounds_on_icon", this._SafeStr_3949);
+                        this.setBitmapWrapperContent("sounds_on_icon", this._SafeStr_3949);
                     };
                     return;
             };
         }
-        private function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        private function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_2:IWindow = (_arg_1.target as IWindow);
             var _local_3:String = _local_2.name;
             switch (_local_3){
                 case "sounds_off":
-                    this.MeMenuSoundSettingsView(0, false);
+                    this.saveVolume(0, false);
                     return;
                 case "sounds_on":
-                    this.MeMenuSoundSettingsView(1, false);
+                    this.saveVolume(1, false);
                     return;
                 case "back_btn":
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3861);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3861);
                     return;
                 default:
                     Logger.log(("Me Menu Settings View: unknown button: " + _local_3));
             };
         }
-        public function MeMenuSoundSettingsView(_arg_1:Number, _arg_2:Boolean=true):void
+        public function saveVolume(_arg_1:Number, _arg_2:Boolean=true):void
         {
             var _local_3:RoomWidgetStoreSettingsMessage;
             if (_arg_2){
@@ -219,19 +219,19 @@ package com.sulake.habbo.ui.widget.memenu
 // volume = "_-0SB" (String#1473, DoABC#2)
 // RWGSM_GET_SETTINGS = "_-065" (String#14285, DoABC#2)
 // _SafeStr_3861 = "_-1HH" (String#17161, DoABC#2)
-// MeMenuWidget = "_-0hX" (String#15729, DoABC#2)
-// MeMenuSoundSettingsView = "_-2GL" (String#19655, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
+// changeView = "_-0hX" (String#15729, DoABC#2)
+// updateSettings = "_-2GL" (String#19655, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _SafeStr_3945 = "_-Oo" (String#23196, DoABC#2)
 // _SafeStr_3946 = "_-2Bq" (String#19476, DoABC#2)
 // _SafeStr_3947 = "_-0wC" (String#16281, DoABC#2)
 // _SafeStr_3948 = "_-0dS" (String#15564, DoABC#2)
 // _SafeStr_3949 = "_-1nI" (String#18436, DoABC#2)
-// MeMenuSoundSettingsView = "_-1-3" (String#16432, DoABC#2)
-// MeMenuSoundSettingsView = "_-xb" (String#24592, DoABC#2)
-// MeMenuSoundSettingsView = "_-0Ui" (String#15233, DoABC#2)
-// MeMenuSoundSettingsView = "_-1x2" (String#18848, DoABC#2)
-// MeMenuSoundSettingsView = "_-0e9" (String#15592, DoABC#2)
+// saveVolume = "_-1-3" (String#16432, DoABC#2)
+// updateSoundIcons = "_-xb" (String#24592, DoABC#2)
+// onButtonOver = "_-0Ui" (String#15233, DoABC#2)
+// onButtonOut = "_-1x2" (String#18848, DoABC#2)
+// setBitmapWrapperContent = "_-0e9" (String#15592, DoABC#2)
 
 

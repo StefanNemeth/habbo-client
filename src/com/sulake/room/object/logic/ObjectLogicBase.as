@@ -25,7 +25,7 @@ package com.sulake.room.object.logic
         {
             return ([]);
         }
-        protected function ObjectLogicBase(_arg_1:Array, _arg_2:Array):Array
+        protected function getAllEventTypes(_arg_1:Array, _arg_2:Array):Array
         {
             var _local_4:String;
             var _local_3:Array = _arg_1.concat();
@@ -93,7 +93,7 @@ package com.sulake.room.object.logic
 // RoomObjectUpdateMessage = "_-73" (String#22503, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // loc = "_-0fh" (String#15660, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // _object = "_-ZQ" (String#8406, DoABC#2)

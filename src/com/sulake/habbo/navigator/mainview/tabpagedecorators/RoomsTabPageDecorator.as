@@ -40,7 +40,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
         }
         public function refreshFooter(_arg_1:IWindowContainer):void
         {
-            this._navigator.officialRoomEntryManager.OfficialRoomEntryManager(_arg_1);
+            this._navigator.officialRoomEntryManager.refreshAdFooter(_arg_1);
         }
         public function navigatorOpenedWhileInTab():void
         {
@@ -91,12 +91,12 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
                 };
             };
             if (this._SafeStr_6615){
-                this._navigator.trackNavigationDataPoint(this._SafeStr_6615.IDropMenuWindow()[this._SafeStr_6615.selection], "category.view");
+                this._navigator.trackNavigationDataPoint(this._SafeStr_6615.enumerateSelection()[this._SafeStr_6615.selection], "category.view");
             };
         }
         public function get filterCategory():String
         {
-            return (((this._SafeStr_6615) ? this._SafeStr_6615.IDropMenuWindow()[this._SafeStr_6615.selection] : null));
+            return (((this._SafeStr_6615) ? this._SafeStr_6615.enumerateSelection()[this._SafeStr_6615.selection] : null));
         }
 
     }
@@ -108,7 +108,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // FlatCategory = "_-1Lo" (String#5274, DoABC#2)
 // ITabPageDecorator = "_-0h3" (String#4447, DoABC#2)
 // RoomsTabPageDecorator = "_-vM" (String#8791, DoABC#2)
-// OfficialRoomEntryManager = "_-2qK" (String#21094, DoABC#2)
+// refreshAdFooter = "_-2qK" (String#21094, DoABC#2)
 // nodeId = "_-3K6" (String#22286, DoABC#2)
 // officialRoomEntryManager = "_-aX" (String#23654, DoABC#2)
 // navigatorOpenedWhileInTab = "_-2IQ" (String#6410, DoABC#2)
@@ -126,6 +126,6 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // onFilterSelected = "_-yH" (String#2229, DoABC#2)
 // visibleCategories = "_-15s" (String#16692, DoABC#2)
 // trackNavigationDataPoint = "_-17A" (String#16741, DoABC#2)
-// IDropMenuWindow = "_-2oo" (String#7052, DoABC#2)
+// enumerateSelection = "_-2oo" (String#7052, DoABC#2)
 
 

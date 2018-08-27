@@ -51,7 +51,7 @@ package com.sulake.habbo.avatar.figuredata
             this._colors = new Dictionary();
             this._gender = _arg_2;
             this.parseFigureString(_arg_1);
-            this.ProgressBar();
+            this.updateView();
         }
         public function dispose():void
         {
@@ -176,7 +176,7 @@ package com.sulake.habbo.avatar.figuredata
                     Logger.log(((("[FigureData] Unknown partset: " + _arg_1) + ", can not store id: ") + _arg_2));
             };
             if (_arg_3){
-                this.ProgressBar();
+                this.updateView();
             };
         }
         public function savePartSetColourId(_arg_1:String, _arg_2:Array, _arg_3:Boolean=true):void
@@ -201,7 +201,7 @@ package com.sulake.habbo.avatar.figuredata
                     Logger.log((("[FigureData] Unknown partset: " + _arg_1) + ", can not store color-ids"));
             };
             if (_arg_3){
-                this.ProgressBar();
+                this.updateView();
             };
         }
         public function getFigureStringWithFace(_arg_1:int):String
@@ -244,7 +244,7 @@ package com.sulake.habbo.avatar.figuredata
             };
             return (_local_3);
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             var _local_3:BitmapData;
             var _local_4:BitmapData;
@@ -252,7 +252,7 @@ package com.sulake.habbo.avatar.figuredata
             var _local_2:IAvatarImage = this._avatarEditor.manager.avatarRenderManager.createAvatarImage(_local_1, AvatarScaleType._SafeStr_4336, this.gender, this);
             if (_local_2){
                 _local_2.setDirection(AvatarSetType._SafeStr_4457, int(4));
-                _local_3 = _local_2.TwinkleImages(AvatarSetType._SafeStr_4457, true);
+                _local_3 = _local_2.getImage(AvatarSetType._SafeStr_4457, true);
                 this._view.udpate(_local_3);
                 _local_2.dispose();
             }
@@ -272,7 +272,7 @@ package com.sulake.habbo.avatar.figuredata
         }
         public function avatarImageReady(_arg_1:String):void
         {
-            this.ProgressBar();
+            this.updateView();
         }
 
     }
@@ -290,7 +290,7 @@ package com.sulake.habbo.avatar.figuredata
 // _SafeStr_4336 = "_-1wM" (String#18815, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
 // _SafeStr_5401 = "_-06A" (String#14290, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
@@ -305,7 +305,7 @@ package com.sulake.habbo.avatar.figuredata
 // _SafeStr_6611 = "_-1bM" (String#17951, DoABC#2)
 // _SafeStr_6612 = "_-0AK" (String#14460, DoABC#2)
 // _SafeStr_6613 = "_-Os" (String#23200, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)
 // 0 = "_-2pg" (String#21067, DoABC#2)
 // 4 = "_-2P4" (String#20005, DoABC#2)

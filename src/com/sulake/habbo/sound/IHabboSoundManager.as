@@ -12,7 +12,7 @@ package com.sulake.habbo.sound
         function get volume():Number;
         function get musicController():IHabboMusicController;
         function playSound(_arg_1:String):void;
-        function HabboSoundManagerFlash10(_arg_1:int, _arg_2:String):IHabboSound;
+        function loadTraxSong(_arg_1:int, _arg_2:String):IHabboSound;
         function get events():IEventDispatcher;
 
     }
@@ -23,6 +23,6 @@ package com.sulake.habbo.sound
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
 // musicController = "_-1Qk" (String#5366, DoABC#2)
 // previewVolume = "_-1fh" (String#5660, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1OI" (String#5318, DoABC#2)
+// loadTraxSong = "_-1OI" (String#5318, DoABC#2)
 
 

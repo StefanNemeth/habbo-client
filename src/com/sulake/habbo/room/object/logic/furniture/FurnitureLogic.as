@@ -24,7 +24,7 @@ package com.sulake.habbo.room.object.logic.furniture
     {
 
         private static const _SafeStr_12430:int = 8;
-        private static const _FurnitureLogic:Number = (1 / 16);//0.0625
+        private static const _SafeStr_12431:Number = (1 / 16);//0.0625
 
         private var _SafeStr_12432:Boolean = false;
         private var _sizeX:Number = 0;
@@ -48,7 +48,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectRoomAdEvent.RORAE_ROOM_AD_TOOLTIP_SHOW, RoomObjectRoomAdEvent.RORAE_ROOM_AD_TOOLTIP_HIDE, RoomObjectRoomAdEvent.RORAE_ROOM_AD_FURNI_DOUBLE_CLICK, RoomObjectStateChangeEvent.ROSCE_STATE_CHANGE, RoomObjectMouseEvent.ROE_MOUSE_CLICK, RoomObjectRoomAdEvent.RORAE_ROOM_AD_FURNI_CLICK, RoomObjectMouseEvent.ROE_MOUSE_DOWN];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -123,7 +123,7 @@ package com.sulake.habbo.room.object.logic.furniture
             object.getModelController().setNumberArray(RoomObjectVariableEnum._SafeStr_12446, this._SafeStr_12441, true);
             object.getModelController().setNumber(RoomObjectVariableEnum._SafeStr_5760, 1);
         }
-        protected function FurnitureVisualization(_arg_1:IRoomObjectModelController):String
+        protected function getAdClickUrl(_arg_1:IRoomObjectModelController):String
         {
             return (_arg_1.getString(RoomObjectVariableEnum._SafeStr_12448));
         }
@@ -151,7 +151,7 @@ package com.sulake.habbo.room.object.logic.furniture
             if (_local_3 == null){
                 return;
             };
-            var _local_7:String = this.FurnitureVisualization(_local_3);
+            var _local_7:String = this.getAdClickUrl(_local_3);
             switch (_arg_1.type){
                 case MouseEvent.ROLL_OVER:
                     if (!this._SafeStr_12432){
@@ -208,7 +208,7 @@ package com.sulake.habbo.room.object.logic.furniture
                 _local_2 = object.getType();
                 _local_3 = (object.getModel() as IRoomObjectModelController);
                 if (_local_3 != null){
-                    _local_4 = this.FurnitureVisualization(_local_3);
+                    _local_4 = this.getAdClickUrl(_local_3);
                     if (((((!((eventDispatcher == null))) && (!((_local_4 == null))))) && ((_local_4.indexOf("http") == 0)))){
                         eventDispatcher.dispatchEvent(new RoomObjectRoomAdEvent(RoomObjectRoomAdEvent.RORAE_ROOM_AD_FURNI_DOUBLE_CLICK, _local_1, _local_2));
                     };
@@ -230,7 +230,7 @@ package com.sulake.habbo.room.object.logic.furniture
                 _local_2.setNumber(RoomObjectVariableEnum._SafeStr_12451, lastUpdateTime);
             };
         }
-        private function FurnitureLogic(_arg_1:RoomObjectItemDataUpdateMessage):void
+        private function handleItemDataUpdateMessage(_arg_1:RoomObjectItemDataUpdateMessage):void
         {
             var _local_2:IRoomObjectModelController = object.getModelController();
             if (_local_2 != null){
@@ -248,7 +248,7 @@ package com.sulake.habbo.room.object.logic.furniture
             };
             var _local_3:RoomObjectItemDataUpdateMessage = (_arg_1 as RoomObjectItemDataUpdateMessage);
             if (_local_3 != null){
-                this.FurnitureLogic(_local_3);
+                this.handleItemDataUpdateMessage(_local_3);
                 return;
             };
             this._SafeStr_12432 = false;
@@ -266,13 +266,13 @@ package com.sulake.habbo.room.object.logic.furniture
             };
             super.processUpdateMessage(_arg_1);
         }
-        override protected function FurnitureLogic():IVector3d
+        override protected function getLocationOffset():IVector3d
         {
             if (this._SafeStr_12438 > 0){
                 this._SafeStr_12440.x = 0;
                 this._SafeStr_12440.y = 0;
                 if (this._SafeStr_12438 <= (_SafeStr_12430 / 2)){
-                    this._SafeStr_12440.z = (_FurnitureLogic * this._SafeStr_12438);
+                    this._SafeStr_12440.z = (_SafeStr_12431 * this._SafeStr_12438);
                 }
                 else {
                     if (this._SafeStr_12438 <= _SafeStr_12430){
@@ -280,7 +280,7 @@ package com.sulake.habbo.room.object.logic.furniture
                             super.processUpdateMessage(this._SafeStr_12439);
                             this._SafeStr_12439 = null;
                         };
-                        this._SafeStr_12440.z = (_FurnitureLogic * (_SafeStr_12430 - this._SafeStr_12438));
+                        this._SafeStr_12440.z = (_SafeStr_12431 * (_SafeStr_12430 - this._SafeStr_12438));
                     };
                 };
                 return (this._SafeStr_12440);
@@ -302,7 +302,7 @@ package com.sulake.habbo.room.object.logic.furniture
 }//package com.sulake.habbo.room.object.logic.furniture
 
 // _SafeStr_12430 = "_-07E" (String#14334, DoABC#2)
-// _FurnitureLogic = "_-0yQ" (String#16369, DoABC#2)
+// _SafeStr_12431 = "_-0yQ" (String#16369, DoABC#2)
 // _SafeStr_12432 = "_-1oF" (String#18469, DoABC#2)
 // _SafeStr_12433 = "_-1qu" (String#18576, DoABC#2)
 // _SafeStr_12434 = "_-2Qt" (String#6575, DoABC#2)
@@ -318,12 +318,12 @@ package com.sulake.habbo.room.object.logic.furniture
 // _SafeStr_12444 = "_-0U9" (String#15210, DoABC#2)
 // _SafeStr_12445 = "_-1Xv" (String#17811, DoABC#2)
 // _SafeStr_12446 = "_-1bD" (String#17943, DoABC#2)
-// FurnitureVisualization = "_-0z5" (String#438, DoABC#2)
+// getAdClickUrl = "_-0z5" (String#438, DoABC#2)
 // _SafeStr_12448 = "_-0Jf" (String#14828, DoABC#2)
 // handleAdClick = "_-2qp" (String#7093, DoABC#2)
 // handleDataUpdateMessage = "_-4k" (String#2050, DoABC#2)
 // _SafeStr_12451 = "_-3Gs" (String#22157, DoABC#2)
-// FurnitureLogic = "_-1HY" (String#17172, DoABC#2)
+// handleItemDataUpdateMessage = "_-1HY" (String#17172, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // IRoomObjectController = "_-17p" (String#5034, DoABC#2)
@@ -349,7 +349,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RORAE_ROOM_AD_FURNI_CLICK = "_-0v3" (String#16239, DoABC#2)
 // RORAE_ROOM_AD_TOOLTIP_SHOW = "_-1bW" (String#17956, DoABC#2)
 // RORAE_ROOM_AD_TOOLTIP_HIDE = "_-37a" (String#21790, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // ROSCE_STATE_CHANGE = "_-RU" (String#23304, DoABC#2)
@@ -362,7 +362,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // _SafeStr_7295 = "_-2nE" (String#20969, DoABC#2)
 // _SafeStr_7309 = "_-2Cm" (String#19516, DoABC#2)
 // lastUpdateTime = "_-0US" (String#15222, DoABC#2)
-// FurnitureLogic = "_-2EM" (String#6330, DoABC#2)
+// getLocationOffset = "_-2EM" (String#6330, DoABC#2)
 // RoomObjectRoomAdEvent = "_-mk" (String#24139, DoABC#2)
 // useObject = "_-0zi" (String#1594, DoABC#2)
 

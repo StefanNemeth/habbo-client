@@ -21,7 +21,7 @@ package com.sulake.core.window.components
         {
             return (null);
         }
-        override public function WindowController():IGraphicContext
+        override public function setupGraphicsContext():IGraphicContext
         {
             return (null);
         }
@@ -29,7 +29,7 @@ package com.sulake.core.window.components
         {
             var _local_2:IWindow = _arg_1.window;
             if (getChildIndex(_local_2) != -1){
-                if (!_local_2.IWindow(WindowParam._SafeStr_7443)){
+                if (!_local_2.testParamFlag(WindowParam._SafeStr_7443)){
                     _local_2.desktop.addChild(_local_2);
                 };
             };
@@ -110,8 +110,8 @@ package com.sulake.core.window.components
 // SubstituteParentController = "_-0kg" (String#4514, DoABC#2)
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
-// WindowController = "_-0r-" (String#16084, DoABC#2)
+// setupGraphicsContext = "_-0r-" (String#16084, DoABC#2)
 // childParamUpdated = "_-2pm" (String#21072, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 
 

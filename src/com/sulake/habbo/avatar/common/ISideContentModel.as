@@ -10,12 +10,12 @@ package com.sulake.habbo.avatar.common
         function dispose():void;
         function reset():void;
         function get controller():HabboAvatarEditor;
-        function TradingModel():IWindowContainer;
+        function getWindowContainer():IWindowContainer;
 
     }
 }//package com.sulake.habbo.avatar.common
 
 // ISideContentModel = "_-29F" (String#6234, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 
 

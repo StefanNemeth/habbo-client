@@ -71,12 +71,12 @@ package com.sulake.habbo.quest
             super();
             this._SafeStr_8017 = _arg_1;
             this._SafeStr_12215 = new Timer(100, 1);
-            this._SafeStr_12215.addEventListener(TimerEvent.TIMER, this.AchievementController);
+            this._SafeStr_12215.addEventListener(TimerEvent.TIMER, this.doBadgeRefresh);
             this._SafeStr_12222 = new Timer(2000, 1);
-            this._SafeStr_12222.addEventListener(TimerEvent.TIMER, this.AchievementController);
+            this._SafeStr_12222.addEventListener(TimerEvent.TIMER, this.switchIntoPendingLevel);
             this._levelUpDialog = new AchievementLevelUp(this._SafeStr_8017);
             this._SafeStr_12219 = new Matrix();
-            this._SafeStr_12220 = this.AchievementController();
+            this._SafeStr_12220 = this.createGrayscaleFilter();
             this._SafeStr_12223[16] = 1;
             this._SafeStr_12223[28] = 6;
             this._SafeStr_12223[38] = 4;
@@ -120,12 +120,12 @@ package com.sulake.habbo.quest
                 this._window = null;
             };
             if (this._SafeStr_12215){
-                this._SafeStr_12215.removeEventListener(TimerEvent.TIMER, this.AchievementController);
+                this._SafeStr_12215.removeEventListener(TimerEvent.TIMER, this.doBadgeRefresh);
                 this._SafeStr_12215.reset();
                 this._SafeStr_12215 = null;
             };
             if (this._SafeStr_12222){
-                this._SafeStr_12222.removeEventListener(TimerEvent.TIMER, this.AchievementController);
+                this._SafeStr_12222.removeEventListener(TimerEvent.TIMER, this.switchIntoPendingLevel);
                 this._SafeStr_12222.reset();
                 this._SafeStr_12222 = null;
             };
@@ -162,7 +162,7 @@ package com.sulake.habbo.quest
                 this._window.visible = false;
             };
         }
-        public function HabboGroupInfoManager():void
+        public function onRoomExit():void
         {
             this.close();
         }
@@ -196,7 +196,7 @@ package com.sulake.habbo.quest
             this._window.activate();
             var _local_3:AchievementCategory = this._categories.getCategoryByCode(_arg_2);
             if (_local_3 != null){
-                this.AchievementController(_local_3);
+                this.pickCategory(_local_3);
             };
         }
         public function onAchievement(_arg_1:AchievementData):void
@@ -205,7 +205,7 @@ package com.sulake.habbo.quest
             if (this._categories != null){
                 _local_2 = ((this._achievement) && ((this._achievement.type == _arg_1.type)));
                 if (((_local_2) && ((_arg_1.level > this._achievement.level)))){
-                    this._achievement.AchievementData();
+                    this._achievement.setMaxProgress();
                     this._SafeStr_12221 = _arg_1;
                     this._SafeStr_12222.start();
                 }
@@ -223,16 +223,16 @@ package com.sulake.habbo.quest
         private function refresh():void
         {
             this.prepareWindow();
-            this.AchievementController();
-            this.AchievementController();
-            this.AchievementController();
-            this.AchievementController();
-            this.AchievementController();
-            this.AchievementController();
+            this.refreshCategoryList();
+            this.refreshCategoryListFooter();
+            this.refreshAchievementsHeader();
+            this.refreshAchievementsFooter();
+            this.refreshAchievementList();
+            this.refreshAchievementDetails();
             moveAllChildrenToColumn(this._window.content, 0, 4);
             this._window.height = (getLowestPoint(this._window.content) + _SafeStr_12202);
         }
-        private function AchievementController():void
+        private function refreshCategoryList():void
         {
             var _local_3:Boolean;
             if (this._category != null){
@@ -244,17 +244,17 @@ package com.sulake.habbo.quest
             var _local_2:int;
             while (true) {
                 if (_local_2 < _local_1.length){
-                    this.AchievementController(_local_2, _local_1[_local_2]);
+                    this.refreshCategoryEntry(_local_2, _local_1[_local_2]);
                 }
                 else {
-                    _local_3 = this.AchievementController(_local_2, null);
+                    _local_3 = this.refreshCategoryEntry(_local_2, null);
                     if (_local_3) break;
                 };
                 _local_2++;
             };
             this._SafeStr_12209.height = getLowestPoint(this._SafeStr_12209);
         }
-        private function AchievementController():void
+        private function refreshCategoryListFooter():void
         {
             if (this._category != null){
                 this._SafeStr_12214.visible = false;
@@ -263,7 +263,7 @@ package com.sulake.habbo.quest
             this._SafeStr_12214.visible = true;
             this._SafeStr_12218.refresh(this._categories.getProgress(), this._categories.getMaxProgress(), 0);
         }
-        private function AchievementController():void
+        private function refreshAchievementList():void
         {
             var _local_3:Boolean;
             if (this._category == null){
@@ -276,17 +276,17 @@ package com.sulake.habbo.quest
             var _local_2:int;
             while (true) {
                 if (_local_2 < _local_1.length){
-                    this.AchievementController(_local_2, _local_1[_local_2]);
+                    this.refreshAchievementEntry(_local_2, _local_1[_local_2]);
                 }
                 else {
-                    _local_3 = this.AchievementController(_local_2, null);
+                    _local_3 = this.refreshAchievementEntry(_local_2, null);
                     if (_local_3) break;
                 };
                 _local_2++;
             };
             this._SafeStr_12210.height = getLowestPoint(this._SafeStr_12210);
         }
-        private function AchievementController():void
+        private function refreshAchievementsHeader():void
         {
             if (this._category == null){
                 this._SafeStr_12213.visible = false;
@@ -298,7 +298,7 @@ package com.sulake.habbo.quest
             this._SafeStr_8017.localization.registerParameter("achievements.details.categoryprogress", "limit", ("" + this._category.getMaxProgress()));
             this._SafeStr_8017.setupAchievementCategoryImage(this._SafeStr_12213, this._category, false);
         }
-        private function AchievementController():void
+        private function refreshAchievementsFooter():void
         {
             if (this._category == null){
                 this._SafeStr_12212.visible = false;
@@ -306,21 +306,21 @@ package com.sulake.habbo.quest
             };
             this._SafeStr_12212.visible = true;
         }
-        private function AchievementController():void
+        private function refreshAchievementDetails():void
         {
             if (this._achievement == null){
                 this._SafeStr_12211.visible = false;
                 return;
             };
             this._SafeStr_12211.visible = true;
-            var _local_1:String = this.AchievementController(this._achievement);
+            var _local_1:String = this.getAchievedBadgeId(this._achievement);
             this._SafeStr_12211.findChildByName("achievement_name_txt").caption = this._SafeStr_8017.localization.getBadgeName(_local_1);
             var _local_2:String = this._SafeStr_8017.localization.getBadgeDesc(_local_1);
             this._SafeStr_12211.findChildByName("achievement_desc_txt").caption = (((_local_2 == null)) ? "" : _local_2);
             this._SafeStr_8017.localization.registerParameter("achievements.details.level", "level", ("" + ((this._achievement.finalLevel) ? this._achievement.level : (this._achievement.level - 1))));
             this._SafeStr_8017.localization.registerParameter("achievements.details.level", "limit", ("" + this._achievement.levelCount));
             this._SafeStr_8017.refreshReward(!(this._achievement.finalLevel), this._SafeStr_12211, this._achievement.levelRewardPointType, this._achievement.levelRewardPoints);
-            this.AchievementController(this._SafeStr_12211, this._achievement);
+            this.refreshBadgeImageLarge(this._SafeStr_12211, this._achievement);
             this._SafeStr_12217.refresh(this._achievement.currentPoints, this._achievement.scoreLimit, ((this._achievement.type * 10000) + this._achievement.level));
             this._SafeStr_12217.visible = !(this._achievement.finalLevel);
         }
@@ -331,7 +331,7 @@ package com.sulake.habbo.quest
             };
             this._window = IFrameWindow(this._SafeStr_8017.getXmlWindow("Achievements"));
             this._window.findChildByTag("close").procedure = this.onWindowClose;
-            this._window.findChildByName("back_button").procedure = this.AchievementController;
+            this._window.findChildByName("back_button").procedure = this.onBack;
             this._window.center();
             this._window.y = _SafeStr_12206;
             this._SafeStr_12209 = IWindowContainer(this._window.findChildByName("categories_cont"));
@@ -343,7 +343,7 @@ package com.sulake.habbo.quest
             this._SafeStr_12217 = new ProgressBar(this._SafeStr_8017, this._SafeStr_12211, _SafeStr_12200, "achievements.details.progress", true, _SafeStr_12203);
             this._SafeStr_12218 = new ProgressBar(this._SafeStr_8017, this._SafeStr_12214, _SafeStr_12201, "achievements.categories.totalprogress", true, _SafeStr_12204);
         }
-        private function AchievementController(_arg_1:int, _arg_2:AchievementCategory):Boolean
+        private function refreshCategoryEntry(_arg_1:int, _arg_2:AchievementCategory):Boolean
         {
             var _local_3:IWindowContainer = IWindowContainer(this._SafeStr_12209.getChildByName(("" + _arg_1)));
             var _local_4:int = Math.floor((_arg_1 / _SafeStr_12193));
@@ -358,7 +358,7 @@ package com.sulake.habbo.quest
                 new PendingImage(this._SafeStr_8017, IBitmapWrapperWindow(_local_3.findChildByName("category_bg_act")), "achievement_bkg_active1");
                 new PendingImage(this._SafeStr_8017, IBitmapWrapperWindow(_local_3.findChildByName("category_bg_act_hover")), "achievement_bkg_active2");
                 new PendingImage(this._SafeStr_8017, IBitmapWrapperWindow(_local_3.findChildByName("category_bg_inact")), "achievement_category_bkg_empty_3");
-                _local_3.findChildByName("category_region").procedure = this.AchievementController;
+                _local_3.findChildByName("category_region").procedure = this.onSelectCategory;
                 _local_3.x = ((_local_3.width + _SafeStr_12194) * (_arg_1 % _SafeStr_12193));
                 _local_3.y = (((_local_3.height + _SafeStr_12195) * Math.floor((_arg_1 / _SafeStr_12193))) + _SafeStr_12196);
             };
@@ -386,7 +386,7 @@ package com.sulake.habbo.quest
             };
             return (false);
         }
-        private function AchievementController(_arg_1:int, _arg_2:AchievementData):Boolean
+        private function refreshAchievementEntry(_arg_1:int, _arg_2:AchievementData):Boolean
         {
             var _local_9:IBitmapWrapperWindow;
             var _local_3:IWindowContainer = IWindowContainer(this._SafeStr_12210.getChildByName(("" + _arg_1)));
@@ -405,7 +405,7 @@ package com.sulake.habbo.quest
                 new PendingImage(this._SafeStr_8017, _local_3.findChildByName("bg_unselected_bitmap"), "achievement_inactive");
                 _local_3.x = (_local_3.width * (_arg_1 % _SafeStr_12199));
                 _local_3.y = ((_local_3.height * _local_4) + _SafeStr_12207);
-                _local_3.findChildByName("bg_region").procedure = this.AchievementController;
+                _local_3.findChildByName("bg_region").procedure = this.onSelectAchievement;
             };
             var _local_6:IWindow = _local_3.findChildByName("bg_region");
             _local_6.id = _arg_1;
@@ -436,25 +436,25 @@ package com.sulake.habbo.quest
                 this.close();
             };
         }
-        private function AchievementController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSelectCategory(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:int = _arg_2.id;
             Logger.log(("Category index: " + _local_3));
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
-                this.AchievementController(this._categories.categoryList[_local_3]);
+                this.pickCategory(this._categories.categoryList[_local_3]);
             }
             else {
                 if (_arg_1.type == WindowMouseEvent.WME_OUT){
-                    this.AchievementController(-999);
+                    this.refreshMouseOver(-999);
                 }
                 else {
                     if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER){
-                        this.AchievementController(_local_3);
+                        this.refreshMouseOver(_local_3);
                     };
                 };
             };
         }
-        private function AchievementController(_arg_1:AchievementCategory):void
+        private function pickCategory(_arg_1:AchievementCategory):void
         {
             this._category = _arg_1;
             this._achievement = this._category.achievements[0];
@@ -462,7 +462,7 @@ package com.sulake.habbo.quest
             this.refresh();
             this._SafeStr_8017.send(new EventLogMessageComposer("Achievements", this._category.code, "Category selected"));
         }
-        private function AchievementController(_arg_1:int):void
+        private function refreshMouseOver(_arg_1:int):void
         {
             var _local_3:Boolean;
             var _local_4:IWindowContainer;
@@ -479,7 +479,7 @@ package com.sulake.habbo.quest
                 _local_2++;
             };
         }
-        private function AchievementController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSelectAchievement(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -489,7 +489,7 @@ package com.sulake.habbo.quest
             this.refresh();
             this._SafeStr_8017.send(new EventLogMessageComposer("Achievements", ("" + this._achievement.type), "Achievement selected"));
         }
-        private function AchievementController(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onBack(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -506,16 +506,16 @@ package com.sulake.habbo.quest
                 _local_3.visible = false;
                 return;
             };
-            var _local_4:String = this.AchievementController(_arg_2);
+            var _local_4:String = this.getAchievedBadgeId(_arg_2);
             var _local_5:BitmapData = this._SafeStr_12216[_local_4];
             var _local_6:Boolean;
             if (_local_5 == null){
-                _local_9 = this._SafeStr_8017.sessionDataManager.SessionDataManager(_local_4);
+                _local_9 = this._SafeStr_8017.sessionDataManager.getBadgeImageWithInfo(_local_4);
                 _local_5 = _local_9.image;
                 _local_6 = _local_9.placeHolder;
                 this._SafeStr_12216[_local_4] = _local_5;
             };
-            var _local_7:int = ((_SafeStr_12205 - _local_5.height) + this.AchievementController(_arg_2.type));
+            var _local_7:int = ((_SafeStr_12205 - _local_5.height) + this.getPositionFix(_arg_2.type));
             var _local_8:Point = new Point(((_local_3.width - _local_5.width) / 2), ((_local_6) ? _SafeStr_12208 : _local_7));
             _local_3.bitmap.fillRect(_local_3.bitmap.rect, 0xFFFFFF);
             if (_arg_2.firstLevelAchieved){
@@ -527,19 +527,19 @@ package com.sulake.habbo.quest
             _local_3.visible = false;
             _local_3.visible = true;
         }
-        private function AchievementController(_arg_1:IWindowContainer, _arg_2:AchievementData):void
+        private function refreshBadgeImageLarge(_arg_1:IWindowContainer, _arg_2:AchievementData):void
         {
             var _local_3:IBitmapWrapperWindow = (_arg_1.findChildByName("achievement_pic_bitmap") as IBitmapWrapperWindow);
-            var _local_4:String = this.AchievementController(_arg_2);
+            var _local_4:String = this.getAchievedBadgeId(_arg_2);
             var _local_5:BitmapData = this._SafeStr_12216[_local_4];
             if (_local_5 == null){
-                _local_5 = this._SafeStr_8017.sessionDataManager.SessionDataManager(_local_4);
+                _local_5 = this._SafeStr_8017.sessionDataManager.getBadgeImage(_local_4);
                 this._SafeStr_12216[_local_4] = _local_5;
             };
             if (_local_3.bitmap == null){
                 _local_3.bitmap = new BitmapData(_local_3.width, _local_3.height, true, 0xFFFFFF);
             };
-            var _local_6:int = (2 * ((_SafeStr_12205 - _local_5.height) + this.AchievementController(_arg_2.type)));
+            var _local_6:int = (2 * ((_SafeStr_12205 - _local_5.height) + this.getPositionFix(_arg_2.type)));
             this._SafeStr_12219.identity();
             this._SafeStr_12219.scale(2, 2);
             this._SafeStr_12219.translate(((_local_3.width - (_local_5.width * 2)) / 2), _local_6);
@@ -551,12 +551,12 @@ package com.sulake.habbo.quest
             _local_3.visible = false;
             _local_3.visible = true;
         }
-        private function AchievementController(_arg_1:TimerEvent):void
+        private function doBadgeRefresh(_arg_1:TimerEvent):void
         {
             this._SafeStr_12215.reset();
             this.refresh();
         }
-        private function AchievementController(_arg_1:TimerEvent):void
+        private function switchIntoPendingLevel(_arg_1:TimerEvent):void
         {
             this._achievement = this._SafeStr_12221;
             this._categories.update(this._SafeStr_12221);
@@ -573,7 +573,7 @@ package com.sulake.habbo.quest
                 this._SafeStr_12215.start();
             };
         }
-        private function AchievementController():ColorMatrixFilter
+        private function createGrayscaleFilter():ColorMatrixFilter
         {
             var _local_1:Number = (1 / 3);
             var _local_2:Number = (1 - (_local_1 * 2));
@@ -583,20 +583,20 @@ package com.sulake.habbo.quest
         public function update(_arg_1:uint):void
         {
             if (this._SafeStr_12217 != null){
-                this._SafeStr_12217.ProgressBar();
+                this._SafeStr_12217.updateView();
             };
             if (this._SafeStr_12218 != null){
-                this._SafeStr_12218.ProgressBar();
+                this._SafeStr_12218.updateView();
             };
             if (this._levelUpDialog != null){
                 this._levelUpDialog.update(_arg_1);
             };
         }
-        private function AchievementController(_arg_1:AchievementData):String
+        private function getAchievedBadgeId(_arg_1:AchievementData):String
         {
             return (((_arg_1.finalLevel) ? _arg_1.badgeId : this._SafeStr_8017.localization.getPreviousLevelBadgeId(_arg_1.badgeId)));
         }
-        private function AchievementController(_arg_1:int):int
+        private function getPositionFix(_arg_1:int):int
         {
             return (((this._SafeStr_12223[_arg_1]) ? this._SafeStr_12223[_arg_1] : 0));
         }
@@ -608,8 +608,8 @@ package com.sulake.habbo.quest
     }
 }//package com.sulake.habbo.quest
 
-// AchievementController = "_-1yX" (String#6003, DoABC#2)
-// AchievementController = "_-2yv" (String#905, DoABC#2)
+// refreshCategoryEntry = "_-1yX" (String#6003, DoABC#2)
+// onBack = "_-2yv" (String#905, DoABC#2)
 // getPreviousLevelBadgeId = "_-2Kq" (String#6459, DoABC#2)
 // onAchievements = "_-2x" (String#7223, DoABC#2)
 // onAchievement = "_-3BD" (String#7532, DoABC#2)
@@ -647,33 +647,33 @@ package com.sulake.habbo.quest
 // _SafeStr_12222 = "_-0Z9" (String#15410, DoABC#2)
 // _SafeStr_12223 = "_-1PQ" (String#17485, DoABC#2)
 // _levelUpDialog = "_-ha" (String#23951, DoABC#2)
-// AchievementController = "_-1Fv" (String#17112, DoABC#2)
-// AchievementController = "_-1kx" (String#18330, DoABC#2)
-// AchievementController = "_-0mi" (String#15925, DoABC#2)
+// doBadgeRefresh = "_-1Fv" (String#17112, DoABC#2)
+// switchIntoPendingLevel = "_-1kx" (String#18330, DoABC#2)
+// createGrayscaleFilter = "_-0mi" (String#15925, DoABC#2)
 // moveAllChildrenToColumn = "_-07-" (String#14323, DoABC#2)
 // getCategoryByCode = "_-0JX" (String#14823, DoABC#2)
-// AchievementController = "_-0nK" (String#15949, DoABC#2)
-// AchievementController = "_-1Fe" (String#17101, DoABC#2)
-// AchievementController = "_-1dE" (String#18024, DoABC#2)
-// AchievementController = "_-0XS" (String#15332, DoABC#2)
-// AchievementController = "_-cB" (String#23721, DoABC#2)
-// AchievementController = "_-0tE" (String#16168, DoABC#2)
-// AchievementController = "_-yz" (String#24647, DoABC#2)
+// pickCategory = "_-0nK" (String#15949, DoABC#2)
+// refreshCategoryList = "_-1Fe" (String#17101, DoABC#2)
+// refreshCategoryListFooter = "_-1dE" (String#18024, DoABC#2)
+// refreshAchievementsHeader = "_-0XS" (String#15332, DoABC#2)
+// refreshAchievementsFooter = "_-cB" (String#23721, DoABC#2)
+// refreshAchievementList = "_-0tE" (String#16168, DoABC#2)
+// refreshAchievementDetails = "_-yz" (String#24647, DoABC#2)
 // categoryList = "_-32E" (String#21590, DoABC#2)
 // getProgress = "_-2qB" (String#21088, DoABC#2)
 // getMaxProgress = "_-2fb" (String#20674, DoABC#2)
-// AchievementController = "_-1EV" (String#17049, DoABC#2)
+// refreshAchievementEntry = "_-1EV" (String#17049, DoABC#2)
 // getAchievementCategoryName = "_-3EV" (String#22055, DoABC#2)
 // setupAchievementCategoryImage = "_-VS" (String#23470, DoABC#2)
-// AchievementController = "_-0CC" (String#14537, DoABC#2)
+// getAchievedBadgeId = "_-0CC" (String#14537, DoABC#2)
 // refreshReward = "_-13f" (String#16604, DoABC#2)
-// AchievementController = "_-00a" (String#14078, DoABC#2)
-// AchievementController = "_-1-9" (String#16435, DoABC#2)
-// AchievementController = "_-1il" (String#18235, DoABC#2)
+// refreshBadgeImageLarge = "_-00a" (String#14078, DoABC#2)
+// onSelectCategory = "_-1-9" (String#16435, DoABC#2)
+// onSelectAchievement = "_-1il" (String#18235, DoABC#2)
 // refreshBadgeImage = "_-1Ir" (String#5217, DoABC#2)
-// AchievementController = "_-0kR" (String#15847, DoABC#2)
-// SessionDataManager = "_-0SD" (String#4143, DoABC#2)
-// AchievementController = "_-17j" (String#16763, DoABC#2)
+// refreshMouseOver = "_-0kR" (String#15847, DoABC#2)
+// getBadgeImageWithInfo = "_-0SD" (String#4143, DoABC#2)
+// getPositionFix = "_-17j" (String#16763, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // BadgeImageReadyEvent = "_-03M" (String#14177, DoABC#2)
 // AchievementController = "_-1XH" (String#5503, DoABC#2)
@@ -694,8 +694,8 @@ package com.sulake.habbo.quest
 // levelRewardPointType = "_-0M3" (String#14917, DoABC#2)
 // code = "_-12Y" (String#4926, DoABC#2)
 // prepareWindow = "_-RN" (String#219, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
-// SessionDataManager = "_-3DK" (String#7581, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
+// getBadgeImage = "_-3DK" (String#7581, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
@@ -708,7 +708,7 @@ package com.sulake.habbo.quest
 // finalLevel = "_-0or" (String#16006, DoABC#2)
 // levelCount = "_-22S" (String#19107, DoABC#2)
 // firstLevelAchieved = "_-2Jb" (String#19794, DoABC#2)
-// AchievementData = "_-0WK" (String#15292, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// setMaxProgress = "_-0WK" (String#15292, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

@@ -23,11 +23,11 @@ package com.sulake.habbo.navigator
             ITextWindow(_local_2.findChildByName("body_text")).text = this._text;
             var _local_3:IWindow = _local_2.findChildByName("ok");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
             };
             _arg_1.tags.push("SimpleAlertView");
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onOk(_arg_1:WindowMouseEvent):void
         {
             dispose();
         }
@@ -37,6 +37,6 @@ package com.sulake.habbo.navigator
 
 // setupAlertWindow = "_-2MF" (String#19894, DoABC#2)
 // AlertView = "_-2G6" (String#883, DoABC#2)
-// PollOfferDialog = "_-39j" (String#457, DoABC#2)
+// onOk = "_-39j" (String#457, DoABC#2)
 
 

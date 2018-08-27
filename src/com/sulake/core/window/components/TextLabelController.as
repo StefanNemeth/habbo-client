@@ -30,11 +30,11 @@ package com.sulake.core.window.components
         private var _margins:TextMargins;
         private var _textHeight:Number = 0;
         private var _textWidth:Number = 0;
-        private var _TextLabelController:Boolean = false;
+        private var _SafeStr_9254:Boolean = false;
 
         public function TextLabelController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
-            TextStyleManager.events.addEventListener(Event.CHANGE, this.TextFieldCache);
+            TextStyleManager.events.addEventListener(Event.CHANGE, this.onTextStyleChanged);
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
         }
         public function get antiAliasType():String
@@ -92,7 +92,7 @@ package com.sulake.core.window.components
         public function get margins():IMargins
         {
             if (!this._margins){
-                this._margins = new TextMargins(0, 0, 0, 0, this.TextController);
+                this._margins = new TextMargins(0, 0, 0, 0, this.setTextMargins);
             };
             return (this._margins);
         }
@@ -158,7 +158,7 @@ package com.sulake.core.window.components
         }
         protected function get textField():TextField
         {
-            var _local_1:TextField = TextFieldCache.TextFieldCache(this._SafeStr_9073);
+            var _local_1:TextField = TextFieldCache.getTextFieldByStyleName(this._SafeStr_9073);
             if (_local_1){
                 _local_1.text = this._text;
                 if (this._SafeStr_9251 != null){
@@ -214,7 +214,7 @@ package com.sulake.core.window.components
         override public function dispose():void
         {
             if (!_disposed){
-                TextStyleManager.events.removeEventListener(Event.CHANGE, this.TextFieldCache);
+                TextStyleManager.events.removeEventListener(Event.CHANGE, this.onTextStyleChanged);
                 if (this._SafeStr_9071){
                     this._SafeStr_9071 = false;
                     context.removeLocalizationListener(_caption.slice(2, _caption.indexOf("}")), this);
@@ -229,13 +229,13 @@ package com.sulake.core.window.components
         private function refresh(_arg_1:Boolean=false):void
         {
             var _local_9:WindowEvent;
-            if (this._TextLabelController){
+            if (this._SafeStr_9254){
                 return;
             };
-            this._TextLabelController = true;
+            this._SafeStr_9254 = true;
             var _local_2:TextField = this.textField;
             if (!_local_2){
-                this._TextLabelController = false;
+                this._SafeStr_9254 = false;
                 return;
             };
             this._textWidth = _local_2.textWidth;
@@ -247,7 +247,7 @@ package com.sulake.core.window.components
             var _local_7:int = (Math.floor(_local_2.width) + ((_local_2.border) ? 1 : 0));
             var _local_8:Boolean;
             if (_local_7 != _local_5){
-                WindowController(_rectangle.x, _rectangle.y, (_local_7 + _local_3), (Math.floor(_local_2.height) + _local_4));
+                setRectangle(_rectangle.x, _rectangle.y, (_local_7 + _local_3), (Math.floor(_local_2.height) + _local_4));
                 _local_8 = true;
             };
             if ((_local_2.height + ((_local_2.border) ? 1 : 0)) < _local_6){
@@ -255,11 +255,11 @@ package com.sulake.core.window.components
             }
             else {
                 if ((_local_2.height + ((_local_2.border) ? 1 : 0)) > _local_6){
-                    WindowController(_rectangle.x, _rectangle.y, (_local_7 + _local_3), (Math.floor(_local_2.height) + _local_4));
+                    setRectangle(_rectangle.x, _rectangle.y, (_local_7 + _local_3), (Math.floor(_local_2.height) + _local_4));
                     _local_8 = true;
                 };
             };
-            this._TextLabelController = false;
+            this._SafeStr_9254 = false;
             _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
             if (((((!(_local_8)) && (!(_arg_1)))) && (_events))){
                 _local_9 = WindowEvent.allocate(WindowEvent.WE_RESIZED, this, null);
@@ -267,29 +267,29 @@ package com.sulake.core.window.components
                 _local_9.recycle();
             };
         }
-        private function TextController(_arg_1:IMargins):void
+        private function setTextMargins(_arg_1:IMargins):void
         {
             if (((_arg_1) && (!((_arg_1 == this._margins))))){
                 if (this._margins){
-                    this._margins.assign(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.TextController);
+                    this._margins.assign(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.setTextMargins);
                 }
                 else {
-                    this._margins = new TextMargins(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.TextController);
+                    this._margins = new TextMargins(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.setTextMargins);
                 };
             };
             this.refresh();
         }
-        private function TextFieldCache(_arg_1:Event):void
+        private function onTextStyleChanged(_arg_1:Event):void
         {
             this.refresh();
         }
-        private function TextController(_arg_1:Map):void
+        private function setTextMarginMap(_arg_1:Map):void
         {
             if (this._margins){
-                this._margins.assign(int(_arg_1["left"]), int(_arg_1["top"]), int(_arg_1["right"]), int(_arg_1["bottom"]), this.TextController);
+                this._margins.assign(int(_arg_1["left"]), int(_arg_1["top"]), int(_arg_1["right"]), int(_arg_1["bottom"]), this.setTextMargins);
             }
             else {
-                this._margins = new TextMargins(int(_arg_1["left"]), int(_arg_1["top"]), int(_arg_1["right"]), int(_arg_1["bottom"]), this.TextController);
+                this._margins = new TextMargins(int(_arg_1["left"]), int(_arg_1["top"]), int(_arg_1["right"]), int(_arg_1["bottom"]), this.setTextMargins);
             };
             this.refresh();
         }
@@ -365,7 +365,7 @@ package com.sulake.core.window.components
                         };
                         break;
                     case "margins":
-                        this.TextController((_local_2.value as Map));
+                        this.setTextMarginMap((_local_2.value as Map));
                         break;
                 };
             };
@@ -403,10 +403,10 @@ package com.sulake.core.window.components
 // _margins = "_-063" (String#1402, DoABC#2)
 // _SafeStr_9071 = "_-2cp" (String#6807, DoABC#2)
 // _SafeStr_9073 = "_-CO" (String#7924, DoABC#2)
-// TextController = "_-2Ui" (String#6660, DoABC#2)
-// TextFieldCache = "_-2Jp" (String#1854, DoABC#2)
+// setTextMargins = "_-2Ui" (String#6660, DoABC#2)
+// onTextStyleChanged = "_-2Jp" (String#1854, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
-// TextController = "_-sB" (String#8740, DoABC#2)
+// setTextMarginMap = "_-sB" (String#8740, DoABC#2)
 // _SafeStr_9115 = "_-1hf" (String#18196, DoABC#2)
 // _SafeStr_9119 = "_-3Cl" (String#21985, DoABC#2)
 // _SafeStr_9120 = "_-2Zs" (String#20434, DoABC#2)
@@ -416,7 +416,7 @@ package com.sulake.core.window.components
 // _SafeStr_9124 = "_-tF" (String#24416, DoABC#2)
 // textBackground = "_-IA" (String#2081, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
-// WindowController = "_-Vb" (String#23476, DoABC#2)
+// setRectangle = "_-Vb" (String#23476, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
 // _SafeStr_9143 = "_-x6" (String#24573, DoABC#2)
 // _SafeStr_9144 = "_-0aD" (String#15448, DoABC#2)
@@ -430,8 +430,8 @@ package com.sulake.core.window.components
 // _SafeStr_9251 = "_-0AV" (String#14467, DoABC#2)
 // _textHeight = "_-2xj" (String#21384, DoABC#2)
 // _textWidth = "_-1Dq" (String#17018, DoABC#2)
-// _TextLabelController = "_-178" (String#16739, DoABC#2)
-// TextFieldCache = "_-08N" (String#14379, DoABC#2)
+// _SafeStr_9254 = "_-178" (String#16739, DoABC#2)
+// getTextFieldByStyleName = "_-08N" (String#14379, DoABC#2)
 // valid = "_-H2" (String#22891, DoABC#2)
 
 

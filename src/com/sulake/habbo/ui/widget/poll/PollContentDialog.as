@@ -54,15 +54,15 @@ package com.sulake.habbo.ui.widget.poll
                 this._window.center();
                 _local_7 = this._window.findChildByName("header_button_close");
                 if (_local_7 != null){
-                    _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                    _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
                 };
                 _local_8 = this._window.findChildByName("poll_question_button_ok");
                 if (_local_8 != null){
-                    _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                    _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
                 };
                 _local_9 = this._window.findChildByName("poll_question_cancel");
                 if (_local_9 != null){
-                    _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                    _local_9.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
                 };
             };
         }
@@ -70,20 +70,20 @@ package com.sulake.habbo.ui.widget.poll
         {
             if (!this._SafeStr_14123){
                 this._SafeStr_14123 = true;
-                this.PollContentDialog();
+                this.nextQuestion();
             };
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onClose(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
+            this.showCancelConfirm();
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onOk(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
+            this.answerPollQuestion();
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onCancel(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
+            this.showCancelConfirm();
         }
         public function dispose():void
         {
@@ -106,7 +106,7 @@ package com.sulake.habbo.ui.widget.poll
         {
             return (this._disposed);
         }
-        private function PollContentDialog():void
+        private function nextQuestion():void
         {
             var _local_1:Dictionary;
             var _local_2:ITextWindow;
@@ -143,16 +143,16 @@ package com.sulake.habbo.ui.widget.poll
                     };
                     switch (_local_3){
                         case _SafeStr_7558:
-                            this.PollContentDialog(_local_4, _local_1["selections"]);
+                            this.populateRadionButtonType(_local_4, _local_1["selections"]);
                             break;
                         case _SafeStr_7560:
-                            this.PollContentDialog(_local_4, _local_1["selections"]);
+                            this.populateCheckBoxType(_local_4, _local_1["selections"]);
                             break;
                         case _SafeStr_14119:
-                            this.PollContentDialog(_local_4);
+                            this.populateTextLineType(_local_4);
                             break;
                         case _SafeStr_14120:
-                            this.PollContentDialog(_local_4);
+                            this.populateTextAreaType(_local_4);
                             break;
                         default:
                             throw (new Error((("Unknown poll question type: " + _local_3) + "!")));
@@ -169,7 +169,7 @@ package com.sulake.habbo.ui.widget.poll
                 this._widget.pollFinished(this._id);
             };
         }
-        private function PollContentDialog(_arg_1:IWindowContainer, _arg_2:Array):void
+        private function populateRadionButtonType(_arg_1:IWindowContainer, _arg_2:Array):void
         {
             var _local_3:XmlAsset = (this._widget.assets.getAssetByName("poll_answer_radiobutton_input") as XmlAsset);
             if (!_local_3){
@@ -177,11 +177,11 @@ package com.sulake.habbo.ui.widget.poll
             };
             var _local_4:IWindowContainer = (this._widget.windowManager.buildFromXML((_local_3.content as XML)) as IWindowContainer);
             if (_local_4 != null){
-                this.PollContentDialog(_arg_2, _local_4);
+                this.populateSelectionList(_arg_2, _local_4);
                 _arg_1.addChild(_local_4);
             };
         }
-        private function PollContentDialog():Array
+        private function resolveRadionButtonTypeAnswer():Array
         {
             var _local_2:ISelectorWindow;
             var _local_3:ISelectableWindow;
@@ -189,7 +189,7 @@ package com.sulake.habbo.ui.widget.poll
             if (this._window != null){
                 _local_2 = (this._window.findChildByName("poll_aswer_selector") as ISelectorWindow);
                 if (_local_2){
-                    _local_3 = _local_2.ISelectorWindow();
+                    _local_3 = _local_2.getSelected();
                     if (_local_3){
                         _local_1.push((_local_3.id + 1));
                     };
@@ -197,7 +197,7 @@ package com.sulake.habbo.ui.widget.poll
             };
             return (_local_1);
         }
-        private function PollContentDialog(_arg_1:IWindowContainer, _arg_2:Array):void
+        private function populateCheckBoxType(_arg_1:IWindowContainer, _arg_2:Array):void
         {
             var _local_3:XmlAsset = (this._widget.assets.getAssetByName("poll_answer_checkbox_input") as XmlAsset);
             if (!_local_3){
@@ -205,11 +205,11 @@ package com.sulake.habbo.ui.widget.poll
             };
             var _local_4:IWindowContainer = (this._widget.windowManager.buildFromXML((_local_3.content as XML)) as IWindowContainer);
             if (_local_4 != null){
-                this.PollContentDialog(_arg_2, _local_4);
+                this.populateSelectionList(_arg_2, _local_4);
                 _arg_1.addChild(_local_4);
             };
         }
-        private function PollContentDialog():Array
+        private function resolveCheckBoxTypeAnswer():Array
         {
             var _local_2:IItemListWindow;
             var _local_3:int;
@@ -225,7 +225,7 @@ package com.sulake.habbo.ui.widget.poll
                         if (_local_4 != null){
                             _local_5 = (_local_4.findChildByName("poll_answer_checkbox") as ICheckBoxWindow);
                             if (_local_5 != null){
-                                if (_local_5.IWindow(WindowState._SafeStr_9258)){
+                                if (_local_5.testStateFlag(WindowState._SafeStr_9258)){
                                     _local_1.push((_local_3 + 1));
                                 };
                             };
@@ -236,7 +236,7 @@ package com.sulake.habbo.ui.widget.poll
             };
             return (_local_1);
         }
-        private function PollContentDialog(_arg_1:Array, _arg_2:IWindowContainer):void
+        private function populateSelectionList(_arg_1:Array, _arg_2:IWindowContainer):void
         {
             var _local_4:IWindowContainer;
             var _local_5:int;
@@ -267,7 +267,7 @@ package com.sulake.habbo.ui.widget.poll
                 };
             };
         }
-        private function PollContentDialog(_arg_1:IWindowContainer):void
+        private function populateTextLineType(_arg_1:IWindowContainer):void
         {
             var _local_2:XmlAsset = (this._widget.assets.getAssetByName("poll_answer_text_input") as XmlAsset);
             if (!_local_2){
@@ -275,7 +275,7 @@ package com.sulake.habbo.ui.widget.poll
             };
             _arg_1.addChild(this._widget.windowManager.buildFromXML((_local_2.content as XML)));
         }
-        private function PollContentDialog():Array
+        private function resolveTextLineTypeAnswer():Array
         {
             var _local_2:ITextWindow;
             var _local_1:Array = new Array();
@@ -290,26 +290,26 @@ package com.sulake.habbo.ui.widget.poll
             };
             return (_local_1);
         }
-        private function PollContentDialog(_arg_1:IWindowContainer):void
+        private function populateTextAreaType(_arg_1:IWindowContainer):void
         {
-            this.PollContentDialog(_arg_1);
+            this.populateTextLineType(_arg_1);
         }
-        private function PollContentDialog():Array
+        private function resolveTextAreaTypeAnswer():Array
         {
-            return (this.PollContentDialog());
+            return (this.resolveTextLineTypeAnswer());
         }
-        private function PollContentDialog():void
+        private function cancelPoll():void
         {
             this._widget.pollCancelled(this._id);
         }
-        private function PollContentDialog():void
+        private function answerPollQuestion():void
         {
             var answerArray:Array;
             var question:Dictionary = (this._SafeStr_14121[this._question] as Dictionary);
             var type:int = (question["type"] as int);
             switch (type){
                 case _SafeStr_7558:
-                    answerArray = this.PollContentDialog();
+                    answerArray = this.resolveRadionButtonTypeAnswer();
                     if (answerArray.length < int(question["selection_min"])){
                         this._widget.windowManager.alert("${win_error}", "${poll_alert_answer_missing}", 0, function (_arg_1:IAlertDialog, _arg_2:WindowEvent):void
                         {
@@ -326,7 +326,7 @@ package com.sulake.habbo.ui.widget.poll
                     };
                     break;
                 case _SafeStr_7560:
-                    answerArray = this.PollContentDialog();
+                    answerArray = this.resolveCheckBoxTypeAnswer();
                     if (answerArray.length < int(question["selection_min"])){
                         this._widget.windowManager.alert("${win_error}", "${poll_alert_answer_missing}", 0, function (_arg_1:IAlertDialog, _arg_2:WindowEvent):void
                         {
@@ -343,10 +343,10 @@ package com.sulake.habbo.ui.widget.poll
                     };
                     break;
                 case _SafeStr_14119:
-                    answerArray = this.PollContentDialog();
+                    answerArray = this.resolveTextLineTypeAnswer();
                     break;
                 case _SafeStr_14120:
-                    answerArray = this.PollContentDialog();
+                    answerArray = this.resolveTextAreaTypeAnswer();
                     break;
                 default:
                     throw (new Error((("Unknown poll question type: " + type) + "!")));
@@ -355,9 +355,9 @@ package com.sulake.habbo.ui.widget.poll
             message.questionId = (question["id"] as int);
             message.answers = answerArray;
             this._widget.messageListener.processWidgetMessage(message);
-            this.PollContentDialog();
+            this.nextQuestion();
         }
-        private function PollContentDialog():void
+        private function showCancelConfirm():void
         {
             var _local_1:XmlAsset;
             var _local_2:IWindow;
@@ -369,37 +369,37 @@ package com.sulake.habbo.ui.widget.poll
                 this._SafeStr_14122.center();
                 _local_2 = this._SafeStr_14122.findChildByName("header_button_close");
                 if (_local_2 != null){
-                    _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollContentDialog);
+                    _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelPollClose);
                 };
                 _local_3 = this._SafeStr_14122.findChildByName("poll_cancel_confirm_button_ok");
                 if (_local_3 != null){
-                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollContentDialog);
+                    _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelPollOk);
                 };
                 _local_4 = this._SafeStr_14122.findChildByName("poll_cancel_confirm_button_cancel");
                 if (_local_4 != null){
-                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollContentDialog);
+                    _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelPollCancel);
                 };
             };
         }
-        private function PollContentDialog():void
+        private function hideCancelConfirm():void
         {
             if (this._SafeStr_14122 != null){
                 this._SafeStr_14122.dispose();
                 this._SafeStr_14122 = null;
             };
         }
-        private function PollContentDialog(_arg_1:WindowEvent):void
+        private function onCancelPollClose(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
+            this.hideCancelConfirm();
         }
-        private function PollContentDialog(_arg_1:WindowEvent):void
+        private function onCancelPollOk(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
-            this.PollContentDialog();
+            this.hideCancelConfirm();
+            this.cancelPoll();
         }
-        private function PollContentDialog(_arg_1:WindowEvent):void
+        private function onCancelPollCancel(_arg_1:WindowEvent):void
         {
-            this.PollContentDialog();
+            this.hideCancelConfirm();
         }
 
     }
@@ -414,23 +414,23 @@ package com.sulake.habbo.ui.widget.poll
 // _SafeStr_14121 = "_-0HO" (String#14735, DoABC#2)
 // _SafeStr_14122 = "_-2-S" (String#18990, DoABC#2)
 // _SafeStr_14123 = "_-0JY" (String#14824, DoABC#2)
-// PollContentDialog = "_-1ls" (String#18369, DoABC#2)
-// PollContentDialog = "_-1q" (String#18541, DoABC#2)
-// PollContentDialog = "_-1M1" (String#17359, DoABC#2)
-// PollContentDialog = "_-0uZ" (String#16224, DoABC#2)
-// PollContentDialog = "_-13Q" (String#16595, DoABC#2)
-// PollContentDialog = "_-1eY" (String#18080, DoABC#2)
-// PollContentDialog = "_-2SX" (String#20138, DoABC#2)
-// PollContentDialog = "_-0wm" (String#16302, DoABC#2)
-// PollContentDialog = "_-2sC" (String#21167, DoABC#2)
-// PollContentDialog = "_-1HZ" (String#17173, DoABC#2)
-// PollContentDialog = "_-1E" (String#17025, DoABC#2)
-// PollContentDialog = "_-1Hu" (String#17189, DoABC#2)
-// PollContentDialog = "_-0Jy" (String#14839, DoABC#2)
-// PollContentDialog = "_-28L" (String#19345, DoABC#2)
-// PollContentDialog = "_-LI" (String#23057, DoABC#2)
-// PollContentDialog = "_-3Eq" (String#22070, DoABC#2)
-// PollContentDialog = "_-0i4" (String#15751, DoABC#2)
+// nextQuestion = "_-1ls" (String#18369, DoABC#2)
+// showCancelConfirm = "_-1q" (String#18541, DoABC#2)
+// answerPollQuestion = "_-1M1" (String#17359, DoABC#2)
+// populateRadionButtonType = "_-0uZ" (String#16224, DoABC#2)
+// populateCheckBoxType = "_-13Q" (String#16595, DoABC#2)
+// populateTextLineType = "_-1eY" (String#18080, DoABC#2)
+// populateTextAreaType = "_-2SX" (String#20138, DoABC#2)
+// populateSelectionList = "_-0wm" (String#16302, DoABC#2)
+// resolveRadionButtonTypeAnswer = "_-2sC" (String#21167, DoABC#2)
+// resolveCheckBoxTypeAnswer = "_-1HZ" (String#17173, DoABC#2)
+// resolveTextLineTypeAnswer = "_-1E" (String#17025, DoABC#2)
+// resolveTextAreaTypeAnswer = "_-1Hu" (String#17189, DoABC#2)
+// cancelPoll = "_-0Jy" (String#14839, DoABC#2)
+// onCancelPollClose = "_-28L" (String#19345, DoABC#2)
+// onCancelPollOk = "_-LI" (String#23057, DoABC#2)
+// onCancelPollCancel = "_-3Eq" (String#22070, DoABC#2)
+// hideCancelConfirm = "_-0i4" (String#15751, DoABC#2)
 // ISelectableWindow = "_-nA" (String#2188, DoABC#2)
 // WindowState = "_-1Kt" (String#5262, DoABC#2)
 // ICheckBoxWindow = "_-1zu" (String#1793, DoABC#2)
@@ -441,16 +441,16 @@ package com.sulake.habbo.ui.widget.poll
 // PollContentDialog = "_-1QT" (String#5360, DoABC#2)
 // questionId = "_-3-c" (String#21486, DoABC#2)
 // answers = "_-2rZ" (String#21139, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
 // _question = "_-10p" (String#596, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// PollOfferDialog = "_-3JX" (String#633, DoABC#2)
-// PollOfferDialog = "_-39j" (String#457, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// onCancel = "_-3JX" (String#633, DoABC#2)
+// onOk = "_-39j" (String#457, DoABC#2)
 // _SafeStr_7558 = "_-sC" (String#8741, DoABC#2)
 // _SafeStr_7560 = "_-Tu" (String#8283, DoABC#2)
 // visibleRegion = "_-MK" (String#8129, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // _SafeStr_9258 = "const" (String#44694, DoABC#2)
 
 

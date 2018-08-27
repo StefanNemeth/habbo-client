@@ -27,7 +27,7 @@ package com.sulake.habbo.utils
             this._SafeStr_4582 = _arg_3;
             this._SafeStr_4583 = _arg_4;
         }
-        public static function WindowToggle(_arg_1:IWindow):Boolean
+        public static function isHiddenByOtherWindows(_arg_1:IWindow):Boolean
         {
             var _local_7:IWindow;
             var _local_2:IDesktopWindow = _arg_1.desktop;
@@ -37,13 +37,13 @@ package com.sulake.habbo.utils
                 throw (new Error("Window must be contained by the desktop!"));
             };
             var _local_5:Rectangle = new Rectangle();
-            _arg_1.WindowController(_local_5);
+            _arg_1.getGlobalRectangle(_local_5);
             var _local_6:Rectangle = new Rectangle();
             var _local_8:int = (_local_4 + 1);
             while (_local_8 < _local_3) {
                 _local_7 = _local_2.getChildAt(_local_8);
                 if (_local_7.visible){
-                    _local_7.WindowController(_local_6);
+                    _local_7.getGlobalRectangle(_local_6);
                     if (_local_5.intersects(_local_6)){
                         return (true);
                     };
@@ -63,7 +63,7 @@ package com.sulake.habbo.utils
         }
         public function get active():Boolean
         {
-            return (((this.visible) && (this._window.WindowController(WindowState._SafeStr_4586))));
+            return (((this.visible) && (this._window.getStateFlag(WindowState._SafeStr_4586))));
         }
         public function get disposed():Boolean
         {
@@ -118,7 +118,7 @@ package com.sulake.habbo.utils
                     };
                     return (_SafeStr_4580);
                 };
-                if (WindowToggle(this._window)){
+                if (isHiddenByOtherWindows(this._window)){
                     this._window.activate();
                     return (_SafeStr_4579);
                 };
@@ -145,15 +145,15 @@ package com.sulake.habbo.utils
 // WindowToggle = "_-1Ud" (String#17689, DoABC#2)
 // WindowState = "_-1Kt" (String#5262, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// WindowToggle = "_-1OQ" (String#17449, DoABC#2)
+// isHiddenByOtherWindows = "_-1OQ" (String#17449, DoABC#2)
 // toggle = "_-2MR" (String#19903, DoABC#2)
 // _SafeStr_4579 = "_-sm" (String#24392, DoABC#2)
 // _SafeStr_4580 = "_-0Ex" (String#14643, DoABC#2)
 // _SafeStr_4581 = "_-3--" (String#7285, DoABC#2)
 // _SafeStr_4582 = "_-PQ" (String#23223, DoABC#2)
 // _SafeStr_4583 = "_-2mT" (String#20939, DoABC#2)
-// WindowController = "_-05T" (String#3675, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getGlobalRectangle = "_-05T" (String#3675, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // _SafeStr_4586 = "_-22X" (String#19111, DoABC#2)
 
 

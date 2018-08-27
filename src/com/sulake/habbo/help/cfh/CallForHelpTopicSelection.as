@@ -95,7 +95,7 @@ package com.sulake.habbo.help.cfh
             if ((((((_local_2 == null)) || ((_arg_1 == null)))) || ((_arg_1.parent == null)))){
                 return;
             };
-            var _local_3:int = _local_2.IItemListWindow(_arg_1.parent);
+            var _local_3:int = _local_2.getListItemIndex(_arg_1.parent);
             if ((((((this._SafeStr_11339 == null)) || ((_local_3 < 0)))) || ((_local_3 >= this._SafeStr_11339.length)))){
                 return;
             };
@@ -119,7 +119,7 @@ package com.sulake.habbo.help.cfh
 // IHelpViewController = "_-0cs" (String#4364, DoABC#2)
 // HelpViewController = "_-IY" (String#8052, DoABC#2)
 // CallForHelpTopicSelection = "_-un" (String#8780, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // HHVE_CFH_TEXT_INPUT = "_-0Ke" (String#14865, DoABC#2)
 
 

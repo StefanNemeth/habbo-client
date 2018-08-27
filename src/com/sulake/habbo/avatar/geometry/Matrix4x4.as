@@ -13,21 +13,21 @@ package com.sulake.habbo.avatar.geometry
         {
             this._data = [_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9];
         }
-        public static function Matrix4x4(_arg_1:Number):Matrix4x4
+        public static function getXRotationMatrix(_arg_1:Number):Matrix4x4
         {
             var _local_2:Number = ((_arg_1 * Math.PI) / 180);
             var _local_3:Number = Math.cos(_local_2);
             var _local_4:Number = Math.sin(_local_2);
             return (new (Matrix4x4)(1, 0, 0, 0, _local_3, -(_local_4), 0, _local_4, _local_3));
         }
-        public static function Matrix4x4(_arg_1:Number):Matrix4x4
+        public static function getYRotationMatrix(_arg_1:Number):Matrix4x4
         {
             var _local_2:Number = ((_arg_1 * Math.PI) / 180);
             var _local_3:Number = Math.cos(_local_2);
             var _local_4:Number = Math.sin(_local_2);
             return (new (Matrix4x4)(_local_3, 0, _local_4, 0, 1, 0, -(_local_4), 0, _local_3));
         }
-        public static function Matrix4x4(_arg_1:Number):Matrix4x4
+        public static function getZRotationMatrix(_arg_1:Number):Matrix4x4
         {
             var _local_2:Number = ((_arg_1 * Math.PI) / 180);
             var _local_3:Number = Math.cos(_local_2);
@@ -113,11 +113,11 @@ package com.sulake.habbo.avatar.geometry
 
 // multiply = "_-1H4" (String#17155, DoABC#2)
 // vectorMultiplication = "_-34X" (String#21679, DoABC#2)
-// Matrix4x4 = "_-249" (String#19182, DoABC#2)
+// getYRotationMatrix = "_-249" (String#19182, DoABC#2)
 // _SafeStr_7016 = "_-0Jd" (String#14827, DoABC#2)
 // _SafeStr_7017 = "_-nG" (String#24163, DoABC#2)
-// Matrix4x4 = "_-6B" (String#22473, DoABC#2)
-// Matrix4x4 = "_-0wf" (String#16298, DoABC#2)
+// getXRotationMatrix = "_-6B" (String#22473, DoABC#2)
+// getZRotationMatrix = "_-0wf" (String#16298, DoABC#2)
 // scalarMultiply = "_-1pb" (String#18530, DoABC#2)
 // rotateX = "_-0zP" (String#16404, DoABC#2)
 // rotateY = "_-21T" (String#19072, DoABC#2)

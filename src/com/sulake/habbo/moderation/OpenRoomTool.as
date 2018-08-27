@@ -29,13 +29,13 @@ package com.sulake.habbo.moderation
                 return;
             };
             if (this._isPublic){
-                this._help.windowManager.alert("Alert", "Room tool is not available for public spaces. Public spaces can be moderated using in-room chat moderation commands.", 0, this.SessionDataManager);
+                this._help.windowManager.alert("Alert", "Room tool is not available for public spaces. Public spaces can be moderated using in-room chat moderation commands.", 0, this.onAlertClose);
             }
             else {
                 this._help.windowTracker.show(new RoomToolCtrl(this._help, this._roomId), this._frame, false, false, true);
             };
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -44,7 +44,7 @@ package com.sulake.habbo.moderation
 }//package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
 // windowTracker = "_-1CG" (String#16953, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)

@@ -90,19 +90,19 @@ package com.sulake.room.renderer
                 _local_3++;
             };
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:String):IRoomObject
+        public function getRoomObject(_arg_1:String):IRoomObject
         {
             return ((this._objects.getValue(_arg_1) as IRoomObject));
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:int):IRoomObject
+        public function getRoomObjectWithIndex(_arg_1:int):IRoomObject
         {
             return ((this._objects.getWithIndex(_arg_1) as IRoomObject));
         }
-        public function IRoomSpriteCanvasContainer(_arg_1:int):String
+        public function getRoomObjectIdWithIndex(_arg_1:int):String
         {
             return ((this._objects.getKey(_arg_1) as String));
         }
-        public function IRoomSpriteCanvasContainer():int
+        public function getRoomObjectCount():int
         {
             return (this._objects.length);
         }
@@ -120,7 +120,7 @@ package com.sulake.room.renderer
                 _local_2--;
             };
         }
-        public function IRoomRenderer(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomRenderingCanvas
+        public function createCanvas(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int):IRoomRenderingCanvas
         {
             var _local_6:RoomGeometry;
             var _local_5:IRoomRenderingCanvas = (this._SafeStr_6996.getValue(String(_arg_1)) as IRoomRenderingCanvas);
@@ -140,7 +140,7 @@ package com.sulake.room.renderer
         {
             return ((this._SafeStr_6996.getValue(String(_arg_1)) as IRoomRenderingCanvas));
         }
-        public function IRoomRenderer(_arg_1:int):Boolean
+        public function disposeCanvas(_arg_1:int):Boolean
         {
             var _local_2:RoomSpriteCanvas = (this._SafeStr_6996.remove(String(_arg_1)) as RoomSpriteCanvas);
             if (_local_2 != null){
@@ -165,11 +165,11 @@ package com.sulake.room.renderer
     }
 }//package com.sulake.room.renderer
 
-// IRoomRenderer = "_-24l" (String#6132, DoABC#2)
+// createCanvas = "_-24l" (String#6132, DoABC#2)
 // feedRoomObject = "_-36M" (String#7437, DoABC#2)
 // removeRoomObject = "_-kC" (String#8605, DoABC#2)
-// IRoomRenderer = "_-37k" (String#7463, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-0EL" (String#3833, DoABC#2)
+// disposeCanvas = "_-37k" (String#7463, DoABC#2)
+// getRoomObjectIdWithIndex = "_-0EL" (String#3833, DoABC#2)
 // roomObjectRemoved = "_-13B" (String#16587, DoABC#2)
 // IRoomRenderer = "_-2jS" (String#6944, DoABC#2)
 // IRoomSpriteCanvasContainer = "_-1jX" (String#5744, DoABC#2)
@@ -178,12 +178,12 @@ package com.sulake.room.renderer
 // IRoomRenderingCanvas = "_-22o" (String#6102, DoABC#2)
 // RoomSpriteCanvas = "_-4K" (String#7752, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // _component = "_-2cU" (String#305, DoABC#2)
 // _SafeStr_6996 = "_-1n9" (String#5800, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1Hy" (String#1654, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-cJ" (String#2140, DoABC#2)
+// getRoomObjectCount = "_-1Hy" (String#1654, DoABC#2)
+// getRoomObjectWithIndex = "_-cJ" (String#2140, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 
 

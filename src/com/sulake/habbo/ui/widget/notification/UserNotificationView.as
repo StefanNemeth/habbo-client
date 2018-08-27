@@ -40,7 +40,7 @@ package com.sulake.habbo.ui.widget.notification
                 this._disposed = true;
             };
         }
-        public function UserNotificationView(title:String, description:String):Boolean
+        public function showNotification(title:String, description:String):Boolean
         {
             var asset:XmlAsset = (this._widget.assets.getAssetByName("notification") as XmlAsset);
             if (!asset){
@@ -81,7 +81,7 @@ package com.sulake.habbo.ui.widget.notification
     }
 }//package com.sulake.habbo.ui.widget.notification
 
-// UserNotificationView = "_-1jh" (String#18271, DoABC#2)
+// showNotification = "_-1jh" (String#18271, DoABC#2)
 // _SafeStr_14095 = "_-1m" (String#18376, DoABC#2)
 // _SafeStr_14096 = "_-0hE" (String#15720, DoABC#2)
 // _SafeStr_14097 = "_-1sJ" (String#18644, DoABC#2)

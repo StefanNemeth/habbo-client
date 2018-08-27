@@ -29,7 +29,7 @@ package com.sulake.core.window.utils
         protected var _SafeStr_9722:Point;
         protected var _SafeStr_8620:WindowController;
         protected var _SafeStr_8618:WindowController;
-        protected var _RoomInstance:IWindowRenderer;
+        protected var _SafeStr_8622:IWindowRenderer;
         protected var _SafeStr_8617:IDesktopWindow;
         protected var _SafeStr_8623:Vector.<IWindowContextStateListener>;
         private var _disposed:Boolean = false;
@@ -58,14 +58,14 @@ package com.sulake.core.window.utils
                 _SafeStr_9720[6] = WindowState._SafeStr_9399;
             };
         }
-        public static function MouseEventProcessor(_arg_1:uint, _arg_2:uint):void
+        public static function setMouseCursorByState(_arg_1:uint, _arg_2:uint):void
         {
             var _local_3:int = _SafeStr_9720.indexOf(_arg_1);
             if (_local_3 > -1){
                 _SafeStr_9719[_local_3] = _arg_2;
             };
         }
-        public static function MouseEventProcessor(_arg_1:uint):uint
+        public static function getMouseCursorByState(_arg_1:uint):uint
         {
             var _local_2:uint = _SafeStr_9720.length;
             while (_local_2-- > 0) {
@@ -75,13 +75,13 @@ package com.sulake.core.window.utils
             };
             return (MouseCursorType._SafeStr_3729);
         }
-        protected static function MouseEventProcessor(_arg_1:MouseEvent, _arg_2:IWindow, _arg_3:IWindow):WindowMouseEvent
+        protected static function convertMouseEventType(_arg_1:MouseEvent, _arg_2:IWindow, _arg_3:IWindow):WindowMouseEvent
         {
             var _local_4:String;
             var _local_5:Point;
             var _local_6:Boolean;
             _local_5 = new Point(_arg_1.stageX, _arg_1.stageY);
-            _arg_2.WindowController(_local_5);
+            _arg_2.convertPointFromGlobalToLocalSpace(_local_5);
             switch (_arg_1.type){
                 case MouseEvent.MOUSE_MOVE:
                     _local_4 = WindowMouseEvent.WME_MOVE;
@@ -130,7 +130,7 @@ package com.sulake.core.window.utils
                 this._disposed = true;
             };
         }
-        public function MouseEventProcessor(state:EventProcessorState, eventQueue:IEventQueue):void
+        public function process(state:EventProcessorState, eventQueue:IEventQueue):void
         {
             var event:MouseEvent;
             var index:int;
@@ -146,7 +146,7 @@ package com.sulake.core.window.utils
             this._SafeStr_8617 = state.desktop;
             this._SafeStr_8618 = (state._SafeStr_8619 as WindowController);
             this._SafeStr_8620 = (state._SafeStr_8621 as WindowController);
-            this._RoomInstance = state.renderer;
+            this._SafeStr_8622 = state.renderer;
             this._SafeStr_8623 = state._SafeStr_8624;
             eventQueue.begin();
             this._SafeStr_9722.x = -1;
@@ -159,7 +159,7 @@ package com.sulake.core.window.utils
                     this._SafeStr_9722.x = event.stageX;
                     this._SafeStr_9722.y = event.stageY;
                     array = new Array();
-                    this._SafeStr_8617.WindowController(this._SafeStr_9722, array, WindowParam._SafeStr_7434);
+                    this._SafeStr_8617.groupParameterFilteredChildrenUnderPoint(this._SafeStr_9722, array, WindowParam._SafeStr_7434);
                 };
                 index = (((array)!=null) ? array.length : 0);
                 if (index == 0){
@@ -188,7 +188,7 @@ package com.sulake.core.window.utils
                     };
                 };
                 while (--index > -1) {
-                    child = this.MouseEventProcessor(WindowController(array[index]), event);
+                    child = this.passMouseEvent(WindowController(array[index]), event);
                     if (((!((child == null))) && (child.visible))){
                         if (event.type == MouseEvent.MOUSE_MOVE){
                             if (child != this._SafeStr_8618){
@@ -223,8 +223,8 @@ package com.sulake.core.window.utils
                         temp = child.parent;
                         while (((temp) && (!(temp.disposed)))) {
                             if ((temp is IInputProcessorRoot)){
-                                tempWindowEvent = MouseEventProcessor(event, temp, child);
-                                IInputProcessorRoot(temp).MouseEventProcessor(tempWindowEvent);
+                                tempWindowEvent = convertMouseEventType(event, temp, child);
+                                IInputProcessorRoot(temp).process(tempWindowEvent);
                                 tempWindowEvent.recycle();
                                 break;
                             };
@@ -237,9 +237,9 @@ package com.sulake.core.window.utils
                         };
                         if ((this._SafeStr_8618 is IInteractiveWindow)){
                             try {
-                                mouseCursorType = IInteractiveWindow(this._SafeStr_8618).MouseEventProcessor(this._SafeStr_8618.state);
+                                mouseCursorType = IInteractiveWindow(this._SafeStr_8618).getMouseCursorByState(this._SafeStr_8618.state);
                                 if (mouseCursorType == MouseCursorType._SafeStr_3729){
-                                    mouseCursorType = MouseEventProcessor(this._SafeStr_8618.state);
+                                    mouseCursorType = getMouseCursorByState(this._SafeStr_8618.state);
                                 };
                             }
                             catch(e:Error) {
@@ -259,25 +259,25 @@ package com.sulake.core.window.utils
             state.desktop = this._SafeStr_8617;
             state._SafeStr_8619 = this._SafeStr_8618;
             state._SafeStr_8621 = this._SafeStr_8620;
-            state.renderer = this._RoomInstance;
+            state.renderer = this._SafeStr_8622;
             state._SafeStr_8624 = this._SafeStr_8623;
         }
-        private function MouseEventProcessor(_arg_1:WindowController, _arg_2:MouseEvent, _arg_3:Boolean=false):WindowController
+        private function passMouseEvent(_arg_1:WindowController, _arg_2:MouseEvent, _arg_3:Boolean=false):WindowController
         {
             var _local_9:BitmapData;
             if (_arg_1.disposed){
                 return (null);
             };
-            if (_arg_1.IWindow(WindowState._SafeStr_9399)){
+            if (_arg_1.testStateFlag(WindowState._SafeStr_9399)){
                 return (null);
             };
             var _local_4:Boolean;
             var _local_5:Point = new Point(_arg_2.stageX, _arg_2.stageY);
-            _arg_1.WindowController(_local_5);
+            _arg_1.convertPointFromGlobalToLocalSpace(_local_5);
             if (_arg_2.type == MouseEvent.MOUSE_UP){
                 if (_arg_1 != this._SafeStr_8620){
                     if (((this._SafeStr_8620) && (!(this._SafeStr_8620.disposed)))){
-                        this._SafeStr_8620.update(this._SafeStr_8620, MouseEventProcessor(new MouseEvent(MouseEvent.MOUSE_UP, false, true, _arg_2.localX, _arg_2.localY, null, _arg_2.ctrlKey, _arg_2.altKey, _arg_2.shiftKey, _arg_2.buttonDown, _arg_2.delta), this._SafeStr_8620, _arg_1));
+                        this._SafeStr_8620.update(this._SafeStr_8620, convertMouseEventType(new MouseEvent(MouseEvent.MOUSE_UP, false, true, _arg_2.localX, _arg_2.localY, null, _arg_2.ctrlKey, _arg_2.altKey, _arg_2.shiftKey, _arg_2.buttonDown, _arg_2.delta), this._SafeStr_8620, _arg_1));
                         this._SafeStr_8620 = null;
                         if (_arg_1.disposed){
                             return (null);
@@ -285,18 +285,18 @@ package com.sulake.core.window.utils
                     };
                 }
                 else {
-                    _local_4 = !(_arg_1.WindowController(_local_5));
+                    _local_4 = !(_arg_1.hitTestLocalPoint(_local_5));
                 };
             };
             if (!_local_4){
-                _local_9 = this._RoomInstance.WindowRenderer(_arg_1);
-                if (!_arg_1.WindowController(_local_5, _local_9)){
+                _local_9 = this._SafeStr_8622.getDrawBufferForRenderable(_arg_1);
+                if (!_arg_1.validateLocalPointIntersection(_local_5, _local_9)){
                     return (null);
                 };
             };
-            if (_arg_1.IWindow(WindowParam._SafeStr_7438)){
+            if (_arg_1.testParamFlag(WindowParam._SafeStr_7438)){
                 if (_arg_1.parent != null){
-                    return (this.MouseEventProcessor(WindowController(_arg_1.parent), _arg_2));
+                    return (this.passMouseEvent(WindowController(_arg_1.parent), _arg_2));
                 };
             };
             if (!_arg_3){
@@ -319,12 +319,12 @@ package com.sulake.core.window.utils
                 };
             };
             var _local_6:IWindow;
-            var _local_7:WindowMouseEvent = MouseEventProcessor(_arg_2, _arg_1, _local_6);
+            var _local_7:WindowMouseEvent = convertMouseEventType(_arg_2, _arg_1, _local_6);
             var _local_8:Boolean = _arg_1.update(_arg_1, _local_7);
             _local_7.recycle();
             if (((!(_local_8)) && (!(_arg_3)))){
                 if (_arg_1.parent){
-                    return (this.MouseEventProcessor(WindowController(_arg_1.parent), _arg_2));
+                    return (this.passMouseEvent(WindowController(_arg_1.parent), _arg_2));
                 };
             };
             return (_arg_1);
@@ -357,41 +357,41 @@ package com.sulake.core.window.utils
 // _SafeStr_6248 = "_-3J9" (String#22246, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // _SafeStr_7438 = "_-2pe" (String#21065, DoABC#2)
-// MouseEventProcessor = "_-3Fw" (String#2032, DoABC#2)
+// process = "_-3Fw" (String#2032, DoABC#2)
 // _SafeStr_8617 = "_-1WY" (String#5483, DoABC#2)
 // _SafeStr_8618 = "_-3JL" (String#22257, DoABC#2)
 // _SafeStr_8619 = "_-0fY" (String#15653, DoABC#2)
 // _SafeStr_8620 = "_-1pW" (String#18526, DoABC#2)
 // _SafeStr_8621 = "_-1ek" (String#18088, DoABC#2)
-// _RoomInstance = "_-32W" (String#628, DoABC#2)
+// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
 // _SafeStr_8623 = "_-20v" (String#19048, DoABC#2)
 // _SafeStr_8624 = "_-3ED" (String#22044, DoABC#2)
-// MouseEventProcessor = "_-0Bd" (String#3788, DoABC#2)
+// getMouseCursorByState = "_-0Bd" (String#3788, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // _SafeStr_9170 = "_-2FR" (String#19621, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 // getActiveWindow = "_-1h8" (String#1744, DoABC#2)
 // POLL_OFFER_STATE_UNKNOWN = "_-2VV" (String#20262, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // _SafeStr_9258 = "const" (String#44694, DoABC#2)
 // WME_WHEEL = "_-1Ot" (String#17464, DoABC#2)
 // _SafeStr_9399 = "_-1WJ" (String#17754, DoABC#2)
-// WindowController = "_-ZD" (String#8399, DoABC#2)
+// groupParameterFilteredChildrenUnderPoint = "_-ZD" (String#8399, DoABC#2)
 // _SafeStr_9479 = "_-H4" (String#22893, DoABC#2)
 // _SafeStr_9484 = "_-3GB" (String#22126, DoABC#2)
 // WME_ROLL_OUT = "_-0ZG" (String#15413, DoABC#2)
 // WME_ROLL_OVER = "_-2Fi" (String#19631, DoABC#2)
-// WindowRenderer = "_-2bf" (String#6787, DoABC#2)
+// getDrawBufferForRenderable = "_-2bf" (String#6787, DoABC#2)
 // _SafeStr_9719 = "_-0Cl" (String#14560, DoABC#2)
 // _SafeStr_9720 = "_-1Ss" (String#17618, DoABC#2)
 // _SafeStr_9721 = "_-2aV" (String#20464, DoABC#2)
 // _SafeStr_9722 = "_-0cb" (String#15539, DoABC#2)
-// MouseEventProcessor = "_-2OP" (String#19982, DoABC#2)
-// MouseEventProcessor = "_-192" (String#16819, DoABC#2)
-// WindowController = "_-0Vq" (String#4224, DoABC#2)
-// MouseEventProcessor = "_-HO" (String#22908, DoABC#2)
+// setMouseCursorByState = "_-2OP" (String#19982, DoABC#2)
+// convertMouseEventType = "_-192" (String#16819, DoABC#2)
+// convertPointFromGlobalToLocalSpace = "_-0Vq" (String#4224, DoABC#2)
+// passMouseEvent = "_-HO" (String#22908, DoABC#2)
 // mouseEventReceived = "_-3K3" (String#7704, DoABC#2)
-// WindowController = "_-E9" (String#7955, DoABC#2)
-// WindowController = "_-1vM" (String#18771, DoABC#2)
+// hitTestLocalPoint = "_-E9" (String#7955, DoABC#2)
+// validateLocalPointIntersection = "_-1vM" (String#18771, DoABC#2)
 
 

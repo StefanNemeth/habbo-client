@@ -59,7 +59,7 @@ package com.sulake.core.window.services
                 };
             };
         }
-        override public function GestureAgentService(_arg_1:int, _arg_2:int):void
+        override public function operate(_arg_1:int, _arg_2:int):void
         {
         }
 
@@ -76,7 +76,7 @@ package com.sulake.core.window.services
 // _SafeStr_9483 = "_-1ot" (String#18494, DoABC#2)
 // eventTypes = "_-iE" (String#8559, DoABC#2)
 // areaLimit = "_-1I0" (String#5207, DoABC#2)
-// GestureAgentService = "_-0n2" (String#4567, DoABC#2)
+// operate = "_-0n2" (String#4567, DoABC#2)
 // _eventTypes = "_-1AH" (String#16871, DoABC#2)
 // _areaLimit = "_-1Mc" (String#17384, DoABC#2)
 

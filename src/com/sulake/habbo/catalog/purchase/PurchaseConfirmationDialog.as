@@ -76,7 +76,7 @@ package com.sulake.habbo.catalog.purchase
             super();
             this._localization = _arg_1;
         }
-        public function PollSession(_arg_1:IHabboCatalog, _arg_2:IRoomEngine, _arg_3:IPurchasableOffer, _arg_4:int, _arg_5:String="", _arg_6:Array=null):void
+        public function showOffer(_arg_1:IHabboCatalog, _arg_2:IRoomEngine, _arg_3:IPurchasableOffer, _arg_4:int, _arg_5:String="", _arg_6:Array=null):void
         {
             this._catalog = (_arg_1 as HabboCatalog);
             this._roomEngine = _arg_2;
@@ -84,7 +84,7 @@ package com.sulake.habbo.catalog.purchase
             this._pageId = _arg_4;
             this._extraParameter = _arg_5;
             this._friends = _arg_6;
-            this.PurchaseConfirmationDialog(_arg_3);
+            this.showConfirmationDialog(_arg_3);
             this._catalog.syncPlacedOfferWithPurchase(_arg_3);
         }
         public function dispose():void
@@ -121,7 +121,7 @@ package com.sulake.habbo.catalog.purchase
             if (this._offerId != _arg_1.offerId){
                 return;
             };
-            this.PurchaseConfirmationDialog(_arg_1.isGiftable);
+            this.setGiftButtonState(_arg_1.isGiftable);
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
@@ -153,7 +153,7 @@ package com.sulake.habbo.catalog.purchase
                 _arg_1.dispose();
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:IPurchasableOffer):void
+        private function showConfirmationDialog(_arg_1:IPurchasableOffer):void
         {
             var _local_8:IProductData;
             var _local_9:IRoomEngine;
@@ -169,28 +169,28 @@ package com.sulake.habbo.catalog.purchase
             if (this._window != null){
                 this._window.dispose();
             };
-            this.PurchaseConfirmationDialog(_arg_1);
+            this.updateLocalizations(_arg_1);
             this._window = (this.createWindow("purchase_confirmation") as IFrameWindow);
             if (this._window == null){
                 return;
             };
             var _local_2:IWindow = this._window.findChildByName("buy_button");
             if (_local_2 != null){
-                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onBuyButtonClick);
             };
             var _local_3:IWindow = this._window.findChildByName("gift_button");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onGiftButtonClick);
             };
             var _local_4:IWindow = this._window.findChildByName("cancel_button");
             if (_local_4 != null){
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
             var _local_5:IWindow = this._window.findChildByName("header_button_close");
             if (_local_5 != null){
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
-            this.PurchaseConfirmationDialog(false);
+            this.setGiftButtonState(false);
             this._window.center();
             var _local_6:ITextWindow = (this._window.findChildByName("product_name") as ITextWindow);
             if (_local_6 != null){
@@ -235,7 +235,7 @@ package com.sulake.habbo.catalog.purchase
                 this.setImage(_local_11, true);
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:Boolean):void
+        private function setGiftButtonState(_arg_1:Boolean):void
         {
             if (this._window == null){
                 return;
@@ -248,7 +248,7 @@ package com.sulake.habbo.catalog.purchase
                 _local_2.disable();
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:IPurchasableOffer):void
+        private function updateLocalizations(_arg_1:IPurchasableOffer):void
         {
             if (_arg_1 == null){
                 return;
@@ -261,7 +261,7 @@ package com.sulake.habbo.catalog.purchase
             this._catalog.windowManager.registerLocalizationParameter("catalog.purchase.confirmation.dialog.amount", "amount", _local_4.balance);
             _local_4.dispose();
         }
-        private function PurchaseConfirmationDialog():void
+        private function showGiftDialog():void
         {
             var _local_8:IWindow;
             var _local_9:IWindow;
@@ -281,33 +281,33 @@ package com.sulake.habbo.catalog.purchase
             this._window.center();
             var _local_3:IWindow = this._window.findChildByName("give_gift_button");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onGiveGiftButtonClick);
             };
             var _local_4:IWindow = this._window.findChildByName("cancel_gifting_button");
             if (_local_4 != null){
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelGift);
             };
             var _local_5:IWindow = this._window.findChildByName("header_button_close");
             if (_local_5 != null){
-                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelGift);
             };
             var _local_6:ITextFieldWindow = (this._window.findChildByName("name_input") as ITextFieldWindow);
             if (_local_6 != null){
-                _local_6.addEventListener(WindowEvent.WE_CHANGE, this.PurchaseConfirmationDialog);
-                _local_6.addEventListener(WindowMouseEvent.WME_DOWN, this.PurchaseConfirmationDialog);
-                _local_6.addEventListener(WindowKeyboardEvent.WKE_KEY_UP, this.PurchaseConfirmationDialog);
+                _local_6.addEventListener(WindowEvent.WE_CHANGE, this.onNameInputChange);
+                _local_6.addEventListener(WindowMouseEvent.WME_DOWN, this.onNameInputMouseDown);
+                _local_6.addEventListener(WindowKeyboardEvent.WKE_KEY_UP, this.onNameInputKeyUp);
             };
             var _local_7:ITextFieldWindow = (this._window.findChildByName("message_input") as ITextFieldWindow);
             if (_local_7 != null){
-                _local_7.addEventListener(WindowMouseEvent.WME_DOWN, this.PurchaseConfirmationDialog);
-                _local_7.addEventListener(WindowEvent.WE_FOCUSED, this.PurchaseConfirmationDialog);
+                _local_7.addEventListener(WindowMouseEvent.WME_DOWN, this.onMessageInputMouseDown);
+                _local_7.addEventListener(WindowEvent.WE_FOCUSED, this.onMessageInputFocus);
             };
             this._SafeStr_5589 = true;
             this._SafeStr_5590 = true;
             if (_local_1.isEnabled){
                 _local_8 = this._window.findChildByName("ribbon_prev");
                 if (_local_8 != null){
-                    _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                    _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onPreviousGiftWrap);
                 };
                 _local_9 = this._window.findChildByName("ribbon_next");
                 if (_local_9 != null){
@@ -315,20 +315,20 @@ package com.sulake.habbo.catalog.purchase
                 };
                 _local_10 = this._window.findChildByName("box_prev");
                 if (_local_10 != null){
-                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                    _local_10.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onPreviousGiftBox);
                 };
                 _local_11 = this._window.findChildByName("box_next");
                 if (_local_11 != null){
-                    _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                    _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onNextGiftBox);
                 };
                 _local_12 = (this._window.findChildByName("use_free_checkbox") as ICheckBoxWindow);
                 if (_local_12 != null){
-                    _local_12.addEventListener(WindowEvent.WE_SELECT, this.PurchaseConfirmationDialog);
-                    _local_12.addEventListener(WindowEvent.WE_UNSELECTED, this.PurchaseConfirmationDialog);
+                    _local_12.addEventListener(WindowEvent.WE_SELECT, this.onFreeWrappingSelected);
+                    _local_12.addEventListener(WindowEvent.WE_UNSELECTED, this.onFreeWrappingUnSelect);
                 };
                 _local_13 = this._window.findChildByName("use_free_text");
                 if (_local_13 != null){
-                    _local_13.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                    _local_13.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onGiftWrappingUseFreeTextClicked);
                 };
                 this._localization.registerParameter("catalog.gift_wrapping.price", "price", _local_1.price.toString());
                 this._stuffTypes = _local_1.stuffTypes;
@@ -337,12 +337,12 @@ package com.sulake.habbo.catalog.purchase
                 this._SafeStr_5597 = this._stuffTypes[0];
                 this._SafeStr_5596 = this._boxTypes[0];
                 this._SafeStr_5595 = this._ribbonTypes[0];
-                this.PurchaseConfirmationDialog();
-                this.PurchaseConfirmationDialog();
-                this.PetsView();
+                this.initColorGrid();
+                this.updateColorGrid();
+                this.updatePreview();
             };
         }
-        private function PetsView():void
+        private function updatePreview():void
         {
             if (this._SafeStr_5595 < 0){
                 this._SafeStr_5595 = (this._ribbonTypes.length - 1);
@@ -369,9 +369,9 @@ package com.sulake.habbo.catalog.purchase
             };
             this._SafeStr_5591 = _local_2.id;
             this.setImage(_local_2.data, true);
-            this.PurchaseConfirmationDialog(false);
+            this.showSuggestions(false);
         }
-        private function PurchaseConfirmationDialog():void
+        private function initColorGrid():void
         {
             var _local_3:int;
             var _local_4:IFurnitureData;
@@ -391,21 +391,21 @@ package com.sulake.habbo.catalog.purchase
                 _local_4 = this._catalog.getFurnitureData(_local_3, ProductTypeEnum._SafeStr_5017);
                 _local_5 = (_local_2.clone() as IWindowContainer);
                 if (!((!(_local_4)) || (!(_local_5)))){
-                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
+                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onColorItemClick);
                     _local_6 = _local_4.colours[0];
                     _local_7 = (((_local_6 >> 16) & 0xFF) / 0xFF);
                     _local_8 = (((_local_6 >> 8) & 0xFF) / 0xFF);
                     _local_9 = ((_local_6 & 0xFF) / 0xFF);
                     _local_10 = new ColorTransform(_local_7, _local_8, _local_9);
-                    this.PurchaseConfirmationDialog(_local_5, "border", "ctlg_clr_27x22_1");
-                    this.PurchaseConfirmationDialog(_local_5, "color", "ctlg_clr_27x22_2", _local_10);
-                    this.PurchaseConfirmationDialog(_local_5, "selection", "ctlg_clr_27x22_3");
+                    this.setBitmapData(_local_5, "border", "ctlg_clr_27x22_1");
+                    this.setBitmapData(_local_5, "color", "ctlg_clr_27x22_2", _local_10);
+                    this.setBitmapData(_local_5, "selection", "ctlg_clr_27x22_3");
                     _local_5.id = _local_3;
-                    _local_1.IItemGridWindow(_local_5);
+                    _local_1.addGridItem(_local_5);
                 };
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String, _arg_4:ColorTransform=null):void
+        private function setBitmapData(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String, _arg_4:ColorTransform=null):void
         {
             if (_arg_1 == null){
                 return;
@@ -438,7 +438,7 @@ package com.sulake.habbo.catalog.purchase
             };
             return (this._catalog.windowManager.buildFromXML((_local_2.content as XML)));
         }
-        private function PurchaseConfirmationDialog():void
+        private function giveGift():void
         {
             var _local_1:ITextFieldWindow = (this._window.findChildByName("name_input") as ITextFieldWindow);
             if (_local_1 == null){
@@ -454,56 +454,56 @@ package com.sulake.habbo.catalog.purchase
             var _local_9:int = ((_local_6) ? 0 : this._ribbonTypes[this._SafeStr_5595]);
             this._catalog.purchaseProductAsGift(this._pageId, this._offerId, this._extraParameter, _local_2, _local_4, _local_7, _local_8, _local_9);
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onBuyButtonClick(_arg_1:WindowEvent):void
         {
             this._catalog.purchaseProduct(this._pageId, this._offerId, this._extraParameter);
             this.dispose();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onGiftButtonClick(_arg_1:WindowEvent):void
         {
-            this.PurchaseConfirmationDialog();
+            this.showGiftDialog();
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
-        {
-            this._catalog.resetPlacedOfferData();
-            this.dispose();
-        }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
-        {
-            this.PurchaseConfirmationDialog();
-            this.PurchaseConfirmationDialog(false);
-            this._catalog.resetPlacedOfferData();
-        }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onClose(_arg_1:WindowEvent):void
         {
             this._catalog.resetPlacedOfferData();
             this.dispose();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onGiveGiftButtonClick(_arg_1:WindowEvent):void
+        {
+            this.giveGift();
+            this.enableGiftButton(false);
+            this._catalog.resetPlacedOfferData();
+        }
+        private function onCancelGift(_arg_1:WindowEvent):void
+        {
+            this._catalog.resetPlacedOfferData();
+            this.dispose();
+        }
+        private function onPreviousGiftWrap(_arg_1:WindowEvent):void
         {
             this._SafeStr_5595--;
-            this.PetsView();
+            this.updatePreview();
         }
         private function onNextGiftWrap(_arg_1:WindowEvent):void
         {
             this._SafeStr_5595++;
-            this.PetsView();
+            this.updatePreview();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onPreviousGiftBox(_arg_1:WindowEvent):void
         {
             this._SafeStr_5596--;
-            this.PetsView();
+            this.updatePreview();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onNextGiftBox(_arg_1:WindowEvent):void
         {
             this._SafeStr_5596++;
-            this.PetsView();
+            this.updatePreview();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onGiftWrappingUseFreeTextClicked(_arg_1:WindowEvent):void
         {
-            this.PurchaseConfirmationDialog();
+            this.toggleCheckbox();
         }
-        private function PurchaseConfirmationDialog():void
+        private function toggleCheckbox():void
         {
             if (this._window == null){
                 return;
@@ -513,13 +513,13 @@ package com.sulake.habbo.catalog.purchase
                 return;
             };
             if (_local_1.isSelected){
-                _local_1.ISelectableWindow();
+                _local_1.unselect();
             }
             else {
                 _local_1.select();
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onNameInputChange(_arg_1:WindowEvent):void
         {
             var _local_5:String;
             var _local_2:ITextFieldWindow = (_arg_1.target as ITextFieldWindow);
@@ -537,40 +537,40 @@ package com.sulake.habbo.catalog.purchase
                 };
                 if (_local_4.length >= this._SafeStr_5581) break;
             };
-            this.PurchaseConfirmationDialog(_local_4);
+            this.updateSuggestions(_local_4);
             this._SafeStr_5588 = _local_2.text;
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onNameInputMouseDown(_arg_1:WindowEvent):void
         {
             var _local_2:ITextFieldWindow = (_arg_1.target as ITextFieldWindow);
             if (_local_2 == null){
                 return;
             };
-            this.PurchaseConfirmationDialog(false);
+            this.showSuggestions(false);
             if (this._SafeStr_5589){
                 _local_2.text = "";
                 this._SafeStr_5589 = false;
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onNameInputKeyUp(_arg_1:WindowEvent):void
         {
             var _local_2:WindowKeyboardEvent = (_arg_1 as WindowKeyboardEvent);
             switch (_local_2.keyCode){
                 case Keyboard.UP:
-                    this.PurchaseConfirmationDialog((this._SafeStr_5587 - 1));
+                    this.highlightSuggestion((this._SafeStr_5587 - 1));
                     return;
                 case Keyboard.DOWN:
-                    this.PurchaseConfirmationDialog((this._SafeStr_5587 + 1));
+                    this.highlightSuggestion((this._SafeStr_5587 + 1));
                     return;
                 case Keyboard.ENTER:
-                    this.PurchaseConfirmationDialog();
+                    this.selectHighlighted();
                     return;
                 case Keyboard.TAB:
-                    this.PurchaseConfirmationDialog();
+                    this.focusMessageField();
                     return;
             };
         }
-        private function PurchaseConfirmationDialog():void
+        private function focusMessageField():void
         {
             if (this._window == null){
                 return;
@@ -582,7 +582,7 @@ package com.sulake.habbo.catalog.purchase
             _local_1.visible = true;
             _local_1.focus();
         }
-        private function PurchaseConfirmationDialog():void
+        private function selectHighlighted():void
         {
             if ((((this._SafeStr_5585 == null)) || (!(this._SafeStr_5585.visible)))){
                 return;
@@ -599,27 +599,27 @@ package com.sulake.habbo.catalog.purchase
             if (_local_3 == null){
                 return;
             };
-            this.PurchaseConfirmationDialog(_local_3.text);
-            this.PurchaseConfirmationDialog(false);
+            this.setReceiverName(_local_3.text);
+            this.showSuggestions(false);
         }
-        private function PurchaseConfirmationDialog(_arg_1:Boolean):void
+        private function showSuggestions(_arg_1:Boolean):void
         {
             if (this._SafeStr_5585 == null){
                 return;
             };
             this._SafeStr_5585.visible = _arg_1;
             if (!_arg_1){
-                this.PurchaseConfirmationDialog(true);
+                this.showMessageInput(true);
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:Boolean):void
+        private function showMessageInput(_arg_1:Boolean):void
         {
             var _local_2:ITextFieldWindow = (this._window.findChildByName("message_input") as ITextFieldWindow);
             if (_local_2 != null){
                 _local_2.visible = _arg_1;
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onMessageInputMouseDown(_arg_1:WindowEvent):void
         {
             var _local_2:ITextFieldWindow;
             if (this._SafeStr_5590){
@@ -630,19 +630,19 @@ package com.sulake.habbo.catalog.purchase
                 };
             };
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onMessageInputFocus(_arg_1:WindowEvent):void
         {
-            this.PurchaseConfirmationDialog(false);
+            this.showSuggestions(false);
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onFreeWrappingSelected(_arg_1:WindowEvent):void
         {
-            this.PurchaseConfirmationDialog(false);
+            this.showSelectors(false);
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onFreeWrappingUnSelect(_arg_1:WindowEvent):void
         {
-            this.PurchaseConfirmationDialog(true);
+            this.showSelectors(true);
         }
-        private function PurchaseConfirmationDialog(_arg_1:Boolean):void
+        private function showSelectors(_arg_1:Boolean):void
         {
             if (this._window == null){
                 return;
@@ -653,7 +653,7 @@ package com.sulake.habbo.catalog.purchase
             };
             _local_2.visible = !(_arg_1);
         }
-        private function PurchaseConfirmationDialog(_arg_1:Array):void
+        private function updateSuggestions(_arg_1:Array):void
         {
             var _local_4:String;
             var _local_5:IWindowContainer;
@@ -671,18 +671,18 @@ package com.sulake.habbo.catalog.purchase
             if (_local_2 == null){
                 return;
             };
-            _local_2.IItemListWindow();
+            _local_2.removeListItems();
             if (_arg_1.length == 0){
-                this.PurchaseConfirmationDialog(false);
+                this.showSuggestions(false);
                 return;
             };
-            this.PurchaseConfirmationDialog(true);
+            this.showSuggestions(true);
             var _local_3:int;
             for each (_local_4 in _arg_1) {
                 _local_5 = (this._SafeStr_5586.clone() as IWindowContainer);
                 if (_local_5 != null){
-                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PurchaseConfirmationDialog);
-                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.PurchaseConfirmationDialog);
+                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onSuggestionsClick);
+                    _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onSuggestionsMouseOver);
                     _local_6 = (_local_5.findChildByName("name_text") as ITextWindow);
                     if (_local_6 != null){
                         _local_6.text = _local_4;
@@ -692,10 +692,10 @@ package com.sulake.habbo.catalog.purchase
                     _local_3++;
                 };
             };
-            this.PurchaseConfirmationDialog((_arg_1.length < 2));
-            this.PurchaseConfirmationDialog(0);
+            this.showMessageInput((_arg_1.length < 2));
+            this.highlightSuggestion(0);
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onSuggestionsClick(_arg_1:WindowEvent):void
         {
             var _local_2:IWindowContainer = (_arg_1.target as IWindowContainer);
             if (_local_2 == null){
@@ -705,10 +705,10 @@ package com.sulake.habbo.catalog.purchase
             if (_local_3 == null){
                 return;
             };
-            this.PurchaseConfirmationDialog(_local_3.text);
-            this.PurchaseConfirmationDialog(false);
+            this.setReceiverName(_local_3.text);
+            this.showSuggestions(false);
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onSuggestionsMouseOver(_arg_1:WindowEvent):void
         {
             var _local_2:IWindowContainer = (_arg_1.target as IWindowContainer);
             if (_local_2 == null){
@@ -718,9 +718,9 @@ package com.sulake.habbo.catalog.purchase
             if (_local_3 == null){
                 return;
             };
-            this.PurchaseConfirmationDialog(_local_3.IItemListWindow(_local_2));
+            this.highlightSuggestion(_local_3.getListItemIndex(_local_2));
         }
-        private function PurchaseConfirmationDialog(_arg_1:int):void
+        private function highlightSuggestion(_arg_1:int):void
         {
             var _local_3:IWindowContainer;
             if (this._SafeStr_5585 == null){
@@ -750,7 +750,7 @@ package com.sulake.habbo.catalog.purchase
         {
             return (((((_arg_1 % 2) == 0)) ? this._SafeStr_5582 : this._SafeStr_5583));
         }
-        private function PurchaseConfirmationDialog(_arg_1:String):void
+        private function setReceiverName(_arg_1:String):void
         {
             if (this._window == null){
                 return;
@@ -760,15 +760,15 @@ package com.sulake.habbo.catalog.purchase
                 return;
             };
             _local_2.text = _arg_1;
-            this.PurchaseConfirmationDialog();
+            this.focusMessageField();
         }
-        private function PurchaseConfirmationDialog(_arg_1:WindowEvent):void
+        private function onColorItemClick(_arg_1:WindowEvent):void
         {
             this._SafeStr_5597 = _arg_1.target.id;
-            this.PurchaseConfirmationDialog();
-            this.PetsView();
+            this.updateColorGrid();
+            this.updatePreview();
         }
-        private function PurchaseConfirmationDialog():void
+        private function updateColorGrid():void
         {
             var _local_2:IWindowContainer;
             var _local_3:IBitmapWrapperWindow;
@@ -781,7 +781,7 @@ package com.sulake.habbo.catalog.purchase
             };
             var _local_4:int;
             while (_local_4 < _local_1.numGridItems) {
-                _local_2 = (_local_1.IItemGridWindow(_local_4) as IWindowContainer);
+                _local_2 = (_local_1.getGridItemAt(_local_4) as IWindowContainer);
                 if (_local_2 != null){
                     _local_3 = (_local_2.findChildByName("selection") as IBitmapWrapperWindow);
                     if (_local_3 != null){
@@ -791,12 +791,12 @@ package com.sulake.habbo.catalog.purchase
                 _local_4++;
             };
         }
-        public function PurchaseConfirmationDialog():void
+        public function receiverNotFound():void
         {
             if (this.disposed){
                 return;
             };
-            this.PurchaseConfirmationDialog(true);
+            this.enableGiftButton(true);
             if (((!(this._catalog)) || (!(this._catalog.windowManager)))){
                 return;
             };
@@ -805,9 +805,9 @@ package com.sulake.habbo.catalog.purchase
         private function alertHandler(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
-            this.PurchaseConfirmationDialog(true);
+            this.enableGiftButton(true);
         }
-        private function PurchaseConfirmationDialog(_arg_1:Boolean):void
+        private function enableGiftButton(_arg_1:Boolean):void
         {
             if (this._window == null){
                 return;
@@ -830,7 +830,7 @@ package com.sulake.habbo.catalog.purchase
             if (this._window == null){
                 return;
             };
-            this.PurchaseConfirmationDialog(true);
+            this.enableGiftButton(true);
             var _local_1:ICheckBoxWindow = (this._window.findChildByName("use_free_checkbox") as ICheckBoxWindow);
             if (_local_1 != null){
                 _local_1.select();
@@ -865,7 +865,7 @@ package com.sulake.habbo.catalog.purchase
 // setImage = "_-1NZ" (String#603, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // _friends = "_-02K" (String#576, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // _offerId = "_-0i7" (String#125, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // localizationId = "_-0nF" (String#4575, DoABC#2)
@@ -881,10 +881,10 @@ package com.sulake.habbo.catalog.purchase
 // getSubscriptionProductIcon = "_-dz" (String#8484, DoABC#2)
 // _SafeStr_5023 = "_-hJ" (String#23942, DoABC#2)
 // _pageId = "_-251" (String#366, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
-// PollSession = "_-2nW" (String#20980, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
+// showOffer = "_-2nW" (String#20980, DoABC#2)
 // purchaseProduct = "_-na" (String#24175, DoABC#2)
 // _extraParameter = "_-1eD" (String#1731, DoABC#2)
 // _SafeStr_5581 = "_-1Iu" (String#17233, DoABC#2)
@@ -904,63 +904,63 @@ package com.sulake.habbo.catalog.purchase
 // _SafeStr_5595 = "_-0NH" (String#14966, DoABC#2)
 // _SafeStr_5596 = "_-2Rf" (String#20107, DoABC#2)
 // _SafeStr_5597 = "_-2S9" (String#20126, DoABC#2)
-// PurchaseConfirmationDialog = "_-2vw" (String#21308, DoABC#2)
+// showConfirmationDialog = "_-2vw" (String#21308, DoABC#2)
 // syncPlacedOfferWithPurchase = "_-2mj" (String#20950, DoABC#2)
 // onIsOfferGiftable = "_-0hn" (String#4463, DoABC#2)
-// PurchaseConfirmationDialog = "_-0KU" (String#14859, DoABC#2)
+// setGiftButtonState = "_-0KU" (String#14859, DoABC#2)
 // isGiftable = "_-38z" (String#21842, DoABC#2)
-// PurchaseConfirmationDialog = "_-1dP" (String#18031, DoABC#2)
-// PurchaseConfirmationDialog = "_-ia" (String#23981, DoABC#2)
-// PurchaseConfirmationDialog = "_-39e" (String#21868, DoABC#2)
-// PurchaseConfirmationDialog = "_-CT" (String#22704, DoABC#2)
+// updateLocalizations = "_-1dP" (String#18031, DoABC#2)
+// onBuyButtonClick = "_-ia" (String#23981, DoABC#2)
+// onGiftButtonClick = "_-39e" (String#21868, DoABC#2)
+// showGiftDialog = "_-CT" (String#22704, DoABC#2)
 // giftWrappingConfiguration = "_-19O" (String#16832, DoABC#2)
 // isEnabled = "_-2ri" (String#21145, DoABC#2)
-// PurchaseConfirmationDialog = "_-5B" (String#22428, DoABC#2)
-// PurchaseConfirmationDialog = "_-1X6" (String#17781, DoABC#2)
-// PurchaseConfirmationDialog = "_-39u" (String#21881, DoABC#2)
-// PurchaseConfirmationDialog = "_-1w9" (String#18804, DoABC#2)
+// onGiveGiftButtonClick = "_-5B" (String#22428, DoABC#2)
+// onCancelGift = "_-1X6" (String#17781, DoABC#2)
+// onNameInputChange = "_-39u" (String#21881, DoABC#2)
+// onNameInputMouseDown = "_-1w9" (String#18804, DoABC#2)
 // WKE_KEY_UP = "_-0aL" (String#15451, DoABC#2)
-// PurchaseConfirmationDialog = "_-3J7" (String#22245, DoABC#2)
-// PurchaseConfirmationDialog = "_-22j" (String#19121, DoABC#2)
+// onNameInputKeyUp = "_-3J7" (String#22245, DoABC#2)
+// onMessageInputMouseDown = "_-22j" (String#19121, DoABC#2)
 // WE_FOCUSED = "_-1ay" (String#17932, DoABC#2)
-// PurchaseConfirmationDialog = "_-1Y6" (String#17818, DoABC#2)
-// PurchaseConfirmationDialog = "_-hF" (String#23940, DoABC#2)
-// PurchaseConfirmationDialog = "_-LA" (String#23052, DoABC#2)
-// PurchaseConfirmationDialog = "_-2fa" (String#20673, DoABC#2)
+// onMessageInputFocus = "_-1Y6" (String#17818, DoABC#2)
+// onPreviousGiftWrap = "_-hF" (String#23940, DoABC#2)
+// onPreviousGiftBox = "_-LA" (String#23052, DoABC#2)
+// onNextGiftBox = "_-2fa" (String#20673, DoABC#2)
 // WE_SELECT = "_-335" (String#21624, DoABC#2)
-// PurchaseConfirmationDialog = "_-2hX" (String#20754, DoABC#2)
+// onFreeWrappingSelected = "_-2hX" (String#20754, DoABC#2)
 // WE_UNSELECTED = "_-1D" (String#16982, DoABC#2)
-// PurchaseConfirmationDialog = "_-36x" (String#21764, DoABC#2)
-// PurchaseConfirmationDialog = "_-1cZ" (String#17992, DoABC#2)
+// onFreeWrappingUnSelect = "_-36x" (String#21764, DoABC#2)
+// onGiftWrappingUseFreeTextClicked = "_-1cZ" (String#17992, DoABC#2)
 // stuffTypes = "_-1BP" (String#16914, DoABC#2)
 // boxTypes = "_-P9" (String#23213, DoABC#2)
 // ribbonTypes = "_-28J" (String#19343, DoABC#2)
-// PurchaseConfirmationDialog = "_-36y" (String#21765, DoABC#2)
-// PurchaseConfirmationDialog = "_-07s" (String#14358, DoABC#2)
-// PetsView = "_-0hB" (String#4449, DoABC#2)
-// PurchaseConfirmationDialog = "_-1On" (String#17459, DoABC#2)
-// PurchaseConfirmationDialog = "_-0mI" (String#15907, DoABC#2)
+// initColorGrid = "_-36y" (String#21765, DoABC#2)
+// updateColorGrid = "_-07s" (String#14358, DoABC#2)
+// updatePreview = "_-0hB" (String#4449, DoABC#2)
+// showSuggestions = "_-1On" (String#17459, DoABC#2)
+// onColorItemClick = "_-0mI" (String#15907, DoABC#2)
 // colours = "_-2hm" (String#6902, DoABC#2)
-// PurchaseConfirmationDialog = "_-mn" (String#24142, DoABC#2)
-// PurchaseConfirmationDialog = "_-2ZV" (String#20418, DoABC#2)
+// setBitmapData = "_-mn" (String#24142, DoABC#2)
+// giveGift = "_-2ZV" (String#20418, DoABC#2)
 // purchaseProductAsGift = "_-0Dk" (String#14597, DoABC#2)
 // resetPlacedOfferData = "_-1cp" (String#18004, DoABC#2)
-// PurchaseConfirmationDialog = "_-ws" (String#24564, DoABC#2)
-// PurchaseConfirmationDialog = "_-1XG" (String#17787, DoABC#2)
-// PurchaseConfirmationDialog = "_-2YH" (String#20368, DoABC#2)
-// PurchaseConfirmationDialog = "_-1ZO" (String#17866, DoABC#2)
-// PurchaseConfirmationDialog = "_-n9" (String#24161, DoABC#2)
-// PurchaseConfirmationDialog = "_-0sP" (String#16140, DoABC#2)
-// PurchaseConfirmationDialog = "_-33p" (String#21652, DoABC#2)
-// PurchaseConfirmationDialog = "_-1tB" (String#18686, DoABC#2)
-// PurchaseConfirmationDialog = "_-0S3" (String#15138, DoABC#2)
-// IItemListWindow = "_-aG" (String#8425, DoABC#2)
-// PurchaseConfirmationDialog = "_-30S" (String#21519, DoABC#2)
-// PurchaseConfirmationDialog = "_-2tS" (String#21219, DoABC#2)
+// enableGiftButton = "_-ws" (String#24564, DoABC#2)
+// toggleCheckbox = "_-1XG" (String#17787, DoABC#2)
+// updateSuggestions = "_-2YH" (String#20368, DoABC#2)
+// highlightSuggestion = "_-1ZO" (String#17866, DoABC#2)
+// selectHighlighted = "_-n9" (String#24161, DoABC#2)
+// focusMessageField = "_-0sP" (String#16140, DoABC#2)
+// setReceiverName = "_-33p" (String#21652, DoABC#2)
+// showMessageInput = "_-1tB" (String#18686, DoABC#2)
+// showSelectors = "_-0S3" (String#15138, DoABC#2)
+// removeListItems = "_-aG" (String#8425, DoABC#2)
+// onSuggestionsClick = "_-30S" (String#21519, DoABC#2)
+// onSuggestionsMouseOver = "_-2tS" (String#21219, DoABC#2)
 // getColor = "_-07L" (String#1406, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
-// PurchaseConfirmationDialog = "_-79" (String#22507, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
+// receiverNotFound = "_-79" (String#22507, DoABC#2)
 // alertHandler = "_-2cB" (String#6798, DoABC#2)
 // notEnoughCredits = "_-0aV" (String#15455, DoABC#2)
 

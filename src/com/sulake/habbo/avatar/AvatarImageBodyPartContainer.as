@@ -17,7 +17,7 @@ package com.sulake.habbo.avatar
             super();
             this._image = _arg_1;
             this._regpoint = _arg_2;
-            this.AvatarImageBodyPartContainer();
+            this.cleanPoints();
         }
         public function dispose():void
         {
@@ -39,7 +39,7 @@ package com.sulake.habbo.avatar
         public function setRegPoint(_arg_1:Point):void
         {
             this._regpoint = _arg_1;
-            this.AvatarImageBodyPartContainer();
+            this.cleanPoints();
         }
         public function get regPoint():Point
         {
@@ -48,9 +48,9 @@ package com.sulake.habbo.avatar
         public function set offset(_arg_1:Point):void
         {
             this._offset = _arg_1;
-            this.AvatarImageBodyPartContainer();
+            this.cleanPoints();
         }
-        private function AvatarImageBodyPartContainer():void
+        private function cleanPoints():void
         {
             this._regpoint.x = int(this._regpoint.x);
             this._regpoint.y = int(this._regpoint.y);
@@ -62,7 +62,7 @@ package com.sulake.habbo.avatar
 }//package com.sulake.habbo.avatar
 
 // regPoint = "_-UQ" (String#23428, DoABC#2)
-// AvatarImageBodyPartContainer = "_-PD" (String#23216, DoABC#2)
+// cleanPoints = "_-PD" (String#23216, DoABC#2)
 // setRegPoint = "_-0is" (String#15785, DoABC#2)
 // AvatarImageBodyPartContainer = "_-Mm" (String#8137, DoABC#2)
 // _image = "_-35u" (String#78, DoABC#2)

@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetChatTypingMessage.RWCTM_TYPING_STATUS);
@@ -47,17 +47,17 @@ package com.sulake.habbo.ui.handler
                 case RoomWidgetChatTypingMessage.RWCTM_TYPING_STATUS:
                     _local_2 = (_arg_1 as RoomWidgetChatTypingMessage);
                     if (_local_2 != null){
-                        this._container.roomSession.RoomSession(_local_2.isTyping);
+                        this._container.roomSession.sendChatTypingMessage(_local_2.isTyping);
                     };
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionChatEvent.RSCE_FLOOD_EVENT]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_3:RoomSessionChatEvent;
             var _local_4:int;
@@ -95,9 +95,9 @@ package com.sulake.habbo.ui.handler
 // _disposed = "_-6m" (String#31, DoABC#2)
 // RSCE_FLOOD_EVENT = "_-2Pn" (String#20035, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-1Ys" (String#5539, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// sendChatTypingMessage = "_-1Ys" (String#5539, DoABC#2)
 
 

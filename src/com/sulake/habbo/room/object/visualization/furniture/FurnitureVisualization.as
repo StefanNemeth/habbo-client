@@ -184,14 +184,14 @@ package com.sulake.habbo.room.object.visualization.furniture
                     _local_4.flipV = _local_5.flipV;
                     _local_6 = 0;
                     if (_arg_2 != this._SafeStr_12626){
-                        _local_4.tag = this.FurnitureVisualization(_arg_1, this._direction, _arg_2);
-                        _local_4.alpha = this.FurnitureVisualization(_arg_1, this._direction, _arg_2);
+                        _local_4.tag = this.getSpriteTag(_arg_1, this._direction, _arg_2);
+                        _local_4.alpha = this.getSpriteAlpha(_arg_1, this._direction, _arg_2);
                         _local_4.color = this.getSpriteColor(_arg_1, _arg_2, this._SafeStr_12611);
                         _local_4.offsetX = (_local_5.offsetX + this.getSpriteXOffset(_arg_1, this._direction, _arg_2));
                         _local_4.offsetY = (_local_5.offsetY + this.getSpriteYOffset(_arg_1, this._direction, _arg_2));
-                        _local_4.capturesMouse = this.FurnitureVisualization(_arg_1, this._direction, _arg_2);
-                        _local_4.blendMode = this.getBlendMode(this.FurnitureVisualization(_arg_1, this._direction, _arg_2));
-                        _local_6 = this.FurnitureVisualization(_arg_1, this._direction, _arg_2);
+                        _local_4.capturesMouse = this.getSpriteMouseCapture(_arg_1, this._direction, _arg_2);
+                        _local_4.blendMode = this.getBlendMode(this.getSpriteInk(_arg_1, this._direction, _arg_2));
+                        _local_6 = this.getSpriteZOffset(_arg_1, this._direction, _arg_2);
                         _local_6 = (_local_6 - (_arg_2 * 0.001));
                     }
                     else {
@@ -209,16 +209,16 @@ package com.sulake.habbo.room.object.visualization.furniture
                     _local_4.clickHandling = this._clickHandling;
                 }
                 else {
-                    this.FurnitureVisualization(_local_4);
+                    this.resetSprite(_local_4);
                 };
             }
             else {
                 if (_local_4 != null){
-                    this.FurnitureVisualization(_local_4);
+                    this.resetSprite(_local_4);
                 };
             };
         }
-        private function FurnitureVisualization(_arg_1:IRoomObjectSprite):void
+        private function resetSprite(_arg_1:IRoomObjectSprite):void
         {
             _arg_1.asset = null;
             _arg_1.assetName = "";
@@ -266,7 +266,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 _SafeStr_4455 = _local_3.getUpdateID();
                 this._SafeStr_12610 = _arg_2;
                 _SafeStr_4369 = _arg_1;
-                this.FurnitureVisualization(_arg_1, this._direction);
+                this.updateAssetAndSpriteCache(_arg_1, this._direction);
                 return (true);
             };
             return (false);
@@ -292,7 +292,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                     this._alphaMultiplier = _local_4;
                     this._SafeStr_12625 = true;
                 };
-                this._clickUrl = this.FurnitureVisualization(_local_3);
+                this._clickUrl = this.getAdClickUrl(_local_3);
                 if ((((this._clickUrl == null)) || (!((this._clickUrl.indexOf("http") == 0))))){
                     this._clickUrl = null;
                 };
@@ -303,7 +303,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return (false);
         }
-        protected function FurnitureVisualization(_arg_1:IRoomObjectModel):String
+        protected function getAdClickUrl(_arg_1:IRoomObjectModel):String
         {
             return (_arg_1.getString(RoomObjectVariableEnum._SafeStr_12448));
         }
@@ -311,7 +311,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         {
             return (0);
         }
-        private function FurnitureVisualization(_arg_1:Number, _arg_2:int):void
+        private function updateAssetAndSpriteCache(_arg_1:Number, _arg_2:int):void
         {
             if (((!((this._SafeStr_12616 == _arg_2))) || (!((this._SafeStr_12614 == _arg_1))))){
                 this._SafeStr_12612 = [];
@@ -326,16 +326,16 @@ package com.sulake.habbo.room.object.visualization.furniture
                 this._SafeStr_12624 = [];
                 this._SafeStr_12616 = _arg_2;
                 this._SafeStr_12614 = _arg_1;
-                this._SafeStr_12615 = this.FurnitureVisualization(_arg_1);
-                this.FurnitureVisualization((this._data.getLayerCount(_arg_1) + this.FurnitureVisualization()));
+                this._SafeStr_12615 = this.getSize(_arg_1);
+                this.updateLayerCount((this._data.getLayerCount(_arg_1) + this.getAdditionalSpriteCount()));
             };
         }
-        protected function FurnitureVisualization(_arg_1:int):void
+        protected function updateLayerCount(_arg_1:int):void
         {
             this._layerCount = _arg_1;
-            this._SafeStr_12626 = (this._layerCount - this.FurnitureVisualization());
+            this._SafeStr_12626 = (this._layerCount - this.getAdditionalSpriteCount());
         }
-        protected function FurnitureVisualization():int
+        protected function getAdditionalSpriteCount():int
         {
             return (1);
         }
@@ -386,7 +386,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return (_local_3);
         }
-        protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):String
+        protected function getSpriteTag(_arg_1:int, _arg_2:int, _arg_3:int):String
         {
             if (this._SafeStr_12617[_arg_3] != null){
                 return (this._SafeStr_12617[_arg_3]);
@@ -398,7 +398,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             this._SafeStr_12617[_arg_3] = _local_4;
             return (_local_4);
         }
-        protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):int
+        protected function getSpriteAlpha(_arg_1:int, _arg_2:int, _arg_3:int):int
         {
             if (((!((this._SafeStr_12618[_arg_3] == null))) && (!(this._SafeStr_12625)))){
                 return (this._SafeStr_12618[_arg_3]);
@@ -451,7 +451,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return (Math.ceil((this._SafeStr_12628 * (_arg_1 / 2))));
         }
-        protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Boolean
+        protected function getSpriteMouseCapture(_arg_1:int, _arg_2:int, _arg_3:int):Boolean
         {
             if (this._SafeStr_12623[_arg_3] != null){
                 return (this._SafeStr_12623[_arg_3]);
@@ -463,7 +463,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             this._SafeStr_12623[_arg_3] = _local_4;
             return (_local_4);
         }
-        protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):int
+        protected function getSpriteInk(_arg_1:int, _arg_2:int, _arg_3:int):int
         {
             if (this._SafeStr_12624[_arg_3] != null){
                 return (this._SafeStr_12624[_arg_3]);
@@ -475,7 +475,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             this._SafeStr_12624[_arg_3] = _local_4;
             return (_local_4);
         }
-        protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Number
+        protected function getSpriteZOffset(_arg_1:int, _arg_2:int, _arg_3:int):Number
         {
             if (this._SafeStr_12622[_arg_3] != null){
                 return (this._SafeStr_12622[_arg_3]);
@@ -487,10 +487,10 @@ package com.sulake.habbo.room.object.visualization.furniture
             this._SafeStr_12622[_arg_3] = _local_4;
             return (_local_4);
         }
-        protected function FurnitureVisualization(_arg_1:int):int
+        protected function getSize(_arg_1:int):int
         {
             if (this._data != null){
-                return (this._data.FurnitureVisualization(_arg_1));
+                return (this._data.getSize(_arg_1));
             };
             return (_arg_1);
         }
@@ -498,7 +498,7 @@ package com.sulake.habbo.room.object.visualization.furniture
     }
 }//package com.sulake.habbo.room.object.visualization.furniture
 
-// FurnitureVisualization = "_-0z5" (String#438, DoABC#2)
+// getAdClickUrl = "_-0z5" (String#438, DoABC#2)
 // _SafeStr_12448 = "_-0Jf" (String#14828, DoABC#2)
 // _layerCount = "_-1NH" (String#850, DoABC#2)
 // _SafeStr_12537 = "_-ZY" (String#23618, DoABC#2)
@@ -534,13 +534,13 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_12628 = "_-2eO" (String#20619, DoABC#2)
 // updateSprites = "_-03G" (String#805, DoABC#2)
 // updateSprite = "_-2yQ" (String#1975, DoABC#2)
-// FurnitureVisualization = "_-00o" (String#14086, DoABC#2)
-// FurnitureVisualization = "_-1eb" (String#18082, DoABC#2)
+// getSpriteTag = "_-00o" (String#14086, DoABC#2)
+// getSpriteAlpha = "_-1eb" (String#18082, DoABC#2)
 // getSpriteColor = "_-0OM" (String#4054, DoABC#2)
-// FurnitureVisualization = "_-1sk" (String#5897, DoABC#2)
-// FurnitureVisualization = "_-1LK" (String#17326, DoABC#2)
-// FurnitureVisualization = "_-0tL" (String#16173, DoABC#2)
-// FurnitureVisualization = "_-2xQ" (String#21367, DoABC#2)
+// getSpriteMouseCapture = "_-1sk" (String#5897, DoABC#2)
+// getSpriteInk = "_-1LK" (String#17326, DoABC#2)
+// resetSprite = "_-0tL" (String#16173, DoABC#2)
+// updateAssetAndSpriteCache = "_-2xQ" (String#21367, DoABC#2)
 // RoomObjectVariableEnum = "_-1MH" (String#17370, DoABC#2)
 // IRoomObjectVisualizationData = "_-26A" (String#6167, DoABC#2)
 // IRoomObjectModel = "_-253" (String#6141, DoABC#2)
@@ -559,16 +559,16 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_4369 = "_-bP" (String#23689, DoABC#2)
 // getSprite = "_-sN" (String#2210, DoABC#2)
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
-// FurnitureVisualization = "_-2P8" (String#6547, DoABC#2)
-// FurnitureVisualization = "_-XK" (String#8355, DoABC#2)
+// updateLayerCount = "_-2P8" (String#6547, DoABC#2)
+// getAdditionalSpriteCount = "_-XK" (String#8355, DoABC#2)
 // getFrameNumber = "_-0XM" (String#436, DoABC#2)
 // getSpriteXOffset = "_-03Y" (String#354, DoABC#2)
 // getSpriteYOffset = "_-3IZ" (String#251, DoABC#2)
-// FurnitureVisualization = "_-25C" (String#614, DoABC#2)
+// getSpriteZOffset = "_-25C" (String#614, DoABC#2)
 // _SafeStr_4401 = "_-1Tp" (String#17658, DoABC#2)
 // getZOffset = "_-1iZ" (String#18230, DoABC#2)
 // getSpriteAssetName = "_-0c-" (String#590, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 // _SafeStr_4405 = "_-0gZ" (String#15695, DoABC#2)
 // getDirectionValue = "_-0Fe" (String#14670, DoABC#2)
 // getTag = "_-01m" (String#14120, DoABC#2)

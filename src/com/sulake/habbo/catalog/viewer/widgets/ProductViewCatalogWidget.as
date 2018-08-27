@@ -86,7 +86,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 if (((!((this._SafeStr_10440 == null))) && (!((_local_3 == null))))){
                     this._SafeStr_10439.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClickRoomView);
                     _local_3.reset();
-                    _local_4 = _local_3.RoomEngine(this._SafeStr_10440.width, this._SafeStr_10440.height);
+                    _local_4 = _local_3.getRoomCanvas(this._SafeStr_10440.width, this._SafeStr_10440.height);
                     if (_local_4 != null){
                         this._SafeStr_10440.setDisplayObject(_local_4);
                     };
@@ -232,13 +232,13 @@ package com.sulake.habbo.catalog.viewer.widgets
                                         _local_18 = _local_17.avatarRenderManager.createAvatarImage(_local_19, AvatarScaleType._SafeStr_4336);
                                         if (_local_18 != null){
                                             _local_18.setDirection(AvatarSetType._SafeStr_4458, 3);
-                                            _local_18.IAvatarImage();
-                                            _local_18.IAvatarImage(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_9991);
-                                            _local_18.IAvatarImage(AvatarAction._SafeStr_6564, _local_9.productClassId);
-                                            _local_18.IAvatarImage();
+                                            _local_18.initActionAppends();
+                                            _local_18.appendAction(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_9991);
+                                            _local_18.appendAction(AvatarAction._SafeStr_6564, _local_9.productClassId);
+                                            _local_18.endActionAppends();
                                             _local_18.updateAnimationByFrames(1);
                                             _local_18.updateAnimationByFrames(1);
-                                            _local_16 = _local_18.TwinkleImages(AvatarSetType._SafeStr_4457, true);
+                                            _local_16 = _local_18.getImage(AvatarSetType._SafeStr_4457, true);
                                             _local_20 = new Point(0, 0);
                                             if (_local_16 != null){
                                                 _local_22 = _local_18.avatarSpriteData;
@@ -302,9 +302,9 @@ package com.sulake.habbo.catalog.viewer.widgets
                 _local_7 = _window.getChildIndex(this._SafeStr_10438);
                 _local_8 = _arg_2.getLayerData(_local_6);
                 _local_9 = 0;
-                _local_10 = _local_6.ISpriteDataContainer(_arg_2.getDirection());
-                _local_11 = _local_6.ISpriteDataContainer(_arg_2.getDirection());
-                _local_12 = _local_6.ISpriteDataContainer(_arg_2.getDirection());
+                _local_10 = _local_6.getDirectionOffsetX(_arg_2.getDirection());
+                _local_11 = _local_6.getDirectionOffsetY(_arg_2.getDirection());
+                _local_12 = _local_6.getDirectionOffsetZ(_arg_2.getDirection());
                 _local_13 = 0;
                 if (!_arg_5){
                     if (_local_12 >= 0) continue;
@@ -401,12 +401,12 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             var _local_2:BitmapDataAsset = (page.viewer.catalog.assets.getAssetByName(_arg_1) as BitmapDataAsset);
             if (_local_2 == null){
-                this.PendingImage(_arg_1);
+                this.retrievePreviewAsset(_arg_1);
                 return;
             };
             this.setPreviewImage((_local_2.content as BitmapData), false);
         }
-        private function PendingImage(_arg_1:String):void
+        private function retrievePreviewAsset(_arg_1:String):void
         {
             if (((((((((!(_arg_1)) || (!(page)))) || (!(page.viewer)))) || (!(page.viewer.catalog)))) || (!(page.viewer.catalog.configuration)))){
                 return;
@@ -422,9 +422,9 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (!_local_5){
                 return;
             };
-            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.PendingImage);
+            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.onPreviewImageReady);
         }
-        private function PendingImage(_arg_1:AssetLoaderEvent):void
+        private function onPreviewImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             if (_local_2 != null){
@@ -481,20 +481,20 @@ package com.sulake.habbo.catalog.viewer.widgets
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // updateAnimationByFrames = "_-05f" (String#3680, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // getSprites = "_-3Go" (String#7642, DoABC#2)
 // getLayerData = "_-0Qg" (String#1470, DoABC#2)
-// ISpriteDataContainer = "_-1Oo" (String#5331, DoABC#2)
-// ISpriteDataContainer = "_-31k" (String#7340, DoABC#2)
-// ISpriteDataContainer = "_-3HQ" (String#7657, DoABC#2)
+// getDirectionOffsetX = "_-1Oo" (String#5331, DoABC#2)
+// getDirectionOffsetY = "_-31k" (String#7340, DoABC#2)
+// getDirectionOffsetZ = "_-3HQ" (String#7657, DoABC#2)
 // hasDirections = "_-1RM" (String#5383, DoABC#2)
 // animationFrame = "_-gS" (String#8520, DoABC#2)
 // directionOffset = "_-25H" (String#6148, DoABC#2)
 // getScale = "_-1EW" (String#5151, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4479 = "_-Dm" (String#22761, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // _SafeStr_4886 = "_-04Q" (String#14220, DoABC#2)
 // _SafeStr_4887 = "_-0F0" (String#14645, DoABC#2)
 // _SafeStr_4888 = "_-2gY" (String#20713, DoABC#2)
@@ -508,13 +508,13 @@ package com.sulake.habbo.catalog.viewer.widgets
 // addWallItemIntoRoom = "_-0bD" (String#15485, DoABC#2)
 // addAvatarIntoRoom = "_-03t" (String#14198, DoABC#2)
 // changeRoomObjectState = "_-W1" (String#8322, DoABC#2)
-// RoomEngine = "_-HZ" (String#8028, DoABC#2)
+// getRoomCanvas = "_-HZ" (String#8028, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
 // _SafeStr_5017 = "_-1-l" (String#16457, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 // _SafeStr_5021 = "_-h-" (String#23930, DoABC#2)
 // _SafeStr_5023 = "_-hJ" (String#23942, DoABC#2)
-// PendingImage = "_-30x" (String#625, DoABC#2)
+// onPreviewImageReady = "_-30x" (String#625, DoABC#2)
 // populateItemGrid = "_-2Ws" (String#892, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // _SafeStr_5075 = "_-Eh" (String#22802, DoABC#2)
@@ -523,7 +523,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // _SafeStr_6564 = "_-1eZ" (String#18081, DoABC#2)
 // setPreviewImage = "_-27B" (String#448, DoABC#2)
 // setPreviewFromAsset = "_-1qV" (String#1768, DoABC#2)
-// PendingImage = "_-04a" (String#579, DoABC#2)
+// retrievePreviewAsset = "_-04a" (String#579, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 // _SafeStr_9991 = "_-1nY" (String#18442, DoABC#2)
 

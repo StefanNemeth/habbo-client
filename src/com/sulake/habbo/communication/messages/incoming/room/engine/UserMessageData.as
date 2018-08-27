@@ -10,7 +10,7 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
         private var _id:int = 0;
         private var _x:Number = 0;
         private var _y:Number = 0;
-        private var _Vector3d:Number = 0;
+        private var _z:Number = 0;
         private var _dir:int = 0;
         private var _name:String = "";
         private var _userType:int = 0;
@@ -59,12 +59,12 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
         }
         public function get z():Number
         {
-            return (this._Vector3d);
+            return (this._z);
         }
         public function set z(_arg_1:Number):void
         {
             if (!this._SafeStr_4520){
-                this._Vector3d = _arg_1;
+                this._z = _arg_1;
             };
         }
         public function get dir():int
@@ -210,7 +210,7 @@ package com.sulake.habbo.communication.messages.incoming.room.engine
 // _y = "_-02f" (String#64, DoABC#2)
 // _dir = "_-1kY" (String#187, DoABC#2)
 // _SafeStr_4520 = "_-18k" (String#440, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // _custom = "_-0pL" (String#4620, DoABC#2)
 // _webID = "_-1Ez" (String#1639, DoABC#2)
 // _groupID = "_-2b1" (String#6773, DoABC#2)

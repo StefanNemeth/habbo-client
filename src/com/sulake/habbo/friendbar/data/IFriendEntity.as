@@ -19,7 +19,7 @@ package com.sulake.habbo.friendbar.data
         function get notifications():Vector.<FriendNotification>;
         function get logEventId():int;
         function set logEventId(_arg_1:int):void;
-        function IFriendEntity():int;
+        function getNextLogEventId():int;
 
     }
 }//package com.sulake.habbo.friendbar.data
@@ -28,7 +28,7 @@ package com.sulake.habbo.friendbar.data
 // allowFollow = "_-1Va" (String#5466, DoABC#2)
 // notifications = "_-1zJ" (String#1789, DoABC#2)
 // logEventId = "_-Vm" (String#8316, DoABC#2)
-// IFriendEntity = "_-0OK" (String#4053, DoABC#2)
+// getNextLogEventId = "_-0OK" (String#4053, DoABC#2)
 // IFriendEntity = "_-2nQ" (String#7031, DoABC#2)
 // realName = "_-3HH" (String#922, DoABC#2)
 

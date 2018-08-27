@@ -57,16 +57,16 @@ package com.sulake.habbo.inventory.effects
                 this._disposed = true;
             };
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
         }
         public function categorySwitch(_arg_1:String):void
         {
         }
-        public function EffectsModel(_arg_1:Effect, _arg_2:Boolean=true):void
+        public function addEffect(_arg_1:Effect, _arg_2:Boolean=true):void
         {
             var _local_4:BitmapDataAsset;
-            var _local_3:Effect = this.EffectsModel(_arg_1.type);
+            var _local_3:Effect = this.getEffect(_arg_1.type);
             if (_local_3 != null){
                 _local_3.effectsInInventory++;
             }
@@ -78,10 +78,10 @@ package com.sulake.habbo.inventory.effects
                 this._effects.push(_arg_1);
             };
             if (_arg_2){
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        private function EffectsModel(_arg_1:int):Effect
+        private function getEffect(_arg_1:int):Effect
         {
             var _local_3:Effect;
             var _local_2:int;
@@ -94,7 +94,7 @@ package com.sulake.habbo.inventory.effects
             };
             return (null);
         }
-        private function EffectsModel(_arg_1:int):void
+        private function removeEffect(_arg_1:int):void
         {
             var _local_3:Effect;
             var _local_2:int;
@@ -102,61 +102,61 @@ package com.sulake.habbo.inventory.effects
                 _local_3 = this._effects[_local_2];
                 if (_local_3.type == _arg_1){
                     this._effects.splice(_local_2, 1);
-                    this.PetsModel();
+                    this.refreshViews();
                     return;
                 };
                 _local_2++;
             };
         }
-        public function PetsModel():void
+        public function refreshViews():void
         {
-            this._view.BadgesView();
-            this._view.BadgesView();
+            this._view.updateListViews();
+            this._view.updateActionView();
         }
-        public function EffectsModel(_arg_1:int):void
+        public function requestEffectActivated(_arg_1:int):void
         {
-            this._controller.communication.HabboCommunicationManager(null).send(new AvatarEffectActivatedComposer(_arg_1));
+            this._controller.communication.getHabboMainConnection(null).send(new AvatarEffectActivatedComposer(_arg_1));
         }
-        public function EffectsModel(_arg_1:int):void
+        public function setEffectActivated(_arg_1:int):void
         {
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 != null){
-                this.EffectsModel(false, false);
+                this.stopUsingAllEffects(false, false);
                 _local_2.isActive = true;
                 _local_2.isInUse = true;
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        public function EffectsModel(_arg_1:int):void
+        public function useEffect(_arg_1:int):void
         {
-            this.EffectsModel(false, false);
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            this.stopUsingAllEffects(false, false);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 == null){
                 return;
             };
             if (!_local_2.isActive){
-                this.EffectsModel(_local_2.type);
+                this.requestEffectActivated(_local_2.type);
             };
             if (_local_2.isInUse == false){
                 _local_2.isInUse = true;
-                this._controller.communication.HabboCommunicationManager(null).send(new AvatarEffectSelectedComposer(_arg_1));
-                this.PetsModel();
+                this._controller.communication.getHabboMainConnection(null).send(new AvatarEffectSelectedComposer(_arg_1));
+                this.refreshViews();
             };
         }
-        public function EffectsModel(_arg_1:int, _arg_2:Boolean=false):void
+        public function stopUsingEffect(_arg_1:int, _arg_2:Boolean=false):void
         {
-            var _local_3:Effect = this.EffectsModel(_arg_1);
+            var _local_3:Effect = this.getEffect(_arg_1);
             if (_local_3 != null){
                 if (_local_3.isInUse == true){
                     _local_3.isInUse = false;
                     if (_arg_2){
-                        this._controller.communication.HabboCommunicationManager(null).send(new AvatarEffectSelectedComposer(-1));
+                        this._controller.communication.getHabboMainConnection(null).send(new AvatarEffectSelectedComposer(-1));
                     };
-                    this.PetsModel();
+                    this.refreshViews();
                 };
             };
         }
-        public function EffectsModel(_arg_1:Boolean=true, _arg_2:Boolean=true):void
+        public function stopUsingAllEffects(_arg_1:Boolean=true, _arg_2:Boolean=true):void
         {
             var _local_4:Effect;
             var _local_3:int;
@@ -166,43 +166,43 @@ package com.sulake.habbo.inventory.effects
                 _local_3++;
             };
             if (_arg_1){
-                this._controller.communication.HabboCommunicationManager(null).send(new AvatarEffectSelectedComposer(-1));
+                this._controller.communication.getHabboMainConnection(null).send(new AvatarEffectSelectedComposer(-1));
             };
             if (_arg_2){
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        public function EffectsModel(_arg_1:int):void
+        public function toggleEffectSelected(_arg_1:int):void
         {
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 != null){
                 if (_local_2.isSelected){
-                    this.HabboInventory(_arg_1);
+                    this.setEffectDeselected(_arg_1);
                 }
                 else {
-                    this.HabboInventory(_arg_1);
+                    this.setEffectSelected(_arg_1);
                 };
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        public function HabboInventory(_arg_1:int):void
+        public function setEffectSelected(_arg_1:int):void
         {
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 != null){
-                this.EffectsModel(false);
+                this.setAllEffectsDeselected(false);
                 _local_2.isSelected = true;
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        public function HabboInventory(_arg_1:int):void
+        public function setEffectDeselected(_arg_1:int):void
         {
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 != null){
                 _local_2.isSelected = false;
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        private function EffectsModel(_arg_1:Boolean=true):void
+        private function setAllEffectsDeselected(_arg_1:Boolean=true):void
         {
             var _local_3:Effect;
             var _local_2:int;
@@ -212,13 +212,13 @@ package com.sulake.habbo.inventory.effects
                 _local_2++;
             };
             if (_arg_1){
-                this.PetsModel();
+                this.refreshViews();
             };
         }
-        public function EffectsModel(_arg_1:int=-1):Effect
+        public function getSelectedEffect(_arg_1:int=-1):Effect
         {
             var _local_4:Effect;
-            var _local_2:Array = this.EffectsModel(_arg_1);
+            var _local_2:Array = this.getEffects(_arg_1);
             var _local_3:int;
             while (_local_3 < _local_2.length) {
                 _local_4 = _local_2[_local_3];
@@ -229,14 +229,14 @@ package com.sulake.habbo.inventory.effects
             };
             return (null);
         }
-        private function EffectsModel(_arg_1:int, _arg_2:int=-1):int
+        private function getEffectIndex(_arg_1:int, _arg_2:int=-1):int
         {
             var _local_4:Array;
             var _local_5:int;
             var _local_6:Effect;
-            var _local_3:Effect = this.EffectsModel(_arg_1);
+            var _local_3:Effect = this.getEffect(_arg_1);
             if (_local_3 != null){
-                _local_4 = this.EffectsModel(_arg_2);
+                _local_4 = this.getEffects(_arg_2);
                 _local_5 = 0;
                 while (_local_5 < _local_4.length) {
                     _local_6 = _local_4[_local_5];
@@ -248,7 +248,7 @@ package com.sulake.habbo.inventory.effects
             };
             return (-1);
         }
-        public function EffectsModel(_arg_1:int=-1):Array
+        public function getEffects(_arg_1:int=-1):Array
         {
             var _local_4:Effect;
             var _local_2:Array = new Array();
@@ -262,35 +262,35 @@ package com.sulake.habbo.inventory.effects
             };
             return (_local_2);
         }
-        public function EffectsModel(_arg_1:int):void
+        public function setEffectExpired(_arg_1:int):void
         {
-            var _local_2:Effect = this.EffectsModel(_arg_1);
+            var _local_2:Effect = this.getEffect(_arg_1);
             if (_local_2 != null){
                 if (_local_2.effectsInInventory > 1){
                     _local_2.setOneEffectExpired();
-                    this.PetsModel();
+                    this.refreshViews();
                 }
                 else {
-                    this.EffectsModel(_local_2.type);
+                    this.removeEffect(_local_2.type);
                 };
             };
         }
         public function getItemInIndex(_arg_1:int, _arg_2:int=-1):Effect
         {
-            var _local_3:Array = this.EffectsModel(_arg_2);
+            var _local_3:Array = this.getEffects(_arg_2);
             if ((((_arg_1 < 0)) || ((_arg_1 >= _local_3.length)))){
                 return (null);
             };
             return (_local_3[_arg_1]);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
-            return (this._view.TradingModel());
+            return (this._view.getWindowContainer());
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
         }
 
@@ -310,34 +310,34 @@ package com.sulake.habbo.inventory.effects
 // effectsInInventory = "_-0U0" (String#4183, DoABC#2)
 // isActive = "_-0q4" (String#4638, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
 // _effects = "_-1d5" (String#856, DoABC#2)
-// HabboInventory = "_-1Ct" (String#1634, DoABC#2)
-// HabboInventory = "_-2rY" (String#1952, DoABC#2)
+// setEffectSelected = "_-1Ct" (String#1634, DoABC#2)
+// setEffectDeselected = "_-2rY" (String#1952, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
-// BadgesView = "_-jg" (String#8593, DoABC#2)
-// EffectsModel = "_-1uY" (String#18737, DoABC#2)
-// EffectsModel = "_-j-" (String#24000, DoABC#2)
-// PetsModel = "_-tx" (String#24446, DoABC#2)
-// EffectsModel = "_-1QF" (String#17520, DoABC#2)
-// BadgesView = "_-3LU" (String#7727, DoABC#2)
-// EffectsModel = "_-2jP" (String#20821, DoABC#2)
-// EffectsModel = "_-2LA" (String#19854, DoABC#2)
-// EffectsModel = "_-27X" (String#19312, DoABC#2)
-// EffectsModel = "_-3KO" (String#22299, DoABC#2)
-// EffectsModel = "_-9A" (String#22587, DoABC#2)
-// EffectsModel = "_-tV" (String#24427, DoABC#2)
-// EffectsModel = "_-0TF" (String#15180, DoABC#2)
-// EffectsModel = "_-7B" (String#22509, DoABC#2)
-// EffectsModel = "_-1VO" (String#17714, DoABC#2)
-// EffectsModel = "_-1Wm" (String#17771, DoABC#2)
-// EffectsModel = "_-iZ" (String#23980, DoABC#2)
+// updateActionView = "_-jg" (String#8593, DoABC#2)
+// addEffect = "_-1uY" (String#18737, DoABC#2)
+// getEffect = "_-j-" (String#24000, DoABC#2)
+// refreshViews = "_-tx" (String#24446, DoABC#2)
+// removeEffect = "_-1QF" (String#17520, DoABC#2)
+// updateListViews = "_-3LU" (String#7727, DoABC#2)
+// requestEffectActivated = "_-2jP" (String#20821, DoABC#2)
+// setEffectActivated = "_-2LA" (String#19854, DoABC#2)
+// stopUsingAllEffects = "_-27X" (String#19312, DoABC#2)
+// useEffect = "_-3KO" (String#22299, DoABC#2)
+// stopUsingEffect = "_-9A" (String#22587, DoABC#2)
+// toggleEffectSelected = "_-tV" (String#24427, DoABC#2)
+// setAllEffectsDeselected = "_-0TF" (String#15180, DoABC#2)
+// getSelectedEffect = "_-7B" (String#22509, DoABC#2)
+// getEffects = "_-1VO" (String#17714, DoABC#2)
+// getEffectIndex = "_-1Wm" (String#17771, DoABC#2)
+// setEffectExpired = "_-iZ" (String#23980, DoABC#2)
 // setOneEffectExpired = "_-c8" (String#23720, DoABC#2)
 // getItemInIndex = "_-0Tf" (String#15196, DoABC#2)
 

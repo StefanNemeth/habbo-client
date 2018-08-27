@@ -60,7 +60,7 @@ package com.sulake.habbo.tracking
             this._SafeStr_13840 = int(this._configuration.getKey("latencytest.interval"));
             this._SafeStr_13841 = int(this._configuration.getKey("latencytest.report.index"));
             this._SafeStr_13842 = int(this._configuration.getKey("latencytest.report.delta"));
-            this._communication.HabboCommunicationManager(new LatencyPingResponseMessageEvent(this.LatencyTracker));
+            this._communication.addHabboConnectionMessageEvent(new LatencyPingResponseMessageEvent(this.onPingResponse));
             if (this._SafeStr_13840 < 1){
                 return;
             };
@@ -74,17 +74,17 @@ package com.sulake.habbo.tracking
                 return;
             };
             if ((_arg_2 - this._SafeStr_13843) > this._SafeStr_13840){
-                this.LatencyTracker();
+                this.testLatency();
             };
         }
-        private function LatencyTracker():void
+        private function testLatency():void
         {
             this._SafeStr_13843 = getTimer();
             this._SafeStr_13846.add(this._SafeStr_13839, this._SafeStr_13843);
             this._connection.send(new LatencyPingRequestMessageComposer(this._SafeStr_13839));
             this._SafeStr_13839++;
         }
-        private function LatencyTracker(_arg_1:IMessageEvent):void
+        private function onPingResponse(_arg_1:IMessageEvent):void
         {
             var _local_5:int;
             var _local_6:int;
@@ -144,8 +144,8 @@ package com.sulake.habbo.tracking
 // _SafeStr_13844 = "_-1EI" (String#17039, DoABC#2)
 // _SafeStr_13845 = "extends" (String#45027, DoABC#2)
 // _SafeStr_13846 = "_-2-Z" (String#18994, DoABC#2)
-// LatencyTracker = "_-0hN" (String#15723, DoABC#2)
-// LatencyTracker = "_-1Nz" (String#17434, DoABC#2)
+// onPingResponse = "_-0hN" (String#15723, DoABC#2)
+// testLatency = "_-1Nz" (String#17434, DoABC#2)
 // LatencyPingResponseMessageEvent = "_-0pM" (String#4621, DoABC#2)
 // LatencyPingResponseMessageParser = "_-1iU" (String#5722, DoABC#2)
 // LatencyPingReportMessageComposer = "_-0Bk" (String#3790, DoABC#2)
@@ -153,7 +153,7 @@ package com.sulake.habbo.tracking
 // requestId = "_-li" (String#24099, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // LatencyTracker = "_-RJ" (String#23297, DoABC#2)
 

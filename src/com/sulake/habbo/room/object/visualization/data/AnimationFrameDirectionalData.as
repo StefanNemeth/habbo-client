@@ -11,33 +11,33 @@ package com.sulake.habbo.room.object.visualization.data
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_7);
             this._SafeStr_12593 = _arg_6;
         }
-        override public function AnimationFrameData():Boolean
+        override public function hasDirectionalOffsets():Boolean
         {
             return (!((this._SafeStr_12593 == null)));
         }
-        override public function AnimationFrameData(_arg_1:int):int
+        override public function getX(_arg_1:int):int
         {
             if (this._SafeStr_12593 != null){
-                return (this._SafeStr_12593.getOffsetX(_arg_1, super.AnimationFrameData(_arg_1)));
+                return (this._SafeStr_12593.getOffsetX(_arg_1, super.getX(_arg_1)));
             };
-            return (super.AnimationFrameData(_arg_1));
+            return (super.getX(_arg_1));
         }
-        override public function AnimationFrameData(_arg_1:int):int
+        override public function getY(_arg_1:int):int
         {
             if (this._SafeStr_12593 != null){
-                return (this._SafeStr_12593.getOffsetY(_arg_1, super.AnimationFrameData(_arg_1)));
+                return (this._SafeStr_12593.getOffsetY(_arg_1, super.getY(_arg_1)));
             };
-            return (super.AnimationFrameData(_arg_1));
+            return (super.getY(_arg_1));
         }
 
     }
 }//package com.sulake.habbo.room.object.visualization.data
 
-// AnimationFrameData = "_-bw" (String#8454, DoABC#2)
-// AnimationFrameData = "_-2Wq" (String#6697, DoABC#2)
+// getX = "_-bw" (String#8454, DoABC#2)
+// getY = "_-2Wq" (String#6697, DoABC#2)
 // getOffsetX = "_-7U" (String#22522, DoABC#2)
 // getOffsetY = "_-1ox" (String#18498, DoABC#2)
-// AnimationFrameData = "_-jk" (String#24025, DoABC#2)
+// hasDirectionalOffsets = "_-jk" (String#24025, DoABC#2)
 // _SafeStr_12593 = "_-1hT" (String#18190, DoABC#2)
 // DirectionalOffsetData = "_-0oK" (String#4599, DoABC#2)
 // AnimationFrameData = "_-19W" (String#5067, DoABC#2)

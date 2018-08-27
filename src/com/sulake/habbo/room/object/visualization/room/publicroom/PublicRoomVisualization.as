@@ -29,7 +29,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom
             };
             return (super.initialize(_arg_1));
         }
-        private function PublicRoomVisualization(_arg_1:int):void
+        private function addSprites(_arg_1:int):void
         {
             createSprites((this._SafeStr_8497 + _arg_1));
         }
@@ -37,7 +37,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom
         {
             return ((_data as PublicRoomVisualizationData));
         }
-        private function PublicRoomVisualization(_arg_1:IRoomGeometry):void
+        private function initializeLayout(_arg_1:IRoomGeometry):void
         {
             var _local_2:IRoomObjectModel;
             var _local_3:String;
@@ -51,7 +51,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom
                 _local_3 = _local_2.getString(RoomObjectVariableEnum._SafeStr_8503);
                 this.data.layoutRasterizer.layout = _local_3;
                 this.data.layoutRasterizer.initializeGeometry(_arg_1);
-                this.PublicRoomVisualization(this.data.layoutRasterizer.elementCount());
+                this.addSprites(this.data.layoutRasterizer.elementCount());
                 _local_4 = 0;
                 while (_local_4 < this.data.layoutRasterizer.elementCount()) {
                     this.data.layoutRasterizer.setElementToSprite(_local_4, getSprite((_local_4 + this._SafeStr_8497)));
@@ -71,7 +71,7 @@ package com.sulake.habbo.room.object.visualization.room.publicroom
             if (_arg_1 == null){
                 return;
             };
-            this.PublicRoomVisualization(_arg_1);
+            this.initializeLayout(_arg_1);
             var _local_6:IRoomObjectModel = object.getModel();
             var _local_7:String = _local_6.getString(RoomObjectVariableEnum._SafeStr_5316);
             var _local_8 = !(Boolean(_local_6.getNumber(RoomObjectVariableEnum._SafeStr_5318)));
@@ -102,8 +102,8 @@ package com.sulake.habbo.room.object.visualization.room.publicroom
 // _SafeStr_8498 = "_-qo" (String#24307, DoABC#2)
 // floorRelativeDepth = "_-1De" (String#17009, DoABC#2)
 // wallRelativeDepth = "_-61" (String#22467, DoABC#2)
-// PublicRoomVisualization = "_-1QC" (String#17517, DoABC#2)
-// PublicRoomVisualization = "_-J5" (String#22971, DoABC#2)
+// addSprites = "_-1QC" (String#17517, DoABC#2)
+// initializeLayout = "_-J5" (String#22971, DoABC#2)
 // _SafeStr_8503 = "_-Ri" (String#23311, DoABC#2)
 
 

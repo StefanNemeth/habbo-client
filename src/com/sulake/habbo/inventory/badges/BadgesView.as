@@ -37,12 +37,12 @@ package com.sulake.habbo.inventory.badges
             this._view.visible = false;
             var _local_6:IWindow = this._view.findChildByName("wearBadge_button");
             if (_local_6 != null){
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.BadgesView);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onWearBadgeClick);
             };
             this._SafeStr_8564 = (this._view.findChildByName("inactive_items") as IItemGridWindow);
-            this._SafeStr_8564.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.BadgesView);
+            this._SafeStr_8564.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onInactiveBadgeClick);
             this._SafeStr_8565 = (this._view.findChildByName("active_items") as IItemGridWindow);
-            this._SafeStr_8565.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.BadgesView);
+            this._SafeStr_8565.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onActiveBadgeClick);
         }
         public function get disposed():Boolean
         {
@@ -63,7 +63,7 @@ package com.sulake.habbo.inventory.badges
                 this._view = null;
             };
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             if ((((this._view == null)) || (this._view.disposed))){
                 return (null);
@@ -74,27 +74,27 @@ package com.sulake.habbo.inventory.badges
         {
             return (((!((this._view.parent == null))) && (this._view.visible)));
         }
-        public function BadgesView():void
+        public function updateAll():void
         {
-            this.BadgesView();
-            this.BadgesView();
+            this.updateListViews();
+            this.updateActionView();
         }
-        private function BadgesView():void
+        private function updateListViews():void
         {
             var _local_3:Badge;
             if ((((this._view == null)) || (this._view.disposed))){
                 return;
             };
             var _local_1:Number = this._SafeStr_8564.scrollV;
-            this._SafeStr_8564.IItemGridWindow();
-            this._SafeStr_8565.IItemGridWindow();
+            this._SafeStr_8564.removeGridItems();
+            this._SafeStr_8565.removeGridItems();
             var _local_2:Array = this._SafeStr_4830.getBadges(BadgesModel._SafeStr_8541);
             var _local_4:int;
             while (_local_4 < _local_2.length) {
                 _local_3 = (_local_2[_local_4] as Badge);
                 if (!_local_3.isInUse){
-                    this._SafeStr_8564.IItemGridWindow(_local_3.window);
-                    _local_3.window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.BadgesView);
+                    this._SafeStr_8564.addGridItem(_local_3.window);
+                    _local_3.window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onInactiveBadgeClick);
                 };
                 _local_4++;
             };
@@ -105,12 +105,12 @@ package com.sulake.habbo.inventory.badges
             _local_4 = 0;
             while (_local_4 < _local_5.length) {
                 _local_3 = (_local_5[_local_4] as Badge);
-                this._SafeStr_8565.IItemGridWindow(_local_3.window);
-                _local_3.window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.BadgesView);
+                this._SafeStr_8565.addGridItem(_local_3.window);
+                _local_3.window.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onActiveBadgeClick);
                 _local_4++;
             };
         }
-        public function BadgesView():void
+        public function updateActionView():void
         {
             var _local_3:Array;
             if ((((this._view == null)) || (this._view.disposed))){
@@ -123,9 +123,9 @@ package com.sulake.habbo.inventory.badges
             var _local_2:Badge = this._SafeStr_4830.getSelectedBadge();
             if (_local_2 == null){
                 _local_1.disable();
-                this.BadgesView(null);
-                this.BadgesView(null);
-                this.BadgesView(null);
+                this.setBadgeName(null);
+                this.setBadgeDescriptionText(null);
+                this.setBadgeDescriptionImage(null);
             }
             else {
                 if (_local_2.isInUse){
@@ -134,11 +134,11 @@ package com.sulake.habbo.inventory.badges
                 else {
                     _local_1.caption = "${inventory.badges.wearbadge}";
                 };
-                this.BadgesView(this._SafeStr_4830.controller.localization.getBadgeName(_local_2.type));
-                this.BadgesView(this._SafeStr_4830.controller.localization.getBadgeDesc(_local_2.type));
-                this.BadgesView(_local_2.iconImage);
+                this.setBadgeName(this._SafeStr_4830.controller.localization.getBadgeName(_local_2.type));
+                this.setBadgeDescriptionText(this._SafeStr_4830.controller.localization.getBadgeDesc(_local_2.type));
+                this.setBadgeDescriptionImage(_local_2.iconImage);
                 _local_3 = this._SafeStr_4830.getBadges(BadgesModel._SafeStr_8542);
-                if (((((!((_local_3 == null))) && ((_local_3.length >= this._SafeStr_4830.BadgesModel())))) && (!(_local_2.isInUse)))){
+                if (((((!((_local_3 == null))) && ((_local_3.length >= this._SafeStr_4830.getMaxActiveCount())))) && (!(_local_2.isInUse)))){
                     _local_1.disable();
                 }
                 else {
@@ -146,7 +146,7 @@ package com.sulake.habbo.inventory.badges
                 };
             };
         }
-        private function BadgesView(_arg_1:BitmapData):void
+        private function setBadgeDescriptionImage(_arg_1:BitmapData):void
         {
             if ((((this._view == null)) || (this._view.disposed))){
                 return;
@@ -167,7 +167,7 @@ package com.sulake.habbo.inventory.badges
             _local_2.bitmap.copyPixels(_arg_1, _arg_1.rect, _local_3, null, null, true);
             _local_2.invalidate();
         }
-        private function BadgesView(_arg_1:String):void
+        private function setBadgeName(_arg_1:String):void
         {
             if ((((this._view == null)) || (this._view.disposed))){
                 return;
@@ -184,7 +184,7 @@ package com.sulake.habbo.inventory.badges
                 _local_2.text = _arg_1;
             };
         }
-        private function BadgesView(_arg_1:String):void
+        private function setBadgeDescriptionText(_arg_1:String):void
         {
             if ((((this._view == null)) || (this._view.disposed))){
                 return;
@@ -201,7 +201,7 @@ package com.sulake.habbo.inventory.badges
                 _local_2.text = _arg_1;
             };
         }
-        private function BadgesView(_arg_1:WindowEvent):void
+        private function onInactiveBadgeClick(_arg_1:WindowEvent):void
         {
             var _local_2:int = this._SafeStr_8564.getGridItemIndex(_arg_1.window);
             var _local_3:Badge = this._SafeStr_4830.getBadgeFromInactive(_local_2);
@@ -209,7 +209,7 @@ package com.sulake.habbo.inventory.badges
                 this._SafeStr_4830.setBadgeSelected(_local_3.type);
             };
         }
-        private function BadgesView(_arg_1:WindowEvent):void
+        private function onActiveBadgeClick(_arg_1:WindowEvent):void
         {
             var _local_2:int = this._SafeStr_8565.getGridItemIndex(_arg_1.window);
             var _local_3:Badge = this._SafeStr_4830.getBadgeFromActive(_local_2);
@@ -217,7 +217,7 @@ package com.sulake.habbo.inventory.badges
                 this._SafeStr_4830.setBadgeSelected(_local_3.type);
             };
         }
-        private function BadgesView(_arg_1:WindowEvent):void
+        private function onWearBadgeClick(_arg_1:WindowEvent):void
         {
             var _local_2:Badge = this._SafeStr_4830.getSelectedBadge();
             if (_local_2 != null){
@@ -235,17 +235,17 @@ package com.sulake.habbo.inventory.badges
 // Badge = "_-244" (String#19179, DoABC#2)
 // isInUse = "_-2LN" (String#6469, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
-// BadgesView = "_-jg" (String#8593, DoABC#2)
-// BadgesView = "_-3LU" (String#7727, DoABC#2)
+// updateActionView = "_-jg" (String#8593, DoABC#2)
+// updateListViews = "_-3LU" (String#7727, DoABC#2)
 // _SafeStr_8541 = "_-2aE" (String#20452, DoABC#2)
 // _SafeStr_8542 = "_-0uS" (String#16219, DoABC#2)
-// BadgesModel = "_-X8" (String#23527, DoABC#2)
-// BadgesView = "_-ff" (String#23874, DoABC#2)
+// getMaxActiveCount = "_-X8" (String#23527, DoABC#2)
+// updateAll = "_-ff" (String#23874, DoABC#2)
 // toggleBadgeWearing = "_-1mH" (String#18392, DoABC#2)
 // getBadges = "_-2J4" (String#19770, DoABC#2)
 // setBadgeSelected = "_-2Dy" (String#19566, DoABC#2)
@@ -254,11 +254,11 @@ package com.sulake.habbo.inventory.badges
 // getBadgeFromInactive = "_-12e" (String#16565, DoABC#2)
 // _SafeStr_8564 = "_-2VB" (String#20247, DoABC#2)
 // _SafeStr_8565 = "_-11p" (String#16531, DoABC#2)
-// BadgesView = "_-3-J" (String#21474, DoABC#2)
-// BadgesView = "_-1yU" (String#18908, DoABC#2)
-// BadgesView = "_-2zF" (String#21430, DoABC#2)
-// BadgesView = "_-392" (String#21847, DoABC#2)
-// BadgesView = "_-2Qc" (String#20069, DoABC#2)
-// BadgesView = "_-1-o" (String#16460, DoABC#2)
+// onWearBadgeClick = "_-3-J" (String#21474, DoABC#2)
+// onInactiveBadgeClick = "_-1yU" (String#18908, DoABC#2)
+// onActiveBadgeClick = "_-2zF" (String#21430, DoABC#2)
+// setBadgeName = "_-392" (String#21847, DoABC#2)
+// setBadgeDescriptionText = "_-2Qc" (String#20069, DoABC#2)
+// setBadgeDescriptionImage = "_-1-o" (String#16460, DoABC#2)
 
 

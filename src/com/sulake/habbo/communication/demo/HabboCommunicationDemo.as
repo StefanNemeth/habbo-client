@@ -93,7 +93,7 @@ package com.sulake.habbo.communication.demo
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboCommunicationManager(), this.onHabboCommunication);
             queueInterface(new IIDHabboRoomSessionManager(), this.onRoomSessionManagerReady);
-            queueInterface(new IIDHabboConfigurationManager(), this.HabboSoundManagerFlash10);
+            queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationInit);
         }
         private static function decode(_arg_1:ByteArray, _arg_2:uint, _arg_3:uint, _arg_4:Point, _arg_5:Point):String
         {
@@ -197,10 +197,10 @@ package com.sulake.habbo.communication.demo
         {
             if (((_arg_1) && (!(this._ssoTicket)))){
                 this._ssoTicket = _arg_1;
-                this._habboCommunication.HabboCommunicationManager(HabboConnectionType._SafeStr_6096);
+                this._habboCommunication.initConnection(HabboConnectionType._SafeStr_6096);
             };
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             if (_arg_2 != null){
                 this._habboConfiguration = (_arg_2 as IHabboConfigurationManager);
@@ -223,22 +223,22 @@ package com.sulake.habbo.communication.demo
             var _local_3:IConnection;
             if (_arg_2 != null){
                 this._habboCommunication = (_arg_2 as IHabboCommunicationManager);
-                _local_3 = this._habboCommunication.HabboCommunicationManager(null);
+                _local_3 = this._habboCommunication.getHabboMainConnection(null);
                 if (_local_3 != null){
                     _local_3.addEventListener(Event.CONNECT, this.onConnectionEstablished);
                     _local_3.addEventListener(Event.CLOSE, this.onConnectionDisconnected);
                 };
-                this._habboCommunication.HabboCommunicationManager(new InitCryptoMessageEvent(this.onInitCrypto));
-                this._habboCommunication.HabboCommunicationManager(new SecretKeyEvent(this.onSecretKeyEvent));
-                this._habboCommunication.HabboCommunicationManager(new SessionParamsMessageEvent(this.onSessionParamsEvent));
-                this._habboCommunication.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
-                this._habboCommunication.HabboCommunicationManager(new PingMessageEvent(this.onPing));
-                this._habboCommunication.HabboCommunicationManager(new ErrorReportEvent(this.onErrorReport));
-                this._habboCommunication.HabboCommunicationManager(new GenericErrorEvent(this.onGenericError));
-                this._habboCommunication.HabboCommunicationManager(new DisconnectReasonEvent(this.onDisconnectReason));
-                this._habboCommunication.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEntryInfoEvent));
-                this._habboCommunication.HabboCommunicationManager(new UniqueMachineIDEvent(this.onUniqueMachineId));
-                this._habboCommunication.HabboCommunicationManager(new IdentityAccountsEvent(this.onIdentityAccounts));
+                this._habboCommunication.addHabboConnectionMessageEvent(new InitCryptoMessageEvent(this.onInitCrypto));
+                this._habboCommunication.addHabboConnectionMessageEvent(new SecretKeyEvent(this.onSecretKeyEvent));
+                this._habboCommunication.addHabboConnectionMessageEvent(new SessionParamsMessageEvent(this.onSessionParamsEvent));
+                this._habboCommunication.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK));
+                this._habboCommunication.addHabboConnectionMessageEvent(new PingMessageEvent(this.onPing));
+                this._habboCommunication.addHabboConnectionMessageEvent(new ErrorReportEvent(this.onErrorReport));
+                this._habboCommunication.addHabboConnectionMessageEvent(new GenericErrorEvent(this.onGenericError));
+                this._habboCommunication.addHabboConnectionMessageEvent(new DisconnectReasonEvent(this.onDisconnectReason));
+                this._habboCommunication.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEntryInfoEvent));
+                this._habboCommunication.addHabboConnectionMessageEvent(new UniqueMachineIDEvent(this.onUniqueMachineId));
+                this._habboCommunication.addHabboConnectionMessageEvent(new IdentityAccountsEvent(this.onIdentityAccounts));
                 this.checkRequirements();
             };
         }
@@ -256,7 +256,7 @@ package com.sulake.habbo.communication.demo
             var _local_2:String = this._habboConfiguration.getKey("client.hotel_view.image");
             var _local_3:String = this._habboConfiguration.getKey("image.library.url");
             if (((!((_local_2 == null))) && (!((_local_3 == null))))){
-                this.override.HabboHotelView((_local_3 + _local_2));
+                this.override.loadHotelViewImage((_local_3 + _local_2));
             };
             var _local_4 = (this._habboConfiguration.getKey("use.sso.ticket") == "1");
             this._ssoTicket = this._habboConfiguration.getKey("sso.ticket", null);
@@ -268,7 +268,7 @@ package com.sulake.habbo.communication.demo
             if (_local_4){
                 this._habboCommunication.mode = HabboConnectionType.RWREUE_NORMAL_MODE;
                 if (this._ssoTicket){
-                    this._habboCommunication.HabboCommunicationManager(HabboConnectionType._SafeStr_6096);
+                    this._habboCommunication.initConnection(HabboConnectionType._SafeStr_6096);
                 }
                 else {
                     if (ExternalInterface.available){
@@ -285,7 +285,7 @@ package com.sulake.habbo.communication.demo
                     return;
                     
                 _label_1: 
-                    Core.Core("Login without an SSO ticket is not supported", Core._SafeStr_9857);
+                    Core.crash("Login without an SSO ticket is not supported", Core._SafeStr_9857);
                 };
             };
         }
@@ -301,12 +301,12 @@ package com.sulake.habbo.communication.demo
                     this._habboCommunication.mode = HabboConnectionType._SafeStr_6098;
                 };
             };
-            this._habboCommunication.HabboCommunicationManager(HabboConnectionType._SafeStr_6096);
+            this._habboCommunication.initConnection(HabboConnectionType._SafeStr_6096);
         }
         private function onConnectionEstablished(_arg_1:Event=null):void
         {
             var _local_3:IMessageComposer;
-            var _local_2:IConnection = this._habboCommunication.HabboCommunicationManager(null);
+            var _local_2:IConnection = this._habboCommunication.getHabboMainConnection(null);
             if (_local_2 != null){
                 this.dispatchLoginStepEvent(HabboCommunicationEvent.HABBO_CONNECTION_EVENT_ESTABLISHED);
                 _local_3 = new InitCryptoMessageComposer(this._habboCommunication.mode);
@@ -332,7 +332,7 @@ package com.sulake.habbo.communication.demo
                     _local_7 = this._habboConfiguration.getKey("hotelview.banner.url", "http:/\nsitename$/gamedata/banner");
                     _local_7 = _local_7.replace("$sitename$", _local_6);
                     this._token = _local_4;
-                    this.override.HabboHotelView(((_local_7 + "?token=") + this._token), this.onHotelViewBannerLoaded);
+                    this.override.loadBannerImage(((_local_7 + "?token=") + this._token), this.onHotelViewBannerLoaded);
                     return;
                 case HabboConnectionType._SafeStr_6098:
                     this.sendConnectionParameters(_local_2);
@@ -362,7 +362,7 @@ package com.sulake.habbo.communication.demo
             _local_6.init(_local_8);
             _local_8.position = 0;
             _local_7.initFromState(_local_6);
-            _local_2.SocketConnection(_local_7);
+            _local_2.setEncryption(_local_7);
             this.sendConnectionParameters(_local_2);
         }
         private function sendConnectionParameters(connection:IConnection):void
@@ -412,7 +412,7 @@ package com.sulake.habbo.communication.demo
         }
         public function sendTryLogin(_arg_1:String, _arg_2:String, _arg_3:int=0):void
         {
-            var _local_4:IConnection = this._habboCommunication.HabboCommunicationManager(null);
+            var _local_4:IConnection = this._habboCommunication.getHabboMainConnection(null);
             var _local_5:TryLoginMessageComposer = new TryLoginMessageComposer(_arg_1, _arg_2, _arg_3);
             _local_4.send(_local_5);
         }
@@ -475,7 +475,7 @@ package com.sulake.habbo.communication.demo
                 return;
             };
             if (this._view){
-                this._view.HabboLoginDemoView(_arg_1.getParser().accounts);
+                this._view.populateUserList(_arg_1.getParser().accounts);
             };
         }
         private function onErrorReport(event:IMessageEvent):void
@@ -500,7 +500,7 @@ package com.sulake.habbo.communication.demo
             if ((((_arg_1.type == Event.CLOSE)) && (!(this._SafeStr_10719)))){
                 _local_2 = this._habboConfiguration.getKey("logout.disconnect.url");
                 _local_2 = this.setOriginProperty(_local_2);
-                HabboWebTools.HTMLTextController(_local_2, "_self");
+                HabboWebTools.openWebPage(_local_2, "_self");
             };
         }
         private function onDisconnectReason(_arg_1:DisconnectReasonEvent):void
@@ -514,7 +514,7 @@ package com.sulake.habbo.communication.demo
                 _local_2 = this.setReasonProperty(_local_2, _arg_1.reasonString);
                 _local_2 = this.setOriginProperty(_local_2);
                 _local_2 = (_local_2 + ("&id=" + _arg_1.reason));
-                HabboWebTools.HTMLTextController(_local_2, "_self");
+                HabboWebTools.openWebPage(_local_2, "_self");
             };
         }
         private function setReasonProperty(_arg_1:String, _arg_2:String):String
@@ -570,7 +570,7 @@ package com.sulake.habbo.communication.demo
             var _local_6:uint = _local_4.charCodeAt((_local_5 + 1));
             var _local_7:String = _local_4.substr(1, _local_5);
             var _local_8:String = _local_4.substr((_local_5 + 2), _local_6);
-            var _local_9:IConnection = this._habboCommunication.HabboCommunicationManager(null);
+            var _local_9:IConnection = this._habboCommunication.getHabboMainConnection(null);
             var _local_10:BigInteger = new BigInteger();
             var _local_11:BigInteger = new BigInteger();
             var _local_12:String;
@@ -625,13 +625,13 @@ package com.sulake.habbo.communication.demo
 // _SafeStr_10674 = "_-6F" (String#7786, DoABC#2)
 // closeLoginWindow = "_-Sl" (String#23355, DoABC#2)
 // habboConfiguration = "_-0Ma" (String#14935, DoABC#2)
-// HabboLoginDemoView = "_-0yW" (String#16374, DoABC#2)
+// populateUserList = "_-0yW" (String#16374, DoABC#2)
 // sendTryLogin = "_-1kF" (String#18299, DoABC#2)
 // habboCommunication = "_-uL" (String#24465, DoABC#2)
 // flashClientUrl = "_-0dV" (String#15565, DoABC#2)
 // ssoTicket = "_-1ab" (String#17919, DoABC#2)
-// HabboHotelView = "_-0BN" (String#14500, DoABC#2)
-// HabboHotelView = "_-2ad" (String#20471, DoABC#2)
+// loadHotelViewImage = "_-0BN" (String#14500, DoABC#2)
+// loadBannerImage = "_-2ad" (String#20471, DoABC#2)
 // _flashClientUrl = "_-KW" (String#8093, DoABC#2)
 // _habboCommunication = "_-1Ec" (String#17053, DoABC#2)
 // _SafeStr_10715 = "_-16g" (String#16723, DoABC#2)
@@ -641,9 +641,9 @@ package com.sulake.habbo.communication.demo
 // _SafeStr_10719 = "_-ki" (String#24057, DoABC#2)
 // _SafeStr_10720 = "_-1ue" (String#18743, DoABC#2)
 // onHabboCommunication = "_-0Ae" (String#14475, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1NP" (String#851, DoABC#2)
+// onHabboConfigurationInit = "_-1NP" (String#851, DoABC#2)
 // communicationManager = "_-DC" (String#22737, DoABC#2)
-// HabboCommunicationManager = "_-31b" (String#7337, DoABC#2)
+// initConnection = "_-31b" (String#7337, DoABC#2)
 // checkRequirements = "_-1zO" (String#18943, DoABC#2)
 // onRoomSessionEnded = "_-2-U" (String#18991, DoABC#2)
 // onConnectionEstablished = "_-0ht" (String#15743, DoABC#2)
@@ -713,9 +713,9 @@ package com.sulake.habbo.communication.demo
 // generateSharedKey = "_-3D7" (String#7578, DoABC#2)
 // getSharedKey = "_-1-f" (String#4862, DoABC#2)
 // getPublicKey = "_-0XQ" (String#4257, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // initFromState = "_-12G" (String#4921, DoABC#2)
 // decode = "_-1M7" (String#1666, DoABC#2)
 // _SafeStr_4650 = "_-16X" (String#5004, DoABC#2)
@@ -741,9 +741,9 @@ package com.sulake.habbo.communication.demo
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 // RoomEntryInfoMessageEvent = "_-nk" (String#24182, DoABC#2)
 // xor = "_-1WT" (String#5480, DoABC#2)
-// SocketConnection = "_-30E" (String#7309, DoABC#2)
+// setEncryption = "_-30E" (String#7309, DoABC#2)
 // _communicationManager = "_-0-x" (String#432, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 // _SafeStr_9857 = "_-0SS" (String#15152, DoABC#2)
 
 

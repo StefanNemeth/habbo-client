@@ -48,7 +48,7 @@ package com.sulake.habbo.avatar
         {
             _SafeStr_10132[_arg_1] = _arg_2;
         }
-        override public function IAvatarImage(_arg_1:String, ... _args):Boolean
+        override public function appendAction(_arg_1:String, ... _args):Boolean
         {
             var _local_3:String;
             if (((!((_args == null))) && ((_args.length > 0)))){
@@ -63,7 +63,7 @@ package com.sulake.habbo.avatar
                         case AvatarAction._SafeStr_7967:
                         case AvatarAction._SafeStr_7966:
                         case AvatarAction._SafeStr_10002:
-                            super.IAvatarImage.apply(null, [_arg_1].concat(_args));
+                            super.appendAction.apply(null, [_arg_1].concat(_args));
                             break;
                     };
                     break;
@@ -78,7 +78,7 @@ package com.sulake.habbo.avatar
             };
             return (true);
         }
-        override public function IAvatarImage():Boolean
+        override public function isPlaceholder():Boolean
         {
             return (true);
         }
@@ -106,12 +106,12 @@ package com.sulake.habbo.avatar
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4445 = "_-bp" (String#23706, DoABC#2)
 // _SafeStr_4453 = "_-aY" (String#23655, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4478 = "_-0c6" (String#15518, DoABC#2)
 // _image = "_-35u" (String#78, DoABC#2)
 // RSDE_DANCE = "_-0-n" (String#14045, DoABC#2)
 // _SafeStr_5141 = "_-32J" (String#626, DoABC#2)
-// IAvatarImage = "_-128" (String#4919, DoABC#2)
+// isPlaceholder = "_-128" (String#4919, DoABC#2)
 // _SafeStr_6561 = "_-Ne" (String#23151, DoABC#2)
 // _SafeStr_6562 = "_-R2" (String#23284, DoABC#2)
 // _SafeStr_6563 = "_-07B" (String#14332, DoABC#2)

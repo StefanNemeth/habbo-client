@@ -45,7 +45,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.WIDGET_MESSAGE_REQUEST_ECOTRONBOX_WIDGET, RoomWidgetEcotronBoxOpenMessage.RWEBOM_OPEN_ECOTRONBOX, RoomWidgetEcotronBoxOpenedMessage.RWEBOM_ECOTRONBOX_OPENED]);
         }
@@ -61,7 +61,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.WIDGET_MESSAGE_REQUEST_ECOTRONBOX_WIDGET:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_5 = _local_3.getModel();
                         if (_local_5 != null){
@@ -82,7 +82,7 @@ package com.sulake.habbo.ui.handler
                         return (null);
                     };
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession(_local_4.objectId);
+                        this._container.roomSession.sendPresentOpenMessage(_local_4.objectId);
                     };
                     break;
             };
@@ -96,11 +96,11 @@ package com.sulake.habbo.ui.handler
             var _local_3:RoomWidgetEcotronBoxDataUpdateEvent = new RoomWidgetEcotronBoxDataUpdateEvent(RoomWidgetEcotronBoxDataUpdateEvent.RWEBDUE_CONTENTS, 0, this._name, false, _arg_2);
             this._container.events.dispatchEvent(_local_3);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionPresentEvent.RSPE_PRESENT_OPENED]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionPresentEvent;
             var _local_3:ImageResult;
@@ -118,12 +118,12 @@ package com.sulake.habbo.ui.handler
                             this._name = "";
                             if (_local_2.itemType == "s"){
                                 _local_3 = this._container.roomEngine.getFurnitureIcon(_local_2.classId, this);
-                                _local_4 = this._container.sessionDataManager.SessionDataManager(_local_2.classId);
+                                _local_4 = this._container.sessionDataManager.getFloorItemData(_local_2.classId);
                             }
                             else {
                                 if (_local_2.itemType == "i"){
                                     _local_3 = this._container.roomEngine.getWallItemIcon(_local_2.classId, this);
-                                    _local_4 = this._container.sessionDataManager.SessionDataManager(_local_2.classId);
+                                    _local_4 = this._container.sessionDataManager.getWallItemData(_local_2.classId);
                                 };
                             };
                             if (_local_4 != null){
@@ -167,17 +167,17 @@ package com.sulake.habbo.ui.handler
 // RWE_FURNI_ECOTRONBOX_WIDGET = "_-0R8" (String#15107, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // RSPE_PRESENT_OPENED = "_-1eK" (String#18071, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7217 = "_-1mr" (String#18416, DoABC#2)
-// RoomSession = "_-3Es" (String#7609, DoABC#2)
-// SessionDataManager = "_-08L" (String#3728, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
+// sendPresentOpenMessage = "_-3Es" (String#7609, DoABC#2)
+// getFloorItemData = "_-08L" (String#3728, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
 
 

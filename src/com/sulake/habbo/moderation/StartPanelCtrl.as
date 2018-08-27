@@ -49,27 +49,27 @@ package com.sulake.habbo.moderation
             _local_3.enable();
             _local_3.caption = ("User info: " + _arg_2);
         }
-        public function StartPanelCtrl(_arg_1:RoomEntryInfoMessageParser):void
+        public function guestRoomEntered(_arg_1:RoomEntryInfoMessageParser):void
         {
             if ((((this._frame == null)) || ((_arg_1 == null)))){
                 return;
             };
             this._frame.findChildByName("room_tool_but").enable();
-            this.StartPanelCtrl();
+            this.enableChatlogButton();
             this._SafeStr_11743 = true;
             this._roomId = _arg_1.guestRoomId;
         }
-        public function StartPanelCtrl(_arg_1:PublicSpaceCastLibsMessageParser):void
+        public function publicSpaceEntered(_arg_1:PublicSpaceCastLibsMessageParser):void
         {
             if ((((this._frame == null)) || ((_arg_1 == null)))){
                 return;
             };
             this._frame.findChildByName("room_tool_but").disable();
-            this.StartPanelCtrl();
+            this.enableChatlogButton();
             this._SafeStr_11743 = false;
             this._roomId = _arg_1.nodeId;
         }
-        public function StartPanelCtrl():void
+        public function roomExited():void
         {
             if (this._frame == null){
                 return;
@@ -81,10 +81,10 @@ package com.sulake.habbo.moderation
         {
             if (this._frame == null){
                 this._frame = IFrameWindow(this._help.getXmlWindow("start_panel"));
-                this._frame.findChildByName("room_tool_but").procedure = this.StartPanelCtrl;
-                this._frame.findChildByName("chatlog_but").procedure = this.UserInfoCtrl;
-                this._frame.findChildByName("ticket_queue_but").procedure = this.StartPanelCtrl;
-                this._frame.findChildByName("userinfo_but").procedure = this.StartPanelCtrl;
+                this._frame.findChildByName("room_tool_but").procedure = this.onRoomToolButton;
+                this._frame.findChildByName("chatlog_but").procedure = this.onChatlogButton;
+                this._frame.findChildByName("ticket_queue_but").procedure = this.onTicketQueueButton;
+                this._frame.findChildByName("userinfo_but").procedure = this.onUserinfoButton;
                 this._frame.findChildByName("userinfo_but").disable();
                 this._frame.findChildByName("room_tool_but").disable();
                 this._frame.findChildByName("chatlog_but").disable();
@@ -93,34 +93,34 @@ package com.sulake.habbo.moderation
             };
             this._frame.visible = true;
         }
-        private function StartPanelCtrl():void
+        private function enableChatlogButton():void
         {
             if (this._help.initMsg.chatlogsPermission){
                 this._frame.findChildByName("chatlog_but").enable();
             };
         }
-        private function StartPanelCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onRoomToolButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new RoomToolCtrl(this._help, this._roomId), this._frame, false, false, true);
         }
-        private function UserInfoCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onChatlogButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new ChatlogCtrl(new GetRoomChatlogMessageComposer(((this._SafeStr_11743) ? 0 : 1), this._roomId), this._help, WindowTracker._SafeStr_11755, this._roomId), this._frame, false, false, true);
         }
-        private function StartPanelCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onUserinfoButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new UserInfoFrameCtrl(this._help, this._userId), this._frame, false, false, true);
         }
-        private function StartPanelCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onTicketQueueButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -133,14 +133,14 @@ package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
 // _SafeStr_11743 = "_-1E-" (String#17026, DoABC#2)
-// StartPanelCtrl = "_-03g" (String#14190, DoABC#2)
-// StartPanelCtrl = "_-Cv" (String#22723, DoABC#2)
-// StartPanelCtrl = "_-2P5" (String#20006, DoABC#2)
-// StartPanelCtrl = "_-2fB" (String#20654, DoABC#2)
-// StartPanelCtrl = "_-1US" (String#17683, DoABC#2)
-// UserInfoCtrl = "_-1xm" (String#5987, DoABC#2)
-// StartPanelCtrl = "_-0qG" (String#16060, DoABC#2)
-// StartPanelCtrl = "_-06g" (String#14313, DoABC#2)
+// guestRoomEntered = "_-03g" (String#14190, DoABC#2)
+// enableChatlogButton = "_-Cv" (String#22723, DoABC#2)
+// publicSpaceEntered = "_-2P5" (String#20006, DoABC#2)
+// roomExited = "_-2fB" (String#20654, DoABC#2)
+// onRoomToolButton = "_-1US" (String#17683, DoABC#2)
+// onChatlogButton = "_-1xm" (String#5987, DoABC#2)
+// onTicketQueueButton = "_-0qG" (String#16060, DoABC#2)
+// onUserinfoButton = "_-06g" (String#14313, DoABC#2)
 // disableButton = "_-24c" (String#19207, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // windowTracker = "_-1CG" (String#16953, DoABC#2)

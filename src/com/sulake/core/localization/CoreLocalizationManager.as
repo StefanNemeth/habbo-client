@@ -144,11 +144,11 @@ package com.sulake.core.localization
             _local_3.registerListener(_arg_2);
             return (true);
         }
-        public function PetDataManager(_arg_1:String, _arg_2:ILocalizable):Boolean
+        public function removeListener(_arg_1:String, _arg_2:ILocalizable):Boolean
         {
             var _local_3:Localization = this._localizations[_arg_1];
             if (_local_3 != null){
-                _local_3.PetDataManager(_arg_2);
+                _local_3.removeListener(_arg_2);
             };
             return (true);
         }
@@ -246,7 +246,7 @@ package com.sulake.core.localization
 // raw = "_-Xc" (String#8361, DoABC#2)
 // updateListeners = "_-1i" (String#18210, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
 // _SafeStr_8873 = "_-Zg" (String#23623, DoABC#2)
 // _SafeStr_8874 = "_-2vG" (String#21288, DoABC#2)
 // _SafeStr_8875 = "_-R7" (String#23288, DoABC#2)

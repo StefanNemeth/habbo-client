@@ -31,11 +31,11 @@ package com.sulake.core.window.components
         }
         public function get isSelected():Boolean
         {
-            return (IWindow(WindowState._SafeStr_9258));
+            return (testStateFlag(WindowState._SafeStr_9258));
         }
         public function set isSelected(_arg_1:Boolean):void
         {
-            WindowController(WindowState._SafeStr_9258, _arg_1);
+            setStateFlag(WindowState._SafeStr_9258, _arg_1);
         }
         override public function update(_arg_1:WindowController, _arg_2:WindowEvent):Boolean
         {
@@ -61,7 +61,7 @@ package com.sulake.core.window.components
         }
         public function select():Boolean
         {
-            if (WindowController(WindowState._SafeStr_9258)){
+            if (getStateFlag(WindowState._SafeStr_9258)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_SELECT, this, null);
@@ -71,15 +71,15 @@ package com.sulake.core.window.components
                 return (false);
             };
             _local_1.recycle();
-            WindowController(WindowState._SafeStr_9258, true);
+            setStateFlag(WindowState._SafeStr_9258, true);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_SELECTED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
             return (true);
         }
-        public function ISelectableWindow():Boolean
+        public function unselect():Boolean
         {
-            if (!WindowController(WindowState._SafeStr_9258)){
+            if (!getStateFlag(WindowState._SafeStr_9258)){
                 return (true);
             };
             var _local_1:WindowEvent = WindowEvent.allocate(WindowEvent.WE_UNSELECT, this, null);
@@ -89,7 +89,7 @@ package com.sulake.core.window.components
                 return (false);
             };
             _local_1.recycle();
-            WindowController(WindowState._SafeStr_9258, false);
+            setStateFlag(WindowState._SafeStr_9258, false);
             _local_1 = WindowEvent.allocate(WindowEvent.WE_UNSELECTED, this, null);
             this.update(this, _local_1);
             _local_1.recycle();
@@ -107,15 +107,15 @@ package com.sulake.core.window.components
 // ButtonController = "_-Mw" (String#8140, DoABC#2)
 // SelectableButtonController = "_-240" (String#6123, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
 // WE_SELECT = "_-335" (String#21624, DoABC#2)
 // WE_UNSELECTED = "_-1D" (String#16982, DoABC#2)
-// WindowController = "_-1jq" (String#5750, DoABC#2)
+// setStateFlag = "_-1jq" (String#5750, DoABC#2)
 // WE_UNSELECT = "_-sx" (String#24402, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // WE_CHILD_ACTIVATED = "_-f-" (String#23845, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // _SafeStr_9258 = "const" (String#44694, DoABC#2)
 // WE_ACTIVATED = "_-0ud" (String#16226, DoABC#2)
 

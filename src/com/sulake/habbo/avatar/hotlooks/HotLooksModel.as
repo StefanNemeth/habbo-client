@@ -31,7 +31,7 @@ package com.sulake.habbo.avatar.hotlooks
             this._SafeStr_4842[FigureData.FEMALE] = new Array();
             this._SafeStr_4842[(FigureData.M + ".index")] = 0;
             this._SafeStr_4842[(FigureData.FEMALE + ".index")] = 0;
-            this.HotLooksModel();
+            this.requestHotLooks();
         }
         override public function dispose():void
         {
@@ -61,14 +61,14 @@ package com.sulake.habbo.avatar.hotlooks
         {
             return (this._SafeStr_4842[_controller.gender]);
         }
-        private function HotLooksModel():void
+        private function requestHotLooks():void
         {
             var _local_1:String = _controller.manager.configuration.getKey("avatareditor.promohabbos");
             var _local_2:URLRequest = new URLRequest(_local_1);
             var _local_3:AssetLoaderStruct = _controller.manager.assets.loadAssetFromFile("hotLooksConfiguration", _local_2, "text/xml");
-            _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.HotLooksModel);
+            _local_3.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.onHotLooksConfiguration);
         }
-        private function HotLooksModel(_arg_1:Event=null):void
+        private function onHotLooksConfiguration(_arg_1:Event=null):void
         {
             var _local_4:XML;
             var _local_5:XML;
@@ -115,8 +115,8 @@ package com.sulake.habbo.avatar.hotlooks
 // _SafeStr_4841 = "_-2UC" (String#20207, DoABC#2)
 // _SafeStr_4842 = "_-2fc" (String#20675, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
-// HotLooksModel = "_-1zW" (String#18948, DoABC#2)
-// HotLooksModel = "_-1x0" (String#18847, DoABC#2)
+// requestHotLooks = "_-1zW" (String#18948, DoABC#2)
+// onHotLooksConfiguration = "_-1x0" (String#18847, DoABC#2)
 // getCategoryData = "_-2rW" (String#7114, DoABC#2)
 // _SafeStr_4847 = "continue" (String#9328, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)

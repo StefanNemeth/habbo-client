@@ -52,7 +52,7 @@ package com.sulake.habbo.avatar.cache
             var _local_3:AvatarImagePartContainer;
             var _local_2:String = "";
             for each (_local_3 in this._SafeStr_7988) {
-                _local_2 = ((((_local_2 + _local_3.partId) + ":") + _local_3.AnimationFrameSequenceData(_arg_1)) + "/");
+                _local_2 = ((((_local_2 + _local_3.partId) + ":") + _local_3.getFrameIndex(_arg_1)) + "/");
             };
             return (_local_2);
         }
@@ -70,7 +70,7 @@ package com.sulake.habbo.avatar.cache
 // getPartList = "_-0Rg" (String#15127, DoABC#2)
 // updateImageContainer = "_-0ya" (String#16377, DoABC#2)
 // partId = "_-0hk" (String#15738, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // debugInfo = "_-3g" (String#924, DoABC#2)
 // _SafeStr_7988 = "_-2wX" (String#21328, DoABC#2)
 // getCacheKey = "_-UG" (String#23419, DoABC#2)

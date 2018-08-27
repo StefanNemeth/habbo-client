@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetLetUserInMessage.RWLUIM_LET_USER_IN]);
         }
@@ -44,16 +44,16 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetLetUserInMessage.RWLUIM_LET_USER_IN:
                     _local_2 = (_arg_1 as RoomWidgetLetUserInMessage);
-                    this._container.roomSession.RoomSession(_local_2.userName, _local_2.canEnter);
+                    this._container.roomSession.letUserIn(_local_2.userName, _local_2.canEnter);
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionDoorbellEvent.RSDE_DOORBELL, RoomSessionDoorbellEvent.RWDE_REJECTED, RoomSessionDoorbellEvent.RWDE_ACCEPTED]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionDoorbellEvent;
             switch (_arg_1.type){
@@ -101,9 +101,9 @@ package com.sulake.habbo.ui.handler
 // RWDE_REJECTED = "_-1MV" (String#17378, DoABC#2)
 // RWDE_RINGING = "_-3FK" (String#22090, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-0KK" (String#3961, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// letUserIn = "_-0KK" (String#3961, DoABC#2)
 
 

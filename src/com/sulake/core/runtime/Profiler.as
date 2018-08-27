@@ -116,9 +116,9 @@ package com.sulake.core.runtime
         public function getProfilerAgentForReceiver(_arg_1:IUpdateReceiver):ProfilerAgent
         {
             var _local_2:ProfilerAgent = this._SafeStr_8950[_arg_1];
-            return ((((_local_2)!=null) ? _local_2 : this.Profiler(_arg_1)));
+            return ((((_local_2)!=null) ? _local_2 : this.addProfilerAgentForReceiver(_arg_1)));
         }
-        public function Profiler(_arg_1:IUpdateReceiver):ProfilerAgent
+        public function addProfilerAgentForReceiver(_arg_1:IUpdateReceiver):ProfilerAgent
         {
             if (this._SafeStr_8950[_arg_1] != null){
                 throw (new Error("Profiler for receiver already exists!"));
@@ -174,6 +174,6 @@ package com.sulake.core.runtime
 // _SafeStr_8950 = "_-1aa" (String#17918, DoABC#2)
 // _SafeStr_8951 = "_-Nz" (String#23165, DoABC#2)
 // numProfilerAgents = "_-71" (String#22502, DoABC#2)
-// Profiler = "_-tI" (String#24419, DoABC#2)
+// addProfilerAgentForReceiver = "_-tI" (String#24419, DoABC#2)
 
 

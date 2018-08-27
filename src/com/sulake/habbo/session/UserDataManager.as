@@ -11,7 +11,7 @@ package com.sulake.habbo.session
 
         private static const _SafeStr_13654:int = 1;
         private static const _SafeStr_13655:int = 2;
-        private static const _UserDataManager:int = 3;
+        private static const _SafeStr_13656:int = 3;
 
         private var _SafeStr_13657:Map;
         private var _userDataByIds:Map;
@@ -145,7 +145,7 @@ package com.sulake.habbo.session
 
 // _SafeStr_13654 = "_-I8" (String#22935, DoABC#2)
 // _SafeStr_13655 = "_-16D" (String#16705, DoABC#2)
-// _UserDataManager = "_-4W" (String#22398, DoABC#2)
+// _SafeStr_13656 = "_-4W" (String#22398, DoABC#2)
 // _SafeStr_13657 = "_-8Z" (String#22563, DoABC#2)
 // _SafeStr_13658 = "_-1QH" (String#17522, DoABC#2)
 // IUserDataManager = "_-YM" (String#8379, DoABC#2)

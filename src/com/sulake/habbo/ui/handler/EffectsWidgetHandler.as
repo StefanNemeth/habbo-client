@@ -41,28 +41,28 @@ package com.sulake.habbo.ui.handler
         public function set container(_arg_1:IRoomWidgetHandlerContainer):void
         {
             if (this._container != null){
-                this._container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.EffectsWidgetHandler);
+                this._container.inventory.events.removeEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onEffectsChanged);
             };
             this._container = _arg_1;
             if (this._container != null){
-                this._container.inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.EffectsWidgetHandler);
+                this._container.inventory.events.addEventListener(HabboInventoryEffectsEvent.HIEE_EFFECTS_CHANGED, this.onEffectsChanged);
             };
         }
         public function get container():IRoomWidgetHandlerContainer
         {
             return (this._container);
         }
-        private function EffectsWidgetHandler(_arg_1:HabboInventoryEffectsEvent):void
+        private function onEffectsChanged(_arg_1:HabboInventoryEffectsEvent):void
         {
             if (this._widget){
                 this._widget.open();
             };
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetRequestWidgetMessage.RWRWM_EFFECTS]);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
@@ -78,7 +78,7 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -98,9 +98,9 @@ package com.sulake.habbo.ui.handler
 // widget = "_-1yo" (String#18920, DoABC#2)
 // RWE_EFFECTS = "_-mU" (String#24127, DoABC#2)
 // HIEE_EFFECTS_CHANGED = "_-9W" (String#22600, DoABC#2)
-// EffectsWidgetHandler = "_-1tP" (String#5909, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// onEffectsChanged = "_-1tP" (String#5909, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 
 

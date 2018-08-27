@@ -47,7 +47,7 @@ package com.sulake.habbo.ui
             while (_local_6 < this._SafeStr_14343.numChildren) {
                 _local_5 = this._SafeStr_14343.getChildAt(_local_6);
                 _local_7 = ((WindowParam._SafeStr_9503) || (WindowParam._SafeStr_9500));
-                if (_local_5.IWindow(_local_7)){
+                if (_local_5.testParamFlag(_local_7)){
                     _local_5.addEventListener(WindowEvent.WE_CHILD_RESIZED, this.trimContainer);
                 };
                 _local_6++;
@@ -91,7 +91,7 @@ package com.sulake.habbo.ui
             if (_local_4 == null){
                 return (null);
             };
-            return ((this._SafeStr_14343.WindowController(_local_4) as IWindowContainer));
+            return ((this._SafeStr_14343.getChildByTag(_local_4) as IWindowContainer));
         }
         public function addWidgetWindow(_arg_1:String, _arg_2:IWindow):Boolean
         {
@@ -125,7 +125,7 @@ package com.sulake.habbo.ui
             if (_arg_1 == null){
                 return (false);
             };
-            var _local_2:IWindowContainer = (this._SafeStr_14343.WindowController(_SafeStr_14341) as IWindowContainer);
+            var _local_2:IWindowContainer = (this._SafeStr_14343.getChildByTag(_SafeStr_14341) as IWindowContainer);
             if (_local_2 == null){
                 return (false);
             };
@@ -148,7 +148,7 @@ package com.sulake.habbo.ui
             _local_2.offset(this._SafeStr_14343.x, this._SafeStr_14343.y);
             return (_local_2);
         }
-        public function DesktopLayoutManager():IWindow
+        public function getRoomView():IWindow
         {
             if (this._SafeStr_14343 == null){
                 return (null);
@@ -169,7 +169,7 @@ package com.sulake.habbo.ui
 // roomViewRect = "_-37z" (String#21803, DoABC#2)
 // removeWidgetWindow = "_-2wZ" (String#21330, DoABC#2)
 // addRoomView = "_-2Bj" (String#19471, DoABC#2)
-// DesktopLayoutManager = "_-eY" (String#23824, DoABC#2)
+// getRoomView = "_-eY" (String#23824, DoABC#2)
 // _SafeStr_14341 = "_-sg" (String#24386, DoABC#2)
 // _SafeStr_14342 = "_-1fU" (String#18116, DoABC#2)
 // _SafeStr_14343 = "_-0fH" (String#15641, DoABC#2)
@@ -178,9 +178,9 @@ package com.sulake.habbo.ui
 // getWidgetContainer = "_-17z" (String#16773, DoABC#2)
 // DesktopLayoutManager = "_-g4" (String#8513, DoABC#2)
 // RWE_CHAT_INPUT_WIDGET = "_-L1" (String#23048, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
 // WE_CHILD_RESIZED = "_-i1" (String#23965, DoABC#2)
-// WindowController = "_-tP" (String#2212, DoABC#2)
+// getChildByTag = "_-tP" (String#2212, DoABC#2)
 // _SafeStr_9500 = "_-3G5" (String#22121, DoABC#2)
 // _SafeStr_9503 = "_-0es" (String#15621, DoABC#2)
 

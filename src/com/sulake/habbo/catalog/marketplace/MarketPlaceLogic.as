@@ -25,7 +25,7 @@ package com.sulake.habbo.catalog.marketplace
     public class MarketPlaceLogic implements IMarketPlace 
     {
 
-        private static const _FurniturePresentWidgetHandler:String = "poster";
+        private static const _SafeStr_7293:String = "poster";
 
         public const _SafeStr_10256:int = 1;
         public const _SafeStr_10257:int = 2;
@@ -36,7 +36,7 @@ package com.sulake.habbo.catalog.marketplace
         private var _roomEngine:IRoomEngine;
         private var _visualization:IMarketPlaceVisualization;
         private var _SafeStr_5427:MarketplaceConfirmationDialog;
-        private var _MarketPlaceLogic:Map;
+        private var _SafeStr_10259:Map;
         private var _SafeStr_10260:Map;
         private var _creditsWaiting:int;
         private var _averagePricePeriod:int = -1;
@@ -68,12 +68,12 @@ package com.sulake.habbo.catalog.marketplace
             };
             this._catalog = null;
             this._windowManager = null;
-            if (this._MarketPlaceLogic != null){
-                this.MarketPlaceLogic(this._MarketPlaceLogic);
-                this._MarketPlaceLogic = null;
+            if (this._SafeStr_10259 != null){
+                this.disposeOffers(this._SafeStr_10259);
+                this._SafeStr_10259 = null;
             };
             if (this._SafeStr_10260 != null){
-                this.MarketPlaceLogic(this._SafeStr_10260);
+                this.disposeOffers(this._SafeStr_10260);
                 this._SafeStr_10260 = null;
             };
             this._disposed = true;
@@ -86,7 +86,7 @@ package com.sulake.habbo.catalog.marketplace
         {
             return (this._catalog.localization);
         }
-        public function MarketPlaceLogic(_arg_1:IMarketPlaceVisualization=null):void
+        public function registerVisualization(_arg_1:IMarketPlaceVisualization=null):void
         {
             if (_arg_1 == null){
                 return;
@@ -107,19 +107,19 @@ package com.sulake.habbo.catalog.marketplace
             };
             this._SafeStr_5427.showConfirmation(_arg_1, _arg_2);
         }
-        public function MarketPlaceLogic(_arg_1:String):void
+        public function requestOffersByName(_arg_1:String):void
         {
             if (this._catalog){
                 this._catalog.getPublicMarketPlaceOffers(-1, -1, _arg_1, -1);
             };
         }
-        public function MarketPlaceLogic(_arg_1:int):void
+        public function requestOffersByPrice(_arg_1:int):void
         {
             if (this._catalog){
                 this._catalog.getPublicMarketPlaceOffers(_arg_1, -1, "", -1);
             };
         }
-        public function MarketPlaceLogic(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:int):void
+        public function requestOffers(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:int):void
         {
             this._SafeStr_10262 = _arg_1;
             this._SafeStr_10263 = _arg_2;
@@ -129,17 +129,17 @@ package com.sulake.habbo.catalog.marketplace
                 this._catalog.getPublicMarketPlaceOffers(_arg_1, _arg_2, _arg_3, _arg_4);
             };
         }
-        public function MarketPlaceLogic():void
+        public function refreshOffers():void
         {
-            this.MarketPlaceLogic(this._SafeStr_10262, this._SafeStr_10263, this._SafeStr_10264, this._SafeStr_10265);
+            this.requestOffers(this._SafeStr_10262, this._SafeStr_10263, this._SafeStr_10264, this._SafeStr_10265);
         }
-        public function MarketPlaceLogic():void
+        public function requestOwnItems():void
         {
             if (this._catalog){
                 this._catalog.getOwnMarketPlaceOffers();
             };
         }
-        public function MarketPlaceLogic(_arg_1:int, _arg_2:int):void
+        public function requestItemStats(_arg_1:int, _arg_2:int):void
         {
             if (this._catalog){
                 this._SafeStr_8573 = _arg_2;
@@ -147,12 +147,12 @@ package com.sulake.habbo.catalog.marketplace
                 this._catalog.getMarketplaceItemStats(_arg_1, _arg_2);
             };
         }
-        public function MarketPlaceLogic(_arg_1:int):void
+        public function buyOffer(_arg_1:int):void
         {
-            if (((((!(this._MarketPlaceLogic)) || (!(this._catalog)))) || (!(this._catalog.getPurse())))){
+            if (((((!(this._SafeStr_10259)) || (!(this._catalog)))) || (!(this._catalog.getPurse())))){
                 return;
             };
-            var _local_2:MarketPlaceOfferData = (this._MarketPlaceLogic.getValue(_arg_1) as MarketPlaceOfferData);
+            var _local_2:MarketPlaceOfferData = (this._SafeStr_10259.getValue(_arg_1) as MarketPlaceOfferData);
             if (!_local_2){
                 return;
             };
@@ -162,13 +162,13 @@ package com.sulake.habbo.catalog.marketplace
             };
             this.showConfirmation(this._SafeStr_10256, _local_2);
         }
-        public function MarketPlaceLogic(_arg_1:int):void
+        public function redeemExpiredOffer(_arg_1:int):void
         {
             if (this._catalog){
                 this._catalog.redeemExpiredMarketPlaceOffer(_arg_1);
             };
         }
-        public function MarketPlaceLogic():void
+        public function redeemSoldOffers():void
         {
             var _local_2:int;
             var _local_3:MarketPlaceOfferData;
@@ -193,7 +193,7 @@ package com.sulake.habbo.catalog.marketplace
                 this._visualization.listUpdatedNotify();
             };
         }
-        private function MarketPlaceLogic(_arg_1:Map):void
+        private function disposeOffers(_arg_1:Map):void
         {
             var _local_2:MarketPlaceOfferData;
             if (_arg_1 != null){
@@ -205,7 +205,7 @@ package com.sulake.habbo.catalog.marketplace
                 _arg_1.dispose();
             };
         }
-        public function MarketPlaceLogic(_arg_1:IMessageEvent):void
+        public function onOffers(_arg_1:IMessageEvent):void
         {
             var _local_4:MarketPlaceOffer;
             var _local_5:MarketPlaceOfferData;
@@ -217,19 +217,19 @@ package com.sulake.habbo.catalog.marketplace
             if (_local_3 == null){
                 return;
             };
-            this.MarketPlaceLogic(this._MarketPlaceLogic);
-            this._MarketPlaceLogic = new Map();
+            this.disposeOffers(this._SafeStr_10259);
+            this._SafeStr_10259 = new Map();
             for each (_local_4 in _local_3.offers) {
                 _local_5 = new MarketPlaceOfferData(_local_4.offerId, _local_4.furniId, _local_4.furniType, _local_4.stuffData, _local_4.price, _local_4.status, _local_4.averagePrice, _local_4.offerCount);
                 _local_5.timeLeftMinutes = _local_4.timeLeftMinutes;
-                this._MarketPlaceLogic.add(_local_4.offerId, _local_5);
+                this._SafeStr_10259.add(_local_4.offerId, _local_5);
             };
             this._totalItemsFound = _local_3.totalItemsFound;
             if (this._visualization != null){
                 this._visualization.listUpdatedNotify();
             };
         }
-        public function MarketPlaceLogic(_arg_1:IMessageEvent):void
+        public function onOwnOffers(_arg_1:IMessageEvent):void
         {
             var _local_4:MarketPlaceOffer;
             var _local_5:MarketPlaceOfferData;
@@ -241,7 +241,7 @@ package com.sulake.habbo.catalog.marketplace
             if (_local_3 == null){
                 return;
             };
-            this.MarketPlaceLogic(this._SafeStr_10260);
+            this.disposeOffers(this._SafeStr_10260);
             this._SafeStr_10260 = new Map();
             this._creditsWaiting = _local_3.creditsWaiting;
             for each (_local_4 in _local_3.offers) {
@@ -253,7 +253,7 @@ package com.sulake.habbo.catalog.marketplace
                 this._visualization.listUpdatedNotify();
             };
         }
-        public function MarketPlaceLogic(event:IMessageEvent):void
+        public function onBuyResult(event:IMessageEvent):void
         {
             var item:MarketPlaceOfferData;
             var updateItem:MarketPlaceOfferData;
@@ -266,11 +266,11 @@ package com.sulake.habbo.catalog.marketplace
                 return;
             };
             if (parser.result == 1){
-                this.MarketPlaceLogic();
+                this.refreshOffers();
             }
             else {
                 if (parser.result == 2){
-                    item = this._MarketPlaceLogic.remove(parser.requestedOfferId);
+                    item = this._SafeStr_10259.remove(parser.requestedOfferId);
                     if (item != null){
                         item.dispose();
                     };
@@ -286,14 +286,14 @@ package com.sulake.habbo.catalog.marketplace
                 }
                 else {
                     if (parser.result == 3){
-                        updateItem = (this._MarketPlaceLogic.getValue(parser.requestedOfferId) as MarketPlaceOfferData);
+                        updateItem = (this._SafeStr_10259.getValue(parser.requestedOfferId) as MarketPlaceOfferData);
                         if (updateItem){
                             updateItem.offerId = parser.offerId;
                             updateItem.price = parser.newPrice;
                             updateItem.offerCount--;
-                            this._MarketPlaceLogic.add(parser.offerId, updateItem);
+                            this._SafeStr_10259.add(parser.offerId, updateItem);
                         };
-                        this._MarketPlaceLogic.remove(parser.requestedOfferId);
+                        this._SafeStr_10259.remove(parser.requestedOfferId);
                         this.showConfirmation(this._SafeStr_10257, updateItem);
                         if (this._visualization != null){
                             this._visualization.listUpdatedNotify();
@@ -312,7 +312,7 @@ package com.sulake.habbo.catalog.marketplace
                 };
             };
         }
-        public function MarketPlaceLogic(event:IMessageEvent):void
+        public function onCancelResult(event:IMessageEvent):void
         {
             var item:MarketPlaceOfferData;
             var cancelEvent:MarketplaceCancelOfferResultEvent = (event as MarketplaceCancelOfferResultEvent);
@@ -343,9 +343,9 @@ package com.sulake.habbo.catalog.marketplace
                 };
             };
         }
-        public function MarketPlaceLogic():Map
+        public function latestOffers():Map
         {
-            return (this._MarketPlaceLogic);
+            return (this._SafeStr_10259);
         }
         public function latestOwnOffers():Map
         {
@@ -390,7 +390,7 @@ package com.sulake.habbo.catalog.marketplace
                 _local_3 = this._catalog.getFurnitureData(_arg_1.furniId, ProductTypeEnum._SafeStr_5019);
                 if (_local_3){
                     _local_4 = _local_3.name;
-                    if (((!((_local_4 == null))) && ((_local_4 == _FurniturePresentWidgetHandler)))){
+                    if (((!((_local_4 == null))) && ((_local_4 == _SafeStr_7293)))){
                         _local_2 = true;
                     };
                 };
@@ -441,18 +441,18 @@ package com.sulake.habbo.catalog.marketplace
     }
 }//package com.sulake.habbo.catalog.marketplace
 
-// MarketPlaceLogic = "_-0LM" (String#3987, DoABC#2)
-// MarketPlaceLogic = "_-3Ea" (String#7604, DoABC#2)
-// MarketPlaceLogic = "_-4T" (String#7756, DoABC#2)
-// MarketPlaceLogic = "_-Q9" (String#8203, DoABC#2)
-// MarketPlaceLogic = "_-12y" (String#4932, DoABC#2)
-// MarketPlaceLogic = "_-0gr" (String#4443, DoABC#2)
-// MarketPlaceLogic = "_-vS" (String#8793, DoABC#2)
-// MarketPlaceLogic = "_-31B" (String#7332, DoABC#2)
-// MarketPlaceLogic = "_-0dj" (String#4387, DoABC#2)
-// MarketPlaceLogic = "_-210" (String#6065, DoABC#2)
-// MarketPlaceLogic = "_-1o8" (String#5820, DoABC#2)
-// MarketPlaceLogic = "_-EU" (String#7960, DoABC#2)
+// onOwnOffers = "_-0LM" (String#3987, DoABC#2)
+// onBuyResult = "_-3Ea" (String#7604, DoABC#2)
+// onCancelResult = "_-4T" (String#7756, DoABC#2)
+// requestOffersByName = "_-Q9" (String#8203, DoABC#2)
+// requestOffersByPrice = "_-12y" (String#4932, DoABC#2)
+// refreshOffers = "_-0gr" (String#4443, DoABC#2)
+// requestOwnItems = "_-vS" (String#8793, DoABC#2)
+// requestItemStats = "_-31B" (String#7332, DoABC#2)
+// buyOffer = "_-0dj" (String#4387, DoABC#2)
+// redeemExpiredOffer = "_-210" (String#6065, DoABC#2)
+// redeemSoldOffers = "_-1o8" (String#5820, DoABC#2)
+// latestOffers = "_-EU" (String#7960, DoABC#2)
 // latestOwnOffers = "_-0sN" (String#4692, DoABC#2)
 // itemStats = "_-2mo" (String#7016, DoABC#2)
 // getNameLocalizationKey = "_-0SQ" (String#4147, DoABC#2)
@@ -460,14 +460,14 @@ package com.sulake.habbo.catalog.marketplace
 // _SafeStr_10256 = "_-0Ht" (String#14752, DoABC#2)
 // _SafeStr_10257 = "_-2hn" (String#20764, DoABC#2)
 // _SafeStr_10258 = "_-2fI" (String#20659, DoABC#2)
-// _MarketPlaceLogic = "_-2FE" (String#19613, DoABC#2)
+// _SafeStr_10259 = "_-2FE" (String#19613, DoABC#2)
 // _SafeStr_10260 = "_-MS" (String#23102, DoABC#2)
 // _itemStats = "_-2tv" (String#21234, DoABC#2)
 // _SafeStr_10262 = "_-22w" (String#19132, DoABC#2)
 // _SafeStr_10263 = "_-04H" (String#14213, DoABC#2)
 // _SafeStr_10264 = "_-1NM" (String#5300, DoABC#2)
 // _SafeStr_10265 = "_-1zV" (String#18947, DoABC#2)
-// MarketPlaceLogic = "_-qb" (String#24296, DoABC#2)
+// disposeOffers = "_-qb" (String#24296, DoABC#2)
 // getPublicMarketPlaceOffers = "_-1kA" (String#5754, DoABC#2)
 // getOwnMarketPlaceOffers = "_-2ye" (String#7252, DoABC#2)
 // getMarketplaceItemStats = "_-0Ya" (String#4274, DoABC#2)
@@ -509,11 +509,11 @@ package com.sulake.habbo.catalog.marketplace
 // getFurnitureData = "_-40" (String#7745, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 // _SafeStr_5427 = "_-au" (String#638, DoABC#2)
-// MarketPlaceLogic = "_-1x1" (String#5973, DoABC#2)
-// MarketPlaceLogic = "_-2z1" (String#7263, DoABC#2)
-// MarketPlaceLogic = "_-1ST" (String#5406, DoABC#2)
+// onOffers = "_-1x1" (String#5973, DoABC#2)
+// registerVisualization = "_-2z1" (String#7263, DoABC#2)
+// requestOffers = "_-1ST" (String#5406, DoABC#2)
 // _SafeStr_7291 = "_-00x" (String#1383, DoABC#2)
-// _FurniturePresentWidgetHandler = "_-2iw" (String#6930, DoABC#2)
+// _SafeStr_7293 = "_-2iw" (String#6930, DoABC#2)
 // furniType = "_-26P" (String#6173, DoABC#2)
 // timeLeftMinutes = "_-09A" (String#3743, DoABC#2)
 // averagePrice = "_-2h" (String#6892, DoABC#2)

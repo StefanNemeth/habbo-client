@@ -40,7 +40,7 @@ package com.sulake.habbo.notifications
             if (this._window == null){
                 return;
             };
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             this._window.center();
             var _local_5:XmlAsset = (_arg_2.getAssetByName("motd_notification_item_xml") as XmlAsset);
             if (_local_5 == null){
@@ -64,7 +64,7 @@ package com.sulake.habbo.notifications
             };
             this._localizations = null;
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -83,7 +83,7 @@ package com.sulake.habbo.notifications
 // _SafeStr_12098 = "_-rS" (String#24336, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // MOTDNotification = "_-298" (String#6231, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // _messages = "_-1AO" (String#835, DoABC#2)
 // _localizations = "_-0il" (String#358, DoABC#2)
 

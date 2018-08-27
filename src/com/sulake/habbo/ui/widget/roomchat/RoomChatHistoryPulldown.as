@@ -68,28 +68,28 @@ package com.sulake.habbo.ui.widget.roomchat
             if (this._region != null){
                 this._region.background = true;
                 this._region.mouseThreshold = 0;
-                this._region.addEventListener(WindowMouseEvent.WME_DOWN, this.RoomChatWidget);
+                this._region.addEventListener(WindowMouseEvent.WME_DOWN, this.onPulldownMouseDown);
                 this._mainWindow.addChild(this._region);
                 this._region.toolTipCaption = "${chat.history.drag.tooltip}";
                 this._region.toolTipDelay = 250;
             };
             var _local_5:XmlAsset = (_arg_4.getAssetByName("chat_history_pulldown") as XmlAsset);
             this._window.buildFromXML((_local_5.content as XML));
-            this._window.addEventListener(WindowMouseEvent.WME_DOWN, this.RoomChatWidget);
+            this._window.addEventListener(WindowMouseEvent.WME_DOWN, this.onPulldownMouseDown);
             var _local_6:IBitmapWrapperWindow = (this._window.findChildByName("GrapBarX") as IBitmapWrapperWindow);
             if (_local_6 != null){
                 _local_6.mouseThreshold = 0;
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomChatHistoryPulldown);
-                _local_6.addEventListener(WindowMouseEvent.WME_UP, this.RoomChatHistoryPulldown);
-                _local_6.addEventListener(WindowMouseEvent.WME_DOWN, this.RoomChatHistoryPulldown);
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.RoomChatHistoryPulldown);
-                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.RoomChatHistoryPulldown);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCloseButtonClicked);
+                _local_6.addEventListener(WindowMouseEvent.WME_UP, this.onCloseButtonMouseUp);
+                _local_6.addEventListener(WindowMouseEvent.WME_DOWN, this.onCloseButtonMouseDown);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onCloseButtonMouseOver);
+                _local_6.addEventListener(WindowMouseEvent.WME_OUT, this.onCloseButtonMouseOut);
             };
             this._window.background = true;
             this._window.color = 0;
             this._window.mouseThreshold = 0;
             this.state = _SafeStr_14238;
-            this.RoomChatHistoryPulldown();
+            this.buildWindowGraphics();
         }
         public function dispose():void
         {
@@ -178,7 +178,7 @@ package com.sulake.habbo.ui.widget.roomchat
         {
             return (this._state);
         }
-        public function RoomChatHistoryViewer(_arg_1:Rectangle):void
+        public function containerResized(_arg_1:Rectangle):void
         {
             if (this._window != null){
                 this._window.x = 0;
@@ -194,9 +194,9 @@ package com.sulake.habbo.ui.widget.roomchat
                 this._SafeStr_14247.rectangle = this._mainWindow.rectangle;
                 this._SafeStr_14247.height = (this._SafeStr_14247.height - _SafeStr_14178);
             };
-            this.RoomChatHistoryPulldown();
+            this.buildWindowGraphics();
         }
-        private function RoomChatHistoryPulldown():void
+        private function buildWindowGraphics():void
         {
             var width:int;
             var height:int;
@@ -242,7 +242,7 @@ package com.sulake.habbo.ui.widget.roomchat
                     height = barBg.height;
                     if ((((width > 0)) && ((height > 0)))){
                         destBgBitmap = new TrackedBitmapData(this, width, height);
-                        this.RoomChatHistoryPulldown(this._SafeStr_14249, destBgBitmap);
+                        this.tileBitmapHorz(this._SafeStr_14249, destBgBitmap);
                         barBg.disposesBitmap = true;
                         barBg.bitmap = destBgBitmap;
                     };
@@ -251,7 +251,7 @@ package com.sulake.habbo.ui.widget.roomchat
                     height = barGripL.height;
                     if ((((width > 0)) && ((height > 0)))){
                         destGripLBitmap = new TrackedBitmapData(this, width, height);
-                        this.RoomChatHistoryPulldown(this._SafeStr_14250, destGripLBitmap);
+                        this.tileBitmapHorz(this._SafeStr_14250, destGripLBitmap);
                         barGripL.disposesBitmap = true;
                         barGripL.bitmap = destGripLBitmap;
                     };
@@ -260,7 +260,7 @@ package com.sulake.habbo.ui.widget.roomchat
                     height = barGripR.height;
                     if ((((width > 0)) && ((height > 0)))){
                         destGripRBitmap = new TrackedBitmapData(this, width, height);
-                        this.RoomChatHistoryPulldown(this._SafeStr_14250, destGripRBitmap);
+                        this.tileBitmapHorz(this._SafeStr_14250, destGripRBitmap);
                         barGripR.disposesBitmap = true;
                         barGripR.bitmap = destGripRBitmap;
                     };
@@ -275,7 +275,7 @@ package com.sulake.habbo.ui.widget.roomchat
             this._SafeStr_14247.bitmap = this._SafeStr_14255;
             this._SafeStr_14247.disposesBitmap = false;
         }
-        private function RoomChatHistoryPulldown(_arg_1:BitmapData, _arg_2:BitmapData):void
+        private function tileBitmapHorz(_arg_1:BitmapData, _arg_2:BitmapData):void
         {
             var _local_3:int = (_arg_2.width / _arg_1.width);
             var _local_4:Point = new Point();
@@ -286,19 +286,19 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_5++;
             };
         }
-        private function RoomChatWidget(_arg_1:WindowMouseEvent):void
+        private function onPulldownMouseDown(_arg_1:WindowMouseEvent):void
         {
             if (this._widget != null){
-                this._widget.RoomChatWidget(_arg_1);
+                this._widget.onPulldownMouseDown(_arg_1);
             };
         }
-        private function RoomChatHistoryPulldown(_arg_1:WindowMouseEvent):void
+        private function onCloseButtonClicked(_arg_1:WindowMouseEvent):void
         {
             if (this._widget != null){
-                this._widget.RoomChatWidget(_arg_1);
+                this._widget.onPulldownCloseButtonClicked(_arg_1);
             };
         }
-        private function RoomChatHistoryPulldown(_arg_1:WindowMouseEvent):void
+        private function onCloseButtonMouseOver(_arg_1:WindowMouseEvent):void
         {
             if (this._window == null){
                 return;
@@ -312,7 +312,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_2.bitmap = this._SafeStr_14253;
             };
         }
-        private function RoomChatHistoryPulldown(_arg_1:WindowMouseEvent):void
+        private function onCloseButtonMouseOut(_arg_1:WindowMouseEvent):void
         {
             if (this._window == null){
                 return;
@@ -326,7 +326,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_2.bitmap = this._SafeStr_14252;
             };
         }
-        private function RoomChatHistoryPulldown(_arg_1:WindowMouseEvent):void
+        private function onCloseButtonMouseDown(_arg_1:WindowMouseEvent):void
         {
             if (this._window == null){
                 return;
@@ -340,7 +340,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_2.bitmap = this._SafeStr_14254;
             };
         }
-        private function RoomChatHistoryPulldown(_arg_1:WindowMouseEvent):void
+        private function onCloseButtonMouseUp(_arg_1:WindowMouseEvent):void
         {
             if (this._window == null){
                 return;
@@ -363,9 +363,9 @@ package com.sulake.habbo.ui.widget.roomchat
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // _mainWindow = "_-Xu" (String#8368, DoABC#2)
 // _SafeStr_14178 = "_-fB" (String#23854, DoABC#2)
-// RoomChatHistoryViewer = "_-7s" (String#22537, DoABC#2)
-// RoomChatWidget = "_-2Am" (String#6263, DoABC#2)
-// RoomChatWidget = "_-2zb" (String#21443, DoABC#2)
+// containerResized = "_-7s" (String#22537, DoABC#2)
+// onPulldownMouseDown = "_-2Am" (String#6263, DoABC#2)
+// onPulldownCloseButtonClicked = "_-2zb" (String#21443, DoABC#2)
 // _SafeStr_14238 = "_-1iW" (String#18228, DoABC#2)
 // _SafeStr_14239 = "_-bs" (String#23709, DoABC#2)
 // _SafeStr_14245 = "_-0EH" (String#14619, DoABC#2)
@@ -380,13 +380,13 @@ package com.sulake.habbo.ui.widget.roomchat
 // _SafeStr_14254 = "_-1vo" (String#18791, DoABC#2)
 // _SafeStr_14255 = "_-6s" (String#22494, DoABC#2)
 // _SafeStr_14256 = "_-0Sw" (String#15166, DoABC#2)
-// RoomChatHistoryPulldown = "_-2t9" (String#21207, DoABC#2)
-// RoomChatHistoryPulldown = "_-2BR" (String#19462, DoABC#2)
-// RoomChatHistoryPulldown = "_-Iv" (String#22965, DoABC#2)
-// RoomChatHistoryPulldown = "_-3Kz" (String#22321, DoABC#2)
-// RoomChatHistoryPulldown = "_-rF" (String#24326, DoABC#2)
-// RoomChatHistoryPulldown = "_-0Ad" (String#14474, DoABC#2)
-// RoomChatHistoryPulldown = "_-3GY" (String#22145, DoABC#2)
+// onCloseButtonClicked = "_-2t9" (String#21207, DoABC#2)
+// onCloseButtonMouseUp = "_-2BR" (String#19462, DoABC#2)
+// onCloseButtonMouseDown = "_-Iv" (String#22965, DoABC#2)
+// onCloseButtonMouseOver = "_-3Kz" (String#22321, DoABC#2)
+// onCloseButtonMouseOut = "_-rF" (String#24326, DoABC#2)
+// buildWindowGraphics = "_-0Ad" (String#14474, DoABC#2)
+// tileBitmapHorz = "_-3GY" (String#22145, DoABC#2)
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // HabboWindowStyle = "_-0E1" (String#14608, DoABC#2)
 // HabboWindowType = "_-29U" (String#19384, DoABC#2)

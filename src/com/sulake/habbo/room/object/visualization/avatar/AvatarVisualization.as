@@ -283,11 +283,11 @@ package com.sulake.habbo.room.object.visualization.avatar
                 _local_4 = (_local_4 + ("-" + _arg_2));
                 _local_3 = (this._SafeStr_6533.getValue(_local_4) as IAvatarImage);
                 if (_local_3){
-                    _local_3.IAvatarImage();
+                    _local_3.forceActionUpdate();
                 };
             };
             if (_local_3 == null){
-                _local_3 = this._SafeStr_4422.AvatarVisualizationData(this._figure, _arg_1, this._gender, this);
+                _local_3 = this._SafeStr_4422.getAvatar(this._figure, _arg_1, this._gender, this);
                 if (_local_3 != null){
                     if (_arg_2 == 0){
                         this._SafeStr_4423.add(_local_4, _local_3);
@@ -393,13 +393,13 @@ package com.sulake.habbo.room.object.visualization.avatar
                 _local_2.visible = true;
                 _local_5 = 64;
                 if (_arg_1 < 48){
-                    this._SafeStr_6534 = (this._SafeStr_4422.AvatarVisualizationData("user_typing_small_png") as BitmapDataAsset);
+                    this._SafeStr_6534 = (this._SafeStr_4422.getAvatarRendererAsset("user_typing_small_png") as BitmapDataAsset);
                     _local_3 = 3;
                     _local_4 = -42;
                     _local_5 = 32;
                 }
                 else {
-                    this._SafeStr_6534 = (this._SafeStr_4422.AvatarVisualizationData("user_typing_png") as BitmapDataAsset);
+                    this._SafeStr_6534 = (this._SafeStr_4422.getAvatarRendererAsset("user_typing_png") as BitmapDataAsset);
                     _local_3 = 14;
                     _local_4 = -83;
                 };
@@ -432,13 +432,13 @@ package com.sulake.habbo.room.object.visualization.avatar
             if (this._SafeStr_6541 > 0){
                 _local_6 = 64;
                 if (_arg_1 < 48){
-                    _local_2 = (this._SafeStr_4422.AvatarVisualizationData((("number_" + this._SafeStr_6541) + "_small_png")) as BitmapDataAsset);
+                    _local_2 = (this._SafeStr_4422.getAvatarRendererAsset((("number_" + this._SafeStr_6541) + "_small_png")) as BitmapDataAsset);
                     _local_4 = -6;
                     _local_5 = -52;
                     _local_6 = 32;
                 }
                 else {
-                    _local_2 = (this._SafeStr_4422.AvatarVisualizationData((("number_" + this._SafeStr_6541) + "_png")) as BitmapDataAsset);
+                    _local_2 = (this._SafeStr_4422.getAvatarRendererAsset((("number_" + this._SafeStr_6541) + "_png")) as BitmapDataAsset);
                     _local_4 = -8;
                     _local_5 = -105;
                 };
@@ -582,7 +582,7 @@ package com.sulake.habbo.room.object.visualization.avatar
                     };
                     _local_8 = true;
                     _local_16 = getSprite(this._SafeStr_4418);
-                    if (((((_local_16) && (this._SafeStr_4432))) && (this._SafeStr_4432.IAvatarImage()))){
+                    if (((((_local_16) && (this._SafeStr_4432))) && (this._SafeStr_4432.isPlaceholder()))){
                         _local_16.alpha = 150;
                     }
                     else {
@@ -628,7 +628,7 @@ package com.sulake.habbo.room.object.visualization.avatar
                 };
                 _local_17 = getSprite(this._SafeStr_4418);
                 if (_local_17 != null){
-                    _local_21 = this._SafeStr_4432.TwinkleImages(AvatarSetType._SafeStr_4457, false);
+                    _local_21 = this._SafeStr_4432.getImage(AvatarSetType._SafeStr_4457, false);
                     if (_local_21 != null){
                         _local_17.asset = _local_21;
                     };
@@ -663,8 +663,8 @@ package com.sulake.habbo.room.object.visualization.avatar
                     if (_local_20.id == _SafeStr_6528){
                         _local_17 = getSprite(this._SafeStr_4418);
                         _local_22 = this._SafeStr_4432.getLayerData(_local_20);
-                        _local_23 = _local_20.ISpriteDataContainer(this._SafeStr_4432.getDirection());
-                        _local_24 = _local_20.ISpriteDataContainer(this._SafeStr_4432.getDirection());
+                        _local_23 = _local_20.getDirectionOffsetX(this._SafeStr_4432.getDirection());
+                        _local_24 = _local_20.getDirectionOffsetY(this._SafeStr_4432.getDirection());
                         if (_local_22 != null){
                             _local_23 = (_local_23 + _local_22.dx);
                             _local_24 = (_local_24 + _local_22.dy);
@@ -683,9 +683,9 @@ package com.sulake.habbo.room.object.visualization.avatar
                             _local_17.visible = true;
                             _local_25 = this._SafeStr_4432.getLayerData(_local_20);
                             _local_26 = 0;
-                            _local_27 = _local_20.ISpriteDataContainer(this._SafeStr_4432.getDirection());
-                            _local_28 = _local_20.ISpriteDataContainer(this._SafeStr_4432.getDirection());
-                            _local_29 = _local_20.ISpriteDataContainer(this._SafeStr_4432.getDirection());
+                            _local_27 = _local_20.getDirectionOffsetX(this._SafeStr_4432.getDirection());
+                            _local_28 = _local_20.getDirectionOffsetY(this._SafeStr_4432.getDirection());
+                            _local_29 = _local_20.getDirectionOffsetZ(this._SafeStr_4432.getDirection());
                             _local_30 = 0;
                             if (_local_20.hasDirections){
                                 _local_30 = this._SafeStr_4432.getDirection();
@@ -738,36 +738,36 @@ package com.sulake.habbo.room.object.visualization.avatar
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.IAvatarImage();
-            _arg_1.IAvatarImage(AvatarAction._SafeStr_4478, this._SafeStr_4346, this._SafeStr_4433);
+            _arg_1.initActionAppends();
+            _arg_1.appendAction(AvatarAction._SafeStr_4478, this._SafeStr_4346, this._SafeStr_4433);
             if (this._gesture > 0){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_6560[this._gesture]);
+                _arg_1.appendAction(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_6560[this._gesture]);
             };
             if (this._danceStyle > 0){
-                _arg_1.IAvatarImage(AvatarAction.RSDE_DANCE, this._danceStyle);
+                _arg_1.appendAction(AvatarAction.RSDE_DANCE, this._danceStyle);
             };
             if (this._signType > 0){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_6561, this._signType);
+                _arg_1.appendAction(AvatarAction._SafeStr_6561, this._signType);
             };
             if (this._SafeStr_6538 > 0){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_6562, this._SafeStr_6538);
+                _arg_1.appendAction(AvatarAction._SafeStr_6562, this._SafeStr_6538);
             };
             if (this._SafeStr_6539 > 0){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_6563, this._SafeStr_6539);
+                _arg_1.appendAction(AvatarAction._SafeStr_6563, this._SafeStr_6539);
             };
             if (this._SafeStr_6535){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4452);
+                _arg_1.appendAction(AvatarAction._SafeStr_4452);
             };
             if (((this._isSleeping) || (this._SafeStr_4434))){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4480);
+                _arg_1.appendAction(AvatarAction._SafeStr_4480);
             };
             if (this._isWaving){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4453);
+                _arg_1.appendAction(AvatarAction._SafeStr_4453);
             };
             if (this._effectType > 0){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_6564, this._effectType);
+                _arg_1.appendAction(AvatarAction._SafeStr_6564, this._effectType);
             };
-            _arg_1.IAvatarImage();
+            _arg_1.endActionAppends();
             this._SafeStr_4426 = _arg_1.isAnimating();
             var _local_2:int = this._SafeStr_4421;
             for each (_local_3 in this._SafeStr_4432.getSprites()) {
@@ -802,8 +802,8 @@ package com.sulake.habbo.room.object.visualization.avatar
 // _effectType = "_-37b" (String#7460, DoABC#2)
 // _isTyping = "_-2z6" (String#624, DoABC#2)
 // _figure = "_-20u" (String#75, DoABC#2)
-// AvatarVisualizationData = "_-1el" (String#18089, DoABC#2)
-// AvatarVisualizationData = "_-0Zg" (String#15430, DoABC#2)
+// getAvatar = "_-1el" (String#18089, DoABC#2)
+// getAvatarRendererAsset = "_-0Zg" (String#15430, DoABC#2)
 // _SafeStr_4346 = "_-KR" (String#2089, DoABC#2)
 // _gesture = "_-2tH" (String#452, DoABC#2)
 // _isSleeping = "_-2EU" (String#882, DoABC#2)
@@ -857,22 +857,22 @@ package com.sulake.habbo.room.object.visualization.avatar
 // updateAnimationByFrames = "_-05f" (String#3680, DoABC#2)
 // isAnimating = "_-1hz" (String#5707, DoABC#2)
 // getCanvasOffsets = "_-0gi" (String#4439, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // getSprites = "_-3Go" (String#7642, DoABC#2)
 // getLayerData = "_-0Qg" (String#1470, DoABC#2)
-// ISpriteDataContainer = "_-1Oo" (String#5331, DoABC#2)
-// ISpriteDataContainer = "_-31k" (String#7340, DoABC#2)
-// ISpriteDataContainer = "_-3HQ" (String#7657, DoABC#2)
+// getDirectionOffsetX = "_-1Oo" (String#5331, DoABC#2)
+// getDirectionOffsetY = "_-31k" (String#7340, DoABC#2)
+// getDirectionOffsetZ = "_-3HQ" (String#7657, DoABC#2)
 // hasDirections = "_-1RM" (String#5383, DoABC#2)
 // animationFrame = "_-gS" (String#8520, DoABC#2)
 // directionOffset = "_-25H" (String#6148, DoABC#2)
 // getScale = "_-1EW" (String#5151, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4478 = "_-0c6" (String#15518, DoABC#2)
 // _SafeStr_4479 = "_-Dm" (String#22761, DoABC#2)
 // _SafeStr_4480 = "_-1Sn" (String#17614, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // RSDE_DANCE = "_-0-n" (String#14045, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // updateFigure = "_-15u" (String#1619, DoABC#2)
@@ -905,9 +905,9 @@ package com.sulake.habbo.room.object.visualization.avatar
 // _SafeStr_6554 = "_-4J" (String#22390, DoABC#2)
 // updateNumberBubble = "_-0Fj" (String#14672, DoABC#2)
 // _SafeStr_6556 = "_-02t" (String#14155, DoABC#2)
-// IAvatarImage = "_-0qX" (String#4650, DoABC#2)
+// forceActionUpdate = "_-0qX" (String#4650, DoABC#2)
 // animateNumberBubble = "_-39J" (String#21858, DoABC#2)
-// IAvatarImage = "_-128" (String#4919, DoABC#2)
+// isPlaceholder = "_-128" (String#4919, DoABC#2)
 // _SafeStr_6560 = "_-Xg" (String#23548, DoABC#2)
 // _SafeStr_6561 = "_-Ne" (String#23151, DoABC#2)
 // _SafeStr_6562 = "_-R2" (String#23284, DoABC#2)

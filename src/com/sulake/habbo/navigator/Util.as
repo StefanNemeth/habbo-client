@@ -61,7 +61,7 @@ package com.sulake.habbo.navigator
             };
             return (false);
         }
-        public static function InfostandWidget(_arg_1:IWindowContainer):void
+        public static function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -202,7 +202,7 @@ package com.sulake.habbo.navigator
         public static function containsMouse(_arg_1:IWindow):Boolean
         {
             var _local_2:Point = new Point();
-            _arg_1.WindowController(_local_2);
+            _arg_1.getRelativeMousePosition(_local_2);
             var _local_3:Boolean = (((((((_local_2.x >= 0)) && ((_local_2.y >= 0)))) && ((_local_2.x < _arg_1.width)))) && ((_local_2.y < _arg_1.height)));
             Logger.log(((((("CHECKINg: " + _local_2) + ", ") + _arg_1.rectangle) + ", ") + _local_3));
             return (_local_3);
@@ -226,7 +226,7 @@ package com.sulake.habbo.navigator
 // CutToWidth = "_-13S" (String#4942, DoABC#2)
 // CutToHeight = "_-6V" (String#7794, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // cutTextToWidth = "_-1qz" (String#18580, DoABC#2)
 // containsMouse = "_-0ij" (String#15781, DoABC#2)
 // layoutChildrenInArea = "_-0f9" (String#15635, DoABC#2)
@@ -237,6 +237,6 @@ package com.sulake.habbo.navigator
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
 // setColors = "_-1Dl" (String#17014, DoABC#2)
 // moveChildrenToRow = "_-0xS" (String#16331, DoABC#2)
-// WindowController = "_-1wW" (String#1785, DoABC#2)
+// getRelativeMousePosition = "_-1wW" (String#1785, DoABC#2)
 
 

@@ -34,7 +34,7 @@ package com.sulake.habbo.moderation
         }
         public function get issues():Array
         {
-            return (this._issues.Map());
+            return (this._issues.getValues());
         }
         public function get state():int
         {
@@ -168,7 +168,7 @@ package com.sulake.habbo.moderation
 // getMessageCount = "_-0nm" (String#15967, DoABC#2)
 // IssueMessageData = "_-0K1" (String#3952, DoABC#2)
 // IssueBundle = "_-1x4" (String#18850, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // _reportedUserId = "_-0gc" (String#819, DoABC#2)
 // issueId = "_-1yh" (String#18916, DoABC#2)
 // _pickerUserId = "_-jY" (String#8588, DoABC#2)

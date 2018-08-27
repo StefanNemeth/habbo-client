@@ -25,7 +25,7 @@ package com.sulake.habbo.moderation
 
         private var _help:ModerationManager;
         private var _SafeStr_11909:int;
-        private var _SendMsgsCtrl:String;
+        private var _SafeStr_11910:String;
         private var _SafeStr_11848:String;
         private var _frame:IFrameWindow;
         private var _SafeStr_11913:IDropMenuWindow;
@@ -41,7 +41,7 @@ package com.sulake.habbo.moderation
         {
             this._help = _arg_1;
             this._SafeStr_11909 = _arg_2;
-            this._SendMsgsCtrl = _arg_3;
+            this._SafeStr_11910 = _arg_3;
             this._SafeStr_11848 = _arg_4;
             if (_SafeStr_11912 == null){
                 _SafeStr_11912 = new Array();
@@ -63,7 +63,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11916 = IButtonWindow(this._help.getXmlWindow("modact_offence"));
             this._SafeStr_11917 = IButtonWindow(this._help.getXmlWindow("modact_offencectg"));
         }
-        public static function InfostandWidget(_arg_1:IWindowContainer):void
+        public static function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -79,7 +79,7 @@ package com.sulake.habbo.moderation
         public function show():void
         {
             this._frame = IFrameWindow(this._help.getXmlWindow("modact_summary"));
-            this._frame.caption = ("Mod action on: " + this._SendMsgsCtrl);
+            this._frame.caption = ("Mod action on: " + this._SafeStr_11910);
             this._frame.findChildByName("send_caution_but").procedure = this.onSendCautionButton;
             this._frame.findChildByName("kick_but").procedure = this.onKickButton;
             this._frame.findChildByName("ban_but").procedure = this.onBanButton;
@@ -92,14 +92,14 @@ package com.sulake.habbo.moderation
             this._SafeStr_11913 = IDropMenuWindow(this._frame.findChildByName("banLengthSelect"));
             this.prepareBanSelect(this._SafeStr_11913);
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
-            this.ModActionCtrl();
+            _local_1.procedure = this.onClose;
+            this.refreshCategorization();
             this._frame.visible = true;
         }
-        public function ModActionCtrl():void
+        public function refreshCategorization():void
         {
             var _local_1:IWindowContainer = IWindowContainer(this._frame.findChildByName("categorization_cont"));
-            InfostandWidget(_local_1);
+            hideChildren(_local_1);
             _local_1.findChildByName("categorization_caption_txt").visible = true;
             _local_1.findChildByName("change_categorization_but").visible = !((this._SafeStr_11914 == null));
             if (this._SafeStr_11915 != null){
@@ -108,21 +108,21 @@ package com.sulake.habbo.moderation
             }
             else {
                 if (this._SafeStr_11914 != null){
-                    this.ModActionCtrl("offences_cont", 2, this._SafeStr_11914.offences, this._SafeStr_11916, this.onOffenceButton);
+                    this.refreshButtons("offences_cont", 2, this._SafeStr_11914.offences, this._SafeStr_11916, this.onOffenceButton);
                 }
                 else {
-                    this.ModActionCtrl("offence_categories_cont", 3, this._help.initMsg.offenceCategories, this._SafeStr_11917, this.onOffenceCtgButton);
+                    this.refreshButtons("offence_categories_cont", 3, this._help.initMsg.offenceCategories, this._SafeStr_11917, this.onOffenceCtgButton);
                     _local_1.height = RoomToolCtrl.getLowestPoint(_local_1);
                 };
             };
         }
-        private function ModActionCtrl(_arg_1:String, _arg_2:int, _arg_3:Array, _arg_4:IWindow, _arg_5:Function):void
+        private function refreshButtons(_arg_1:String, _arg_2:int, _arg_3:Array, _arg_4:IWindow, _arg_5:Function):void
         {
             var _local_11:INamed;
             var _local_12:String;
             var _local_13:IButtonWindow;
             var _local_6:IWindowContainer = IWindowContainer(this._frame.findChildByName(_arg_1));
-            InfostandWidget(_local_6);
+            hideChildren(_local_6);
             var _local_7:int;
             var _local_8:int;
             var _local_9:int;
@@ -155,7 +155,7 @@ package com.sulake.habbo.moderation
         }
         public function getId():String
         {
-            return (this._SendMsgsCtrl);
+            return (this._SafeStr_11910);
         }
         public function getFrame():IFrameWindow
         {
@@ -189,7 +189,7 @@ package com.sulake.habbo.moderation
             };
             var _local_3:int = int(_arg_2.name);
             this._SafeStr_11914 = this._help.initMsg.offenceCategories[_local_3];
-            this.ModActionCtrl();
+            this.refreshCategorization();
         }
         private function onOffenceButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -200,7 +200,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11915 = this._SafeStr_11914.offences[_local_3];
             this._SafeStr_11823.text = this._SafeStr_11915.msg;
             this._SafeStr_11824 = false;
-            this.ModActionCtrl();
+            this.refreshCategorization();
         }
         private function onChangeCategorizationButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -213,7 +213,7 @@ package com.sulake.habbo.moderation
             else {
                 this._SafeStr_11914 = null;
             };
-            this.ModActionCtrl();
+            this.refreshCategorization();
         }
         private function onKickButton(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -237,7 +237,7 @@ package com.sulake.habbo.moderation
                 return;
             };
             if (this._SafeStr_11913.selection < 0){
-                this._help.windowManager.alert("Alert", "You must select ban lenght", 0, this.SessionDataManager);
+                this._help.windowManager.alert("Alert", "You must select ban lenght", 0, this.onAlertClose);
                 return;
             };
             this._help.connection.send(new ModBanMessageComposer(this._SafeStr_11909, this._SafeStr_11823.text, this.getBanLength(), this._SafeStr_11848));
@@ -246,7 +246,7 @@ package com.sulake.habbo.moderation
         private function isMsgGiven():Boolean
         {
             if (((this._SafeStr_11824) || ((this._SafeStr_11823.text == "")))){
-                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.SessionDataManager);
+                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.onAlertClose);
                 return (false);
             };
             return (true);
@@ -257,7 +257,7 @@ package com.sulake.habbo.moderation
             var _local_2:BanDefinition = _SafeStr_11912[_local_1];
             return (_local_2.banLengthHours);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -297,7 +297,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11823 = null;
             this._help = null;
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -306,7 +306,7 @@ package com.sulake.habbo.moderation
 }//package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
 // disableButton = "_-24c" (String#19207, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // _SafeStr_11796 = "_-3FI" (String#22088, DoABC#2)
@@ -315,7 +315,7 @@ package com.sulake.habbo.moderation
 // onInputClick = "_-2zA" (String#907, DoABC#2)
 // _SafeStr_11848 = "_-2-7" (String#1795, DoABC#2)
 // _SafeStr_11909 = "_-1OJ" (String#5319, DoABC#2)
-// _SendMsgsCtrl = "_-US" (String#8292, DoABC#2)
+// _SafeStr_11910 = "_-US" (String#8292, DoABC#2)
 // _SafeStr_11912 = "_-12V" (String#16559, DoABC#2)
 // _SafeStr_11913 = "_-0Pg" (String#15049, DoABC#2)
 // _SafeStr_11914 = "_-EY" (String#22794, DoABC#2)
@@ -327,7 +327,7 @@ package com.sulake.habbo.moderation
 // onBanButton = "_-2hh" (String#20761, DoABC#2)
 // onChangeCategorizationButton = "_-2s3" (String#21160, DoABC#2)
 // prepareBanSelect = "_-15c" (String#16680, DoABC#2)
-// ModActionCtrl = "_-1wx" (String#18843, DoABC#2)
+// refreshCategorization = "_-1wx" (String#18843, DoABC#2)
 // onOffenceButton = "_-0oX" (String#15995, DoABC#2)
 // onOffenceCtgButton = "_-03k" (String#14192, DoABC#2)
 // isMsgGiven = "_-2x3" (String#21351, DoABC#2)
@@ -349,10 +349,10 @@ package com.sulake.habbo.moderation
 // ModActionCtrl = "_-0HN" (String#3902, DoABC#2)
 // OffenceData = "_-10e" (String#4886, DoABC#2)
 // BanDefinition = "_-177" (String#5019, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // WE_FOCUSED = "_-1ay" (String#17932, DoABC#2)
 // offences = "_-2-3" (String#18973, DoABC#2)
 // msg = "_-1Bo" (String#16933, DoABC#2)
@@ -361,6 +361,6 @@ package com.sulake.habbo.moderation
 // alertPermission = "_-1B8" (String#16904, DoABC#2)
 // kickPermission = "_-0-P" (String#14029, DoABC#2)
 // banPermission = "_-1Gj" (String#17141, DoABC#2)
-// ModActionCtrl = "_-1ep" (String#859, DoABC#2)
+// refreshButtons = "_-1ep" (String#859, DoABC#2)
 
 

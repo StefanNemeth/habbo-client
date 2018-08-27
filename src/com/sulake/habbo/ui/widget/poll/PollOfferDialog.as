@@ -41,19 +41,19 @@ package com.sulake.habbo.ui.widget.poll
                     this._window.center();
                     _local_5 = this._window.findChildByName("poll_offer_button_ok");
                     if (_local_5 != null){
-                        _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                        _local_5.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
                     };
                     _local_6 = this._window.findChildByName("poll_offer_button_cancel");
                     if (_local_6 != null){
-                        _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                        _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
                     };
                     _local_7 = this._window.findChildByName("poll_offer_button_later");
                     if (_local_7 != null){
-                        _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                        _local_7.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onLater);
                     };
                     _local_8 = this._window.findChildByName("header_button_close");
                     if (_local_8 != null){
-                        _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                        _local_8.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
                     };
                     _local_9 = (this._window.findChildByName("poll_offer_summary") as ITextWindow);
                     if (_local_9){
@@ -89,7 +89,7 @@ package com.sulake.habbo.ui.widget.poll
             };
             this._widget = null;
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onOk(_arg_1:WindowEvent):void
         {
             if (this._state != POLL_OFFER_STATE_UNKNOWN){
                 return;
@@ -97,7 +97,7 @@ package com.sulake.habbo.ui.widget.poll
             this._state = POLL_OFFER_STATE_OK;
             this._widget.messageListener.processWidgetMessage(new RoomWidgetPollMessage(RoomWidgetPollMessage.RWPM_START, this._id));
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onCancel(_arg_1:WindowEvent):void
         {
             if (this._state != POLL_OFFER_STATE_UNKNOWN){
                 return;
@@ -106,7 +106,7 @@ package com.sulake.habbo.ui.widget.poll
             this._widget.messageListener.processWidgetMessage(new RoomWidgetPollMessage(RoomWidgetPollMessage.RWPM_REJECT, this._id));
             this._widget.pollCancelled(this._id);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onLater(_arg_1:WindowEvent):void
         {
             if (this._state != POLL_OFFER_STATE_UNKNOWN){
                 return;
@@ -114,7 +114,7 @@ package com.sulake.habbo.ui.widget.poll
             this._state = POLL_OFFER_STATE_CANCEL;
             this._widget.pollCancelled(this._id);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent):void
+        private function onClose(_arg_1:WindowEvent):void
         {
             if (this._state != POLL_OFFER_STATE_UNKNOWN){
                 return;
@@ -131,7 +131,7 @@ package com.sulake.habbo.ui.widget.poll
 // pollCancelled = "_-1uv" (String#18752, DoABC#2)
 // POLL_OFFER_STATE_OK = "_-0gj" (String#15698, DoABC#2)
 // POLL_OFFER_STATE_CANCEL = "_-As" (String#22651, DoABC#2)
-// PollOfferDialog = "_-25P" (String#19235, DoABC#2)
+// onLater = "_-25P" (String#19235, DoABC#2)
 // PollWidget = "_-0pz" (String#4635, DoABC#2)
 // RoomWidgetPollMessage = "_-0uI" (String#4731, DoABC#2)
 // IPollDialog = "_-1OE" (String#5315, DoABC#2)
@@ -139,9 +139,9 @@ package com.sulake.habbo.ui.widget.poll
 // RWPM_START = "_-1VF" (String#17711, DoABC#2)
 // RWPM_REJECT = "_-1pH" (String#18513, DoABC#2)
 // scrollableRegion = "_-2ku" (String#6976, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
-// PollOfferDialog = "_-3JX" (String#633, DoABC#2)
-// PollOfferDialog = "_-39j" (String#457, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
+// onCancel = "_-3JX" (String#633, DoABC#2)
+// onOk = "_-39j" (String#457, DoABC#2)
 // visibleRegion = "_-MK" (String#8129, DoABC#2)
 // POLL_OFFER_STATE_UNKNOWN = "_-2VV" (String#20262, DoABC#2)
 

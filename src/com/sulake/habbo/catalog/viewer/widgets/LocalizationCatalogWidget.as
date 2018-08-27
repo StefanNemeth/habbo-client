@@ -207,7 +207,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                         _local_4 = _local_2.name;
                         this._SafeStr_10499[_local_4] = _local_3;
                         if (page.viewer.catalog.assets.hasAsset(_local_4)){
-                            this.PendingImage(_local_3, _local_4);
+                            this.setElementImage(_local_3, _local_4);
                         }
                         else {
                             this.retrieveCatalogImage(_local_4);
@@ -255,7 +255,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                         _local_6 = _local_3;
                         this._SafeStr_10499[_local_6] = _local_2;
                         if (page.viewer.catalog.assets.hasAsset(_local_6)){
-                            this.PendingImage(_local_2, _local_6);
+                            this.setElementImage(_local_2, _local_6);
                         }
                         else {
                             this.retrieveCatalogImage(_local_6);
@@ -286,7 +286,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 };
             };
         }
-        private function PendingImage(_arg_1:String, _arg_2:String):void
+        private function setElementImage(_arg_1:String, _arg_2:String):void
         {
             var _local_4:BitmapDataAsset;
             var _local_5:BitmapData;
@@ -348,7 +348,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (_local_2 != null){
                 _local_3 = _local_2.assetName;
                 _local_4 = this._SafeStr_10499[_local_3];
-                this.PendingImage(_local_4, _local_3);
+                this.setElementImage(_local_4, _local_3);
             };
         }
 
@@ -373,7 +373,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // CatalogWidget = "_-1pJ" (String#5844, DoABC#2)
 // ICatalogWidget = "_-016" (String#3585, DoABC#2)
 // LocalizationCatalogWidget = "_-2Y0" (String#6726, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)

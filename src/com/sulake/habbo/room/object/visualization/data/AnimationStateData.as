@@ -137,7 +137,7 @@ package com.sulake.habbo.room.object.visualization.data
                 this._SafeStr_12573[_arg_1] = _arg_2;
             };
         }
-        public function AnimatedFurnitureVisualization(_arg_1:int):Boolean
+        public function getLastFramePlayed(_arg_1:int):Boolean
         {
             if ((((_arg_1 >= 0)) && ((_arg_1 < this._layerCount)))){
                 return (this._SafeStr_12572[_arg_1]);
@@ -167,7 +167,7 @@ package com.sulake.habbo.room.object.visualization.data
 // setFrame = "_-2nk" (String#20989, DoABC#2)
 // getAnimationPlayed = "_-2hM" (String#20746, DoABC#2)
 // setAnimationPlayed = "_-LJ" (String#23058, DoABC#2)
-// AnimatedFurnitureVisualization = "_-1ZL" (String#5550, DoABC#2)
+// getLastFramePlayed = "_-1ZL" (String#5550, DoABC#2)
 // setLastFramePlayed = "_-bz" (String#23711, DoABC#2)
 // AnimationFrame = "_-to" (String#8764, DoABC#2)
 // AnimationStateData = "_-0iP" (String#15768, DoABC#2)

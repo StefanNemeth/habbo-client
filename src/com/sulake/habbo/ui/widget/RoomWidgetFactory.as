@@ -74,7 +74,7 @@ package com.sulake.habbo.ui.widget
             this._SafeStr_8016 = _arg_1.root.assets;
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboLocalizationManager(), this.onLocalizationReady);
-            queueInterface(new IIDHabboConfigurationManager(), this.RoomEngine);
+            queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationReady);
             queueInterface(new IIDHabboCatalog(), this.onCatalogReady);
             queueInterface(new IIDHabboInventory(), this.onInventoryReady);
             queueInterface(new IIDHabboSoundManager(), this.onSoundManagerReady);
@@ -125,7 +125,7 @@ package com.sulake.habbo.ui.widget
         {
             this._localizations = (_arg_2 as IHabboLocalizationManager);
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._habboConfiguration = (_arg_2 as IHabboConfigurationManager);
         }
@@ -349,7 +349,7 @@ package com.sulake.habbo.ui.widget
 // _SafeStr_8018 = "_-0d9" (String#15556, DoABC#2)
 // onWindowManagerReady = "_-34x" (String#94, DoABC#2)
 // onLocalizationReady = "_-uK" (String#167, DoABC#2)
-// RoomEngine = "_-1P4" (String#1679, DoABC#2)
+// onHabboConfigurationReady = "_-1P4" (String#1679, DoABC#2)
 // onCatalogReady = "_-27M" (String#245, DoABC#2)
 // onInventoryReady = "_-dE" (String#374, DoABC#2)
 // onSoundManagerReady = "_-2hg" (String#369, DoABC#2)

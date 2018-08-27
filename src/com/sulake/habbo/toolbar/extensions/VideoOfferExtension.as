@@ -80,7 +80,7 @@ package com.sulake.habbo.toolbar.extensions
         private function onClubChanged(_arg_1:HabboInventoryHabboClubEvent):void
         {
             if (((((this._inventory.clubIsExpiring) && (!(this._view)))) && (this.isClubExtensionEnabled()))){
-                this._extensionView.ExtensionView(_SafeStr_6262);
+                this._extensionView.detachExtension(_SafeStr_6262);
                 this.destroyWindow();
                 return;
             };
@@ -175,7 +175,7 @@ package com.sulake.habbo.toolbar.extensions
                         this._SafeStr_6297.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onCloseMouseOver);
                         this._SafeStr_6297.addEventListener(WindowMouseEvent.WME_OUT, this.onCloseMouseOut);
                     };
-                    this._extensionView.ExtensionView(_SafeStr_6262, _local_3, ExtensionFixedSlotsEnum._SafeStr_6282);
+                    this._extensionView.attachExtension(_SafeStr_6262, _local_3, ExtensionFixedSlotsEnum._SafeStr_6282);
                 };
             };
             return (_local_3);
@@ -203,7 +203,7 @@ package com.sulake.habbo.toolbar.extensions
         {
             if (!this._disposed){
                 if (this._extensionView){
-                    this._extensionView.ExtensionView(_SafeStr_6262);
+                    this._extensionView.detachExtension(_SafeStr_6262);
                     this._extensionView = null;
                 };
                 this.destroyWindow();
@@ -323,8 +323,8 @@ package com.sulake.habbo.toolbar.extensions
 // onTextRegionMouseOver = "_-0iI" (String#4469, DoABC#2)
 // onTextRegionMouseOut = "_-mG" (String#8648, DoABC#2)
 // destroyWindow = "_-1pr" (String#5854, DoABC#2)
-// ExtensionView = "_-gb" (String#8524, DoABC#2)
-// ExtensionView = "_-01F" (String#3587, DoABC#2)
+// detachExtension = "_-gb" (String#8524, DoABC#2)
+// attachExtension = "_-01F" (String#3587, DoABC#2)
 // _SafeStr_6282 = "_-3GU" (String#22141, DoABC#2)
 // _SafeStr_6288 = "_-1Mu" (String#17396, DoABC#2)
 // _SafeStr_6289 = "_-2xw" (String#21389, DoABC#2)

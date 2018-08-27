@@ -54,7 +54,7 @@ package com.sulake.habbo.help.cfh
                 return;
             };
             while (content.numListItems > 0) {
-                content.IItemListWindow(0);
+                content.removeListItemAt(0);
             };
             this._SafeStr_11346 = main.component.userRegistry.getRegistry();
             if (this._SafeStr_11346.length == 0){
@@ -90,7 +90,7 @@ package com.sulake.habbo.help.cfh
             if ((((((_local_2 == null)) || ((_arg_1 == null)))) || ((_arg_1.parent == null)))){
                 return;
             };
-            var _local_3:int = _local_2.IItemListWindow(_arg_1.parent);
+            var _local_3:int = _local_2.getListItemIndex(_arg_1.parent);
             if ((((_local_3 < 0)) || ((_local_3 > this._SafeStr_11346.length)))){
                 return;
             };
@@ -118,8 +118,8 @@ package com.sulake.habbo.help.cfh
 // UserRegistryItem = "_-27a" (String#6193, DoABC#2)
 // HelpViewController = "_-IY" (String#8052, DoABC#2)
 // CallForHelpReportUserSelection = "_-1jP" (String#5743, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // HHVE_HELP_FRONTPAGE = "_-2WD" (String#20292, DoABC#2)
 // HHVE_CFG_TOPIC_SELECT = "_-2-u" (String#19007, DoABC#2)
 

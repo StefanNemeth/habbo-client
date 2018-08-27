@@ -171,18 +171,18 @@ package com.sulake.habbo.inventory.trading
             this._SafeStr_11530.updateItemList(this._otherUserId);
             this._SafeStr_11530.updateUserInterface();
             this._SafeStr_11530.clearItemLists();
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_5995);
+            this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_5995);
             this._inventory.events.dispatchEvent(new Event(HabboInventoryTrackingEvent.HABBO_INVENTORY_TRACKING_EVENT_TRADING));
         }
         public function close():void
         {
             if (this._running){
                 if (((!((this._state == _SafeStr_11524))) && (!((this._state == _SafeStr_11529))))){
-                    this.TradingModel();
+                    this.requestCancelTrading();
                     this.state = TradingModel.TRADING_STATE_CANCELLED;
                 };
                 this.state = _SafeStr_11524;
-                this._inventory.HabboInventory(InventorySubCategory.);
+                this._inventory.toggleInventorySubPage(InventorySubCategory.);
                 this._running = false;
             };
             this._SafeStr_11530.setMinimized(false);
@@ -190,7 +190,7 @@ package com.sulake.habbo.inventory.trading
         public function categorySwitch(_arg_1:String):void
         {
             this._SafeStr_11530.setMinimized(!((_arg_1 == InventoryCategory._SafeStr_5995)));
-            this._inventory.HabboInventory();
+            this._inventory.updateSubView();
         }
         public function set state(_arg_1:uint):void
         {
@@ -210,7 +210,7 @@ package com.sulake.habbo.inventory.trading
                     if (_arg_1 == _SafeStr_11526){
                         this._state = _arg_1;
                         _local_2 = true;
-                        this.TradingModel();
+                        this.startConfirmCountdown();
                     }
                     else {
                         if (_arg_1 == TRADING_STATE_CANCELLED){
@@ -235,7 +235,7 @@ package com.sulake.habbo.inventory.trading
                             if (_arg_1 == _SafeStr_11525){
                                 this._state = _arg_1;
                                 _local_2 = true;
-                                this.TradingModel();
+                                this.cancelConfirmCountdown();
                             };
                         };
                     };
@@ -305,11 +305,11 @@ package com.sulake.habbo.inventory.trading
                 throw (new Error("Error assigning trading process status!"));
             };
         }
-        public function TradingModel():FurniModel
+        public function getFurniInventoryModel():FurniModel
         {
             return (this._inventory.furniModel);
         }
-        public function TradingModel(_arg_1:int, _arg_2:Map, _arg_3:int, _arg_4:Map):void
+        public function updateItemGroupMaps(_arg_1:int, _arg_2:Map, _arg_3:int, _arg_4:Map):void
         {
             if (this._inventory == null){
                 return;
@@ -338,7 +338,7 @@ package com.sulake.habbo.inventory.trading
                 _local_5.updateItemLocks();
             };
         }
-        public function TradingModel():Array
+        public function getOwnItemIdsInTrade():Array
         {
             var _local_2:GroupItem;
             var _local_3:IItem;
@@ -352,8 +352,8 @@ package com.sulake.habbo.inventory.trading
                 _local_2 = (this._ownUserItems.getWithIndex(_local_4) as GroupItem);
                 if (_local_2 != null){
                     _local_5 = 0;
-                    while (_local_5 < _local_2.GroupItem()) {
-                        _local_3 = _local_2.GroupItem(_local_5);
+                    while (_local_5 < _local_2.getTotalCount()) {
+                        _local_3 = _local_2.getAt(_local_5);
                         if (_local_3 != null){
                             _local_1.push(_local_3.ref);
                         };
@@ -364,42 +364,42 @@ package com.sulake.habbo.inventory.trading
             };
             return (_local_1);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
-            return (this._SafeStr_11530.TradingModel());
+            return (this._SafeStr_11530.getWindowContainer());
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
             if (this._running){
                 if (this._state != _SafeStr_11524){
-                    this.TradingModel();
+                    this.requestCancelTrading();
                 };
             };
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
             if (this._running){
                 this.close();
             };
         }
-        public function TradingModel():void
+        public function startConfirmCountdown():void
         {
-            this._SafeStr_11530.TradingModel();
+            this._SafeStr_11530.startConfirmCountdown();
         }
-        public function TradingModel():void
+        public function cancelConfirmCountdown():void
         {
-            this._SafeStr_11530.TradingModel();
+            this._SafeStr_11530.cancelConfirmCountdown();
         }
-        public function TradingModel():void
+        public function confirmCountdownReady():void
         {
             if (this._state == _SafeStr_11526){
                 this.state = _SafeStr_11527;
             };
         }
-        public function TradingModel(_arg_1:IItem):BitmapData
+        public function getItemImage(_arg_1:IItem):BitmapData
         {
             var _local_2:ImageResult;
             if ((_arg_1 is FloorItem)){
@@ -414,7 +414,7 @@ package com.sulake.habbo.inventory.trading
         {
             this._SafeStr_11530.updateItemImage(_arg_1, _arg_2);
         }
-        public function TradingModel(_arg_1:IMessageEvent):void
+        public function handleMessageEvent(_arg_1:IMessageEvent):void
         {
             var _local_2:TradingCloseEvent;
             if ((_arg_1 is TradingAlreadyOpenEvent)){
@@ -478,15 +478,15 @@ package com.sulake.habbo.inventory.trading
                 };
             };
         }
-        public function TradingModel():void
+        public function requestFurniViewOpen():void
         {
-            this._inventory.HabboInventory(InventoryCategory._SafeStr_5995);
+            this._inventory.toggleInventoryPage(InventoryCategory._SafeStr_5995);
         }
-        public function TradingModel(_arg_1:int):void
+        public function requestOpenTrading(_arg_1:int):void
         {
-            this._communication.HabboCommunicationManager(null).send(new OpenTradingComposer(_arg_1));
+            this._communication.getHabboMainConnection(null).send(new OpenTradingComposer(_arg_1));
         }
-        public function TradingModel(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean, _arg_5:String=""):Boolean
+        public function requestAddItemToTrading(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:Boolean, _arg_5:String=""):Boolean
         {
             var _local_6:String;
             if (this._ownUserAccepts){
@@ -496,7 +496,7 @@ package com.sulake.habbo.inventory.trading
                 return (false);
             };
             if (this._ownUserItems.length < _SafeStr_11523){
-                this._communication.HabboCommunicationManager(null).send(new AddItemToTradeComposer(_arg_1));
+                this._communication.getHabboMainConnection(null).send(new AddItemToTradeComposer(_arg_1));
             }
             else {
                 if (!_arg_4){
@@ -507,7 +507,7 @@ package com.sulake.habbo.inventory.trading
                     _local_6 = ((String(_arg_2) + "poster") + _arg_5);
                 };
                 if (this._ownUserItems.getValue(_local_6) != null){
-                    this._communication.HabboCommunicationManager(null).send(new AddItemToTradeComposer(_arg_1));
+                    this._communication.getHabboMainConnection(null).send(new AddItemToTradeComposer(_arg_1));
                 }
                 else {
                     return (false);
@@ -515,7 +515,7 @@ package com.sulake.habbo.inventory.trading
             };
             return (true);
         }
-        public function TradingModel(_arg_1:int):void
+        public function requestRemoveItemFromTrading(_arg_1:int):void
         {
             var _local_3:IItem;
             if (this._ownUserAccepts){
@@ -525,30 +525,30 @@ package com.sulake.habbo.inventory.trading
             if (_local_2){
                 _local_3 = _local_2._SafeStr_7867();
                 if (_local_3){
-                    this._communication.HabboCommunicationManager(null).send(new RemoveItemFromTradeComposer(_local_3.id));
+                    this._communication.getHabboMainConnection(null).send(new RemoveItemFromTradeComposer(_local_3.id));
                 };
             };
         }
-        public function TradingModel():void
+        public function requestAcceptTrading():void
         {
-            this._communication.HabboCommunicationManager(null).send(new AcceptTradingComposer());
+            this._communication.getHabboMainConnection(null).send(new AcceptTradingComposer());
         }
-        public function TradingModel():void
+        public function requestUnacceptTrading():void
         {
-            this._communication.HabboCommunicationManager(null).send(new UnacceptTradingComposer());
+            this._communication.getHabboMainConnection(null).send(new UnacceptTradingComposer());
         }
-        public function TradingModel():void
+        public function requestConfirmAcceptTrading():void
         {
             this.state = _SafeStr_11528;
-            this._communication.HabboCommunicationManager(null).send(new ConfirmAcceptTradingComposer());
+            this._communication.getHabboMainConnection(null).send(new ConfirmAcceptTradingComposer());
         }
-        public function TradingModel():void
+        public function requestConfirmDeclineTrading():void
         {
-            this._communication.HabboCommunicationManager(null).send(new ConfirmDeclineTradingComposer());
+            this._communication.getHabboMainConnection(null).send(new ConfirmDeclineTradingComposer());
         }
-        public function TradingModel():void
+        public function requestCancelTrading():void
         {
-            this._communication.HabboCommunicationManager(null).send(new CloseTradingComposer());
+            this._communication.getHabboMainConnection(null).send(new CloseTradingComposer());
         }
 
     }
@@ -584,29 +584,29 @@ package com.sulake.habbo.inventory.trading
 // updateItemList = "_-23a" (String#19158, DoABC#2)
 // updateUserInterface = "_-2BP" (String#19460, DoABC#2)
 // clearItemLists = "_-2kF" (String#20855, DoABC#2)
-// TradingModel = "_-2Xf" (String#20346, DoABC#2)
-// HabboInventory = "_-NR" (String#8153, DoABC#2)
-// HabboInventory = "_-Ec" (String#22798, DoABC#2)
-// TradingModel = "_-2o5" (String#21005, DoABC#2)
-// TradingModel = "_-2AB" (String#19410, DoABC#2)
-// TradingModel = "_-04E" (String#14212, DoABC#2)
-// TradingModel = "_-1JS" (String#17254, DoABC#2)
-// TradingModel = "_-1Ci" (String#16972, DoABC#2)
-// TradingModel = "_-1gL" (String#18152, DoABC#2)
+// requestCancelTrading = "_-2Xf" (String#20346, DoABC#2)
+// toggleInventorySubPage = "_-NR" (String#8153, DoABC#2)
+// updateSubView = "_-Ec" (String#22798, DoABC#2)
+// startConfirmCountdown = "_-2o5" (String#21005, DoABC#2)
+// cancelConfirmCountdown = "_-2AB" (String#19410, DoABC#2)
+// getFurniInventoryModel = "_-04E" (String#14212, DoABC#2)
+// updateItemGroupMaps = "_-1JS" (String#17254, DoABC#2)
+// confirmCountdownReady = "_-1Ci" (String#16972, DoABC#2)
+// getItemImage = "_-1gL" (String#18152, DoABC#2)
 // updateItemImage = "_-28e" (String#19357, DoABC#2)
-// TradingModel = "_-0mn" (String#15930, DoABC#2)
+// handleMessageEvent = "_-0mn" (String#15930, DoABC#2)
 // alertPopup = "_-1E3" (String#17030, DoABC#2)
 // _SafeStr_11563 = "_-34s" (String#21691, DoABC#2)
 // _SafeStr_11564 = "_-2Os" (String#19997, DoABC#2)
 // showOtherUserNotification = "_-22" (String#19088, DoABC#2)
 // showOwnUserNotification = "_-0j0" (String#15791, DoABC#2)
-// TradingModel = "_-0VJ" (String#15256, DoABC#2)
-// TradingModel = "_-05P" (String#14260, DoABC#2)
-// TradingModel = "_-2GH" (String#19653, DoABC#2)
-// TradingModel = "_-1b8" (String#17941, DoABC#2)
-// TradingModel = "_-225" (String#19095, DoABC#2)
-// TradingModel = "_-301" (String#21503, DoABC#2)
-// TradingModel = "_-25W" (String#19239, DoABC#2)
+// requestFurniViewOpen = "_-0VJ" (String#15256, DoABC#2)
+// requestOpenTrading = "_-05P" (String#14260, DoABC#2)
+// requestRemoveItemFromTrading = "_-2GH" (String#19653, DoABC#2)
+// requestAcceptTrading = "_-1b8" (String#17941, DoABC#2)
+// requestUnacceptTrading = "_-225" (String#19095, DoABC#2)
+// requestConfirmAcceptTrading = "_-301" (String#21503, DoABC#2)
+// requestConfirmDeclineTrading = "_-25W" (String#19239, DoABC#2)
 // ImageResult = "_-31w" (String#21576, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // FurniCategory = "_-0lm" (String#15890, DoABC#2)
@@ -642,29 +642,29 @@ package com.sulake.habbo.inventory.trading
 // otherUserCanTrade = "_-0wj" (String#16300, DoABC#2)
 // userAccepts = "_-sY" (String#24380, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _inventory = "_-1O" (String#113, DoABC#2)
 // _running = "_-00c" (String#353, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
 // _otherUserCanTrade = "_-1As" (String#5089, DoABC#2)
-// HabboInventory = "_-1MK" (String#5280, DoABC#2)
+// toggleInventoryPage = "_-1MK" (String#5280, DoABC#2)
 // _SafeStr_5995 = "_-2qT" (String#21102, DoABC#2)
 // setMinimized = "_-2Cz" (String#6306, DoABC#2)
 // _SafeStr_7055 = "_-0z3" (String#16396, DoABC#2)
 //  = "_-PL" (String#8192, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 // updateItemLocks = "_-Ts" (String#23402, DoABC#2)
-// TradingModel = "_-0QS" (String#15079, DoABC#2)
+// getOwnItemIdsInTrade = "_-0QS" (String#15079, DoABC#2)
 // ref = "_-Jx" (String#8081, DoABC#2)
-// GroupItem = "_-1uB" (String#18723, DoABC#2)
+// getTotalCount = "_-1uB" (String#18723, DoABC#2)
 // _SafeStr_7867 = "catch" (String#25155, DoABC#2)
-// TradingModel = "_-0jr" (String#15822, DoABC#2)
-// GroupItem = "_-0yu" (String#16388, DoABC#2)
+// requestAddItemToTrading = "_-0jr" (String#15822, DoABC#2)
+// getAt = "_-0yu" (String#16388, DoABC#2)
 // HabboInventoryTrackingEvent = "_-1r0" (String#18582, DoABC#2)
 
 

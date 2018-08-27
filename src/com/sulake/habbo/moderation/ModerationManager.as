@@ -161,7 +161,7 @@ package com.sulake.habbo.moderation
             };
             this._communication = (_arg_2 as IHabboCommunicationManager);
             if (this._communication != null){
-                this._connection = this._communication.HabboCommunicationManager(this.onConnectionReady);
+                this._connection = this._communication.getHabboMainConnection(this.onConnectionReady);
                 if (this._connection != null){
                     this.onConnectionReady(this._connection);
                 };
@@ -258,7 +258,7 @@ package com.sulake.habbo.moderation
 // IHabboNavigator = "_-2rk" (String#7118, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
 // goToRoom = "_-2Jw" (String#6438, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // soundManager = "_-1sN" (String#5892, DoABC#2)
 // toolTipCaption = "_-0cC" (String#4347, DoABC#2)

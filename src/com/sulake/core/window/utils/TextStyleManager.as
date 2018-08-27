@@ -66,11 +66,11 @@ package com.sulake.core.window.utils
         {
             return (_SafeStr_9751[_arg_1]);
         }
-        public static function TextStyleManager(_arg_1:int):TextStyle
+        public static function getStyleWithIndex(_arg_1:int):TextStyle
         {
             return (_SafeStr_9751.getWithIndex(_arg_1));
         }
-        public static function TextStyleManager(_arg_1:String, _arg_2:TextStyle):void
+        public static function setStyle(_arg_1:String, _arg_2:TextStyle):void
         {
             var _local_3 = (_SafeStr_9751.getKeys().indexOf(_arg_1) == -1);
             _arg_2.name = _arg_1;
@@ -83,7 +83,7 @@ package com.sulake.core.window.utils
                 _eventDispatcher.dispatchEvent(new Event(Event.CHANGE));
             };
         }
-        public static function TextStyleManager(_arg_1:Array, _arg_2:Boolean=false):void
+        public static function setStyles(_arg_1:Array, _arg_2:Boolean=false):void
         {
             var _local_4:TextStyle;
             var _local_5:Array;
@@ -106,7 +106,7 @@ package com.sulake.core.window.utils
                 _eventDispatcher.dispatchEvent(new Event(Event.ADDED));
             };
         }
-        public static function TextStyleManager(_arg_1:String):TextStyle
+        public static function findMatchingTextStyle(_arg_1:String):TextStyle
         {
             var _local_3:TextStyle;
             var _local_2:TextStyle = (parseCSS(_arg_1)[0] as TextStyle);
@@ -118,7 +118,7 @@ package com.sulake.core.window.utils
             };
             return (null);
         }
-        public static function TextStyleManager():Array
+        public static function enumerateStyles():Array
         {
             var _local_1:Array = new Array();
             var _local_2:int = _SafeStr_9751.length;
@@ -129,11 +129,11 @@ package com.sulake.core.window.utils
             };
             return (_local_1);
         }
-        public static function TextStyleManager():Array
+        public static function enumerateStyleNames():Array
         {
             return (_SafeStr_9751.getKeys());
         }
-        public static function TextStyleManager():Array
+        public static function getStyleNameArrayRef():Array
         {
             return (_SafeStr_9752);
         }
@@ -144,7 +144,7 @@ package com.sulake.core.window.utils
             var _local_7:String;
             var _local_2:StyleSheet = new StyleSheet();
             _local_2.parseCSS(_arg_1);
-            var _local_3:Array = TextStyleManager(_arg_1);
+            var _local_3:Array = parseStyleNamesFromCSS(_arg_1);
             var _local_4:Array = new Array();
             for each (_local_7 in _local_3) {
                 _local_5 = _local_2.getStyle(_local_7);
@@ -167,7 +167,7 @@ package com.sulake.core.window.utils
             };
             return (_local_4);
         }
-        private static function TextStyleManager(_arg_1:String):Array
+        private static function parseStyleNamesFromCSS(_arg_1:String):Array
         {
             var _local_5:String;
             var _local_2:Array = [];
@@ -176,7 +176,7 @@ package com.sulake.core.window.utils
             _local_3 = _local_3.split("\n").join("");
             _local_3 = _local_3.split("\r").join("");
             var _local_4:Array = _local_3.split(});
-            if (TextStyleManager(_arg_1, {) != TextStyleManager(_arg_1, })){
+            if (countSubStrings(_arg_1, {) != countSubStrings(_arg_1, })){
                 throw (new Error((((('Mismatching amount of "' + {) + '" versus "') + }) + '", please check the CSS!')));
             };
             for each (_local_5 in _local_4) {
@@ -195,7 +195,7 @@ package com.sulake.core.window.utils
             };
             return (_local_2);
         }
-        private static function TextStyleManager(_arg_1:String, _arg_2:String):int
+        private static function countSubStrings(_arg_1:String, _arg_2:String):int
         {
             var _local_3:int;
             var _local_4:int;
@@ -208,7 +208,7 @@ package com.sulake.core.window.utils
         public static function toString():String
         {
             var _local_3:TextStyle;
-            var _local_1:Array = TextStyleManager();
+            var _local_1:Array = enumerateStyles();
             var _local_2:String = "";
             for each (_local_3 in _local_1) {
                 _local_2 = (_local_2 + (_local_3.toString() + "\n\n"));
@@ -221,22 +221,22 @@ package com.sulake.core.window.utils
 
 // TextStyle = "_-0qh" (String#16074, DoABC#2)
 // TextStyleManager = "_-a7" (String#23636, DoABC#2)
-// TextStyleManager = "_-11y" (String#16535, DoABC#2)
+// setStyles = "_-11y" (String#16535, DoABC#2)
 // equals = "_-1fP" (String#18113, DoABC#2)
-// TextStyleManager = "_-2x4" (String#21352, DoABC#2)
-// TextStyleManager = "_-17f" (String#16761, DoABC#2)
+// findMatchingTextStyle = "_-2x4" (String#21352, DoABC#2)
+// setStyle = "_-17f" (String#16761, DoABC#2)
 // _SafeStr_9115 = "_-1hf" (String#18196, DoABC#2)
-// TextStyleManager = "_-17m" (String#16765, DoABC#2)
+// getStyleNameArrayRef = "_-17m" (String#16765, DoABC#2)
 // _SafeStr_9751 = "_-1Yj" (String#17838, DoABC#2)
 // _SafeStr_9752 = "_-2nn" (String#20991, DoABC#2)
 // { = "_-0H0" (String#14718, DoABC#2)
 // } = "_-08l" (String#14396, DoABC#2)
 // /* = "_-uf" (String#24477, DoABC#2)
 // */ = "_-1Ha" (String#17174, DoABC#2)
-// TextStyleManager = "_-mq" (String#24144, DoABC#2)
-// TextStyleManager = "_-26t" (String#19287, DoABC#2)
-// TextStyleManager = "_-0Ul" (String#15234, DoABC#2)
-// TextStyleManager = "_-ZH" (String#23608, DoABC#2)
-// TextStyleManager = "_-2uQ" (String#21258, DoABC#2)
+// getStyleWithIndex = "_-mq" (String#24144, DoABC#2)
+// enumerateStyles = "_-26t" (String#19287, DoABC#2)
+// enumerateStyleNames = "_-0Ul" (String#15234, DoABC#2)
+// parseStyleNamesFromCSS = "_-ZH" (String#23608, DoABC#2)
+// countSubStrings = "_-2uQ" (String#21258, DoABC#2)
 
 

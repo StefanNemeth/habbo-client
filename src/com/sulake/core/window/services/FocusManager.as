@@ -18,7 +18,7 @@ package com.sulake.core.window.services
         public function FocusManager(_arg_1:DisplayObject)
         {
             this._SafeStr_9650 = _arg_1.stage;
-            this._SafeStr_9650.addEventListener(Event.ACTIVATE, this.FocusManager);
+            this._SafeStr_9650.addEventListener(Event.ACTIVATE, this.onActivateEvent);
             this._SafeStr_9650.addEventListener(FocusEvent.FOCUS_OUT, this.onFocusEvent);
             this._SafeStr_9650.addEventListener(FocusEvent.KEY_FOCUS_CHANGE, this.onFocusEvent);
             this._SafeStr_9650.addEventListener(FocusEvent.MOUSE_FOCUS_CHANGE, this.onFocusEvent);
@@ -31,7 +31,7 @@ package com.sulake.core.window.services
         public function dispose():void
         {
             if (!this._disposed){
-                this._SafeStr_9650.removeEventListener(Event.ACTIVATE, this.FocusManager);
+                this._SafeStr_9650.removeEventListener(Event.ACTIVATE, this.onActivateEvent);
                 this._SafeStr_9650.removeEventListener(FocusEvent.FOCUS_OUT, this.onFocusEvent);
                 this._SafeStr_9650.removeEventListener(FocusEvent.KEY_FOCUS_CHANGE, this.onFocusEvent);
                 this._SafeStr_9650.removeEventListener(FocusEvent.MOUSE_FOCUS_CHANGE, this.onFocusEvent);
@@ -61,10 +61,10 @@ package com.sulake.core.window.services
                 };
             };
             if (this._SafeStr_9650.focus == null){
-                this.FocusManager();
+                this.resolveNextFocusTarget();
             };
         }
-        private function FocusManager():IFocusWindow
+        private function resolveNextFocusTarget():IFocusWindow
         {
             var _local_2:IFocusWindow;
             var _local_1:uint = _SafeStr_3708.length;
@@ -80,16 +80,16 @@ package com.sulake.core.window.services
             };
             return (_local_2);
         }
-        private function FocusManager(_arg_1:Event):void
+        private function onActivateEvent(_arg_1:Event):void
         {
             if (this._SafeStr_9650.focus == null){
-                this.FocusManager();
+                this.resolveNextFocusTarget();
             };
         }
         private function onFocusEvent(_arg_1:FocusEvent):void
         {
             if (this._SafeStr_9650.focus == null){
-                this.FocusManager();
+                this.resolveNextFocusTarget();
             };
         }
 
@@ -102,7 +102,7 @@ package com.sulake.core.window.services
 // FocusManager = "_-2tk" (String#7153, DoABC#2)
 // _SafeStr_3708 = "_-2oC" (String#11, DoABC#2)
 // _SafeStr_9650 = "_-0MX" (String#4012, DoABC#2)
-// FocusManager = "_-0Ry" (String#15134, DoABC#2)
-// FocusManager = "_-fD" (String#23856, DoABC#2)
+// onActivateEvent = "_-0Ry" (String#15134, DoABC#2)
+// resolveNextFocusTarget = "_-fD" (String#23856, DoABC#2)
 
 

@@ -53,7 +53,7 @@ package com.sulake.habbo.avatar.actions
                             _local_7 = parseInt(_local_10.@x);
                             _local_8 = parseInt(_local_10.@y);
                             _local_9 = Number(_local_10.@z);
-                            _local_2.IActionDefinition(_local_5, _local_6, new Array(_local_7, _local_8, _local_9));
+                            _local_2.setOffsets(_local_5, _local_6, new Array(_local_7, _local_8, _local_9));
                         };
                     };
                 };
@@ -97,8 +97,8 @@ package com.sulake.habbo.avatar.actions
             while (_local_7 < _arg_1.length) {
                 _local_5 = (_arg_1[_local_7] as ActiveActionData);
                 _local_6 = (this._SafeStr_5141[_local_5.actionType] as ActionDefinition);
-                if (((!((_local_6 == null))) && (!((_local_6.IActionDefinition(_arg_2, _arg_3) == null))))){
-                    _local_4 = _local_6.IActionDefinition(_arg_2, _arg_3);
+                if (((!((_local_6 == null))) && (!((_local_6.getOffsets(_arg_2, _arg_3) == null))))){
+                    _local_4 = _local_6.getOffsets(_arg_2, _arg_3);
                 };
                 _local_7++;
             };
@@ -133,7 +133,7 @@ package com.sulake.habbo.avatar.actions
                 _local_4 = (_arg_1[_local_6] as ActiveActionData);
                 _local_5 = (this._SafeStr_5141[_local_4.actionType] as ActionDefinition);
                 if (_local_5 != null){
-                    _local_3 = _local_3.concat(_local_5.IActionDefinition(_local_4.actionParameter));
+                    _local_3 = _local_3.concat(_local_5.getPrevents(_local_4.actionParameter));
                 };
                 _local_6++;
             };
@@ -176,10 +176,10 @@ package com.sulake.habbo.avatar.actions
 // actionParameter = "_-2Oa" (String#6531, DoABC#2)
 // orderByPrecedence = "_-Ex" (String#7971, DoABC#2)
 // getActionDefinition = "_-1Yl" (String#17839, DoABC#2)
-// IActionDefinition = "_-30r" (String#7323, DoABC#2)
-// IActionDefinition = "_-336" (String#7368, DoABC#2)
+// setOffsets = "_-30r" (String#7323, DoABC#2)
+// getOffsets = "_-336" (String#7368, DoABC#2)
 // isDefault = "_-Dn" (String#7947, DoABC#2)
-// IActionDefinition = "_-0Rn" (String#4130, DoABC#2)
+// getPrevents = "_-0Rn" (String#4130, DoABC#2)
 // _avatarType = "_-Ms" (String#8138, DoABC#2)
 // _SafeStr_9918 = "_-1ni" (String#862, DoABC#2)
 // parseActionOffsets = "_-1Bu" (String#16936, DoABC#2)

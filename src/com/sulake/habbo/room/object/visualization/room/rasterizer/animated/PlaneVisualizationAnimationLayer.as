@@ -106,7 +106,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
                 while (_local_12 < this._items.length) {
                     _local_13 = (this._items[_local_12] as AnimationItem);
                     if (_local_13 != null){
-                        _local_14 = _local_13.Twinkle(_arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
+                        _local_14 = _local_13.getPosition(_arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
                         _local_14.x = (_local_14.x - _arg_5);
                         _local_14.y = (_local_14.y - _arg_6);
                         if (_local_13.bitmapData != null){
@@ -141,6 +141,6 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
 // PlaneVisualizationAnimationLayer = "_-1Wv" (String#5492, DoABC#2)
 // AnimationItem = "_-zq" (String#8879, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// Twinkle = "_-GB" (String#7997, DoABC#2)
+// getPosition = "_-GB" (String#7997, DoABC#2)
 
 

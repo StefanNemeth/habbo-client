@@ -70,7 +70,7 @@ package com.sulake.core.window.utils
         public static const _SafeStr_9177:Boolean = true;
         public static const _SafeStr_9143:uint = 0;
         public static const _SafeStr_9744:String = TextStyleManager._SafeStr_9115;//"regular"
-        public static const _SafeStr_9145:Array = TextStyleManager.TextStyleManager();
+        public static const _SafeStr_9145:Array = TextStyleManager.getStyleNameArrayRef();
         public static const :String = "";
         public static const _SafeStr_9236:int = 500;
         public static const _SafeStr_9746:PropertyStruct = new PropertyStruct(_SafeStr_9116, _SafeStr_9738, PropertyStruct._SafeStr_8998, false, _SafeStr_9135);
@@ -212,7 +212,7 @@ package com.sulake.core.window.utils
 // _SafeStr_9742 = "_-11b" (String#16521, DoABC#2)
 // _SafeStr_9743 = "_-1Ow" (String#17466, DoABC#2)
 // _SafeStr_9744 = "_-0pd" (String#16040, DoABC#2)
-// TextStyleManager = "_-17m" (String#16765, DoABC#2)
+// getStyleNameArrayRef = "_-17m" (String#16765, DoABC#2)
 // _SafeStr_9746 = "_-0lA" (String#15872, DoABC#2)
 
 

@@ -64,7 +64,7 @@ package com.sulake.core.window.utils
         {
             return ((((((((this._minWidth == int.MIN_VALUE)) && ((this._maxWidth == int.MAX_VALUE)))) && ((this._minHeight == int.MIN_VALUE)))) && ((this._maxHeight == int.MAX_VALUE))));
         }
-        public function WindowRectLimits():void
+        public function setEmpty():void
         {
             this._minWidth = int.MIN_VALUE;
             this._maxWidth = int.MAX_VALUE;
@@ -117,7 +117,7 @@ package com.sulake.core.window.utils
 // WindowRectLimits = "_-2hy" (String#6906, DoABC#2)
 // _maxWidth = "_-0vf" (String#1578, DoABC#2)
 // isEmpty = "_-01T" (String#3592, DoABC#2)
-// WindowRectLimits = "_-YG" (String#8377, DoABC#2)
+// setEmpty = "_-YG" (String#8377, DoABC#2)
 // _minWidth = "_-1El" (String#17058, DoABC#2)
 // _minHeight = "_-0qU" (String#16069, DoABC#2)
 // _maxHeight = "_-0YM" (String#4270, DoABC#2)

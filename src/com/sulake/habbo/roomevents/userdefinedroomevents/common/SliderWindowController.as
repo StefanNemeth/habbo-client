@@ -22,7 +22,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
         private var _sliderContainer:IWindowContainer;
         private var _SafeStr_4313:Boolean = false;
         private var _SafeStr_3956:BitmapData;
-        private var _DimmerViewAlphaSlider:BitmapData;
+        private var _SafeStr_3957:BitmapData;
         private var _SafeStr_3958:int;
         private var _minValue:Number = 0;
         private var _max:Number = 1;
@@ -37,14 +37,14 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             this._SafeStr_4314 = _arg_6;
             this._SafeStr_4312 = 0;
             this.storeAssets(_arg_3);
-            this.DimmerViewAlphaSlider();
+            this.displaySlider();
         }
         override public function dispose():void
         {
             super.dispose();
             this._sliderContainer = null;
             this._SafeStr_3956 = null;
-            this._DimmerViewAlphaSlider = null;
+            this._SafeStr_3957 = null;
         }
         public function setValue(_arg_1:Number, _arg_2:Boolean=true):void
         {
@@ -75,11 +75,11 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             };
             var _local_1:IWindow = this._sliderContainer.findChildByName("slider_button");
             if (_local_1 != null){
-                _local_1.x = this.DimmerViewAlphaSlider(this._SafeStr_4312);
+                _local_1.x = this.getSliderPosition(this._SafeStr_4312);
             };
             _local_1.parent.invalidate();
         }
-        private function DimmerViewAlphaSlider(_arg_1:Number):int
+        private function getSliderPosition(_arg_1:Number):int
         {
             return (int((this._SafeStr_3958 * (Number((_arg_1 - this._minValue)) / (this._max - this._minValue)))));
         }
@@ -130,7 +130,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
                 };
             };
         }
-        private function DimmerViewAlphaSlider():void
+        private function displaySlider():void
         {
             var _local_1:IWindowContainer;
             var _local_2:IBitmapWrapperWindow;
@@ -147,9 +147,9 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             _local_1 = (this._sliderContainer.findChildByName("slider_movement_area") as IWindowContainer);
             if (_local_1 != null){
                 _local_2 = (_local_1.findChildByName("slider_button") as IBitmapWrapperWindow);
-                if (((!((_local_2 == null))) && (!((this._DimmerViewAlphaSlider == null))))){
-                    _local_2.bitmap = new BitmapData(this._DimmerViewAlphaSlider.width, this._DimmerViewAlphaSlider.height, true, 0xFFFFFF);
-                    _local_2.bitmap.copyPixels(this._DimmerViewAlphaSlider, this._DimmerViewAlphaSlider.rect, new Point(0, 0), null, null, true);
+                if (((!((_local_2 == null))) && (!((this._SafeStr_3957 == null))))){
+                    _local_2.bitmap = new BitmapData(this._SafeStr_3957.width, this._SafeStr_3957.height, true, 0xFFFFFF);
+                    _local_2.bitmap.copyPixels(this._SafeStr_3957, this._SafeStr_3957.rect, new Point(0, 0), null, null, true);
                     _local_2.procedure = this.sliderProcedure;
                     this._SafeStr_3958 = (_local_1.width - _local_2.width);
                 };
@@ -172,7 +172,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             _local_2 = BitmapDataAsset(_arg_1.getAssetByName("slider_bg_png"));
             this._SafeStr_3956 = BitmapData(_local_2.content);
             _local_2 = BitmapDataAsset(_arg_1.getAssetByName("slider_obj_png"));
-            this._DimmerViewAlphaSlider = BitmapData(_local_2.content);
+            this._SafeStr_3957 = BitmapData(_local_2.content);
         }
 
     }
@@ -183,11 +183,11 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
 // IContainerButtonWindow = "_-0UF" (String#1484, DoABC#2)
 // SliderWindowController = "_-GO" (String#8002, DoABC#2)
 // _SafeStr_3956 = "_-1ds" (String#1728, DoABC#2)
-// _DimmerViewAlphaSlider = "_-pS" (String#2201, DoABC#2)
+// _SafeStr_3957 = "_-pS" (String#2201, DoABC#2)
 // _SafeStr_3958 = "_-0zE" (String#1593, DoABC#2)
 // _max = "_-0Os" (String#1462, DoABC#2)
-// DimmerViewAlphaSlider = "_-2mk" (String#1938, DoABC#2)
-// DimmerViewAlphaSlider = "_-0BT" (String#1421, DoABC#2)
+// displaySlider = "_-2mk" (String#1938, DoABC#2)
+// getSliderPosition = "_-0BT" (String#1421, DoABC#2)
 // WE_RELOCATED = "_-13s" (String#16612, DoABC#2)
 // _SafeStr_4312 = "_-Mi" (String#23114, DoABC#2)
 // _SafeStr_4313 = "_-1uK" (String#18730, DoABC#2)

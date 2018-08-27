@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetPollMessage.ANSWER, RoomWidgetPollMessage.RWPM_REJECT, RoomWidgetPollMessage.RWPM_START]);
         }
@@ -46,18 +46,18 @@ package com.sulake.habbo.ui.handler
             };
             switch (_arg_1.type){
                 case RoomWidgetPollMessage.RWPM_START:
-                    this._container.roomSession.RoomSession(_local_2.id);
+                    this._container.roomSession.sendPollStartMessage(_local_2.id);
                     break;
                 case RoomWidgetPollMessage.RWPM_REJECT:
-                    this._container.roomSession.RoomSession(_local_2.id);
+                    this._container.roomSession.sendPollRejectMessage(_local_2.id);
                     break;
                 case RoomWidgetPollMessage.ANSWER:
-                    this._container.roomSession.RoomSession(_local_2.id, _local_2.questionId, _local_2.answers);
+                    this._container.roomSession.sendPollAnswerMessage(_local_2.id, _local_2.questionId, _local_2.answers);
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomSessionPollEvent.RWPUW_OFFER);
@@ -65,7 +65,7 @@ package com.sulake.habbo.ui.handler
             _local_1.push(RoomSessionPollEvent.RWPUW_CONTENT);
             return (_local_1);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_3:RoomWidgetPollUpdateEvent;
             if ((((this._container == null)) || ((this._container.events == null)))){
@@ -124,11 +124,11 @@ package com.sulake.habbo.ui.handler
 // endMessage = "_-2a3" (String#20444, DoABC#2)
 // questionArray = "_-37S" (String#21785, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-0ug" (String#4736, DoABC#2)
-// RoomSession = "_-IP" (String#8047, DoABC#2)
-// RoomSession = "_-0Tt" (String#4177, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// sendPollStartMessage = "_-0ug" (String#4736, DoABC#2)
+// sendPollRejectMessage = "_-IP" (String#8047, DoABC#2)
+// sendPollAnswerMessage = "_-0Tt" (String#4177, DoABC#2)
 
 

@@ -29,7 +29,7 @@ package com.sulake.habbo.friendlist
             var _local_3:Friend;
             var _local_4:String;
             var _local_5:Dictionary;
-            _arg_1.findChildByName("cancel").procedure = PollOfferDialog;
+            _arg_1.findChildByName("cancel").procedure = onClose;
             _arg_1.findChildByName("ok").procedure = this.onRemove;
             var _local_2:Array = new Array();
             for each (_local_3 in this._selected) {
@@ -66,6 +66,6 @@ package com.sulake.habbo.friendlist
 // RemoveBuddyMessageComposer = "_-0OX" (String#15009, DoABC#2)
 // FriendRemoveView = "_-02W" (String#3618, DoABC#2)
 // addRemovedFriend = "_-1BE" (String#16907, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 
 

@@ -94,7 +94,7 @@ package com.sulake.habbo.moderation
         {
             return (this._frame);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -124,12 +124,12 @@ package com.sulake.habbo.moderation
             this._SafeStr_11826 = null;
             this._SafeStr_11827 = null;
         }
-        public function RoomToolCtrl():void
+        public function onRoomChange():void
         {
-            this.RoomToolCtrl("send_caution_but");
-            this.RoomToolCtrl("send_message_but");
+            this.setSendButtonState("send_caution_but");
+            this.setSendButtonState("send_message_but");
         }
-        private function RoomToolCtrl(_arg_1:String):void
+        private function setSendButtonState(_arg_1:String):void
         {
             var _local_2:Boolean = ((!((this._data == null))) && ((this._data.flatId == this._help.currentFlatId)));
             var _local_3:IButtonWindow = IButtonWindow(this._frame.findChildByName(_arg_1));
@@ -140,7 +140,7 @@ package com.sulake.habbo.moderation
                 _local_3.disable();
             };
         }
-        public function IncomingMessages(_arg_1:RoomModerationData):void
+        public function onRoomInfo(_arg_1:RoomModerationData):void
         {
             Logger.log(((("GOT ROOM INFO: " + _arg_1.flatId) + ", ") + this._flatId));
             if (_arg_1.flatId != this._flatId){
@@ -158,7 +158,7 @@ package com.sulake.habbo.moderation
         {
             this._content = IItemListWindow(this._frame.findChildByName("list_cont"));
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
+            _local_1.procedure = this.onClose;
             this._SafeStr_11823 = ITextFieldWindow(this._frame.findChildByName("message_input"));
             this._SafeStr_11823.procedure = this.onInputClick;
             this._SafeStr_11822 = IDropMenuWindow(this._frame.findChildByName("msgTemplatesSelect"));
@@ -167,32 +167,32 @@ package com.sulake.habbo.moderation
             this._SafeStr_11825 = ICheckBoxWindow(this._frame.findChildByName("kick_check"));
             this._SafeStr_11826 = ICheckBoxWindow(this._frame.findChildByName("lock_check"));
             this._SafeStr_11827 = ICheckBoxWindow(this._frame.findChildByName("changename_check"));
-            this.RoomToolCtrl(this._data.room, "room_cont");
-            this.RoomToolCtrl(this._data.event, "event_cont");
-            this.UserInfoCtrl("owner_name_txt", this._data.ownerName);
-            this.UserInfoCtrl("owner_in_room_txt", ((this._data.ownerInRoom) ? "Yes" : "No"));
-            this.UserInfoCtrl("user_count_txt", ("" + this._data.userCount));
-            this.UserInfoCtrl("has_event_txt", ((this._data.event.exists) ? "Yes" : "No"));
-            this._frame.findChildByName("enter_room_but").procedure = this.RoomToolCtrl;
-            this._frame.findChildByName("chatlog_but").procedure = this.ChatlogCtrl;
-            this._frame.findChildByName("edit_in_hk_but").procedure = this.RoomToolCtrl;
-            this._frame.findChildByName("send_caution_but").procedure = this.RoomToolCtrl;
-            this._frame.findChildByName("send_message_but").procedure = this.RoomToolCtrl;
+            this.refreshRoomData(this._data.room, "room_cont");
+            this.refreshRoomData(this._data.event, "event_cont");
+            this.setTxt("owner_name_txt", this._data.ownerName);
+            this.setTxt("owner_in_room_txt", ((this._data.ownerInRoom) ? "Yes" : "No"));
+            this.setTxt("user_count_txt", ("" + this._data.userCount));
+            this.setTxt("has_event_txt", ((this._data.event.exists) ? "Yes" : "No"));
+            this._frame.findChildByName("enter_room_but").procedure = this.onEnterRoom;
+            this._frame.findChildByName("chatlog_but").procedure = this.onChatlog;
+            this._frame.findChildByName("edit_in_hk_but").procedure = this.onEditInHk;
+            this._frame.findChildByName("send_caution_but").procedure = this.onSendCaution;
+            this._frame.findChildByName("send_message_but").procedure = this.onSendMessage;
             this._help.disableButton(this._help.initMsg.chatlogsPermission, this._frame, "chatlog_but");
             if (!this._help.initMsg.roomKickPermission){
                 this._SafeStr_11825.disable();
             };
             this._frame.findChildByName("owner_name_txt").procedure = this.onOwnerName;
-            this.RoomToolCtrl();
+            this.onRoomChange();
         }
-        private function RoomToolCtrl(_arg_1:IItemListWindow, _arg_2:IWindow):void
+        private function disposeItemFromList(_arg_1:IItemListWindow, _arg_2:IWindow):void
         {
             var _local_3:IWindow = _arg_1.removeListItem(_arg_2);
             if (_local_3 != null){
                 _local_3.dispose();
             };
         }
-        private function RoomToolCtrl(_arg_1:RoomData, _arg_2:String):void
+        private function refreshRoomData(_arg_1:RoomData, _arg_2:String):void
         {
             var _local_3:IWindowContainer = IWindowContainer(this._content.getListItemByName(_arg_2));
             var _local_4:IWindowContainer = IWindowContainer(_local_3.findChildByName("room_data"));
@@ -201,8 +201,8 @@ package com.sulake.habbo.moderation
                 _local_3.addChild(_local_4);
             };
             if (!_arg_1.exists){
-                this.RoomToolCtrl(this._content, _local_3);
-                this.RoomToolCtrl(this._content, this._content.getListItemByName("event_spacing"));
+                this.disposeItemFromList(this._content, _local_3);
+                this.disposeItemFromList(this._content, this._content.getListItemByName("event_spacing"));
                 return;
             };
             var _local_5:ITextWindow = ITextWindow(_local_4.findChildByName("name"));
@@ -213,7 +213,7 @@ package com.sulake.habbo.moderation
             _local_6.height = (_local_6.textHeight + 5);
             var _local_7:IWindowContainer = IWindowContainer(_local_4.findChildByName("tags_cont"));
             var _local_8:ITextWindow = ITextWindow(_local_7.findChildByName("tags_txt"));
-            _local_8.text = this.RoomToolCtrl(_arg_1.tags);
+            _local_8.text = this.getTagsAsString(_arg_1.tags);
             _local_8.height = (_local_8.textHeight + 5);
             _local_7.height = _local_8.height;
             if (_arg_1.tags.length < 1){
@@ -224,7 +224,7 @@ package com.sulake.habbo.moderation
             _local_3.height = (_local_4.height + (2 * _local_4.y));
             Logger.log(((((((((((("XXXX: " + _local_3.height) + ", ") + _local_4.height) + ", ") + _local_5.height) + ", ") + _local_6.height) + ", ") + _local_7.height) + ", ") + _local_8.height));
         }
-        private function RoomToolCtrl(_arg_1:Array):String
+        private function getTagsAsString(_arg_1:Array):String
         {
             var _local_3:String;
             var _local_2:String = "";
@@ -238,7 +238,7 @@ package com.sulake.habbo.moderation
             };
             return (_local_2);
         }
-        private function UserInfoCtrl(_arg_1:String, _arg_2:String):void
+        private function setTxt(_arg_1:String, _arg_2:String):void
         {
             var _local_3:ITextWindow = ITextWindow(this._frame.findChildByName(_arg_1));
             _local_3.text = _arg_2;
@@ -250,7 +250,7 @@ package com.sulake.habbo.moderation
             };
             this._help.windowTracker.show(new UserInfoFrameCtrl(this._help, this._data.ownerId), this._frame, false, false, true);
         }
-        private function RoomToolCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onEnterRoom(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -258,14 +258,14 @@ package com.sulake.habbo.moderation
             Logger.log("Enter room clicked");
             this._help.goToRoom(this._data.flatId);
         }
-        private function ChatlogCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onChatlog(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._help.windowTracker.show(new ChatlogCtrl(new GetRoomChatlogMessageComposer(0, this._data.flatId), this._help, WindowTracker._SafeStr_11755, this._data.flatId), this._frame, false, false, true);
         }
-        private function RoomToolCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onEditInHk(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -273,36 +273,36 @@ package com.sulake.habbo.moderation
             Logger.log("Edit in hk clicked");
             this._help.openHkPage("roomadmin.url", ("" + this._data.flatId));
         }
-        private function RoomToolCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSendCaution(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             Logger.log("Sending caution...");
-            this.RoomToolCtrl(true);
+            this.act(true);
         }
-        private function RoomToolCtrl(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onSendMessage(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             Logger.log("Sending message...");
-            this.RoomToolCtrl(false);
+            this.act(false);
         }
-        private function RoomToolCtrl(_arg_1:Boolean):void
+        private function act(_arg_1:Boolean):void
         {
             if (((this._SafeStr_11824) || ((this._SafeStr_11823.text == "")))){
-                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.SessionDataManager);
+                this._help.windowManager.alert("Alert", "You must input a message to the user", 0, this.onAlertClose);
                 return;
             };
-            var _local_2:int = this.RoomToolCtrl(_arg_1, this._SafeStr_11825.isSelected);
+            var _local_2:int = this.determineAction(_arg_1, this._SafeStr_11825.isSelected);
             this._help.connection.send(new ModeratorActionMessageComposer(ModeratorActionMessageComposer._SafeStr_7595, _local_2, this._SafeStr_11823.text, "", ""));
             if (((((this._SafeStr_11826.isSelected) || (this._SafeStr_11827.isSelected))) || (this._SafeStr_11825.isSelected))){
                 this._help.connection.send(new ModerateRoomMessageComposer(this._data.flatId, this._SafeStr_11826.isSelected, this._SafeStr_11827.isSelected, this._SafeStr_11825.isSelected));
             };
             this.dispose();
         }
-        private function RoomToolCtrl(_arg_1:Boolean, _arg_2:Boolean):int
+        private function determineAction(_arg_1:Boolean, _arg_2:Boolean):int
         {
             if (_arg_2){
                 return (((_arg_1) ? ModeratorActionMessageComposer._SafeStr_7597 : ModeratorActionMessageComposer._SafeStr_7600));
@@ -320,7 +320,7 @@ package com.sulake.habbo.moderation
             this._SafeStr_11823.text = "";
             this._SafeStr_11824 = false;
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -345,15 +345,15 @@ package com.sulake.habbo.moderation
 }//package com.sulake.habbo.moderation
 
 // _help = "_-3HG" (String#114, DoABC#2)
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
 // disableButton = "_-24c" (String#19207, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // windowTracker = "_-1CG" (String#16953, DoABC#2)
 // _SafeStr_11755 = "_-12Z" (String#16561, DoABC#2)
-// IncomingMessages = "_-az" (String#2136, DoABC#2)
-// ChatlogCtrl = "_-Ps" (String#2103, DoABC#2)
+// onRoomInfo = "_-az" (String#2136, DoABC#2)
+// onChatlog = "_-Ps" (String#2103, DoABC#2)
 // currentFlatId = "_-2HL" (String#19698, DoABC#2)
-// RoomToolCtrl = "_-2JA" (String#19774, DoABC#2)
+// onRoomChange = "_-2JA" (String#19774, DoABC#2)
 // addRoomInfoListener = "_-33D" (String#21629, DoABC#2)
 // removeRoomInfoListener = "_-hl" (String#23956, DoABC#2)
 // addRoomEnterListener = "_-d0" (String#23757, DoABC#2)
@@ -366,22 +366,22 @@ package com.sulake.habbo.moderation
 // _SafeStr_11825 = "_-1Vi" (String#17729, DoABC#2)
 // _SafeStr_11826 = "_-G" (String#22852, DoABC#2)
 // _SafeStr_11827 = "_-1p0" (String#18502, DoABC#2)
-// RoomToolCtrl = "_-LE" (String#23055, DoABC#2)
+// setSendButtonState = "_-LE" (String#23055, DoABC#2)
 // onInputClick = "_-2zA" (String#907, DoABC#2)
 // prepareMsgSelect = "_-31U" (String#7335, DoABC#2)
 // onSelectTemplate = "_-1ke" (String#5762, DoABC#2)
-// RoomToolCtrl = "_-I2" (String#22931, DoABC#2)
-// UserInfoCtrl = "_-0zx" (String#4847, DoABC#2)
-// RoomToolCtrl = "_-2Y7" (String#20359, DoABC#2)
-// RoomToolCtrl = "_-Sb" (String#23350, DoABC#2)
-// RoomToolCtrl = "_-GJ" (String#22865, DoABC#2)
-// RoomToolCtrl = "_-1A0" (String#16858, DoABC#2)
+// refreshRoomData = "_-I2" (String#22931, DoABC#2)
+// setTxt = "_-0zx" (String#4847, DoABC#2)
+// onEnterRoom = "_-2Y7" (String#20359, DoABC#2)
+// onEditInHk = "_-Sb" (String#23350, DoABC#2)
+// onSendCaution = "_-GJ" (String#22865, DoABC#2)
+// onSendMessage = "_-1A0" (String#16858, DoABC#2)
 // onOwnerName = "_-tN" (String#8757, DoABC#2)
-// RoomToolCtrl = "_-2dN" (String#20579, DoABC#2)
-// RoomToolCtrl = "_-HG" (String#22901, DoABC#2)
+// disposeItemFromList = "_-2dN" (String#20579, DoABC#2)
+// getTagsAsString = "_-HG" (String#22901, DoABC#2)
 // openHkPage = "_-mj" (String#24138, DoABC#2)
-// RoomToolCtrl = "_-eb" (String#23827, DoABC#2)
-// RoomToolCtrl = "_-3CZ" (String#21978, DoABC#2)
+// act = "_-eb" (String#23827, DoABC#2)
+// determineAction = "_-3CZ" (String#21978, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
 // ITextFieldWindow = "_-3EL" (String#2027, DoABC#2)
@@ -407,7 +407,7 @@ package com.sulake.habbo.moderation
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // moveChildrenToColumn = "_-fI" (String#23859, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // _flatId = "_-2Al" (String#135, DoABC#2)
 // WE_FOCUSED = "_-1ay" (String#17932, DoABC#2)
 // ownerId = "_-0Kl" (String#3968, DoABC#2)

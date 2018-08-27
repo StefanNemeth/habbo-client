@@ -13,7 +13,7 @@ package com.sulake.core.window.components
     {
 
         protected var _spacing:int = 0;
-        private var _TabSelectorController:Boolean = false;
+        private var _SafeStr_9420:Boolean = false;
 
         public function TabSelectorController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function=null, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
@@ -27,43 +27,43 @@ package com.sulake.core.window.components
         public function set spacing(_arg_1:int):void
         {
             this._spacing = _arg_1;
-            this.TabSelectorController();
+            this.updateSelectableRegion();
         }
         override public function update(_arg_1:WindowController, _arg_2:WindowEvent):Boolean
         {
             if (_arg_2.type == WindowEvent.WE_CHILD_ADDED){
-                this.TabSelectorController();
+                this.updateSelectableRegion();
             }
             else {
                 if (_arg_2.type == WindowEvent.WE_CHILD_RESIZED){
-                    this.TabSelectorController();
+                    this.updateSelectableRegion();
                 }
                 else {
                     if (_arg_2.type == WindowEvent.WE_CHILD_RELOCATED){
-                        this.TabSelectorController();
+                        this.updateSelectableRegion();
                     };
                 };
             };
             return (super.update(_arg_1, _arg_2));
         }
-        private function TabSelectorController():void
+        private function updateSelectableRegion():void
         {
             var _local_2:IWindow;
             var _local_4:uint;
-            if (this._TabSelectorController){
+            if (this._SafeStr_9420){
                 return;
             };
-            this._TabSelectorController = true;
+            this._SafeStr_9420 = true;
             var _local_1:uint = numSelectables;
             var _local_3:int;
             _local_4 = 0;
             while (_local_4 < _local_1) {
-                _local_2 = ISelectorWindow(_local_4);
+                _local_2 = getSelectableAt(_local_4);
                 _local_2.x = _local_3;
                 _local_3 = (_local_3 + (_local_2.width + this._spacing));
                 _local_4++;
             };
-            this._TabSelectorController = false;
+            this._SafeStr_9420 = false;
         }
         override public function get properties():Array
         {
@@ -102,15 +102,15 @@ package com.sulake.core.window.components
 // TabSelectorController = "_-3K5" (String#7706, DoABC#2)
 // _SafeStr_8992 = "_-5d" (String#22447, DoABC#2)
 // numSelectables = "_-1pQ" (String#5845, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
 // WE_CHILD_RESIZED = "_-i1" (String#23965, DoABC#2)
 // WE_CHILD_RELOCATED = "_-30I" (String#21512, DoABC#2)
 // _SafeStr_9336 = "_-1IE" (String#17202, DoABC#2)
 // _SafeStr_9337 = "_-2tT" (String#21220, DoABC#2)
 // _SafeStr_9338 = "_-9p" (String#22611, DoABC#2)
 // _SafeStr_9419 = "_-2b5" (String#20491, DoABC#2)
-// _TabSelectorController = "_-0V3" (String#4207, DoABC#2)
-// TabSelectorController = "_-2O5" (String#19968, DoABC#2)
+// _SafeStr_9420 = "_-0V3" (String#4207, DoABC#2)
+// updateSelectableRegion = "_-2O5" (String#19968, DoABC#2)
 // WE_CHILD_ADDED = "_-32L" (String#21593, DoABC#2)
 
 

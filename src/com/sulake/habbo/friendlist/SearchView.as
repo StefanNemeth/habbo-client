@@ -173,11 +173,11 @@ package com.sulake.habbo.friendlist
                     return;
                 };
                 this._SafeStr_11247.setData(_local_3.isAvatarOnline, _local_3.avatarName, _local_3.avatarMotto, _local_3.avatarFigure, _local_3.lastOnlineDate, _local_3.realName);
-                this._SafeStr_11247.PopupCtrl(this._friendList.view.mainWindow, IWindowContainer(_arg_2));
+                this._SafeStr_11247.showPopup(this._friendList.view.mainWindow, IWindowContainer(_arg_2));
             }
             else {
                 if (_arg_1.type == WindowMouseEvent.WME_OUT){
-                    this._SafeStr_11247.PopupCtrl();
+                    this._SafeStr_11247.closePopup();
                 };
             };
         }
@@ -354,8 +354,8 @@ package com.sulake.habbo.friendlist
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // refreshEntry = "_-2v6" (String#308, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
-// PopupCtrl = "_-0pi" (String#16042, DoABC#2)
-// PopupCtrl = "_-1eW" (String#18078, DoABC#2)
+// showPopup = "_-0pi" (String#16042, DoABC#2)
+// closePopup = "_-1eW" (String#18078, DoABC#2)
 // refreshList = "_-3Kn" (String#635, DoABC#2)
 // friends = "_-10-" (String#16467, DoABC#2)
 // others = "_-224" (String#19094, DoABC#2)

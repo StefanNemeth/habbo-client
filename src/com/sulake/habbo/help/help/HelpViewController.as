@@ -78,7 +78,7 @@ package com.sulake.habbo.help.help
         {
             this._roomSessionActive = _arg_1;
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (this._container);
         }
@@ -135,7 +135,7 @@ package com.sulake.habbo.help.help
 // _roomSessionActive = "_-2WF" (String#20293, DoABC#2)
 // IHelpViewController = "_-0cs" (String#4364, DoABC#2)
 // HelpViewController = "_-IY" (String#8052, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 
 

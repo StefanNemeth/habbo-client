@@ -24,7 +24,7 @@ package com.sulake.habbo.ui.handler
     {
 
         private static const _SafeStr_7382:String = "hd-99999-99999.lg-270-62";
-        private static const _FurnitureClothingChangeWidgetHandler:String = "hd-99999-99999.ch-630-62.lg-695-62";
+        private static const _SafeStr_7383:String = "hd-99999-99999.ch-630-62.lg-695-62";
 
         private var _disposed:Boolean = false;
         private var _container:IRoomWidgetHandlerContainer = null;
@@ -50,7 +50,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_CLOTHING_CHANGE, RoomWidgetClothingChangeMessage.RWCCM_REQUEST_EDITOR, RoomWidgetAvatarEditorMessage.RWCM_OPEN_AVATAR_EDITOR]);
         }
@@ -67,7 +67,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_CLOTHING_CHANGE:
                     _local_5 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_2 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_5.roomId, _local_5.roomCategory, _local_5.id, _local_5.category);
+                    _local_2 = this._container.roomEngine.getRoomObject(_local_5.roomId, _local_5.roomCategory, _local_5.id, _local_5.category);
                     if (_local_2 != null){
                         _local_3 = _local_2.getModel();
                         if (_local_3 != null){
@@ -81,7 +81,7 @@ package com.sulake.habbo.ui.handler
                     break;
                 case RoomWidgetClothingChangeMessage.RWCCM_REQUEST_EDITOR:
                     _local_6 = (_arg_1 as RoomWidgetClothingChangeMessage);
-                    _local_2 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_6.roomId, _local_6.roomCategory, _local_6.objectId, _local_6.objectCategory);
+                    _local_2 = this._container.roomEngine.getRoomObject(_local_6.roomId, _local_6.roomCategory, _local_6.objectId, _local_6.objectCategory);
                     if (_local_2 != null){
                         _local_3 = _local_2.getModel();
                         if (_local_3 != null){
@@ -95,7 +95,7 @@ package com.sulake.habbo.ui.handler
                                 _local_8 = FigureData.FEMALE;
                                 _local_9 = _local_3.getString(RoomObjectVariableEnum._SafeStr_7387);
                                 if ((((_local_9 == null)) || ((_local_9 == "")))){
-                                    _local_9 = _FurnitureClothingChangeWidgetHandler;
+                                    _local_9 = _SafeStr_7383;
                                 };
                             };
                             if (this._container.avatarEditor.openEditor(AvatarEditorInstanceId._SafeStr_7384, this, [AvatarEditorFigureCategory._SafeStr_7388, AvatarEditorFigureCategory._SafeStr_7389], false, "${widget.furni.clothingchange.editor.title}")){
@@ -112,11 +112,11 @@ package com.sulake.habbo.ui.handler
         public function update():void
         {
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function saveFigure(_arg_1:String, _arg_2:String):void
@@ -124,7 +124,7 @@ package com.sulake.habbo.ui.handler
             if (this._container == null){
                 return;
             };
-            this._container.roomSession.RoomSession(this._objectId, _arg_2, _arg_1);
+            this._container.roomSession.sendUpdateClothingChangeFurniture(this._objectId, _arg_2, _arg_1);
             this._container.avatarEditor.close(AvatarEditorInstanceId._SafeStr_7384);
         }
 
@@ -153,18 +153,18 @@ package com.sulake.habbo.ui.handler
 // RWE_CLOTHING_CHANGE = "_-1Q2" (String#17511, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // isAnyRoomController = "_-2IH" (String#6407, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
 // openEditor = "_-86" (String#2059, DoABC#2)
 // avatarEditor = "_-1mJ" (String#5786, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7382 = "_-1eA" (String#18064, DoABC#2)
-// _FurnitureClothingChangeWidgetHandler = "_-9c" (String#22604, DoABC#2)
+// _SafeStr_7383 = "_-9c" (String#22604, DoABC#2)
 // _SafeStr_7384 = "_-J9" (String#22973, DoABC#2)
 // RWCCUE_SHOW_GENDER_SELECTION = "_-0dg" (String#15572, DoABC#2)
 // _SafeStr_7386 = "_-ew" (String#23841, DoABC#2)
@@ -172,6 +172,6 @@ package com.sulake.habbo.ui.handler
 // _SafeStr_7388 = "_-0YE" (String#15366, DoABC#2)
 // _SafeStr_7389 = "_-3HR" (String#22176, DoABC#2)
 // saveFigure = "_-2M0" (String#6483, DoABC#2)
-// RoomSession = "_-mI" (String#8649, DoABC#2)
+// sendUpdateClothingChangeFurniture = "_-mI" (String#8649, DoABC#2)
 
 

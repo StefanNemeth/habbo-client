@@ -56,11 +56,11 @@ package com.sulake.core.runtime
                 events.dispatchEvent(new Event(Component.COMPONENT_EVENT_DEBUG));
             };
         }
-        public function LibraryLoader():String
+        public function getLastDebugMessage():String
         {
             return (_SafeStr_8955);
         }
-        public function IContext(_arg_1:String):void
+        public function warning(_arg_1:String):void
         {
             _lastWarning = _arg_1;
             if (events == null){
@@ -70,13 +70,13 @@ package com.sulake.core.runtime
                 events.dispatchEvent(new WarningEvent(Component.COMPONENT_EVENT_WARNING, _arg_1));
             };
         }
-        public function IContext():String
+        public function getLastWarningMessage():String
         {
             return (_lastWarning);
         }
         public function error(_arg_1:String, _arg_2:Boolean, _arg_3:int=-1, _arg_4:Error=null):void
         {
-            _WindowContext = _arg_1;
+            _SafeStr_8959 = _arg_1;
             if (events == null){
                 Logger.log(("Failed to dispatch an error because events was null.\nMessage: " + _arg_1));
             }
@@ -86,7 +86,7 @@ package com.sulake.core.runtime
         }
         public function getLastErrorMessage():String
         {
-            return (_WindowContext);
+            return (_SafeStr_8959);
         }
         final public function loadFromFile(_arg_1:URLRequest, _arg_2:LoaderContext):LibraryLoader
         {
@@ -102,7 +102,7 @@ package com.sulake.core.runtime
             };
             var _local_4:LibraryLoader = new LibraryLoader(_arg_2, this._debug);
             _local_4.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this.loadReadyHandler, false);
-            _local_4.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.LibraryLoaderQueue, false);
+            _local_4.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this.loadErrorHandler, false);
             _local_4.addEventListener(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DEBUG, this.loadDebugHandler, false);
             _local_4.load(_arg_1);
             this._SafeStr_8954.push(_local_4);
@@ -112,9 +112,9 @@ package com.sulake.core.runtime
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
             this.removeLibraryLoader(_local_2);
-            this.IContext(_local_2.resource, Component.COMPONENT_FLAG_NULL, _local_2.domain);
+            this.prepareComponent(_local_2.resource, Component.COMPONENT_FLAG_NULL, _local_2.domain);
         }
-        protected function LibraryLoaderQueue(_arg_1:LibraryLoaderEvent):void
+        protected function loadErrorHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
             var _local_3:String = _local_2.getLastErrorMessage();
@@ -124,7 +124,7 @@ package com.sulake.core.runtime
         protected function loadDebugHandler(_arg_1:LibraryLoaderEvent):void
         {
             var _local_2:LibraryLoader = (_arg_1.target as LibraryLoader);
-            var _local_3:String = _local_2.LibraryLoader();
+            var _local_3:String = _local_2.getLastDebugMessage();
             this.debug(_local_3);
         }
         protected function removeLibraryLoader(_arg_1:LibraryLoader):void
@@ -141,11 +141,11 @@ package com.sulake.core.runtime
                 _local_2++;
             };
         }
-        public function IContext(_arg_1:XML, _arg_2:Class):Boolean
+        public function prepareAssetLibrary(_arg_1:XML, _arg_2:Class):Boolean
         {
             return (assets.loadFromResource(_arg_1, _arg_2));
         }
-        final public function IContext(resource:Class, flags:uint=0, domain:ApplicationDomain=null):IUnknown
+        final public function prepareComponent(resource:Class, flags:uint=0, domain:ApplicationDomain=null):IUnknown
         {
             var manifest:XML;
             var component:Component;
@@ -208,10 +208,10 @@ package com.sulake.core.runtime
                     while (k < assetCount) {
                         assetNode = assetList[k];
                         assetName = assetNode.attribute("name");
-                        assetType = assetLibrary.IAssetLibrary(assetNode.attribute("mimeType"));
+                        assetType = assetLibrary.getAssetTypeDeclarationByMimeType(assetNode.attribute("mimeType"));
                         asset = new (assetType.assetClass)(assetType);
                         asset.setUnknownContent(resource[assetName]);
-                        if (!assetLibrary.IAssetLibrary(assetName, asset)){
+                        if (!assetLibrary.setAsset(assetName, asset)){
                             this.error((((("Manifest for component " + componentString) + ' contains broken asset "') + assetName) + '"!'), true, Core._SafeStr_8966);
                         };
                         k++;
@@ -248,17 +248,17 @@ package com.sulake.core.runtime
                         };
                         iid = new (iidClass)();
                         unknown = (component as IUnknown);
-                        Component(component).insert(new InterfaceStruct(iid, component));
+                        getInterfaceStructList(component).insert(new InterfaceStruct(iid, component));
                         iidList.push(iid);
                         j++;
                     };
-                    this.IContext(component, iidList);
+                    this.attachComponent(component, iidList);
                 };
                 i++;
             };
             return ((component as IUnknown));
         }
-        final public function IContext(_arg_1:Component, _arg_2:Array):void
+        final public function attachComponent(_arg_1:Component, _arg_2:Array):void
         {
             var _local_3:uint;
             var _local_5:IID;
@@ -275,10 +275,10 @@ package com.sulake.core.runtime
             _local_3 = 0;
             while (_local_3 < _local_4) {
                 _local_5 = _arg_2[_local_3];
-                if (Component(_arg_1).find(_local_5) == null){
-                    Component(_arg_1).insert(new InterfaceStruct(_local_5, _arg_1));
+                if (getInterfaceStructList(_arg_1).find(_local_5) == null){
+                    getInterfaceStructList(_arg_1).insert(new InterfaceStruct(_local_5, _arg_1));
                 };
-                Component(this).insert(new InterfaceStruct(_local_5, _arg_1));
+                getInterfaceStructList(this).insert(new InterfaceStruct(_local_5, _arg_1));
                 _local_3++;
             };
             if (!_arg_1.locked){
@@ -292,14 +292,14 @@ package com.sulake.core.runtime
                 };
             };
         }
-        final public function IContext(_arg_1:Component):void
+        final public function detachComponent(_arg_1:Component):void
         {
             var _local_3:InterfaceStruct;
-            var _local_2:InterfaceStructList = Component(this);
-            var _local_4:int = _local_2.InterfaceStructList(_arg_1);
+            var _local_2:InterfaceStructList = getInterfaceStructList(this);
+            var _local_4:int = _local_2.getIndexByImplementor(_arg_1);
             while (_local_4 > -1) {
                 _local_3 = _local_2.remove(_local_4);
-                _local_4 = _local_2.InterfaceStructList(_arg_1);
+                _local_4 = _local_2.getIndexByImplementor(_arg_1);
             };
             var _local_5:uint;
             while (_local_5 < this._components.length) {
@@ -314,7 +314,7 @@ package com.sulake.core.runtime
         override public function queueInterface(_arg_1:IID, _arg_2:Function=null):IUnknown
         {
             var _local_4:IUnknown;
-            var _local_3:InterfaceStruct = Component(this).getStructByInterface(_arg_1);
+            var _local_3:InterfaceStruct = getInterfaceStructList(this).getStructByInterface(_arg_1);
             if (_local_3 != null){
                 _local_4 = _local_3.unknown.queueInterface(_arg_1, _arg_2);
                 if (_local_4){
@@ -428,7 +428,7 @@ package com.sulake.core.runtime
                 _local_2.events.removeEventListener(_INTERNAL_EVENT_UNLOCKED, this.lockEventHandler);
                 if (!disposed){
                     _local_3 = new Array();
-                    Component(this).mapStructsByImplementor(_local_2, _local_3);
+                    getInterfaceStructList(this).mapStructsByImplementor(_local_2, _local_3);
                     while (((((_local_3.length) && (!(_local_2.disposed)))) && (!(disposed)))) {
                         _local_4 = _local_3.pop();
                         this.announceInterfaceAvailability(_local_4.iid, _local_2);
@@ -450,7 +450,7 @@ package com.sulake.core.runtime
             var _local_5:String = "";
             _local_5 = (_local_5 + (((_local_2 + '<context class="') + _local_4) + '" >\n'));
             var _local_7:Array = new Array();
-            var _local_8:uint = Component(this).mapStructsByImplementor(this, _local_7);
+            var _local_8:uint = getInterfaceStructList(this).mapStructsByImplementor(this, _local_7);
             var _local_9:uint;
             while (_local_9 < _local_8) {
                 _local_6 = _local_7[_local_9];
@@ -485,32 +485,32 @@ package com.sulake.core.runtime
 // WarningEvent = "_-16b" (String#5007, DoABC#2)
 // ErrorEvent = "_-cA" (String#8459, DoABC#2)
 // setUnknownContent = "_-2zE" (String#7271, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
-// IAssetLibrary = "_-BD" (String#7892, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
+// getAssetTypeDeclarationByMimeType = "_-BD" (String#7892, DoABC#2)
 // assetClass = "_-39W" (String#21863, DoABC#2)
-// LibraryLoaderQueue = "_-0IT" (String#1448, DoABC#2)
+// loadErrorHandler = "_-0IT" (String#1448, DoABC#2)
 // _displayObjectContainer = "_-179" (String#16740, DoABC#2)
-// IContext = "_-1G" (String#5169, DoABC#2)
-// IContext = "_-28T" (String#6212, DoABC#2)
+// attachComponent = "_-1G" (String#5169, DoABC#2)
+// detachComponent = "_-28T" (String#6212, DoABC#2)
 // _SafeStr_8954 = "_-3CG" (String#2020, DoABC#2)
 // _SafeStr_8955 = "_-0qy" (String#16083, DoABC#2)
-// LibraryLoader = "_-0Gl" (String#3889, DoABC#2)
-// IContext = "_-1MU" (String#5283, DoABC#2)
-// IContext = "_-5e" (String#7775, DoABC#2)
-// _WindowContext = "_-0NR" (String#4029, DoABC#2)
+// getLastDebugMessage = "_-0Gl" (String#3889, DoABC#2)
+// warning = "_-1MU" (String#5283, DoABC#2)
+// getLastWarningMessage = "_-5e" (String#7775, DoABC#2)
+// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
 // loadReadyHandler = "_-1kP" (String#18305, DoABC#2)
 // loadDebugHandler = "_-0NG" (String#14965, DoABC#2)
 // removeLibraryLoader = "_-1yS" (String#18907, DoABC#2)
-// IContext = "_-hI" (String#8541, DoABC#2)
+// prepareComponent = "_-hI" (String#8541, DoABC#2)
 // _SafeStr_8964 = "_-3JI" (String#22255, DoABC#2)
-// IContext = "_-3GZ" (String#7637, DoABC#2)
+// prepareAssetLibrary = "_-3GZ" (String#7637, DoABC#2)
 // _SafeStr_8966 = "_-0p7" (String#16021, DoABC#2)
-// Component = "_-1xl" (String#18879, DoABC#2)
+// getInterfaceStructList = "_-1xl" (String#18879, DoABC#2)
 // _INTERNAL_EVENT_UNLOCKED = "_-1Ik" (String#17224, DoABC#2)
 // lockEventHandler = "_-2EO" (String#19581, DoABC#2)
 // hasQueueForInterface = "_-2Qr" (String#20082, DoABC#2)
 // announceInterfaceAvailability = "_-0S-" (String#15136, DoABC#2)
-// InterfaceStructList = "_-m6" (String#24113, DoABC#2)
+// getIndexByImplementor = "_-m6" (String#24113, DoABC#2)
 // addQueueeForInterface = "_-2Xh" (String#20347, DoABC#2)
 // getQueueForInterface = "_-0Ep" (String#14636, DoABC#2)
 // _SafeStr_8975 = "_-3-U" (String#21481, DoABC#2)

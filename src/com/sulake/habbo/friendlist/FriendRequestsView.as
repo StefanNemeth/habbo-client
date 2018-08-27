@@ -37,7 +37,7 @@ package com.sulake.habbo.friendlist
             this._SafeStr_11234 = IContainerButtonWindow(_arg_1.findChildByName("reject_all_but"));
             this._SafeStr_11234.procedure = this.onDismissAllButtonClick;
             this._SafeStr_11233.procedure = this.onAcceptAllButtonClick;
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         public function fillList(_arg_1:IItemListWindow):void
         {
@@ -72,7 +72,7 @@ package com.sulake.habbo.friendlist
                 return;
             };
             var _local_2:IWindowContainer = _arg_1.view;
-            Util.InfostandWidget(_local_2);
+            Util.hideChildren(_local_2);
             this._friendList.refreshText(_local_2, "requester_name_text", true, _arg_1.requesterName);
             if (_arg_1.state == FriendRequest._SafeStr_7173){
                 this._friendList.refreshIcon(_local_2, "accept", true, this.onAcceptButtonClick, _arg_1.requestId);
@@ -110,7 +110,7 @@ package com.sulake.habbo.friendlist
             this.refreshRequestEntry(_arg_1);
             this._content.addListItem(_arg_1.view);
             this._friendList.friendRequests.refreshShading();
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         public function removeRequest(_arg_1:FriendRequest):void
         {
@@ -118,7 +118,7 @@ package com.sulake.habbo.friendlist
                 return;
             };
             this._content.removeListItem(_arg_1.view);
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
         private function getRequestEntry(_arg_1:FriendRequest):void
         {
@@ -238,9 +238,9 @@ package com.sulake.habbo.friendlist
         }
         private function refresh():void
         {
-            this.ModActionCtrl();
+            this.refreshButtons();
         }
-        private function ModActionCtrl():void
+        private function refreshButtons():void
         {
             var _local_1 = (this._friendList.friendRequests.getCountOfOpenRequests() > 0);
             this.setEnabled(this._SafeStr_11233, _local_1);
@@ -307,7 +307,7 @@ package com.sulake.habbo.friendlist
 // requestId = "_-li" (String#24099, DoABC#2)
 // RWDE_ACCEPTED = "_-1OB" (String#17441, DoABC#2)
 // FRE_DECLINED = "_-2IY" (String#19749, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _content = "_-1Q8" (String#74, DoABC#2)
 // addDeclinedRequest = "_-0Pt" (String#15057, DoABC#2)
@@ -319,6 +319,6 @@ package com.sulake.habbo.friendlist
 // setEnabled = "_-05S" (String#1399, DoABC#2)
 // requesterName = "_-1ki" (String#18318, DoABC#2)
 // _SafeStr_7173 = "_-bS" (String#23691, DoABC#2)
-// ModActionCtrl = "_-1ep" (String#859, DoABC#2)
+// refreshButtons = "_-1ep" (String#859, DoABC#2)
 
 

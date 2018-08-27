@@ -7,12 +7,12 @@ package com.sulake.habbo.avatar.common
     {
 
         function dispose():void;
-        function TradingModel():IWindowContainer;
+        function getWindowContainer():IWindowContainer;
 
     }
 }//package com.sulake.habbo.avatar.common
 
 // ISideContentView = "_-1Yh" (String#5537, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 
 

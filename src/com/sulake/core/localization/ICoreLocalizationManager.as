@@ -8,7 +8,7 @@ package com.sulake.core.localization
     {
 
         function registerListener(_arg_1:String, _arg_2:ILocalizable):Boolean;
-        function PetDataManager(_arg_1:String, _arg_2:ILocalizable):Boolean;
+        function removeListener(_arg_1:String, _arg_2:ILocalizable):Boolean;
         function loadLocalizationFromURL(_arg_1:String):void;
         function hasKey(_arg_1:String):Boolean;
         function getKey(_arg_1:String, _arg_2:String=""):String;
@@ -32,7 +32,7 @@ package com.sulake.core.localization
 // ILocalizationDefinition = "_-oS" (String#2194, DoABC#2)
 // updateKey = "_-1LP" (String#5269, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
 // registerLocalizationDefinition = "_-00S" (String#3573, DoABC#2)
 // activateLocalization = "_-iU" (String#8569, DoABC#2)
 // loadLocalizationFromURL = "_-rj" (String#8731, DoABC#2)

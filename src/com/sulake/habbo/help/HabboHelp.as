@@ -180,13 +180,13 @@ package com.sulake.habbo.help
         public function enableCallForGuideBotUI():void
         {
             if (this._SafeStr_11493 != null){
-                this._SafeStr_11493.HelpUI(true);
+                this._SafeStr_11493.updateCallForGuideBotUI(true);
             };
         }
         public function disableCallForGuideBotUI():void
         {
             if (this._SafeStr_11493 != null){
-                this._SafeStr_11493.HelpUI(false);
+                this._SafeStr_11493.updateCallForGuideBotUI(false);
             };
         }
         public function getFaq():FaqIndex
@@ -196,7 +196,7 @@ package com.sulake.habbo.help
         public function sendMessage(_arg_1:IMessageComposer):void
         {
             if (((!((this._communicationManager == null))) && (!((_arg_1 == null))))){
-                this._communicationManager.HabboCommunicationManager(null).send(_arg_1);
+                this._communicationManager.getHabboMainConnection(null).send(_arg_1);
             };
         }
         public function getConfigurationKey(_arg_1:String, _arg_2:String=null, _arg_3:Dictionary=null):String
@@ -206,16 +206,16 @@ package com.sulake.habbo.help
             };
             return (this._SafeStr_10977.getKey(_arg_1, _arg_2, _arg_3));
         }
-        public function HelpUI(_arg_1:String):void
+        public function showCallForHelpReply(_arg_1:String):void
         {
             if (this._SafeStr_11493 != null){
-                this._SafeStr_11493.HelpUI(_arg_1);
+                this._SafeStr_11493.showCallForHelpReply(_arg_1);
             };
         }
-        public function HelpUI(_arg_1:String):void
+        public function showCallForHelpResult(_arg_1:String):void
         {
             if (this._SafeStr_11493 != null){
-                this._SafeStr_11493.HelpUI(_arg_1);
+                this._SafeStr_11493.showCallForHelpResult(_arg_1);
             };
         }
         public function reportUser(_arg_1:int, _arg_2:String):void
@@ -261,7 +261,7 @@ package com.sulake.habbo.help
             if (!this._hotelMergeUI){
                 this._hotelMergeUI = new HotelMergeUI(this);
             };
-            this._hotelMergeUI.HotelMergeUI();
+            this._hotelMergeUI.startNameChange();
         }
         public function updateTutorial(_arg_1:Boolean, _arg_2:Boolean, _arg_3:Boolean):void
         {
@@ -276,10 +276,10 @@ package com.sulake.habbo.help
             };
             this._tutorialUI.update(_arg_1, _arg_2, _arg_3);
         }
-        public function HotelMergeUI():void
+        public function startNameChange():void
         {
             if (this._tutorialUI){
-                this._tutorialUI.HabboInventory(TutorialUI.TUI_NAME_VIEW);
+                this._tutorialUI.showView(TutorialUI.TUI_NAME_VIEW);
             };
         }
         private function onWindowManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -311,8 +311,8 @@ package com.sulake.habbo.help
         private function onRoomSessionManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             var _local_3:IRoomSessionManager = IRoomSessionManager(_arg_2);
-            _local_3.events.addEventListener(RoomSessionEvent.RSE_STARTED, this.RoomEngine);
-            _local_3.events.addEventListener(RoomSessionEvent.RSE_ENDED, this.RoomEngine);
+            _local_3.events.addEventListener(RoomSessionEvent.RSE_STARTED, this.onRoomSessionEvent);
+            _local_3.events.addEventListener(RoomSessionEvent.RSE_ENDED, this.onRoomSessionEvent);
             this._toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onHabboToolbarEvent);
             this.createHelpUI();
         }
@@ -323,7 +323,7 @@ package com.sulake.habbo.help
             };
             this._sessionDataManager = (_arg_2 as ISessionDataManager);
         }
-        private function RoomEngine(_arg_1:RoomSessionEvent):void
+        private function onRoomSessionEvent(_arg_1:RoomSessionEvent):void
         {
             switch (_arg_1.type){
                 case RoomSessionEvent.RSE_STARTED:
@@ -367,14 +367,14 @@ package com.sulake.habbo.help
 // IID = "_-3KV" (String#7712, DoABC#2)
 // onSessionDataManagerReady = "_-0C-" (String#240, DoABC#2)
 // onToolbarReady = "_-3Ep" (String#218, DoABC#2)
-// RoomEngine = "_-10q" (String#1603, DoABC#2)
+// onRoomSessionEvent = "_-10q" (String#1603, DoABC#2)
 // _localization = "_-07" (String#3703, DoABC#2)
 // _SafeStr_10977 = "_-01o" (String#3598, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
 // toggleUI = "_-OI" (String#23180, DoABC#2)
-// HelpUI = "_-1DY" (String#17005, DoABC#2)
-// HelpUI = "_-0VS" (String#15260, DoABC#2)
-// HelpUI = "_-Hv" (String#22926, DoABC#2)
+// showCallForHelpReply = "_-1DY" (String#17005, DoABC#2)
+// showCallForHelpResult = "_-0VS" (String#15260, DoABC#2)
+// updateCallForGuideBotUI = "_-Hv" (String#22926, DoABC#2)
 // setRoomSessionStatus = "_-lP" (String#24084, DoABC#2)
 // ownUserName = "_-19l" (String#16846, DoABC#2)
 // TUI_NAME_VIEW = "_-146" (String#16621, DoABC#2)
@@ -409,7 +409,7 @@ package com.sulake.habbo.help
 // HabboHelpViewEnum = "_-1e7" (String#18062, DoABC#2)
 // WelcomeScreenController = "_-08g" (String#3733, DoABC#2)
 // TutorialUI = "_-38o" (String#7488, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // RSE_STARTED = "_-oj" (String#24224, DoABC#2)
 // RSE_ENDED = "_-ar" (String#23665, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
@@ -420,12 +420,12 @@ package com.sulake.habbo.help
 // onHabboToolbarEvent = "_-0Ve" (String#435, DoABC#2)
 // iconId = "_-2di" (String#20590, DoABC#2)
 // hasChangedName = "_-33G" (String#7371, DoABC#2)
-// HotelMergeUI = "_-1qU" (String#5864, DoABC#2)
+// startNameChange = "_-1qU" (String#5864, DoABC#2)
 // reportUser = "_-233" (String#6107, DoABC#2)
 // HHVE_CFG_TOPIC_SELECT = "_-2-u" (String#19007, DoABC#2)
 // IHabboHelp = "_-2o3" (String#7041, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 // onWindowManagerReady = "_-34x" (String#94, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)

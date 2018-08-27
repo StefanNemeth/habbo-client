@@ -173,7 +173,7 @@ package com.sulake.habbo.window
             this._SafeStr_9637 = this._windowContextArray[_SafeStr_14374];
             this.addMouseEventTracker(this);
             unlock();
-            IContext(this, 0);
+            registerUpdateReceiver(this, 0);
             queueInterface(new IIDProfiler(), this.receiveProfilerInterface);
             _local_3 = (getTimer() - _local_3);
             Logger.log((("initializing window framework took " + _local_3) + "ms"));
@@ -193,9 +193,9 @@ package com.sulake.habbo.window
                 };
                 this._SafeStr_14378.profiler = _local_3;
                 this._SafeStr_14379 = new ProfilerAgentTask("Update", "Event processing");
-                _local_3.getProfilerAgentForReceiver(this).ProfilerAgentTask(this._SafeStr_14379);
+                _local_3.getProfilerAgentForReceiver(this).addSubTask(this._SafeStr_14379);
                 this._SafeStr_14380 = new ProfilerAgentTask("Redraw", "Window rasterizer");
-                _local_3.getProfilerAgentForReceiver(this).ProfilerAgentTask(this._SafeStr_14380);
+                _local_3.getProfilerAgentForReceiver(this).addSubTask(this._SafeStr_14380);
                 this._SafeStr_14377 = true;
             };
         }
@@ -447,7 +447,7 @@ package com.sulake.habbo.window
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // getInstance = "_-n5" (String#24157, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // ICoreWindowManager = "_-YU" (String#2128, DoABC#2)
 // IWindowFactory = "_-Zd" (String#8408, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
@@ -478,7 +478,7 @@ package com.sulake.habbo.window
 // _SafeStr_7578 = "_-2hS" (String#20750, DoABC#2)
 // _SafeStr_7580 = "_-YY" (String#23582, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
-// ProfilerAgentTask = "_-0mE" (String#15905, DoABC#2)
+// addSubTask = "_-0mE" (String#15905, DoABC#2)
 // HabboErrorVariableEnum = "_-zF" (String#24662, DoABC#2)
 // HabboWindowTrackingEvent = "_-1lw" (String#18372, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)

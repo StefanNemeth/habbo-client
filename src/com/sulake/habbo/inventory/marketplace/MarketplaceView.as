@@ -76,7 +76,7 @@ package com.sulake.habbo.inventory.marketplace
                 this._view = null;
             };
         }
-        public function MarketplaceView(_arg_1:int, _arg_2:int):void
+        public function showBuyTokens(_arg_1:int, _arg_2:int):void
         {
             if (this._localization){
                 this._localization.registerParameter("inventory.marketplace.buy_tokens.info", "price", _arg_1.toString());
@@ -91,7 +91,7 @@ package com.sulake.habbo.inventory.marketplace
             this._view.procedure = this.clickHandler;
             this._view.center();
         }
-        public function MarketplaceView(_arg_1:IItem):void
+        public function showMakeOffer(_arg_1:IItem):void
         {
             var _local_4:ImageResult;
             var _local_5:String;
@@ -107,7 +107,7 @@ package com.sulake.habbo.inventory.marketplace
             if (_local_2 != null){
                 _local_2.restrict = "0-9";
             };
-            this.MarketplaceView();
+            this.checkPrice();
             this._localization.registerParameter("inventory.marketplace.make_offer.expiration_info", "time", this._SafeStr_4830.expirationHours.toString());
             this._localization.registerParameter("inventory.marketplace.make_offer.min_price", "minprice", this._SafeStr_4830.offerMinPrice.toString());
             this._localization.registerParameter("inventory.marketplace.make_offer.max_price", "maxprice", this._SafeStr_4830.offerMaxPrice.toString());
@@ -122,7 +122,7 @@ package com.sulake.habbo.inventory.marketplace
                 return;
             };
             this._SafeStr_8588 = _local_4.id;
-            this.MarketplaceView(_local_4.data);
+            this.setFurniImage(_local_4.data);
             if ((_arg_1 is FloorItem)){
                 _local_5 = ("roomItem.name." + _arg_1.type);
                 _local_6 = ("roomItem.desc." + _arg_1.type);
@@ -136,17 +136,17 @@ package com.sulake.habbo.inventory.marketplace
                 _local_6 = (("poster_" + _arg_1.stuffData) + "_desc");
             };
             this._SafeStr_8590 = this._localization.getKey(_local_5);
-            this.CurrencyIndicatorBase("furni_name", ((("$" + "{") + _local_5) + "}"));
-            this.CurrencyIndicatorBase("furni_desc", ((("$" + "{") + _local_6) + "}"));
+            this.setText("furni_name", ((("$" + "{") + _local_5) + "}"));
+            this.setText("furni_desc", ((("$" + "{") + _local_6) + "}"));
             this._view.procedure = this.clickHandler;
             this._view.center();
             var _local_7:ITextWindow = (this._view.findChildByName("average_price") as ITextWindow);
             if (_local_7){
                 _local_7.visible = false;
             };
-            this._SafeStr_4830.MarketplaceModel();
+            this._SafeStr_4830.getItemStats();
         }
-        private function MarketplaceView(_arg_1:BitmapData):void
+        private function setFurniImage(_arg_1:BitmapData):void
         {
             if ((((_arg_1 == null)) || ((this._view == null)))){
                 return;
@@ -161,7 +161,7 @@ package com.sulake.habbo.inventory.marketplace
             _local_3.draw(_arg_1, new Matrix(1, 0, 0, 1, _local_4, _local_5));
             _local_2.bitmap = _local_3;
         }
-        private function CurrencyIndicatorBase(_arg_1:String, _arg_2:String):void
+        private function setText(_arg_1:String, _arg_2:String):void
         {
             if (this._view == null){
                 return;
@@ -172,7 +172,7 @@ package com.sulake.habbo.inventory.marketplace
             };
             _local_3.text = _arg_2;
         }
-        public function MarketplaceView(_arg_1:int):void
+        public function showNoCredits(_arg_1:int):void
         {
             if (this._localization){
                 this._localization.registerParameter("inventory.marketplace.no_credits.info", "price", _arg_1.toString());
@@ -190,9 +190,9 @@ package com.sulake.habbo.inventory.marketplace
             this._localization.registerParameter("inventory.marketplace.confirm_offer.info", "price", this._SafeStr_8589.toString());
             var _local_1:String = ("$" + "{inventory.marketplace.confirm_offer.title}");
             var _local_2:String = ("$" + "{inventory.marketplace.confirm_offer.info}");
-            this._windowManager.confirm(_local_1, _local_2, 0, this.MarketplaceView);
+            this._windowManager.confirm(_local_1, _local_2, 0, this.confirmationCallback);
         }
-        private function MarketplaceView(_arg_1:IConfirmDialog, _arg_2:WindowEvent):void
+        private function confirmationCallback(_arg_1:IConfirmDialog, _arg_2:WindowEvent):void
         {
             if ((((_arg_1 == null)) || ((_arg_2 == null)))){
                 return;
@@ -202,9 +202,9 @@ package com.sulake.habbo.inventory.marketplace
                 return;
             };
             if (_arg_2.type == WindowEvent.WE_OK){
-                this._SafeStr_4830.MarketplaceModel(this._SafeStr_8589);
+                this._SafeStr_4830.makeOffer(this._SafeStr_8589);
             };
-            this._SafeStr_4830.MarketplaceModel();
+            this._SafeStr_4830.releaseItem();
         }
         private function createWindow(_arg_1:String):IWindow
         {
@@ -223,14 +223,14 @@ package com.sulake.habbo.inventory.marketplace
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "buy_tokens_button":
-                        this._SafeStr_4830.MarketplaceModel();
+                        this._SafeStr_4830.buyMarketplaceTokens();
                         this.disposeView();
                         break;
                     case "cancel_buy_tokens_button":
                     case "cancel_make_offer_button":
                     case "cancel_no_credits_button":
                     case "header_button_close":
-                        this._SafeStr_4830.MarketplaceModel();
+                        this._SafeStr_4830.releaseItem();
                         this.disposeView();
                         break;
                     case "make_offer_button":
@@ -242,19 +242,19 @@ package com.sulake.habbo.inventory.marketplace
                         this.disposeView();
                         break;
                     case "get_credits_button":
-                        this._SafeStr_4830.MarketplaceModel();
-                        this.CatalogNavigator();
+                        this._SafeStr_4830.releaseItem();
+                        this.openCreditsPage();
                         this.disposeView();
                         break;
                 };
             };
             if (_arg_1.type == WindowEvent.WE_CHANGE){
                 if (_arg_2.name == "price_input"){
-                    this.MarketplaceView();
+                    this.checkPrice();
                 };
             };
         }
-        private function CatalogNavigator():void
+        private function openCreditsPage():void
         {
             var _local_1:String;
             if (((ExternalInterface.available) && (("true" == this._config.getKey("client.credits.embed.enabled"))))){
@@ -263,12 +263,12 @@ package com.sulake.habbo.inventory.marketplace
             else {
                 _local_1 = this._config.getKey("link.format.credits");
                 if (_local_1 != ""){
-                    this._windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.MarketplaceView);
+                    this._windowManager.alert("${catalog.alert.external.link.title}", "${catalog.alert.external.link.desc}", 0, this.closeAlert);
                     HabboWebTools.navigateToURL(_local_1, "habboMain");
                 };
             };
         }
-        private function MarketplaceView():void
+        private function checkPrice():void
         {
             if (this._view == null){
                 return;
@@ -300,7 +300,7 @@ package com.sulake.habbo.inventory.marketplace
                 _local_5.enable();
             };
         }
-        public function MarketplaceView(_arg_1:int):void
+        public function showResult(_arg_1:int):void
         {
             var _local_2:String;
             if (_arg_1 == 1){
@@ -310,27 +310,27 @@ package com.sulake.habbo.inventory.marketplace
                 _local_2 = ("$" + "{inventory.marketplace.result.title.failure}");
             };
             var _local_3 = ((("$" + "{inventory.marketplace.result.") + _arg_1) + "}");
-            this._windowManager.alert(_local_2, _local_3, 0, this.MarketplaceView);
+            this._windowManager.alert(_local_2, _local_3, 0, this.closeAlert);
         }
-        private function MarketplaceView(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function closeAlert(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             if (_arg_1 == null){
                 return;
             };
-            this._SafeStr_4830.MarketplaceModel();
+            this._SafeStr_4830.releaseItem();
             _arg_1.dispose();
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
             if (this._SafeStr_8588 == _arg_1){
-                this.MarketplaceView(_arg_2);
+                this.setFurniImage(_arg_2);
             };
         }
-        public function MarketplaceView(_arg_1:String, _arg_2:String):void
+        public function showAlert(_arg_1:String, _arg_2:String):void
         {
-            this._windowManager.alert(_arg_1, _arg_2, 0, this.MarketplaceView);
+            this._windowManager.alert(_arg_1, _arg_2, 0, this.closeAlert);
         }
-        public function MarketplaceView(_arg_1:int, _arg_2:int):void
+        public function updateAveragePrice(_arg_1:int, _arg_2:int):void
         {
             if (((((!(this._view)) || (!(this._localization)))) || (!(this._SafeStr_4830)))){
                 return;
@@ -369,30 +369,30 @@ package com.sulake.habbo.inventory.marketplace
 // clickHandler = "_-34y" (String#630, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_7055 = "_-0z3" (String#16396, DoABC#2)
 // disposeView = "_-jU" (String#2169, DoABC#2)
 // offerMinPrice = "_-026" (String#14129, DoABC#2)
 // offerMaxPrice = "_-2pR" (String#21056, DoABC#2)
 // expirationHours = "_-0xj" (String#16342, DoABC#2)
-// MarketplaceModel = "_-0DN" (String#14585, DoABC#2)
-// MarketplaceModel = "_-3Fc" (String#22102, DoABC#2)
-// MarketplaceModel = "_-1Ap" (String#16895, DoABC#2)
-// MarketplaceModel = "_-sH" (String#24372, DoABC#2)
-// MarketplaceView = "_-0GY" (String#14701, DoABC#2)
-// MarketplaceView = "_-0F1" (String#14646, DoABC#2)
-// MarketplaceView = "_-eW" (String#23823, DoABC#2)
-// MarketplaceView = "_-3Fu" (String#22112, DoABC#2)
-// MarketplaceView = "_-0TT" (String#15190, DoABC#2)
+// releaseItem = "_-0DN" (String#14585, DoABC#2)
+// buyMarketplaceTokens = "_-3Fc" (String#22102, DoABC#2)
+// makeOffer = "_-1Ap" (String#16895, DoABC#2)
+// getItemStats = "_-sH" (String#24372, DoABC#2)
+// showMakeOffer = "_-0GY" (String#14701, DoABC#2)
+// showAlert = "_-0F1" (String#14646, DoABC#2)
+// showBuyTokens = "_-eW" (String#23823, DoABC#2)
+// showResult = "_-3Fu" (String#22112, DoABC#2)
+// updateAveragePrice = "_-0TT" (String#15190, DoABC#2)
 // _SafeStr_8588 = "_-37H" (String#21779, DoABC#2)
 // _SafeStr_8589 = "_-23N" (String#19147, DoABC#2)
 // _SafeStr_8590 = "_-2l4" (String#20884, DoABC#2)
-// MarketplaceView = "_-393" (String#21848, DoABC#2)
-// MarketplaceView = "_-1yH" (String#18899, DoABC#2)
-// MarketplaceView = "_-0IC" (String#14765, DoABC#2)
-// MarketplaceView = "_-oU" (String#24213, DoABC#2)
+// checkPrice = "_-393" (String#21848, DoABC#2)
+// setFurniImage = "_-1yH" (String#18899, DoABC#2)
+// showNoCredits = "_-0IC" (String#14765, DoABC#2)
+// confirmationCallback = "_-oU" (String#24213, DoABC#2)
 // WE_OK = "_-0UB" (String#15212, DoABC#2)
-// CatalogNavigator = "_-1Sy" (String#5413, DoABC#2)
-// MarketplaceView = "_-p0" (String#24236, DoABC#2)
+// openCreditsPage = "_-1Sy" (String#5413, DoABC#2)
+// closeAlert = "_-p0" (String#24236, DoABC#2)
 
 

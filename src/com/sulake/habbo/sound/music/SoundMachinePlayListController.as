@@ -33,7 +33,7 @@ package com.sulake.habbo.sound.music
         private var _playListEntries:Array;
         private var _isPlaying:Boolean;
         private var _disposed:Boolean = false;
-        private var _WelcomeGiftWidgetHandler:Array;
+        private var _SafeStr_7204:Array;
 
         public function SoundMachinePlayListController(_arg_1:HabboSoundManagerFlash10, _arg_2:HabboMusicController, _arg_3:IEventDispatcher, _arg_4:IEventDispatcher, _arg_5:IConnection)
         {
@@ -45,16 +45,16 @@ package com.sulake.habbo.sound.music
             this._SafeStr_5221 = _arg_4;
             this._connection = _arg_5;
             this._musicController = _arg_2;
-            this._WelcomeGiftWidgetHandler = [];
-            this._WelcomeGiftWidgetHandler.push(new PlayListMessageEvent(this.onPlayListMessage));
-            this._WelcomeGiftWidgetHandler.push(new PlayListSongAddedMessageEvent(this.onPlayListSongAddedMessage));
-            for each (_local_6 in this._WelcomeGiftWidgetHandler) {
+            this._SafeStr_7204 = [];
+            this._SafeStr_7204.push(new PlayListMessageEvent(this.onPlayListMessage));
+            this._SafeStr_7204.push(new PlayListSongAddedMessageEvent(this.onPlayListSongAddedMessage));
+            for each (_local_6 in this._SafeStr_7204) {
                 this._connection.addMessageEvent(_local_6);
             };
             this._events.addEventListener(SoundCompleteEvent.TRAX_SONG_COMPLETE, this.onSongFinishedPlayingEvent);
             this._events.addEventListener(SongInfoReceivedEvent.SIR_TRAX_SONG_INFO_RECEIVED, this.onSongInfoReceivedEvent);
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_ON, this.SoundMachinePlayListController);
-            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_OFF, this.SoundMachinePlayListController);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_ON, this.onSoundMachinePlayEvent);
+            this._SafeStr_5221.addEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_OFF, this.onSoundMachineStopEvent);
         }
         public function get disposed():Boolean
         {
@@ -95,11 +95,11 @@ package com.sulake.habbo.sound.music
                 };
                 this._soundManager = null;
                 if (this._connection){
-                    for each (_local_1 in this._WelcomeGiftWidgetHandler) {
-                        this._connection.SocketConnection(_local_1);
+                    for each (_local_1 in this._SafeStr_7204) {
+                        this._connection.removeMessageEvent(_local_1);
                         _local_1.dispose();
                     };
-                    this._WelcomeGiftWidgetHandler = null;
+                    this._SafeStr_7204 = null;
                     this._connection = null;
                 };
                 this._playListEntries = null;
@@ -109,28 +109,28 @@ package com.sulake.habbo.sound.music
                     this._events = null;
                 };
                 if (this._SafeStr_5221){
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_ON, this.SoundMachinePlayListController);
-                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_OFF, this.SoundMachinePlayListController);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_ON, this.onSoundMachinePlayEvent);
+                    this._SafeStr_5221.removeEventListener(RoomEngineSoundMachineEvent.ROSM_SOUND_MACHINE_SWITCHED_OFF, this.onSoundMachineStopEvent);
                     this._SafeStr_5221 = null;
                 };
                 this._disposed = true;
             };
         }
-        private function SoundMachinePlayListController(_arg_1:Event):void
+        private function onSoundMachinePlayEvent(_arg_1:Event):void
         {
-            this.SoundMachinePlayListController();
+            this.startPlaying();
         }
-        private function SoundMachinePlayListController(_arg_1:Event):void
+        private function onSoundMachineStopEvent(_arg_1:Event):void
         {
             this.stopPlaying();
         }
-        public function SoundMachinePlayListController():void
+        public function startPlaying():void
         {
             if (this._isPlaying){
                 return;
             };
             if ((((this._playListEntries == null)) || ((this._playListEntries.length == 0)))){
-                this.IPlayListController();
+                this.requestPlayList();
                 this._isPlaying = true;
                 return;
             };
@@ -235,7 +235,7 @@ package com.sulake.habbo.sound.music
             };
             return (this._playListEntries[_local_1]);
         }
-        public function IPlayListController(_arg_1:int):ISongInfo
+        public function getEntry(_arg_1:int):ISongInfo
         {
             if ((((((this._playListEntries == null)) || ((_arg_1 < 0)))) || ((_arg_1 >= this._playListEntries.length)))){
                 return (null);
@@ -258,7 +258,7 @@ package com.sulake.habbo.sound.music
             };
             return (null);
         }
-        public function IPlayListController():void
+        public function requestPlayList():void
         {
             if (this._connection == null){
                 return;
@@ -353,7 +353,7 @@ package com.sulake.habbo.sound.music
 // PlayListMessageParser = "_-PK" (String#8191, DoABC#2)
 // PlayListSongAddedMessageParser = "_-19g" (String#5070, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
-// IPlayListController = "_-ig" (String#2166, DoABC#2)
+// getEntry = "_-ig" (String#2166, DoABC#2)
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
 // synchronizationCount = "_-FT" (String#22830, DoABC#2)
 // playList = "_-3E3" (String#22036, DoABC#2)
@@ -366,15 +366,15 @@ package com.sulake.habbo.sound.music
 // _SafeStr_6658 = "_-1VW" (String#17722, DoABC#2)
 // getSongInfo = "_-0Fc" (String#3864, DoABC#2)
 // playSong = "_-0VK" (String#4210, DoABC#2)
-// IPlayListController = "_-0Vy" (String#817, DoABC#2)
+// requestPlayList = "_-0Vy" (String#817, DoABC#2)
 // _musicController = "_-3Bw" (String#458, DoABC#2)
 // isPlaying = "_-2gK" (String#6876, DoABC#2)
 // playPosition = "_-3Ip" (String#7686, DoABC#2)
 // nowPlayingSongId = "_-2A0" (String#6248, DoABC#2)
 // SIR_TRAX_SONG_INFO_RECEIVED = "_-02" (String#14127, DoABC#2)
 // onSongInfoReceivedEvent = "_-1Di" (String#360, DoABC#2)
-// _WelcomeGiftWidgetHandler = "_-bQ" (String#938, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
+// _SafeStr_7204 = "_-bQ" (String#938, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
 // addSongInfoRequest = "_-1QR" (String#5359, DoABC#2)
 // updateVolume = "_-31S" (String#7334, DoABC#2)
 // _isPlaying = "_-21z" (String#1803, DoABC#2)
@@ -382,9 +382,9 @@ package com.sulake.habbo.sound.music
 // stopPlaying = "_-1Tb" (String#17648, DoABC#2)
 // onPlayListMessage = "_-2MH" (String#19895, DoABC#2)
 // onPlayListSongAddedMessage = "_-eA" (String#23809, DoABC#2)
-// SoundMachinePlayListController = "_-zB" (String#24658, DoABC#2)
-// SoundMachinePlayListController = "_-fg" (String#23875, DoABC#2)
-// SoundMachinePlayListController = "_-W8" (String#23497, DoABC#2)
+// onSoundMachinePlayEvent = "_-zB" (String#24658, DoABC#2)
+// onSoundMachineStopEvent = "_-fg" (String#23875, DoABC#2)
+// startPlaying = "_-W8" (String#23497, DoABC#2)
 // playNextSong = "_-Xd" (String#23546, DoABC#2)
 // checkSongPlayState = "_-SL" (String#23339, DoABC#2)
 // playCurrentSongAndNotify = "_-0jd" (String#15812, DoABC#2)

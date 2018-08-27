@@ -65,7 +65,7 @@ package com.sulake.habbo.quest
         public function dispose():void
         {
             if (this._SafeStr_8017){
-                this._SafeStr_8017.toolbar.extensionView.ExtensionView(_SafeStr_12093);
+                this._SafeStr_8017.toolbar.extensionView.detachExtension(_SafeStr_12093);
             };
             this._SafeStr_8017 = null;
             this._SafeStr_12402 = null;
@@ -86,22 +86,22 @@ package com.sulake.habbo.quest
         {
             return ((this._SafeStr_8017 == null));
         }
-        public function QuestTracker(_arg_1:QuestMessageData):void
+        public function onQuestCompleted(_arg_1:QuestMessageData):void
         {
             if (this._window){
-                this.QuestTracker();
+                this.clearPrompt();
                 this._SafeStr_12402 = _arg_1;
                 this._SafeStr_12406 = 0;
-                this.QuestTracker();
+                this.refreshTrackerDetails();
                 this._SafeStr_12408 = 0;
                 this._SafeStr_12405 = _SafeStr_12382;
             };
         }
-        public function QuestTracker():void
+        public function onQuestCancelled():void
         {
             this._SafeStr_12402 = null;
             if (this._window){
-                this.QuestTracker();
+                this.clearPrompt();
                 this._SafeStr_12404.refresh(0, 100, -1);
                 this._SafeStr_12405 = _SafeStr_12381;
             };
@@ -110,50 +110,50 @@ package com.sulake.habbo.quest
         {
             var _local_3:int;
             var _local_1:Boolean = Boolean(parseInt(this._SafeStr_8017.configuration.getKey("new.identity", "0")));
-            var _local_2:String = this.QuestTracker();
+            var _local_2:String = this.getDefaultCampaign();
             if ((((((this._SafeStr_12403 == null)) && (_local_1))) && (!((_local_2 == ""))))){
                 _local_3 = int(this._SafeStr_8017.configuration.getKey("questing.startQuestDelayInSeconds", "30"));
                 this._SafeStr_12403 = new Timer((_local_3 * 1000), 1);
-                this._SafeStr_12403.addEventListener(TimerEvent.TIMER, this.QuestTracker);
+                this._SafeStr_12403.addEventListener(TimerEvent.TIMER, this.onStartQuestTimer);
                 this._SafeStr_12403.start();
                 Logger.log(("Initialized start quest timer with period: " + _local_3));
             };
         }
-        public function HabboGroupInfoManager():void
+        public function onRoomExit():void
         {
             if (((!((this._window == null))) && (this._window.visible))){
                 this._window.findChildByName("more_info_txt").visible = false;
                 this._window.findChildByName("more_info_region").visible = false;
             };
         }
-        public function QuestTracker(_arg_1:QuestMessageData):void
+        public function onQuest(_arg_1:QuestMessageData):void
         {
             var _local_2:Boolean = ((this._window) && (this._window.visible));
             if (_arg_1.waitPeriodSeconds > 0){
                 if (_local_2){
-                    this.QuestTracker(false);
+                    this.setWindowVisible(false);
                 };
                 return;
             };
             this._SafeStr_12402 = _arg_1;
-            this.QuestTracker();
-            this.QuestTracker();
-            this.QuestTracker();
-            this.QuestTracker(true);
-            this.QuestTracker();
+            this.prepareTrackerWindow();
+            this.refreshTrackerDetails();
+            this.refreshPromptFrames();
+            this.setWindowVisible(true);
+            this.hideSuccessFrames();
             if (_local_2){
                 if (this._SafeStr_12405 == _SafeStr_12381){
                     this._SafeStr_12405 = _SafeStr_12380;
                 };
-                this.QuestTracker(this._SafeStr_12409, _SafeStr_12389, false);
+                this.setupPrompt(this._SafeStr_12409, _SafeStr_12389, false);
             }
             else {
-                this._window.x = this.QuestTracker();
+                this._window.x = this.getOutScreenLocationX();
                 this._SafeStr_12405 = _SafeStr_12380;
-                this.QuestTracker(_SafeStr_12394, _SafeStr_12390, false);
+                this.setupPrompt(_SafeStr_12394, _SafeStr_12390, false);
             };
         }
-        private function QuestTracker():void
+        private function refreshPromptFrames():void
         {
             if (!this._SafeStr_8017.isQuestWithPrompts(this._SafeStr_12402)){
                 return;
@@ -164,47 +164,47 @@ package com.sulake.habbo.quest
                 _local_1++;
             };
         }
-        private function QuestTracker():void
+        private function prepareTrackerWindow():void
         {
             if (this._window != null){
                 return;
             };
             this._window = IWindowContainer(this._SafeStr_8017.getXmlWindow("QuestTracker"));
-            this._window.findChildByName("more_info_region").procedure = this.QuestTracker;
+            this._window.findChildByName("more_info_region").procedure = this.onMoreInfo;
             new PendingImage(this._SafeStr_8017, this._window.findChildByName("quest_tracker_bg"), "quest_tracker_with_bar");
             var _local_1:int = 1;
             while (_local_1 <= _SafeStr_12388) {
-                new PendingImage(this._SafeStr_8017, this.QuestTracker(_local_1), ("checkanim" + _local_1));
+                new PendingImage(this._SafeStr_8017, this.getSuccessFrame(_local_1), ("checkanim" + _local_1));
                 _local_1++;
             };
-            this.QuestTracker();
+            this.hideSuccessFrames();
             this._SafeStr_12404 = new ProgressBar(this._SafeStr_8017, IWindowContainer(this._window.findChildByName("content_cont")), _SafeStr_12397, "quests.tracker.progress", false, _SafeStr_12396);
         }
-        private function QuestTracker():void
+        private function hideSuccessFrames():void
         {
             var _local_1:int = 1;
             while (_local_1 <= _SafeStr_12388) {
-                this.QuestTracker(_local_1).visible = false;
+                this.getSuccessFrame(_local_1).visible = false;
                 _local_1++;
             };
         }
-        private function QuestTracker():void
+        private function hidePromptFrames():void
         {
             var _local_1:int;
             while (_local_1 < _SafeStr_12392.length) {
-                this.QuestTracker(_SafeStr_12392[_local_1]).visible = false;
+                this.getPromptFrame(_SafeStr_12392[_local_1]).visible = false;
                 _local_1++;
             };
         }
-        private function QuestTracker(_arg_1:int):IBitmapWrapperWindow
+        private function getSuccessFrame(_arg_1:int):IBitmapWrapperWindow
         {
             return (IBitmapWrapperWindow(this._window.findChildByName(("success_pic_" + _arg_1))));
         }
-        private function QuestTracker(_arg_1:String):IBitmapWrapperWindow
+        private function getPromptFrame(_arg_1:String):IBitmapWrapperWindow
         {
             return (IBitmapWrapperWindow(this._window.findChildByName(("prompt_pic_" + _arg_1))));
         }
-        private function QuestTracker():void
+        private function refreshTrackerDetails():void
         {
             this._SafeStr_8017.localization.registerParameter("quests.tracker.caption", "quest_name", this._SafeStr_8017.getQuestName(this._SafeStr_12402));
             this._window.findChildByName("desc_txt").caption = this._SafeStr_8017.getQuestDesc(this._SafeStr_12402);
@@ -214,10 +214,10 @@ package com.sulake.habbo.quest
             this._SafeStr_12404.refresh(_local_1, 100, this._SafeStr_12402.id);
             this._SafeStr_8017.setupQuestImage(this._window, this._SafeStr_12402);
         }
-        private function QuestTracker(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onMoreInfo(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
-                this._SafeStr_8017.questController.questDetails.QuestDetails(this._SafeStr_12402);
+                this._SafeStr_8017.questController.questDetails.showDetails(this._SafeStr_12402);
             };
         }
         public function update(_arg_1:uint):void
@@ -228,10 +228,10 @@ package com.sulake.habbo.quest
             if (this._window == null){
                 return;
             };
-            this._SafeStr_12404.ProgressBar();
+            this._SafeStr_12404.updateView();
             switch (this._SafeStr_12405){
                 case _SafeStr_12380:
-                    _local_2 = this.QuestTracker();
+                    _local_2 = this.getDefaultLocationX();
                     _local_3 = (this._window.x - _local_2);
                     if (_local_3 > 0){
                         _local_4 = Math.max(1, Math.round(((_local_3 * _arg_1) * _SafeStr_12398)));
@@ -243,7 +243,7 @@ package com.sulake.habbo.quest
                     };
                     return;
                 case _SafeStr_12381:
-                    _local_2 = this.QuestTracker();
+                    _local_2 = this.getOutScreenLocationX();
                     _local_3 = (this._window.width - this._window.x);
                     if (_local_3 > 0){
                         _local_4 = Math.max(1, Math.round(((_arg_1 * _SafeStr_12399) / _local_3)));
@@ -252,12 +252,12 @@ package com.sulake.habbo.quest
                     else {
                         this._SafeStr_12405 = _SafeStr_12379;
                         this._window.x = _local_2;
-                        this.QuestTracker(false);
+                        this.setWindowVisible(false);
                     };
                     return;
                 case _SafeStr_12382:
-                    this.QuestTracker();
-                    this.QuestTracker(_SafeStr_12387[this._SafeStr_12408]).visible = true;
+                    this.hideSuccessFrames();
+                    this.getSuccessFrame(_SafeStr_12387[this._SafeStr_12408]).visible = true;
                     this._SafeStr_12408++;
                     if (this._SafeStr_12408 >= _SafeStr_12387.length){
                         this._SafeStr_12405 = _SafeStr_12384;
@@ -265,10 +265,10 @@ package com.sulake.habbo.quest
                     };
                     return;
                 case _SafeStr_12385:
-                    this.QuestTracker(false);
-                    this.QuestTracker();
+                    this.setQuestImageVisible(false);
+                    this.hidePromptFrames();
                     this._SafeStr_12411 = (this._SafeStr_12411 - _arg_1);
-                    this.QuestTracker(_SafeStr_12392[this._SafeStr_12410]).visible = true;
+                    this.getPromptFrame(_SafeStr_12392[this._SafeStr_12410]).visible = true;
                     if (this._SafeStr_12411 < 0){
                         this._SafeStr_12411 = _SafeStr_12391;
                         this._SafeStr_12410++;
@@ -276,7 +276,7 @@ package com.sulake.habbo.quest
                             this._SafeStr_12410 = 0;
                             this._SafeStr_12412--;
                             if (this._SafeStr_12412 < 1){
-                                this.QuestTracker(_SafeStr_12393, _SafeStr_12390, true);
+                                this.setupPrompt(_SafeStr_12393, _SafeStr_12390, true);
                                 this._SafeStr_12405 = _SafeStr_12379;
                             };
                         };
@@ -284,12 +284,12 @@ package com.sulake.habbo.quest
                     return;
                 case _SafeStr_12383:
                     if (this._SafeStr_12406 >= (_SafeStr_12386.length - 1)){
-                        this._window.x = this.QuestTracker();
+                        this._window.x = this.getDefaultLocationX();
                         this._SafeStr_12405 = _SafeStr_12379;
-                        this.QuestTracker(_SafeStr_12393, _SafeStr_12390, false);
+                        this.setupPrompt(_SafeStr_12393, _SafeStr_12390, false);
                     }
                     else {
-                        this._window.x = (this.QuestTracker() + _SafeStr_12386[this._SafeStr_12406]);
+                        this._window.x = (this.getDefaultLocationX() + _SafeStr_12386[this._SafeStr_12406]);
                         this._SafeStr_12406++;
                     };
                     return;
@@ -297,7 +297,7 @@ package com.sulake.habbo.quest
                     this._SafeStr_12407 = (this._SafeStr_12407 - _arg_1);
                     if (this._SafeStr_12407 < 0){
                         this._SafeStr_12405 = _SafeStr_12379;
-                        this.QuestTracker(false);
+                        this.setWindowVisible(false);
                     };
                     return;
                 case _SafeStr_12379:
@@ -307,7 +307,7 @@ package com.sulake.habbo.quest
                             this._SafeStr_12409 = _SafeStr_12395;
                             if (((!((this._SafeStr_12402 == null))) && (this._SafeStr_8017.isQuestWithPrompts(this._SafeStr_12402)))){
                                 if (this._SafeStr_12413){
-                                    this.QuestTracker();
+                                    this.startNudge();
                                 }
                                 else {
                                     this._SafeStr_12405 = _SafeStr_12385;
@@ -320,11 +320,11 @@ package com.sulake.habbo.quest
                     return;
             };
         }
-        private function QuestTracker():int
+        private function getDefaultLocationX():int
         {
             return (0);
         }
-        private function QuestTracker():int
+        private function getOutScreenLocationX():int
         {
             return ((this._window.width + _SafeStr_12401));
         }
@@ -332,37 +332,37 @@ package com.sulake.habbo.quest
         {
             return (((this._window) && (this._window.visible)));
         }
-        private function QuestTracker(_arg_1:TimerEvent):void
+        private function onStartQuestTimer(_arg_1:TimerEvent):void
         {
-            if (this.QuestTracker()){
+            if (this.hasBlockingWindow()){
                 Logger.log("Quest start blocked. Waiting some more");
                 this._SafeStr_12403.reset();
                 this._SafeStr_12403.start();
             }
             else {
                 this._SafeStr_8017.questController.questDetails.openForNextQuest = (this._SafeStr_8017.configuration.getKey("questing.showDetailsForNextQuest") == "true");
-                this._SafeStr_8017.send(new StartCampaignMessageComposer(this.QuestTracker(), this._SafeStr_8017.configuration.getBoolean("questing.useWing", false)));
+                this._SafeStr_8017.send(new StartCampaignMessageComposer(this.getDefaultCampaign(), this._SafeStr_8017.configuration.getBoolean("questing.useWing", false)));
             };
         }
-        private function QuestTracker():String
+        private function getDefaultCampaign():String
         {
             var _local_1:String = this._SafeStr_8017.configuration.getKey("questing.defaultCampaign");
             return ((((_local_1 == null)) ? "" : _local_1));
         }
-        private function QuestTracker():Boolean
+        private function hasBlockingWindow():Boolean
         {
             var _local_2:IDesktopWindow;
             var _local_1:int;
             while (_local_1 <= 2) {
                 _local_2 = this._SafeStr_8017.windowManager.getDesktop(_local_1);
-                if (((!((_local_2 == null))) && (this.QuestTracker(_local_2)))){
+                if (((!((_local_2 == null))) && (this.hasBlockingWindowInLayer(_local_2)))){
                     return (true);
                 };
                 _local_1++;
             };
             return (false);
         }
-        private function QuestTracker(_arg_1:IWindowContainer):Boolean
+        private function hasBlockingWindowInLayer(_arg_1:IWindowContainer):Boolean
         {
             var _local_2:int;
             var _local_3:IWindow;
@@ -384,35 +384,35 @@ package com.sulake.habbo.quest
             };
             return (false);
         }
-        private function QuestTracker(_arg_1:Boolean):void
+        private function setQuestImageVisible(_arg_1:Boolean):void
         {
             this._window.findChildByName("quest_pic_bitmap").visible = _arg_1;
         }
-        private function QuestTracker():void
+        private function clearPrompt():void
         {
-            this.QuestTracker(_SafeStr_12395, 0, false);
+            this.setupPrompt(_SafeStr_12395, 0, false);
         }
-        private function QuestTracker(_arg_1:int, _arg_2:int, _arg_3:Boolean):void
+        private function setupPrompt(_arg_1:int, _arg_2:int, _arg_3:Boolean):void
         {
-            this.QuestTracker(true);
-            this.QuestTracker();
+            this.setQuestImageVisible(true);
+            this.hidePromptFrames();
             this._SafeStr_12409 = _arg_1;
             this._SafeStr_12412 = _arg_2;
             this._SafeStr_12413 = _arg_3;
         }
-        private function QuestTracker():void
+        private function startNudge():void
         {
             this._SafeStr_12406 = 0;
             this._SafeStr_12405 = _SafeStr_12383;
         }
-        private function QuestTracker(_arg_1:Boolean):void
+        private function setWindowVisible(_arg_1:Boolean):void
         {
             this._window.visible = _arg_1;
             if (!_arg_1){
-                this._SafeStr_8017.toolbar.extensionView.ExtensionView(_SafeStr_12093);
+                this._SafeStr_8017.toolbar.extensionView.detachExtension(_SafeStr_12093);
             }
             else {
-                this._SafeStr_8017.toolbar.extensionView.ExtensionView(_SafeStr_12093, this._window);
+                this._SafeStr_8017.toolbar.extensionView.attachExtension(_SafeStr_12093, this._window);
             };
         }
 
@@ -420,9 +420,9 @@ package com.sulake.habbo.quest
 }//package com.sulake.habbo.quest
 
 // _SafeStr_12093 = "_-0fy" (String#1523, DoABC#2)
-// QuestTracker = "_-2Ht" (String#6400, DoABC#2)
-// QuestTracker = "_-0wk" (String#4785, DoABC#2)
-// QuestTracker = "_-kW" (String#8614, DoABC#2)
+// onQuestCompleted = "_-2Ht" (String#6400, DoABC#2)
+// onQuestCancelled = "_-0wk" (String#4785, DoABC#2)
+// onQuest = "_-kW" (String#8614, DoABC#2)
 // questController = "_-1Hq" (String#17186, DoABC#2)
 // currentlyInRoom = "_-15i" (String#16684, DoABC#2)
 // questDetails = "_-2H-" (String#19684, DoABC#2)
@@ -432,9 +432,9 @@ package com.sulake.habbo.quest
 // getQuestName = "_-0yL" (String#16365, DoABC#2)
 // isQuestWithPrompts = "_-1FF" (String#17082, DoABC#2)
 // setupPromptFrameImage = "_-1n5" (String#18427, DoABC#2)
-// QuestTracker = "_-Ll" (String#8119, DoABC#2)
-// QuestTracker = "_-2Bs" (String#6283, DoABC#2)
-// QuestTracker = "_-1YC" (String#5523, DoABC#2)
+// onMoreInfo = "_-Ll" (String#8119, DoABC#2)
+// getDefaultLocationX = "_-2Bs" (String#6283, DoABC#2)
+// setQuestImageVisible = "_-1YC" (String#5523, DoABC#2)
 // _SafeStr_12379 = "_-19w" (String#16853, DoABC#2)
 // _SafeStr_12380 = "_-1Mm" (String#17390, DoABC#2)
 // _SafeStr_12381 = "_-31" (String#21538, DoABC#2)
@@ -470,38 +470,38 @@ package com.sulake.habbo.quest
 // _SafeStr_12411 = "_-1ku" (String#18327, DoABC#2)
 // _SafeStr_12412 = "_-20x" (String#19050, DoABC#2)
 // _SafeStr_12413 = "_-0nc" (String#15961, DoABC#2)
-// QuestTracker = "_-Nf" (String#23152, DoABC#2)
-// QuestTracker = "_-Wx" (String#23521, DoABC#2)
-// QuestTracker = "_-uk" (String#24480, DoABC#2)
-// QuestTracker = "_-3Ju" (String#22280, DoABC#2)
-// QuestTracker = "_-0pB" (String#16023, DoABC#2)
-// QuestTracker = "_-3Bx" (String#21957, DoABC#2)
-// QuestTracker = "_-0QC" (String#15071, DoABC#2)
-// QuestTracker = "_-2FQ" (String#19620, DoABC#2)
-// QuestTracker = "_-067" (String#14287, DoABC#2)
-// QuestTracker = "_-2VJ" (String#20253, DoABC#2)
-// QuestTracker = "_-27k" (String#19320, DoABC#2)
-// QuestTracker = "_-2tL" (String#21214, DoABC#2)
-// QuestTracker = "_-OT" (String#23187, DoABC#2)
-// QuestTracker = "_-0Jr" (String#14836, DoABC#2)
-// QuestTracker = "_-2DM" (String#19541, DoABC#2)
-// QuestTracker = "_-1vX" (String#18779, DoABC#2)
+// clearPrompt = "_-Nf" (String#23152, DoABC#2)
+// refreshTrackerDetails = "_-Wx" (String#23521, DoABC#2)
+// getDefaultCampaign = "_-uk" (String#24480, DoABC#2)
+// onStartQuestTimer = "_-3Ju" (String#22280, DoABC#2)
+// setWindowVisible = "_-0pB" (String#16023, DoABC#2)
+// prepareTrackerWindow = "_-3Bx" (String#21957, DoABC#2)
+// refreshPromptFrames = "_-0QC" (String#15071, DoABC#2)
+// hideSuccessFrames = "_-2FQ" (String#19620, DoABC#2)
+// setupPrompt = "_-067" (String#14287, DoABC#2)
+// getOutScreenLocationX = "_-2VJ" (String#20253, DoABC#2)
+// getSuccessFrame = "_-27k" (String#19320, DoABC#2)
+// hidePromptFrames = "_-2tL" (String#21214, DoABC#2)
+// getPromptFrame = "_-OT" (String#23187, DoABC#2)
+// startNudge = "_-0Jr" (String#14836, DoABC#2)
+// hasBlockingWindow = "_-2DM" (String#19541, DoABC#2)
+// hasBlockingWindowInLayer = "_-1vX" (String#18779, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // QuestMessageData = "_-2Vr" (String#20275, DoABC#2)
 // StartCampaignMessageComposer = "_-2Vv" (String#20278, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// QuestDetails = "_-3H6" (String#7649, DoABC#2)
+// showDetails = "_-3H6" (String#7649, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // extensionView = "_-qR" (String#8717, DoABC#2)
-// ExtensionView = "_-gb" (String#8524, DoABC#2)
-// ExtensionView = "_-01F" (String#3587, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// detachExtension = "_-gb" (String#8524, DoABC#2)
+// attachExtension = "_-01F" (String#3587, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
 // completedSteps = "_-fZ" (String#23868, DoABC#2)
 // totalSteps = "_-1aT" (String#17912, DoABC#2)
 // waitPeriodSeconds = "_-376" (String#21771, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

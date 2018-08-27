@@ -117,7 +117,7 @@ package com.sulake.core.window.graphics
                 };
             };
             _arg_3[_local_5] = _local_9;
-            _arg_1.SkinRenderer(_local_9);
+            _arg_1.addLayout(_local_9);
         }
         protected static function parseLayoutList(_arg_1:ISkinRenderer, _arg_2:XML, _arg_3:Dictionary, _arg_4:Map):void
         {
@@ -287,7 +287,7 @@ package com.sulake.core.window.graphics
                     };
                 };
                 _arg_3[_local_10] = _local_12;
-                _arg_1.SkinRenderer(_local_12);
+                _arg_1.addTemplate(_local_12);
                 _local_8++;
             };
         }
@@ -410,8 +410,8 @@ package com.sulake.core.window.graphics
                 default:
                     throw (new Error((('Unknown window state: "' + _local_5) + '"!')));
             };
-            _arg_1.SkinRenderer(_local_10, _local_6);
-            _arg_1.SkinRenderer(_local_10, _local_7);
+            _arg_1.registerLayoutForRenderState(_local_10, _local_6);
+            _arg_1.registerTemplateForRenderState(_local_10, _local_7);
         }
         protected static function parseRenderStateList(_arg_1:ISkinRenderer, _arg_2:XML, _arg_3:Dictionary, _arg_4:Map):void
         {
@@ -438,10 +438,10 @@ package com.sulake.core.window.graphics
 // SkinLayout = "_-2Ti" (String#6640, DoABC#2)
 // BitmapSkinTemplate = "_-8c" (String#7834, DoABC#2)
 // BitmapSkinTemplateEntity = "_-33m" (String#7382, DoABC#2)
-// SkinRenderer = "_-2RX" (String#6597, DoABC#2)
-// SkinRenderer = "_-ZK" (String#8402, DoABC#2)
-// SkinRenderer = "_-1FX" (String#5163, DoABC#2)
-// SkinRenderer = "_-U7" (String#8289, DoABC#2)
+// addLayout = "_-2RX" (String#6597, DoABC#2)
+// registerLayoutForRenderState = "_-ZK" (String#8402, DoABC#2)
+// addTemplate = "_-1FX" (String#5163, DoABC#2)
+// registerTemplateForRenderState = "_-U7" (String#8289, DoABC#2)
 // parseSkinDescription = "_-tq" (String#24441, DoABC#2)
 // _SafeStr_4075 = "_-0DX" (String#14589, DoABC#2)
 // _SafeStr_4078 = "_-30D" (String#21509, DoABC#2)

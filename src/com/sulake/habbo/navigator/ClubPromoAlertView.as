@@ -25,14 +25,14 @@ package com.sulake.habbo.navigator
             _local_2.findChildByName("promo_text").caption = this._SafeStr_12017;
             var _local_3:IWindow = _local_2.findChildByName("ok");
             if (_local_3 != null){
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PollOfferDialog);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
             };
             var _local_4:IWindow = _local_2.findChildByName("promo_container");
             if (_local_4 != null){
                 _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onPromo);
             };
         }
-        private function PollOfferDialog(_arg_1:WindowMouseEvent):void
+        private function onOk(_arg_1:WindowMouseEvent):void
         {
             dispose();
         }
@@ -50,6 +50,6 @@ package com.sulake.habbo.navigator
 // onPromo = "_-1v0" (String#18756, DoABC#2)
 // AlertView = "_-2G6" (String#883, DoABC#2)
 // ClubPromoAlertView = "_-c3" (String#8457, DoABC#2)
-// PollOfferDialog = "_-39j" (String#457, DoABC#2)
+// onOk = "_-39j" (String#457, DoABC#2)
 
 

@@ -72,7 +72,7 @@ package com.sulake.habbo.quest
         {
             return ((this._window == null));
         }
-        public function AchievementLevelUp(_arg_1:AchievementLevelUpData):void
+        public function onLevelUp(_arg_1:AchievementLevelUpData):void
         {
             this._SafeStr_12306.push(_arg_1);
             this._SafeStr_8017.sessionDataManager.requestBadgeImage(_arg_1.badgeCode);
@@ -97,12 +97,12 @@ package com.sulake.habbo.quest
                 return;
             };
             this._window = IFrameWindow(this._SafeStr_8017.getXmlWindow("AchievementLevelUp"));
-            this._window.findChildByTag("close").procedure = this.AchievementLevelUp;
-            this._window.findChildByName("ok_button").procedure = this.AchievementLevelUp;
-            this._window.findChildByName("share_button").procedure = this.AchievementLevelUp;
+            this._window.findChildByTag("close").procedure = this.onCloseLink;
+            this._window.findChildByName("ok_button").procedure = this.onOkButton;
+            this._window.findChildByName("share_button").procedure = this.onShareButton;
             new PendingImage(this._SafeStr_8017, this._window.findChildByName("reward_icon"), "ach_receive_star");
-            this._window.findChildByName("achievements_link_region").procedure = this.AchievementLevelUp;
-            this._window.findChildByName("close_link_region").procedure = this.AchievementLevelUp;
+            this._window.findChildByName("achievements_link_region").procedure = this.onAchievementsLink;
+            this._window.findChildByName("close_link_region").procedure = this.onCloseLink;
             this._SafeStr_12279 = this._SafeStr_8017.getTwinkleAnimation(this._window);
             this._window.visible = false;
         }
@@ -115,22 +115,22 @@ package com.sulake.habbo.quest
             this.registerParameter("achievements.levelup.score", "amount", ("" + this._SafeStr_11485.points));
             this.registerParameter("achievements.levelup.sharedesc", "amount", ("" + this._SafeStr_11485.bonusPoints));
             this._window.findChildByName("achievement_name_txt").caption = (("'" + this._SafeStr_8017.localization.getBadgeName(this._SafeStr_11485.badgeCode)) + "'");
-            var _local_1:Boolean = this.AchievementLevelUp();
+            var _local_1:Boolean = this.isFacebookPostingEnabled();
             this._window.findChildByName("achievements_link_region").visible = !(_local_1);
             this._window.findChildByName("close_link_region").visible = _local_1;
             this._window.findChildByName("ok_button").visible = !(_local_1);
             this._window.findChildByName("share_button").visible = _local_1;
             this._window.findChildByName("facebook_info_txt").visible = _local_1;
-            this.AchievementLevelUp();
+            this.doFacebookLogging();
             if (this._SafeStr_11485.level > 1){
-                this.AchievementLevelUp(_SafeStr_12303);
+                this.setFadeStatus(_SafeStr_12303);
             }
             else {
-                this.AchievementLevelUp(_SafeStr_12304, _SafeStr_12299);
+                this.setFadeStatus(_SafeStr_12304, _SafeStr_12299);
             };
-            this._SafeStr_12279.Animation();
+            this._SafeStr_12279.restart();
         }
-        private function AchievementLevelUp(_arg_1:int, _arg_2:int=300):void
+        private function setFadeStatus(_arg_1:int, _arg_2:int=300):void
         {
             this._SafeStr_12313 = null;
             this._SafeStr_12308 = _arg_1;
@@ -138,19 +138,19 @@ package com.sulake.habbo.quest
             this._SafeStr_12309 = _arg_2;
             this._SafeStr_12311 = _SafeStr_12297;
         }
-        private function AchievementLevelUp():Boolean
+        private function isFacebookPostingEnabled():Boolean
         {
-            return ((((((this._SafeStr_11485.bonusPoints > 0)) && (this.AchievementLevelUp()))) && (this._SafeStr_8017.configuration.keyExists("facebook.user"))));
+            return ((((((this._SafeStr_11485.bonusPoints > 0)) && (this.isPostingEnabled()))) && (this._SafeStr_8017.configuration.keyExists("facebook.user"))));
         }
-        private function AchievementLevelUp():Boolean
+        private function isPostingEnabled():Boolean
         {
             return (!((this._SafeStr_8017.configuration.getKey("achievement.post.enabled", "1") == "0")));
         }
-        private function AchievementLevelUp():void
+        private function doFacebookLogging():void
         {
             var _local_1:Boolean = this._SafeStr_8017.configuration.keyExists("facebook.user");
             var _local_2:String = this._SafeStr_11485.badgeCode;
-            if ((((this._SafeStr_11485.bonusPoints <= 0)) || (!(this.AchievementLevelUp())))){
+            if ((((this._SafeStr_11485.bonusPoints <= 0)) || (!(this.isPostingEnabled())))){
                 this._SafeStr_8017.send(new EventLogMessageComposer("Achievements", _local_2, "client.show.no_post"));
             }
             else {
@@ -162,26 +162,26 @@ package com.sulake.habbo.quest
                 };
             };
         }
-        private function AchievementLevelUp(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onOkButton(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this.close();
             };
         }
-        private function AchievementLevelUp(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onCloseLink(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this.close();
             };
         }
-        private function AchievementLevelUp(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onAchievementsLink(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this._SafeStr_8017.achievementController.show();
                 this.close();
             };
         }
-        private function AchievementLevelUp(_arg_1:WindowEvent, _arg_2:IWindow=null):void
+        private function onShareButton(_arg_1:WindowEvent, _arg_2:IWindow=null):void
         {
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this._SafeStr_8017.send(new GetAchievementShareIdComposer(this._SafeStr_11485.achievementID));
@@ -191,7 +191,7 @@ package com.sulake.habbo.quest
         public function update(_arg_1:uint):void
         {
             if (this._SafeStr_12307 > 0){
-                this.AchievementLevelUp(_arg_1);
+                this.checkDialogOpen(_arg_1);
                 return;
             };
             if (this._SafeStr_12279 != null){
@@ -203,28 +203,28 @@ package com.sulake.habbo.quest
             switch (this._SafeStr_12308){
                 case _SafeStr_12303:
                     this._SafeStr_12311 = (this._SafeStr_12311 - _arg_1);
-                    this.AchievementLevelUp(true);
+                    this.animateBadgeImage(true);
                     if (this._SafeStr_12311 < 0){
-                        this.AchievementLevelUp(_SafeStr_12305);
+                        this.setFadeStatus(_SafeStr_12305);
                     };
                     return;
                 case _SafeStr_12305:
                     this._SafeStr_12310 = (this._SafeStr_12310 - _arg_1);
-                    this.AchievementLevelUp(true);
+                    this.animateBadgeImage(true);
                     if (this._SafeStr_12310 < 0){
-                        this.AchievementLevelUp(_SafeStr_12304);
+                        this.setFadeStatus(_SafeStr_12304);
                     };
                     return;
                 case _SafeStr_12304:
                     this._SafeStr_12310 = (this._SafeStr_12310 - _arg_1);
-                    this.AchievementLevelUp(false);
+                    this.animateBadgeImage(false);
                     if (this._SafeStr_12310 < 0){
-                        this.AchievementLevelUp(_SafeStr_12302);
+                        this.setFadeStatus(_SafeStr_12302);
                     };
                     return;
             };
         }
-        private function AchievementLevelUp(_arg_1:uint):void
+        private function checkDialogOpen(_arg_1:uint):void
         {
             this._SafeStr_12307 = (this._SafeStr_12307 - _arg_1);
             if (this._SafeStr_12307 > 0){
@@ -234,7 +234,7 @@ package com.sulake.habbo.quest
                 return;
             };
             var _local_2:AchievementLevelUpData = this._SafeStr_12306.pop();
-            if (((this._SafeStr_8017.sessionDataManager.SessionDataManager(_local_2.badgeCode).placeHolder) || (this._SafeStr_8017.sessionDataManager.SessionDataManager(this._SafeStr_8017.localization.getPreviousLevelBadgeId(_local_2.badgeCode)).placeHolder))){
+            if (((this._SafeStr_8017.sessionDataManager.getBadgeImageWithInfo(_local_2.badgeCode).placeHolder) || (this._SafeStr_8017.sessionDataManager.getBadgeImageWithInfo(this._SafeStr_8017.localization.getPreviousLevelBadgeId(_local_2.badgeCode)).placeHolder))){
                 if (this._SafeStr_12312 > 0){
                     this._SafeStr_12306.push(_local_2);
                     this._SafeStr_12307 = _SafeStr_12276;
@@ -249,18 +249,18 @@ package com.sulake.habbo.quest
             this._window.visible = true;
             this._window.activate();
         }
-        public function AchievementLevelUp(_arg_1:String, _arg_2:String):void
+        public function requestFacebookPostDialog(_arg_1:String, _arg_2:String):void
         {
             if ((((((this._window == null)) || ((this._SafeStr_11485 == null)))) || (!((this._SafeStr_11485.badgeCode == _arg_1))))){
                 Logger.log(((("Invalid facebook post: " + _arg_1) + ", ") + (((this._SafeStr_11485 == null)) ? "current is null" : this._SafeStr_11485.badgeCode)));
                 return;
             };
-            var _local_3:String = this.AchievementLevelUp("notifications.text.achievement_facebook");
-            var _local_4:String = this.AchievementLevelUp("notifications.text.achievement_facebook_title");
+            var _local_3:String = this.getFacebookText("notifications.text.achievement_facebook");
+            var _local_4:String = this.getFacebookText("notifications.text.achievement_facebook_title");
             HabboWebTools.facebookAchievementPost(this._SafeStr_11485.badgeCode, _local_4, _local_3, _arg_2);
             this.close();
         }
-        private function AchievementLevelUp(_arg_1:String):String
+        private function getFacebookText(_arg_1:String):String
         {
             var _local_2:String = this._SafeStr_8017.sessionDataManager.userName;
             var _local_3:String = this._SafeStr_8017.sessionDataManager.realName;
@@ -279,22 +279,22 @@ package com.sulake.habbo.quest
         {
             this._SafeStr_8017.localization.registerParameter(_arg_1, _arg_2, _arg_3);
         }
-        private function AchievementLevelUp(_arg_1:Boolean):void
+        private function animateBadgeImage(_arg_1:Boolean):void
         {
-            this.AchievementLevelUp(_arg_1);
+            this.changeBadgeColorFilter(_arg_1);
             var _local_2:IBitmapWrapperWindow = IBitmapWrapperWindow(this._window.findChildByName("achievement_pic_bitmap"));
             if (_local_2.bitmap == null){
                 _local_2.bitmap = new BitmapData(_local_2.width, _local_2.height, true, 0);
             };
             if (this._SafeStr_12313 == null){
-                this._SafeStr_12313 = ((_arg_1) ? this._SafeStr_8017.sessionDataManager.SessionDataManager(this._SafeStr_8017.localization.getPreviousLevelBadgeId(this._SafeStr_11485.badgeCode)) : this._SafeStr_8017.sessionDataManager.SessionDataManager(this._SafeStr_11485.badgeCode));
+                this._SafeStr_12313 = ((_arg_1) ? this._SafeStr_8017.sessionDataManager.getBadgeImage(this._SafeStr_8017.localization.getPreviousLevelBadgeId(this._SafeStr_11485.badgeCode)) : this._SafeStr_8017.sessionDataManager.getBadgeImage(this._SafeStr_11485.badgeCode));
                 this._SafeStr_12314 = new Point(((_local_2.width - this._SafeStr_12313.width) / 2), ((_local_2.height - this._SafeStr_12313.height) / 2));
             };
             _local_2.bitmap.fillRect(_local_2.bitmap.rect, 0);
             _local_2.bitmap.applyFilter(this._SafeStr_12313, this._SafeStr_12313.rect, this._SafeStr_12314, this._SafeStr_12316);
             _local_2.invalidate(_local_2.rectangle);
         }
-        private function AchievementLevelUp(_arg_1:Boolean):void
+        private function changeBadgeColorFilter(_arg_1:Boolean):void
         {
             var _local_2:int = Math.max(0, ((_arg_1) ? (this._SafeStr_12309 - this._SafeStr_12310) : this._SafeStr_12310));
             var _local_3:Number = ((_local_2 / this._SafeStr_12309) * _SafeStr_12300);
@@ -315,12 +315,12 @@ package com.sulake.habbo.quest
 // getAchievementDescForFacebook = "_-37y" (String#7469, DoABC#2)
 // getAchievementNameForFacebook = "_-1o6" (String#5818, DoABC#2)
 // getPreviousLevelBadgeId = "_-2Kq" (String#6459, DoABC#2)
-// AchievementLevelUp = "_-2UY" (String#6656, DoABC#2)
+// onLevelUp = "_-2UY" (String#6656, DoABC#2)
 // achievementController = "_-0e" (String#15584, DoABC#2)
-// AchievementLevelUp = "_-VO" (String#23466, DoABC#2)
-// Animation = "_-3BQ" (String#21939, DoABC#2)
+// requestFacebookPostDialog = "_-VO" (String#23466, DoABC#2)
+// restart = "_-3BQ" (String#21939, DoABC#2)
 // getAchievementCategoryName = "_-3EV" (String#22055, DoABC#2)
-// SessionDataManager = "_-0SD" (String#4143, DoABC#2)
+// getBadgeImageWithInfo = "_-0SD" (String#4143, DoABC#2)
 // _SafeStr_12276 = "_-2t1" (String#7138, DoABC#2)
 // _SafeStr_12279 = "_-2fE" (String#6856, DoABC#2)
 // getTwinkleAnimation = "_-0MD" (String#14924, DoABC#2)
@@ -345,19 +345,19 @@ package com.sulake.habbo.quest
 // _SafeStr_12314 = "_-200" (String#19011, DoABC#2)
 // _SafeStr_12315 = "_-3-f" (String#21487, DoABC#2)
 // _SafeStr_12316 = "_-0vs" (String#16268, DoABC#2)
-// AchievementLevelUp = "_-1XO" (String#17792, DoABC#2)
-// AchievementLevelUp = "_-hx" (String#23962, DoABC#2)
-// AchievementLevelUp = "_-2ym" (String#21420, DoABC#2)
-// AchievementLevelUp = "_-18u" (String#16810, DoABC#2)
+// onCloseLink = "_-1XO" (String#17792, DoABC#2)
+// onOkButton = "_-hx" (String#23962, DoABC#2)
+// onShareButton = "_-2ym" (String#21420, DoABC#2)
+// onAchievementsLink = "_-18u" (String#16810, DoABC#2)
 // getActivityPointName = "_-wi" (String#24559, DoABC#2)
-// AchievementLevelUp = "_-2fz" (String#20691, DoABC#2)
-// AchievementLevelUp = "_-ru" (String#24358, DoABC#2)
-// AchievementLevelUp = "_-Mp" (String#23119, DoABC#2)
-// AchievementLevelUp = "_-2jO" (String#20820, DoABC#2)
-// AchievementLevelUp = "_-1lJ" (String#18343, DoABC#2)
-// AchievementLevelUp = "_-ah" (String#23660, DoABC#2)
-// AchievementLevelUp = "_-NO" (String#23140, DoABC#2)
-// AchievementLevelUp = "_-2QM" (String#20060, DoABC#2)
+// isFacebookPostingEnabled = "_-2fz" (String#20691, DoABC#2)
+// doFacebookLogging = "_-ru" (String#24358, DoABC#2)
+// setFadeStatus = "_-Mp" (String#23119, DoABC#2)
+// isPostingEnabled = "_-2jO" (String#20820, DoABC#2)
+// checkDialogOpen = "_-1lJ" (String#18343, DoABC#2)
+// animateBadgeImage = "_-ah" (String#23660, DoABC#2)
+// getFacebookText = "_-NO" (String#23140, DoABC#2)
+// changeBadgeColorFilter = "_-2QM" (String#20060, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // HabboWebTools = "_-2pX" (String#21059, DoABC#2)
 // Animation = "_-2Eu" (String#1841, DoABC#2)
@@ -372,7 +372,7 @@ package com.sulake.habbo.quest
 // levelRewardPointType = "_-0M3" (String#14917, DoABC#2)
 // badgeCode = "_-2XO" (String#20338, DoABC#2)
 // achievementID = "_-2B4" (String#19447, DoABC#2)
-// SessionDataManager = "_-3DK" (String#7581, DoABC#2)
+// getBadgeImage = "_-3DK" (String#7581, DoABC#2)
 // _SafeStr_8017 = "_-1jf" (String#150, DoABC#2)
 // EventLogMessageComposer = "_-2lH" (String#6984, DoABC#2)
 

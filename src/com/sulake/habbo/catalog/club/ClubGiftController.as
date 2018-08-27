@@ -60,7 +60,7 @@ package com.sulake.habbo.catalog.club
         }
         public function selectGift(_arg_1:Offer):void
         {
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
             this._SafeStr_5427 = new ClubGiftConfirmationDialog(this, _arg_1);
         }
         public function confirmSelection(_arg_1:String):void
@@ -71,9 +71,9 @@ package com.sulake.habbo.catalog.club
             this._catalog.connection.send(new SelectClubGiftComposer(_arg_1));
             this._giftsAvailable--;
             this._widget.update();
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
         }
-        public function ExtraToolsExtension():void
+        public function closeConfirmation():void
         {
             if (this._SafeStr_5427){
                 this._SafeStr_5427.dispose();
@@ -155,7 +155,7 @@ package com.sulake.habbo.catalog.club
 // SelectClubGiftComposer = "_-0BI" (String#14497, DoABC#2)
 // widget = "_-1yo" (String#18920, DoABC#2)
 // _SafeStr_5427 = "_-au" (String#638, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
 // confirmSelection = "_-fK" (String#23861, DoABC#2)
 // _daysUntilNextGift = "_-09n" (String#3755, DoABC#2)
 // _giftsAvailable = "_-01z" (String#3603, DoABC#2)

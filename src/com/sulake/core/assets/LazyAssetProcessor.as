@@ -34,7 +34,7 @@ package com.sulake.core.assets
             if (_arg_1){
                 this._SafeStr_8771.push(_arg_1);
                 if (!this._running){
-                    Core.instance.IContext(this, 2);
+                    Core.instance.registerUpdateReceiver(this, 2);
                     this._running = true;
                 };
             };
@@ -74,7 +74,7 @@ package com.sulake.core.assets
 
 // ILazyAsset = "_-0Yb" (String#4275, DoABC#2)
 // LazyAssetProcessor = "_-K2" (String#23007, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _running = "_-00c" (String#353, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // prepareLazyContent = "_-2p2" (String#7059, DoABC#2)

@@ -73,11 +73,11 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             var _local_3:int;
             var _local_4:String = _arg_1.readString();
             if ((((_local_4.indexOf("x") == 0)) || ((_local_4.indexOf("X") == 0)))){
-                return (this.HeightMapUpdateMessageParser(_local_4));
+                return (this.parseNormal(_local_4));
             };
-            return (this.HeightMapUpdateMessageParser(_local_4));
+            return (this.parseCompressed(_local_4));
         }
-        private function HeightMapUpdateMessageParser(_arg_1:String):Boolean
+        private function parseCompressed(_arg_1:String):Boolean
         {
             var _local_5:String;
             var _local_6:int;
@@ -103,9 +103,9 @@ package com.sulake.habbo.communication.messages.parser.room.engine
                         };
                     }
                     else {
-                        _local_4 = (this.FloorHeightMapMessageParser(_local_5) + 1);
+                        _local_4 = (this.getHeightValue(_local_5) + 1);
                         this._heightMap.push(_local_4);
-                        if (this.HeightMapMessageParser(_local_5)){
+                        if (this.getBlocking(_local_5)){
                             this._SafeStr_3778.push(true);
                         }
                         else {
@@ -117,7 +117,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             };
             return (true);
         }
-        private function HeightMapUpdateMessageParser(_arg_1:String):Boolean
+        private function parseNormal(_arg_1:String):Boolean
         {
             var _local_6:String;
             var _local_7:String;
@@ -137,9 +137,9 @@ package com.sulake.habbo.communication.messages.parser.room.engine
                 while (_local_3 < _local_6.length) {
                     _local_7 = _local_6.charAt(_local_3);
                     if (((!((_local_7 == "x"))) && (!((_local_7 == "X"))))){
-                        _local_5 = (this.FloorHeightMapMessageParser(_local_7) + 1);
+                        _local_5 = (this.getHeightValue(_local_7) + 1);
                         this._heightMap.push(_local_5);
-                        if (this.HeightMapMessageParser(_local_7)){
+                        if (this.getBlocking(_local_7)){
                             this._SafeStr_3778.push(true);
                         }
                         else {
@@ -156,12 +156,12 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             };
             return (true);
         }
-        private function FloorHeightMapMessageParser(_arg_1:String):int
+        private function getHeightValue(_arg_1:String):int
         {
             var _local_2:int = parseInt(_arg_1, 16);
             return ((_local_2 % 10));
         }
-        private function HeightMapMessageParser(_arg_1:String):Boolean
+        private function getBlocking(_arg_1:String):Boolean
         {
             var _local_2:int = parseInt(_arg_1, 16);
             return ((_local_2 >= 10));
@@ -176,10 +176,10 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // _SafeStr_3778 = "_-07P" (String#3710, DoABC#2)
 // getTileHeight = "_-0Kq" (String#14872, DoABC#2)
 // getTileBlocking = "_-2o1" (String#21002, DoABC#2)
-// FloorHeightMapMessageParser = "_-355" (String#1994, DoABC#2)
-// HeightMapMessageParser = "_-0M1" (String#4001, DoABC#2)
-// HeightMapUpdateMessageParser = "_-0tY" (String#16181, DoABC#2)
-// HeightMapUpdateMessageParser = "_-2TJ" (String#20176, DoABC#2)
+// getHeightValue = "_-355" (String#1994, DoABC#2)
+// getBlocking = "_-0M1" (String#4001, DoABC#2)
+// parseNormal = "_-0tY" (String#16181, DoABC#2)
+// parseCompressed = "_-2TJ" (String#20176, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

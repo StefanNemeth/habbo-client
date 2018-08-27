@@ -308,7 +308,7 @@ package com.sulake.habbo.avatar.cache
                     this._bodyPartId = this._SafeStr_7924.bodyPartId;
                     this._partType = this._SafeStr_7924._SafeStr_7968;
                     this._partId = this._SafeStr_7924.partId;
-                    this._frame = this._SafeStr_7924.AnimationFrameSequenceData(_arg_3);
+                    this._frame = this._SafeStr_7924.getFrameIndex(_arg_3);
                     _local_5 = _arg_1;
                     _local_7 = false;
                     if (_local_6){
@@ -538,7 +538,7 @@ package com.sulake.habbo.avatar.cache
 // _SafeStr_7968 = "include" (String#45700, DoABC#2)
 // bodyPartId = "_-219" (String#19057, DoABC#2)
 // partId = "_-0hk" (String#15738, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // flippedPartType = "_-39x" (String#21882, DoABC#2)
 // paletteMapId = "_-0GZ" (String#14702, DoABC#2)
 // paletteManager = "_-0SL" (String#15148, DoABC#2)

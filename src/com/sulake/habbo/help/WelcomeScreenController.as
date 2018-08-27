@@ -41,7 +41,7 @@ package com.sulake.habbo.help
         {
             if (this._SafeStr_11411){
                 this._SafeStr_11411.removeUpdateReceiver(this);
-                this._SafeStr_11411.toolbar.events.removeEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.RoomEngine);
+                this._SafeStr_11411.toolbar.events.removeEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onToolbarClicked);
                 this._SafeStr_11411 = null;
             };
             this._windowManager = null;
@@ -58,9 +58,9 @@ package com.sulake.habbo.help
                 return;
             };
             this._SafeStr_11485 = _arg_1;
-            this._SafeStr_11411.toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.RoomEngine);
+            this._SafeStr_11411.toolbar.events.addEventListener(HabboToolbarEvent.HTE_TOOLBAR_CLICK, this.onToolbarClicked);
             if (this._window == null){
-                this.WelcomeScreenController();
+                this.initializeWindow();
             };
             var _local_2:ITextWindow = ITextWindow(this._window.findChildByName("text"));
             _local_2.caption = this._SafeStr_11411.localization.getKey(_arg_1.localizationKey);
@@ -70,11 +70,11 @@ package com.sulake.habbo.help
             var _local_3:IWindow = this._window.findChildByName("arrow");
             _local_3.y = ((this._window.height - _local_3.height) / 2);
             this._window.x = -(this._window.width);
-            this.WelcomeScreenController();
+            this.registerUpdates();
             this._window.visible = true;
             this._window.activate();
         }
-        private function WelcomeScreenController():void
+        private function initializeWindow():void
         {
             var _local_1:XmlAsset = (this._SafeStr_11411.assets.getAssetByName("welcome_screen_xml") as XmlAsset);
             this._window = (this._windowManager.buildFromXML((_local_1.content as XML), 2) as IWindowContainer);
@@ -88,17 +88,17 @@ package com.sulake.habbo.help
             _local_5.height = (_local_5.textHeight + 5);
             _local_4.content.setParamFlag(WindowParam._SafeStr_7460, false);
             _local_4.height = (_local_4.height - 20);
-            this._window.findChildByName("close").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.WelcomeScreenController);
+            this._window.findChildByName("close").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseClick);
         }
-        private function WelcomeScreenController(_arg_1:WindowMouseEvent):void
+        private function onMouseClick(_arg_1:WindowMouseEvent):void
         {
-            this.WelcomeScreenController();
+            this.closeWindow();
         }
-        private function RoomEngine(_arg_1:HabboToolbarEvent):void
+        private function onToolbarClicked(_arg_1:HabboToolbarEvent):void
         {
-            this.WelcomeScreenController();
+            this.closeWindow();
         }
-        private function WelcomeScreenController():void
+        private function closeWindow():void
         {
             if (!this._window){
                 return;
@@ -125,10 +125,10 @@ package com.sulake.habbo.help
                 this._SafeStr_11411.removeUpdateReceiver(this);
             };
         }
-        private function WelcomeScreenController():void
+        private function registerUpdates():void
         {
             this._SafeStr_11411.removeUpdateReceiver(this);
-            this._SafeStr_11411.IContext(this, 10);
+            this._SafeStr_11411.registerUpdateReceiver(this, 10);
         }
 
     }
@@ -138,16 +138,16 @@ package com.sulake.habbo.help
 // targetIconId = "_-1LJ" (String#17325, DoABC#2)
 // _SafeStr_11485 = "_-22W" (String#6098, DoABC#2)
 // showWelcomeScreen = "_-QV" (String#8213, DoABC#2)
-// WelcomeScreenController = "_-0p1" (String#16015, DoABC#2)
+// initializeWindow = "_-0p1" (String#16015, DoABC#2)
 // getIconVerticalLocation = "_-1P2" (String#5334, DoABC#2)
-// WelcomeScreenController = "_-0HM" (String#14734, DoABC#2)
-// WelcomeScreenController = "_-WP" (String#23506, DoABC#2)
+// registerUpdates = "_-0HM" (String#14734, DoABC#2)
+// closeWindow = "_-WP" (String#23506, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // WelcomeNotification = "_-ka" (String#8616, DoABC#2)
 // WelcomeScreenController = "_-08g" (String#3733, DoABC#2)
-// RoomEngine = "_-hN" (String#941, DoABC#2)
-// WelcomeScreenController = "_-0Kd" (String#584, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// onToolbarClicked = "_-hN" (String#941, DoABC#2)
+// onMouseClick = "_-0Kd" (String#584, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // HTE_TOOLBAR_CLICK = "_-22-" (String#19089, DoABC#2)
 // _SafeStr_7460 = "_-ZZ" (String#23619, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)

@@ -37,38 +37,38 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
             this.amountZeroText = _arg_5.getKey("purse.clubdays.zero.amount.text", "Get");
             createWindow("purse_indicator_club_xml", "");
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (!_arg_1){
                 return;
             };
             _arg_1.addEventListener(HabboInventoryHabboClubEvent.HIHCE_HABBO_CLUB_CHANGED, this.onClubChanged);
         }
-        override protected function CurrencyIndicatorBase(_arg_1:WindowMouseEvent):void
+        override protected function onContainerClick(_arg_1:WindowMouseEvent):void
         {
             this._catalog.openCatalogPage(CatalogPageName._SafeStr_5382, true);
         }
         private function onClubChanged(_arg_1:HabboInventoryHabboClubEvent):void
         {
             var _local_2:int = ((this._inventory.clubPeriods * 31) + this._inventory.clubDays);
-            CurrencyIndicatorBase(_local_2.toString());
+            setText(_local_2.toString());
             switch (this._inventory.clubLevel){
                 case HabboClubLevelEnum._SafeStr_3942:
-                    this.ClubGiftNotification(_SafeStr_5378);
-                    CurrencyIndicatorBase(this.amountZeroText);
-                    CurrencyIndicatorBase(true);
+                    this.setClubIcon(_SafeStr_5378);
+                    setText(this.amountZeroText);
+                    setTextUnderline(true);
                     return;
                 case HabboClubLevelEnum._SafeStr_3943:
-                    this.ClubGiftNotification(_SafeStr_5377);
-                    CurrencyIndicatorBase(false);
+                    this.setClubIcon(_SafeStr_5377);
+                    setTextUnderline(false);
                     return;
                 case HabboClubLevelEnum._SafeStr_3939:
-                    this.ClubGiftNotification(_SafeStr_5378);
-                    CurrencyIndicatorBase(false);
+                    this.setClubIcon(_SafeStr_5378);
+                    setTextUnderline(false);
                     return;
             };
         }
-        private function ClubGiftNotification(_arg_1:int):void
+        private function setClubIcon(_arg_1:int):void
         {
             var _local_2:IIconWindow = (this.view.findChildByName("club_icon") as IIconWindow);
             if (_local_2){
@@ -87,7 +87,7 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
 // HabboInventoryHabboClubEvent = "_-0Pe" (String#15048, DoABC#2)
 // CurrencyIndicatorBase = "_-0Dt" (String#3824, DoABC#2)
 // ClubDaysIndicator = "_-Vj" (String#8315, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // _SafeStr_3939 = "_-2gR" (String#20706, DoABC#2)
 // _SafeStr_3942 = "_-0G0" (String#14684, DoABC#2)
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
@@ -97,16 +97,16 @@ package com.sulake.habbo.toolbar.extensions.purse.indicators
 // bgColorDark = "_-ic" (String#23983, DoABC#2)
 // textElementShadowName = "_-1dv" (String#18053, DoABC#2)
 // amountZeroText = "_-Md" (String#23110, DoABC#2)
-// CurrencyIndicatorBase = "_-1M3" (String#602, DoABC#2)
-// CurrencyIndicatorBase = "_-uZ" (String#24474, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// onContainerClick = "_-1M3" (String#602, DoABC#2)
+// setTextUnderline = "_-uZ" (String#24474, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_5377 = "_-0wg" (String#1581, DoABC#2)
 // _SafeStr_5378 = "_-374" (String#2003, DoABC#2)
 // _inventory = "_-1O" (String#113, DoABC#2)
 // HIHCE_HABBO_CLUB_CHANGED = "_-36p" (String#21757, DoABC#2)
 // onClubChanged = "_-0NQ" (String#1461, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
-// ClubGiftNotification = "_-1YR" (String#1707, DoABC#2)
+// setClubIcon = "_-1YR" (String#1707, DoABC#2)
 // IHabboInventory = "_-ud" (String#8776, DoABC#2)
 
 

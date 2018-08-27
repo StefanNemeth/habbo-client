@@ -39,9 +39,9 @@ package com.sulake.habbo.catalog.viewer
             this._activityPointType = _arg_5;
             this._page = _arg_8;
             this._clubLevel = _arg_6;
-            this.Offer(_arg_7);
-            this.Offer();
-            this.Offer(_arg_7);
+            this.analyzePricingModel(_arg_7);
+            this.analyzePriceType();
+            this.createProductContainer(_arg_7);
         }
         public function get clubLevel():int
         {
@@ -112,7 +112,7 @@ package com.sulake.habbo.catalog.viewer
         {
             return (this._disposed);
         }
-        private function Offer(_arg_1:Array):void
+        private function createProductContainer(_arg_1:Array):void
         {
             switch (this._pricingModel){
                 case _SafeStr_4886:
@@ -128,7 +128,7 @@ package com.sulake.habbo.catalog.viewer
                     Logger.log(("[Offer] Unknown pricing model" + this._pricingModel));
             };
         }
-        private function Offer(_arg_1:Array):void
+        private function analyzePricingModel(_arg_1:Array):void
         {
             var _local_2:Product;
             if (_arg_1.length == 1){
@@ -149,7 +149,7 @@ package com.sulake.habbo.catalog.viewer
                 };
             };
         }
-        private function Offer():void
+        private function analyzePriceType():void
         {
             if ((((this._priceInCredits > 0)) && ((this._priceInActivityPoints > 0)))){
                 this._priceType = _SafeStr_4892;
@@ -214,9 +214,9 @@ package com.sulake.habbo.catalog.viewer
 // _page = "_-1VJ" (String#607, DoABC#2)
 // _productContainer = "_-Zb" (String#23620, DoABC#2)
 // _previewCallbackId = "_-0gN" (String#4431, DoABC#2)
-// Offer = "_-PI" (String#23218, DoABC#2)
-// Offer = "_-1i3" (String#18212, DoABC#2)
-// Offer = "_-uQ" (String#24468, DoABC#2)
+// analyzePricingModel = "_-PI" (String#23218, DoABC#2)
+// analyzePriceType = "_-1i3" (String#18212, DoABC#2)
+// createProductContainer = "_-uQ" (String#24468, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // localizationId = "_-0nF" (String#4575, DoABC#2)
 // priceInCredits = "_-0Is" (String#3931, DoABC#2)

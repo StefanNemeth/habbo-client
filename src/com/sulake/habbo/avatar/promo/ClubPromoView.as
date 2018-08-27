@@ -33,7 +33,7 @@ package com.sulake.habbo.avatar.promo
         {
             this._SafeStr_4830 = null;
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (this._window);
         }
@@ -78,7 +78,7 @@ package com.sulake.habbo.avatar.promo
 // ISideContentView = "_-1Yh" (String#5537, DoABC#2)
 // ClubPromoView = "_-28r" (String#6221, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // tryClubClothes = "_-0Mo" (String#14944, DoABC#2)
 // showBuyView = "_-So" (String#23357, DoABC#2)

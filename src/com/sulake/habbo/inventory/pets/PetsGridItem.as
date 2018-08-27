@@ -49,8 +49,8 @@ package com.sulake.habbo.inventory.pets
             var _local_9:IBitmapWrapperWindow = (this._window.findChildByName("outline") as IBitmapWrapperWindow);
             _local_9.bitmap = (_local_8.content as BitmapData);
             _local_9.disposesBitmap = false;
-            this._window.procedure = this.ClubEndingNotification;
-            var _local_10:BitmapData = _arg_1.RoomEngine(_arg_2.type, _arg_2.breed, _arg_2.color, 3, false);
+            this._window.procedure = this.eventHandler;
+            var _local_10:BitmapData = _arg_1.getPetImage(_arg_2.type, _arg_2.breed, _arg_2.color, 3, false);
             var _local_11:IBitmapWrapperWindow = (this._window.findChildByName("bitmap") as IBitmapWrapperWindow);
             var _local_12:BitmapData = new BitmapData(_local_11.width, _local_11.height);
             _local_12.fillRect(_local_12.rect, 0);
@@ -58,11 +58,11 @@ package com.sulake.habbo.inventory.pets
             _local_11.bitmap = _local_12;
             this.setSelected(false);
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             switch (_arg_1.type){
                 case WindowMouseEvent.WME_DOWN:
-                    this._SafeStr_8493.PetsView(this);
+                    this._SafeStr_8493.setSelectedGridItem(this);
                     this._SafeStr_8494 = true;
                     return;
                 case WindowMouseEvent.WME_UP:
@@ -71,7 +71,7 @@ package com.sulake.habbo.inventory.pets
                 case WindowMouseEvent.WME_OUT:
                     if (this._SafeStr_8494){
                         this._SafeStr_8494 = false;
-                        this._SafeStr_8493.PetsView(this._petData.id, true);
+                        this._SafeStr_8493.placePetToRoom(this._petData.id, true);
                     };
                     return;
             };
@@ -112,15 +112,15 @@ package com.sulake.habbo.inventory.pets
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // PetsView = "_-N0" (String#8143, DoABC#2)
 // PetsGridItem = "_-2O2" (String#6523, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // disposesBitmap = "_-03U" (String#3637, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
-// PetsView = "_-2hx" (String#20770, DoABC#2)
-// PetsView = "_-2eW" (String#20626, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
+// placePetToRoom = "_-2hx" (String#20770, DoABC#2)
+// setSelectedGridItem = "_-2eW" (String#20626, DoABC#2)
 // _SafeStr_8489 = "_-1YT" (String#1708, DoABC#2)
 // _hasUnseenItems = "_-ZF" (String#2132, DoABC#2)
 // _SafeStr_8491 = "_-2y0" (String#903, DoABC#2)

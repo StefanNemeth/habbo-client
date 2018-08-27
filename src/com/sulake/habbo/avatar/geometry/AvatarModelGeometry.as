@@ -186,7 +186,7 @@ package com.sulake.habbo.avatar.geometry
             var _local_5:Array = this.getBodyPartsInAvatarSet(_local_4, _arg_1);
             var _local_6:Array = new Array();
             var _local_8:Array = new Array();
-            this._SafeStr_6994 = Matrix4x4.Matrix4x4(_arg_2);
+            this._SafeStr_6994 = Matrix4x4.getYRotationMatrix(_arg_2);
             for each (_local_7 in _local_5) {
                 _local_7.applyTransform(this._SafeStr_6994);
                 _local_9 = _local_7.getDistance(this._SafeStr_6995);
@@ -204,7 +204,7 @@ package com.sulake.habbo.avatar.geometry
             var _local_5:GeometryBodyPart;
             if (this.hasBodyPart(_arg_1, _arg_2)){
                 _local_5 = (this.getBodyPartsOfType(_arg_1)[_arg_2] as GeometryBodyPart);
-                this._SafeStr_6994 = Matrix4x4.Matrix4x4(_arg_3);
+                this._SafeStr_6994 = Matrix4x4.getYRotationMatrix(_arg_3);
                 return (_local_5.getParts(this._SafeStr_6994, this._SafeStr_6995, _arg_4));
             };
             return ([]);
@@ -254,7 +254,7 @@ package com.sulake.habbo.avatar.geometry
 // getBodyPartOfItem = "_-0Ot" (String#15020, DoABC#2)
 // getBodyPartsInAvatarSet = "_-3B-" (String#21921, DoABC#2)
 // getBodyPartsAtAngle = "_-1fX" (String#18119, DoABC#2)
-// Matrix4x4 = "_-249" (String#19182, DoABC#2)
+// getYRotationMatrix = "_-249" (String#19182, DoABC#2)
 // orderByDistance = "_-1uQ" (String#18733, DoABC#2)
 
 

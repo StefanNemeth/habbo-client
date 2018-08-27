@@ -81,7 +81,7 @@ package com.sulake.habbo.inventory.furni
             this._view = (this._windowManager.buildFromXML((_local_7.content as XML)) as IWindowContainer);
             this._view.visible = false;
             this._view.procedure = this.windowEventProc;
-            this.PetsView();
+            this.addUnseenItemSymbols();
             this.switchCategory(FurniModelCategory.S);
             var _local_8:IWindowContainer = (this._view.findChildByName("preview_container") as IWindowContainer);
             if (_local_8 != null){
@@ -105,7 +105,7 @@ package com.sulake.habbo.inventory.furni
         {
             return (this._disposed);
         }
-        private function PetsView():void
+        private function addUnseenItemSymbols():void
         {
             var _local_3:IWindowContainer;
             var _local_4:IWindow;
@@ -161,7 +161,7 @@ package com.sulake.habbo.inventory.furni
         {
             return (((!((this._view.parent == null))) && (this._view.visible)));
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             var _local_2:IWindow;
             if (this._view == null){
@@ -202,15 +202,15 @@ package com.sulake.habbo.inventory.furni
             };
             switch (_arg_1){
                 case FurniModelCategory.I:
-                    _local_2.setSelected(_local_2.ISelectorWindow("tab_wall"));
+                    _local_2.setSelected(_local_2.getSelectableByName("tab_wall"));
                     this._visibleCategoryId = FurniModelCategory.I;
                     break;
                 case FurniModelCategory.S:
-                    _local_2.setSelected(_local_2.ISelectorWindow("tab_floor"));
+                    _local_2.setSelected(_local_2.getSelectableByName("tab_floor"));
                     this._visibleCategoryId = FurniModelCategory.S;
                     break;
                 case FurniModelCategory._SafeStr_7068:
-                    _local_2.setSelected(_local_2.ISelectorWindow("tab_pets"));
+                    _local_2.setSelected(_local_2.getSelectableByName("tab_pets"));
                     this._visibleCategoryId = FurniModelCategory._SafeStr_7068;
                     break;
                 default:
@@ -236,14 +236,14 @@ package com.sulake.habbo.inventory.furni
                 };
                 _local_2.addChild(_local_4);
                 _local_2.invalidate();
-                this.BadgesView();
+                this.updateActionView();
             };
         }
         public function setViewToState():void
         {
             var _local_2:int;
-            var _local_1:Array = this._SafeStr_4830.FurniModel(this._visibleCategoryId);
-            if (!this._SafeStr_4830.FurniModel()){
+            var _local_1:Array = this._SafeStr_4830.getCategoryContent(this._visibleCategoryId);
+            if (!this._SafeStr_4830.isListInited()){
                 _local_2 = _SafeStr_7894;
             }
             else {
@@ -290,11 +290,11 @@ package com.sulake.habbo.inventory.furni
                 _local_2 = _local_1[_local_4];
                 _local_3 = this._SafeStr_7901.getValue(_local_2);
                 if (_local_3 != null){
-                    _local_3.FurniGridView();
+                    _local_3.clearGrid();
                 };
                 _local_4++;
             };
-            this.BadgesView();
+            this.updateActionView();
         }
         public function updateItem(_arg_1:String, _arg_2:GroupItem, _arg_3:int):void
         {
@@ -306,9 +306,9 @@ package com.sulake.habbo.inventory.furni
                 return;
             };
             _local_4.updateItem(_arg_3, _arg_2.window);
-            this.BadgesView();
+            this.updateActionView();
         }
-        public function FurniGridView(_arg_1:String, _arg_2:GroupItem):void
+        public function addItemToBottom(_arg_1:String, _arg_2:GroupItem):void
         {
             if (_arg_2 == null){
                 return;
@@ -317,9 +317,9 @@ package com.sulake.habbo.inventory.furni
             if (_local_3 == null){
                 return;
             };
-            _local_3.FurniGridView(_arg_2.window);
+            _local_3.addItemToBottom(_arg_2.window);
         }
-        public function FurniGridView(_arg_1:String, _arg_2:GroupItem, _arg_3:int):void
+        public function addItemAt(_arg_1:String, _arg_2:GroupItem, _arg_3:int):void
         {
             if (_arg_2 == null){
                 return;
@@ -328,7 +328,7 @@ package com.sulake.habbo.inventory.furni
             if (_local_4 == null){
                 return;
             };
-            _local_4.FurniGridView(_arg_2.window, _arg_3);
+            _local_4.addItemAt(_arg_2.window, _arg_3);
         }
         public function removeItem(_arg_1:String, _arg_2:int):void
         {
@@ -340,9 +340,9 @@ package com.sulake.habbo.inventory.furni
             if (_local_4){
                 _local_4.dispose();
             };
-            this.BadgesView();
+            this.updateActionView();
         }
-        public function FurniGridView(_arg_1:GroupItem, _arg_2:int):void
+        public function moveItemTo(_arg_1:GroupItem, _arg_2:int):void
         {
             if (_arg_1 == null){
                 return;
@@ -351,7 +351,7 @@ package com.sulake.habbo.inventory.furni
             if (_local_3 == null){
                 return;
             };
-            _local_3.FurniGridView(_arg_1.window, _arg_2);
+            _local_3.moveItemTo(_arg_1.window, _arg_2);
         }
         public function setGridLock(_arg_1:String, _arg_2:Boolean):void
         {
@@ -359,9 +359,9 @@ package com.sulake.habbo.inventory.furni
             if (_local_3 == null){
                 return;
             };
-            _local_3.FurniGridView(_arg_2);
+            _local_3.setLock(_arg_2);
         }
-        public function PetsView():void
+        public function updateCategoryButtons():void
         {
             var _local_1:IWindow;
             _local_1 = this._view.findChildByTag("unseen_symbol_floor");
@@ -371,7 +371,7 @@ package com.sulake.habbo.inventory.furni
             _local_1 = this._view.findChildByTag("unseen_symbol_pets");
             _local_1.visible = (this._SafeStr_4830.petsModel.getUnseenItemCount() > 0);
         }
-        public function BadgesView():void
+        public function updateActionView():void
         {
             var _local_2:BitmapData;
             var _local_4:GroupItem;
@@ -405,9 +405,9 @@ package com.sulake.habbo.inventory.furni
             if ((((((_local_3 > -1)) && (!((_local_4 == null))))) && (!((_local_4._SafeStr_7867() == null))))){
                 _local_5 = _local_4._SafeStr_7867();
                 _local_1 = true;
-                _local_16 = this._roomEngine.RoomEngine(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5786);
-                _local_17 = this._roomEngine.RoomEngine(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5784);
-                _local_18 = this._roomEngine.RoomEngine(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5788);
+                _local_16 = this._roomEngine.getRoomStringValue(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5786);
+                _local_17 = this._roomEngine.getRoomStringValue(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5784);
+                _local_18 = this._roomEngine.getRoomStringValue(this._roomEngine.activeRoomId, this._roomEngine.activeRoomCategory, RoomObjectVariableEnum._SafeStr_5788);
                 _local_16 = ((((_local_16) && ((_local_16.length > 0)))) ? _local_16 : "101");
                 _local_17 = ((((_local_17) && ((_local_17.length > 0)))) ? _local_17 : "101");
                 _local_18 = ((((_local_18) && ((_local_18.length > 0)))) ? _local_18 : "1.1");
@@ -463,7 +463,7 @@ package com.sulake.habbo.inventory.furni
                 _local_7 = (this._view.findChildByName("tradeable_number") as ITextWindow);
                 _local_8 = (this._view.findChildByName("tradeable_info_region") as IRegionWindow);
                 if (((((!((_local_6 == null))) && (!((_local_7 == null))))) && (!((_local_8 == null))))){
-                    _local_21 = _local_4.GroupItem();
+                    _local_21 = _local_4.getTradeableCount();
                     if (_local_21 == 0){
                         _local_20 = this._assetLibrary.getAssetByName("no_trade_icon_png");
                         _local_19 = (_local_20.content as BitmapData);
@@ -489,7 +489,7 @@ package com.sulake.habbo.inventory.furni
                 _local_7 = (this._view.findChildByName("recyclable_number") as ITextWindow);
                 _local_8 = (this._view.findChildByName("recyclable_info_region") as IRegionWindow);
                 if (((((!((_local_6 == null))) && (!((_local_7 == null))))) && (!((_local_8 == null))))){
-                    _local_21 = _local_4.GroupItem();
+                    _local_21 = _local_4.getRecyclableCount();
                     if (_local_21 == 0){
                         _local_20 = this._assetLibrary.getAssetByName("no_recycle_icon_png");
                         _local_19 = (_local_20.content as BitmapData);
@@ -542,8 +542,8 @@ package com.sulake.habbo.inventory.furni
             };
             _local_11 = (this._view.findChildByName("offertotrade_btn") as IButtonWindow);
             if (_local_11){
-                if (((((((_local_1) && (!((_local_4 == null))))) && (!((_local_5 == null))))) && (this._SafeStr_4830.HabboInventory()))){
-                    if (((_local_4.GroupItem()) && (_local_5.tradeable))){
+                if (((((((_local_1) && (!((_local_4 == null))))) && (!((_local_5 == null))))) && (this._SafeStr_4830.canUserOfferToTrade()))){
+                    if (((_local_4.getUnlockedCount()) && (_local_5.tradeable))){
                         _local_11.enable();
                     }
                     else {
@@ -695,13 +695,13 @@ package com.sulake.habbo.inventory.furni
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "placeinroom_btn":
-                        this._SafeStr_4830.FurniModel(false);
+                        this._SafeStr_4830.requestSelectedFurniPlacement(false);
                         break;
                     case "offertotrade_btn":
-                        this._SafeStr_4830.FurniModel();
+                        this._SafeStr_4830.requestSelectedFurniToTrading();
                         break;
                     case "sell_btn":
-                        this._SafeStr_4830.FurniModel();
+                        this._SafeStr_4830.requestSelectedFurniSelling();
                         break;
                     case "open_catalog_btn":
                         this._SafeStr_4830.requestCatalogOpen();
@@ -729,7 +729,7 @@ package com.sulake.habbo.inventory.furni
         private function onSongInfoReceivedEvent(_arg_1:SongInfoReceivedEvent):void
         {
             if (_arg_1.id == this._SafeStr_7904){
-                this.BadgesView();
+                this.updateActionView();
                 this._SafeStr_7904 = -1;
             };
         }
@@ -762,7 +762,7 @@ package com.sulake.habbo.inventory.furni
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)
 // WE_SELECTED = "_-17F" (String#16745, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // previewCallbackId = "_-2QR" (String#20063, DoABC#2)
 // activeRoomId = "_-kJ" (String#2172, DoABC#2)
 // activeRoomCategory = "_-1qo" (String#1770, DoABC#2)
@@ -792,30 +792,30 @@ package com.sulake.habbo.inventory.furni
 // petsModel = "_-227" (String#19096, DoABC#2)
 // setGridLock = "_-2Jr" (String#19803, DoABC#2)
 // getSelectedItemIndex = "_-tL" (String#24421, DoABC#2)
-// FurniModel = "_-cQ" (String#23731, DoABC#2)
+// isListInited = "_-cQ" (String#23731, DoABC#2)
 // setViewToState = "_-0gw" (String#15707, DoABC#2)
-// FurniModel = "_-1lE" (String#18339, DoABC#2)
+// getCategoryContent = "_-1lE" (String#18339, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
 // visibleCategoryId = "_-2iM" (String#20782, DoABC#2)
 // furniCategorySwitch = "_-3W" (String#22356, DoABC#2)
 // resetUnseenItems = "_-0qm" (String#16077, DoABC#2)
-// BadgesView = "_-jg" (String#8593, DoABC#2)
+// updateActionView = "_-jg" (String#8593, DoABC#2)
 // clearViews = "_-Uc" (String#23431, DoABC#2)
-// FurniGridView = "_-SJ" (String#23337, DoABC#2)
-// FurniGridView = "_-3AS" (String#21898, DoABC#2)
+// addItemAt = "_-SJ" (String#23337, DoABC#2)
+// addItemToBottom = "_-3AS" (String#21898, DoABC#2)
 // cancelFurniInMover = "_-1Xa" (String#17797, DoABC#2)
-// FurniModel = "_-17E" (String#16744, DoABC#2)
+// requestSelectedFurniPlacement = "_-17E" (String#16744, DoABC#2)
 // displayItemInfo = "_-264" (String#19261, DoABC#2)
 // getGroupItemInIndex = "_-0lk" (String#15888, DoABC#2)
 // isTradingOpen = "_-0Yq" (String#15394, DoABC#2)
-// HabboInventory = "_-1Ic" (String#17218, DoABC#2)
-// GroupItem = "_-2rq" (String#21148, DoABC#2)
+// canUserOfferToTrade = "_-1Ic" (String#17218, DoABC#2)
+// getUnlockedCount = "_-2rq" (String#21148, DoABC#2)
 // _SafeStr_7867 = "catch" (String#25155, DoABC#2)
-// FurniModel = "_-1mj" (String#18410, DoABC#2)
-// FurniModel = "_-1hq" (String#18205, DoABC#2)
+// requestSelectedFurniToTrading = "_-1mj" (String#18410, DoABC#2)
+// requestSelectedFurniSelling = "_-1hq" (String#18205, DoABC#2)
 // requestCatalogOpen = "_-0sM" (String#16138, DoABC#2)
-// PetsView = "_-2i3" (String#20774, DoABC#2)
-// FurniGridView = "_-3JU" (String#22263, DoABC#2)
+// updateCategoryButtons = "_-2i3" (String#20774, DoABC#2)
+// moveItemTo = "_-3JU" (String#22263, DoABC#2)
 // isMainViewActive = "_-jz" (String#24031, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
 // _SafeStr_7893 = "_-h3" (String#8535, DoABC#2)
@@ -830,16 +830,16 @@ package com.sulake.habbo.inventory.furni
 // _visibleCategoryId = "_-15S" (String#16673, DoABC#2)
 // _SafeStr_7903 = "_-04-" (String#577, DoABC#2)
 // _SafeStr_7904 = "_-2re" (String#21142, DoABC#2)
-// PetsView = "_-pj" (String#8703, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
+// addUnseenItemSymbols = "_-pj" (String#8703, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
 // showCategoryGrid = "_-0XH" (String#15325, DoABC#2)
-// FurniGridView = "_-1n7" (String#18429, DoABC#2)
+// clearGrid = "_-1n7" (String#18429, DoABC#2)
 // mainCategory = "_-JH" (String#22977, DoABC#2)
-// FurniGridView = "_-2VO" (String#20257, DoABC#2)
-// RoomEngine = "_-Ht" (String#2080, DoABC#2)
+// setLock = "_-2VO" (String#20257, DoABC#2)
+// getRoomStringValue = "_-Ht" (String#2080, DoABC#2)
 // setPreviewImage = "_-27B" (String#448, DoABC#2)
-// GroupItem = "_-0fV" (String#15650, DoABC#2)
-// GroupItem = "_-0sX" (String#16143, DoABC#2)
+// getTradeableCount = "_-0fV" (String#15650, DoABC#2)
+// getRecyclableCount = "_-0sX" (String#16143, DoABC#2)
 // tradeable = "_-3E5" (String#7597, DoABC#2)
 
 

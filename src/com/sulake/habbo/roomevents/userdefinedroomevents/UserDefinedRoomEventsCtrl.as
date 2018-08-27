@@ -142,7 +142,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
                 if (_local_2){
                     _local_3 = _local_2.getValue();
                     _local_4 = int(_local_3);
-                    _local_5 = TriggerOnce.TriggerOnce(_local_4);
+                    _local_5 = TriggerOnce.getSecsFromPulses(_local_4);
                     this._SafeStr_5221.localization.registerParameter("wiredfurni.params.delay", "seconds", _local_5);
                 };
             };
@@ -189,7 +189,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
                 this._SafeStr_13558[_local_3] = "yes";
             };
             _local_4 = ((_local_2.hasSpecialInputs) ? this.prepareCustomInput() : null);
-            _local_2.Element(_local_4, this._SafeStr_13559);
+            _local_2.onEditStart(_local_4, this._SafeStr_13559);
             this._SafeStr_13560.showAll(this._SafeStr_13558);
             if ((this._SafeStr_13559 as ActionDefinition) != null){
                 _local_5 = ActionDefinition(this._SafeStr_13559);
@@ -213,7 +213,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
                         this.getFurniTypeMatchesCheckBox().select();
                     }
                     else {
-                        this.getFurniTypeMatchesCheckBox().ISelectableWindow();
+                        this.getFurniTypeMatchesCheckBox().unselect();
                     };
                     this.getFurniTypeMatchesText().caption = this._SafeStr_5221.localization.getKey("wiredfurni.pickfurnis.furnitypematches");
                     this.getFurniTypeMatchesCheckBox().visible = true;
@@ -314,13 +314,13 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         {
             var _local_1:Element = this.resolveType();
             var _local_2:IWindowContainer = ((_local_1.hasSpecialInputs) ? this.prepareCustomInput() : null);
-            return (_local_1.Element(_local_2));
+            return (_local_1.readIntParamsFromForm(_local_2));
         }
         private function resolveStringParam():String
         {
             var _local_1:Element = this.resolveType();
             var _local_2:IWindowContainer = ((_local_1.hasSpecialInputs) ? this.prepareCustomInput() : null);
-            return (_local_1.Element(_local_2));
+            return (_local_1.readStringParamFromForm(_local_2));
         }
         private function resolveStuffSelectionType():int
         {
@@ -374,7 +374,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         }
         private function getElementName(_arg_1:int):String
         {
-            var _local_2:IFurnitureData = this._SafeStr_5221.sessionDataManager.SessionDataManager(_arg_1);
+            var _local_2:IFurnitureData = this._SafeStr_5221.sessionDataManager.getFloorItemData(_arg_1);
             if (_local_2 == null){
                 Logger.log(("COULD NOT FIND FURNIDATA FOR " + _arg_1));
                 return (("NAME: " + _arg_1));
@@ -383,14 +383,14 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         }
         private function getElementDesc(_arg_1:int):String
         {
-            var _local_2:IFurnitureData = this._SafeStr_5221.sessionDataManager.SessionDataManager(_arg_1);
+            var _local_2:IFurnitureData = this._SafeStr_5221.sessionDataManager.getFloorItemData(_arg_1);
             if (_local_2 == null){
                 Logger.log(("COULD NOT FIND FURNIDATA FOR " + _arg_1));
                 return (("NAME: " + _arg_1));
             };
             return (_local_2.description);
         }
-        private function CurrencyIndicatorBase(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String):void
+        private function setText(_arg_1:IWindowContainer, _arg_2:String, _arg_3:String):void
         {
             var _local_4:ITextWindow = ITextWindow(this.find(_arg_1, _arg_2));
             _local_4.caption = _arg_3;
@@ -400,8 +400,8 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         {
             var _local_3:IWindowContainer = IWindowContainer(this.find(this._SafeStr_13554, "header_container"));
             this.find(_local_3, (_arg_2 + "_icon_bitmap")).visible = true;
-            this.CurrencyIndicatorBase(_local_3, "conf_name_txt", this.getElementName(this._SafeStr_13559.stuffTypeId));
-            this.CurrencyIndicatorBase(_local_3, "conf_desc_txt", this.getElementDesc(this._SafeStr_13559.stuffTypeId));
+            this.setText(_local_3, "conf_name_txt", this.getElementName(this._SafeStr_13559.stuffTypeId));
+            this.setText(_local_3, "conf_desc_txt", this.getElementDesc(this._SafeStr_13559.stuffTypeId));
             var _local_4:IWindow = this.find(_local_3, "conf_name_txt");
             var _local_5:IWindow = this.find(_local_3, "conf_desc_txt");
             _local_5.y = (_local_4.y + _local_4.height);
@@ -471,8 +471,8 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         private function refreshWarning(_arg_1:String, _arg_2:String):void
         {
             var _local_3:IWindowContainer = IWindowContainer(this.find(this._SafeStr_13554, "warning_container"));
-            this.CurrencyIndicatorBase(_local_3, "caption_txt", _arg_1);
-            this.CurrencyIndicatorBase(_local_3, "desc_txt", _arg_2);
+            this.setText(_local_3, "caption_txt", _arg_1);
+            this.setText(_local_3, "desc_txt", _arg_2);
             var _local_4:IWindow = this.find(_local_3, "caption_txt");
             this.find(_local_3, "desc_txt").y = (_local_4.y + _local_4.height);
             _local_3.height = (Util.getLowestPoint(_local_3) + 4);
@@ -482,7 +482,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         {
             var _local_2:IWindowContainer;
             var _local_1:IWindowContainer = IWindowContainer(this._SafeStr_13554.findChildByName("custom_inputs_container"));
-            Util.InfostandWidget(_local_1);
+            Util.hideChildren(_local_1);
             if (this.resolveType().hasSpecialInputs){
                 _local_2 = this.prepareCustomInput();
                 _local_2.visible = true;
@@ -500,7 +500,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
                 _local_5 = IWindowContainer(this._SafeStr_5221.getXmlWindow(((("ude_" + _local_1.getKey()) + "_inputs_") + _local_2.code)));
                 _local_5.name = _local_4;
                 _local_3.addChild(_local_5);
-                _local_2.Element(_local_5, this._SafeStr_5221);
+                _local_2.onInit(_local_5, this._SafeStr_5221);
             };
             return (_local_5);
         }
@@ -606,7 +606,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
 // ActionDefinition = "_-1nw" (String#864, DoABC#2)
 // ConditionTypes = "_-246" (String#6125, DoABC#2)
 // TriggerOnce = "_-31n" (String#7342, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)
@@ -618,13 +618,13 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
 // requiresFurni = "_-1i4" (String#5711, DoABC#2)
 // _SafeStr_5209 = "_-1vi" (String#18785, DoABC#2)
 // hasStateSnapshot = "_-2bG" (String#6777, DoABC#2)
-// Element = "_-10U" (String#4881, DoABC#2)
-// Element = "_-2Cw" (String#6305, DoABC#2)
-// Element = "_-0uD" (String#4727, DoABC#2)
-// Element = "_-gW" (String#8522, DoABC#2)
+// onInit = "_-10U" (String#4881, DoABC#2)
+// onEditStart = "_-2Cw" (String#6305, DoABC#2)
+// readIntParamsFromForm = "_-0uD" (String#4727, DoABC#2)
+// readStringParamFromForm = "_-gW" (String#8522, DoABC#2)
 // hasSpecialInputs = "_-pV" (String#8699, DoABC#2)
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
 // stuffTypeSelectionEnabled = "_-0rL" (String#16098, DoABC#2)
 // stuffTypeSelectionCode = "_-1BV" (String#16918, DoABC#2)
 // furniLimit = "_-22s" (String#19128, DoABC#2)
@@ -633,13 +633,13 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
 // conflictingActions = "_-0T5" (String#15174, DoABC#2)
 // delayInPulses = "_-1IB" (String#17200, DoABC#2)
 // conflictingTriggers = "_-2EX" (String#19587, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // prepareWindow = "_-RN" (String#219, DoABC#2)
 // setProcDirectly = "_-24s" (String#19218, DoABC#2)
 // refreshHeader = "_-18C" (String#834, DoABC#2)
 // mouseThreshold = "_-0OA" (String#4051, DoABC#2)
-// TriggerOnce = "_-2SO" (String#20133, DoABC#2)
-// SessionDataManager = "_-08L" (String#3728, DoABC#2)
+// getSecsFromPulses = "_-2SO" (String#20133, DoABC#2)
+// getFloorItemData = "_-08L" (String#3728, DoABC#2)
 // stuffSelected = "_-0oj" (String#4608, DoABC#2)
 
 

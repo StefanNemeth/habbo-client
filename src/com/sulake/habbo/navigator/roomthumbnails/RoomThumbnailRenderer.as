@@ -143,10 +143,10 @@ package com.sulake.habbo.navigator.roomthumbnails
             if (_arg_2 < 1){
                 _arg_2 = 1;
             };
-            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.TwinkleImages(ThumbnailEditorModel._SafeStr_6034, _arg_2);
+            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.getImage(ThumbnailEditorModel._SafeStr_6034, _arg_2);
             if (_local_3 == null){
                 Logger.log(("Unknown bg image id: " + _arg_2));
-                _local_3 = this._imageConfigurations.TwinkleImages(ThumbnailEditorModel._SafeStr_6034, 1);
+                _local_3 = this._imageConfigurations.getImage(ThumbnailEditorModel._SafeStr_6034, 1);
             };
             var _local_4:BitmapData = _local_3.getImg();
             _arg_1.copyPixels(_local_4, _local_4.rect, new Point(0, 0), null, null, true);
@@ -156,7 +156,7 @@ package com.sulake.habbo.navigator.roomthumbnails
             if (_arg_2 < 1){
                 return;
             };
-            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.TwinkleImages(ThumbnailEditorModel._SafeStr_6036, _arg_2);
+            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.getImage(ThumbnailEditorModel._SafeStr_6036, _arg_2);
             if (_local_3 == null){
                 Logger.log(("Unknown top image id: " + _arg_2));
                 return;
@@ -173,7 +173,7 @@ package com.sulake.habbo.navigator.roomthumbnails
         }
         private function refreshObj(_arg_1:BitmapData, _arg_2:RoomThumbnailObjectData):void
         {
-            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.TwinkleImages(ThumbnailEditorModel._SafeStr_6037, _arg_2.imgId);
+            var _local_3:ThumbnailImageConfiguration = this._imageConfigurations.getImage(ThumbnailEditorModel._SafeStr_6037, _arg_2.imgId);
             if (_local_3 == null){
                 Logger.log(("Unknown object image id: " + _arg_2.imgId));
                 return;
@@ -213,7 +213,7 @@ package com.sulake.habbo.navigator.roomthumbnails
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
 // getAsString = "_-3JH" (String#22254, DoABC#2)
 // refreshBitmapContent = "_-3Ky" (String#22320, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
 // _SafeStr_6010 = "_-1wP" (String#18817, DoABC#2)
 // _SafeStr_6011 = "_-2LO" (String#19862, DoABC#2)

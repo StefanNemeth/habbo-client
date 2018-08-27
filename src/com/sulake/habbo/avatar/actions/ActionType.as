@@ -45,7 +45,7 @@ package com.sulake.habbo.avatar.actions
         {
             return (this._preventHeadTurn);
         }
-        public function get IActionDefinition():Boolean
+        public function get isAnimated():Boolean
         {
             return (this._isAnimated);
         }
@@ -57,6 +57,6 @@ package com.sulake.habbo.avatar.actions
 // _value = "_-3Ao" (String#188, DoABC#2)
 // _isAnimated = "_-2v8" (String#21283, DoABC#2)
 // preventHeadTurn = "_-1Cd" (String#16970, DoABC#2)
-// IActionDefinition = "_-0q7" (String#4640, DoABC#2)
+// isAnimated = "_-0q7" (String#4640, DoABC#2)
 
 

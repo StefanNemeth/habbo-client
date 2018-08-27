@@ -50,9 +50,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
             if ((((_local_12 == null)) || ((_local_12.geometry == null)))){
                 return (null);
             };
-            var _local_13:Point = _local_12.geometry.RoomGeometry(new Vector3d(0, 0, 0));
-            var _local_14:Point = _local_12.geometry.RoomGeometry(new Vector3d(0, 0, 1));
-            var _local_15:Point = _local_12.geometry.RoomGeometry(new Vector3d(0, 1, 0));
+            var _local_13:Point = _local_12.geometry.getScreenPoint(new Vector3d(0, 0, 0));
+            var _local_14:Point = _local_12.geometry.getScreenPoint(new Vector3d(0, 0, 1));
+            var _local_15:Point = _local_12.geometry.getScreenPoint(new Vector3d(0, 1, 0));
             if (((((!((_local_13 == null))) && (!((_local_14 == null))))) && (!((_local_15 == null))))){
                 _arg_2 = Math.round(Math.abs((((_local_13.x - _local_15.x) * _arg_2) / _local_12.geometry.scale)));
                 _arg_3 = Math.round(Math.abs((((_local_13.y - _local_14.y) * _arg_3) / _local_12.geometry.scale)));
@@ -78,6 +78,6 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.animated
 // _SafeStr_4855 = "_-3AQ" (String#21897, DoABC#2)
 // _SafeStr_4861 = "_-0CJ" (String#582, DoABC#2)
 // isStatic = "_-2HT" (String#19704, DoABC#2)
-// RoomGeometry = "_-34h" (String#7403, DoABC#2)
+// getScreenPoint = "_-34h" (String#7403, DoABC#2)
 
 

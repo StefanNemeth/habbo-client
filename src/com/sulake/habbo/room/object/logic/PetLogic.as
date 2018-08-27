@@ -38,7 +38,7 @@ package com.sulake.habbo.room.object.logic
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectMouseEvent.ROE_MOUSE_CLICK, RoomObjectMoveEvent.ROME_POSITION_CHANGED];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function dispose():void
         {
@@ -259,7 +259,7 @@ package com.sulake.habbo.room.object.logic
 // _SafeStr_4443 = "_-2Lr" (String#19878, DoABC#2)
 // updateActions = "_-2p4" (String#900, DoABC#2)
 // dirHead = "_-2Ej" (String#19594, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // ROME_POSITION_CHANGED = "_-114" (String#16501, DoABC#2)

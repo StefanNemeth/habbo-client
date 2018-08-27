@@ -37,7 +37,7 @@ package com.sulake.habbo.localization
             if (!this._SafeStr_11690){
                 lock();
             };
-            queueInterface(new IIDHabboConfigurationManager(), this.HabboSoundManagerFlash10);
+            queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationInit);
             var _local_4:TextAsset = (_arg_3.getAssetByName("default_localization") as TextAsset);
             parseLocalizationData(_local_4.content.toString());
         }
@@ -81,7 +81,7 @@ package com.sulake.habbo.localization
             _arg_1.dispose();
             printNonExistingKeys();
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             var _local_3:String;
             var _local_4:int;
@@ -241,7 +241,7 @@ package com.sulake.habbo.localization
 
 // IID = "_-3KV" (String#7712, DoABC#2)
 // keyExists = "_-2ME" (String#6487, DoABC#2)
-// HabboSoundManagerFlash10 = "_-1NP" (String#851, DoABC#2)
+// onHabboConfigurationInit = "_-1NP" (String#851, DoABC#2)
 // _SafeStr_10847 = "_-1ja" (String#5746, DoABC#2)
 // fillParams = "_-0Ij" (String#3929, DoABC#2)
 // setBadgePointLimit = "_-0HA" (String#3898, DoABC#2)

@@ -84,7 +84,7 @@ package com.sulake.habbo.navigator.roomsettings
         {
             return (this._active);
         }
-        public function RoomSettingsCtrl():void
+        public function resetView():void
         {
             this._SafeStr_6903 = false;
         }
@@ -96,7 +96,7 @@ package com.sulake.habbo.navigator.roomsettings
                 this._SafeStr_6923.visible = false;
             };
         }
-        public function RoomSettingsCtrl(_arg_1:RoomSettingsData):void
+        public function onRoomSettings(_arg_1:RoomSettingsData):void
         {
             if (_arg_1.roomId != this._flatId){
                 return;
@@ -106,7 +106,7 @@ package com.sulake.habbo.navigator.roomsettings
             this._SafeStr_6902 = true;
             this._owner.roomSettingsRefreshNeeded();
         }
-        public function IncomingMessages(_arg_1:int, _arg_2:FlatControllerData):void
+        public function onFlatControllerAdded(_arg_1:int, _arg_2:FlatControllerData):void
         {
             if (_arg_1 != this._flatId){
                 return;
@@ -114,7 +114,7 @@ package com.sulake.habbo.navigator.roomsettings
             if (this._SafeStr_6900 == null){
                 return;
             };
-            if (!this.RoomSettingsCtrl(_arg_2.userId)){
+            if (!this.controllerExists(_arg_2.userId)){
                 this._SafeStr_6900.controllers.splice(0, 0, _arg_2);
                 this._SafeStr_6900.controllerCount++;
             };
@@ -122,7 +122,7 @@ package com.sulake.habbo.navigator.roomsettings
                 this._owner.roomSettingsRefreshNeeded();
             };
         }
-        private function RoomSettingsCtrl(_arg_1:int):Boolean
+        private function controllerExists(_arg_1:int):Boolean
         {
             var _local_3:FlatControllerData;
             var _local_2:int;
@@ -135,7 +135,7 @@ package com.sulake.habbo.navigator.roomsettings
             };
             return (false);
         }
-        public function IncomingMessages(_arg_1:int, _arg_2:int):void
+        public function onFlatControllerRemoved(_arg_1:int, _arg_2:int):void
         {
             var _local_4:FlatControllerData;
             if (_arg_1 != this._flatId){
@@ -159,7 +159,7 @@ package com.sulake.habbo.navigator.roomsettings
                 this._owner.roomSettingsRefreshNeeded();
             };
         }
-        public function IncomingMessages(_arg_1:int):void
+        public function onRoomSettingsSaved(_arg_1:int):void
         {
             if (((!((_arg_1 == this._flatId))) || ((this._SafeStr_6901 < 1)))){
                 return;
@@ -167,7 +167,7 @@ package com.sulake.habbo.navigator.roomsettings
             this.close();
             this._owner.roomSettingsRefreshNeeded();
         }
-        public function IncomingMessages(_arg_1:int, _arg_2:int, _arg_3:String):void
+        public function onRoomSettingsSaveError(_arg_1:int, _arg_2:int, _arg_3:String):void
         {
             if (((!((_arg_1 == this._flatId))) || ((this._SafeStr_6901 < 1)))){
                 return;
@@ -186,13 +186,13 @@ package com.sulake.habbo.navigator.roomsettings
                     }
                     else {
                         if (_arg_2 == RoomSettingsSaveErrorMessageParser._SafeStr_5574){
-                            this.RoomSettingsCtrl(this._SafeStr_6906, _arg_3, "${navigator.roomsettings.unacceptablewords}");
-                            this.RoomSettingsCtrl(this._SafeStr_6907, _arg_3, "${navigator.roomsettings.unacceptablewords}");
+                            this.setTagError(this._SafeStr_6906, _arg_3, "${navigator.roomsettings.unacceptablewords}");
+                            this.setTagError(this._SafeStr_6907, _arg_3, "${navigator.roomsettings.unacceptablewords}");
                         }
                         else {
                             if (_arg_2 == RoomSettingsSaveErrorMessageParser._SafeStr_5575){
-                                this.RoomSettingsCtrl(this._SafeStr_6906, _arg_3, "${navigator.roomsettings.nonuserchoosabletag}");
-                                this.RoomSettingsCtrl(this._SafeStr_6907, _arg_3, "${navigator.roomsettings.nonuserchoosabletag}");
+                                this.setTagError(this._SafeStr_6906, _arg_3, "${navigator.roomsettings.nonuserchoosabletag}");
+                                this.setTagError(this._SafeStr_6907, _arg_3, "${navigator.roomsettings.nonuserchoosabletag}");
                             }
                             else {
                                 if (_arg_2 == RoomSettingsSaveErrorMessageParser._SafeStr_5568){
@@ -207,7 +207,7 @@ package com.sulake.habbo.navigator.roomsettings
                 };
             };
         }
-        private function RoomSettingsCtrl(_arg_1:TextFieldManager, _arg_2:String, _arg_3:String):void
+        private function setTagError(_arg_1:TextFieldManager, _arg_2:String, _arg_3:String):void
         {
             if (_arg_2 == _arg_1.getText().toLowerCase()){
                 _arg_1.displayError(_arg_3);
@@ -237,14 +237,14 @@ package com.sulake.habbo.navigator.roomsettings
             this._window = IWindowContainer(this._navigator.getXmlWindow("ros_room_settings"));
             _arg_1.addChildAt(this._window, 0);
             var _local_2:IRadioButtonWindow = (this._window.findChildByName("doormode_password") as IRadioButtonWindow);
-            _local_2.addEventListener(WindowEvent.WE_SELECT, this.RoomSettingsCtrl);
-            _local_2.addEventListener(WindowEvent.WE_UNSELECT, this.RoomSettingsCtrl);
-            this.RoomSettingsCtrl().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
-            this.getCancelButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomEventViewCtrl);
-            this.RoomSettingsCtrl().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
-            this.RoomSettingsCtrl().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
-            this.RoomSettingsCtrl().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
-            this.RoomSettingsCtrl().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
+            _local_2.addEventListener(WindowEvent.WE_SELECT, this.onDoorModePasswordSelect);
+            _local_2.addEventListener(WindowEvent.WE_UNSELECT, this.onDoorModePasswordUnselect);
+            this.getSaveButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onSaveButtonClick);
+            this.getCancelButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancelButtonClick);
+            this.getDeleteButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onDeleteButtonClick);
+            this.getEditThumbnailButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onEditThumbnailButtonClick);
+            this.getRemoveAllFlatCtrlsButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onRemoveAllFlatCtrlsClick);
+            this.getRemoveFlatCtrlsButton().addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onRemoveFlatCtrlClick);
             this._SafeStr_6904 = new TextFieldManager(this._navigator, ITextFieldWindow(this._window.findChildByName("room_name")), 60);
             this._SafeStr_6905 = new TextFieldManager(this._navigator, ITextFieldWindow(this._window.findChildByName("description")), 0xFF);
             this._SafeStr_6906 = new TextFieldManager(this._navigator, ITextFieldWindow(this._window.findChildByName("tag1")), 30);
@@ -267,14 +267,14 @@ package com.sulake.habbo.navigator.roomsettings
             this._SafeStr_6923 = IWindowContainer(this._window.findChildByName("password_container"));
             this._SafeStr_6924 = ITextWindow(this._window.findChildByName("switch_view_text"));
             this._SafeStr_6924.mouseThreshold = 0;
-            this._SafeStr_6924.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
+            this._SafeStr_6924.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onSwitchView);
             this._SafeStr_6923.visible = false;
             if (!this._SafeStr_6899){
                 this._window.color = 0xFFFFFFFF;
                 Util.setColors(this._window, 0xFF000000);
             };
         }
-        private function RoomSettingsCtrl():IButtonWindow
+        private function getSaveButton():IButtonWindow
         {
             return (IButtonWindow(this._window.findChildByName("save")));
         }
@@ -282,19 +282,19 @@ package com.sulake.habbo.navigator.roomsettings
         {
             return (IButtonWindow(this._window.findChildByName("cancel")));
         }
-        private function RoomSettingsCtrl():IButtonWindow
+        private function getDeleteButton():IButtonWindow
         {
             return (IButtonWindow(this._window.findChildByName("delete")));
         }
-        private function RoomSettingsCtrl():IButtonWindow
+        private function getEditThumbnailButton():IButtonWindow
         {
             return (IButtonWindow(this._window.findChildByName("edit_thumbnail")));
         }
-        private function RoomSettingsCtrl():IButtonWindow
+        private function getRemoveAllFlatCtrlsButton():IButtonWindow
         {
             return (IButtonWindow(this._window.findChildByName("remove_all_flat_ctrls")));
         }
-        private function RoomSettingsCtrl():IButtonWindow
+        private function getRemoveFlatCtrlsButton():IButtonWindow
         {
             return (IButtonWindow(this._window.findChildByName("remove_flat_ctrl")));
         }
@@ -304,13 +304,13 @@ package com.sulake.habbo.navigator.roomsettings
                 return;
             };
             this.prepareWindow(_arg_1);
-            Util.InfostandWidget(this._window);
+            Util.hideChildren(this._window);
             this._SafeStr_6920.visible = this._SafeStr_6899;
-            this.RoomSettingsCtrl();
+            this.populateForm();
             if (this._SafeStr_6903){
                 this._SafeStr_6919.visible = true;
                 this._SafeStr_6921.visible = true;
-                this.RoomSettingsCtrl();
+                this.refreshFlatControllers();
                 this._SafeStr_6919.height = (Util.getLowestPoint(this._SafeStr_6919) + 4);
             }
             else {
@@ -324,21 +324,21 @@ package com.sulake.habbo.navigator.roomsettings
             this._window.height = (Util.getLowestPoint(this._window) + 4);
             this._window.visible = true;
         }
-        private function RoomSettingsCtrl(_arg_1:IWindow):void
+        private function disableWindow(_arg_1:IWindow):void
         {
             if (_arg_1 != null){
                 _arg_1.disable();
                 _arg_1.blend = 0.5;
             };
         }
-        private function RoomSettingsCtrl(_arg_1:IWindow):void
+        private function enableWindow(_arg_1:IWindow):void
         {
             if (_arg_1 != null){
                 _arg_1.enable();
                 _arg_1.blend = 1;
             };
         }
-        private function RoomSettingsCtrl(_arg_1:int):int
+        private function getThicknessSelectionIndex(_arg_1:int):int
         {
             switch (_arg_1){
                 case -2:
@@ -351,7 +351,7 @@ package com.sulake.habbo.navigator.roomsettings
                     return (2);
             };
         }
-        private function RoomSettingsCtrl():void
+        private function populateForm():void
         {
             var _local_4:IRadioButtonWindow;
             var _local_5:IRadioButtonWindow;
@@ -360,10 +360,10 @@ package com.sulake.habbo.navigator.roomsettings
             };
             this._SafeStr_6902 = false;
             var _local_1:RoomSettingsData = this._SafeStr_6900;
-            this._SafeStr_6904.CurrencyIndicatorBase(_local_1.name);
-            this._SafeStr_6905.CurrencyIndicatorBase(_local_1.description);
-            this._passwordInput.CurrencyIndicatorBase("");
-            this._SafeStr_6909.CurrencyIndicatorBase("");
+            this._SafeStr_6904.setText(_local_1.name);
+            this._SafeStr_6905.setText(_local_1.description);
+            this._passwordInput.setText("");
+            this._SafeStr_6909.setText("");
             var _local_2:ISelectorWindow = (this._window.findChildByName("doormode") as ISelectorWindow);
             var _local_3:IRadioButtonWindow = (this._window.findChildByName("doormode_password") as IRadioButtonWindow);
             switch (_local_1.doorMode){
@@ -378,18 +378,18 @@ package com.sulake.habbo.navigator.roomsettings
                     _local_5 = (this._window.findChildByName("doormode_open") as IRadioButtonWindow);
                     _local_2.setSelected(_local_5);
             };
-            this.RoomSettingsCtrl((_local_1.doorMode == RoomSettingsData._SafeStr_4148));
+            this.changePasswordField((_local_1.doorMode == RoomSettingsData._SafeStr_4148));
             Logger.log(("CATEGORY ID: " + _local_1.categoryId));
-            this.RoomSettingsCtrl(_local_1.categoryId);
-            this.RoomSettingsCtrl(_local_1);
-            this.DirectionData(this._SafeStr_6906, _local_1.tags[0]);
-            this.DirectionData(this._SafeStr_6907, _local_1.tags[1]);
+            this.setCategorySelection(_local_1.categoryId);
+            this.refreshMaxVisitors(_local_1);
+            this.setTag(this._SafeStr_6906, _local_1.tags[0]);
+            this.setTag(this._SafeStr_6907, _local_1.tags[1]);
             if (this._SafeStr_6910){
                 if (_local_1.allowPets){
                     this._SafeStr_6910.select();
                 }
                 else {
-                    this._SafeStr_6910.ISelectableWindow();
+                    this._SafeStr_6910.unselect();
                 };
             };
             if (this._SafeStr_6911){
@@ -397,7 +397,7 @@ package com.sulake.habbo.navigator.roomsettings
                     this._SafeStr_6911.select();
                 }
                 else {
-                    this._SafeStr_6911.ISelectableWindow();
+                    this._SafeStr_6911.unselect();
                 };
             };
             if (this._SafeStr_6912){
@@ -405,46 +405,46 @@ package com.sulake.habbo.navigator.roomsettings
                     this._SafeStr_6912.select();
                 }
                 else {
-                    this._SafeStr_6912.ISelectableWindow();
+                    this._SafeStr_6912.unselect();
                 };
             };
-            if (!this.RoomSettingsCtrl()){
-                this.RoomSettingsCtrl(this._SafeStr_6913);
-                this.RoomSettingsCtrl(this._SafeStr_6915);
-                this.RoomSettingsCtrl(this._SafeStr_6916);
-                this.RoomSettingsCtrl(this._SafeStr_6914);
+            if (!this.VIPFeaturesAllowed()){
+                this.disableWindow(this._SafeStr_6913);
+                this.disableWindow(this._SafeStr_6915);
+                this.disableWindow(this._SafeStr_6916);
+                this.disableWindow(this._SafeStr_6914);
             }
             else {
-                this.RoomSettingsCtrl(this._SafeStr_6913);
-                this.RoomSettingsCtrl(this._SafeStr_6915);
-                this.RoomSettingsCtrl(this._SafeStr_6916);
-                this.RoomSettingsCtrl(this._SafeStr_6914);
+                this.enableWindow(this._SafeStr_6913);
+                this.enableWindow(this._SafeStr_6915);
+                this.enableWindow(this._SafeStr_6916);
+                this.enableWindow(this._SafeStr_6914);
             };
             if (this._SafeStr_6913){
                 if (_local_1.hideWalls){
                     this._SafeStr_6913.select();
                 }
                 else {
-                    this._SafeStr_6913.ISelectableWindow();
+                    this._SafeStr_6913.unselect();
                 };
             };
             if (this._SafeStr_6915){
-                this._SafeStr_6915.selection = this.RoomSettingsCtrl(_local_1.wallThickness);
+                this._SafeStr_6915.selection = this.getThicknessSelectionIndex(_local_1.wallThickness);
             };
             if (this._SafeStr_6916){
-                this._SafeStr_6916.selection = this.RoomSettingsCtrl(_local_1.floorThickness);
+                this._SafeStr_6916.selection = this.getThicknessSelectionIndex(_local_1.floorThickness);
             };
             this.clearErrors();
         }
-        private function RoomSettingsCtrl():Boolean
+        private function VIPFeaturesAllowed():Boolean
         {
             return (this._navigator.sessionData.hasUserRight("fuse_hide_room_walls", HabboClubLevelEnum._SafeStr_3939));
         }
-        private function DirectionData(_arg_1:TextFieldManager, _arg_2:String):void
+        private function setTag(_arg_1:TextFieldManager, _arg_2:String):void
         {
-            _arg_1.CurrencyIndicatorBase((((_arg_2 == null)) ? "" : _arg_2));
+            _arg_1.setText((((_arg_2 == null)) ? "" : _arg_2));
         }
-        private function RoomSettingsCtrl(_arg_1:RoomSettingsData):void
+        private function refreshMaxVisitors(_arg_1:RoomSettingsData):void
         {
             var _local_2:Array = new Array();
             var _local_3:int = -1;
@@ -462,7 +462,7 @@ package com.sulake.habbo.navigator.roomsettings
             _local_6.populate(_local_2);
             _local_6.selection = (((_local_3 > -1)) ? _local_3 : 0);
         }
-        private function RoomSettingsCtrl(_arg_1:int):void
+        private function setCategorySelection(_arg_1:int):void
         {
             var _local_6:FlatCategory;
             var _local_2:IDropMenuWindow = (this._window.findChildByName("categories") as IDropMenuWindow);
@@ -481,7 +481,7 @@ package com.sulake.habbo.navigator.roomsettings
             _local_2.populate(_local_3);
             _local_2.selection = _local_4;
         }
-        private function RoomSettingsCtrl(_arg_1:int, _arg_2:int):FlatCategory
+        private function getFlatCategoryByIndex(_arg_1:int, _arg_2:int):FlatCategory
         {
             var _local_4:FlatCategory;
             var _local_3:int;
@@ -495,16 +495,16 @@ package com.sulake.habbo.navigator.roomsettings
             };
             return (null);
         }
-        private function RoomSettingsCtrl(_arg_1:WindowMouseEvent):void
+        private function onEditThumbnailButtonClick(_arg_1:WindowMouseEvent):void
         {
             this._navigator.roomInfoViewCtrl.startThumbnailEdit();
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onSwitchView(_arg_1:WindowEvent):void
         {
             this._SafeStr_6903 = !(this._SafeStr_6903);
             this._owner.roomSettingsRefreshNeeded();
         }
-        private function RoomSettingsCtrl(_arg_1:WindowMouseEvent):void
+        private function onSaveButtonClick(_arg_1:WindowMouseEvent):void
         {
             var _local_8:String;
             var _local_9:String;
@@ -516,7 +516,7 @@ package com.sulake.habbo.navigator.roomsettings
             _local_2.name = this._SafeStr_6904.getText();
             _local_2.description = this._SafeStr_6905.getText();
             var _local_3:ISelectorWindow = (this._window.findChildByName("doormode") as ISelectorWindow);
-            var _local_4:IWindow = _local_3.ISelectorWindow();
+            var _local_4:IWindow = _local_3.getSelected();
             switch (_local_4.name){
                 case "doormode_doorbell":
                     _local_2.doorMode = RoomSettingsFlatInfo._SafeStr_4188;
@@ -540,7 +540,7 @@ package com.sulake.habbo.navigator.roomsettings
                 };
             };
             var _local_5:IDropMenuWindow = (this._window.findChildByName("categories") as IDropMenuWindow);
-            var _local_6:FlatCategory = this.RoomSettingsCtrl(this._SafeStr_6900.categoryId, _local_5.selection);
+            var _local_6:FlatCategory = this.getFlatCategoryByIndex(this._SafeStr_6900.categoryId, _local_5.selection);
             _local_2.categoryId = _local_6.nodeId;
             var _local_7:IDropMenuWindow = (this._window.findChildByName("maxvisitors") as IDropMenuWindow);
             _local_2.maximumVisitors = (10 + (_local_7.selection * 5));
@@ -563,22 +563,22 @@ package com.sulake.habbo.navigator.roomsettings
                 _arg_2.push(_arg_1.getText());
             };
         }
-        private function RoomEventViewCtrl(_arg_1:WindowMouseEvent):void
+        private function onCancelButtonClick(_arg_1:WindowMouseEvent):void
         {
             this.close();
             this._owner.roomSettingsRefreshNeeded();
         }
-        private function RoomSettingsCtrl(_arg_1:WindowMouseEvent):void
+        private function onDeleteButtonClick(_arg_1:WindowMouseEvent):void
         {
             Logger.log(("[RoomSettingsCtrl.onDeleteButtonClick] " + this._flatId));
             if (this._SafeStr_6900 == null){
                 return;
             };
             this._navigator.registerParameter("navigator.roomsettings.deleteroom.confirm.message", "room_name", this._SafeStr_6900.name);
-            var _local_2:ConfirmDialogView = new ConfirmDialogView(IFrameWindow(this._navigator.getXmlWindow("ros_room_delete_confirm")), this, this.RoomSettingsCtrl, [this._flatId]);
+            var _local_2:ConfirmDialogView = new ConfirmDialogView(IFrameWindow(this._navigator.getXmlWindow("ros_room_delete_confirm")), this, this.onConfirmRoomDelete, [this._flatId]);
             _local_2.show();
         }
-        private function RoomSettingsCtrl(_arg_1:WindowMouseEvent, _arg_2:int):void
+        private function onConfirmRoomDelete(_arg_1:WindowMouseEvent, _arg_2:int):void
         {
             var _local_3:GuestRoomSearchResultData;
             this._navigator.send(new DeleteRoomMessageComposer(_arg_2));
@@ -586,23 +586,23 @@ package com.sulake.habbo.navigator.roomsettings
             this._owner.roomSettingsRefreshNeeded();
             if (this._navigator.data.guestRoomSearchResults != null){
                 _local_3 = this._navigator.data.guestRoomSearchResults;
-                this._navigator.mainViewCtrl.startSearch(this._navigator.tabs.ISelectorWindow().id, _local_3.searchType, _local_3.searchParam);
+                this._navigator.mainViewCtrl.startSearch(this._navigator.tabs.getSelected().id, _local_3.searchType, _local_3.searchParam);
             };
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onDoorModePasswordSelect(_arg_1:WindowEvent):void
         {
-            this.RoomSettingsCtrl(true);
+            this.changePasswordField(true);
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onDoorModePasswordUnselect(_arg_1:WindowEvent):void
         {
-            this.RoomSettingsCtrl(false);
+            this.changePasswordField(false);
         }
-        private function RoomSettingsCtrl(_arg_1:Boolean):void
+        private function changePasswordField(_arg_1:Boolean):void
         {
             this._SafeStr_6923.visible = _arg_1;
             this._owner.roomSettingsRefreshNeeded();
         }
-        private function RoomSettingsCtrl():void
+        private function refreshFlatControllers():void
         {
             var _local_5:IWindow;
             var _local_6:IWindow;
@@ -613,7 +613,7 @@ package com.sulake.habbo.navigator.roomsettings
             if ((((this._SafeStr_6922 == null)) || (this._SafeStr_6922.disposed))){
                 return;
             };
-            Util.InfostandWidget(this._SafeStr_6922);
+            Util.hideChildren(this._SafeStr_6922);
             var _local_1:IWindow = this._SafeStr_6922.findChildByName("ruler");
             if (_local_1 != null){
                 _local_1.visible = true;
@@ -625,13 +625,13 @@ package com.sulake.habbo.navigator.roomsettings
             };
             var _local_3:IWindowContainer = IWindowContainer(this._SafeStr_6922.findChildByName("flat_controller_list"));
             if (_local_3 != null){
-                Util.InfostandWidget(_local_3);
+                Util.hideChildren(_local_3);
                 if (this._SafeStr_6900 != null){
                     _local_8 = false;
                     _local_9 = 0;
                     while (_local_9 < this._SafeStr_6900.controllers.length) {
                         _local_10 = this._SafeStr_6900.controllers[_local_9];
-                        this.RoomSettingsCtrl(_local_3, _local_9, _local_10);
+                        this.refreshFlatController(_local_3, _local_9, _local_10);
                         if (_local_10.selected){
                             _local_8 = true;
                         };
@@ -670,7 +670,7 @@ package com.sulake.habbo.navigator.roomsettings
             };
             this._SafeStr_6922.height = Util.getLowestPoint(this._SafeStr_6922);
         }
-        private function RoomSettingsCtrl(_arg_1:IWindowContainer, _arg_2:int, _arg_3:FlatControllerData):void
+        private function refreshFlatController(_arg_1:IWindowContainer, _arg_2:int, _arg_3:FlatControllerData):void
         {
             var _local_6:ITextWindow;
             var _local_4:String = ("fc." + _arg_2);
@@ -682,14 +682,14 @@ package com.sulake.habbo.navigator.roomsettings
             }
             else {
                 if (_local_5 == null){
-                    _local_5 = this.RoomSettingsCtrl(_local_4);
+                    _local_5 = this.getFlatControllerContainer(_local_4);
                     _arg_1.addChild(_local_5);
                     _local_5.addChild(this._navigator.getXmlWindow("ros_flat_controller"));
                 };
                 _local_6 = ITextWindow(_local_5.findChildByName("flat_controller"));
                 _local_6.text = _arg_3.userName;
                 _local_6.id = _arg_3.userId;
-                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.RoomSettingsCtrl);
+                _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onFlatControllerClick);
                 _local_6.width = (_local_6.textWidth + 5);
                 _local_5.width = (_local_6.width + 3);
                 _local_5.height = _local_6.height;
@@ -698,16 +698,16 @@ package com.sulake.habbo.navigator.roomsettings
                 _local_5.visible = true;
             };
         }
-        private function RoomSettingsCtrl(_arg_1:String):IWindowContainer
+        private function getFlatControllerContainer(_arg_1:String):IWindowContainer
         {
             return (IWindowContainer(this._navigator.windowManager.createWindow(_arg_1, "", HabboWindowType._SafeStr_3728, HabboWindowStyle._SafeStr_3729, HabboWindowParam._SafeStr_6023, new Rectangle(0, 0, 100, 20))));
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onFlatControllerClick(_arg_1:WindowEvent):void
         {
             var _local_2:ITextWindow = ITextWindow(_arg_1.target);
             var _local_3:int = _local_2.id;
             Logger.log(((("FC clicked: " + _local_2.name) + ", ") + _local_3));
-            var _local_4:FlatControllerData = this.RoomSettingsCtrl(_local_3);
+            var _local_4:FlatControllerData = this.getFlatCtrl(_local_3);
             if (_local_4 == null){
                 Logger.log(("Couldn't find fc: " + _local_3));
                 return;
@@ -715,7 +715,7 @@ package com.sulake.habbo.navigator.roomsettings
             _local_4.selected = !(_local_4.selected);
             this._owner.roomSettingsRefreshNeeded();
         }
-        private function RoomSettingsCtrl(_arg_1:int):FlatControllerData
+        private function getFlatCtrl(_arg_1:int):FlatControllerData
         {
             var _local_2:FlatControllerData;
             if (this._SafeStr_6900 != null){
@@ -727,12 +727,12 @@ package com.sulake.habbo.navigator.roomsettings
             };
             return (null);
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onRemoveAllFlatCtrlsClick(_arg_1:WindowEvent):void
         {
             Logger.log("Remove all clicked: ");
             this._navigator.send(new RemoveAllRightsMessageComposer(this._flatId));
         }
-        private function RoomSettingsCtrl(_arg_1:WindowEvent):void
+        private function onRemoveFlatCtrlClick(_arg_1:WindowEvent):void
         {
             var _local_3:FlatControllerData;
             var _local_4:RemoveRightsMessageComposer;
@@ -783,7 +783,7 @@ package com.sulake.habbo.navigator.roomsettings
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)
 // _SafeStr_3939 = "_-2gR" (String#20706, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // doorMode = "_-2zu" (String#21456, DoABC#2)
 // _SafeStr_4148 = "_-1IG" (String#17204, DoABC#2)
 // nodeId = "_-3K6" (String#22286, DoABC#2)
@@ -793,11 +793,11 @@ package com.sulake.habbo.navigator.roomsettings
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // layoutChildrenInArea = "_-0f9" (String#15635, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
-// ISelectorWindow = "_-88" (String#7825, DoABC#2)
+// getSelected = "_-88" (String#7825, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
 // moveChildrenToColumn = "_-fI" (String#23859, DoABC#2)
 // searchType = "_-2UR" (String#20218, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
 // _SafeStr_5334 = "_-25s" (String#19252, DoABC#2)
 // allowPets = "_-2Zu" (String#20436, DoABC#2)
 // allowFoodConsume = "_-18w" (String#16812, DoABC#2)
@@ -808,7 +808,7 @@ package com.sulake.habbo.navigator.roomsettings
 // maximumVisitorsLimit = "_-S3" (String#23327, DoABC#2)
 // controllers = "_-0A4" (String#14450, DoABC#2)
 // controllerCount = "_-0WL" (String#15293, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // _flatId = "_-2Al" (String#135, DoABC#2)
 // _SafeStr_5568 = "_-0Xj" (String#15344, DoABC#2)
 // _SafeStr_5570 = "_-2OU" (String#19985, DoABC#2)
@@ -824,7 +824,7 @@ package com.sulake.habbo.navigator.roomsettings
 // searchParam = "_-1jk" (String#18273, DoABC#2)
 // nodeName = "_-2F3" (String#19606, DoABC#2)
 // getCancelButton = "_-3Hz" (String#7666, DoABC#2)
-// RoomEventViewCtrl = "_-0ir" (String#1534, DoABC#2)
+// onCancelButtonClick = "_-0ir" (String#1534, DoABC#2)
 // textBackgroundColor = "_-11u" (String#1606, DoABC#2)
 // roomSettingsRefreshNeeded = "_-QW" (String#8214, DoABC#2)
 // _SafeStr_6899 = "_-2Tt" (String#20193, DoABC#2)
@@ -853,47 +853,47 @@ package com.sulake.habbo.navigator.roomsettings
 // _SafeStr_6922 = "_-8l" (String#22571, DoABC#2)
 // _SafeStr_6923 = "_-qi" (String#24303, DoABC#2)
 // _SafeStr_6924 = "_-2xG" (String#21361, DoABC#2)
-// RoomSettingsCtrl = "_-1Go" (String#17143, DoABC#2)
-// RoomSettingsCtrl = "_-1Tg" (String#17652, DoABC#2)
-// IncomingMessages = "_-9F" (String#7848, DoABC#2)
-// RoomSettingsCtrl = "_-mp" (String#24143, DoABC#2)
-// IncomingMessages = "_-MZ" (String#8134, DoABC#2)
-// IncomingMessages = "_-1-A" (String#4849, DoABC#2)
-// IncomingMessages = "_-0Fh" (String#3867, DoABC#2)
+// resetView = "_-1Go" (String#17143, DoABC#2)
+// onRoomSettings = "_-1Tg" (String#17652, DoABC#2)
+// onFlatControllerAdded = "_-9F" (String#7848, DoABC#2)
+// controllerExists = "_-mp" (String#24143, DoABC#2)
+// onFlatControllerRemoved = "_-MZ" (String#8134, DoABC#2)
+// onRoomSettingsSaved = "_-1-A" (String#4849, DoABC#2)
+// onRoomSettingsSaveError = "_-0Fh" (String#3867, DoABC#2)
 // displayError = "_-ky" (String#24070, DoABC#2)
-// RoomSettingsCtrl = "_-1wX" (String#18822, DoABC#2)
+// setTagError = "_-1wX" (String#18822, DoABC#2)
 // clearErrors = "_-1FQ" (String#1642, DoABC#2)
-// RoomSettingsCtrl = "_-0FB" (String#14651, DoABC#2)
+// onDoorModePasswordSelect = "_-0FB" (String#14651, DoABC#2)
 // WE_UNSELECT = "_-sx" (String#24402, DoABC#2)
-// RoomSettingsCtrl = "_-vO" (String#24505, DoABC#2)
-// RoomSettingsCtrl = "_-0kZ" (String#15850, DoABC#2)
-// RoomSettingsCtrl = "_-0j4" (String#15795, DoABC#2)
-// RoomSettingsCtrl = "_-0iV" (String#15772, DoABC#2)
-// RoomSettingsCtrl = "_-1af" (String#17921, DoABC#2)
-// RoomSettingsCtrl = "_-0ml" (String#15928, DoABC#2)
-// RoomSettingsCtrl = "_-OO" (String#23183, DoABC#2)
-// RoomSettingsCtrl = "_-B3" (String#22657, DoABC#2)
-// RoomSettingsCtrl = "_-1kJ" (String#18302, DoABC#2)
-// RoomSettingsCtrl = "_-3Iq" (String#22231, DoABC#2)
-// RoomSettingsCtrl = "_-8-" (String#22544, DoABC#2)
-// RoomSettingsCtrl = "_-0yn" (String#16383, DoABC#2)
+// onDoorModePasswordUnselect = "_-vO" (String#24505, DoABC#2)
+// getSaveButton = "_-0kZ" (String#15850, DoABC#2)
+// onSaveButtonClick = "_-0j4" (String#15795, DoABC#2)
+// getDeleteButton = "_-0iV" (String#15772, DoABC#2)
+// onDeleteButtonClick = "_-1af" (String#17921, DoABC#2)
+// getEditThumbnailButton = "_-0ml" (String#15928, DoABC#2)
+// onEditThumbnailButtonClick = "_-OO" (String#23183, DoABC#2)
+// getRemoveAllFlatCtrlsButton = "_-B3" (String#22657, DoABC#2)
+// onRemoveAllFlatCtrlsClick = "_-1kJ" (String#18302, DoABC#2)
+// getRemoveFlatCtrlsButton = "_-3Iq" (String#22231, DoABC#2)
+// onRemoveFlatCtrlClick = "_-8-" (String#22544, DoABC#2)
+// onSwitchView = "_-0yn" (String#16383, DoABC#2)
 // setColors = "_-1Dl" (String#17014, DoABC#2)
-// RoomSettingsCtrl = "_-2sA" (String#21165, DoABC#2)
-// RoomSettingsCtrl = "_-s7" (String#24368, DoABC#2)
-// RoomSettingsCtrl = "_-326" (String#21585, DoABC#2)
-// RoomSettingsCtrl = "_-24J" (String#19190, DoABC#2)
-// RoomSettingsCtrl = "_-26f" (String#19278, DoABC#2)
-// RoomSettingsCtrl = "_-2Rc" (String#20104, DoABC#2)
-// RoomSettingsCtrl = "_-1Rr" (String#17576, DoABC#2)
-// RoomSettingsCtrl = "_-Or" (String#23199, DoABC#2)
-// DirectionData = "_-l" (String#8622, DoABC#2)
-// RoomSettingsCtrl = "_-035" (String#14167, DoABC#2)
-// RoomSettingsCtrl = "_-3IW" (String#22220, DoABC#2)
+// populateForm = "_-2sA" (String#21165, DoABC#2)
+// refreshFlatControllers = "_-s7" (String#24368, DoABC#2)
+// disableWindow = "_-326" (String#21585, DoABC#2)
+// enableWindow = "_-24J" (String#19190, DoABC#2)
+// getThicknessSelectionIndex = "_-26f" (String#19278, DoABC#2)
+// changePasswordField = "_-2Rc" (String#20104, DoABC#2)
+// setCategorySelection = "_-1Rr" (String#17576, DoABC#2)
+// refreshMaxVisitors = "_-Or" (String#23199, DoABC#2)
+// setTag = "_-l" (String#8622, DoABC#2)
+// VIPFeaturesAllowed = "_-035" (String#14167, DoABC#2)
+// getFlatCategoryByIndex = "_-3IW" (String#22220, DoABC#2)
 // startThumbnailEdit = "_-S7" (String#23329, DoABC#2)
-// RoomSettingsCtrl = "_-nS" (String#24170, DoABC#2)
-// RoomSettingsCtrl = "_-00D" (String#14063, DoABC#2)
-// RoomSettingsCtrl = "_-0d6" (String#15553, DoABC#2)
-// RoomSettingsCtrl = "_-3KH" (String#22293, DoABC#2)
-// RoomSettingsCtrl = "_-pO" (String#24249, DoABC#2)
+// onConfirmRoomDelete = "_-nS" (String#24170, DoABC#2)
+// refreshFlatController = "_-00D" (String#14063, DoABC#2)
+// getFlatControllerContainer = "_-0d6" (String#15553, DoABC#2)
+// onFlatControllerClick = "_-3KH" (String#22293, DoABC#2)
+// getFlatCtrl = "_-pO" (String#24249, DoABC#2)
 
 

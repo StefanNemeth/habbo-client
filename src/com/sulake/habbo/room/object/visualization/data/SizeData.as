@@ -143,41 +143,41 @@ package com.sulake.habbo.room.object.visualization.data
                 };
                 _local_7 = _local_5.@tag;
                 if (_local_7.length > 0){
-                    _arg_1.DirectionData(_local_6, _local_7);
+                    _arg_1.setTag(_local_6, _local_7);
                 };
                 _local_8 = _local_5.@ink;
                 switch (_local_8){
                     case "ADD":
-                        _arg_1.DirectionData(_local_6, LayerData._SafeStr_12537);
+                        _arg_1.setInk(_local_6, LayerData._SafeStr_12537);
                         break;
                     case "SUBTRACT":
-                        _arg_1.DirectionData(_local_6, LayerData._SafeStr_12538);
+                        _arg_1.setInk(_local_6, LayerData._SafeStr_12538);
                         break;
                     case "DARKEN":
-                        _arg_1.DirectionData(_local_6, LayerData.INK_DARKEN);
+                        _arg_1.setInk(_local_6, LayerData.INK_DARKEN);
                         break;
                 };
                 _local_7 = _local_5.@alpha;
                 if (_local_7.length > 0){
-                    _arg_1.DirectionData(_local_6, int(_local_7));
+                    _arg_1.setAlpha(_local_6, int(_local_7));
                 };
                 _local_7 = _local_5.@ignoreMouse;
                 if (_local_7.length > 0){
                     _local_9 = int(_local_7);
-                    _arg_1.DirectionData(_local_6, !((_local_9 == 0)));
+                    _arg_1.setIgnoreMouse(_local_6, !((_local_9 == 0)));
                 };
                 _local_7 = _local_5.@x;
                 if (_local_7.length > 0){
-                    _arg_1.DirectionData(_local_6, int(_local_7));
+                    _arg_1.setXOffset(_local_6, int(_local_7));
                 };
                 _local_7 = _local_5.@y;
                 if (_local_7.length > 0){
-                    _arg_1.DirectionData(_local_6, int(_local_7));
+                    _arg_1.setYOffset(_local_6, int(_local_7));
                 };
                 _local_7 = _local_5.@z;
                 if (_local_7.length > 0){
                     _local_10 = int(_local_7);
-                    _arg_1.DirectionData(_local_6, (Number(_local_10) / -1000));
+                    _arg_1.setZOffset(_local_6, (Number(_local_10) / -1000));
                 };
                 _local_4++;
             };
@@ -360,14 +360,14 @@ package com.sulake.habbo.room.object.visualization.data
 // defineLayers = "_-vv" (String#24524, DoABC#2)
 // defineDirection = "_-8j" (String#22570, DoABC#2)
 // defineDirections = "_-21H" (String#19064, DoABC#2)
-// DirectionData = "_-2Vh" (String#20268, DoABC#2)
+// setInk = "_-2Vh" (String#20268, DoABC#2)
 // _SafeStr_12537 = "_-ZY" (String#23618, DoABC#2)
 // _SafeStr_12538 = "_-1dV" (String#18034, DoABC#2)
-// DirectionData = "_-30G" (String#21511, DoABC#2)
-// DirectionData = "_-1js" (String#18279, DoABC#2)
-// DirectionData = "_-1bw" (String#17968, DoABC#2)
-// DirectionData = "_-GM" (String#22867, DoABC#2)
-// DirectionData = "_-2R7" (String#20088, DoABC#2)
+// setAlpha = "_-30G" (String#21511, DoABC#2)
+// setIgnoreMouse = "_-1js" (String#18279, DoABC#2)
+// setXOffset = "_-1bw" (String#17968, DoABC#2)
+// setYOffset = "_-GM" (String#22867, DoABC#2)
+// setZOffset = "_-2R7" (String#20088, DoABC#2)
 // defineColors = "_-06Z" (String#14308, DoABC#2)
 // getDirectionData = "_-GI" (String#22864, DoABC#2)
 //  = "_-1S-" (String#17583, DoABC#2)
@@ -389,6 +389,6 @@ package com.sulake.habbo.room.object.visualization.data
 // getTag = "_-01m" (String#14120, DoABC#2)
 // _SafeStr_4861 = "_-0CJ" (String#582, DoABC#2)
 // getColor = "_-07L" (String#1406, DoABC#2)
-// DirectionData = "_-l" (String#8622, DoABC#2)
+// setTag = "_-l" (String#8622, DoABC#2)
 
 

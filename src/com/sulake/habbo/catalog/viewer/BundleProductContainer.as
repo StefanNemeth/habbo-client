@@ -39,7 +39,7 @@ package com.sulake.habbo.catalog.viewer
         }
         override public function initProductIcon(_arg_1:IRoomEngine):void
         {
-            ProductGridItem(this._SafeStr_5028.clone(), true);
+            setIconImage(this._SafeStr_5028.clone(), true);
         }
         public function populateItemGrid(_arg_1:IItemGridWindow, _arg_2:IScrollbarWindow, _arg_3:XML):void
         {
@@ -57,7 +57,7 @@ package com.sulake.habbo.catalog.viewer
                         _local_8.visible = false;
                     };
                 };
-                _arg_1.IItemGridWindow(_local_5);
+                _arg_1.addGridItem(_local_5);
                 _local_4.view = _local_5;
                 _local_7 = _local_4.initIcon(this);
                 if (_local_7 != null){
@@ -98,10 +98,10 @@ package com.sulake.habbo.catalog.viewer
 // ProductContainer = "_-X-" (String#8349, DoABC#2)
 // IItemGrid = "_-0i3" (String#4468, DoABC#2)
 // BundleProductContainer = "_-1p3" (String#5839, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
 // startDragAndDrop = "_-Di" (String#7945, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 // initIcon = "_-0Fm" (String#1437, DoABC#2)
 // _SafeStr_5027 = "_-1Ls" (String#17352, DoABC#2)
 // _SafeStr_5028 = "_-2Ho" (String#19718, DoABC#2)

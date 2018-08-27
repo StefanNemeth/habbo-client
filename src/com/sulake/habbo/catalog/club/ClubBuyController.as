@@ -37,7 +37,7 @@ package com.sulake.habbo.catalog.club
                 this._visualization = null;
             };
             this.reset();
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
             this._catalog = null;
             this._disposed = true;
         }
@@ -49,7 +49,7 @@ package com.sulake.habbo.catalog.club
             };
             this._offers = [];
         }
-        public function MarketPlaceLogic(_arg_1:HabboClubOffersMessageEvent):void
+        public function onOffers(_arg_1:HabboClubOffersMessageEvent):void
         {
             var _local_4:ClubBuyOfferData;
             var _local_5:ClubOfferData;
@@ -77,7 +77,7 @@ package com.sulake.habbo.catalog.club
                 this._visualization.reset();
                 this._visualization.initClubType(this.getClubType());
                 for each (_local_7 in this._offers) {
-                    this._visualization.PollSession(_local_7);
+                    this._visualization.showOffer(_local_7);
                 };
             };
         }
@@ -87,7 +87,7 @@ package com.sulake.habbo.catalog.club
                 this._visualization = null;
             };
         }
-        public function MarketPlaceLogic(_arg_1:ClubBuyCatalogWidget):void
+        public function registerVisualization(_arg_1:ClubBuyCatalogWidget):void
         {
             var _local_2:ClubBuyOfferData;
             this._visualization = _arg_1;
@@ -96,18 +96,18 @@ package com.sulake.habbo.catalog.club
                     this._visualization.reset();
                     this._visualization.initClubType(this.getClubType());
                     for each (_local_2 in this._offers) {
-                        this._visualization.PollSession(_local_2);
+                        this._visualization.showOffer(_local_2);
                     };
                 };
             };
         }
-        public function MarketPlaceLogic():void
+        public function requestOffers():void
         {
             this._catalog.getHabboClubOffers();
         }
         public function showConfirmation(_arg_1:ClubBuyOfferData, _arg_2:int):void
         {
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
             this._SafeStr_5427 = new ClubBuyConfirmationDialog(this, _arg_1, _arg_2);
         }
         public function confirmSelection(_arg_1:ClubBuyOfferData, _arg_2:int):void
@@ -116,9 +116,9 @@ package com.sulake.habbo.catalog.club
                 return;
             };
             this._catalog.purchaseProduct(_arg_2, _arg_1.offerId);
-            this.ExtraToolsExtension();
+            this.closeConfirmation();
         }
-        public function ExtraToolsExtension():void
+        public function closeConfirmation():void
         {
             if (this._SafeStr_5427){
                 this._SafeStr_5427.dispose();
@@ -215,8 +215,8 @@ package com.sulake.habbo.catalog.club
 // productCode = "_-2co" (String#20558, DoABC#2)
 // offerId = "_-9g" (String#928, DoABC#2)
 // _SafeStr_5427 = "_-au" (String#638, DoABC#2)
-// ExtraToolsExtension = "_-2PG" (String#6548, DoABC#2)
-// MarketPlaceLogic = "_-1x1" (String#5973, DoABC#2)
+// closeConfirmation = "_-2PG" (String#6548, DoABC#2)
+// onOffers = "_-1x1" (String#5973, DoABC#2)
 // upgrade = "_-2mZ" (String#20944, DoABC#2)
 // periods = "_-0cr" (String#15546, DoABC#2)
 // daysLeftAfterPurchase = "_-2JK" (String#19782, DoABC#2)
@@ -224,10 +224,10 @@ package com.sulake.habbo.catalog.club
 // orderByPrecedence = "_-Ex" (String#7971, DoABC#2)
 // initClubType = "_-EO" (String#22787, DoABC#2)
 // getClubType = "_-1u" (String#18715, DoABC#2)
-// PollSession = "_-2nW" (String#20980, DoABC#2)
+// showOffer = "_-2nW" (String#20980, DoABC#2)
 // unRegisterVisualization = "_-3BS" (String#21941, DoABC#2)
-// MarketPlaceLogic = "_-2z1" (String#7263, DoABC#2)
-// MarketPlaceLogic = "_-1ST" (String#5406, DoABC#2)
+// registerVisualization = "_-2z1" (String#7263, DoABC#2)
+// requestOffers = "_-1ST" (String#5406, DoABC#2)
 // getHabboClubOffers = "_-16e" (String#5009, DoABC#2)
 // confirmSelection = "_-fK" (String#23861, DoABC#2)
 // purchaseProduct = "_-na" (String#24175, DoABC#2)

@@ -36,9 +36,9 @@ package com.sulake.habbo.session.handler
             };
             _arg_1.addMessageEvent(new OpenConnectionMessageEvent(this.onRoomConnected));
             _arg_1.addMessageEvent(new FlatAccessibleMessageEvent(this.onFlatAccessible));
-            _arg_1.addMessageEvent(new RoomReadyMessageEvent(this.SessionDataManager));
+            _arg_1.addMessageEvent(new RoomReadyMessageEvent(this.onRoomReady));
             _arg_1.addMessageEvent(new CloseConnectionMessageEvent(this.onRoomDisconnected));
-            _arg_1.addMessageEvent(new FlatAccessDeniedMessageEvent(this.IncomingMessages));
+            _arg_1.addMessageEvent(new FlatAccessDeniedMessageEvent(this.onFlatAccessDenied));
             _arg_1.addMessageEvent(new RoomQueueStatusMessageEvent(this.onRoomQueueStatus));
             _arg_1.addMessageEvent(new YouAreSpectatorMessageEvent(this.onYouAreSpectator));
         }
@@ -72,7 +72,7 @@ package com.sulake.habbo.session.handler
                 };
             };
         }
-        private function SessionDataManager(_arg_1:IMessageEvent):void
+        private function onRoomReady(_arg_1:IMessageEvent):void
         {
             var _local_7:RoomReadyMessageParser;
             var _local_2:int = _xxxRoomId;
@@ -92,7 +92,7 @@ package com.sulake.habbo.session.handler
                 listener.sessionUpdate(_local_2, _local_3, RoomSessionHandler.RS_READY);
             };
         }
-        private function IncomingMessages(_arg_1:FlatAccessDeniedMessageEvent):void
+        private function onFlatAccessDenied(_arg_1:FlatAccessDeniedMessageEvent):void
         {
             var _local_6:IRoomSession;
             var _local_2:int = _xxxRoomId;
@@ -149,7 +149,7 @@ package com.sulake.habbo.session.handler
                 _local_5 = new RoomSessionQueueEvent(_local_3, _local_4.name, _local_4.target, (_local_4.target == _local_8));
                 _local_7 = _local_4.queueTypes;
                 for each (_local_10 in _local_7) {
-                    _local_5.RoomQueueSet(_local_10, _local_4.RoomQueueSet(_local_10));
+                    _local_5.addQueue(_local_10, _local_4.getQueueSize(_local_10));
                 };
                 listener.events.dispatchEvent(_local_5);
             };
@@ -190,17 +190,17 @@ package com.sulake.habbo.session.handler
 // RWDE_ACCEPTED = "_-1OB" (String#17441, DoABC#2)
 // RWDE_REJECTED = "_-1MV" (String#17378, DoABC#2)
 // queueTypes = "_-1Hm" (String#17182, DoABC#2)
-// RoomQueueSet = "_-2ar" (String#20482, DoABC#2)
-// RoomQueueSet = "_-RF" (String#23293, DoABC#2)
+// getQueueSize = "_-2ar" (String#20482, DoABC#2)
+// addQueue = "_-RF" (String#23293, DoABC#2)
 // _SafeStr_6312 = "_-2JJ" (String#19781, DoABC#2)
 // RS_CONNECTED = "_-2VD" (String#20249, DoABC#2)
 // RS_READY = "_-2uu" (String#21274, DoABC#2)
 // RS_DISCONNECTED = "_-2nj" (String#20988, DoABC#2)
 // onRoomConnected = "_-19u" (String#16851, DoABC#2)
 // onFlatAccessible = "_-1c8" (String#17977, DoABC#2)
-// SessionDataManager = "_-0KO" (String#583, DoABC#2)
+// onRoomReady = "_-0KO" (String#583, DoABC#2)
 // onRoomDisconnected = "_-2mG" (String#20929, DoABC#2)
-// IncomingMessages = "_-1qT" (String#5863, DoABC#2)
+// onFlatAccessDenied = "_-1qT" (String#5863, DoABC#2)
 // onRoomQueueStatus = "_-2BL" (String#19458, DoABC#2)
 // onYouAreSpectator = "_-3G-" (String#22115, DoABC#2)
 // getQueueSetTargets = "_-0lJ" (String#15877, DoABC#2)

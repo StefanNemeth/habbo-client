@@ -49,7 +49,7 @@ package com.sulake.habbo.avatar.generic
             }
             else {
                 for each (_local_2 in _SafeStr_5402) {
-                    _local_2.AvatarEditorGridView();
+                    _local_2.initFromList();
                 };
             };
             _isInitialized = true;
@@ -57,7 +57,7 @@ package com.sulake.habbo.avatar.generic
             attachImages();
             this.updateGenderTab();
         }
-        override public function TradingModel():IWindowContainer
+        override public function getWindowContainer():IWindowContainer
         {
             if (!_isInitialized){
                 this.init();
@@ -133,14 +133,14 @@ package com.sulake.habbo.avatar.generic
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
 // _SafeStr_5398 = "_-k" (String#24032, DoABC#2)
 // _SafeStr_5399 = "_-2BH" (String#19454, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)
 // _SafeStr_5401 = "_-06A" (String#14290, DoABC#2)
 // _SafeStr_5402 = "_-0Lb" (String#14897, DoABC#2)
-// AvatarEditorGridView = "_-ME" (String#23093, DoABC#2)
+// initFromList = "_-ME" (String#23093, DoABC#2)
 // updateGridView = "_-BT" (String#22671, DoABC#2)
 // attachImages = "_-2jH" (String#6942, DoABC#2)
 // updateGenderTab = "_-1gW" (String#18159, DoABC#2)

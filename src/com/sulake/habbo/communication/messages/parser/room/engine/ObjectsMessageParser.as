@@ -32,13 +32,13 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             this._roomCategory = 0;
             return (true);
         }
-        public function RoomInstance():int
+        public function getObjectCount():int
         {
             return (this._objects.length);
         }
-        public function RoomInstance(_arg_1:int):ObjectMessageData
+        public function getObject(_arg_1:int):ObjectMessageData
         {
-            if ((((_arg_1 < 0)) || ((_arg_1 >= this.RoomInstance())))){
+            if ((((_arg_1 < 0)) || ((_arg_1 >= this.getObjectCount())))){
                 return (null);
             };
             var _local_2:ObjectMessageData = (this._objects[_arg_1] as ObjectMessageData);
@@ -75,8 +75,8 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // ObjectDataParser = "_-NK" (String#8152, DoABC#2)
 // setReadOnly = "_-5p" (String#22456, DoABC#2)
 // parseObjectData = "_-dv" (String#23798, DoABC#2)
-// RoomInstance = "_-09y" (String#1415, DoABC#2)
-// RoomInstance = "_-1GT" (String#844, DoABC#2)
+// getObjectCount = "_-09y" (String#1415, DoABC#2)
+// getObject = "_-1GT" (String#844, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

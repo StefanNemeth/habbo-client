@@ -69,7 +69,7 @@ package com.sulake.core.assets.loaders
             _SafeStr_7404 = 0;
             this._content.load(_arg_1, this._loaderContext);
         }
-        override protected function LibraryLoader():Boolean
+        override protected function retry():Boolean
         {
             if (!_disposed){
                 if (++_SafeStr_7404 < _SafeStr_7405){
@@ -117,7 +117,7 @@ package com.sulake.core.assets.loaders
 // _content = "_-0lY" (String#299, DoABC#2)
 // _SafeStr_7404 = "_-291" (String#19368, DoABC#2)
 // _SafeStr_7405 = "_-Wu" (String#23519, DoABC#2)
-// LibraryLoader = "_-0Ol" (String#816, DoABC#2)
+// retry = "_-0Ol" (String#816, DoABC#2)
 // _loaderContext = "_-0PU" (String#4082, DoABC#2)
 // loaderContext = "_-27g" (String#19318, DoABC#2)
 

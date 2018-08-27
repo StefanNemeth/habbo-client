@@ -37,32 +37,32 @@ package com.sulake.habbo.quest
         {
             this._SafeStr_8017 = _arg_1;
             this._communication = this._SafeStr_8017.communication;
-            this._communication.HabboCommunicationManager(new QuestCompletedMessageEvent(this.QuestTracker));
-            this._communication.HabboCommunicationManager(new QuestCancelledMessageEvent(this.QuestTracker));
-            this._communication.HabboCommunicationManager(new CloseConnectionMessageEvent(this.HabboGroupInfoManager));
-            this._communication.HabboCommunicationManager(new RoomEntryInfoMessageEvent(this.onRoomEnter));
-            this._communication.HabboCommunicationManager(new QuestsMessageEvent(this.onQuests));
-            this._communication.HabboCommunicationManager(new QuestMessageEvent(this.QuestTracker));
-            this._communication.HabboCommunicationManager(new AchievementsEvent(this.onAchievements));
-            this._communication.HabboCommunicationManager(new AchievementEvent(this.onAchievement));
-            this._communication.HabboCommunicationManager(new AchievementsScoreEvent(this.onAchievementsScore));
-            this._communication.HabboCommunicationManager(new HabboAchievementNotificationMessageEvent(this.AchievementLevelUp));
-            this._communication.HabboCommunicationManager(new HabboAchievementShareIdMessageEvent(this.onAchievementShareId));
+            this._communication.addHabboConnectionMessageEvent(new QuestCompletedMessageEvent(this.onQuestCompleted));
+            this._communication.addHabboConnectionMessageEvent(new QuestCancelledMessageEvent(this.onQuestCancelled));
+            this._communication.addHabboConnectionMessageEvent(new CloseConnectionMessageEvent(this.onRoomExit));
+            this._communication.addHabboConnectionMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
+            this._communication.addHabboConnectionMessageEvent(new QuestsMessageEvent(this.onQuests));
+            this._communication.addHabboConnectionMessageEvent(new QuestMessageEvent(this.onQuest));
+            this._communication.addHabboConnectionMessageEvent(new AchievementsEvent(this.onAchievements));
+            this._communication.addHabboConnectionMessageEvent(new AchievementEvent(this.onAchievement));
+            this._communication.addHabboConnectionMessageEvent(new AchievementsScoreEvent(this.onAchievementsScore));
+            this._communication.addHabboConnectionMessageEvent(new HabboAchievementNotificationMessageEvent(this.onLevelUp));
+            this._communication.addHabboConnectionMessageEvent(new HabboAchievementShareIdMessageEvent(this.onAchievementShareId));
         }
         public function get disposed():Boolean
         {
             return (this._disposed);
         }
-        private function QuestTracker(_arg_1:IMessageEvent):void
+        private function onQuestCompleted(_arg_1:IMessageEvent):void
         {
             var _local_2:QuestCompletedMessageParser = (_arg_1 as QuestCompletedMessageEvent).getParser();
             Logger.log(((("Quest Completed: " + _local_2.questData.campaignCode) + " quest: ") + _local_2.questData.id));
-            this._SafeStr_8017.questController.QuestTracker(_local_2.questData);
+            this._SafeStr_8017.questController.onQuestCompleted(_local_2.questData);
         }
-        private function QuestTracker(_arg_1:IMessageEvent):void
+        private function onQuestCancelled(_arg_1:IMessageEvent):void
         {
             Logger.log("Quest Cancelled: ");
-            this._SafeStr_8017.questController.QuestTracker();
+            this._SafeStr_8017.questController.onQuestCancelled();
         }
         private function onQuests(_arg_1:IMessageEvent):void
         {
@@ -70,11 +70,11 @@ package com.sulake.habbo.quest
             Logger.log(((("Got Quests: " + _local_2.quests) + ", ") + _local_2.openWindow));
             this._SafeStr_8017.questController.onQuests(_local_2.quests, _local_2.openWindow);
         }
-        private function QuestTracker(_arg_1:IMessageEvent):void
+        private function onQuest(_arg_1:IMessageEvent):void
         {
             var _local_2:QuestMessageParser = (_arg_1 as QuestMessageEvent).getParser();
             Logger.log(("Got Quest: " + _local_2.quest));
-            this._SafeStr_8017.questController.QuestTracker(_local_2.quest);
+            this._SafeStr_8017.questController.onQuest(_local_2.quest);
         }
         public function dispose():void
         {
@@ -89,10 +89,10 @@ package com.sulake.habbo.quest
             this._SafeStr_8017.questController.onRoomEnter();
             this._SafeStr_8017.currentlyInRoom = true;
         }
-        private function HabboGroupInfoManager(_arg_1:IMessageEvent):void
+        private function onRoomExit(_arg_1:IMessageEvent):void
         {
-            this._SafeStr_8017.questController.HabboGroupInfoManager();
-            this._SafeStr_8017.achievementController.HabboGroupInfoManager();
+            this._SafeStr_8017.questController.onRoomExit();
+            this._SafeStr_8017.achievementController.onRoomExit();
             this._SafeStr_8017.currentlyInRoom = false;
         }
         private function onAchievements(_arg_1:IMessageEvent):void
@@ -113,18 +113,18 @@ package com.sulake.habbo.quest
             var _local_3:AchievementsScoreMessageParser = (_local_2.getParser() as AchievementsScoreMessageParser);
             this._SafeStr_8017.localization.registerParameter("achievements.categories.score", "score", _local_3.score.toString());
         }
-        private function AchievementLevelUp(_arg_1:IMessageEvent):void
+        private function onLevelUp(_arg_1:IMessageEvent):void
         {
             var _local_2:HabboAchievementNotificationMessageEvent = (_arg_1 as HabboAchievementNotificationMessageEvent);
             var _local_3:HabboAchievementNotificationMessageParser = _local_2.getParser();
             var _local_4:String = this._SafeStr_8017.localization.getBadgeBaseName(_local_3.data.badgeCode);
             this._SafeStr_8017.send(new EventLogMessageComposer("Achievements", _local_4, "Leveled", "", _local_3.data.level));
-            this._SafeStr_8017.achievementController.levelUpDialog.AchievementLevelUp(_local_3.data);
+            this._SafeStr_8017.achievementController.levelUpDialog.onLevelUp(_local_3.data);
         }
         private function onAchievementShareId(_arg_1:IMessageEvent):void
         {
             var _local_2:HabboAchievementShareIdMessageEvent = (_arg_1 as HabboAchievementShareIdMessageEvent);
-            this._SafeStr_8017.achievementController.levelUpDialog.AchievementLevelUp(_local_2.badgeID, _local_2.shareID);
+            this._SafeStr_8017.achievementController.levelUpDialog.requestFacebookPostDialog(_local_2.badgeID, _local_2.shareID);
         }
 
     }
@@ -133,18 +133,18 @@ package com.sulake.habbo.quest
 // onAchievementsScore = "_-28h" (String#6216, DoABC#2)
 // getBadgeBaseName = "_-25N" (String#6149, DoABC#2)
 // _SafeStr_12161 = "_-023" (String#14128, DoABC#2)
-// QuestTracker = "_-2Ht" (String#6400, DoABC#2)
-// QuestTracker = "_-0wk" (String#4785, DoABC#2)
+// onQuestCompleted = "_-2Ht" (String#6400, DoABC#2)
+// onQuestCancelled = "_-0wk" (String#4785, DoABC#2)
 // onQuests = "_-1uj" (String#5933, DoABC#2)
-// QuestTracker = "_-kW" (String#8614, DoABC#2)
+// onQuest = "_-kW" (String#8614, DoABC#2)
 // onAchievements = "_-2x" (String#7223, DoABC#2)
 // onAchievement = "_-3BD" (String#7532, DoABC#2)
-// AchievementLevelUp = "_-2UY" (String#6656, DoABC#2)
+// onLevelUp = "_-2UY" (String#6656, DoABC#2)
 // questController = "_-1Hq" (String#17186, DoABC#2)
 // currentlyInRoom = "_-15i" (String#16684, DoABC#2)
 // achievementController = "_-0e" (String#15584, DoABC#2)
 // levelUpDialog = "_-3Ft" (String#22111, DoABC#2)
-// AchievementLevelUp = "_-VO" (String#23466, DoABC#2)
+// requestFacebookPostDialog = "_-VO" (String#23466, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
 // IncomingMessages = "_-2Xb" (String#216, DoABC#2)
 // AchievementsScoreEvent = "_-JF" (String#8067, DoABC#2)
@@ -165,7 +165,7 @@ package com.sulake.habbo.quest
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
 // badgeCode = "_-2XO" (String#20338, DoABC#2)
 // badgeID = "_-Cm" (String#22716, DoABC#2)
 // shareID = "_-02x" (String#14159, DoABC#2)
@@ -183,6 +183,6 @@ package com.sulake.habbo.quest
 // HabboAchievementNotificationMessageEvent = "_-2LH" (String#6465, DoABC#2)
 // CloseConnectionMessageEvent = "_-2cv" (String#6811, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

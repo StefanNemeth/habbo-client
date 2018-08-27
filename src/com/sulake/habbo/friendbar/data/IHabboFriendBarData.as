@@ -9,14 +9,14 @@ package com.sulake.habbo.friendbar.data
 
         function get events():IEventDispatcher;
         function get numFriends():int;
-        function HabboFriendBarData(_arg_1:int):IFriendEntity;
-        function HabboFriendBarData(_arg_1:int):IFriendEntity;
-        function HabboFriendBarData(_arg_1:String):IFriendEntity;
+        function getFriendAt(_arg_1:int):IFriendEntity;
+        function getFriendByID(_arg_1:int):IFriendEntity;
+        function getFriendByName(_arg_1:String):IFriendEntity;
         function get numFriendRequests():int;
-        function HabboFriendBarData(_arg_1:int):FriendRequest;
-        function HabboFriendBarData(_arg_1:int):FriendRequest;
-        function HabboFriendBarData(_arg_1:String):FriendRequest;
-        function HabboFriendBarData():Array;
+        function getFriendRequestAt(_arg_1:int):FriendRequest;
+        function getFriendRequestByID(_arg_1:int):FriendRequest;
+        function getFriendRequestByName(_arg_1:String):FriendRequest;
+        function getFriendRequestList():Array;
         function acceptFriendRequest(_arg_1:int):void;
         function acceptAllFriendRequests():void;
         function declineFriendRequest(_arg_1:int):void;
@@ -33,14 +33,14 @@ package com.sulake.habbo.friendbar.data
 }//package com.sulake.habbo.friendbar.data
 
 // numFriends = "_-nN" (String#8666, DoABC#2)
-// HabboFriendBarData = "_-1K4" (String#5244, DoABC#2)
-// HabboFriendBarData = "_-m3" (String#8644, DoABC#2)
-// HabboFriendBarData = "_-0QT" (String#4102, DoABC#2)
+// getFriendAt = "_-1K4" (String#5244, DoABC#2)
+// getFriendByID = "_-m3" (String#8644, DoABC#2)
+// getFriendByName = "_-0QT" (String#4102, DoABC#2)
 // numFriendRequests = "_-0" (String#3548, DoABC#2)
-// HabboFriendBarData = "_-3-l" (String#7299, DoABC#2)
-// HabboFriendBarData = "_-1LM" (String#5268, DoABC#2)
-// HabboFriendBarData = "_-GP" (String#8003, DoABC#2)
-// HabboFriendBarData = "_-0Wl" (String#4243, DoABC#2)
+// getFriendRequestAt = "_-3-l" (String#7299, DoABC#2)
+// getFriendRequestByID = "_-1LM" (String#5268, DoABC#2)
+// getFriendRequestByName = "_-GP" (String#8003, DoABC#2)
+// getFriendRequestList = "_-0Wl" (String#4243, DoABC#2)
 // toggleFriendList = "_-tA" (String#8753, DoABC#2)
 // toggleMessenger = "_-2E7" (String#1838, DoABC#2)
 // toggleOfflineStream = "_-2ED" (String#6325, DoABC#2)

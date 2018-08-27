@@ -44,7 +44,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         override protected function getSpriteAssetName(_arg_1:int, _arg_2:int):String
         {
-            var _local_3:int = FurnitureVisualization(_arg_1);
+            var _local_3:int = getSize(_arg_1);
             var _local_4:String = type;
             var _local_5:String = "";
             if (_arg_2 < (spriteCount - 1)){
@@ -72,7 +72,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
 // getFrameNumber = "_-0XM" (String#436, DoABC#2)
 // getSpriteAssetName = "_-0c-" (String#590, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 // _SafeStr_7295 = "_-2nE" (String#20969, DoABC#2)
 
 

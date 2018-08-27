@@ -23,7 +23,7 @@ package com.sulake.habbo.room.object.logic.room.publicroom
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectRoomAdEvent.RORAE_ROOM_AD_FURNI_CLICK, RoomObjectRoomAdEvent.RORAE_ROOM_AD_TOOLTIP_SHOW, RoomObjectRoomAdEvent.RORAE_ROOM_AD_TOOLTIP_HIDE];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function initialize(_arg_1:XML):void
         {
@@ -103,7 +103,7 @@ package com.sulake.habbo.room.object.logic.room.publicroom
                         _local_7 = _local_4.getString(RoomObjectVariableEnum._SafeStr_5317);
                         if (((!((_local_7 == null))) && ((_local_7.indexOf("http") == 0)))){
                             eventDispatcher.dispatchEvent(new RoomObjectRoomAdEvent(RoomObjectRoomAdEvent.RORAE_ROOM_AD_FURNI_CLICK, _local_5, _local_6, _local_7));
-                            HabboWebTools.HTMLTextController(_local_7);
+                            HabboWebTools.openWebPage(_local_7);
                         };
                     };
                     return;
@@ -133,13 +133,13 @@ package com.sulake.habbo.room.object.logic.room.publicroom
 // RoomVariableEnum = "_-0J6" (String#14804, DoABC#2)
 // RoomObjectRoomAdUpdateMessage = "_-070" (String#14324, DoABC#2)
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
-// HTMLTextController = "_-27c" (String#6194, DoABC#2)
+// openWebPage = "_-27c" (String#6194, DoABC#2)
 // _initialized = "_-0EY" (String#214, DoABC#2)
 // _SafeStr_5311 = "_-1dg" (String#18043, DoABC#2)
 // RORAE_ROOM_AD_FURNI_CLICK = "_-0v3" (String#16239, DoABC#2)
 // RORAE_ROOM_AD_TOOLTIP_SHOW = "_-1bW" (String#17956, DoABC#2)
 // RORAE_ROOM_AD_TOOLTIP_HIDE = "_-37a" (String#21790, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // _SafeStr_5316 = "_-1FV" (String#17095, DoABC#2)
 // _SafeStr_5317 = "_-0cX" (String#15535, DoABC#2)
 // _SafeStr_5318 = "_-0zX" (String#16408, DoABC#2)

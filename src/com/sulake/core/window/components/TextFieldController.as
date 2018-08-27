@@ -37,12 +37,12 @@ package com.sulake.core.window.components
             _rectangle = _arg_6;
             _field = TextField(this.getGraphicContext(true).getDisplayObject());
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
-            _field.addEventListener(KeyboardEvent.KEY_DOWN, this.TextFieldController);
-            _field.addEventListener(KeyboardEvent.KEY_UP, this.TextFieldController);
-            _field.addEventListener(Event.CHANGE, this.TextFieldController);
+            _field.addEventListener(KeyboardEvent.KEY_DOWN, this.onKeyDownEvent);
+            _field.addEventListener(KeyboardEvent.KEY_UP, this.onKeyUpEvent);
+            _field.addEventListener(Event.CHANGE, this.onChangeEvent);
             _field.addEventListener(FocusEvent.FOCUS_IN, this.onFocusEvent);
             _field.addEventListener(FocusEvent.FOCUS_OUT, this.onFocusEvent);
-            _field.addEventListener(Event.REMOVED_FROM_STAGE, this.TextFieldController);
+            _field.addEventListener(Event.REMOVED_FROM_STAGE, this.onRemovedEvent);
             _SafeStr_9161 = false;
             this._initialized = true;
         }
@@ -124,7 +124,7 @@ package com.sulake.core.window.components
         {
             throw (new Error("Unimplemented method!"));
         }
-        public function MouseEventProcessor(_arg_1:uint):uint
+        public function getMouseCursorByState(_arg_1:uint):uint
         {
             throw (new Error("Unimplemented method!"));
         }
@@ -139,7 +139,7 @@ package com.sulake.core.window.components
         override public function set autoSize(_arg_1:String):void
         {
             super.autoSize = _arg_1;
-            this.TextFieldController();
+            this.refreshAutoSize();
         }
         override public function set background(_arg_1:Boolean):void
         {
@@ -172,21 +172,21 @@ package com.sulake.core.window.components
             this._SafeStr_9156 = false;
             if (_field){
                 if (this.focused){
-                    this.WindowController();
+                    this.unfocus();
                 };
-                _field.removeEventListener(KeyboardEvent.KEY_DOWN, this.TextFieldController);
-                _field.removeEventListener(KeyboardEvent.KEY_UP, this.TextFieldController);
-                _field.removeEventListener(Event.CHANGE, this.TextFieldController);
+                _field.removeEventListener(KeyboardEvent.KEY_DOWN, this.onKeyDownEvent);
+                _field.removeEventListener(KeyboardEvent.KEY_UP, this.onKeyUpEvent);
+                _field.removeEventListener(Event.CHANGE, this.onChangeEvent);
                 _field.removeEventListener(FocusEvent.FOCUS_IN, this.onFocusEvent);
                 _field.removeEventListener(FocusEvent.FOCUS_OUT, this.onFocusEvent);
-                _field.removeEventListener(Event.REMOVED_FROM_STAGE, this.TextFieldController);
+                _field.removeEventListener(Event.REMOVED_FROM_STAGE, this.onRemovedEvent);
             };
             super.dispose();
         }
         override public function set text(_arg_1:String):void
         {
             super.text = _arg_1;
-            this.TextFieldController();
+            this.refreshAutoSize();
         }
         override public function focus():Boolean
         {
@@ -202,7 +202,7 @@ package com.sulake.core.window.components
             };
             return (_local_1);
         }
-        override public function WindowController():Boolean
+        override public function unfocus():Boolean
         {
             if (_field){
                 if (_field.stage){
@@ -211,7 +211,7 @@ package com.sulake.core.window.components
                     };
                 };
             };
-            return (super.WindowController());
+            return (super.unfocus());
         }
         override public function update(_arg_1:WindowController, _arg_2:WindowEvent):Boolean
         {
@@ -229,11 +229,11 @@ package com.sulake.core.window.components
                     break;
             };
             if (_arg_1 == this){
-                InteractiveController.InteractiveController(this, _arg_2);
+                InteractiveController.processInteractiveWindowEvents(this, _arg_2);
             };
             return (_local_3);
         }
-        protected function TextFieldController():void
+        protected function refreshAutoSize():void
         {
             var _local_1:Point;
             var _local_2:Point;
@@ -244,11 +244,11 @@ package com.sulake.core.window.components
                     _local_2 = new Point();
                     getGlobalPosition(_local_2);
                     _local_3 = new Point((_local_1.x - _local_2.x), (_local_1.y - _local_2.y));
-                    WindowController((_rectangle.x + _local_3.x), (_rectangle.y + _local_3.y), _field.width, _field.height);
+                    setRectangle((_rectangle.x + _local_3.x), (_rectangle.y + _local_3.y), _field.width, _field.height);
                 };
             };
         }
-        override protected function TextController(_arg_1:Boolean=false):void
+        override protected function refreshTextImage(_arg_1:Boolean=false):void
         {
             var _local_3:WindowEvent;
             var _local_2:Boolean;
@@ -276,7 +276,7 @@ package com.sulake.core.window.components
                 _local_3.recycle();
             };
         }
-        private function TextFieldController(event:KeyboardEvent):void
+        private function onKeyDownEvent(event:KeyboardEvent):void
         {
             var windowEvent:WindowKeyboardEvent;
             try {
@@ -288,7 +288,7 @@ package com.sulake.core.window.components
                 _context.handleError(WindowContext._SafeStr_9169, e);
             };
         }
-        private function TextFieldController(event:KeyboardEvent):void
+        private function onKeyUpEvent(event:KeyboardEvent):void
         {
             var windowEvent:WindowKeyboardEvent;
             try {
@@ -301,11 +301,11 @@ package com.sulake.core.window.components
                 _context.handleError(WindowContext._SafeStr_9169, e);
             };
         }
-        private function TextFieldController(event:Event):void
+        private function onChangeEvent(event:Event):void
         {
             var windowEvent:WindowEvent;
             try {
-                this.TextFieldController();
+                this.refreshAutoSize();
                 windowEvent = WindowEvent.allocate(WindowEvent.WE_CHANGE, this, null);
                 this.update(this, windowEvent);
                 windowEvent.recycle();
@@ -318,14 +318,14 @@ package com.sulake.core.window.components
         {
             try {
                 if (event.type == FocusEvent.FOCUS_IN){
-                    if (!WindowController(WindowState._SafeStr_9170)){
+                    if (!getStateFlag(WindowState._SafeStr_9170)){
                         this.focus();
                     };
                 }
                 else {
                     if (event.type == FocusEvent.FOCUS_OUT){
-                        if (WindowController(WindowState._SafeStr_9170)){
-                            this.WindowController();
+                        if (getStateFlag(WindowState._SafeStr_9170)){
+                            this.unfocus();
                         };
                     };
                 };
@@ -334,11 +334,11 @@ package com.sulake.core.window.components
                 _context.handleError(WindowContext._SafeStr_9169, e);
             };
         }
-        private function TextFieldController(event:Event):void
+        private function onRemovedEvent(event:Event):void
         {
             try {
-                if (WindowController(WindowState._SafeStr_9170)){
-                    this.WindowController();
+                if (getStateFlag(WindowState._SafeStr_9170)){
+                    this.unfocus();
                 };
             }
             catch(e:Error) {
@@ -347,7 +347,7 @@ package com.sulake.core.window.components
         }
         override public function get properties():Array
         {
-            var _local_1:Array = InteractiveController.InteractiveController(this, super.properties);
+            var _local_1:Array = InteractiveController.writeInteractiveWindowProperties(this, super.properties);
             _local_1.push((((_field.type == TextFieldType.DYNAMIC)) ? new PropertyStruct(PropertyDefaults._SafeStr_9172, false, PropertyStruct._SafeStr_8996, true) : PropertyDefaults._SafeStr_9173));
             _local_1.push((((this._SafeStr_9156)!=PropertyDefaults._SafeStr_9174) ? new PropertyStruct(PropertyDefaults._SafeStr_9175, this._SafeStr_9156, PropertyStruct._SafeStr_8996, true) : PropertyDefaults._SafeStr_9176));
             _local_1.push((((_field.selectable)!=PropertyDefaults._SafeStr_9177) ? new PropertyStruct(PropertyDefaults._SafeStr_9178, _field.selectable, PropertyStruct._SafeStr_8996, true) : PropertyDefaults._SafeStr_9179));
@@ -398,7 +398,7 @@ package com.sulake.core.window.components
 // InteractiveController = "_-25D" (String#6146, DoABC#2)
 // WE_RESIZED = "_-76" (String#22505, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
-// WindowController = "_-1nM" (String#5804, DoABC#2)
+// getStateFlag = "_-1nM" (String#5804, DoABC#2)
 // setMouseCursorForState = "_-1lf" (String#5777, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
 // _initialized = "_-0EY" (String#214, DoABC#2)
@@ -409,32 +409,32 @@ package com.sulake.core.window.components
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // _caption = "_-p" (String#8690, DoABC#2)
 // _SafeStr_8996 = "_-0gH" (String#15685, DoABC#2)
-// WindowController = "_-Rh" (String#8242, DoABC#2)
+// unfocus = "_-Rh" (String#8242, DoABC#2)
 // toolTipDelay = "_-2W1" (String#6685, DoABC#2)
 // hideToolTip = "_-2VZ" (String#1889, DoABC#2)
-// MouseEventProcessor = "_-0Bd" (String#3788, DoABC#2)
+// getMouseCursorByState = "_-0Bd" (String#3788, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
-// TextController = "_-0hP" (String#4454, DoABC#2)
+// refreshTextImage = "_-0hP" (String#4454, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
-// WindowController = "_-Vb" (String#23476, DoABC#2)
+// setRectangle = "_-Vb" (String#23476, DoABC#2)
 // _toolTipDelay = "_-0Bo" (String#810, DoABC#2)
 // _toolTipCaption = "_-03Q" (String#806, DoABC#2)
 // _SafeStr_9156 = "_-1pR" (String#18521, DoABC#2)
-// TextFieldController = "_-MV" (String#23105, DoABC#2)
-// TextFieldController = "_-iX" (String#23978, DoABC#2)
-// TextFieldController = "_-1sn" (String#18668, DoABC#2)
-// TextFieldController = "_-1yV" (String#18909, DoABC#2)
+// onKeyDownEvent = "_-MV" (String#23105, DoABC#2)
+// onKeyUpEvent = "_-iX" (String#23978, DoABC#2)
+// onChangeEvent = "_-1sn" (String#18668, DoABC#2)
+// onRemovedEvent = "_-1yV" (String#18909, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
-// TextFieldController = "_-1FT" (String#17093, DoABC#2)
+// refreshAutoSize = "_-1FT" (String#17093, DoABC#2)
 // _background = "_-35x" (String#21726, DoABC#2)
 // _background = "_-zD" (String#24660, DoABC#2)
 // _SafeStr_9165 = "_-2Yy" (String#20394, DoABC#2)
 // _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
 // WE_ACTIVATE = "_-3Ek" (String#22065, DoABC#2)
-// InteractiveController = "_-10V" (String#16483, DoABC#2)
+// processInteractiveWindowEvents = "_-10V" (String#16483, DoABC#2)
 // _SafeStr_9169 = "_-2Nz" (String#19963, DoABC#2)
 // _SafeStr_9170 = "_-2FR" (String#19621, DoABC#2)
-// InteractiveController = "_-3LB" (String#22332, DoABC#2)
+// writeInteractiveWindowProperties = "_-3LB" (String#22332, DoABC#2)
 // _SafeStr_9172 = "_-1D9" (String#16987, DoABC#2)
 // _SafeStr_9173 = "_-16x" (String#16733, DoABC#2)
 // _SafeStr_9174 = "_-1cF" (String#17981, DoABC#2)

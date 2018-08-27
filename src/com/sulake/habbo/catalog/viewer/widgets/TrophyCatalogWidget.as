@@ -252,21 +252,21 @@ package com.sulake.habbo.catalog.viewer.widgets
         {
             var _local_2:BitmapDataAsset = (page.viewer.catalog.assets.getAssetByName(_arg_1) as BitmapDataAsset);
             if (_local_2 == null){
-                this.PendingImage(_arg_1);
+                this.retrievePreviewAsset(_arg_1);
                 return;
             };
             this.setPreviewImage((_local_2.content as BitmapData), false);
         }
-        private function PendingImage(_arg_1:String):void
+        private function retrievePreviewAsset(_arg_1:String):void
         {
             var _local_2:String = page.viewer.catalog.configuration.getKey("image.library.catalogue.url");
             var _local_3 = ((_local_2 + _arg_1) + ".gif");
             Logger.log(("[TrophyCatalogWidget] Retrieve Product Preview Asset: " + _local_3));
             var _local_4:URLRequest = new URLRequest(_local_3);
             var _local_5:AssetLoaderStruct = page.viewer.catalog.assets.loadAssetFromFile(_arg_1, _local_4, "image/gif");
-            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.PendingImage);
+            _local_5.addEventListener(AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE, this.onPreviewImageReady);
         }
-        private function PendingImage(_arg_1:AssetLoaderEvent):void
+        private function onPreviewImageReady(_arg_1:AssetLoaderEvent):void
         {
             var _local_2:AssetLoaderStruct = (_arg_1.target as AssetLoaderStruct);
             if (_local_2 != null){
@@ -313,12 +313,12 @@ package com.sulake.habbo.catalog.viewer.widgets
 // productClassId = "_-02F" (String#3609, DoABC#2)
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
-// PendingImage = "_-30x" (String#625, DoABC#2)
+// onPreviewImageReady = "_-30x" (String#625, DoABC#2)
 // _SafeStr_5075 = "_-Eh" (String#22802, DoABC#2)
 // hasProductImage = "_-1Ix" (String#17235, DoABC#2)
 // setPreviewImage = "_-27B" (String#448, DoABC#2)
 // setPreviewFromAsset = "_-1qV" (String#1768, DoABC#2)
-// PendingImage = "_-04a" (String#579, DoABC#2)
+// retrievePreviewAsset = "_-04a" (String#579, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 
 

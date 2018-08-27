@@ -54,7 +54,7 @@ package com.sulake.habbo.catalog.viewer
             if (this._page != null){
                 if (this._page.pageId == _arg_1){
                     if (_arg_5 > -1){
-                        this._page.ICatalogPage(_arg_5);
+                        this._page.selectOffer(_arg_5);
                     };
                     return;
                 };
@@ -71,10 +71,10 @@ package com.sulake.habbo.catalog.viewer
             };
             this._container.visible = true;
             if (_arg_5 > -1){
-                _local_6.ICatalogPage(_arg_5);
+                _local_6.selectOffer(_arg_5);
             };
         }
-        public function CatalogViewer():void
+        public function catalogWindowClosed():void
         {
             if (this._page != null){
                 this._page.closed();
@@ -107,7 +107,7 @@ package com.sulake.habbo.catalog.viewer
 // getCurrentLayoutCode = "_-nh" (String#2189, DoABC#2)
 // _habboCatalog = "_-1Ia" (String#17217, DoABC#2)
 // habboCatalog = "_-2De" (String#19551, DoABC#2)
-// ICatalogPage = "_-26U" (String#6175, DoABC#2)
-// CatalogViewer = "_-2fZ" (String#20672, DoABC#2)
+// selectOffer = "_-26U" (String#6175, DoABC#2)
+// catalogWindowClosed = "_-2fZ" (String#20672, DoABC#2)
 
 

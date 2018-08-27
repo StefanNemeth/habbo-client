@@ -19,7 +19,7 @@ package com.sulake.habbo.catalog.viewer
         function get layoutCode():String;
         function get hasLinks():Boolean;
         function get links():Array;
-        function ICatalogPage(_arg_1:int):void;
+        function selectOffer(_arg_1:int):void;
         function replaceOffers(_arg_1:Array, _arg_2:Boolean=false):void;
 
     }
@@ -29,6 +29,6 @@ package com.sulake.habbo.catalog.viewer
 // ICatalogViewer = "_-Ve" (String#8313, DoABC#2)
 // ICatalogPage = "_-0mL" (String#4556, DoABC#2)
 // dispatchWidgetEvent = "_-2V-" (String#1888, DoABC#2)
-// ICatalogPage = "_-26U" (String#6175, DoABC#2)
+// selectOffer = "_-26U" (String#6175, DoABC#2)
 
 

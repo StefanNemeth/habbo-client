@@ -72,8 +72,8 @@ package com.sulake.habbo.inventory.pets
                 return;
             };
             this._view.visible = false;
-            this._view.procedure = this.NameChangeView;
-            this.PetsView();
+            this._view.procedure = this.windowEventHandler;
+            this.addUnseenItemSymbols();
             this._grid = (this._view.findChildByName("grid") as IItemGridWindow);
             var _local_8:IBitmapWrapperWindow = (this._view.findChildByName("download_image") as IBitmapWrapperWindow);
             _local_8.bitmap = new BitmapData(_local_8.width, _local_8.height);
@@ -85,15 +85,15 @@ package com.sulake.habbo.inventory.pets
             _local_8.bitmap.copyPixels(_local_10, _local_10.rect, new Point(((_local_8.width - _local_10.width) / 2), ((_local_8.height - _local_10.height) / 2)), null, null, true);
             _local_11 = (this._view.findChildByName("place_button") as IButtonWindow);
             if (_local_11 != null){
-                _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PetsView);
+                _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.placeButtonClickHandler);
             };
             _local_11 = (this._view.findChildByName("open_catalog_btn") as IButtonWindow);
             if (_local_11 != null){
-                _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PetsView);
+                _local_11.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.catalogButtonClickHandler);
             };
-            this.PetsView();
-            this.PetsView();
-            this.PetsView();
+            this.selectPetsTab();
+            this.updatePreview();
+            this.updateState();
         }
         public function get disposed():Boolean
         {
@@ -114,31 +114,31 @@ package com.sulake.habbo.inventory.pets
         }
         public function update():void
         {
-            this.PetsView();
-            this.PetsView();
-            this.PetsView(this._SafeStr_8482);
+            this.updateCategoryButtons();
+            this.updateGrid();
+            this.updatePreview(this._SafeStr_8482);
         }
-        public function PetsView(_arg_1:int):void
+        public function removePet(_arg_1:int):void
         {
             var _local_2:PetsGridItem = (this._SafeStr_8481.remove(_arg_1) as PetsGridItem);
             if (_local_2 == null){
                 return;
             };
-            this._grid.IItemGridWindow(_local_2.window);
+            this._grid.removeGridItem(_local_2.window);
             if (this._SafeStr_8482 == _local_2){
                 this._SafeStr_8482 = null;
-                this.PetsView();
+                this.selectFirst();
             };
         }
-        private function PetsView():void
+        private function selectFirst():void
         {
             if ((((this._SafeStr_8481 == null)) || ((this._SafeStr_8481.length == 0)))){
-                this.PetsView();
+                this.updatePreview();
                 return;
             };
-            this.PetsView(this._SafeStr_8481.getWithIndex(0));
+            this.setSelectedGridItem(this._SafeStr_8481.getWithIndex(0));
         }
-        public function PetsView(_arg_1:PetData):void
+        public function addPet(_arg_1:PetData):void
         {
             if (_arg_1 == null){
                 return;
@@ -148,14 +148,14 @@ package com.sulake.habbo.inventory.pets
             };
             var _local_2:PetsGridItem = new PetsGridItem(this, _arg_1, this._windowManager, this._assetLibrary, this._avatarRenderer, this._SafeStr_4830.isUnseen(_arg_1.id));
             if (_local_2 != null){
-                this._grid.IItemGridWindow(_local_2.window);
+                this._grid.addGridItem(_local_2.window);
                 this._SafeStr_8481.add(_arg_1.id, _local_2);
                 if (this._SafeStr_8482 == null){
-                    this.PetsView();
+                    this.selectFirst();
                 };
             };
         }
-        private function PetsView():void
+        private function updateGrid():void
         {
             var _local_1:PetsGridItem;
             var _local_2:Map;
@@ -163,7 +163,7 @@ package com.sulake.habbo.inventory.pets
             if (this._view == null){
                 return;
             };
-            this._grid.IItemGridWindow();
+            this._grid.removeGridItems();
             for each (_local_1 in this._SafeStr_8481) {
                 _local_1.dispose();
             };
@@ -173,14 +173,14 @@ package com.sulake.habbo.inventory.pets
                 return;
             };
             for each (_local_3 in _local_2) {
-                this.PetsView(_local_3);
+                this.addPet(_local_3);
             };
         }
-        private function PetsView(_arg_1:WindowMouseEvent):void
+        private function catalogButtonClickHandler(_arg_1:WindowMouseEvent):void
         {
             this._SafeStr_4830.requestCatalogOpen();
         }
-        private function PetsView(_arg_1:WindowMouseEvent):void
+        private function placeButtonClickHandler(_arg_1:WindowMouseEvent):void
         {
             if (this._SafeStr_8482 == null){
                 return;
@@ -189,13 +189,13 @@ package com.sulake.habbo.inventory.pets
             if (_local_2 == null){
                 return;
             };
-            this.PetsView(_local_2.id);
+            this.placePetToRoom(_local_2.id);
         }
-        public function PetsView(_arg_1:int, _arg_2:Boolean=false):void
+        public function placePetToRoom(_arg_1:int, _arg_2:Boolean=false):void
         {
-            this._SafeStr_4830.PetsView(_arg_1, _arg_2);
+            this._SafeStr_4830.placePetToRoom(_arg_1, _arg_2);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             if (this._view == null){
                 return (null);
@@ -205,31 +205,31 @@ package com.sulake.habbo.inventory.pets
             };
             return (this._view);
         }
-        private function NameChangeView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function windowEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type == WindowEvent.WE_SELECTED){
                 switch (_arg_2.name){
                     case "tab_floor":
-                        this._SafeStr_4830.PetsModel(FurniModelCategory.S);
+                        this._SafeStr_4830.switchToFurnitureCategory(FurniModelCategory.S);
                         break;
                     case "tab_wall":
-                        this._SafeStr_4830.PetsModel(FurniModelCategory.I);
+                        this._SafeStr_4830.switchToFurnitureCategory(FurniModelCategory.I);
                         break;
                 };
-                this.PetsView();
+                this.selectPetsTab();
             };
         }
-        private function PetsView():void
+        private function selectPetsTab():void
         {
             if (this._view == null){
                 return;
             };
             var _local_1:ISelectorWindow = (this._view.findChildByName("category_selector") as ISelectorWindow);
             if (_local_1 != null){
-                _local_1.setSelected(_local_1.ISelectorWindow("tab_pets"));
+                _local_1.setSelected(_local_1.getSelectableByName("tab_pets"));
             };
         }
-        public function PetsView(_arg_1:PetsGridItem):void
+        public function setSelectedGridItem(_arg_1:PetsGridItem):void
         {
             if (this._SafeStr_8482 != null){
                 this._SafeStr_8482.setSelected(false);
@@ -238,13 +238,13 @@ package com.sulake.habbo.inventory.pets
             if (this._SafeStr_8482 != null){
                 this._SafeStr_8482.setSelected(true);
             };
-            this.PetsView(_arg_1);
+            this.updatePreview(_arg_1);
         }
-        public function PetsView():void
+        public function updateState():void
         {
             var _local_2:int;
             var _local_1:Map = this._SafeStr_4830.pets;
-            if (!this._SafeStr_4830.PetsModel()){
+            if (!this._SafeStr_4830.isListInitialized()){
                 _local_2 = this._SafeStr_7894;
             }
             else {
@@ -281,12 +281,12 @@ package com.sulake.habbo.inventory.pets
                     _local_4.visible = false;
                     _local_5.visible = true;
                     _local_6.visible = true;
-                    this.PetsView();
-                    this.PetsView();
+                    this.updateGrid();
+                    this.updatePreview();
                     return;
             };
         }
-        private function PetsView(_arg_1:PetsGridItem=null):void
+        private function updatePreview(_arg_1:PetsGridItem=null):void
         {
             var _local_2:BitmapData;
             var _local_3:String;
@@ -306,7 +306,7 @@ package com.sulake.habbo.inventory.pets
             else {
                 _local_12 = _arg_1.pet;
                 _local_3 = _local_12.name;
-                _local_2 = this.RoomEngine(_local_12.type, _local_12.breed, _local_12.color, 4, true);
+                _local_2 = this.getPetImage(_local_12.type, _local_12.breed, _local_12.color, 4, true);
                 _local_5 = true;
             };
             var _local_6:IBitmapWrapperWindow = (this._view.findChildByName("preview_image") as IBitmapWrapperWindow);
@@ -354,7 +354,7 @@ package com.sulake.habbo.inventory.pets
                 };
             };
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:int, _arg_5:Boolean):BitmapData
+        public function getPetImage(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:int, _arg_5:Boolean):BitmapData
         {
             var _local_7:uint;
             var _local_8:IAvatarImage;
@@ -377,7 +377,7 @@ package com.sulake.habbo.inventory.pets
             }
             else {
                 _local_9 = 0;
-                _local_10 = this._roomEngine.RoomEngine(_arg_1, _arg_2, new Vector3d((_arg_4 * 45)), 64, this, _local_9);
+                _local_10 = this._roomEngine.getPetImage(_arg_1, _arg_2, new Vector3d((_arg_4 * 45)), 64, this, _local_9);
                 if (_local_10 != null){
                     _local_6 = _local_10.data;
                 };
@@ -396,7 +396,7 @@ package com.sulake.habbo.inventory.pets
             _arg_2.dispose();
             this.update();
         }
-        private function PetsView():void
+        private function addUnseenItemSymbols():void
         {
             var _local_3:IWindowContainer;
             var _local_4:IWindow;
@@ -419,7 +419,7 @@ package com.sulake.habbo.inventory.pets
             };
             _local_2.dispose();
         }
-        public function PetsView():void
+        public function updateCategoryButtons():void
         {
             var _local_1:IWindow;
             _local_1 = this._view.findChildByTag("unseen_symbol_floor");
@@ -454,13 +454,13 @@ package com.sulake.habbo.inventory.pets
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // petImageReady = "_-WW" (String#8332, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _grid = "_-CU" (String#2073, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
-// NameChangeView = "_-36j" (String#371, DoABC#2)
-// PetsView = "_-0hB" (String#4449, DoABC#2)
+// windowEventHandler = "_-36j" (String#371, DoABC#2)
+// updatePreview = "_-0hB" (String#4449, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
 // isRoomOwner = "_-ZP" (String#8405, DoABC#2)
 // arePetsAllowed = "_-1f7" (String#5646, DoABC#2)
@@ -469,12 +469,12 @@ package com.sulake.habbo.inventory.pets
 // roomSession = "_-0cq" (String#4363, DoABC#2)
 // S = "_-Ch" (String#22713, DoABC#2)
 // I = "_-3-D" (String#21470, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
 // createPetImage = "_-0Qk" (String#4105, DoABC#2)
 // isVisible = "_-1rE" (String#18592, DoABC#2)
-// PetsModel = "_-1uc" (String#18741, DoABC#2)
+// switchToFurnitureCategory = "_-1uc" (String#18741, DoABC#2)
 // requestCatalogOpen = "_-0sM" (String#16138, DoABC#2)
-// PetsView = "_-2i3" (String#20774, DoABC#2)
+// updateCategoryButtons = "_-2i3" (String#20774, DoABC#2)
 // getUnseenItemCount = "_-133" (String#16582, DoABC#2)
 // _SafeStr_7893 = "_-h3" (String#8535, DoABC#2)
 // _SafeStr_7894 = "_-2EZ" (String#1840, DoABC#2)
@@ -482,22 +482,22 @@ package com.sulake.habbo.inventory.pets
 // _SafeStr_7896 = "_-0X6" (String#4252, DoABC#2)
 // _SafeStr_7899 = "_-1Jp" (String#5240, DoABC#2)
 // _SafeStr_7903 = "_-04-" (String#577, DoABC#2)
-// PetsView = "_-pj" (String#8703, DoABC#2)
-// ISelectorWindow = "_-0EO" (String#3836, DoABC#2)
-// IItemGridWindow = "_-3CS" (String#7563, DoABC#2)
-// PetsModel = "_-2cf" (String#20551, DoABC#2)
-// PetsView = "_-3Be" (String#21947, DoABC#2)
-// PetsView = "_-3DW" (String#22016, DoABC#2)
-// PetsView = "_-lb" (String#24093, DoABC#2)
-// PetsView = "_-2hx" (String#20770, DoABC#2)
+// addUnseenItemSymbols = "_-pj" (String#8703, DoABC#2)
+// getSelectableByName = "_-0EO" (String#3836, DoABC#2)
+// removeGridItem = "_-3CS" (String#7563, DoABC#2)
+// isListInitialized = "_-2cf" (String#20551, DoABC#2)
+// updateState = "_-3Be" (String#21947, DoABC#2)
+// addPet = "_-3DW" (String#22016, DoABC#2)
+// removePet = "_-lb" (String#24093, DoABC#2)
+// placePetToRoom = "_-2hx" (String#20770, DoABC#2)
 // isUnseen = "_-FH" (String#22825, DoABC#2)
 // _SafeStr_8481 = "_-18n" (String#16804, DoABC#2)
 // _SafeStr_8482 = "_-2IF" (String#618, DoABC#2)
-// PetsView = "_-0cB" (String#15522, DoABC#2)
-// PetsView = "_-1Fs" (String#17110, DoABC#2)
-// PetsView = "_-AR" (String#22633, DoABC#2)
-// PetsView = "_-1TW" (String#17646, DoABC#2)
-// PetsView = "_-RL" (String#23299, DoABC#2)
-// PetsView = "_-2eW" (String#20626, DoABC#2)
+// placeButtonClickHandler = "_-0cB" (String#15522, DoABC#2)
+// catalogButtonClickHandler = "_-1Fs" (String#17110, DoABC#2)
+// selectPetsTab = "_-AR" (String#22633, DoABC#2)
+// updateGrid = "_-1TW" (String#17646, DoABC#2)
+// selectFirst = "_-RL" (String#23299, DoABC#2)
+// setSelectedGridItem = "_-2eW" (String#20626, DoABC#2)
 
 

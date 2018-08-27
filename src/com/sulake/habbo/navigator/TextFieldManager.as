@@ -86,7 +86,7 @@ package com.sulake.habbo.navigator
             this._SafeStr_12025.findChildByName("border").width = (_local_2.width + 15);
             this._SafeStr_12025.width = (_local_2.width + 15);
             var _local_3:Point = new Point();
-            this._input.WindowController(_local_3);
+            this._input.getLocalPosition(_local_3);
             this._SafeStr_12025.x = _local_3.x;
             this._SafeStr_12025.y = ((_local_3.y - this._SafeStr_12025.height) + 3);
             var _local_4:IWindow = this._SafeStr_12025.findChildByName("popup_arrow_down");
@@ -113,7 +113,7 @@ package com.sulake.habbo.navigator
             };
             return (this._input.text);
         }
-        public function CurrencyIndicatorBase(_arg_1:String):void
+        public function setText(_arg_1:String):void
         {
             this._SafeStr_11824 = false;
             this._input.text = _arg_1;
@@ -184,7 +184,7 @@ package com.sulake.habbo.navigator
 // Util = "_-1ve" (String#445, DoABC#2)
 // TextFieldManager = "_-Em" (String#7966, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
 // WE_FOCUSED = "_-1ay" (String#17932, DoABC#2)
 // setProcDirectly = "_-24s" (String#19218, DoABC#2)
 // WKE_KEY_DOWN = "_-fs" (String#23884, DoABC#2)
@@ -194,6 +194,6 @@ package com.sulake.habbo.navigator
 // displayError = "_-ky" (String#24070, DoABC#2)
 // clearErrors = "_-1FQ" (String#1642, DoABC#2)
 // textBackground = "_-IA" (String#2081, DoABC#2)
-// WindowController = "_-35W" (String#7418, DoABC#2)
+// getLocalPosition = "_-35W" (String#7418, DoABC#2)
 
 

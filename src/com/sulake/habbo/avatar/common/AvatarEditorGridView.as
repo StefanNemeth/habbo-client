@@ -74,7 +74,7 @@ package com.sulake.habbo.avatar.common
             };
             return (this._view);
         }
-        public function AvatarEditorGridView():void
+        public function initFromList():void
         {
             var _local_2:AvatarEditorGridPartItem;
             var _local_3:int;
@@ -85,10 +85,10 @@ package com.sulake.habbo.avatar.common
             if (!_local_1){
                 return;
             };
-            this._SafeStr_9969.IItemGridWindow();
+            this._SafeStr_9969.removeGridItems();
             for each (_local_2 in _local_1.parts) {
                 if (_local_2){
-                    this._SafeStr_9969.IItemGridWindow(_local_2.view);
+                    this._SafeStr_9969.addGridItem(_local_2.view);
                     _local_2.view.procedure = this.partEventProc;
                     if (_local_2.isSelected){
                         this.showPalettes(_local_2.colorLayerCount);
@@ -101,7 +101,7 @@ package com.sulake.habbo.avatar.common
                 _local_5 = (this._SafeStr_9970[_local_3] as IItemGridWindow);
                 if (!((!(_local_4)) || (!(_local_5)))){
                     for each (_local_6 in _local_4) {
-                        _local_5.IItemGridWindow(_local_6.view);
+                        _local_5.addGridItem(_local_6.view);
                         _local_6.view.procedure = this.paletteEventProc;
                     };
                 };
@@ -143,7 +143,7 @@ package com.sulake.habbo.avatar.common
         }
         public function updatePart(_arg_1:int, _arg_2:IWindowContainer):void
         {
-            var _local_3:IWindow = this._SafeStr_9969.IItemGridWindow(_arg_1);
+            var _local_3:IWindow = this._SafeStr_9969.getGridItemAt(_arg_1);
             if (!_local_3){
                 return;
             };
@@ -193,15 +193,15 @@ package com.sulake.habbo.avatar.common
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
-// IItemGridWindow = "_-1Bp" (String#5106, DoABC#2)
-// IItemGridWindow = "_-2vh" (String#7192, DoABC#2)
+// removeGridItems = "_-1Bp" (String#5106, DoABC#2)
+// addGridItem = "_-2vh" (String#7192, DoABC#2)
 // showPalettes = "_-3AL" (String#7520, DoABC#2)
 // getCategoryData = "_-2rW" (String#7114, DoABC#2)
 // _SafeStr_4847 = "continue" (String#9328, DoABC#2)
 // _categoryId = "_-1If" (String#186, DoABC#2)
-// AvatarEditorGridView = "_-ME" (String#23093, DoABC#2)
+// initFromList = "_-ME" (String#23093, DoABC#2)
 // selectColor = "_-2lm" (String#6999, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
 // colorLayerCount = "_-0xO" (String#16327, DoABC#2)
 // firstView = "_-L" (String#23045, DoABC#2)
 // _firstView = "_-2C1" (String#19483, DoABC#2)

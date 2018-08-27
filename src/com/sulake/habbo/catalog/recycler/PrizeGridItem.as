@@ -29,7 +29,7 @@ package com.sulake.habbo.catalog.recycler
             };
             if (_local_6 != null){
                 _local_5 = _local_6.data;
-                ProductGridItem(_local_5, true);
+                setIconImage(_local_5, true);
             };
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
@@ -37,7 +37,7 @@ package com.sulake.habbo.catalog.recycler
             if (disposed){
                 return;
             };
-            ProductGridItem(_arg_2, true);
+            setIconImage(_arg_2, true);
         }
 
     }
@@ -50,7 +50,7 @@ package com.sulake.habbo.catalog.recycler
 // IGetImageListener = "_-2i7" (String#6909, DoABC#2)
 // PrizeGridItem = "_-0tB" (String#4710, DoABC#2)
 // initProductIcon = "_-0Ft" (String#1438, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 // _SafeStr_5017 = "_-1-l" (String#16457, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 

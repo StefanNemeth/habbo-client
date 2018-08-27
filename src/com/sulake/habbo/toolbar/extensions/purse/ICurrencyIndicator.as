@@ -9,11 +9,11 @@ package com.sulake.habbo.toolbar.extensions.purse
 
         function dispose():void;
         function get view():IWindowContainer;
-        function RoomChatWidget(_arg_1:IEventDispatcher):void;
+        function registerUpdateEvents(_arg_1:IEventDispatcher):void;
 
     }
 }//package com.sulake.habbo.toolbar.extensions.purse
 
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 
 

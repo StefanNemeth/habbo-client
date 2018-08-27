@@ -19,7 +19,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         private var _SafeStr_12884:Array;
         private var _SafeStr_12885:int = 1;
         private var _width:int = 1;
-        private var _PlaneMaterialCell:BitmapData;
+        private var _SafeStr_12879:BitmapData;
         private var _cachedBitmapNormal:Vector3d = null;
         private var _SafeStr_12886:Boolean = false;
         private var _isStatic:Boolean = true;
@@ -68,9 +68,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 };
                 this._SafeStr_12884 = null;
             };
-            if (this._PlaneMaterialCell != null){
-                this._PlaneMaterialCell.dispose();
-                this._PlaneMaterialCell = null;
+            if (this._SafeStr_12879 != null){
+                this._SafeStr_12879.dispose();
+                this._SafeStr_12879 = null;
             };
             if (this._cachedBitmapNormal != null){
                 this._cachedBitmapNormal = null;
@@ -83,9 +83,9 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             if (!this._SafeStr_12886){
                 return;
             };
-            if (this._PlaneMaterialCell != null){
-                this._PlaneMaterialCell.dispose();
-                this._PlaneMaterialCell = null;
+            if (this._SafeStr_12879 != null){
+                this._SafeStr_12879.dispose();
+                this._SafeStr_12879 = null;
             };
             if (this._cachedBitmapNormal != null){
                 this._cachedBitmapNormal.x = 0;
@@ -115,32 +115,32 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 this._cachedBitmapNormal = new Vector3d();
             };
             if (this.isStatic){
-                if (this._PlaneMaterialCell != null){
-                    if ((((this._PlaneMaterialCell.height == _arg_1)) && (Vector3d.isEqual(this._cachedBitmapNormal, _arg_2)))){
-                        return (this._PlaneMaterialCell);
+                if (this._SafeStr_12879 != null){
+                    if ((((this._SafeStr_12879.height == _arg_1)) && (Vector3d.isEqual(this._cachedBitmapNormal, _arg_2)))){
+                        return (this._SafeStr_12879);
                     };
-                    this._PlaneMaterialCell.dispose();
-                    this._PlaneMaterialCell = null;
+                    this._SafeStr_12879.dispose();
+                    this._SafeStr_12879 = null;
                 };
             }
             else {
-                if (this._PlaneMaterialCell != null){
-                    if (this._PlaneMaterialCell.height == _arg_1){
-                        this._PlaneMaterialCell.fillRect(this._PlaneMaterialCell.rect, 0xFFFFFF);
+                if (this._SafeStr_12879 != null){
+                    if (this._SafeStr_12879.height == _arg_1){
+                        this._SafeStr_12879.fillRect(this._SafeStr_12879.rect, 0xFFFFFF);
                     }
                     else {
-                        this._PlaneMaterialCell.dispose();
-                        this._PlaneMaterialCell = null;
+                        this._SafeStr_12879.dispose();
+                        this._SafeStr_12879 = null;
                     };
                 };
             };
             this._SafeStr_12886 = true;
-            if (this._PlaneMaterialCell == null){
-                this._PlaneMaterialCell = new BitmapData(this._width, _arg_1, true, 0xFFFFFF);
+            if (this._SafeStr_12879 == null){
+                this._SafeStr_12879 = new BitmapData(this._width, _arg_1, true, 0xFFFFFF);
             };
             this._cachedBitmapNormal.assign(_arg_2);
             if (this._SafeStr_12884.length == 0){
-                return (this._PlaneMaterialCell);
+                return (this._SafeStr_12879);
             };
             switch (this._SafeStr_12885){
                 case _SafeStr_12869:
@@ -161,7 +161,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 default:
                     this.renderRepeatAll(_arg_2);
             };
-            return (this._PlaneMaterialCell);
+            return (this._SafeStr_12879);
         }
         private function getCellsHeight(_arg_1:Array, _arg_2:IVector3d):int
         {
@@ -175,7 +175,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             while (_local_4 < _arg_1.length) {
                 _local_5 = (_arg_1[_local_4] as PlaneMaterialCell);
                 if (_local_5 != null){
-                    _local_6 = _local_5.PlaneMaterialCell(_arg_2);
+                    _local_6 = _local_5.getHeight(_arg_2);
                     _local_3 = (_local_3 + _local_6);
                 };
                 _local_4++;
@@ -184,7 +184,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         }
         private function renderCells(_arg_1:Array, _arg_2:int, _arg_3:Boolean, _arg_4:IVector3d):int
         {
-            if ((((((_arg_1 == null)) || ((_arg_1.length == 0)))) || ((this._PlaneMaterialCell == null)))){
+            if ((((((_arg_1 == null)) || ((_arg_1.length == 0)))) || ((this._SafeStr_12879 == null)))){
                 return (_arg_2);
             };
             var _local_5:PlaneMaterialCell;
@@ -203,11 +203,11 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                         if (!_arg_3){
                             _arg_2 = (_arg_2 - _local_6.height);
                         };
-                        this._PlaneMaterialCell.copyPixels(_local_6, _local_6.rect, new Point(0, _arg_2), _local_6, null, true);
+                        this._SafeStr_12879.copyPixels(_local_6, _local_6.rect, new Point(0, _arg_2), _local_6, null, true);
                         if (_arg_3){
                             _arg_2 = (_arg_2 + _local_6.height);
                         };
-                        if (((((_arg_3) && ((_arg_2 >= this._PlaneMaterialCell.height)))) || (((!(_arg_3)) && ((_arg_2 <= 0)))))){
+                        if (((((_arg_3) && ((_arg_2 >= this._SafeStr_12879.height)))) || (((!(_arg_3)) && ((_arg_2 <= 0)))))){
                             return (_arg_2);
                         };
                     };
@@ -218,21 +218,21 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         }
         private function renderRepeatNone(_arg_1:IVector3d):void
         {
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             this.renderCells(this._SafeStr_12884, 0, true, _arg_1);
         }
         private function renderRepeatAll(_arg_1:IVector3d):void
         {
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             var _local_2:int = this.getCellsHeight(this._SafeStr_12884, _arg_1);
             var _local_3:int;
-            if (_local_2 > this._PlaneMaterialCell.height){
+            if (_local_2 > this._SafeStr_12879.height){
             };
-            while (_local_3 < this._PlaneMaterialCell.height) {
+            while (_local_3 < this._SafeStr_12879.height) {
                 _local_3 = this.renderCells(this._SafeStr_12884, _local_3, true, _arg_1);
                 if (_local_3 == 0){
                     return;
@@ -241,7 +241,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         }
         private function renderRepeatBorders(_arg_1:IVector3d):void
         {
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             var _local_2:PlaneMaterialCell;
@@ -254,7 +254,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             while (_local_7 < (this._SafeStr_12884.length - 1)) {
                 _local_2 = (this._SafeStr_12884[_local_7] as PlaneMaterialCell);
                 if (_local_2 != null){
-                    _local_6 = _local_2.PlaneMaterialCell(_arg_1);
+                    _local_6 = _local_2.getHeight(_arg_1);
                     if (_local_6 > 0){
                         _local_5 = (_local_5 + _local_6);
                         _local_4.push(_local_2);
@@ -265,14 +265,14 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             if (this._SafeStr_12884.length == 1){
                 _local_2 = (this._SafeStr_12884[0] as PlaneMaterialCell);
                 if (_local_2 != null){
-                    _local_6 = _local_2.PlaneMaterialCell(_arg_1);
+                    _local_6 = _local_2.getHeight(_arg_1);
                     if (_local_6 > 0){
                         _local_5 = (_local_5 + _local_6);
                         _local_4.push(_local_2);
                     };
                 };
             };
-            var _local_8 = ((this._PlaneMaterialCell.height - _local_5) >> 1);
+            var _local_8 = ((this._SafeStr_12879.height - _local_5) >> 1);
             var _local_9:int = this.renderCells(_local_4, _local_8, true, _arg_1);
             _local_2 = (this._SafeStr_12884[0] as PlaneMaterialCell);
             if (_local_2 != null){
@@ -284,7 +284,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             _local_2 = (this._SafeStr_12884[(this._SafeStr_12884.length - 1)] as PlaneMaterialCell);
             if (_local_2 != null){
                 _local_4 = [_local_2];
-                while (_local_9 < this._PlaneMaterialCell.height) {
+                while (_local_9 < this._SafeStr_12879.height) {
                     _local_9 = this.renderCells(_local_4, _local_9, true, _arg_1);
                 };
             };
@@ -295,7 +295,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             var _local_14:int;
             var _local_15:int;
             var _local_16:Array;
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             var _local_2:PlaneMaterialCell;
@@ -310,7 +310,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             while (_local_9 < (this._SafeStr_12884.length >> 1)) {
                 _local_2 = (this._SafeStr_12884[_local_9] as PlaneMaterialCell);
                 if (_local_2 != null){
-                    _local_8 = _local_2.PlaneMaterialCell(_arg_1);
+                    _local_8 = _local_2.getHeight(_arg_1);
                     if (_local_8 > 0){
                         _local_6 = (_local_6 + _local_8);
                         _local_4.push(_local_2);
@@ -322,7 +322,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             while (_local_9 < this._SafeStr_12884.length) {
                 _local_2 = (this._SafeStr_12884[_local_9] as PlaneMaterialCell);
                 if (_local_2 != null){
-                    _local_8 = _local_2.PlaneMaterialCell(_arg_1);
+                    _local_8 = _local_2.getHeight(_arg_1);
                     if (_local_8 > 0){
                         _local_7 = (_local_7 + _local_8);
                         _local_5.push(_local_2);
@@ -332,18 +332,18 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             };
             var _local_10:int;
             var _local_11:int;
-            var _local_12:int = this._PlaneMaterialCell.height;
-            if ((_local_6 + _local_7) > this._PlaneMaterialCell.height){
-                _local_10 = ((_local_6 + _local_7) - this._PlaneMaterialCell.height);
+            var _local_12:int = this._SafeStr_12879.height;
+            if ((_local_6 + _local_7) > this._SafeStr_12879.height){
+                _local_10 = ((_local_6 + _local_7) - this._SafeStr_12879.height);
                 _local_11 = (_local_11 - (_local_10 >> 1));
                 _local_12 = (_local_12 + (_local_10 - (_local_10 >> 1)));
             };
             if (_local_10 == 0){
                 _local_2 = (this._SafeStr_12884[(this._SafeStr_12884.length >> 1)] as PlaneMaterialCell);
                 if (_local_2 != null){
-                    _local_8 = _local_2.PlaneMaterialCell(_arg_1);
+                    _local_8 = _local_2.getHeight(_arg_1);
                     if (_local_8 > 0){
-                        _local_13 = (this._PlaneMaterialCell.height - (_local_6 + _local_7));
+                        _local_13 = (this._SafeStr_12879.height - (_local_6 + _local_7));
                         _local_14 = (Math.ceil((_local_13 / _local_8)) * _local_8);
                         _local_11 = (_local_6 - ((_local_14 - _local_13) >> 1));
                         _local_15 = (_local_11 + _local_14);
@@ -361,11 +361,11 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         private function renderRepeatFirst(_arg_1:IVector3d):void
         {
             var _local_4:Array;
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             var _local_2:PlaneMaterialCell;
-            var _local_3:int = this._PlaneMaterialCell.height;
+            var _local_3:int = this._SafeStr_12879.height;
             _local_3 = this.renderCells(this._SafeStr_12884, _local_3, false, _arg_1);
             _local_2 = (this._SafeStr_12884[0] as PlaneMaterialCell);
             if (_local_2 != null){
@@ -378,7 +378,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         private function renderRepeatLast(_arg_1:IVector3d):void
         {
             var _local_4:Array;
-            if ((((this._SafeStr_12884.length == 0)) || ((this._PlaneMaterialCell == null)))){
+            if ((((this._SafeStr_12884.length == 0)) || ((this._SafeStr_12879 == null)))){
                 return;
             };
             var _local_2:PlaneMaterialCell;
@@ -387,7 +387,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
             _local_2 = (this._SafeStr_12884[(this._SafeStr_12884.length - 1)] as PlaneMaterialCell);
             if (_local_2 != null){
                 _local_4 = [_local_2];
-                while (_local_3 < this._PlaneMaterialCell.height) {
+                while (_local_3 < this._SafeStr_12879.height) {
                     _local_3 = this.renderCells(_local_4, _local_3, true, _arg_1);
                 };
             };
@@ -402,8 +402,8 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 // _SafeStr_12864 = "_-0AL" (String#14461, DoABC#2)
 // _SafeStr_12868 = "_-2X0" (String#20323, DoABC#2)
 // _SafeStr_12869 = "_-0n6" (String#15943, DoABC#2)
-// _PlaneMaterialCell = "_-3BZ" (String#917, DoABC#2)
-// PlaneMaterialCell = "_-27v" (String#19326, DoABC#2)
+// _SafeStr_12879 = "_-3BZ" (String#917, DoABC#2)
+// getHeight = "_-27v" (String#19326, DoABC#2)
 // _SafeStr_12884 = "_-00-" (String#14051, DoABC#2)
 // _SafeStr_12885 = "_-2gh" (String#6884, DoABC#2)
 // _SafeStr_12886 = "_-1qn" (String#868, DoABC#2)

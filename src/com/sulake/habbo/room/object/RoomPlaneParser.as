@@ -1211,16 +1211,16 @@ package com.sulake.habbo.room.object
                     _local_19 = RORPVUM_FLOOR_THICKNESS;
                 };
                 if (_arg_8 > 0){
-                    _local_14.RoomPlaneBitmapMaskParser(0, 0, (_arg_8 - 0.02), _arg_3.length);
+                    _local_14.addMask(0, 0, (_arg_8 - 0.02), _arg_3.length);
                 };
                 if (_arg_9 > 0){
-                    _local_14.RoomPlaneBitmapMaskParser((_arg_2.length - _arg_9), 0, _arg_9, _arg_3.length);
+                    _local_14.addMask((_arg_2.length - _arg_9), 0, _arg_9, _arg_3.length);
                 };
                 if (_arg_10 > 0){
-                    _local_14.RoomPlaneBitmapMaskParser(0, 0, _arg_2.length, (_arg_10 - 0.02));
+                    _local_14.addMask(0, 0, _arg_2.length, (_arg_10 - 0.02));
                 };
                 if (_arg_11 > 0){
-                    _local_14.RoomPlaneBitmapMaskParser(0, (_arg_3.length - _arg_11), _arg_2.length, _arg_11);
+                    _local_14.addMask(0, (_arg_3.length - _arg_11), _arg_2.length, _arg_11);
                 };
                 if (_arg_6){
                     if ((((_arg_10 > 0)) || (_arg_13))){
@@ -1234,10 +1234,10 @@ package com.sulake.habbo.room.object
                     _local_16 = this.addPlane(RoomPlaneData._SafeStr_5829, _local_15, new Vector3d(0, 0, -(_local_20)), _arg_2);
                     if (_local_16 != null){
                         if (_arg_8 > 0){
-                            _local_16.RoomPlaneBitmapMaskParser(0, 0, _local_18, _arg_8);
+                            _local_16.addMask(0, 0, _local_18, _arg_8);
                         };
                         if (_arg_9 > 0){
-                            _local_16.RoomPlaneBitmapMaskParser(0, (_arg_2.length - _arg_9), _local_18, _arg_9);
+                            _local_16.addMask(0, (_arg_2.length - _arg_9), _local_18, _arg_9);
                         };
                     };
                 };
@@ -1253,10 +1253,10 @@ package com.sulake.habbo.room.object
                     _local_16 = this.addPlane(RoomPlaneData._SafeStr_5829, _local_15, new Vector3d(0, 0, -(_local_20)), Vector3d.product(_arg_2, -1));
                     if (_local_16 != null){
                         if (_arg_9 > 0){
-                            _local_16.RoomPlaneBitmapMaskParser(0, 0, _local_18, _arg_9);
+                            _local_16.addMask(0, 0, _local_18, _arg_9);
                         };
                         if (_arg_8 > 0){
-                            _local_16.RoomPlaneBitmapMaskParser(0, (_arg_2.length - _arg_8), _local_18, _arg_8);
+                            _local_16.addMask(0, (_arg_2.length - _arg_8), _local_18, _arg_8);
                         };
                     };
                 };
@@ -1272,10 +1272,10 @@ package com.sulake.habbo.room.object
                     _local_17 = this.addPlane(RoomPlaneData._SafeStr_5829, _local_15, new Vector3d(0, 0, -(_local_20)), Vector3d.product(_arg_3, -1));
                     if (_local_17 != null){
                         if (_arg_11 > 0){
-                            _local_17.RoomPlaneBitmapMaskParser(0, 0, _local_18, _arg_11);
+                            _local_17.addMask(0, 0, _local_18, _arg_11);
                         };
                         if (_arg_10 > 0){
-                            _local_17.RoomPlaneBitmapMaskParser(0, (_arg_3.length - _arg_10), _local_18, _arg_10);
+                            _local_17.addMask(0, (_arg_3.length - _arg_10), _local_18, _arg_10);
                         };
                     };
                 };
@@ -1291,10 +1291,10 @@ package com.sulake.habbo.room.object
                     _local_17 = this.addPlane(RoomPlaneData._SafeStr_5829, _local_15, new Vector3d(0, 0, -(_local_20)), _arg_3);
                     if (_local_17 != null){
                         if (_arg_10 > 0){
-                            _local_17.RoomPlaneBitmapMaskParser(0, 0, _local_18, _arg_10);
+                            _local_17.addMask(0, 0, _local_18, _arg_10);
                         };
                         if (_arg_11 > 0){
-                            _local_17.RoomPlaneBitmapMaskParser(0, (_arg_3.length - _arg_11), _local_18, _arg_11);
+                            _local_17.addMask(0, (_arg_3.length - _arg_11), _local_18, _arg_11);
                         };
                     };
                 };
@@ -1344,7 +1344,7 @@ package com.sulake.habbo.room.object
                 while (_local_14 < _local_13.length()) {
                     _local_15 = _local_13[_local_14];
                     if (XMLValidator.checkRequiredAttributes(_local_15, ["id", "x", "y", "width", "height"])){
-                        this.RoomEngine(_local_15.@id, _local_15.@x, _local_15.@y, _local_15.@width, _local_15.@height);
+                        this.addFloorHole(_local_15.@id, _local_15.@x, _local_15.@y, _local_15.@width, _local_15.@height);
                     };
                     _local_14++;
                 };
@@ -1476,7 +1476,7 @@ package com.sulake.habbo.room.object
                 _local_3 = [];
                 _local_4 = 0;
                 while (_local_4 < _local_2.secondaryNormalCount) {
-                    _local_3.push(_local_2.RoomPlaneData(_local_4));
+                    _local_3.push(_local_2.getSecondaryNormal(_local_4));
                     _local_4++;
                 };
                 return (_local_3);
@@ -1512,7 +1512,7 @@ package com.sulake.habbo.room.object
             };
             var _local_3:RoomPlaneData = (this._SafeStr_12729[_arg_1] as RoomPlaneData);
             if (_local_3 != null){
-                return (_local_3.RoomPlaneData(_arg_2));
+                return (_local_3.getMaskLeftSideLoc(_arg_2));
             };
             return (-1);
         }
@@ -1523,7 +1523,7 @@ package com.sulake.habbo.room.object
             };
             var _local_3:RoomPlaneData = (this._SafeStr_12729[_arg_1] as RoomPlaneData);
             if (_local_3 != null){
-                return (_local_3.RoomPlaneData(_arg_2));
+                return (_local_3.getMaskRightSideLoc(_arg_2));
             };
             return (-1);
         }
@@ -1534,7 +1534,7 @@ package com.sulake.habbo.room.object
             };
             var _local_3:RoomPlaneData = (this._SafeStr_12729[_arg_1] as RoomPlaneData);
             if (_local_3 != null){
-                return (_local_3.RoomPlaneData(_arg_2));
+                return (_local_3.getMaskLeftSideLength(_arg_2));
             };
             return (-1);
         }
@@ -1545,17 +1545,17 @@ package com.sulake.habbo.room.object
             };
             var _local_3:RoomPlaneData = (this._SafeStr_12729[_arg_1] as RoomPlaneData);
             if (_local_3 != null){
-                return (_local_3.RoomPlaneData(_arg_2));
+                return (_local_3.getMaskRightSideLength(_arg_2));
             };
             return (-1);
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):void
+        public function addFloorHole(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:int):void
         {
-            this.RoomEngine(_arg_1);
+            this.removeFloorHole(_arg_1);
             var _local_6:RoomFloorHole = new RoomFloorHole(_arg_2, _arg_3, _arg_4, _arg_5);
             this._SafeStr_13066.add(_arg_1, _local_6);
         }
-        public function RoomEngine(_arg_1:int):void
+        public function removeFloorHole(_arg_1:int):void
         {
             this._SafeStr_13066.remove(_arg_1);
         }
@@ -1683,12 +1683,12 @@ package com.sulake.habbo.room.object
 // getPlaneNormal = "_-2h9" (String#20734, DoABC#2)
 // normalDirection = "_-35R" (String#21711, DoABC#2)
 // secondaryNormalCount = "_-2fe" (String#20677, DoABC#2)
-// RoomPlaneData = "_-48" (String#22384, DoABC#2)
+// getSecondaryNormal = "_-48" (String#22384, DoABC#2)
 // _SafeStr_13115 = "_-0iW" (String#15773, DoABC#2)
-// RoomPlaneData = "_-1xr" (String#18882, DoABC#2)
-// RoomPlaneData = "_-1Oa" (String#17452, DoABC#2)
-// RoomPlaneData = "_-3GI" (String#22133, DoABC#2)
-// RoomPlaneData = "_-2Wn" (String#20316, DoABC#2)
+// getMaskLeftSideLoc = "_-1xr" (String#18882, DoABC#2)
+// getMaskRightSideLoc = "_-1Oa" (String#17452, DoABC#2)
+// getMaskLeftSideLength = "_-3GI" (String#22133, DoABC#2)
+// getMaskRightSideLength = "_-2Wn" (String#20316, DoABC#2)
 // RoomPlaneParser = "_-2Ya" (String#6737, DoABC#2)
 // RoomPlaneData = "_-1iF" (String#5716, DoABC#2)
 // RoomWallData = "_-Bo" (String#7910, DoABC#2)
@@ -1708,11 +1708,11 @@ package com.sulake.habbo.room.object
 // getXML = "_-2Oe" (String#6532, DoABC#2)
 // loc = "_-0fh" (String#15660, DoABC#2)
 // initializeFromXML = "_-00L" (String#14068, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-0SM" (String#15149, DoABC#2)
+// addMask = "_-0SM" (String#15149, DoABC#2)
 // RORPVUM_FLOOR_THICKNESS = "_-2pM" (String#7067, DoABC#2)
 // RORPPUM_WALL_THICKNESS = "_-GT" (String#8005, DoABC#2)
-// RoomEngine = "_-u-" (String#8766, DoABC#2)
-// RoomEngine = "_-1hN" (String#5693, DoABC#2)
+// addFloorHole = "_-u-" (String#8766, DoABC#2)
+// removeFloorHole = "_-1hN" (String#5693, DoABC#2)
 // planeCount = "_-2lv" (String#20913, DoABC#2)
 // getPlaneLocation = "_-dB" (String#23767, DoABC#2)
 // getPlaneLeftSide = "_-IZ" (String#22950, DoABC#2)

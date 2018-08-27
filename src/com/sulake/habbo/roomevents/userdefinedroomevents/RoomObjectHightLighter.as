@@ -63,7 +63,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
         }
         private function getFurni(_arg_1:int):IRoomObject
         {
-            return (this._SafeStr_5221.roomEngine.IRoomSpriteCanvasContainer(this._SafeStr_5221.roomId, this._SafeStr_5221.roomCategory, _arg_1, RoomObjectCategoryEnum._SafeStr_4329));
+            return (this._SafeStr_5221.roomEngine.getRoomObject(this._SafeStr_5221.roomId, this._SafeStr_5221.roomCategory, _arg_1, RoomObjectCategoryEnum._SafeStr_4329));
         }
         private function activateFurni(_arg_1:IRoomObject):void
         {
@@ -116,7 +116,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents
 // _SafeStr_4329 = "_-bN" (String#23687, DoABC#2)
 // getSprite = "_-sN" (String#2210, DoABC#2)
 // spriteCount = "_-2A7" (String#6252, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // _SafeStr_5221 = "_-0D2" (String#124, DoABC#2)
 // getFurni = "_-0B5" (String#3779, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)

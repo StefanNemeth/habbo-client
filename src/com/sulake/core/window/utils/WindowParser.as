@@ -132,7 +132,7 @@ package com.sulake.core.window.utils
                     _local_12 = new Array();
                     _local_13 = 0;
                     while (_local_13 < _local_9.length()) {
-                        _local_12.push(this.WindowParser(_local_9[_local_13]));
+                        _local_12.push(this.buildBitmapFilter(_local_9[_local_13]));
                         _local_13++;
                     };
                     _arg_2.filters = _local_12;
@@ -148,7 +148,7 @@ package com.sulake.core.window.utils
                     default:
                         _local_7 = 0;
                         while (_local_7 < _local_5) {
-                            _local_6 = this.WindowParser(_local_4[_local_7], WindowController(_arg_2), _arg_3);
+                            _local_6 = this.parseSingleWindowEntity(_local_4[_local_7], WindowController(_arg_2), _arg_3);
                             _local_7++;
                         };
                         return (_local_6);
@@ -160,16 +160,16 @@ package com.sulake.core.window.utils
                 if (_local_5 > 1){
                     _local_7 = 0;
                     while (_local_7 < _local_5) {
-                        _local_6 = this.WindowParser(_local_4[_local_7], WindowController(_arg_2), _arg_3);
+                        _local_6 = this.parseSingleWindowEntity(_local_4[_local_7], WindowController(_arg_2), _arg_3);
                         _local_7++;
                     };
                     return (_local_6);
                 };
                 _arg_1 = _arg_1.children()[0];
             };
-            return ((((_arg_1)!=null) ? this.WindowParser(_arg_1, WindowController(_arg_2), _arg_3) : null));
+            return ((((_arg_1)!=null) ? this.parseSingleWindowEntity(_arg_1, WindowController(_arg_2), _arg_3) : null));
         }
-        private function WindowParser(xml:XML, parent:WindowController, variables:Map):IWindow
+        private function parseSingleWindowEntity(xml:XML, parent:WindowController, variables:Map):IWindow
         {
             var window:WindowController;
             var type:uint;
@@ -195,24 +195,24 @@ package com.sulake.core.window.utils
             var tag:String = ;
             var id:int;
             type = this._SafeStr_9703[xml.localName()];
-            name = unescape(String(this.WindowParser(xml, _SafeStr_8785, variables, "")));
-            style = uint(this.WindowParser(xml, _SafeStr_9689, variables, style));
-            params = uint(this.WindowParser(xml, _SafeStr_9690, variables, params));
-            tag = unescape(String(this.WindowParser(xml, _SafeStr_9691, variables, tag)));
+            name = unescape(String(this.parseAttribute(xml, _SafeStr_8785, variables, "")));
+            style = uint(this.parseAttribute(xml, _SafeStr_9689, variables, style));
+            params = uint(this.parseAttribute(xml, _SafeStr_9690, variables, params));
+            tag = unescape(String(this.parseAttribute(xml, _SafeStr_9691, variables, tag)));
             rect = new Rectangle();
-            rect.x = Number(this.WindowParser(xml, X, variables, 0));
-            rect.y = Number(this.WindowParser(xml, Y, variables, 0));
-            rect.width = Number(this.WindowParser(xml, _SafeStr_9007, variables, 0));
-            rect.height = Number(this.WindowParser(xml, _SafeStr_9008, variables, 0));
-            visible = (this.WindowParser(xml, _SafeStr_9692, variables, visible.toString()) == _SafeStr_9005);
-            id = int(this.WindowParser(xml, ID, variables, id.toString()));
+            rect.x = Number(this.parseAttribute(xml, X, variables, 0));
+            rect.y = Number(this.parseAttribute(xml, Y, variables, 0));
+            rect.width = Number(this.parseAttribute(xml, _SafeStr_9007, variables, 0));
+            rect.height = Number(this.parseAttribute(xml, _SafeStr_9008, variables, 0));
+            visible = (this.parseAttribute(xml, _SafeStr_9692, variables, visible.toString()) == _SafeStr_9005);
+            id = int(this.parseAttribute(xml, ID, variables, id.toString()));
             if (xml.child(_SafeStr_9690).length() > 0){
                 list = xml.child(_SafeStr_9690).children();
                 length = list.length();
                 i = 0;
                 while (i < length) {
                     node = list[i];
-                    param = (this.WindowParser(node, _SafeStr_8785, variables, "") as String);
+                    param = (this.parseAttribute(node, _SafeStr_8785, variables, "") as String);
                     if (this._SafeStr_9705[param] != null){
                         params = (params | this._SafeStr_9705[param]);
                     }
@@ -223,7 +223,7 @@ package com.sulake.core.window.utils
                 };
             };
             caption = (((params & WindowParam._SafeStr_9508)) ? ((parent) ? parent.caption : ) : );
-            caption = unescape(String(this.WindowParser(xml, _SafeStr_9693, variables, caption)));
+            caption = unescape(String(this.parseAttribute(xml, _SafeStr_9693, variables, caption)));
             if (tag != ){
                 tags = tag.split(,);
                 length = tags.length;
@@ -233,24 +233,24 @@ package com.sulake.core.window.utils
                     i++;
                 };
             };
-            window = (this._context.create(name, null, type, style, params, rect, null, (((parent is IIterable)) ? null : parent), id, this.WindowParser(xml.child(_SafeStr_9687)[0]), tags) as WindowController);
-            if (this.WindowParser(xml, _SafeStr_9697)){
-                window.limits.minWidth = int(this.WindowParser(xml, _SafeStr_9697, variables, window.limits.minWidth));
+            window = (this._context.create(name, null, type, style, params, rect, null, (((parent is IIterable)) ? null : parent), id, this.parseProperties(xml.child(_SafeStr_9687)[0]), tags) as WindowController);
+            if (this.hasAttribute(xml, _SafeStr_9697)){
+                window.limits.minWidth = int(this.parseAttribute(xml, _SafeStr_9697, variables, window.limits.minWidth));
             };
-            if (this.WindowParser(xml, WIDTH_MAX)){
-                window.limits.maxWidth = int(this.WindowParser(xml, WIDTH_MAX, variables, window.limits.maxWidth));
+            if (this.hasAttribute(xml, WIDTH_MAX)){
+                window.limits.maxWidth = int(this.parseAttribute(xml, WIDTH_MAX, variables, window.limits.maxWidth));
             };
-            if (this.WindowParser(xml, _SafeStr_9698)){
-                window.limits.minHeight = int(this.WindowParser(xml, _SafeStr_9698, variables, window.limits.minHeight));
+            if (this.hasAttribute(xml, _SafeStr_9698)){
+                window.limits.minHeight = int(this.parseAttribute(xml, _SafeStr_9698, variables, window.limits.minHeight));
             };
-            if (this.WindowParser(xml, _SafeStr_9699)){
-                window.limits.maxHeight = int(this.WindowParser(xml, _SafeStr_9699, variables, window.limits.maxHeight));
+            if (this.hasAttribute(xml, _SafeStr_9699)){
+                window.limits.maxHeight = int(this.parseAttribute(xml, _SafeStr_9699, variables, window.limits.maxHeight));
             };
-            background = (this.WindowParser(xml, _SafeStr_3421, variables, window.background.toString()) == _SafeStr_9005);
-            blend = Number(this.WindowParser(xml, _SafeStr_9616, variables, window.blend.toString()));
-            clipping = (this.WindowParser(xml, _SafeStr_9694, variables, window.clipping.toString()) == _SafeStr_9005);
-            color = String(this.WindowParser(xml, COLOR, variables, window.color.toString()));
-            treshold = uint(this.WindowParser(xml, _SafeStr_9695, variables, window.mouseThreshold.toString()));
+            background = (this.parseAttribute(xml, _SafeStr_3421, variables, window.background.toString()) == _SafeStr_9005);
+            blend = Number(this.parseAttribute(xml, _SafeStr_9616, variables, window.blend.toString()));
+            clipping = (this.parseAttribute(xml, _SafeStr_9694, variables, window.clipping.toString()) == _SafeStr_9005);
+            color = String(this.parseAttribute(xml, COLOR, variables, window.color.toString()));
+            treshold = uint(this.parseAttribute(xml, _SafeStr_9695, variables, window.mouseThreshold.toString()));
             if (window.caption != caption){
                 window.caption = caption;
             };
@@ -279,7 +279,7 @@ package com.sulake.core.window.utils
                 filters = new Array();
                 i = 0;
                 while (i < length) {
-                    filters.push(this.WindowParser(list[i]));
+                    filters.push(this.buildBitmapFilter(list[i]));
                     i++;
                 };
                 window.filters = filters;
@@ -322,11 +322,11 @@ package com.sulake.core.window.utils
             };
             return (window);
         }
-        private function WindowParser(_arg_1:XML, _arg_2:String):Boolean
+        private function hasAttribute(_arg_1:XML, _arg_2:String):Boolean
         {
             return ((_arg_1.attribute(_arg_2).length() > 0));
         }
-        private function WindowParser(_arg_1:XML, _arg_2:String, _arg_3:Map, _arg_4:Object):Object
+        private function parseAttribute(_arg_1:XML, _arg_2:String, _arg_3:Map, _arg_4:Object):Object
         {
             var _local_5:XMLList = _arg_1.attribute(_arg_2);
             if (_local_5.length() == 0){
@@ -343,7 +343,7 @@ package com.sulake.core.window.utils
             };
             return (_local_6);
         }
-        private function WindowParser(_arg_1:XML):Array
+        private function parseProperties(_arg_1:XML):Array
         {
             return ((((_arg_1)!=null) ? XMLPropertyArrayParser.parse(_arg_1.children()) : new Array()));
         }
@@ -366,7 +366,7 @@ package com.sulake.core.window.utils
             if (((_arg_1.filters) && ((_arg_1.filters.length > 0)))){
                 _local_2 = (_local_2 + "\t<filters>\r");
                 for each (_local_15 in _arg_1.filters) {
-                    _local_2 = (_local_2 + (("\t\t" + this.WindowParser(_local_15)) + "\r"));
+                    _local_2 = (_local_2 + (("\t\t" + this.filterToXmlString(_local_15)) + "\r"));
                 };
                 _local_2 = (_local_2 + "\t</filters>\r");
             };
@@ -422,18 +422,18 @@ package com.sulake.core.window.utils
             };
             return ((_local_2 + (("</" + _local_3) + ">\r")));
         }
-        private function WindowParser(_arg_1:XML):BitmapFilter
+        private function buildBitmapFilter(_arg_1:XML):BitmapFilter
         {
             var _local_3:BitmapFilter;
             var _local_2:String = (_arg_1.localName() as String);
             switch (_local_2){
                 case "DropShadowFilter":
-                    _local_3 = new DropShadowFilter(Number(this.WindowParser(_arg_1, "distance", null, "0")), Number(this.WindowParser(_arg_1, "angle", null, "45")), uint(this.WindowParser(_arg_1, "color", null, "0")), Number(this.WindowParser(_arg_1, "alpha", null, "1")), Number(this.WindowParser(_arg_1, "blurX", null, "0")), Number(this.WindowParser(_arg_1, "blurY", null, "0")), Number(this.WindowParser(_arg_1, "strength", null, "1")), int(this.WindowParser(_arg_1, "quality", null, "1")), Boolean((this.WindowParser(_arg_1, "inner", null, "false") == "true")), Boolean((this.WindowParser(_arg_1, "knockout", null, "false") == "true")), Boolean((this.WindowParser(_arg_1, "hideObject", null, "false") == "true")));
+                    _local_3 = new DropShadowFilter(Number(this.parseAttribute(_arg_1, "distance", null, "0")), Number(this.parseAttribute(_arg_1, "angle", null, "45")), uint(this.parseAttribute(_arg_1, "color", null, "0")), Number(this.parseAttribute(_arg_1, "alpha", null, "1")), Number(this.parseAttribute(_arg_1, "blurX", null, "0")), Number(this.parseAttribute(_arg_1, "blurY", null, "0")), Number(this.parseAttribute(_arg_1, "strength", null, "1")), int(this.parseAttribute(_arg_1, "quality", null, "1")), Boolean((this.parseAttribute(_arg_1, "inner", null, "false") == "true")), Boolean((this.parseAttribute(_arg_1, "knockout", null, "false") == "true")), Boolean((this.parseAttribute(_arg_1, "hideObject", null, "false") == "true")));
                     break;
             };
             return (_local_3);
         }
-        private function WindowParser(_arg_1:BitmapFilter):String
+        private function filterToXmlString(_arg_1:BitmapFilter):String
         {
             var _local_2:String;
             if ((_arg_1 is DropShadowFilter)){
@@ -513,11 +513,11 @@ package com.sulake.core.window.utils
 // _SafeStr_9705 = "_-0EJ" (String#14621, DoABC#2)
 // _SafeStr_9706 = "_-0zu" (String#16422, DoABC#2)
 // _SafeStr_9707 = "_-15X" (String#16677, DoABC#2)
-// WindowParser = "_-25a" (String#19242, DoABC#2)
-// WindowParser = "_-2YL" (String#20370, DoABC#2)
-// WindowParser = "_-1my" (String#18419, DoABC#2)
-// WindowParser = "_-6Y" (String#22483, DoABC#2)
-// WindowParser = "_-KN" (String#23021, DoABC#2)
-// WindowParser = "_-2b7" (String#20493, DoABC#2)
+// buildBitmapFilter = "_-25a" (String#19242, DoABC#2)
+// parseSingleWindowEntity = "_-2YL" (String#20370, DoABC#2)
+// parseAttribute = "_-1my" (String#18419, DoABC#2)
+// parseProperties = "_-6Y" (String#22483, DoABC#2)
+// hasAttribute = "_-KN" (String#23021, DoABC#2)
+// filterToXmlString = "_-2b7" (String#20493, DoABC#2)
 
 

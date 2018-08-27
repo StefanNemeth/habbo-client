@@ -65,7 +65,7 @@ package com.sulake.core.window.graphics.renderer
                 delete this._placeholders[_local_3];
             };
         }
-        public function SkinLayout(_arg_1:Rectangle):void
+        public function calculateActualRect(_arg_1:Rectangle):void
         {
             var _local_2:Rectangle;
             var _local_3:SkinLayoutEntity;
@@ -94,7 +94,7 @@ package com.sulake.core.window.graphics.renderer
                 _local_5++;
             };
         }
-        public function ISkinLayout():Boolean
+        public function isFixedWidth():Boolean
         {
             var _local_2:uint;
             var _local_1:uint = numChildren;
@@ -110,7 +110,7 @@ package com.sulake.core.window.graphics.renderer
             };
             return (true);
         }
-        public function SkinLayout():uint
+        public function calculateWidth():uint
         {
             var _local_2:Rectangle;
             var _local_4:uint;
@@ -126,7 +126,7 @@ package com.sulake.core.window.graphics.renderer
             };
             return (_local_1);
         }
-        public function ISkinLayout():Boolean
+        public function isFixedHeight():Boolean
         {
             var _local_2:uint;
             var _local_1:uint = numChildren;
@@ -142,7 +142,7 @@ package com.sulake.core.window.graphics.renderer
             };
             return (true);
         }
-        public function SkinLayout():uint
+        public function calculateHeight():uint
         {
             var _local_2:Rectangle;
             var _local_4:uint;
@@ -158,7 +158,7 @@ package com.sulake.core.window.graphics.renderer
             };
             return (_local_1);
         }
-        public function ISkinLayout(_arg_1:String, _arg_2:Rectangle):void
+        public function getDefaultRegion(_arg_1:String, _arg_2:Rectangle):void
         {
             var _local_3:SkinLayoutEntity = (getChildByName(_arg_1) as SkinLayoutEntity);
             if (_local_3 == null){
@@ -189,15 +189,15 @@ package com.sulake.core.window.graphics.renderer
         override public function removeChild(_arg_1:IChildEntity):IChildEntity
         {
             super.removeChild(_arg_1);
-            this._width = this.SkinLayout();
-            this._height = this.SkinLayout();
+            this._width = this.calculateWidth();
+            this._height = this.calculateHeight();
             return (_arg_1);
         }
         override public function removeChildAt(_arg_1:int):IChildEntity
         {
             var _local_2:IChildEntity = super.removeChildAt(_arg_1);
-            this._width = this.SkinLayout();
-            this._height = this.SkinLayout();
+            this._width = this.calculateWidth();
+            this._height = this.calculateHeight();
             return (_local_2);
         }
 
@@ -213,16 +213,16 @@ package com.sulake.core.window.graphics.renderer
 // SkinLayout = "_-2Ti" (String#6640, DoABC#2)
 // _width = "_-0Uq" (String#92, DoABC#2)
 // placeholders = "_-b7" (String#8444, DoABC#2)
-// ISkinLayout = "_-CN" (String#7923, DoABC#2)
-// ISkinLayout = "_-3By" (String#7551, DoABC#2)
-// ISkinLayout = "_-1Bw" (String#5109, DoABC#2)
+// isFixedWidth = "_-CN" (String#7923, DoABC#2)
+// isFixedHeight = "_-3By" (String#7551, DoABC#2)
+// getDefaultRegion = "_-1Bw" (String#5109, DoABC#2)
 // _SafeStr_4078 = "_-30D" (String#21509, DoABC#2)
 // _SafeStr_4083 = "_-2vf" (String#21301, DoABC#2)
 // _SafeStr_4086 = "_-0SW" (String#15154, DoABC#2)
 // _blendMode = "_-KX" (String#8094, DoABC#2)
 // _transparent = "_-1QG" (String#17521, DoABC#2)
-// SkinLayout = "_-1Kl" (String#17302, DoABC#2)
-// SkinLayout = "_-0MA" (String#14921, DoABC#2)
-// SkinLayout = "_-07R" (String#14341, DoABC#2)
+// calculateActualRect = "_-1Kl" (String#17302, DoABC#2)
+// calculateWidth = "_-0MA" (String#14921, DoABC#2)
+// calculateHeight = "_-07R" (String#14341, DoABC#2)
 
 

@@ -30,7 +30,7 @@ package com.sulake.habbo.moderation
             this._frame = IFrameWindow(this._help.getXmlWindow("user_info_frame"));
             this._frame.caption = "User Info";
             var _local_1:IWindow = this._frame.findChildByTag("close");
-            _local_1.procedure = this.PollOfferDialog;
+            _local_1.procedure = this.onClose;
             this._SafeStr_11800 = new UserInfoCtrl(this._frame, this._help, "", true);
             this._SafeStr_11800.load(this._frame.content, this._userId);
             this._frame.visible = true;
@@ -47,7 +47,7 @@ package com.sulake.habbo.moderation
         {
             return (this._frame);
         }
-        private function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -84,7 +84,7 @@ package com.sulake.habbo.moderation
 // UserInfoCtrl = "_-ip" (String#8573, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 
 

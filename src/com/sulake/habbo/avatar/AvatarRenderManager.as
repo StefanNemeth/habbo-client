@@ -75,9 +75,9 @@ package com.sulake.habbo.avatar
             this._SafeStr_10208 = new PetDataManager(this, (_arg_1.assets as AssetLibraryCollection));
             this._paletteManager = new PaletteManager((_arg_1.assets as AssetLibraryCollection));
             var _local_5:XML = (_arg_3.getAssetByName("HabboAvatarPetFigure").content as XML);
-            this._SafeStr_10208.PetDataManager(_local_5);
+            this._SafeStr_10208.populateFigureData(_local_5);
             _arg_1.events.addEventListener(Component.COMPONENT_EVENT_RUNNING, this.onAllModulesReadyAndRunning);
-            queueInterface(new IIDHabboConfigurationManager(), this.RoomEngine);
+            queueInterface(new IIDHabboConfigurationManager(), this.onHabboConfigurationReady);
         }
         override public function dispose():void
         {
@@ -88,7 +88,7 @@ package com.sulake.habbo.avatar
             };
             super.dispose();
             if (this._SafeStr_10207 != null){
-                for each (_local_1 in this._SafeStr_10207.Map()) {
+                for each (_local_1 in this._SafeStr_10207.getValues()) {
                     _local_1.dispose();
                 };
                 this._SafeStr_10207.dispose();
@@ -137,7 +137,7 @@ package com.sulake.habbo.avatar
             this.events.dispatchEvent(new Event(AvatarRendererUpdateEvent.AVATAR_RENDERER_ANIMATIONS_INITIALIZED_EVENT));
             this.checkIfReady();
         }
-        private function RoomEngine(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onHabboConfigurationReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             var _local_3:AvatarStructure;
             var _local_4:String;
@@ -268,7 +268,7 @@ package com.sulake.habbo.avatar
             var _local_3:int = int(_local_2[0]);
             var _local_4:int = int(_local_2[1]);
             var _local_5:uint = parseInt(_local_2[2], 16);
-            return (this._SafeStr_10208.PetDataManager(_local_3, _local_4, _local_5));
+            return (this._SafeStr_10208.createPetFigureString(_local_3, _local_4, _local_5));
         }
         public function createPetImage(_arg_1:int, _arg_2:int, _arg_3:uint, _arg_4:String, _arg_5:IPetImageListener=null):IAvatarImage
         {
@@ -277,7 +277,7 @@ package com.sulake.habbo.avatar
             if (this.mode != RenderMode._SafeStr_9978){
                 _local_6 = !(this._SafeStr_10208.assetsReady(_arg_1, _arg_4));
             };
-            var _local_7:String = this._SafeStr_10208.PetDataManager(_arg_1, _arg_2, _arg_3);
+            var _local_7:String = this._SafeStr_10208.createPetFigureString(_arg_1, _arg_2, _arg_3);
             var _local_8:AvatarStructure = (this._SafeStr_10207.getValue(AvatarType._SafeStr_6769) as AvatarStructure);
             if (_local_8 == null){
                 return (null);
@@ -306,7 +306,7 @@ package com.sulake.habbo.avatar
             this._SafeStr_10208.reset();
             this._paletteManager.reset();
             var _local_1:XML = (assets.getAssetByName("HabboAvatarPetFigure").content as XML);
-            this._SafeStr_10208.PetDataManager(_local_1);
+            this._SafeStr_10208.populateFigureData(_local_1);
             var _local_2:AvatarStructure = this._SafeStr_10207.getValue(AvatarType._SafeStr_6769);
             _local_2.initFigureData(_local_1);
             _local_2.resetPartOffsets(context.assets);
@@ -440,8 +440,8 @@ package com.sulake.habbo.avatar
 
 // IID = "_-3KV" (String#7712, DoABC#2)
 // assetsReady = "_-0jq" (String#15821, DoABC#2)
-// PetDataManager = "_-0Qm" (String#15092, DoABC#2)
-// PetDataManager = "_-0OV" (String#15007, DoABC#2)
+// createPetFigureString = "_-0Qm" (String#15092, DoABC#2)
+// populateFigureData = "_-0OV" (String#15007, DoABC#2)
 // resetPetData = "_-0tj" (String#16192, DoABC#2)
 // getSetType = "_-0CE" (String#3795, DoABC#2)
 // AVATAR_STRUCTURE_DONE = "_-1tb" (String#18701, DoABC#2)
@@ -505,7 +505,7 @@ package com.sulake.habbo.avatar
 // createPetImageFromFigure = "_-0Sk" (String#4153, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // petImageReady = "_-WW" (String#8332, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // mode = "_-3Cz" (String#2023, DoABC#2)
 // _mode = "_-1kk" (String#611, DoABC#2)
 // _SafeStr_6769 = "_-1Y9" (String#17821, DoABC#2)
@@ -517,7 +517,7 @@ package com.sulake.habbo.avatar
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)
 // getPetFigureString = "_-0DP" (String#1431, DoABC#2)
 // paletteManager = "_-0SL" (String#15148, DoABC#2)
-// RoomEngine = "_-1P4" (String#1679, DoABC#2)
+// onHabboConfigurationReady = "_-1P4" (String#1679, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 // isReady = "_-2Wr" (String#6698, DoABC#2)
 // _isReady = "_-0tK" (String#4713, DoABC#2)

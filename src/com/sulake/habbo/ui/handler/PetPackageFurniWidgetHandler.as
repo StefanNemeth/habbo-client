@@ -39,7 +39,7 @@ package com.sulake.habbo.ui.handler
         {
             this._container = _arg_1;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetOpenPetPackageMessage.RWOPPM_OPEN_PET_PACKAGE]);
         }
@@ -50,17 +50,17 @@ package com.sulake.habbo.ui.handler
                 case RoomWidgetOpenPetPackageMessage.RWOPPM_OPEN_PET_PACKAGE:
                     _local_2 = (_arg_1 as RoomWidgetOpenPetPackageMessage);
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession(_local_2.objectId, _local_2.name);
+                        this._container.roomSession.sendOpenPetPackageMessage(_local_2.objectId, _local_2.name);
                     };
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionPetPackageEvent.RSOPPE_OPEN_PET_PACKAGE_REQUESTED, RoomSessionPetPackageEvent.RSOPPE_OPEN_PET_PACKAGE_RESULT]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionPetPackageEvent;
             var _local_3:RoomWidgetPetPackageUpdateEvent;
@@ -79,8 +79,8 @@ package com.sulake.habbo.ui.handler
                         this._petType = _local_2.petType;
                         this._breed = _local_2.breed;
                         this._color = _local_2.color;
-                        _local_4 = this._container.avatarRenderManager.petDataManager.PetDataManager(this._petType, this);
-                        _local_5 = this.RoomEngine();
+                        _local_4 = this._container.avatarRenderManager.petDataManager.getPetData(this._petType, this);
+                        _local_5 = this.getPetImage();
                         _local_3 = new RoomWidgetPetPackageUpdateEvent(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_REQUESTED, this._objectId, _local_5, -1, null);
                         this._container.events.dispatchEvent(_local_3);
                         return;
@@ -110,7 +110,7 @@ package com.sulake.habbo.ui.handler
         }
         public function petImageReady(_arg_1:String):void
         {
-            var _local_2:BitmapData = this.RoomEngine();
+            var _local_2:BitmapData = this.getPetImage();
             var _local_3:RoomWidgetPetPackageUpdateEvent = new RoomWidgetPetPackageUpdateEvent(RoomWidgetPetPackageUpdateEvent.RWOPPUE_OPEN_PET_PACKAGE_UPDATE_PET_IMAGE, this._objectId, _local_2, -1, null);
             this._container.events.dispatchEvent(_local_3);
         }
@@ -123,7 +123,7 @@ package com.sulake.habbo.ui.handler
         {
             this.petImageReady("");
         }
-        private function RoomEngine():BitmapData
+        private function getPetImage():BitmapData
         {
             var _local_1:uint;
             var _local_2:IAvatarImage;
@@ -138,7 +138,7 @@ package com.sulake.habbo.ui.handler
             }
             else {
                 _local_3 = 0;
-                _local_4 = this._container.roomEngine.RoomEngine(this._petType, this._breed, new Vector3d(90), 64, this, _local_3);
+                _local_4 = this._container.roomEngine.getPetImage(this._petType, this._breed, new Vector3d(90), 64, this, _local_3);
                 if (_local_4 != null){
                     return (_local_4.data);
                 };
@@ -175,13 +175,13 @@ package com.sulake.habbo.ui.handler
 // petType = "_-0GK" (String#3877, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-0nV" (String#4580, DoABC#2)
-// PetDataManager = "_-2Tw" (String#6646, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// sendOpenPetPackageMessage = "_-0nV" (String#4580, DoABC#2)
+// getPetData = "_-2Tw" (String#6646, DoABC#2)
 // petDataManager = "_-0y0" (String#4809, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
 // RWOPPUE_OPEN_PET_PACKAGE_REQUESTED = "_-0lb" (String#15884, DoABC#2)
 // RWOPPUE_OPEN_PET_PACKAGE_RESULT = "_-0zY" (String#16409, DoABC#2)
 // RWOPPUE_OPEN_PET_PACKAGE_UPDATE_PET_IMAGE = "_-tS" (String#24425, DoABC#2)

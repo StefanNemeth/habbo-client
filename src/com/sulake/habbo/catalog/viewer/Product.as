@@ -114,7 +114,7 @@ package com.sulake.habbo.catalog.viewer
                             default:
                                 _local_9 = _local_7.getWallItemIcon(this.productClassId, _arg_2, this._extraParam);
                         };
-                        _local_8.PendingImage(_arg_4, _local_10, _arg_5);
+                        _local_8.setImageFromAsset(_arg_4, _local_10, _arg_5);
                     }
                     else {
                         _local_9 = _local_7.getWallItemIcon(this.productClassId, _arg_2, this._extraParam);
@@ -123,7 +123,7 @@ package com.sulake.habbo.catalog.viewer
                 case ProductTypeEnum._SafeStr_5021:
                     _local_6 = _local_8.getPixelEffectIcon(this.productClassId);
                     if (_arg_2 == this){
-                        this.ProductGridItem(_local_6, true);
+                        this.setIconImage(_local_6, true);
                     };
                     break;
                 case ProductTypeEnum._SafeStr_5023:
@@ -135,7 +135,7 @@ package com.sulake.habbo.catalog.viewer
             if (_local_9 != null){
                 _local_6 = _local_9.data;
                 if (_arg_2 == this){
-                    this.ProductGridItem(_local_6, true);
+                    this.setIconImage(_local_6, true);
                 };
             };
             return (_local_6);
@@ -143,7 +143,7 @@ package com.sulake.habbo.catalog.viewer
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
         {
             Logger.log(("[Product] Bundle Icon Image Ready!" + _arg_1));
-            ProductGridItem(_arg_2, true);
+            setIconImage(_arg_2, true);
         }
         override public function set view(_arg_1:IWindowContainer):void
         {
@@ -183,7 +183,7 @@ package com.sulake.habbo.catalog.viewer
 // extraParam = "_-AM" (String#7874, DoABC#2)
 // expiration = "_-1G1" (String#1648, DoABC#2)
 // firstProduct = "_-KM" (String#8089, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 // _productType = "_-1TF" (String#5419, DoABC#2)
 // _productClassId = "_-0Gm" (String#3890, DoABC#2)
 // _extraParam = "_-2Ad" (String#880, DoABC#2)
@@ -193,7 +193,7 @@ package com.sulake.habbo.catalog.viewer
 // furnitureData = "_-2GE" (String#6370, DoABC#2)
 // initIcon = "_-0Fm" (String#1437, DoABC#2)
 // _SafeStr_5017 = "_-1-l" (String#16457, DoABC#2)
-// PendingImage = "_-1q7" (String#18549, DoABC#2)
+// setImageFromAsset = "_-1q7" (String#18549, DoABC#2)
 // _SafeStr_5019 = "_-Ok" (String#23195, DoABC#2)
 // getPixelEffectIcon = "_-1HA" (String#5192, DoABC#2)
 // _SafeStr_5021 = "_-h-" (String#23930, DoABC#2)

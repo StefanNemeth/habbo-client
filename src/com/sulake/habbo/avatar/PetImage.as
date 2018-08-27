@@ -154,7 +154,7 @@ package com.sulake.habbo.avatar
                 if ((((((this._SafeStr_10077 == 6)) || ((this._SafeStr_10077 == 0)))) && ((_arg_2 == 7)))){
                     _arg_2 = this._SafeStr_10077;
                 };
-                _local_3 = this._structure.renderManager.petDataManager.PetDataManager(this._SafeStr_10082);
+                _local_3 = this._structure.renderManager.petDataManager.getPetData(this._SafeStr_10082);
                 if (_local_3 != null){
                     if (_local_3.disableHeadTurn){
                         _arg_2 = this._SafeStr_10077;
@@ -190,7 +190,7 @@ package com.sulake.habbo.avatar
             this._frameCounter = (this._frameCounter + _arg_1);
             this._SafeStr_10079 = true;
         }
-        public function TwinkleImages(_arg_1:String, _arg_2:Boolean):BitmapData
+        public function getImage(_arg_1:String, _arg_2:Boolean):BitmapData
         {
             var _local_8:String;
             var _local_9:AvatarImageBodyPartContainer;
@@ -215,7 +215,7 @@ package com.sulake.habbo.avatar
                 return (null);
             };
             if (!this._SafeStr_10081){
-                this.IAvatarImage();
+                this.endActionAppends();
             };
             var _local_3:AvatarImageCache = this.getCache();
             var _local_4:AvatarCanvas = this._structure.getCanvas(this._scale, this._SafeStr_10078.definition.geometryType);
@@ -251,7 +251,7 @@ package com.sulake.habbo.avatar
                     };
                     if (_local_15.length > 0){
                         _local_18 = _local_15[0];
-                        _local_19 = _local_18.AnimationFrameSequenceData(this._frameCounter);
+                        _local_19 = _local_18.getFrameIndex(this._frameCounter);
                         _local_20 = this._SafeStr_10077;
                         _local_21 = 1;
                         switch (this._SafeStr_10077){
@@ -365,7 +365,7 @@ package com.sulake.habbo.avatar
                     };
                     if (_local_16.length > 0){
                         _local_19 = _local_16[0];
-                        _local_20 = _local_19.AnimationFrameSequenceData(this._frameCounter);
+                        _local_20 = _local_19.getFrameIndex(this._frameCounter);
                         _local_21 = this._SafeStr_10077;
                         _local_22 = 1;
                         switch (this._SafeStr_10077){
@@ -433,19 +433,19 @@ package com.sulake.habbo.avatar
         {
             return (this._SafeStr_10077);
         }
-        public function IAvatarImage():void
+        public function initActionAppends():void
         {
             this._SafeStr_5141 = new Array();
             this._SafeStr_10081 = false;
             this._SafeStr_10085 = "";
         }
-        public function IAvatarImage():void
+        public function endActionAppends():void
         {
             this.sortActions();
             this.resetActions();
             this.setActionsToParts();
         }
-        public function IAvatarImage(_arg_1:String, ... _args):Boolean
+        public function appendAction(_arg_1:String, ... _args):Boolean
         {
             var _local_3:String;
             this._SafeStr_10081 = false;
@@ -692,11 +692,11 @@ package com.sulake.habbo.avatar
         {
             return (this._breed);
         }
-        public function IAvatarImage():Boolean
+        public function isPlaceholder():Boolean
         {
             return (false);
         }
-        public function IAvatarImage():void
+        public function forceActionUpdate():void
         {
         }
 
@@ -788,16 +788,16 @@ package com.sulake.habbo.avatar
 // updateAnimationByFrames = "_-05f" (String#3680, DoABC#2)
 // isAnimating = "_-1hz" (String#5707, DoABC#2)
 // getCanvasOffsets = "_-0gi" (String#4439, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // getSprites = "_-3Go" (String#7642, DoABC#2)
 // getLayerData = "_-0Qg" (String#1470, DoABC#2)
 // getScale = "_-1EW" (String#5151, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4478 = "_-0c6" (String#15518, DoABC#2)
 // _SafeStr_4479 = "_-Dm" (String#22761, DoABC#2)
 // _SafeStr_4480 = "_-1Sn" (String#17614, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // _image = "_-35u" (String#78, DoABC#2)
 // _petType = "_-0zB" (String#439, DoABC#2)
 // petType = "_-0GK" (String#3877, DoABC#2)
@@ -805,14 +805,14 @@ package com.sulake.habbo.avatar
 // actionParameter = "_-2Oa" (String#6531, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // _sprites = "_-2vJ" (String#455, DoABC#2)
-// IAvatarImage = "_-0qX" (String#4650, DoABC#2)
-// IAvatarImage = "_-128" (String#4919, DoABC#2)
+// forceActionUpdate = "_-0qX" (String#4650, DoABC#2)
+// isPlaceholder = "_-128" (String#4919, DoABC#2)
 // _SafeStr_6564 = "_-1eZ" (String#18081, DoABC#2)
 // getParts = "_-3DP" (String#7583, DoABC#2)
 // isMainAvatarSet = "_-n8" (String#24160, DoABC#2)
 // isMain = "_-00N" (String#3570, DoABC#2)
 // getPartSet = "_-72" (String#7807, DoABC#2)
-// PetDataManager = "_-2Tw" (String#6646, DoABC#2)
+// getPetData = "_-2Tw" (String#6646, DoABC#2)
 // petDataManager = "_-0y0" (String#4809, DoABC#2)
 // getPartColor = "_-2yW" (String#7250, DoABC#2)
 // _SafeStr_7920 = "_-Fe" (String#636, DoABC#2)
@@ -827,7 +827,7 @@ package com.sulake.habbo.avatar
 // getFigure = "_-0KG" (String#3958, DoABC#2)
 // assetPartDefinition = "_-1ID" (String#5210, DoABC#2)
 // _SafeStr_7966 = "_-q1" (String#24274, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // renderManager = "_-2KA" (String#19812, DoABC#2)
 // getActionDefinition = "_-1Yl" (String#17839, DoABC#2)
 // hasAvatarData = "_-0wo" (String#4786, DoABC#2)

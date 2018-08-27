@@ -41,7 +41,7 @@ package com.sulake.core.window.services
                 };
                 _mouse.x = _root.mouseX;
                 _mouse.y = _root.mouseY;
-                WindowMouseOperator(_arg_1, _mouse, this._pointerOffset);
+                getMousePositionRelativeTo(_arg_1, _mouse, this._pointerOffset);
                 if (((!((this._toolTipCaption == null))) && (!((this._toolTipCaption == ""))))){
                     if (this._SafeStr_9654 == null){
                         this._SafeStr_9654 = new Timer(this._toolTipDelay, 1);
@@ -63,12 +63,12 @@ package com.sulake.core.window.services
             this.hideToolTip();
             return (super.end(_arg_1));
         }
-        override public function GestureAgentService(_arg_1:int, _arg_2:int):void
+        override public function operate(_arg_1:int, _arg_2:int):void
         {
             if (((_window) && (!(_window.disposed)))){
                 _mouse.x = _arg_1;
                 _mouse.y = _arg_2;
-                WindowMouseOperator(_window, _mouse, this._pointerOffset);
+                getMousePositionRelativeTo(_window, _mouse, this._pointerOffset);
                 if (((!((this._SafeStr_9653 == null))) && (!(this._SafeStr_9653.disposed)))){
                     this._SafeStr_9653.x = (_arg_1 + this._SafeStr_9655.x);
                     this._SafeStr_9653.y = (_arg_2 + this._SafeStr_9655.y);
@@ -118,8 +118,8 @@ package com.sulake.core.window.services
 // _toolTipCaption = "_-03Q" (String#806, DoABC#2)
 // _pointerOffset = "_-38-" (String#7471, DoABC#2)
 // _SafeStr_9432 = "_-oz" (String#24234, DoABC#2)
-// WindowMouseOperator = "_-1xh" (String#18875, DoABC#2)
-// GestureAgentService = "_-0n2" (String#4567, DoABC#2)
+// getMousePositionRelativeTo = "_-1xh" (String#18875, DoABC#2)
+// operate = "_-0n2" (String#4567, DoABC#2)
 // _SafeStr_9653 = "_-1-J" (String#16441, DoABC#2)
 // _SafeStr_9654 = "_-2-0" (String#18971, DoABC#2)
 // _SafeStr_9655 = "_-2cj" (String#20553, DoABC#2)

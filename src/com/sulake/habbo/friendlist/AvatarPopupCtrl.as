@@ -29,7 +29,7 @@ package com.sulake.habbo.friendlist
         }
         override public function refreshContent(_arg_1:IWindowContainer):void
         {
-            Util.InfostandWidget(_arg_1);
+            Util.hideChildren(_arg_1);
             if (this._realName != ""){
                 friendList.refreshText(_arg_1, "name_text_online", this._online, this._realName);
             }
@@ -83,7 +83,7 @@ package com.sulake.habbo.friendlist
 // Util = "_-1ve" (String#445, DoABC#2)
 // PopupCtrl = "_-0f4" (String#818, DoABC#2)
 // AvatarPopupCtrl = "_-17v" (String#5037, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // _online = "_-0-Y" (String#573, DoABC#2)
 

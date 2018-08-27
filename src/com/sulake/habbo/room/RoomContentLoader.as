@@ -313,7 +313,7 @@ package com.sulake.habbo.room
                 };
             };
         }
-        public function RoomEngine(_arg_1:String, _arg_2:String):void
+        public function setRoomObjectAlias(_arg_1:String, _arg_2:String):void
         {
             if (this._SafeStr_13307 != null){
                 this._SafeStr_13307.remove(_arg_1);
@@ -363,7 +363,7 @@ package com.sulake.habbo.room
             if (_arg_1.indexOf("poster") == 0){
                 return (RoomObjectCategoryEnum._SafeStr_4330);
             };
-            if (((!((this._SafeStr_13304 == null))) && ((((this._SafeStr_13304.type == _arg_1)) || (this._SafeStr_13304.PublicRoomData(_arg_1)))))){
+            if (((!((this._SafeStr_13304 == null))) && ((((this._SafeStr_13304.type == _arg_1)) || (this._SafeStr_13304.hasWorldType(_arg_1)))))){
                 return (RoomObjectCategoryEnum._SafeStr_13133);
             };
             if (_arg_1 == "room"){
@@ -394,7 +394,7 @@ package com.sulake.habbo.room
             if (this._pets[_arg_1] != null){
                 return (_SafeStr_13290);
             };
-            if (((!((this._SafeStr_13304 == null))) && ((((this._SafeStr_13304.type == _arg_1)) || (this._SafeStr_13304.PublicRoomData(_arg_1)))))){
+            if (((!((this._SafeStr_13304 == null))) && ((((this._SafeStr_13304.type == _arg_1)) || (this._SafeStr_13304.hasWorldType(_arg_1)))))){
                 return (_SafeStr_13291);
             };
             return (PLACE_HOLDER_DEFAULT);
@@ -408,7 +408,7 @@ package com.sulake.habbo.room
             var _local_2:String = (this._SafeStr_13299.getValue(_arg_1) as String);
             return (this.getObjectType(_local_2));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:String=null):String
+        public function getWallItemType(_arg_1:int, _arg_2:String=null):String
         {
             var _local_3:String = (this._SafeStr_13301.getValue(_arg_1) as String);
             if ((((_local_3 == "poster")) && (!((_arg_2 == null))))){
@@ -416,11 +416,11 @@ package com.sulake.habbo.room
             };
             return (this.getObjectType(_local_3));
         }
-        public function RoomEngine(_arg_1:int):String
+        public function getPetType(_arg_1:int):String
         {
             return ((this._SafeStr_13302.getValue(_arg_1) as String));
         }
-        public function RoomEngine(_arg_1:int, _arg_2:int):PetColorResult
+        public function getPetColor(_arg_1:int, _arg_2:int):PetColorResult
         {
             var _local_3:Map = this._SafeStr_13303[_arg_1];
             if (_local_3 != null){
@@ -433,12 +433,12 @@ package com.sulake.habbo.room
             var _local_2:String = (this._SafeStr_13299.getValue(_arg_1) as String);
             return (this.getObjectColorIndex(_local_2));
         }
-        public function RoomEngine(_arg_1:int):int
+        public function getWallItemColorIndex(_arg_1:int):int
         {
             var _local_2:String = (this._SafeStr_13301.getValue(_arg_1) as String);
             return (this.getObjectColorIndex(_local_2));
         }
-        public function RoomEngine(_arg_1:String):String
+        public function getRoomObjectAdURL(_arg_1:String):String
         {
             if (this._SafeStr_13309.getValue(_arg_1) != null){
                 return (this._SafeStr_13309.getValue(_arg_1));
@@ -474,7 +474,7 @@ package com.sulake.habbo.room
         }
         public function getPublicRoomContentType(_arg_1:String):String
         {
-            if (((!((this._SafeStr_13304 == null))) && (this._SafeStr_13304.PublicRoomData((RCL_PUBLICROOM_ + _arg_1))))){
+            if (((!((this._SafeStr_13304 == null))) && (this._SafeStr_13304.hasWorldType((RCL_PUBLICROOM_ + _arg_1))))){
                 return (this._SafeStr_13304.type);
             };
             return (_arg_1);
@@ -680,7 +680,7 @@ package com.sulake.habbo.room
             for each (_local_4 in _local_3) {
                 _local_5 = this.getObjectContentURLs(_local_4);
                 if ((((((_local_5.length > 0)) && (!((_local_2.url == null))))) && ((_local_2.url.indexOf(_local_5[0]) == 0)))){
-                    Core.Core(("Failed to load asset: " + _local_2.url), Core._SafeStr_9852);
+                    Core.crash(("Failed to load asset: " + _local_2.url), Core._SafeStr_9852);
                     return;
                 };
             };
@@ -993,12 +993,12 @@ package com.sulake.habbo.room
                 if (String(_local_6.@heightScale) != ""){
                     _local_9 = parseFloat(_local_6.@heightScale);
                 };
-                _local_4.PublicRoomData(_local_7, _local_8, _local_9);
+                _local_4.addWorld(_local_7, _local_8, _local_9);
                 _local_5++;
             };
             return (_local_4);
         }
-        public function RoomEngine(_arg_1:String):Boolean
+        public function isPublicRoomWorldType(_arg_1:String):Boolean
         {
             if (this.getObjectCategory((RCL_PUBLICROOM_ + _arg_1)) == RoomObjectCategoryEnum._SafeStr_13133){
                 return (true);
@@ -1008,14 +1008,14 @@ package com.sulake.habbo.room
         public function getPublicRoomWorldHeightScale(_arg_1:String):Number
         {
             if (this._SafeStr_13304 != null){
-                return (this._SafeStr_13304.PublicRoomData((RCL_PUBLICROOM_ + _arg_1)));
+                return (this._SafeStr_13304.getWorldHeightScale((RCL_PUBLICROOM_ + _arg_1)));
             };
             return (1);
         }
         public function getPublicRoomWorldSize(_arg_1:String):int
         {
             if (this._SafeStr_13304 != null){
-                return (this._SafeStr_13304.PublicRoomData((RCL_PUBLICROOM_ + _arg_1)));
+                return (this._SafeStr_13304.getWorldScale((RCL_PUBLICROOM_ + _arg_1)));
             };
             return (32);
         }
@@ -1023,7 +1023,7 @@ package com.sulake.habbo.room
         {
             this.initFurnitureData();
         }
-        public function RoomEngine(_arg_1:int, _arg_2:String):void
+        public function setActiveObjectType(_arg_1:int, _arg_2:String):void
         {
             this._SafeStr_13299.remove(_arg_1);
             this._SafeStr_13299.add(_arg_1, _arg_2);
@@ -1033,18 +1033,18 @@ package com.sulake.habbo.room
 }//package com.sulake.habbo.room
 
 // onContentLoadError = "_-2TD" (String#6628, DoABC#2)
-// RoomEngine = "_-0Ef" (String#3842, DoABC#2)
+// getPetColor = "_-0Ef" (String#3842, DoABC#2)
 // ISessionDataManager = "_-Bk" (String#7907, DoABC#2)
 // IFurnitureData = "_-pe" (String#8701, DoABC#2)
 // _SafeStr_13040 = "_-0u9" (String#16210, DoABC#2)
 // _SafeStr_13133 = "_-2xl" (String#21386, DoABC#2)
 // _SafeStr_13134 = "_-VH" (String#23461, DoABC#2)
 // createGraphicAssetCollection = "_-Ba" (String#2071, DoABC#2)
-// PublicRoomData = "_-1uk" (String#18747, DoABC#2)
-// PublicRoomData = "_-0E2" (String#14609, DoABC#2)
-// PublicRoomData = "_-2bc" (String#20509, DoABC#2)
-// PublicRoomData = "_-cl" (String#23744, DoABC#2)
-// RoomEngine = "_-3Kt" (String#7720, DoABC#2)
+// addWorld = "_-1uk" (String#18747, DoABC#2)
+// hasWorldType = "_-0E2" (String#14609, DoABC#2)
+// getWorldScale = "_-2bc" (String#20509, DoABC#2)
+// getWorldHeightScale = "_-cl" (String#23744, DoABC#2)
+// setRoomObjectAlias = "_-3Kt" (String#7720, DoABC#2)
 // RCL_LOADER_READY = "_-1Df" (String#17010, DoABC#2)
 // RCL_PUBLICROOM_ = "_-27y" (String#19328, DoABC#2)
 // _SafeStr_13287 = "_-0Sq" (String#15163, DoABC#2)
@@ -1089,8 +1089,8 @@ package com.sulake.habbo.room
 // getObjectType = "_-0d7" (String#15554, DoABC#2)
 // getActiveObjectColorIndex = "_-1IK" (String#17208, DoABC#2)
 // getObjectColorIndex = "_-1ma" (String#18404, DoABC#2)
-// RoomEngine = "_-263" (String#6163, DoABC#2)
-// RoomEngine = "_-0se" (String#4700, DoABC#2)
+// getWallItemColorIndex = "_-263" (String#6163, DoABC#2)
+// getRoomObjectAdURL = "_-0se" (String#4700, DoABC#2)
 // getContentType = "_-0mQ" (String#4557, DoABC#2)
 // getPublicRoomContentType = "_-0ta" (String#16183, DoABC#2)
 // hasInternalContent = "_-21J" (String#6071, DoABC#2)
@@ -1121,10 +1121,10 @@ package com.sulake.habbo.room
 // getLogicType = "_-3CB" (String#7555, DoABC#2)
 // getLogicXML = "_-3P" (String#7733, DoABC#2)
 // addGraphicAsset = "_-1ul" (String#18748, DoABC#2)
-// RoomEngine = "_-G6" (String#7996, DoABC#2)
+// isPublicRoomWorldType = "_-G6" (String#7996, DoABC#2)
 // getPublicRoomWorldHeightScale = "_-0KP" (String#14855, DoABC#2)
 // getPublicRoomWorldSize = "_-1ld" (String#18360, DoABC#2)
-// RoomEngine = "_-ep" (String#23837, DoABC#2)
+// setActiveObjectType = "_-ep" (String#23837, DoABC#2)
 // AssetLibraryCollection = "_-2Pg" (String#6555, DoABC#2)
 // IRoomContentLoader = "_-6z" (String#7806, DoABC#2)
 // RoomContentLoadedEvent = "_-0sn" (String#16153, DoABC#2)
@@ -1147,8 +1147,8 @@ package com.sulake.habbo.room
 // LibraryLoader = "_-T1" (String#8267, DoABC#2)
 // RCLE_SUCCESS = "_-2gW" (String#20711, DoABC#2)
 // RCLE_FAILURE = "_-2Qp" (String#20081, DoABC#2)
-// RoomEngine = "_-1qN" (String#867, DoABC#2)
-// RoomEngine = "_-0BC" (String#3783, DoABC#2)
+// getPetType = "_-1qN" (String#867, DoABC#2)
+// getWallItemType = "_-0BC" (String#3783, DoABC#2)
 // _SafeStr_7894 = "_-2EZ" (String#1840, DoABC#2)
 // IRoomObjectVisualizationFactory = "_-T7" (String#8269, DoABC#2)
 // colourIndex = "_-1Ye" (String#5534, DoABC#2)
@@ -1158,7 +1158,7 @@ package com.sulake.habbo.room
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)
 // _SafeStr_8758 = "_-2H5" (String#19688, DoABC#2)
 // addAssetLibrary = "_-1xU" (String#18869, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 // _SafeStr_9852 = "_-5s" (String#22458, DoABC#2)
 
 

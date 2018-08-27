@@ -56,15 +56,15 @@ package com.sulake.habbo.ui.widget.furniture.stickie
             this.hideInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetStickieDataUpdateEvent.RWSDUE_STICKIE_DATA, this.onObjectUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -136,7 +136,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
                 _local_6.bitmap.copyPixels(_local_5, _local_5.rect, new Point(0, 0));
                 _local_6.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMouseEvent);
             };
-            this.StickieFurniWidget(((this._controller) && ((this._objectType == "post_it"))));
+            this.setColorButtons(((this._controller) && ((this._objectType == "post_it"))));
         }
         protected function hideInterface(_arg_1:Boolean=true):void
         {
@@ -151,7 +151,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
             this._text = null;
             this._controller = false;
         }
-        private function StickieFurniWidget(_arg_1:Boolean):void
+        private function setColorButtons(_arg_1:Boolean):void
         {
             var _local_2:IWindow;
             var _local_3:Array = new Array("blue", "purple", "green", "yellow");
@@ -170,7 +170,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
                 _local_4++;
             };
         }
-        protected function StickieFurniWidget():Boolean
+        protected function storeTextFromField():Boolean
         {
             var _local_1:ITextFieldWindow = (this._window.findChildByName("text") as ITextFieldWindow);
             if (_local_1 == null){
@@ -188,7 +188,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
             if (this._objectId == -1){
                 return;
             };
-            if (!this.StickieFurniWidget()){
+            if (!this.storeTextFromField()){
                 return;
             };
             if (messageListener != null){
@@ -202,7 +202,7 @@ package com.sulake.habbo.ui.widget.furniture.stickie
             if (this._objectId == -1){
                 return;
             };
-            this.StickieFurniWidget();
+            this.storeTextFromField();
             var _local_2:String = _arg_1.toString(16).toUpperCase();
             if (_local_2.length > 6){
                 _local_2 = _local_2.slice((_local_2.length - 6), _local_2.length);
@@ -285,9 +285,9 @@ package com.sulake.habbo.ui.widget.furniture.stickie
 // _selectedBrightness = "_-2M9" (String#885, DoABC#2)
 // _controller = "_-18D" (String#59, DoABC#2)
 // hideInterface = "_-29" (String#304, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)
@@ -302,9 +302,9 @@ package com.sulake.habbo.ui.widget.furniture.stickie
 // objectType = "_-23O" (String#19148, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
 // onTextWindowEvent = "_-0hH" (String#820, DoABC#2)
-// StickieFurniWidget = "_-1tQ" (String#18694, DoABC#2)
+// setColorButtons = "_-1tQ" (String#18694, DoABC#2)
 // sendUpdate = "_-iA" (String#8556, DoABC#2)
-// StickieFurniWidget = "_-24P" (String#19195, DoABC#2)
+// storeTextFromField = "_-24P" (String#19195, DoABC#2)
 // sendSetColor = "_-0lK" (String#4530, DoABC#2)
 // sendDelete = "_-13W" (String#4943, DoABC#2)
 

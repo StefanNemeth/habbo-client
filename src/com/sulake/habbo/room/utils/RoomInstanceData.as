@@ -140,7 +140,7 @@ package com.sulake.habbo.room.utils
                 this._SafeStr_13192.add(_arg_1.id, _arg_1);
             };
         }
-        public function SessionDataManager():FurnitureData
+        public function getWallItemData():FurnitureData
         {
             if (this._SafeStr_13192.length > 0){
                 return (this.getWallItemDataWithId(this._SafeStr_13192.getKey(0)));
@@ -178,6 +178,6 @@ package com.sulake.habbo.room.utils
 // FurnitureData = "_-sW" (String#2211, DoABC#2)
 // RoomInstanceData = "_-1Yu" (String#5540, DoABC#2)
 // getFurnitureData = "_-40" (String#7745, DoABC#2)
-// SessionDataManager = "_-Hc" (String#8029, DoABC#2)
+// getWallItemData = "_-Hc" (String#8029, DoABC#2)
 
 

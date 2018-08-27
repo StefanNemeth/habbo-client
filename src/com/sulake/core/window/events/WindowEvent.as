@@ -62,7 +62,7 @@ package com.sulake.core.window.events
         protected var _type:String;
         protected var _window:IWindow;
         protected var _related:IWindow;
-        protected var _WindowEvent:Boolean;
+        protected var _SafeStr_9530:Boolean;
         protected var set:Boolean;
         protected var _recycled:Boolean;
         protected var _SafeStr_9532:Array;
@@ -106,25 +106,25 @@ package com.sulake.core.window.events
             };
             this._window = (this._related = null);
             this._recycled = true;
-            this._WindowEvent = false;
+            this._SafeStr_9530 = false;
             this._SafeStr_9532.push(this);
         }
         public function clone():WindowEvent
         {
             return (allocate(this._type, this.window, this.related, this.cancelable));
         }
-        public function WindowEvent():void
+        public function preventDefault():void
         {
             this.preventWindowOperation();
         }
         public function isDefaultPrevented():Boolean
         {
-            return (this._WindowEvent);
+            return (this._SafeStr_9530);
         }
         public function preventWindowOperation():void
         {
             if (this.cancelable){
-                this._WindowEvent = true;
+                this._SafeStr_9530 = true;
             }
             else {
                 throw (new Error("Attempted to prevent window operation that is not cancelable!"));
@@ -132,15 +132,15 @@ package com.sulake.core.window.events
         }
         public function isWindowOperationPrevented():Boolean
         {
-            return (this._WindowEvent);
+            return (this._SafeStr_9530);
         }
         public function stopPropagation():void
         {
-            this._WindowEvent = true;
+            this._SafeStr_9530 = true;
         }
         public function stopImmediatePropagation():void
         {
-            this._WindowEvent = true;
+            this._SafeStr_9530 = true;
         }
         public function toString():String
         {
@@ -205,10 +205,10 @@ package com.sulake.core.window.events
 // WE_PARENT_RELOCATED = "_-1ei" (String#18086, DoABC#2)
 // WE_CANCEL = "_-0gf" (String#15696, DoABC#2)
 // _related = "_-2q8" (String#21086, DoABC#2)
-// _WindowEvent = "_-12O" (String#16554, DoABC#2)
+// _SafeStr_9530 = "_-12O" (String#16554, DoABC#2)
 // _recycled = "_-2vB" (String#1963, DoABC#2)
 // _SafeStr_9532 = "_-Tf" (String#23392, DoABC#2)
-// WindowEvent = "_-0ee" (String#15611, DoABC#2)
+// preventDefault = "_-0ee" (String#15611, DoABC#2)
 // preventWindowOperation = "_-t2" (String#24408, DoABC#2)
 
 

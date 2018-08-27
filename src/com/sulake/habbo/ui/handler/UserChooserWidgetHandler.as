@@ -38,7 +38,7 @@ package com.sulake.habbo.ui.handler
         {
             this._container = _arg_1;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomWidgetRequestWidgetMessage.RWRWM_USER_CHOOSER);
@@ -53,7 +53,7 @@ package com.sulake.habbo.ui.handler
             };
             switch (_arg_1.type){
                 case RoomWidgetRequestWidgetMessage.RWRWM_USER_CHOOSER:
-                    this.UserChooserWidgetHandler();
+                    this.handleUserChooserRequest();
                     break;
                 case RoomWidgetRoomObjectMessage.RWROM_SELECT_OBJECT:
                     _local_2 = (_arg_1 as RoomWidgetRoomObjectMessage);
@@ -67,7 +67,7 @@ package com.sulake.habbo.ui.handler
             };
             return (null);
         }
-        private function UserChooserWidgetHandler(_arg_1:ChooserItem, _arg_2:ChooserItem):int
+        private function compareItems(_arg_1:ChooserItem, _arg_2:ChooserItem):int
         {
             if ((((((((((_arg_1 == null)) || ((_arg_2 == null)))) || ((_arg_1.name == _arg_2.name)))) || ((_arg_1.name.length == 0)))) || ((_arg_2.name.length == 0)))){
                 return (1);
@@ -78,7 +78,7 @@ package com.sulake.habbo.ui.handler
             };
             return (1);
         }
-        private function UserChooserWidgetHandler():void
+        private function handleUserChooserRequest():void
         {
             var _local_4:IRoomObject;
             var _local_7:IUserData;
@@ -91,24 +91,24 @@ package com.sulake.habbo.ui.handler
             var _local_1:int = this._container.roomSession.roomId;
             var _local_2:int = this._container.roomSession.roomCategory;
             var _local_3:Array = [];
-            var _local_5:int = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_1, _local_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+            var _local_5:int = this._container.roomEngine.getRoomObjectCount(_local_1, _local_2, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
             var _local_6:int;
             while (_local_6 < _local_5) {
-                _local_4 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_1, _local_2, _local_6, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+                _local_4 = this._container.roomEngine.getRoomObjectWithIndex(_local_1, _local_2, _local_6, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
                 _local_7 = this._container.roomSession.userDataManager.getUserDataByIndex(_local_4.getId());
                 if (_local_7 != null){
                     _local_3.push(new ChooserItem(_local_7.id, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER, _local_7.name));
                 };
                 _local_6++;
             };
-            _local_3.sort(this.UserChooserWidgetHandler);
+            _local_3.sort(this.compareItems);
             this._container.events.dispatchEvent(new RoomWidgetChooserContentEvent(RoomWidgetChooserContentEvent.RWCCE_USER_CHOOSER_CONTENT, _local_3));
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return (null);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
         }
         public function update():void
@@ -133,13 +133,13 @@ package com.sulake.habbo.ui.handler
 // getUserDataByIndex = "_-1XZ" (String#5510, DoABC#2)
 // RWCCE_USER_CHOOSER_CONTENT = "_-2YV" (String#20377, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// UserChooserWidgetHandler = "_-2id" (String#20794, DoABC#2)
-// UserChooserWidgetHandler = "_-2oV" (String#7048, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1Hy" (String#1654, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-cJ" (String#2140, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// handleUserChooserRequest = "_-2id" (String#20794, DoABC#2)
+// compareItems = "_-2oV" (String#7048, DoABC#2)
+// getRoomObjectCount = "_-1Hy" (String#1654, DoABC#2)
+// getRoomObjectWithIndex = "_-cJ" (String#2140, DoABC#2)
 // RoomObjectCategoryEnum = "_-1eh" (String#5639, DoABC#2)
 
 

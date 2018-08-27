@@ -53,7 +53,7 @@ package com.sulake.habbo.avatar
             };
             return (_local_2.clone());
         }
-        override public function TwinkleImages(_arg_1:String, _arg_2:Boolean):BitmapData
+        override public function getImage(_arg_1:String, _arg_2:Boolean):BitmapData
         {
             if (_disposed){
                 return (null);
@@ -92,7 +92,7 @@ package com.sulake.habbo.avatar
             };
             return (_local_4);
         }
-        override public function IAvatarImage():Boolean
+        override public function isPlaceholder():Boolean
         {
             return (true);
         }
@@ -112,9 +112,9 @@ package com.sulake.habbo.avatar
 // AvatarCanvas = "_-1UP" (String#5441, DoABC#2)
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // _image = "_-35u" (String#78, DoABC#2)
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
-// IAvatarImage = "_-128" (String#4919, DoABC#2)
+// isPlaceholder = "_-128" (String#4919, DoABC#2)
 
 

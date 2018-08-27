@@ -55,12 +55,12 @@ package com.sulake.habbo.friendbar.view.utils
             };
             this._SafeStr_5307 = getTimer();
             var _local_2:Number = (Number((this._SafeStr_5307 - this._SafeStr_5308)) / Number(this._duration));
-            this._window.y = ((this._offset - this._height) + (this.DropAnimation(_local_2) * this._height));
+            this._window.y = ((this._offset - this._height) + (this.getBounceOffset(_local_2) * this._height));
             if (_local_2 >= 1){
                 this.dispose();
             };
         }
-        protected function DropAnimation(_arg_1:Number):Number
+        protected function getBounceOffset(_arg_1:Number):Number
         {
             if (_arg_1 < (1 / 2.75)){
                 return (((7.5625 * _arg_1) * _arg_1));
@@ -86,6 +86,6 @@ package com.sulake.habbo.friendbar.view.utils
 // _duration = "_-1OY" (String#606, DoABC#2)
 // _SafeStr_5307 = "_-280" (String#19331, DoABC#2)
 // _SafeStr_5308 = "_-2zi" (String#21448, DoABC#2)
-// DropAnimation = "_-0yA" (String#16358, DoABC#2)
+// getBounceOffset = "_-0yA" (String#16358, DoABC#2)
 
 

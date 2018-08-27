@@ -38,7 +38,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_TEASER, RoomWidgetViralFurniMessage.RWVFM_VIRAL_FOUND, RoomWidgetViralFurniMessage.RWVFM_OPEN_PRESENT]);
         }
@@ -54,7 +54,7 @@ package com.sulake.habbo.ui.handler
             switch (_arg_1.type){
                 case RoomWidgetFurniToWidgetMessage.RWFWM_MESSAGE_REQUEST_TEASER:
                     _local_2 = (_arg_1 as RoomWidgetFurniToWidgetMessage);
-                    _local_3 = this._container.roomEngine.IRoomSpriteCanvasContainer(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
+                    _local_3 = this._container.roomEngine.getRoomObject(_local_2.roomId, _local_2.roomCategory, _local_2.id, _local_2.category);
                     if (_local_3 != null){
                         _local_5 = _local_3.getModel();
                         if (_local_5 != null){
@@ -75,23 +75,23 @@ package com.sulake.habbo.ui.handler
                     break;
                 case RoomWidgetViralFurniMessage.RWVFM_VIRAL_FOUND:
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession();
+                        this._container.roomSession.sendViralFurniFoundMessage();
                     };
                     break;
                 case RoomWidgetViralFurniMessage.RWVFM_OPEN_PRESENT:
                     _local_4 = (_arg_1 as RoomWidgetViralFurniMessage);
                     if (((!((this._container == null))) && (!((this._container.roomSession == null))))){
-                        this._container.roomSession.RoomSession(_local_4.objectId);
+                        this._container.roomSession.sendPresentOpenMessage(_local_4.objectId);
                     };
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             return ([RoomSessionViralFurniStatusEvent.RSVFS_STATUS, RoomSessionViralFurniStatusEvent.RSVFS_RECEIVED]);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_2:RoomSessionViralFurniStatusEvent;
             var _local_3:RoomWidgetTeaserDataUpdateEvent;
@@ -155,18 +155,18 @@ package com.sulake.habbo.ui.handler
 // giftWasReceived = "_-1AI" (String#16872, DoABC#2)
 // itemCategory = "_-3Bq" (String#21955, DoABC#2)
 // campaignID = "_-09Z" (String#14429, DoABC#2)
-// IRoomSpriteCanvasContainer = "_-1qD" (String#866, DoABC#2)
+// getRoomObject = "_-1qD" (String#866, DoABC#2)
 // sessionDataManager = "_-0pX" (String#4623, DoABC#2)
 // RWTDUE_TEASER_DATA = "_-0sx" (String#16159, DoABC#2)
 // RWTDUE_GIFT_DATA = "_-3G0" (String#22116, DoABC#2)
 // RWTDUE_GIFT_RECEIVED = "_-io" (String#23991, DoABC#2)
 // ownRealName = "_-ZW" (String#23616, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
 // _SafeStr_7217 = "_-1mr" (String#18416, DoABC#2)
-// RoomSession = "_-Zi" (String#8411, DoABC#2)
-// RoomSession = "_-3Es" (String#7609, DoABC#2)
+// sendViralFurniFoundMessage = "_-Zi" (String#8411, DoABC#2)
+// sendPresentOpenMessage = "_-3Es" (String#7609, DoABC#2)
 
 

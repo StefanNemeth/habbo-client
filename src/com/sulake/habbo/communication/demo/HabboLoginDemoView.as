@@ -90,7 +90,7 @@ package com.sulake.habbo.communication.demo
             var _local_5:ITextFieldWindow = (_local_3.findChildByName("name_field") as ITextFieldWindow);
             var _local_6:ITextFieldWindow = (_local_3.findChildByName("pwd_field") as ITextFieldWindow);
             if (_local_4 != null){
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.HabboLoginDemoView);
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.windowEventProcessor);
             }
             else {
                 Logger.log("Could not find the button");
@@ -120,15 +120,15 @@ package com.sulake.habbo.communication.demo
             };
             var _local_9:ISelectableWindow = (this._window.findChildByName("useExistingSession") as ISelectableWindow);
             if (_local_9){
-                _local_9.ISelectableWindow();
+                _local_9.unselect();
             };
             if (((this._SafeStr_10675.habboConfiguration) && ((this._SafeStr_10675.habboConfiguration.getKey("try.existing.session", "false") == "true")))){
                 this._SafeStr_10677 = true;
                 this._window.visible = false;
-                this.HabboLoginDemoView(WindowEvent.allocate(WindowEvent.WE_OK, this._window, null, false));
+                this.windowEventProcessor(WindowEvent.allocate(WindowEvent.WE_OK, this._window, null, false));
             };
         }
-        public function HabboLoginDemoView(_arg_1:Map):void
+        public function populateUserList(_arg_1:Map):void
         {
             var _local_5:IWindow;
             var _local_2:IItemListWindow = (this._window.findChildByName("list") as IItemListWindow);
@@ -137,7 +137,7 @@ package com.sulake.habbo.communication.demo
             };
             var _local_3:XmlAsset = (this._SafeStr_10675.assets.getAssetByName("login_user_list_item") as XmlAsset);
             var _local_4:IWindow = this._SafeStr_10675.windowManager.buildFromXML((_local_3.content as XML));
-            _local_4.procedure = this.HabboLoginDemoView;
+            _local_4.procedure = this.listEventHandler;
             var _local_6:int;
             while (_local_6 < _arg_1.length) {
                 _local_5 = _local_4.clone();
@@ -148,14 +148,14 @@ package com.sulake.habbo.communication.demo
             };
             _local_4.dispose();
         }
-        public function HabboLoginDemoView(_arg_1:String):void
+        public function displayResults(_arg_1:String):void
         {
             var _local_2:ITextWindow = (this._window.findChildByName("text002") as ITextWindow);
             if (_local_2 != null){
                 _local_2.text = _arg_1;
             };
         }
-        private function HabboLoginDemoView(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
+        private function windowEventProcessor(_arg_1:WindowEvent=null, _arg_2:IWindow=null):void
         {
             var _local_4:ITextFieldWindow;
             var _local_5:ITextFieldWindow;
@@ -176,24 +176,24 @@ package com.sulake.habbo.communication.demo
                 _local_6.flush();
             };
             if (this.useSSOTicket){
-                this.HabboLoginDemoView(this.useExistingSession);
+                this.initSSOTicket(this.useExistingSession);
             }
             else {
                 dispatchEvent(new Event(_SafeStr_10673));
             };
         }
-        private function HabboLoginDemoView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function listEventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
             };
             this._SafeStr_10675.sendTryLogin(this.name, this.password, _arg_2.id);
         }
-        private function HabboLoginDemoView(_arg_1:Boolean):void
+        private function initSSOTicket(_arg_1:Boolean):void
         {
             if (this._SafeStr_10676 != null){
-                this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.HabboLoginDemoView);
-                this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.HabboLoginDemoView);
+                this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.onParsedTicketSuccess);
+                this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.onParsedTicketFailure);
                 this._SafeStr_10676 = null;
             };
             var _local_2:String = "";
@@ -202,12 +202,12 @@ package com.sulake.habbo.communication.demo
                 _local_2 = _local_2.replace("http://", "");
                 _local_2 = _local_2.replace("https://", "");
             };
-            var _local_3:IHabboWebLogin = this._SafeStr_10675.habboCommunication.HabboCommunicationManager(this.name, this.password);
+            var _local_3:IHabboWebLogin = this._SafeStr_10675.habboCommunication.habboWebLogin(this.name, this.password);
             this._SafeStr_10676 = new SSOTicket(this._SafeStr_10675.assets, _local_3, _local_2, _arg_1);
-            this._SafeStr_10676.addEventListener(SSOTicket._SafeStr_10687, this.HabboLoginDemoView);
-            this._SafeStr_10676.addEventListener(SSOTicket._SafeStr_10689, this.HabboLoginDemoView);
+            this._SafeStr_10676.addEventListener(SSOTicket._SafeStr_10687, this.onParsedTicketSuccess);
+            this._SafeStr_10676.addEventListener(SSOTicket._SafeStr_10689, this.onParsedTicketFailure);
         }
-        private function HabboLoginDemoView(_arg_1:Event):void
+        private function onParsedTicketSuccess(_arg_1:Event):void
         {
             Logger.log(("Got ticket: " + this._SafeStr_10676.ticket));
             Logger.log(("Has Facebook: " + this._SafeStr_10676.isFacebookUser));
@@ -216,16 +216,16 @@ package com.sulake.habbo.communication.demo
             };
             this._SafeStr_10675.flashClientUrl = this._SafeStr_10676.flashClientUrl;
             this._SafeStr_10675.ssoTicket = this._SafeStr_10676.ticket;
-            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.HabboLoginDemoView);
-            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.HabboLoginDemoView);
+            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.onParsedTicketSuccess);
+            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.onParsedTicketFailure);
             this._SafeStr_10676 = null;
             dispatchEvent(new Event(_SafeStr_10673));
         }
-        private function HabboLoginDemoView(_arg_1:Event):void
+        private function onParsedTicketFailure(_arg_1:Event):void
         {
             Logger.log("Could not get a ticket! ");
-            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.HabboLoginDemoView);
-            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.HabboLoginDemoView);
+            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10687, this.onParsedTicketSuccess);
+            this._SafeStr_10676.removeEventListener(SSOTicket._SafeStr_10689, this.onParsedTicketFailure);
             this._SafeStr_10676 = null;
             if (this._SafeStr_10677){
                 this._SafeStr_10677 = false;
@@ -243,18 +243,18 @@ package com.sulake.habbo.communication.demo
 // _SafeStr_10677 = "_-1ng" (String#18449, DoABC#2)
 // closeLoginWindow = "_-Sl" (String#23355, DoABC#2)
 // useSSOTicket = "_-1wb" (String#18826, DoABC#2)
-// HabboLoginDemoView = "_-Fs" (String#22846, DoABC#2)
+// windowEventProcessor = "_-Fs" (String#22846, DoABC#2)
 // habboConfiguration = "_-0Ma" (String#14935, DoABC#2)
-// HabboLoginDemoView = "_-0yW" (String#16374, DoABC#2)
-// HabboLoginDemoView = "_-19P" (String#16833, DoABC#2)
-// HabboLoginDemoView = "_-1dW" (String#18035, DoABC#2)
-// HabboLoginDemoView = "_-gz" (String#23928, DoABC#2)
+// populateUserList = "_-0yW" (String#16374, DoABC#2)
+// listEventHandler = "_-19P" (String#16833, DoABC#2)
+// displayResults = "_-1dW" (String#18035, DoABC#2)
+// initSSOTicket = "_-gz" (String#23928, DoABC#2)
 // sendTryLogin = "_-1kF" (String#18299, DoABC#2)
 // _SafeStr_10687 = "_-1Eu" (String#17067, DoABC#2)
-// HabboLoginDemoView = "_-3Dw" (String#22031, DoABC#2)
+// onParsedTicketSuccess = "_-3Dw" (String#22031, DoABC#2)
 // _SafeStr_10689 = "_-0Mh" (String#14939, DoABC#2)
-// HabboLoginDemoView = "_-1Xe" (String#17800, DoABC#2)
-// HabboCommunicationManager = "_-0kp" (String#4518, DoABC#2)
+// onParsedTicketFailure = "_-1Xe" (String#17800, DoABC#2)
+// habboWebLogin = "_-0kp" (String#4518, DoABC#2)
 // habboCommunication = "_-uL" (String#24465, DoABC#2)
 // ticket = "_-vm" (String#24519, DoABC#2)
 // isFacebookUser = "_-o-" (String#24190, DoABC#2)
@@ -271,7 +271,7 @@ package com.sulake.habbo.communication.demo
 // SSOTicket = "_-1ex" (String#5643, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
-// ISelectableWindow = "_-2aK" (String#6764, DoABC#2)
+// unselect = "_-2aK" (String#6764, DoABC#2)
 // setKey = "_-0sz" (String#1567, DoABC#2)
 // textBackgroundColor = "_-11u" (String#1606, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)

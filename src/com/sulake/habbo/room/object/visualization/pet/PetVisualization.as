@@ -94,7 +94,7 @@ package com.sulake.habbo.room.object.visualization.pet
         {
             this._SafeStr_4422 = (_arg_1 as PetVisualizationData);
             createSprites(this._SafeStr_4421);
-            var _local_2:BitmapData = ((this._SafeStr_4422.AvatarVisualizationData("pet_experience_bubble_png") as BitmapDataAsset).content as BitmapData);
+            var _local_2:BitmapData = ((this._SafeStr_4422.getAvatarRendererAsset("pet_experience_bubble_png") as BitmapDataAsset).content as BitmapData);
             this._SafeStr_4350 = new ExperienceData(_local_2.clone());
             return (true);
         }
@@ -196,7 +196,7 @@ package com.sulake.habbo.room.object.visualization.pet
             var _local_2:String = ("avatarImage" + _arg_1.toString());
             var _local_3:IAvatarImage = (this._SafeStr_4423.getValue(_local_2) as IAvatarImage);
             if (_local_3 == null){
-                _local_3 = this._SafeStr_4422.AvatarVisualizationData(this._figure, _arg_1, this);
+                _local_3 = this._SafeStr_4422.getAvatar(this._figure, _arg_1, this);
                 if (_local_3 != null){
                     this._SafeStr_4423.add(_local_2, _local_3);
                 };
@@ -340,7 +340,7 @@ package com.sulake.habbo.room.object.visualization.pet
                 };
                 _local_14 = getSprite(this._SafeStr_4418);
                 if (_local_14){
-                    _local_19 = this._SafeStr_4432.TwinkleImages(AvatarSetType._SafeStr_4457, false);
+                    _local_19 = this._SafeStr_4432.getImage(AvatarSetType._SafeStr_4457, false);
                     if (_local_19 != null){
                         _local_14.asset = _local_19;
                     };
@@ -359,9 +359,9 @@ package com.sulake.habbo.room.object.visualization.pet
                     if (_local_14 != null){
                         _local_20 = this._SafeStr_4432.getLayerData(_local_18);
                         _local_21 = 0;
-                        _local_22 = _local_18.ISpriteDataContainer(this._SafeStr_4432.getDirection());
-                        _local_23 = _local_18.ISpriteDataContainer(this._SafeStr_4432.getDirection());
-                        _local_24 = _local_18.ISpriteDataContainer(this._SafeStr_4432.getDirection());
+                        _local_22 = _local_18.getDirectionOffsetX(this._SafeStr_4432.getDirection());
+                        _local_23 = _local_18.getDirectionOffsetY(this._SafeStr_4432.getDirection());
+                        _local_24 = _local_18.getDirectionOffsetZ(this._SafeStr_4432.getDirection());
                         _local_25 = 0;
                         if (_local_18.hasDirections){
                             _local_25 = this._SafeStr_4432.getDirection();
@@ -406,15 +406,15 @@ package com.sulake.habbo.room.object.visualization.pet
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.IAvatarImage();
-            _arg_1.IAvatarImage(AvatarAction._SafeStr_4478, this._SafeStr_4346, this._SafeStr_4433);
+            _arg_1.initActionAppends();
+            _arg_1.appendAction(AvatarAction._SafeStr_4478, this._SafeStr_4346, this._SafeStr_4433);
             if (((!((this._gesture == null))) && (!((this._gesture == ""))))){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4479, this._gesture);
+                _arg_1.appendAction(AvatarAction._SafeStr_4479, this._gesture);
             };
             if (((this._isSleeping) || (this._SafeStr_4434))){
-                _arg_1.IAvatarImage(AvatarAction._SafeStr_4480);
+                _arg_1.appendAction(AvatarAction._SafeStr_4480);
             };
-            _arg_1.IAvatarImage();
+            _arg_1.endActionAppends();
             var _local_2:int = (_arg_1.getSprites().length + this._SafeStr_4421);
             if (_local_2 != spriteCount){
                 createSprites(_local_2);
@@ -445,8 +445,8 @@ package com.sulake.habbo.room.object.visualization.pet
 // IRoomObjectSprite = "_-0di" (String#4386, DoABC#2)
 // ExperienceData = "_-2yt" (String#21423, DoABC#2)
 // _figure = "_-20u" (String#75, DoABC#2)
-// AvatarVisualizationData = "_-1el" (String#18089, DoABC#2)
-// AvatarVisualizationData = "_-0Zg" (String#15430, DoABC#2)
+// getAvatar = "_-1el" (String#18089, DoABC#2)
+// getAvatarRendererAsset = "_-0Zg" (String#15430, DoABC#2)
 // _SafeStr_4342 = "_-1gJ" (String#5669, DoABC#2)
 // _SafeStr_4346 = "_-KR" (String#2089, DoABC#2)
 // _gesture = "_-2tH" (String#452, DoABC#2)
@@ -518,22 +518,22 @@ package com.sulake.habbo.room.object.visualization.pet
 // updateAnimationByFrames = "_-05f" (String#3680, DoABC#2)
 // isAnimating = "_-1hz" (String#5707, DoABC#2)
 // getCanvasOffsets = "_-0gi" (String#4439, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // getSprites = "_-3Go" (String#7642, DoABC#2)
 // getLayerData = "_-0Qg" (String#1470, DoABC#2)
-// ISpriteDataContainer = "_-1Oo" (String#5331, DoABC#2)
-// ISpriteDataContainer = "_-31k" (String#7340, DoABC#2)
-// ISpriteDataContainer = "_-3HQ" (String#7657, DoABC#2)
+// getDirectionOffsetX = "_-1Oo" (String#5331, DoABC#2)
+// getDirectionOffsetY = "_-31k" (String#7340, DoABC#2)
+// getDirectionOffsetZ = "_-3HQ" (String#7657, DoABC#2)
 // hasDirections = "_-1RM" (String#5383, DoABC#2)
 // animationFrame = "_-gS" (String#8520, DoABC#2)
 // directionOffset = "_-25H" (String#6148, DoABC#2)
 // getScale = "_-1EW" (String#5151, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4478 = "_-0c6" (String#15518, DoABC#2)
 // _SafeStr_4479 = "_-Dm" (String#22761, DoABC#2)
 // _SafeStr_4480 = "_-1Sn" (String#17614, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // petImageReady = "_-WW" (String#8332, DoABC#2)
 
 

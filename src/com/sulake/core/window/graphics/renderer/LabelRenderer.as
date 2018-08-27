@@ -32,7 +32,7 @@ package com.sulake.core.window.graphics.renderer
                 _local_6 = TextLabelController(_arg_1);
                 _local_7 = _local_6.textStyle;
                 if (_local_7 != this._SafeStr_4064){
-                    this._cachedTextField = TextFieldCache.TextFieldCache(_local_7);
+                    this._cachedTextField = TextFieldCache.getTextFieldByStyle(_local_7);
                     this._SafeStr_4064 = _local_7;
                 };
                 this._SafeStr_4063.tx = _local_6.drawOffsetX;
@@ -60,7 +60,7 @@ package com.sulake.core.window.graphics.renderer
 // isStateDrawable = "_-0hI" (String#4452, DoABC#2)
 // _SafeStr_4063 = "_-09E" (String#808, DoABC#2)
 // _SafeStr_4064 = "_-0Xt" (String#15350, DoABC#2)
-// TextFieldCache = "_-2pk" (String#21070, DoABC#2)
+// getTextFieldByStyle = "_-2pk" (String#21070, DoABC#2)
 // drawOffsetX = "_-20-" (String#19010, DoABC#2)
 // drawOffsetY = "_-2NC" (String#19931, DoABC#2)
 // hasTextColor = "_-2gE" (String#20699, DoABC#2)

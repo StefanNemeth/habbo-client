@@ -49,7 +49,7 @@ package com.sulake.core.utils
         protected var _debug:Boolean = false;
         protected var _paused:Boolean = false;
         protected var _SafeStr_9035:String = "";
-        protected var _LibraryLoader:String = "";
+        protected var _SafeStr_9036:String = "";
         protected var _SafeStr_9037:int;
         protected var _SafeStr_9038:int;
         protected var _SafeStr_9039:int;
@@ -227,7 +227,7 @@ package com.sulake.core.utils
                 };
             };
         }
-        protected function LibraryLoader():Boolean
+        protected function retry():Boolean
         {
             if (((((!(this._ready)) && (!(_disposed)))) && ((this._SafeStr_9039 > 0)))){
                 try {
@@ -236,7 +236,7 @@ package com.sulake.core.utils
                 }
                 catch(e:Error) {
                 };
-                this.LibraryLoader(this._request, (_SafeStr_9028 - this._SafeStr_9039));
+                this.addRequestCounterToUrlRequest(this._request, (_SafeStr_9028 - this._SafeStr_9039));
                 if (this._SafeStr_9041){
                     this._request.requestHeaders.push(new URLRequestHeader("pragma", "no-cache"));
                     this._request.requestHeaders.push(new URLRequestHeader("Cache-Control", "no-cache"));
@@ -299,16 +299,16 @@ package com.sulake.core.utils
                     break;
                 case IOErrorEvent.IO_ERROR:
                     this.debug((('Load event IO ERROR for file "' + this.url) + '"'));
-                    if (!this.LibraryLoader(this._status)){
+                    if (!this.handleHttpStatus(this._status)){
                         this._SafeStr_9038 = getTimer();
                         this.failure((('IO Error, send or load operation failed for file "' + this.url) + '"'));
-                        this.LibraryLoader();
+                        this.removeEventListeners();
                     };
                     break;
                 case SecurityErrorEvent.SECURITY_ERROR:
                     this._SafeStr_9038 = getTimer();
                     this.failure((('Security Error, security violation with file "' + this.url) + '"'));
-                    this.LibraryLoader();
+                    this.removeEventListeners();
                     break;
                 case TimerEvent.TIMER:
                     _local_2 = (TimerEvent(_arg_1).target as Timer);
@@ -323,22 +323,22 @@ package com.sulake.core.utils
                     Logger.log((("LibraryLoader::loadEventHandler(" + _arg_1) + ")"));
             };
             if (this._SafeStr_9033 == LibraryLoader._SafeStr_9027){
-                if (this.LibraryLoader()){
+                if (this.analyzeLibrary()){
                     this._SafeStr_9033 = (this._SafeStr_9033 | LibraryLoader._SafeStr_9026);
                 };
             };
             if (this._SafeStr_9033 == LibraryLoader._SafeStr_5891){
-                if (this.LibraryLoader()){
+                if (this.prepareLibrary()){
                     this._ready = true;
                     this._SafeStr_9038 = getTimer();
-                    this.LibraryLoader();
+                    this.removeEventListeners();
                     throttle();
                     dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_COMPLETE, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));
                     dispatchEvent(new Event(LIBRARY_LOADER_FINALIZE));
                 };
             };
         }
-        protected function LibraryLoader():Boolean
+        protected function analyzeLibrary():Boolean
         {
             var _local_1:MovieClip;
             var _local_2:FrameLabel;
@@ -366,13 +366,13 @@ package com.sulake.core.utils
             };
             return (true);
         }
-        protected function LibraryLoader():Boolean
+        protected function prepareLibrary():Boolean
         {
             var xmlClass:Class;
             this.debug((('Preparing library "' + this._name) + '"'));
             this._resource = (this.getDefinition(this._name) as Class);
             if (this._resource == null){
-                if (!this.LibraryLoader()){
+                if (!this.retry()){
                     this.failure((((('Failed to find resource class "' + this._name) + '" from library ') + this._request.url) + "!"));
                 };
                 return (false);
@@ -385,7 +385,7 @@ package com.sulake.core.utils
                 };
             }
             catch(e:Error) {
-                if (!LibraryLoader()){
+                if (!retry()){
                     failure((("Failed to find embedded manifest.xml from library " + _request.url) + "!"));
                 };
                 result = false;
@@ -398,25 +398,25 @@ package com.sulake.core.utils
                 this._manifest = new XML(bytes.readUTFBytes(bytes.length));
             }
             catch(e:Error) {
-                if (!LibraryLoader()){
+                if (!retry()){
                     failure(((("Failed to extract manifest.xml from library " + _name) + "!\n") + e.message));
                 };
                 result = false;
             };
             return (result);
         }
-        protected function LibraryLoader(_arg_1:int):Boolean
+        protected function handleHttpStatus(_arg_1:int):Boolean
         {
             if ((((_arg_1 == 0)) || ((_arg_1 >= 400)))){
-                if (this.LibraryLoader()){
+                if (this.retry()){
                     return (true);
                 };
                 this.failure((((("HTTP Error " + _arg_1) + ' "') + this._content.contentLoaderInfo.url) + '"'));
-                this.LibraryLoader();
+                this.removeEventListeners();
             };
             return (false);
         }
-        protected function LibraryLoader(_arg_1:URLRequest, _arg_2:int):void
+        protected function addRequestCounterToUrlRequest(_arg_1:URLRequest, _arg_2:int):void
         {
             var _local_9:int;
             var _local_10:String;
@@ -450,7 +450,7 @@ package com.sulake.core.utils
             };
             _arg_1.url = _local_4;
         }
-        protected function LibraryLoader():void
+        protected function removeEventListeners():void
         {
             if (this._content){
                 if (this._content.content != null){
@@ -468,22 +468,22 @@ package com.sulake.core.utils
         protected function debug(_arg_1:String):void
         {
             Core.debug(_arg_1);
-            this._LibraryLoader = _arg_1;
+            this._SafeStr_9036 = _arg_1;
             if (this._debug){
                 dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DEBUG, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));
             };
         }
         protected function failure(_arg_1:String):void
         {
-            Core.IContext(_arg_1);
+            Core.warning(_arg_1);
             this._SafeStr_9035 = _arg_1;
             throttle();
             dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));
             dispatchEvent(new Event(LIBRARY_LOADER_FINALIZE));
         }
-        public function LibraryLoader():String
+        public function getLastDebugMessage():String
         {
-            return (this._LibraryLoader);
+            return (this._SafeStr_9036);
         }
         public function getLastErrorMessage():String
         {
@@ -500,12 +500,12 @@ package com.sulake.core.utils
 // _content = "_-0lY" (String#299, DoABC#2)
 // _ready = "_-2-1" (String#1794, DoABC#2)
 // LibraryLoader = "_-T1" (String#8267, DoABC#2)
-// LibraryLoader = "_-0Ol" (String#816, DoABC#2)
+// retry = "_-0Ol" (String#816, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 // _resource = "_-1tH" (String#5907, DoABC#2)
 // elapsedTime = "_-3Cm" (String#21986, DoABC#2)
-// LibraryLoader = "_-0Gl" (String#3889, DoABC#2)
-// IContext = "_-1MU" (String#5283, DoABC#2)
+// getLastDebugMessage = "_-0Gl" (String#3889, DoABC#2)
+// warning = "_-1MU" (String#5283, DoABC#2)
 // _SafeStr_9017 = "_-aZ" (String#2134, DoABC#2)
 // paused = "_-1WA" (String#17749, DoABC#2)
 // _SafeStr_9024 = "_-2V1" (String#20239, DoABC#2)
@@ -520,7 +520,7 @@ package com.sulake.core.utils
 // _SafeStr_9033 = "_-2mh" (String#20948, DoABC#2)
 // _paused = "_-0fL" (String#15645, DoABC#2)
 // _SafeStr_9035 = "_-1Sx" (String#17622, DoABC#2)
-// _LibraryLoader = "_-28o" (String#19363, DoABC#2)
+// _SafeStr_9036 = "_-28o" (String#19363, DoABC#2)
 // _SafeStr_9037 = "_-1se" (String#18661, DoABC#2)
 // _SafeStr_9038 = "_-28n" (String#19362, DoABC#2)
 // _SafeStr_9039 = "_-2Z4" (String#20400, DoABC#2)
@@ -530,10 +530,10 @@ package com.sulake.core.utils
 // queue = "_-2g5" (String#20696, DoABC#2)
 // throttle = "_-1bN" (String#17952, DoABC#2)
 // request = "_-0bL" (String#15490, DoABC#2)
-// LibraryLoader = "_-2HV" (String#19706, DoABC#2)
-// LibraryLoader = "_-0Te" (String#15195, DoABC#2)
-// LibraryLoader = "_-2ji" (String#20835, DoABC#2)
-// LibraryLoader = "_-27-" (String#19293, DoABC#2)
-// LibraryLoader = "_-3GJ" (String#22134, DoABC#2)
+// addRequestCounterToUrlRequest = "_-2HV" (String#19706, DoABC#2)
+// handleHttpStatus = "_-0Te" (String#15195, DoABC#2)
+// removeEventListeners = "_-2ji" (String#20835, DoABC#2)
+// analyzeLibrary = "_-27-" (String#19293, DoABC#2)
+// prepareLibrary = "_-3GJ" (String#22134, DoABC#2)
 
 

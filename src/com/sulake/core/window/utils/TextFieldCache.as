@@ -22,10 +22,10 @@ package com.sulake.core.window.utils
         public function TextFieldCache()
         {
             if (_instance == null){
-                TextStyleManager.events.addEventListener(Event.CHANGE, this.TextFieldCache);
+                TextStyleManager.events.addEventListener(Event.CHANGE, this.onTextStyleChanged);
             };
         }
-        public static function TextFieldCache(_arg_1:TextStyle):TextField
+        public static function getTextFieldByStyle(_arg_1:TextStyle):TextField
         {
             var _local_2:TextField = _SafeStr_9769[_arg_1.name];
             if (_local_2){
@@ -80,14 +80,14 @@ package com.sulake.core.window.utils
             _SafeStr_9769[_arg_1.name] = _local_2;
             return (_local_2);
         }
-        public static function TextFieldCache(_arg_1:String):TextField
+        public static function getTextFieldByStyleName(_arg_1:String):TextField
         {
             var _local_2:TextStyle = TextStyleManager.getStyle(_arg_1);
             if (!_local_2){
                 Logger.log((('TextFieldCache.getTextFieldByStyleName(...); No such style: "' + _arg_1) + '"!'));
                 return (null);
             };
-            return (TextFieldCache(_local_2));
+            return (getTextFieldByStyle(_local_2));
         }
 
         public function get disposed():Boolean
@@ -96,12 +96,12 @@ package com.sulake.core.window.utils
         }
         public function dispose():void
         {
-            TextStyleManager.events.removeEventListener(Event.CHANGE, this.TextFieldCache);
+            TextStyleManager.events.removeEventListener(Event.CHANGE, this.onTextStyleChanged);
             _SafeStr_9769.reset();
             _instance = null;
             this._disposed = true;
         }
-        private function TextFieldCache(_arg_1:Event):void
+        private function onTextStyleChanged(_arg_1:Event):void
         {
             _SafeStr_9769.reset();
         }
@@ -114,12 +114,12 @@ package com.sulake.core.window.utils
 // TextStyleManager = "_-a7" (String#23636, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // TextFieldCache = "_-2LJ" (String#6466, DoABC#2)
-// TextFieldCache = "_-2pk" (String#21070, DoABC#2)
+// getTextFieldByStyle = "_-2pk" (String#21070, DoABC#2)
 // isEmbeddedFont = "_-2kf" (String#20871, DoABC#2)
-// TextFieldCache = "_-2Jp" (String#1854, DoABC#2)
+// onTextStyleChanged = "_-2Jp" (String#1854, DoABC#2)
 // _SafeStr_9113 = "_-059" (String#14249, DoABC#2)
 // _SafeStr_9115 = "_-1hf" (String#18196, DoABC#2)
-// TextFieldCache = "_-08N" (String#14379, DoABC#2)
+// getTextFieldByStyleName = "_-08N" (String#14379, DoABC#2)
 // _SafeStr_9769 = "_-2rz" (String#21156, DoABC#2)
 
 

@@ -118,7 +118,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 _local_1 = [];
                 _local_2 = 0;
                 while ((((_local_2 < _SafeStr_10395)) && ((_local_2 < this._SafeStr_10400.length)))) {
-                    _local_3 = (page.viewer.catalog as HabboCatalog).roomEngine.RoomEngine(this._SafeStr_10396, this._SafeStr_10400[_local_2]);
+                    _local_3 = (page.viewer.catalog as HabboCatalog).roomEngine.getPetColor(this._SafeStr_10396, this._SafeStr_10400[_local_2]);
                     if (_local_3 != null){
                         if (_local_3.primaryColor == _local_3.secondaryColor){
                             _local_1.push([_local_3.primaryColor]);
@@ -275,7 +275,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             };
             var _local_2:int = this._SafeStr_10396;
             var _local_3:int = this._SafeStr_10397;
-            var _local_4:ImageResult = (page.viewer.catalog as HabboCatalog).roomEngine.RoomEngine(_local_2, _local_3, new Vector3d(135, 0, 0), 64, this);
+            var _local_4:ImageResult = (page.viewer.catalog as HabboCatalog).roomEngine.getPetImage(_local_2, _local_3, new Vector3d(135, 0, 0), 64, this);
             if (_local_4 != null){
                 this.setPreviewImage(_local_4.data, true);
             };
@@ -399,7 +399,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // onSellablePetBreeds = "_-32Z" (String#7360, DoABC#2)
 // onPurchase = "_-ku" (String#2174, DoABC#2)
 // initializeBreedSelection = "_-7Q" (String#22519, DoABC#2)
-// RoomEngine = "_-0Ef" (String#3842, DoABC#2)
+// getPetColor = "_-0Ef" (String#3842, DoABC#2)
 // primaryColor = "_-jL" (String#24012, DoABC#2)
 // selectedBreed = "_-CZ" (String#22708, DoABC#2)
 // updateImage = "_-13D" (String#4937, DoABC#2)
@@ -437,7 +437,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
 // onTextWindowEvent = "_-0hH" (String#820, DoABC#2)
 // showPurchaseConfirmation = "_-2zh" (String#21447, DoABC#2)
-// RoomEngine = "_-0Zc" (String#437, DoABC#2)
+// getPetImage = "_-0Zc" (String#437, DoABC#2)
 // setPreviewImage = "_-27B" (String#448, DoABC#2)
 
 

@@ -170,11 +170,11 @@ package com.sulake.habbo.session.furniture
             if (!this._localization){
                 return;
             };
-            for each (_local_1 in this._SafeStr_8133.Map()) {
+            for each (_local_1 in this._SafeStr_8133.getValues()) {
                 this._localization.updateKey(("roomItem.name." + _local_1.id), _local_1.title);
                 this._localization.updateKey(("roomItem.desc." + _local_1.id), _local_1.description);
             };
-            for each (_local_1 in this._wallItems.Map()) {
+            for each (_local_1 in this._wallItems.getValues()) {
                 this._localization.updateKey(("wallItem.name." + _local_1.id), _local_1.title);
                 this._localization.updateKey(("wallItem.desc." + _local_1.id), _local_1.description);
             };
@@ -203,7 +203,7 @@ package com.sulake.habbo.session.furniture
 // FurnitureData = "_-sW" (String#2211, DoABC#2)
 // _SafeStr_4221 = "_-0eh" (String#15613, DoABC#2)
 // logEventLog = "_-1qw" (String#18578, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // _localization = "_-1" (String#16427, DoABC#2)
 // _SafeStr_5255 = "_-U9" (String#2115, DoABC#2)
 // assetLoader = "_-1nR" (String#18439, DoABC#2)

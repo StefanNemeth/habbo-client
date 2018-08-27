@@ -42,7 +42,7 @@ package com.sulake.habbo.avatar.torso
             }
             else {
                 for each (_local_2 in _SafeStr_5402) {
-                    _local_2.AvatarEditorGridView();
+                    _local_2.initFromList();
                 };
             };
             _isInitialized = true;
@@ -151,7 +151,7 @@ package com.sulake.habbo.avatar.torso
 // _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)
 // _SafeStr_5402 = "_-0Lb" (String#14897, DoABC#2)
-// AvatarEditorGridView = "_-ME" (String#23093, DoABC#2)
+// initFromList = "_-ME" (String#23093, DoABC#2)
 // updateGridView = "_-BT" (String#22671, DoABC#2)
 // attachImages = "_-2jH" (String#6942, DoABC#2)
 // activateTab = "_-339" (String#21625, DoABC#2)

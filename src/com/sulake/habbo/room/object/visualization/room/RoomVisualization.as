@@ -114,7 +114,7 @@ package com.sulake.habbo.room.object.visualization.room
                 this._assetLibrary.dispose();
                 this._assetLibrary = null;
             };
-            this.RoomVisualization();
+            this.resetRoomPlanes();
             this._SafeStr_12729 = null;
             this._SafeStr_12926 = null;
             this._SafeStr_12927 = null;
@@ -131,7 +131,7 @@ package com.sulake.habbo.room.object.visualization.room
                 this._data = null;
             };
         }
-        private function RoomVisualization():void
+        private function resetRoomPlanes():void
         {
             var _local_1:int;
             var _local_2:RoomPlane;
@@ -177,7 +177,7 @@ package com.sulake.habbo.room.object.visualization.room
             this._data.initializeAssetCollection(assetCollection);
             return (true);
         }
-        protected function RoomVisualization():void
+        protected function defineSprites():void
         {
             var _local_3:RoomPlane;
             var _local_4:IRoomObjectSprite;
@@ -209,7 +209,7 @@ package com.sulake.habbo.room.object.visualization.room
                 _local_2++;
             };
         }
-        protected function RoomVisualization():void
+        protected function initializeRoomPlanes():void
         {
             var _local_8:IVector3d;
             var _local_9:IVector3d;
@@ -240,8 +240,8 @@ package com.sulake.habbo.room.object.visualization.room
             if (!this._planeParser.initializeFromXML(new XML(_local_2))){
                 return;
             };
-            var _local_3:Number = this.RoomVisualization();
-            var _local_4:Number = this.RoomVisualization();
+            var _local_3:Number = this.getLandscapeWidth();
+            var _local_4:Number = this.getLandscapeHeight();
             var _local_5:Number = 0;
             var _local_6:int = _local_1.getModel().getNumber(RoomObjectVariableEnum._SafeStr_12943);
             var _local_7:int;
@@ -365,9 +365,9 @@ package com.sulake.habbo.room.object.visualization.room
                 _local_7++;
             };
             this._planesInitialized = true;
-            this.RoomVisualization();
+            this.defineSprites();
         }
-        private function RoomVisualization():Number
+        private function getLandscapeWidth():Number
         {
             var _local_3:int;
             var _local_4:IVector3d;
@@ -383,7 +383,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (_local_1);
         }
-        private function RoomVisualization():Number
+        private function getLandscapeHeight():Number
         {
             var _local_3:int;
             var _local_4:IVector3d;
@@ -422,25 +422,25 @@ package com.sulake.habbo.room.object.visualization.room
             if (_arg_1 == null){
                 return;
             };
-            var _local_6:Boolean = this.RoomVisualization(_arg_1);
+            var _local_6:Boolean = this.updateGeometry(_arg_1);
             var _local_7:IRoomObjectModel = _local_5.getModel();
             var _local_8:Boolean;
-            if (this.RoomVisualization(_local_7)){
+            if (this.updatePlaneThicknesses(_local_7)){
                 _local_8 = true;
             };
-            if (this.RoomVisualization(_local_7)){
+            if (this.updateFloorHoles(_local_7)){
                 _local_8 = true;
             };
-            this.RoomVisualization();
-            _local_8 = this.RoomVisualization(_local_7);
+            this.initializeRoomPlanes();
+            _local_8 = this.updateMasksAndColors(_local_7);
             var _local_9:int = _arg_2;
             if ((((((_local_9 < (this._lastUpdateTime + this._SafeStr_12925))) && (!(_local_6)))) && (!(_local_8)))){
                 return;
             };
-            if (this.RoomVisualization(_local_7)){
+            if (this.updatePlaneTexturesAndVisibilities(_local_7)){
                 _local_8 = true;
             };
-            if (this.RoomVisualization(_arg_1, _local_6, _arg_2)){
+            if (this.updatePlanes(_arg_1, _local_6, _arg_2)){
                 _local_8 = true;
             };
             if (_local_8){
@@ -470,7 +470,7 @@ package com.sulake.habbo.room.object.visualization.room
             _SafeStr_4365 = _local_7.getUpdateID();
             this._lastUpdateTime = _local_9;
         }
-        private function RoomVisualization(_arg_1:IRoomGeometry):Boolean
+        private function updateGeometry(_arg_1:IRoomGeometry):Boolean
         {
             var _local_3:IVector3d;
             var _local_2:Boolean;
@@ -488,7 +488,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (_local_2);
         }
-        private function RoomVisualization(_arg_1:IRoomObjectModel):Boolean
+        private function updateMasksAndColors(_arg_1:IRoomObjectModel):Boolean
         {
             var _local_3:String;
             var _local_4:uint;
@@ -497,7 +497,7 @@ package com.sulake.habbo.room.object.visualization.room
             if (_SafeStr_4365 != _arg_1.getUpdateID()){
                 _local_3 = _arg_1.getString(RoomObjectVariableEnum._SafeStr_5801);
                 if (_local_3 != this._SafeStr_12930){
-                    this.RoomVisualization(_local_3);
+                    this.updatePlaneMasks(_local_3);
                     this._SafeStr_12930 = _local_3;
                     _local_2 = true;
                 };
@@ -517,7 +517,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (_local_2);
         }
-        private function RoomVisualization(_arg_1:IRoomObjectModel):Boolean
+        private function updatePlaneTexturesAndVisibilities(_arg_1:IRoomObjectModel):Boolean
         {
             var _local_2:String;
             var _local_3:String;
@@ -529,16 +529,16 @@ package com.sulake.habbo.room.object.visualization.room
                 _local_2 = _arg_1.getString(RoomObjectVariableEnum._SafeStr_5786);
                 _local_3 = _arg_1.getString(RoomObjectVariableEnum._SafeStr_5784);
                 _local_4 = _arg_1.getString(RoomObjectVariableEnum._SafeStr_5788);
-                this.RoomVisualization(_local_3, _local_2, _local_4);
+                this.updatePlaneTextureTypes(_local_3, _local_2, _local_4);
                 _local_5 = Boolean(_arg_1.getNumber(RoomObjectVariableEnum._SafeStr_5776));
                 _local_6 = Boolean(_arg_1.getNumber(RoomObjectVariableEnum._SafeStr_5777));
                 _local_7 = Boolean(_arg_1.getNumber(RoomObjectVariableEnum._SafeStr_5778));
-                this.RoomVisualization(_local_5, _local_6, _local_7);
+                this.updatePlaneTypeVisibilities(_local_5, _local_6, _local_7);
                 return (true);
             };
             return (false);
         }
-        private function RoomVisualization(_arg_1:IRoomObjectModel):Boolean
+        private function updatePlaneThicknesses(_arg_1:IRoomObjectModel):Boolean
         {
             var _local_2:Number;
             var _local_3:Number;
@@ -548,26 +548,26 @@ package com.sulake.habbo.room.object.visualization.room
                 if (((((!(isNaN(_local_2))) && (!(isNaN(_local_3))))) && (((!((_local_2 == this._floorThicknessMultiplier))) || (!((_local_3 == this._wallThicknessMultiplier))))))){
                     this._floorThicknessMultiplier = _local_2;
                     this._wallThicknessMultiplier = _local_3;
-                    this.RoomVisualization();
+                    this.resetRoomPlanes();
                     return (true);
                 };
             };
             return (false);
         }
-        private function RoomVisualization(_arg_1:IRoomObjectModel):Boolean
+        private function updateFloorHoles(_arg_1:IRoomObjectModel):Boolean
         {
             var _local_2:Number;
             if (_SafeStr_4365 != _arg_1.getUpdateID()){
                 _local_2 = _arg_1.getNumber(RoomObjectVariableEnum._SafeStr_5780);
                 if (((!(isNaN(_local_2))) && (!((_local_2 == this._SafeStr_12929))))){
                     this._SafeStr_12929 = _local_2;
-                    this.RoomVisualization();
+                    this.resetRoomPlanes();
                     return (true);
                 };
             };
             return (false);
         }
-        protected function RoomVisualization(_arg_1:String, _arg_2:String, _arg_3:String):Boolean
+        protected function updatePlaneTextureTypes(_arg_1:String, _arg_2:String, _arg_3:String):Boolean
         {
             var _local_5:RoomPlane;
             if (_arg_1 != this._floorType){
@@ -613,7 +613,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (true);
         }
-        private function RoomVisualization(_arg_1:Boolean, _arg_2:Boolean, _arg_3:Boolean):void
+        private function updatePlaneTypeVisibilities(_arg_1:Boolean, _arg_2:Boolean, _arg_3:Boolean):void
         {
             if (((((!((_arg_1 == this._SafeStr_12936[RoomPlane._SafeStr_7291]))) || (!((_arg_2 == this._SafeStr_12936[RoomPlane._SafeStr_10277]))))) || (!((_arg_3 == this._SafeStr_12936[RoomPlane.TYPE_LANDSCAPE]))))){
                 this._SafeStr_12936[RoomPlane._SafeStr_7291] = _arg_1;
@@ -623,7 +623,7 @@ package com.sulake.habbo.room.object.visualization.room
                 this._SafeStr_12927 = [];
             };
         }
-        protected function RoomVisualization(_arg_1:IRoomGeometry, _arg_2:Boolean, _arg_3:int):Boolean
+        protected function updatePlanes(_arg_1:IRoomGeometry, _arg_2:Boolean, _arg_3:int):Boolean
         {
             var _local_10:int;
             var _local_11:IRoomObjectSprite;
@@ -702,18 +702,18 @@ package com.sulake.habbo.room.object.visualization.room
             _arg_1.offsetY = -(_local_5.y);
             _arg_1.relativeDepth = _arg_4;
             _arg_1.color = _arg_2.color;
-            _arg_1.asset = this.RoomVisualization(_arg_2, _arg_3);
+            _arg_1.asset = this.getPlaneBitmap(_arg_2, _arg_3);
             _arg_1.assetName = ((_arg_3 + "_") + this._SafeStr_12730);
         }
-        private function RoomVisualization(_arg_1:RoomPlane, _arg_2:String):BitmapData
+        private function getPlaneBitmap(_arg_1:RoomPlane, _arg_2:String):BitmapData
         {
             var _local_3:BitmapDataAsset = (this._assetLibrary.getAssetByName(_arg_2) as BitmapDataAsset);
             if (_local_3 == null){
-                _local_3 = new BitmapDataAsset(this._assetLibrary.IAssetLibrary(BitmapDataAsset));
-                this._assetLibrary.IAssetLibrary(_arg_2, _local_3);
+                _local_3 = new BitmapDataAsset(this._assetLibrary.getAssetTypeDeclarationByClass(BitmapDataAsset));
+                this._assetLibrary.setAsset(_arg_2, _local_3);
             };
             var _local_4:BitmapData = (_local_3.content as BitmapData);
-            var _local_5:BitmapData = _arg_1.RoomPlane(_local_4);
+            var _local_5:BitmapData = _arg_1.copyBitmapData(_local_4);
             if (_local_5 == null){
                 _local_5 = _arg_1.bitmapData;
                 if (_local_5 != null){
@@ -727,7 +727,7 @@ package com.sulake.habbo.room.object.visualization.room
             };
             return (_local_5);
         }
-        protected function RoomVisualization(_arg_1:String):void
+        protected function updatePlaneMasks(_arg_1:String):void
         {
             var _local_10:String;
             var _local_11:IVector3d;
@@ -760,9 +760,9 @@ package com.sulake.habbo.room.object.visualization.room
             };
             var _local_8:int;
             while (_local_8 < this._SafeStr_5763.maskCount) {
-                _local_10 = this._SafeStr_5763.RoomPlaneBitmapMaskParser(_local_8);
-                _local_11 = this._SafeStr_5763.RoomPlaneBitmapMaskParser(_local_8);
-                _local_12 = this._SafeStr_5763.RoomPlaneBitmapMaskParser(_local_8);
+                _local_10 = this._SafeStr_5763.getMaskType(_local_8);
+                _local_11 = this._SafeStr_5763.getMaskLocation(_local_8);
+                _local_12 = this._SafeStr_5763.getMaskCategory(_local_8);
                 if (_local_11 != null){
                     _local_13 = 0;
                     while (_local_13 < this._SafeStr_12729.length) {
@@ -820,9 +820,9 @@ package com.sulake.habbo.room.object.visualization.room
 // updateSprite = "_-2yQ" (String#1975, DoABC#2)
 // _SafeStr_12729 = "_-29o" (String#879, DoABC#2)
 // _SafeStr_12730 = "_-2md" (String#7014, DoABC#2)
-// RoomVisualization = "_-10j" (String#4890, DoABC#2)
+// defineSprites = "_-10j" (String#4890, DoABC#2)
 // crossProduct = "_-0hD" (String#15719, DoABC#2)
-// RoomVisualization = "_-22x" (String#6103, DoABC#2)
+// updatePlanes = "_-22x" (String#6103, DoABC#2)
 // _SafeStr_12788 = "_-1ta" (String#5913, DoABC#2)
 // _SafeStr_12789 = "_-2si" (String#7133, DoABC#2)
 // _SafeStr_12790 = "_-2kj" (String#6971, DoABC#2)
@@ -858,11 +858,11 @@ package com.sulake.habbo.room.object.visualization.room
 // _SafeStr_12936 = "_-2W3" (String#20284, DoABC#2)
 // _SafeStr_12937 = "_-Z1" (String#23602, DoABC#2)
 // wallAdRelativeDepth = "_-0cc" (String#15540, DoABC#2)
-// RoomVisualization = "_-1aq" (String#17927, DoABC#2)
+// resetRoomPlanes = "_-1aq" (String#17927, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
-// RoomVisualization = "_-2Ut" (String#20233, DoABC#2)
-// RoomVisualization = "_-0gV" (String#15693, DoABC#2)
-// RoomVisualization = "_-168" (String#16701, DoABC#2)
+// initializeRoomPlanes = "_-2Ut" (String#20233, DoABC#2)
+// getLandscapeWidth = "_-0gV" (String#15693, DoABC#2)
+// getLandscapeHeight = "_-168" (String#16701, DoABC#2)
 // _SafeStr_12943 = "_-21-" (String#19052, DoABC#2)
 // getPlaneSecondaryNormals = "_-2-e" (String#18998, DoABC#2)
 // hasTexture = "_-sP" (String#24377, DoABC#2)
@@ -875,19 +875,19 @@ package com.sulake.habbo.room.object.visualization.room
 // getPlaneMaskLeftSideLength = "_-15t" (String#16693, DoABC#2)
 // getPlaneMaskRightSideLength = "_-0H7" (String#14723, DoABC#2)
 // addRectangleMask = "_-1aF" (String#17905, DoABC#2)
-// RoomVisualization = "_-1rl" (String#18621, DoABC#2)
-// RoomVisualization = "_-D3" (String#22730, DoABC#2)
-// RoomVisualization = "_-2L3" (String#19849, DoABC#2)
-// RoomVisualization = "_-2ah" (String#20474, DoABC#2)
-// RoomVisualization = "_-1GP" (String#17131, DoABC#2)
-// RoomVisualization = "_-2Ms" (String#19921, DoABC#2)
-// RoomVisualization = "_-3-M" (String#21476, DoABC#2)
-// RoomPlane = "_-1Eg" (String#17056, DoABC#2)
+// updateGeometry = "_-1rl" (String#18621, DoABC#2)
+// updatePlaneThicknesses = "_-D3" (String#22730, DoABC#2)
+// updateMasksAndColors = "_-2L3" (String#19849, DoABC#2)
+// updatePlaneTexturesAndVisibilities = "_-2ah" (String#20474, DoABC#2)
+// updatePlaneTextureTypes = "_-1GP" (String#17131, DoABC#2)
+// updatePlaneTypeVisibilities = "_-2Ms" (String#19921, DoABC#2)
+// getPlaneBitmap = "_-3-M" (String#21476, DoABC#2)
+// copyBitmapData = "_-1Eg" (String#17056, DoABC#2)
 // resetBitmapMasks = "_-1Ab" (String#16883, DoABC#2)
 // maskCount = "_-3BF" (String#21934, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-rP" (String#24334, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-3Di" (String#22023, DoABC#2)
-// RoomPlaneBitmapMaskParser = "_-1wz" (String#18845, DoABC#2)
+// getMaskType = "_-rP" (String#24334, DoABC#2)
+// getMaskLocation = "_-3Di" (String#22023, DoABC#2)
+// getMaskCategory = "_-1wz" (String#18845, DoABC#2)
 // scalarProjection = "_-2p1" (String#21043, DoABC#2)
 // addBitmapMask = "_-1GD" (String#17124, DoABC#2)
 // RoomObjectVariableEnum = "_-1MH" (String#17370, DoABC#2)
@@ -928,12 +928,12 @@ package com.sulake.habbo.room.object.visualization.room
 // _SafeStr_5784 = "_-2G-" (String#19644, DoABC#2)
 // _SafeStr_5786 = "_-1SC" (String#17588, DoABC#2)
 // _SafeStr_5788 = "_-Nt" (String#23160, DoABC#2)
-// RoomVisualization = "_-7g" (String#7817, DoABC#2)
+// updatePlaneMasks = "_-7g" (String#7817, DoABC#2)
 // _SafeStr_5793 = "_-3En" (String#22068, DoABC#2)
 // _SafeStr_5801 = "_-Yf" (String#23585, DoABC#2)
 // _SafeStr_5806 = "_-2B8" (String#19450, DoABC#2)
 // _SafeStr_5808 = "_-08p" (String#14398, DoABC#2)
-// RoomVisualization = "_-1mt" (String#5796, DoABC#2)
+// updateFloorHoles = "_-1mt" (String#5796, DoABC#2)
 // _SafeStr_5814 = "_-2v1" (String#21279, DoABC#2)
 // planeCount = "_-2lv" (String#20913, DoABC#2)
 // getPlaneLocation = "_-dB" (String#23767, DoABC#2)
@@ -948,7 +948,7 @@ package com.sulake.habbo.room.object.visualization.room
 // floorRelativeDepth = "_-1De" (String#17009, DoABC#2)
 // wallRelativeDepth = "_-61" (String#22467, DoABC#2)
 // setUnknownContent = "_-2zE" (String#7271, DoABC#2)
-// IAssetLibrary = "_-08Y" (String#3730, DoABC#2)
-// IAssetLibrary = "_-5x" (String#7779, DoABC#2)
+// setAsset = "_-08Y" (String#3730, DoABC#2)
+// getAssetTypeDeclarationByClass = "_-5x" (String#7779, DoABC#2)
 
 

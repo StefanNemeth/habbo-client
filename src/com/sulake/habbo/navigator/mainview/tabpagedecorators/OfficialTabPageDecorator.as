@@ -23,7 +23,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
         }
         public function refreshFooter(_arg_1:IWindowContainer):void
         {
-            this._navigator.officialRoomEntryManager.OfficialRoomEntryManager(_arg_1);
+            this._navigator.officialRoomEntryManager.refreshAdFooter(_arg_1);
         }
         public function navigatorOpenedWhileInTab():void
         {
@@ -40,7 +40,7 @@ package com.sulake.habbo.navigator.mainview.tabpagedecorators
 // Tabs = "_-1b9" (String#5579, DoABC#2)
 // ITabPageDecorator = "_-0h3" (String#4447, DoABC#2)
 // OfficialTabPageDecorator = "_-1jj" (String#5748, DoABC#2)
-// OfficialRoomEntryManager = "_-2qK" (String#21094, DoABC#2)
+// refreshAdFooter = "_-2qK" (String#21094, DoABC#2)
 // officialRoomEntryManager = "_-aX" (String#23654, DoABC#2)
 // _SafeStr_4226 = "_-1kG" (String#18300, DoABC#2)
 // navigatorOpenedWhileInTab = "_-2IQ" (String#6410, DoABC#2)

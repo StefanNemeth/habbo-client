@@ -63,7 +63,7 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             this._presets = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -71,9 +71,9 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
             _arg_1.addEventListener(RoomWidgetDimmerUpdateEvent.RWDUE_PRESETS, this.onPresets);
             _arg_1.addEventListener(RoomWidgetDimmerUpdateEvent.RWDUE_HIDE, this.onHide);
             _arg_1.addEventListener(RoomWidgetDimmerStateUpdateEvent.RWDSUE_DIMMER_STATE, this.onDimmerState);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -239,8 +239,8 @@ package com.sulake.habbo.ui.widget.furniture.dimmer
 // DimmerView = "_-1QW" (String#5361, DoABC#2)
 // _brightness = "_-2Jm" (String#450, DoABC#2)
 // brightness = "_-kZ" (String#24053, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // selectedPresetId = "_-0Pr" (String#15055, DoABC#2)
 // disposeInterface = "_-0FF" (String#3856, DoABC#2)

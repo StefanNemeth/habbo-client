@@ -68,20 +68,20 @@ package com.sulake.habbo.catalog.marketplace
                 _local_10++;
             };
             _local_9.graphics.lineStyle(2, 0xFF);
-            _local_9.graphics.moveTo(this.AnimationFrameData(0), this.AnimationFrameData(0));
+            _local_9.graphics.moveTo(this.getX(0), this.getY(0));
             _local_10 = 1;
             while (_local_10 < this._x.length) {
-                _local_9.graphics.lineTo(this.AnimationFrameData(_local_10), this.AnimationFrameData(_local_10));
+                _local_9.graphics.lineTo(this.getX(_local_10), this.getY(_local_10));
                 _local_10++;
             };
             _local_3.draw(_local_9, new Matrix(1, 0, 0, 1, (_arg_1 - this._SafeStr_10285), ((_arg_2 - this._SafeStr_10286) / 2)));
             return (_local_3);
         }
-        private function AnimationFrameData(_arg_1:int):Number
+        private function getX(_arg_1:int):Number
         {
             return ((this._SafeStr_10285 + ((this._SafeStr_10285 / -(this._SafeStr_10287)) * this._x[_arg_1])));
         }
-        private function AnimationFrameData(_arg_1:int):Number
+        private function getY(_arg_1:int):Number
         {
             return ((this._SafeStr_10286 - ((this._SafeStr_10286 / this._SafeStr_10288) * this._y[_arg_1])));
         }
@@ -97,8 +97,8 @@ package com.sulake.habbo.catalog.marketplace
 // _SafeStr_10286 = "_-0a8" (String#15445, DoABC#2)
 // _SafeStr_10287 = "_-1Gs" (String#17146, DoABC#2)
 // _SafeStr_10288 = "_-07o" (String#14356, DoABC#2)
-// AnimationFrameData = "_-bw" (String#8454, DoABC#2)
-// AnimationFrameData = "_-2Wq" (String#6697, DoABC#2)
+// getX = "_-bw" (String#8454, DoABC#2)
+// getY = "_-2Wq" (String#6697, DoABC#2)
 // MarketplaceChart = "_-34I" (String#21670, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
 

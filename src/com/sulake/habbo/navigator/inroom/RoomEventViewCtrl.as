@@ -58,29 +58,29 @@ package com.sulake.habbo.navigator.inroom
             this.clearErrors();
             var _local_2:RoomEventData = this._navigator.data.roomEventData;
             if (_local_2 == null){
-                this.RoomEventViewCtrl();
+                this.createEvent();
             }
             else {
-                this.RoomEventViewCtrl(_local_2);
+                this.editEvent(_local_2);
             };
             this._window.visible = true;
         }
-        private function RoomEventViewCtrl(_arg_1:RoomEventData):void
+        private function editEvent(_arg_1:RoomEventData):void
         {
             this._SafeStr_8461.visible = false;
             this._SafeStr_8453.visible = true;
             this._SafeStr_8454.text = this._navigator.getText(("roomevent_type_" + _arg_1.eventType));
-            this._eventNameInput.CurrencyIndicatorBase(_arg_1.eventName);
-            this._SafeStr_8452.CurrencyIndicatorBase(_arg_1.eventDescription);
-            this._SafeStr_6906.CurrencyIndicatorBase(this.RoomEventViewCtrl(_arg_1, 1));
-            this._SafeStr_6907.CurrencyIndicatorBase(this.RoomEventViewCtrl(_arg_1, 2));
+            this._eventNameInput.setText(_arg_1.eventName);
+            this._SafeStr_8452.setText(_arg_1.eventDescription);
+            this._SafeStr_6906.setText(this.getTagFromEvent(_arg_1, 1));
+            this._SafeStr_6907.setText(this.getTagFromEvent(_arg_1, 2));
             this._SafeStr_8457.visible = false;
             this._SafeStr_8458.visible = true;
             this._SafeStr_8460.visible = true;
             this._SafeStr_8455.visible = false;
             this._SafeStr_8456.visible = true;
         }
-        private function RoomEventViewCtrl():void
+        private function createEvent():void
         {
             this._SafeStr_8461.visible = true;
             this._SafeStr_8453.visible = false;
@@ -99,26 +99,26 @@ package com.sulake.habbo.navigator.inroom
         {
             return (ITextFieldWindow(this._window.findChildByName(_arg_1)));
         }
-        private function RoomEventViewCtrl():int
+        private function getEventType():int
         {
             var _local_1:int = this._SafeStr_8461.selection;
             return ((_local_1 + 1));
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onCreateButtonClick(_arg_1:WindowEvent):void
         {
-            var _local_2:int = this.RoomEventViewCtrl();
+            var _local_2:int = this.getEventType();
             var _local_3:String = this._eventNameInput.getText();
             var _local_4:String = this._SafeStr_8452.getText();
             var _local_5:Array = new Array();
             this.addTag(_local_5, this._SafeStr_6906.getText());
             this.addTag(_local_5, this._SafeStr_6907.getText());
-            if (!this.RoomEventViewCtrl()){
+            if (!this.isMandatoryFieldsFilled()){
                 return;
             };
             this._navigator.send(new CreateEventMessageComposer(_local_2, _local_3, _local_4, _local_5));
-            this.RoomEventViewCtrl();
+            this.endEdit();
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onEditButtonClick(_arg_1:WindowEvent):void
         {
             var _local_2:int = this._navigator.data.roomEventData.eventType;
             var _local_3:String = this._eventNameInput.getText();
@@ -126,22 +126,22 @@ package com.sulake.habbo.navigator.inroom
             var _local_5:Array = new Array();
             this.addTag(_local_5, this._SafeStr_6906.getText());
             this.addTag(_local_5, this._SafeStr_6907.getText());
-            if (!this.RoomEventViewCtrl()){
+            if (!this.isMandatoryFieldsFilled()){
                 return;
             };
             this._navigator.send(new EditEventMessageComposer(_local_2, _local_3, _local_4, _local_5));
-            this.RoomEventViewCtrl();
+            this.endEdit();
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onEndButtonClick(_arg_1:WindowEvent):void
         {
             this._navigator.send(new CancelEventMessageComposer());
-            this.RoomEventViewCtrl();
+            this.endEdit();
         }
-        private function RoomEventViewCtrl(_arg_1:WindowEvent):void
+        private function onCancelButtonClick(_arg_1:WindowEvent):void
         {
-            this.RoomEventViewCtrl();
+            this.endEdit();
         }
-        private function RoomEventViewCtrl():Boolean
+        private function isMandatoryFieldsFilled():Boolean
         {
             this.clearErrors();
             if (!this._eventNameInput.checkMandatory(this._navigator.getText("navigator.eventsettings.nameerr"))){
@@ -172,11 +172,11 @@ package com.sulake.habbo.navigator.inroom
                 this._SafeStr_8459 = IButtonWindow(this.find("cancel_button"));
                 this._SafeStr_8460 = IButtonWindow(this.find("end_button"));
                 this._SafeStr_8461 = IDropMenuWindow(this.find("event_type"));
-                this.RoomEventViewCtrl();
-                this.RoomEventViewCtrl(this._SafeStr_8457, this.RoomEventViewCtrl);
-                this.RoomEventViewCtrl(this._SafeStr_8458, this.RoomEventViewCtrl);
-                this.RoomEventViewCtrl(this._SafeStr_8460, this.RoomEventViewCtrl);
-                this.RoomEventViewCtrl(this._SafeStr_8459, this.RoomEventViewCtrl);
+                this.prepareEventTypes();
+                this.addMouseClickListener(this._SafeStr_8457, this.onCreateButtonClick);
+                this.addMouseClickListener(this._SafeStr_8458, this.onEditButtonClick);
+                this.addMouseClickListener(this._SafeStr_8460, this.onEndButtonClick);
+                this.addMouseClickListener(this._SafeStr_8459, this.onCancelButtonClick);
                 this._eventNameInput = new TextFieldManager(this._navigator, this.getInput("event_name"), 25);
                 this._SafeStr_8452 = new TextFieldManager(this._navigator, this.getInput("event_desc"), 100);
                 this._SafeStr_6906 = new TextFieldManager(this._navigator, this.getInput("event_tag_1"), 25);
@@ -184,7 +184,7 @@ package com.sulake.habbo.navigator.inroom
                 _arg_1.addChild(this._window);
             };
         }
-        private function RoomEventViewCtrl(_arg_1:IWindow, _arg_2:Function):void
+        private function addMouseClickListener(_arg_1:IWindow, _arg_2:Function):void
         {
             if (_arg_1 != null){
                 _arg_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, _arg_2);
@@ -198,7 +198,7 @@ package com.sulake.habbo.navigator.inroom
             };
             return (_local_2);
         }
-        private function RoomEventViewCtrl():void
+        private function prepareEventTypes():void
         {
             var _local_4:String;
             var _local_5:String;
@@ -214,12 +214,12 @@ package com.sulake.habbo.navigator.inroom
             };
             this._SafeStr_8461.populate(_local_1);
         }
-        private function RoomEventViewCtrl():void
+        private function endEdit():void
         {
             this._active = false;
             this._navigator.roomInfoViewCtrl.reload();
         }
-        private function RoomEventViewCtrl(_arg_1:RoomEventData, _arg_2:int):String
+        private function getTagFromEvent(_arg_1:RoomEventData, _arg_2:int):String
         {
             var _local_3:String = _arg_1.tags[(_arg_2 - 1)];
             return ((((_local_3 == null)) ? "" : _local_3));
@@ -244,19 +244,19 @@ package com.sulake.habbo.navigator.inroom
 // EditEventMessageComposer = "_-1sL" (String#18646, DoABC#2)
 // CancelEventMessageComposer = "_-2Vz" (String#20281, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
-// RoomEventViewCtrl = "_-10B" (String#595, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
+// addMouseClickListener = "_-10B" (String#595, DoABC#2)
 // prepareWindow = "_-RN" (String#219, DoABC#2)
 // roomInfoViewCtrl = "_-HS" (String#22911, DoABC#2)
 // reload = "_-3AK" (String#7519, DoABC#2)
 // eventType = "_-2Se" (String#20142, DoABC#2)
 // eventName = "_-1tL" (String#18690, DoABC#2)
 // eventDescription = "_-1i8" (String#18215, DoABC#2)
-// RoomEventViewCtrl = "_-0lu" (String#4546, DoABC#2)
-// RoomEventViewCtrl = "_-2kt" (String#6975, DoABC#2)
-// RoomEventViewCtrl = "_-0ir" (String#1534, DoABC#2)
+// prepareEventTypes = "_-0lu" (String#4546, DoABC#2)
+// onCreateButtonClick = "_-2kt" (String#6975, DoABC#2)
+// onCancelButtonClick = "_-0ir" (String#1534, DoABC#2)
 // goBackToInitialState = "_-27b" (String#19315, DoABC#2)
-// RoomEventViewCtrl = "_-36s" (String#7447, DoABC#2)
+// isMandatoryFieldsFilled = "_-36s" (String#7447, DoABC#2)
 // checkMandatory = "_-2zP" (String#21436, DoABC#2)
 // _SafeStr_6906 = "_-0cV" (String#4354, DoABC#2)
 // _SafeStr_6907 = "_-0Og" (String#4061, DoABC#2)
@@ -272,12 +272,12 @@ package com.sulake.habbo.navigator.inroom
 // _SafeStr_8459 = "_-01w" (String#14126, DoABC#2)
 // _SafeStr_8460 = "_-2U2" (String#20201, DoABC#2)
 // _SafeStr_8461 = "_-0h8" (String#15715, DoABC#2)
-// RoomEventViewCtrl = "_-2Oj" (String#19992, DoABC#2)
-// RoomEventViewCtrl = "_-2az" (String#20486, DoABC#2)
-// RoomEventViewCtrl = "_-28W" (String#19350, DoABC#2)
-// RoomEventViewCtrl = "_-0Cb" (String#14553, DoABC#2)
-// RoomEventViewCtrl = "_-1p2" (String#18503, DoABC#2)
-// RoomEventViewCtrl = "_-0dc" (String#15569, DoABC#2)
-// RoomEventViewCtrl = "_-3G2" (String#22118, DoABC#2)
+// createEvent = "_-2Oj" (String#19992, DoABC#2)
+// editEvent = "_-2az" (String#20486, DoABC#2)
+// getTagFromEvent = "_-28W" (String#19350, DoABC#2)
+// getEventType = "_-0Cb" (String#14553, DoABC#2)
+// endEdit = "_-1p2" (String#18503, DoABC#2)
+// onEditButtonClick = "_-0dc" (String#15569, DoABC#2)
+// onEndButtonClick = "_-3G2" (String#22118, DoABC#2)
 
 

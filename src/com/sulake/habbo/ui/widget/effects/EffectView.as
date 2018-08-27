@@ -81,9 +81,9 @@ package com.sulake.habbo.ui.widget.effects
                 this._SafeStr_8065.width = 0;
                 this._SafeStr_5297.stop();
             };
-            this.EffectView();
+            this.setTimeLeft();
         }
-        private function EffectView():void
+        private function setTimeLeft():void
         {
             var _local_1:String;
             var _local_2:int;
@@ -186,15 +186,15 @@ package com.sulake.habbo.ui.widget.effects
                     _local_3.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseEvent);
                 };
                 if (this._effect.isInUse){
-                    this.PendingImage("effect_hilite", "memenu_fx_pause");
+                    this.setElementImage("effect_hilite", "memenu_fx_pause");
                 }
                 else {
-                    this.PendingImage("effect_hilite", "memenu_fx_play");
+                    this.setElementImage("effect_hilite", "memenu_fx_play");
                 };
                 this._SafeStr_8068 = this._window.findChildByName("effect_hilite");
                 this._SafeStr_8068.visible = false;
             };
-            this.EffectView();
+            this.setTimeLeft();
             this._SafeStr_8065 = this._window.findChildByName("loader_bar");
             if (this._SafeStr_8065 != null){
                 this._maxWidth = this._SafeStr_8065.width;
@@ -202,11 +202,11 @@ package com.sulake.habbo.ui.widget.effects
                 this.onUpdate();
             };
             if (this._effect.icon){
-                this.EffectView("effect_icon", this._effect.icon);
+                this.setElementBitmap("effect_icon", this._effect.icon);
             };
             this._window.rectangle = _local_3.rectangle;
         }
-        private function EffectView(_arg_1:String, _arg_2:BitmapData):void
+        private function setElementBitmap(_arg_1:String, _arg_2:BitmapData):void
         {
             var _local_3:IBitmapWrapperWindow = (this._window.findChildByName(_arg_1) as IBitmapWrapperWindow);
             if (_local_3 != null){
@@ -234,15 +234,15 @@ package com.sulake.habbo.ui.widget.effects
                     };
                     return;
                 case WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK:
-                    this._widget.EffectsWidget(this._effect.type, this._effect.isInUse);
+                    this._widget.selectEffect(this._effect.type, this._effect.isInUse);
                     return;
             };
         }
-        private function PendingImage(_arg_1:String, _arg_2:String):void
+        private function setElementImage(_arg_1:String, _arg_2:String):void
         {
             var _local_3:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_2) as BitmapDataAsset);
             var _local_4:BitmapData = (_local_3.content as BitmapData);
-            this.EffectView(_arg_1, _local_4);
+            this.setElementBitmap(_arg_1, _local_4);
         }
 
     }
@@ -262,12 +262,12 @@ package com.sulake.habbo.ui.widget.effects
 // effectsInInventory = "_-0U0" (String#4183, DoABC#2)
 // secondsLeft = "_-I-" (String#8040, DoABC#2)
 // isActive = "_-0q4" (String#4638, DoABC#2)
-// PendingImage = "_-1IU" (String#302, DoABC#2)
+// setElementImage = "_-1IU" (String#302, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // _SafeStr_5297 = "_-0Gy" (String#355, DoABC#2)
 // _SafeStr_6023 = "_-Mr" (String#23121, DoABC#2)
 // effect = "_-rk" (String#24350, DoABC#2)
-// EffectsWidget = "_-0yR" (String#16370, DoABC#2)
+// selectEffect = "_-0yR" (String#16370, DoABC#2)
 // _SafeStr_8063 = "_-7v" (String#22540, DoABC#2)
 // _effect = "_-22d" (String#6099, DoABC#2)
 // _SafeStr_8065 = "_-27f" (String#19317, DoABC#2)
@@ -275,7 +275,7 @@ package com.sulake.habbo.ui.widget.effects
 // _SafeStr_8067 = "_-3I-" (String#22202, DoABC#2)
 // _SafeStr_8068 = "_-2KV" (String#19822, DoABC#2)
 // onUpdate = "_-Ck" (String#2075, DoABC#2)
-// EffectView = "_-0iH" (String#15763, DoABC#2)
-// EffectView = "_-TW" (String#23386, DoABC#2)
+// setTimeLeft = "_-0iH" (String#15763, DoABC#2)
+// setElementBitmap = "_-TW" (String#23386, DoABC#2)
 
 

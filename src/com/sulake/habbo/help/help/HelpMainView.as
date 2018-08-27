@@ -110,7 +110,7 @@ package com.sulake.habbo.help.help
                 _local_10 = _local_5.getFrontPageUrgentCategory().getQuestionTitleArray();
                 _local_7 = (container.findChildByTag("content_urgent") as IItemListWindow);
                 if (_local_7 != null){
-                    _local_7.IItemListWindow();
+                    _local_7.destroyListItems();
                     _local_8 = 0;
                     while (_local_8 < _local_10.length) {
                         _local_11 = _local_10[_local_8];
@@ -125,7 +125,7 @@ package com.sulake.habbo.help.help
                 _local_10 = _local_5.getFrontPageNormalCategory().getQuestionTitleArray();
                 _local_7 = (container.findChildByTag("content_normal") as IItemListWindow);
                 if (_local_7 != null){
-                    _local_7.IItemListWindow();
+                    _local_7.destroyListItems();
                     _local_8 = 0;
                     while (_local_8 < _local_10.length) {
                         _local_11 = _local_10[_local_8];
@@ -139,7 +139,7 @@ package com.sulake.habbo.help.help
                 };
             };
             var _local_6:IItemListWindow = (container.findChildByName("help_itemlist") as IItemListWindow);
-            _local_6.IItemListWindow();
+            _local_6.arrangeListItems();
             main.updateWindowDimensions();
         }
         private function onFaqBrowse(_arg_1:WindowMouseEvent):void
@@ -184,7 +184,7 @@ package com.sulake.habbo.help.help
             if (_local_4 == null){
                 return;
             };
-            var _local_5:int = _local_4.IItemListWindow(_arg_1.parent);
+            var _local_5:int = _local_4.getListItemIndex(_arg_1.parent);
             if (_local_3 == null){
                 return;
             };
@@ -220,13 +220,13 @@ package com.sulake.habbo.help.help
 // FaqCategory = "_-0JM" (String#3941, DoABC#2)
 // FaqItem = "_-1u6" (String#5923, DoABC#2)
 // GetClientFaqsMessageComposer = "_-3u" (String#22371, DoABC#2)
-// IItemListWindow = "_-0xF" (String#4796, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
+// destroyListItems = "_-0xF" (String#4796, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // HHVE_FAQ_TOP = "_-0et" (String#15622, DoABC#2)
 // HHVE_FAQ_TOPICS = "_-ed" (String#23829, DoABC#2)
 // HHVE_CFG_TOPIC_SELECT = "_-2-u" (String#19007, DoABC#2)
 // HHVE_REPORT_USER_SELECT = "_-0Cm" (String#14561, DoABC#2)
-// IItemListWindow = "_-0fG" (String#4411, DoABC#2)
+// arrangeListItems = "_-0fG" (String#4411, DoABC#2)
 
 

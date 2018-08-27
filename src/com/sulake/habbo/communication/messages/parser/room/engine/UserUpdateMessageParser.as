@@ -37,7 +37,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             this._users = [];
             return (true);
         }
-        public function UserUpdateMessageParser(_arg_1:int):UserUpdateMessageData
+        public function getUserUpdateData(_arg_1:int):UserUpdateMessageData
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.userUpdateCount)))){
                 return (null);
@@ -144,7 +144,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // UserUpdateMessageParser = "_-2BT" (String#6276, DoABC#2)
 // readString = "_-2y7" (String#1973, DoABC#2)
 // userUpdateCount = "_-a6" (String#23635, DoABC#2)
-// UserUpdateMessageParser = "_-lO" (String#24083, DoABC#2)
+// getUserUpdateData = "_-lO" (String#24083, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

@@ -192,21 +192,21 @@ package com.sulake.core.window
             };
             return (((this._type & _arg_1) == _arg_1));
         }
-        public function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean
+        public function testStateFlag(_arg_1:uint, _arg_2:uint=0):Boolean
         {
             if (_arg_2 > 0){
                 return ((((this._state & _arg_2) ^ _arg_1) == 0));
             };
             return (((this._state & _arg_1) == _arg_1));
         }
-        public function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean
+        public function testStyleFlag(_arg_1:uint, _arg_2:uint=0):Boolean
         {
             if (_arg_2 > 0){
                 return ((((this._style & _arg_2) ^ _arg_1) == 0));
             };
             return (((this._style & _arg_1) == _arg_1));
         }
-        public function IWindow(_arg_1:uint, _arg_2:uint=0):Boolean
+        public function testParamFlag(_arg_1:uint, _arg_2:uint=0):Boolean
         {
             if (_arg_2 > 0){
                 return ((((this._param & _arg_2) ^ _arg_1) == 0));
@@ -234,8 +234,8 @@ package com.sulake.core.window
 // _background = "_-35x" (String#21726, DoABC#2)
 // _background = "_-zD" (String#24660, DoABC#2)
 // _SafeStr_9165 = "_-2Yy" (String#20394, DoABC#2)
-// IWindow = "_-1ml" (String#5794, DoABC#2)
-// IWindow = "_-35A" (String#7410, DoABC#2)
+// testParamFlag = "_-1ml" (String#5794, DoABC#2)
+// testStateFlag = "_-35A" (String#7410, DoABC#2)
 // _SafeStr_9480 = "_-2cN" (String#20539, DoABC#2)
 // _SafeStr_9800 = "_-2AJ" (String#19417, DoABC#2)
 // _SafeStr_9801 = "_-QG" (String#23260, DoABC#2)
@@ -252,6 +252,6 @@ package com.sulake.core.window
 // getMaximizedWidth = "_-2WQ" (String#20301, DoABC#2)
 // getMaximizedHeight = "_-2Rx" (String#20117, DoABC#2)
 // testTypeFlag = "_-Mj" (String#23115, DoABC#2)
-// IWindow = "_-3C2" (String#7553, DoABC#2)
+// testStyleFlag = "_-3C2" (String#7553, DoABC#2)
 
 

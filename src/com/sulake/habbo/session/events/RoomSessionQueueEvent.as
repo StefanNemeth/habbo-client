@@ -43,11 +43,11 @@ package com.sulake.habbo.session.events
         {
             return (this._SafeStr_4779.getKeys());
         }
-        public function RoomQueueSet(_arg_1:String):int
+        public function getQueueSize(_arg_1:String):int
         {
             return (this._SafeStr_4779.getValue(_arg_1));
         }
-        public function RoomQueueSet(_arg_1:String, _arg_2:int):void
+        public function addQueue(_arg_1:String, _arg_2:int):void
         {
             this._SafeStr_4779.add(_arg_1, _arg_2);
         }
@@ -69,7 +69,7 @@ package com.sulake.habbo.session.events
 // queueSetName = "_-158" (String#16658, DoABC#2)
 // queueSetTarget = "_-O2" (String#23170, DoABC#2)
 // queueTypes = "_-1Hm" (String#17182, DoABC#2)
-// RoomQueueSet = "_-2ar" (String#20482, DoABC#2)
-// RoomQueueSet = "_-RF" (String#23293, DoABC#2)
+// getQueueSize = "_-2ar" (String#20482, DoABC#2)
+// addQueue = "_-RF" (String#23293, DoABC#2)
 
 

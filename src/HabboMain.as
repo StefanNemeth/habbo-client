@@ -58,7 +58,7 @@ package
             }
             catch(error:Error) {
                 Habbo.trackLoginStep(Habbo._SafeStr_3407);
-                Core.Core(("Failed to initialize the core: " + error.message), Core._SafeStr_9854, error);
+                Core.crash(("Failed to initialize the core: " + error.message), Core._SafeStr_9854, error);
             };
         }
         public function unloading():void
@@ -81,40 +81,40 @@ package
         private function prepareCore():void
         {
             Habbo.trackLoginStep(Habbo._SafeStr_3406);
-            this._SafeStr_9663 = Core.Core(stage, Core._SafeStr_8923);
+            this._SafeStr_9663 = Core.instantiate(stage, Core._SafeStr_8923);
             this._SafeStr_9663.events.addEventListener(Component.COMPONENT_EVENT_ERROR, this.onCoreError);
-            this._SafeStr_9663.IContext(CoreCommunicationFrameworkLib);
-            this._SafeStr_9663.IContext(HabboRoomObjectLogicLib);
-            this._SafeStr_9663.IContext(HabboRoomObjectVisualizationLib);
-            this._SafeStr_9663.IContext(RoomManagerLib);
-            this._SafeStr_9663.IContext(RoomSpriteRendererLib);
-            this._SafeStr_9663.IContext(HabboRoomSessionManagerLib);
-            this._SafeStr_9663.IContext(HabboAvatarRenderLib);
-            this._SafeStr_9663.IContext(HabboSessionDataManagerLib);
-            this._SafeStr_9663.IContext(HabboTrackingLib);
-            this._SafeStr_9663.IContext(HabboConfigurationCom);
-            this._SafeStr_9663.IContext(HabboLocalizationCom);
-            this._SafeStr_9663.IContext(HabboWindowManagerCom);
-            this._SafeStr_9663.IContext(HabboCommunicationCom);
-            this._SafeStr_9663.IContext(HabboCommunicationDemoCom);
-            this._SafeStr_9663.IContext(HabboNavigatorCom);
-            this._SafeStr_9663.IContext(HabboFriendListCom);
-            this._SafeStr_9663.IContext(HabboMessengerCom);
-            this._SafeStr_9663.IContext(HabboInventoryCom);
-            this._SafeStr_9663.IContext(HabboToolbarCom);
-            this._SafeStr_9663.IContext(HabboCatalogCom);
-            this._SafeStr_9663.IContext(HabboRoomEngineCom);
-            this._SafeStr_9663.IContext(HabboRoomUICom);
-            this._SafeStr_9663.IContext(HabboAvatarEditorCom);
-            this._SafeStr_9663.IContext(HabboNotificationsCom);
-            this._SafeStr_9663.IContext(HabboHelpCom);
-            this._SafeStr_9663.IContext(HabboAdManagerCom);
-            this._SafeStr_9663.IContext(HabboModerationCom);
-            this._SafeStr_9663.IContext(HabboUserDefinedRoomEventsCom);
-            this._SafeStr_9663.IContext(HabboSoundManagerFlash10Com);
-            this._SafeStr_9663.IContext(HabboQuestEngineCom);
-            this._SafeStr_9663.IContext(HabboFriendBarCom);
-            this._SafeStr_9663.IContext(HabboGroupsCom);
+            this._SafeStr_9663.prepareComponent(CoreCommunicationFrameworkLib);
+            this._SafeStr_9663.prepareComponent(HabboRoomObjectLogicLib);
+            this._SafeStr_9663.prepareComponent(HabboRoomObjectVisualizationLib);
+            this._SafeStr_9663.prepareComponent(RoomManagerLib);
+            this._SafeStr_9663.prepareComponent(RoomSpriteRendererLib);
+            this._SafeStr_9663.prepareComponent(HabboRoomSessionManagerLib);
+            this._SafeStr_9663.prepareComponent(HabboAvatarRenderLib);
+            this._SafeStr_9663.prepareComponent(HabboSessionDataManagerLib);
+            this._SafeStr_9663.prepareComponent(HabboTrackingLib);
+            this._SafeStr_9663.prepareComponent(HabboConfigurationCom);
+            this._SafeStr_9663.prepareComponent(HabboLocalizationCom);
+            this._SafeStr_9663.prepareComponent(HabboWindowManagerCom);
+            this._SafeStr_9663.prepareComponent(HabboCommunicationCom);
+            this._SafeStr_9663.prepareComponent(HabboCommunicationDemoCom);
+            this._SafeStr_9663.prepareComponent(HabboNavigatorCom);
+            this._SafeStr_9663.prepareComponent(HabboFriendListCom);
+            this._SafeStr_9663.prepareComponent(HabboMessengerCom);
+            this._SafeStr_9663.prepareComponent(HabboInventoryCom);
+            this._SafeStr_9663.prepareComponent(HabboToolbarCom);
+            this._SafeStr_9663.prepareComponent(HabboCatalogCom);
+            this._SafeStr_9663.prepareComponent(HabboRoomEngineCom);
+            this._SafeStr_9663.prepareComponent(HabboRoomUICom);
+            this._SafeStr_9663.prepareComponent(HabboAvatarEditorCom);
+            this._SafeStr_9663.prepareComponent(HabboNotificationsCom);
+            this._SafeStr_9663.prepareComponent(HabboHelpCom);
+            this._SafeStr_9663.prepareComponent(HabboAdManagerCom);
+            this._SafeStr_9663.prepareComponent(HabboModerationCom);
+            this._SafeStr_9663.prepareComponent(HabboUserDefinedRoomEventsCom);
+            this._SafeStr_9663.prepareComponent(HabboSoundManagerFlash10Com);
+            this._SafeStr_9663.prepareComponent(HabboQuestEngineCom);
+            this._SafeStr_9663.prepareComponent(HabboFriendBarCom);
+            this._SafeStr_9663.prepareComponent(HabboGroupsCom);
             this._SafeStr_13789 = HabboTracking.getInstance();
             var _local_1:AssetLoaderStruct = this._SafeStr_9663.assets.loadAssetFromFile("config.xml", new URLRequest("config_habbo.xml"));
             if (_local_1.assetLoader.ready){
@@ -261,16 +261,16 @@ package
 // trackGoogle = "_-3Fx" (String#7630, DoABC#2)
 // elapsedTime = "_-3Cm" (String#21986, DoABC#2)
 // fileName = "_-1MC" (String#17367, DoABC#2)
-// Core = "_-1--" (String#16429, DoABC#2)
+// crash = "_-1--" (String#16429, DoABC#2)
 // _SafeStr_8923 = "_-3J" (String#22237, DoABC#2)
 // getNumberOfFilesPending = "_-2Yn" (String#6742, DoABC#2)
 // getNumberOfFilesLoaded = "_-2cq" (String#6808, DoABC#2)
 // readConfigDocument = "_-0ct" (String#4365, DoABC#2)
 // _SafeStr_8935 = "_-0DA" (String#14575, DoABC#2)
-// IContext = "_-hI" (String#8541, DoABC#2)
+// prepareComponent = "_-hI" (String#8541, DoABC#2)
 // AssetLoaderStruct = "_-0R2" (String#4112, DoABC#2)
 // _SafeStr_9663 = "_-2Gg" (String#6381, DoABC#2)
 // _SafeStr_9854 = "_-1Pp" (String#17502, DoABC#2)
-// Core = "_-Pb" (String#23231, DoABC#2)
+// instantiate = "_-Pb" (String#23231, DoABC#2)
 
 

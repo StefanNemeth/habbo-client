@@ -35,7 +35,7 @@ package com.sulake.habbo.navigator
             };
             if (_arg_2 != null){
                 _arg_2.offset((-(this._window.width) / 2), (-(this._window.height) / 2));
-                this._window.WindowController(_arg_2);
+                this._window.setGlobalPosition(_arg_2);
             };
             this._window.visible = true;
             this._window.activate();
@@ -44,14 +44,14 @@ package com.sulake.habbo.navigator
                 _local_4.text = _arg_1.roomName;
             };
             if (this._SafeStr_12002){
-                this.CurrencyIndicatorBase("info", "${navigator.doorbell.waiting}");
-                this.CurrencyIndicatorBase("cancel", "${navigator.doorbell.button.cancel.entering}");
-                this.InfoStandUserView("ring", false);
+                this.setText("info", "${navigator.doorbell.waiting}");
+                this.setText("cancel", "${navigator.doorbell.button.cancel.entering}");
+                this.showButton("ring", false);
             }
             else {
-                this.CurrencyIndicatorBase("info", "${navigator.doorbell.info}");
-                this.CurrencyIndicatorBase("cancel", "${generic.cancel}");
-                this.InfoStandUserView("ring", true);
+                this.setText("info", "${navigator.doorbell.info}");
+                this.setText("cancel", "${generic.cancel}");
+                this.showButton("ring", true);
             };
         }
         public function showWaiting():void
@@ -65,10 +65,10 @@ package com.sulake.habbo.navigator
             };
             this._window.visible = true;
             this._window.activate();
-            this.CurrencyIndicatorBase("info", "${navigator.doorbell.no.answer}");
-            this.InfoStandUserView("ring", false);
+            this.setText("info", "${navigator.doorbell.no.answer}");
+            this.showButton("ring", false);
         }
-        private function InfoStandUserView(_arg_1:String, _arg_2:Boolean):void
+        private function showButton(_arg_1:String, _arg_2:Boolean):void
         {
             var _local_3:IButtonWindow = (this._window.findChildByName(_arg_1) as IButtonWindow);
             if (_local_3 == null){
@@ -99,7 +99,7 @@ package com.sulake.habbo.navigator
                 _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.close);
             };
         }
-        private function CurrencyIndicatorBase(_arg_1:String, _arg_2:String):void
+        private function setText(_arg_1:String, _arg_2:String):void
         {
             if (this._window == null){
                 return;
@@ -152,8 +152,8 @@ package com.sulake.habbo.navigator
 // GuestRoomData = "_-06S" (String#3692, DoABC#2)
 // flatId = "_-3CK" (String#21973, DoABC#2)
 // goToRoom = "_-2Jw" (String#6438, DoABC#2)
-// CurrencyIndicatorBase = "_-1vu" (String#243, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
-// WindowController = "_-0OJ" (String#4052, DoABC#2)
+// setText = "_-1vu" (String#243, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
+// setGlobalPosition = "_-0OJ" (String#4052, DoABC#2)
 
 

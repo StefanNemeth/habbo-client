@@ -19,7 +19,7 @@ package com.sulake.habbo.friendbar.data
         private var _motto:String;
         private var _lastAccess:String;
         private var _realName:String;
-        private var _HabboSoundManagerFlash10:Vector.<FriendNotification>;
+        private var _notifications:Vector.<FriendNotification>;
         private var _logEventId:int = -1;
 
         public function FriendEntity(_arg_1:int, _arg_2:String, _arg_3:String, _arg_4:String, _arg_5:int, _arg_6:Boolean, _arg_7:Boolean, _arg_8:String, _arg_9:int, _arg_10:String)
@@ -81,10 +81,10 @@ package com.sulake.habbo.friendbar.data
         }
         public function get notifications():Vector.<FriendNotification>
         {
-            if (!this._HabboSoundManagerFlash10){
-                this._HabboSoundManagerFlash10 = new Vector.<FriendNotification>();
+            if (!this._notifications){
+                this._notifications = new Vector.<FriendNotification>();
             };
-            return (this._HabboSoundManagerFlash10);
+            return (this._notifications);
         }
         public function set name(_arg_1:String):void
         {
@@ -126,7 +126,7 @@ package com.sulake.habbo.friendbar.data
         {
             this._logEventId = _arg_1;
         }
-        public function IFriendEntity():int
+        public function getNextLogEventId():int
         {
             return (++_SafeStr_10923);
         }
@@ -139,9 +139,9 @@ package com.sulake.habbo.friendbar.data
 // allowFollow = "_-1Va" (String#5466, DoABC#2)
 // notifications = "_-1zJ" (String#1789, DoABC#2)
 // logEventId = "_-Vm" (String#8316, DoABC#2)
-// IFriendEntity = "_-0OK" (String#4053, DoABC#2)
+// getNextLogEventId = "_-0OK" (String#4053, DoABC#2)
 // _SafeStr_10923 = "_-0Ap" (String#14481, DoABC#2)
-// _HabboSoundManagerFlash10 = "_-ef" (String#940, DoABC#2)
+// _notifications = "_-ef" (String#940, DoABC#2)
 // _logEventId = "_-1zR" (String#18945, DoABC#2)
 // IFriendEntity = "_-2nQ" (String#7031, DoABC#2)
 // FriendEntity = "_-0R1" (String#15104, DoABC#2)

@@ -111,7 +111,7 @@ package com.sulake.habbo.room.object.visualization.pet
                 _local_3 = _local_2.getDirection().x;
                 if (_local_3 != this._SafeStr_4358){
                     this._SafeStr_4358 = _local_3;
-                    this.AnimatedFurnitureVisualization();
+                    this.resetAllAnimationFrames();
                 };
             };
             return (super.updateAnimation(_arg_1));
@@ -219,14 +219,14 @@ package com.sulake.habbo.room.object.visualization.pet
                 this.setAnimationForIndex(_SafeStr_4345, _local_3);
             };
         }
-        override protected function FurnitureVisualization(_arg_1:int):void
+        override protected function updateLayerCount(_arg_1:int):void
         {
-            super.FurnitureVisualization(_arg_1);
+            super.updateLayerCount(_arg_1);
             this._SafeStr_4357 = [];
         }
-        override protected function FurnitureVisualization():int
+        override protected function getAdditionalSpriteCount():int
         {
-            return ((super.FurnitureVisualization() + _SafeStr_4341));
+            return ((super.getAdditionalSpriteCount() + _SafeStr_4341));
         }
         override protected function setAnimation(_arg_1:int):void
         {
@@ -243,12 +243,12 @@ package com.sulake.habbo.room.object.visualization.pet
         {
             var _local_3:AnimationStateData = this.getAnimationStateData(_arg_1);
             if (_local_3 != null){
-                if (AnimatedFurnitureVisualization(_local_3, _arg_2)){
+                if (setSubAnimation(_local_3, _arg_2)){
                     this._animationOver = false;
                 };
             };
         }
-        override protected function AnimatedFurnitureVisualization():void
+        override protected function resetAllAnimationFrames():void
         {
             var _local_2:AnimationStateData;
             this._animationOver = false;
@@ -261,7 +261,7 @@ package com.sulake.habbo.room.object.visualization.pet
                 _local_1--;
             };
         }
-        override protected function AnimatedFurnitureVisualization(_arg_1:Number):int
+        override protected function updateAnimations(_arg_1:Number):int
         {
             var _local_5:AnimationStateData;
             var _local_6:int;
@@ -275,7 +275,7 @@ package com.sulake.habbo.room.object.visualization.pet
                 _local_5 = this._SafeStr_4355[_local_4];
                 if (_local_5 != null){
                     if (!_local_5.animationOver){
-                        _local_6 = AnimatedFurnitureVisualization(_local_5, _arg_1);
+                        _local_6 = updateFramesForAnimation(_local_5, _arg_1);
                         _local_3 = (_local_3 | _local_6);
                         if (!_local_5.animationOver){
                             _local_2 = false;
@@ -354,7 +354,7 @@ package com.sulake.habbo.room.object.visualization.pet
             };
             return (null);
         }
-        override protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Number
+        override protected function getSpriteZOffset(_arg_1:int, _arg_2:int, _arg_3:int):Number
         {
             if (this._animationData == null){
                 return (LayerData._SafeStr_4401);
@@ -367,7 +367,7 @@ package com.sulake.habbo.room.object.visualization.pet
             var _local_5:String;
             var _local_3:int = spriteCount;
             if (_arg_2 < (_local_3 - _SafeStr_4341)){
-                _local_4 = FurnitureVisualization(_arg_1);
+                _local_4 = getSize(_arg_1);
                 if (_arg_2 < (_local_3 - (1 + _SafeStr_4341))){
                     if (_arg_2 >= FurnitureVisualizationData._SafeStr_4405.length){
                         return (null);
@@ -442,7 +442,7 @@ package com.sulake.habbo.room.object.visualization.pet
 // getAnimationId = "_-1nQ" (String#1759, DoABC#2)
 // updateExperienceBubble = "_-00C" (String#14062, DoABC#2)
 // updateAnimation = "_-XZ" (String#166, DoABC#2)
-// AnimatedFurnitureVisualization = "_-2Jx" (String#6439, DoABC#2)
+// resetAllAnimationFrames = "_-2Jx" (String#6439, DoABC#2)
 // updateModel = "_-1CW" (String#441, DoABC#2)
 // getUpdateID = "_-Ga" (String#932, DoABC#2)
 // _SafeStr_4365 = "_-2rK" (String#21130, DoABC#2)
@@ -464,15 +464,15 @@ package com.sulake.habbo.room.object.visualization.pet
 // getAnimationForPosture = "_-1vg" (String#18783, DoABC#2)
 // setAnimationForIndex = "_-1qg" (String#18571, DoABC#2)
 // getAnimationForGesture = "_-R3" (String#23285, DoABC#2)
-// FurnitureVisualization = "_-2P8" (String#6547, DoABC#2)
-// FurnitureVisualization = "_-XK" (String#8355, DoABC#2)
+// updateLayerCount = "_-2P8" (String#6547, DoABC#2)
+// getAdditionalSpriteCount = "_-XK" (String#8355, DoABC#2)
 // setAnimation = "_-ON" (String#252, DoABC#2)
 // getAnimationStateData = "_-2CM" (String#19498, DoABC#2)
-// AnimatedFurnitureVisualization = "_-GK" (String#22866, DoABC#2)
+// setSubAnimation = "_-GK" (String#22866, DoABC#2)
 // setLayerCount = "_-Io" (String#22960, DoABC#2)
-// AnimatedFurnitureVisualization = "_-Pu" (String#8198, DoABC#2)
+// updateAnimations = "_-Pu" (String#8198, DoABC#2)
 // animationOver = "_-2-o" (String#19005, DoABC#2)
-// AnimatedFurnitureVisualization = "_-1jU" (String#18265, DoABC#2)
+// updateFramesForAnimation = "_-1jU" (String#18265, DoABC#2)
 // isTransitionToAnimation = "_-0bj" (String#15501, DoABC#2)
 // isTransitionFromAnimation = "_-1Mz" (String#17399, DoABC#2)
 // animationAfterTransitionId = "_-0jC" (String#15800, DoABC#2)
@@ -480,11 +480,11 @@ package com.sulake.habbo.room.object.visualization.pet
 // getFrame = "_-3Jk" (String#923, DoABC#2)
 // getSpriteXOffset = "_-03Y" (String#354, DoABC#2)
 // getSpriteYOffset = "_-3IZ" (String#251, DoABC#2)
-// FurnitureVisualization = "_-25C" (String#614, DoABC#2)
+// getSpriteZOffset = "_-25C" (String#614, DoABC#2)
 // _SafeStr_4401 = "_-1Tp" (String#17658, DoABC#2)
 // getZOffset = "_-1iZ" (String#18230, DoABC#2)
 // getSpriteAssetName = "_-0c-" (String#590, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 // _SafeStr_4405 = "_-0gZ" (String#15695, DoABC#2)
 // isHeadSprite = "_-UA" (String#23413, DoABC#2)
 // getDirectionValue = "_-0Fe" (String#14670, DoABC#2)

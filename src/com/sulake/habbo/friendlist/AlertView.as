@@ -58,7 +58,7 @@ package com.sulake.habbo.friendlist
         function setupContent(_arg_1:IWindowContainer):void
         {
         }
-        function PollOfferDialog(_arg_1:WindowEvent, _arg_2:IWindow):void
+        function onClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -69,7 +69,7 @@ package com.sulake.habbo.friendlist
         {
             var _local_1:IFrameWindow = IFrameWindow(this._friendList.getXmlWindow(this._SafeStr_11205));
             var _local_2:IWindow = _local_1.findChildByTag("close");
-            _local_2.procedure = this.PollOfferDialog;
+            _local_2.procedure = this.onClose;
             return (_local_1);
         }
         public function get disposed():Boolean
@@ -93,7 +93,7 @@ package com.sulake.habbo.friendlist
 // AlertView = "_-2G6" (String#883, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
-// PollOfferDialog = "_-2Ts" (String#54, DoABC#2)
+// onClose = "_-2Ts" (String#54, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
 

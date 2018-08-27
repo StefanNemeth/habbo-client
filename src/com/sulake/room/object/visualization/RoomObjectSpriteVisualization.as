@@ -56,7 +56,7 @@ package com.sulake.room.object.visualization
             };
             this._assetCollection = _arg_1;
             if (this._assetCollection != null){
-                this._assetCollection.ExtendedBitmapData();
+                this._assetCollection.addReference();
             };
         }
         public function get assetCollection():IGraphicAssetCollection
@@ -124,9 +124,9 @@ package com.sulake.room.object.visualization
         }
         public function get image():BitmapData
         {
-            return (this.TwinkleImages(0));
+            return (this.getImage(0));
         }
-        public function TwinkleImages(_arg_1:int):BitmapData
+        public function getImage(_arg_1:int):BitmapData
         {
             var _local_9:Number;
             var _local_10:Number;
@@ -267,13 +267,13 @@ package com.sulake.room.object.visualization
 // createSprites = "_-1Im" (String#17226, DoABC#2)
 // _SafeStr_4455 = "_-0tm" (String#16194, DoABC#2)
 // increaseUpdateId = "_-vd" (String#24514, DoABC#2)
-// TwinkleImages = "_-eg" (String#2150, DoABC#2)
+// getImage = "_-eg" (String#2150, DoABC#2)
 // boundingRectangle = "_-0m7" (String#4552, DoABC#2)
 // _SafeStr_5547 = "_-2iI" (String#1928, DoABC#2)
 // _sprites = "_-2vJ" (String#455, DoABC#2)
 // _object = "_-ZQ" (String#8406, DoABC#2)
 // _assetCollection = "_-2PR" (String#888, DoABC#2)
 // _instanceId = "_-1cJ" (String#854, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 
 

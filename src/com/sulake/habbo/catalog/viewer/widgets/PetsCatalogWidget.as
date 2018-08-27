@@ -63,7 +63,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 if (((_local_1) && (_local_1.avatarRenderManager))){
                     _local_1.avatarRenderManager.removePetImageListener(this);
                     if (_local_1.avatarRenderManager.petDataManager){
-                        _local_1.avatarRenderManager.petDataManager.PetDataManager(this);
+                        _local_1.avatarRenderManager.petDataManager.removeListener(this);
                     };
                 };
             };
@@ -104,7 +104,7 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (((((page) && (page.viewer))) && (page.viewer.catalog))){
                 _local_4 = (page.viewer.catalog as HabboCatalog);
                 if (((((_local_4) && (_local_4.avatarRenderManager))) && (_local_4.avatarRenderManager.petDataManager))){
-                    _local_5 = _local_4.avatarRenderManager.petDataManager.PetDataManager(this._SafeStr_10396, this);
+                    _local_5 = _local_4.avatarRenderManager.petDataManager.getPetData(this._SafeStr_10396, this);
                     if (_local_5){
                         this._SafeStr_10572 = _local_5.colors;
                         if (this._SafeStr_10572 == null){
@@ -311,9 +311,9 @@ package com.sulake.habbo.catalog.viewer.widgets
             if (_local_4 == null){
                 return;
             };
-            _local_4.IAvatarImage();
-            _local_4.IAvatarImage(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_9995);
-            _local_4.IAvatarImage();
+            _local_4.initActionAppends();
+            _local_4.appendAction(AvatarAction._SafeStr_4479, AvatarAction._SafeStr_9995);
+            _local_4.endActionAppends();
             _local_4.setDirection(AvatarSetType._SafeStr_4457, 2);
             this.setPreviewImage(_local_4.getCroppedImage(AvatarSetType._SafeStr_4457), true);
             _local_4.dispose();
@@ -483,10 +483,10 @@ package com.sulake.habbo.catalog.viewer.widgets
 // _SafeStr_4336 = "_-1wM" (String#18815, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // _SafeStr_4457 = "_-2mY" (String#20943, DoABC#2)
-// IAvatarImage = "_-2j7" (String#6936, DoABC#2)
-// IAvatarImage = "_-1hS" (String#5696, DoABC#2)
+// initActionAppends = "_-2j7" (String#6936, DoABC#2)
+// appendAction = "_-1hS" (String#5696, DoABC#2)
 // _SafeStr_4479 = "_-Dm" (String#22761, DoABC#2)
-// IAvatarImage = "_-1gH" (String#5667, DoABC#2)
+// endActionAppends = "_-1gH" (String#5667, DoABC#2)
 // petImageReady = "_-WW" (String#8332, DoABC#2)
 // productCode = "_-2co" (String#20558, DoABC#2)
 // localizationId = "_-0nF" (String#4575, DoABC#2)
@@ -496,12 +496,12 @@ package com.sulake.habbo.catalog.viewer.widgets
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // showPurchaseConfirmation = "_-2zh" (String#21447, DoABC#2)
 // rgb = "_-1zC" (String#1788, DoABC#2)
-// PetDataManager = "_-2Tw" (String#6646, DoABC#2)
+// getPetData = "_-2Tw" (String#6646, DoABC#2)
 // petDataManager = "_-0y0" (String#4809, DoABC#2)
 // petDataReady = "_-0Wh" (String#4242, DoABC#2)
 // createPetImage = "_-0Qk" (String#4105, DoABC#2)
 // setPreviewImage = "_-27B" (String#448, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
 // _SafeStr_9995 = "_-0xM" (String#16326, DoABC#2)
 
 

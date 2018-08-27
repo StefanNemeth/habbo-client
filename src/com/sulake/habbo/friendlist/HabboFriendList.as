@@ -116,7 +116,7 @@ package com.sulake.habbo.friendlist
         private var _friendRequests:FriendRequests;
         private var _searchResults:AvatarSearchResults;
         private var _toolbar:IHabboToolbar;
-        private var _HabboSoundManagerFlash10:IHabboNotifications;
+        private var _notifications:IHabboNotifications;
         private var _SafeStr_11313:Timer;
 
         public function HabboFriendList(_arg_1:IContext, _arg_2:uint=0, _arg_3:IAssetLibrary=null)
@@ -125,7 +125,7 @@ package com.sulake.habbo.friendlist
             super(_arg_1, _arg_2, _arg_3);
             this._categories = new FriendCategories(new FriendCategoriesDeps(this));
             this._searchResults = new AvatarSearchResults(new AvatarSearchDeps(this));
-            queueInterface(new IIDHabboCommunicationManager(), this.HabboUserDefinedRoomEvents);
+            queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
         }
         override public function dispose():void
         {
@@ -158,9 +158,9 @@ package com.sulake.habbo.friendlist
                 this._SafeStr_11072.release(new IIDAvatarRenderManager());
                 this._SafeStr_11072 = null;
             };
-            if (this._HabboSoundManagerFlash10){
-                this._HabboSoundManagerFlash10.release(new IIDHabboNotifications());
-                this._HabboSoundManagerFlash10 = null;
+            if (this._notifications){
+                this._notifications.release(new IIDHabboNotifications());
+                this._notifications = null;
             };
             if (this._toolbar){
                 this._toolbar.release(new IIDHabboToolbar());
@@ -174,7 +174,7 @@ package com.sulake.habbo.friendlist
         }
         public function send(_arg_1:IMessageComposer):void
         {
-            this._communication.HabboCommunicationManager(null).send(_arg_1);
+            this._communication.getHabboMainConnection(null).send(_arg_1);
         }
         public function openHabboWebPage(linkAlias:String, params:Dictionary, x:int, y:int):void
         {
@@ -254,10 +254,10 @@ package com.sulake.habbo.friendlist
                 this._view.close();
             };
         }
-        public function IssueBrowser():Boolean
+        public function isOpen():Boolean
         {
             if (this._view){
-                return (this._view.IssueBrowser());
+                return (this._view.isOpen());
             };
             return (false);
         }
@@ -315,7 +315,7 @@ package com.sulake.habbo.friendlist
         {
             return (this._configuration.getKey(_arg_1, _arg_1, _arg_2));
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             Logger.log(("Friend list: communication available " + [_arg_1, _arg_2]));
             this._communication = (_arg_2 as IHabboCommunicationManager);
@@ -348,19 +348,19 @@ package com.sulake.habbo.friendlist
         private function onToolbarReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             this._toolbar = (IHabboToolbar(_arg_2) as IHabboToolbar);
-            queueInterface(new IIDHabboNotifications(), this.HabboSoundManagerFlash10);
+            queueInterface(new IIDHabboNotifications(), this.onNotificationsReady);
         }
-        private function HabboSoundManagerFlash10(_arg_1:IID=null, _arg_2:IUnknown=null):void
+        private function onNotificationsReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
-            this._HabboSoundManagerFlash10 = (_arg_2 as IHabboNotifications);
+            this._notifications = (_arg_2 as IHabboNotifications);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
         }
         private function onWindowManagerReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
         {
             Logger.log(("Friend list: window manager " + [_arg_1, _arg_2]));
             this._windowManager = (_arg_2 as IHabboWindowManager);
-            this._communication.HabboCommunicationManager(new AuthenticationOKMessageEvent(this.onAuthOK));
-            this._communication.HabboCommunicationManager(new UserObjectEvent(this.onUserObject));
+            this._communication.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK));
+            this._communication.addHabboConnectionMessageEvent(new UserObjectEvent(this.onUserObject));
             queueInterface(new IIDSessionDataManager(), this.onSessionDataReady);
         }
         private function onSessionDataReady(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -369,7 +369,7 @@ package com.sulake.habbo.friendlist
         }
         private function onAuthOK(_arg_1:IMessageEvent):void
         {
-            this._communication.HabboCommunicationManager(new MessengerInitEvent(this.onMessengerInit));
+            this._communication.addHabboConnectionMessageEvent(new MessengerInitEvent(this.onMessengerInit));
             this.send(new MessengerInitMessageComposer());
         }
         private function onUserObject(_arg_1:IMessageEvent):void
@@ -433,15 +433,15 @@ package com.sulake.habbo.friendlist
         }
         private function registerListeners():void
         {
-            this._communication.HabboCommunicationManager(new FollowFriendFailedEvent(this.onFollowFriendFailed));
-            this._communication.HabboCommunicationManager(new FriendListUpdateEvent(this.onFriendListUpdate));
-            this._communication.HabboCommunicationManager(new BuddyRequestsEvent(this.onBuddyRequests));
-            this._communication.HabboCommunicationManager(new NewBuddyRequestEvent(this.onNewBuddyRequest));
-            this._communication.HabboCommunicationManager(new AcceptBuddyResultEvent(this.onAcceptBuddyResult));
-            this._communication.HabboCommunicationManager(new MessengerErrorEvent(this.onMessengerError));
-            this._communication.HabboCommunicationManager(new HabboSearchResultEvent(this.onHabboSearchResult));
-            this._communication.HabboCommunicationManager(new RoomInviteErrorEvent(this.onRoomInviteError));
-            this._communication.HabboCommunicationManager(new UserRightsMessageEvent(this.onUserRights));
+            this._communication.addHabboConnectionMessageEvent(new FollowFriendFailedEvent(this.onFollowFriendFailed));
+            this._communication.addHabboConnectionMessageEvent(new FriendListUpdateEvent(this.onFriendListUpdate));
+            this._communication.addHabboConnectionMessageEvent(new BuddyRequestsEvent(this.onBuddyRequests));
+            this._communication.addHabboConnectionMessageEvent(new NewBuddyRequestEvent(this.onNewBuddyRequest));
+            this._communication.addHabboConnectionMessageEvent(new AcceptBuddyResultEvent(this.onAcceptBuddyResult));
+            this._communication.addHabboConnectionMessageEvent(new MessengerErrorEvent(this.onMessengerError));
+            this._communication.addHabboConnectionMessageEvent(new HabboSearchResultEvent(this.onHabboSearchResult));
+            this._communication.addHabboConnectionMessageEvent(new RoomInviteErrorEvent(this.onRoomInviteError));
+            this._communication.addHabboConnectionMessageEvent(new UserRightsMessageEvent(this.onUserRights));
         }
         private function getBuddyRequests():void
         {
@@ -564,7 +564,7 @@ package com.sulake.habbo.friendlist
                 _local_6.visible = false;
             }
             else {
-                this.HabboUserDefinedRoomEvents(_local_6, _arg_2, _arg_4, _arg_5);
+                this.prepareButton(_local_6, _arg_2, _arg_4, _arg_5);
                 _local_6.visible = true;
             };
         }
@@ -580,7 +580,7 @@ package com.sulake.habbo.friendlist
                 _local_6.visible = true;
             };
         }
-        private function HabboUserDefinedRoomEvents(_arg_1:IWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
+        private function prepareButton(_arg_1:IWindow, _arg_2:String, _arg_3:Function, _arg_4:int):void
         {
             var _local_5:IBitmapWrapperWindow;
             _arg_1.id = _arg_4;
@@ -648,7 +648,7 @@ package com.sulake.habbo.friendlist
         }
         public function get notifications():IHabboNotifications
         {
-            return (this._HabboSoundManagerFlash10);
+            return (this._notifications);
         }
         public function get mainWindow():IWindowContainer
         {
@@ -657,12 +657,12 @@ package com.sulake.habbo.friendlist
             };
             return (this._view.mainWindow);
         }
-        public function HabboFriendList():Array
+        public function getFriendNames():Array
         {
             if (this._categories == null){
                 return ([]);
             };
-            return (this._categories.HabboFriendList());
+            return (this._categories.getFriendNames());
         }
         public function acceptFriendRequest(_arg_1:int):void
         {
@@ -776,7 +776,7 @@ package com.sulake.habbo.friendlist
 // openFriendRequests = "_-20l" (String#6059, DoABC#2)
 // onFriendListUpdate = "_-2UT" (String#1887, DoABC#2)
 // notifications = "_-1zJ" (String#1789, DoABC#2)
-// _HabboSoundManagerFlash10 = "_-ef" (String#940, DoABC#2)
+// _notifications = "_-ef" (String#940, DoABC#2)
 // _SafeStr_11072 = "_-2PE" (String#1873, DoABC#2)
 // clearAndUpdateView = "_-3Bm" (String#21952, DoABC#2)
 // acceptFailed = "_-1xS" (String#18867, DoABC#2)
@@ -816,13 +816,13 @@ package com.sulake.habbo.friendlist
 // _laf = "_-27i" (String#19319, DoABC#2)
 // _searchResults = "_-G3" (String#22855, DoABC#2)
 // _SafeStr_11313 = "_-2WC" (String#20291, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-1hF" (String#443, DoABC#2)
+// onCommunicationComponentInit = "_-1hF" (String#443, DoABC#2)
 // sendFriendListUpdate = "_-fu" (String#23886, DoABC#2)
 // getVariable = "_-0xX" (String#4801, DoABC#2)
 // openFriendListWithTab = "_-36V" (String#21747, DoABC#2)
 // onMessengerComponentInit = "_-2Xu" (String#20354, DoABC#2)
 // onAvatarRenderedReady = "_-NF" (String#8149, DoABC#2)
-// HabboSoundManagerFlash10 = "_-AF" (String#2065, DoABC#2)
+// onNotificationsReady = "_-AF" (String#2065, DoABC#2)
 // onAuthOK = "_-lL" (String#2177, DoABC#2)
 // onUserObject = "_-2A9" (String#617, DoABC#2)
 // onSessionDataReady = "_-0J8" (String#3937, DoABC#2)
@@ -838,7 +838,7 @@ package com.sulake.habbo.friendlist
 // onHabboSearchResult = "_-1vD" (String#18766, DoABC#2)
 // onRoomInviteError = "_-04D" (String#14211, DoABC#2)
 // getFollowFriendErrorText = "_-Fy" (String#22850, DoABC#2)
-// HabboUserDefinedRoomEvents = "_-08W" (String#807, DoABC#2)
+// prepareButton = "_-08W" (String#807, DoABC#2)
 // BitmapDataAsset = "_-0PB" (String#4074, DoABC#2)
 // AvatarScaleType = "_-2lF" (String#20893, DoABC#2)
 // HabboWebTools = "_-2pX" (String#21059, DoABC#2)
@@ -899,13 +899,13 @@ package com.sulake.habbo.friendlist
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // tabs = "_-2Gc" (String#19666, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // _SafeStr_4458 = "_-327" (String#21586, DoABC#2)
 // _avatarId = "_-0qk" (String#592, DoABC#2)
-// HabboCommunicationManager = "_-0r" (String#4663, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// addHabboConnectionMessageEvent = "_-0r" (String#4663, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // clientMessageId = "_-2xZ" (String#21376, DoABC#2)
 // reqs = "_-31c" (String#21563, DoABC#2)
 // failedRecipients = "_-X3" (String#23524, DoABC#2)
@@ -928,7 +928,7 @@ package com.sulake.habbo.friendlist
 // _SafeStr_6023 = "_-Mr" (String#23121, DoABC#2)
 // getButton = "_-1sK" (String#18645, DoABC#2)
 // _toolbar = "_-1LG" (String#93, DoABC#2)
-// HabboFriendList = "_-3BP" (String#7538, DoABC#2)
+// getFriendNames = "_-3BP" (String#7538, DoABC#2)
 // Component = "_-19A" (String#5060, DoABC#2)
 // IHabboMessenger = "_-0EF" (String#3832, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)

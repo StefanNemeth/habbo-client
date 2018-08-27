@@ -63,24 +63,24 @@ package com.sulake.habbo.avatar.wardrobe
             };
             this._view = new WardrobeView(this);
             this._isInitialized = true;
-            this.ProgressBar();
+            this.updateView();
         }
         public function get controller():HabboAvatarEditor
         {
             return (this._controller);
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             if (!this._isInitialized){
                 this.init();
             };
-            return (this._view.TradingModel());
+            return (this._view.getWindowContainer());
         }
-        public function ProgressBar():void
+        public function updateView():void
         {
             this._view.update();
         }
-        public function RecyclerCatalogWidget(_arg_1:int, _arg_2:Array):void
+        public function updateSlots(_arg_1:int, _arg_2:Array):void
         {
             var _local_3:WardrobeSlot;
             var _local_4:OutfitData;
@@ -109,7 +109,7 @@ package com.sulake.habbo.avatar.wardrobe
         }
         public function get slots():Array
         {
-            return (this._SafeStr_8532.Map());
+            return (this._SafeStr_8532.getValues());
         }
 
     }
@@ -127,14 +127,14 @@ package com.sulake.habbo.avatar.wardrobe
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
 // sessionData = "_-3Fb" (String#22101, DoABC#2)
 // addDebugData = "_-04r" (String#14235, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // ErrorReportStorage = "_-Yg" (String#8387, DoABC#2)
 // slots = "_-07U" (String#14344, DoABC#2)
 // _SafeStr_8532 = "_-2Oc" (String#19989, DoABC#2)
 // getWardrobe = "_-1jT" (String#18264, DoABC#2)
 // isSlotEnabled = "_-1DC" (String#16990, DoABC#2)
-// RecyclerCatalogWidget = "_-1Dr" (String#5140, DoABC#2)
+// updateSlots = "_-1Dr" (String#5140, DoABC#2)
 
 

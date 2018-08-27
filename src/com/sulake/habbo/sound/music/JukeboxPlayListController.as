@@ -32,7 +32,7 @@ package com.sulake.habbo.sound.music
         private var _soundManager:HabboSoundManagerFlash10;
         private var _nowPlayingSongId:int = -1;
         private var _SafeStr_7748:Array;
-        private var _WelcomeGiftWidgetHandler:Array;
+        private var _SafeStr_7204:Array;
         private var _playPosition:int = -1;
 
         public function JukeboxPlayListController(_arg_1:HabboSoundManagerFlash10, _arg_2:HabboMusicController, _arg_3:IEventDispatcher, _arg_4:IConnection)
@@ -45,11 +45,11 @@ package com.sulake.habbo.sound.music
             this._musicController = _arg_2;
             this._events = _arg_3;
             this._connection = _arg_4;
-            this._WelcomeGiftWidgetHandler = [];
-            this._WelcomeGiftWidgetHandler.push(new NowPlayingMessageEvent(this.JukeboxPlayListController));
-            this._WelcomeGiftWidgetHandler.push(new JukeboxSongDisksMessageEvent(this.JukeboxPlayListController));
-            this._WelcomeGiftWidgetHandler.push(new JukeboxPlayListFullMessageEvent(this.onJukeboxPlayListFullMessage));
-            for each (_local_5 in this._WelcomeGiftWidgetHandler) {
+            this._SafeStr_7204 = [];
+            this._SafeStr_7204.push(new NowPlayingMessageEvent(this.onNowPlayingMessage));
+            this._SafeStr_7204.push(new JukeboxSongDisksMessageEvent(this.onJukeboxSongDisksMessage));
+            this._SafeStr_7204.push(new JukeboxPlayListFullMessageEvent(this.onJukeboxPlayListFullMessage));
+            for each (_local_5 in this._SafeStr_7204) {
                 this._connection.addMessageEvent(_local_5);
             };
             this._events.addEventListener(SoundCompleteEvent.TRAX_SONG_COMPLETE, this.onSongFinishedPlayingEvent);
@@ -93,11 +93,11 @@ package com.sulake.habbo.sound.music
                 this._musicController = null;
                 this._soundManager = null;
                 if (this._connection){
-                    for each (_local_1 in this._WelcomeGiftWidgetHandler) {
-                        this._connection.SocketConnection(_local_1);
+                    for each (_local_1 in this._SafeStr_7204) {
+                        this._connection.removeMessageEvent(_local_1);
                         _local_1.dispose();
                     };
-                    this._WelcomeGiftWidgetHandler = null;
+                    this._SafeStr_7204 = null;
                     this._connection = null;
                 };
                 if (this._events){
@@ -114,14 +114,14 @@ package com.sulake.habbo.sound.music
             this._playPosition = -1;
             this._isPlaying = false;
         }
-        public function IPlayListController():void
+        public function requestPlayList():void
         {
             if (this._connection == null){
                 return;
             };
             this._connection.send(new GetJukeboxPlayListMessageComposer());
         }
-        public function IPlayListController(_arg_1:int):ISongInfo
+        public function getEntry(_arg_1:int):ISongInfo
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this._entries.length)))){
                 return (null);
@@ -131,7 +131,7 @@ package com.sulake.habbo.sound.music
         protected function onSongFinishedPlayingEvent(_arg_1:SoundCompleteEvent):void
         {
         }
-        private function JukeboxPlayListController(_arg_1:IMessageEvent):void
+        private function onNowPlayingMessage(_arg_1:IMessageEvent):void
         {
             var _local_2:NowPlayingMessageEvent = (_arg_1 as NowPlayingMessageEvent);
             var _local_3:NowPlayingMessageParser = (_local_2.getParser() as NowPlayingMessageParser);
@@ -150,7 +150,7 @@ package com.sulake.habbo.sound.music
             this._playPosition = _local_3.currentPosition;
             this._soundManager.events.dispatchEvent(new NowPlayingEvent(NowPlayingEvent.RWPLENPE_SONG_CHANGED, HabboMusicPrioritiesEnum._SafeStr_6658, _local_3.currentSongId, _local_3.currentPosition));
         }
-        private function JukeboxPlayListController(_arg_1:IMessageEvent):void
+        private function onJukeboxSongDisksMessage(_arg_1:IMessageEvent):void
         {
             var _local_5:int;
             var _local_6:int;
@@ -231,7 +231,7 @@ package com.sulake.habbo.sound.music
 // NowPlayingMessageParser = "_-2On" (String#6536, DoABC#2)
 // diskId = "_-0re" (String#4678, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
-// IPlayListController = "_-ig" (String#2166, DoABC#2)
+// getEntry = "_-ig" (String#2166, DoABC#2)
 // songDisks = "_-87" (String#22546, DoABC#2)
 // currentSongId = "_-A6" (String#22622, DoABC#2)
 // currentPosition = "_-2Ed" (String#19591, DoABC#2)
@@ -244,23 +244,23 @@ package com.sulake.habbo.sound.music
 // _SafeStr_6658 = "_-1VW" (String#17722, DoABC#2)
 // getSongInfo = "_-0Fc" (String#3864, DoABC#2)
 // playSong = "_-0VK" (String#4210, DoABC#2)
-// IPlayListController = "_-0Vy" (String#817, DoABC#2)
+// requestPlayList = "_-0Vy" (String#817, DoABC#2)
 // _musicController = "_-3Bw" (String#458, DoABC#2)
 // isPlaying = "_-2gK" (String#6876, DoABC#2)
 // playPosition = "_-3Ip" (String#7686, DoABC#2)
 // nowPlayingSongId = "_-2A0" (String#6248, DoABC#2)
 // SIR_TRAX_SONG_INFO_RECEIVED = "_-02" (String#14127, DoABC#2)
 // onSongInfoReceivedEvent = "_-1Di" (String#360, DoABC#2)
-// _WelcomeGiftWidgetHandler = "_-bQ" (String#938, DoABC#2)
-// SocketConnection = "_-0vh" (String#4760, DoABC#2)
+// _SafeStr_7204 = "_-bQ" (String#938, DoABC#2)
+// removeMessageEvent = "_-0vh" (String#4760, DoABC#2)
 // addSongInfoRequest = "_-1QR" (String#5359, DoABC#2)
 // requestSongInfoWithoutSamples = "_-3CP" (String#7560, DoABC#2)
 // _isPlaying = "_-21z" (String#1803, DoABC#2)
 // _nowPlayingSongId = "_-2Tg" (String#6639, DoABC#2)
 // _SafeStr_7748 = "_-36c" (String#21751, DoABC#2)
 // _playPosition = "_-2Ub" (String#20221, DoABC#2)
-// JukeboxPlayListController = "_-4P" (String#22393, DoABC#2)
-// JukeboxPlayListController = "_-1IF" (String#17203, DoABC#2)
+// onNowPlayingMessage = "_-4P" (String#22393, DoABC#2)
+// onJukeboxSongDisksMessage = "_-1IF" (String#17203, DoABC#2)
 // stopPlaying = "_-1Tb" (String#17648, DoABC#2)
 
 

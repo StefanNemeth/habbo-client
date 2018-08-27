@@ -29,7 +29,7 @@ package com.sulake.habbo.session
         }
         public function registerMessageEvents():void
         {
-            var _local_1:IConnection = this._session.communication.HabboCommunicationManager(null);
+            var _local_1:IConnection = this._session.communication.getHabboMainConnection(null);
             if (_local_1 == null){
                 return;
             };
@@ -77,12 +77,12 @@ package com.sulake.habbo.session
                 this._ignoredUsers.splice(_local_2, 1);
             };
         }
-        public function SessionDataManager(_arg_1:String):void
+        public function ignoreUser(_arg_1:String):void
         {
             this._SafeStr_13640.push(_arg_1);
             this._session.send(new IgnoreUserMessageComposer(_arg_1));
         }
-        public function SessionDataManager(_arg_1:String):void
+        public function unignoreUser(_arg_1:String):void
         {
             this._SafeStr_13640.push(_arg_1);
             this._session.send(new UnignoreUserMessageComposer(_arg_1));
@@ -109,11 +109,11 @@ package com.sulake.habbo.session
 // IgnoredUsersMessageEvent = "_-Ca" (String#7928, DoABC#2)
 // IgnoreResultMessageEvent = "_-2UA" (String#6651, DoABC#2)
 // communication = "_-3HD" (String#22171, DoABC#2)
-// HabboCommunicationManager = "_-0AQ" (String#809, DoABC#2)
+// getHabboMainConnection = "_-0AQ" (String#809, DoABC#2)
 // _session = "_-32Q" (String#627, DoABC#2)
 // ignoredUsers = "_-2n0" (String#20962, DoABC#2)
 // isIgnored = "_-0NV" (String#4031, DoABC#2)
-// SessionDataManager = "_-2nM" (String#7029, DoABC#2)
-// SessionDataManager = "_-2jq" (String#6950, DoABC#2)
+// ignoreUser = "_-2nM" (String#7029, DoABC#2)
+// unignoreUser = "_-2jq" (String#6950, DoABC#2)
 
 

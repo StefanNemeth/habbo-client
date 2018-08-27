@@ -96,13 +96,13 @@ package com.sulake.habbo.communication.messages.incoming.quest
             var _local_2:int = (_local_1.getTime() - this._receiveTime.getTime());
             return (Math.max(0, (this._waitPeriodSeconds - Math.floor((_local_2 / 1000)))));
         }
-        public function QuestMessageData():String
+        public function getCampaignLocalizationKey():String
         {
             return (("quests." + this._campaignCode));
         }
-        public function QuestMessageData():String
+        public function getQuestLocalizationKey():String
         {
-            return (((this.QuestMessageData() + ".") + this._localizationCode));
+            return (((this.getCampaignLocalizationKey() + ".") + this._localizationCode));
         }
         public function get completedCampaign():Boolean
         {
@@ -159,8 +159,8 @@ package com.sulake.habbo.communication.messages.incoming.quest
 // completedSteps = "_-fZ" (String#23868, DoABC#2)
 // totalSteps = "_-1aT" (String#17912, DoABC#2)
 // waitPeriodSeconds = "_-376" (String#21771, DoABC#2)
-// QuestMessageData = "_-02z" (String#14161, DoABC#2)
-// QuestMessageData = "_-D-" (String#22728, DoABC#2)
+// getCampaignLocalizationKey = "_-02z" (String#14161, DoABC#2)
+// getQuestLocalizationKey = "_-D-" (String#22728, DoABC#2)
 // completedCampaign = "_-35O" (String#21710, DoABC#2)
 // lastQuestInCampaign = "_-2Xd" (String#20345, DoABC#2)
 // receiveTime = "_-0XC" (String#15322, DoABC#2)

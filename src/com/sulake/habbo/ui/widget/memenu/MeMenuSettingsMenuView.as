@@ -41,7 +41,7 @@ package com.sulake.habbo.ui.widget.memenu
                 throw (new Error("Failed to construct settings window from XML!"));
             };
             this._window.name = _arg_1;
-            this._window.procedure = this.ClubEndingNotification;
+            this._window.procedure = this.eventHandler;
             if (((!(ExternalInterface.available)) || (!((this._widget.config.getKey("has.identity") == "1"))))){
                 this._window.findChildByName("character_settings").disable();
             }
@@ -49,7 +49,7 @@ package com.sulake.habbo.ui.widget.memenu
                 this._window.findChildByName("identity_text").visible = false;
             };
         }
-        private function ClubEndingNotification(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function eventHandler(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (_arg_1.type != WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 return;
@@ -60,10 +60,10 @@ package com.sulake.habbo.ui.widget.memenu
                     this._widget.hide();
                     return;
                 case "sound_settings":
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3862);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3862);
                     return;
                 case "back":
-                    this._widget.MeMenuWidget(MeMenuWidget._SafeStr_3858);
+                    this._widget.changeView(MeMenuWidget._SafeStr_3858);
                     return;
             };
         }
@@ -77,7 +77,7 @@ package com.sulake.habbo.ui.widget.memenu
 // MeMenuSettingsMenuView = "_-2G5" (String#6367, DoABC#2)
 // _SafeStr_3858 = "_-1Lr" (String#17351, DoABC#2)
 // _SafeStr_3862 = "_-0X-" (String#15314, DoABC#2)
-// MeMenuWidget = "_-0hX" (String#15729, DoABC#2)
-// ClubEndingNotification = "_-34P" (String#217, DoABC#2)
+// changeView = "_-0hX" (String#15729, DoABC#2)
+// eventHandler = "_-34P" (String#217, DoABC#2)
 
 

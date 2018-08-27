@@ -30,17 +30,17 @@ package com.sulake.habbo.ui.widget.playlisteditor
             super();
             this._container = _arg_2;
             this._widget = _arg_1;
-            this.MusicInventoryStatusView();
+            this.createWindows();
         }
         public function destroy():void
         {
             var _local_1:IWindowContainer;
-            for each (_local_1 in this._SafeStr_6738.Map()) {
+            for each (_local_1 in this._SafeStr_6738.getValues()) {
                 _local_1.destroy();
             };
             this._SafeStr_6738 = null;
         }
-        public function InfostandWidget(_arg_1:String):void
+        public function selectView(_arg_1:String):void
         {
             this._container.removeChildAt(0);
             this._container.addChildAt((this._SafeStr_6738[_arg_1] as IWindowContainer), 0);
@@ -85,7 +85,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             _local_3.width = _arg_1.width;
             _local_3.height = _arg_1.height;
         }
-        private function MusicInventoryStatusView():void
+        private function createWindows():void
         {
             var _local_1:IWindowContainer;
             var _local_2:XmlAsset;
@@ -101,20 +101,20 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (_local_1 != null){
                 this._SafeStr_6738.add(PLSV_START_PLAYBACK, _local_1);
                 _local_3 = (_local_1.getChildByName("play_now_button") as IButtonWindow);
-                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PlayListStatusView);
+                _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onPlayPauseClicked);
             };
             _local_2 = (this._widget.assets.getAssetByName("playlisteditor_playlist_subwindow_nowplaying") as XmlAsset);
             _local_1 = (this._widget.windowManager.buildFromXML((_local_2.content as XML)) as IWindowContainer);
             if (_local_1 != null){
                 this._SafeStr_6738.add(PLSV_NOW_PLAYING, _local_1);
                 _local_4 = (_local_1.getChildByName("button_pause") as IContainerButtonWindow);
-                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.PlayListStatusView);
-                this.PlayListStatusView("icon_pause_large", (_local_4.getChildByName("pause_image") as IBitmapWrapperWindow));
-                this.PlayListStatusView("jb_icon_disc", (_local_1.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
-                this.PlayListStatusView("jb_icon_composer", (_local_1.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
+                _local_4.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onPlayPauseClicked);
+                this.assignAssetToElement("icon_pause_large", (_local_4.getChildByName("pause_image") as IBitmapWrapperWindow));
+                this.assignAssetToElement("jb_icon_disc", (_local_1.getChildByName("song_name_icon_bitmap") as IBitmapWrapperWindow));
+                this.assignAssetToElement("jb_icon_composer", (_local_1.getChildByName("author_name_icon_bitmap") as IBitmapWrapperWindow));
             };
         }
-        private function PlayListStatusView(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
+        private function assignAssetToElement(_arg_1:String, _arg_2:IBitmapWrapperWindow):void
         {
             var _local_4:BitmapData;
             var _local_3:BitmapDataAsset = (this._widget.assets.getAssetByName(_arg_1) as BitmapDataAsset);
@@ -125,7 +125,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 };
             };
         }
-        private function PlayListStatusView(_arg_1:WindowMouseEvent):void
+        private function onPlayPauseClicked(_arg_1:WindowMouseEvent):void
         {
             this._widget.sendTogglePlayPauseStateMessage();
         }
@@ -138,19 +138,19 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListEditorWidget = "_-1O-" (String#5310, DoABC#2)
 // PlayListStatusView = "_-1Nn" (String#5307, DoABC#2)
 // _SafeStr_3864 = "_-2-T" (String#446, DoABC#2)
-// Map = "_-2U9" (String#20205, DoABC#2)
+// getValues = "_-2U9" (String#20205, DoABC#2)
 // destroy = "_-25R" (String#615, DoABC#2)
 // sendTogglePlayPauseStateMessage = "_-0Z4" (String#15406, DoABC#2)
 // addSongsBackgroundImage = "_-2Md" (String#19913, DoABC#2)
-// InfostandWidget = "_-1-8" (String#1597, DoABC#2)
+// selectView = "_-1-8" (String#1597, DoABC#2)
 // PLSV_NOW_PLAYING = "_-2v5" (String#21282, DoABC#2)
 // PLSV_START_PLAYBACK = "_-6p" (String#22492, DoABC#2)
 // PLSV_ADD_SONGS = "_-0kO" (String#15845, DoABC#2)
 // nowPlayingTrackName = "_-2VF" (String#6669, DoABC#2)
 // nowPlayingAuthorName = "_-2zC" (String#7269, DoABC#2)
 // _SafeStr_6738 = "_-ge" (String#8526, DoABC#2)
-// MusicInventoryStatusView = "_-1Lv" (String#5276, DoABC#2)
-// PlayListStatusView = "_-0Bm" (String#14519, DoABC#2)
-// PlayListStatusView = "_-0iz" (String#15790, DoABC#2)
+// createWindows = "_-1Lv" (String#5276, DoABC#2)
+// onPlayPauseClicked = "_-0Bm" (String#14519, DoABC#2)
+// assignAssetToElement = "_-0iz" (String#15790, DoABC#2)
 
 

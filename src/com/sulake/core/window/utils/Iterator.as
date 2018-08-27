@@ -77,11 +77,11 @@ package com.sulake.core.window.utils
         {
             switch (this._type){
                 case Iterator._SafeStr_9767:
-                    return (ITabContextWindow(this._SafeStr_9768).TabContextController(_arg_1));
+                    return (ITabContextWindow(this._SafeStr_9768).getTabItemIndex(_arg_1));
                 case Iterator._SafeStr_9764:
-                    return (ISelectorWindow(this._SafeStr_9768).ISelectorWindow(_arg_1));
+                    return (ISelectorWindow(this._SafeStr_9768).getSelectableIndex(_arg_1));
                 case Iterator._SafeStr_9765:
-                    return (IItemListWindow(this._SafeStr_9768).IItemListWindow(_arg_1));
+                    return (IItemListWindow(this._SafeStr_9768).getListItemIndex(_arg_1));
                 case Iterator._SafeStr_9766:
                     return (IItemGridWindow(this._SafeStr_9768).getGridItemIndex(_arg_1));
                 case Iterator._SafeStr_9763:
@@ -93,13 +93,13 @@ package com.sulake.core.window.utils
         {
             switch (this._type){
                 case Iterator._SafeStr_9767:
-                    return (ITabContextWindow(this._SafeStr_9768).TabContextController(uint(_arg_1)));
+                    return (ITabContextWindow(this._SafeStr_9768).getTabItemAt(uint(_arg_1)));
                 case Iterator._SafeStr_9764:
                     return (this._SafeStr_9768.getChildAt(uint(_arg_1)));
                 case Iterator._SafeStr_9765:
                     return (IItemListWindow(this._SafeStr_9768).getListItemAt(uint(_arg_1)));
                 case Iterator._SafeStr_9766:
-                    return (IItemGridWindow(this._SafeStr_9768).IItemGridWindow(uint(_arg_1)));
+                    return (IItemGridWindow(this._SafeStr_9768).getGridItemAt(uint(_arg_1)));
                 case Iterator._SafeStr_9763:
                     return (IWindowContainer(this._SafeStr_9768).getChildAt(uint(_arg_1)));
             };
@@ -121,19 +121,19 @@ package com.sulake.core.window.utils
                 case Iterator._SafeStr_9767:
                     _local_3 = (_arg_2 as ITabButtonWindow);
                     _local_4 = (this._SafeStr_9768 as ITabContextWindow);
-                    if (_local_4.TabContextController(_local_3) > -1){
-                        _local_4.TabContextController(_local_3);
+                    if (_local_4.getTabItemIndex(_local_3) > -1){
+                        _local_4.removeTabItem(_local_3);
                     };
-                    _local_4.TabContextController(_local_3, uint(_arg_1));
+                    _local_4.addTabItemAt(_local_3, uint(_arg_1));
                     return;
                 case Iterator._SafeStr_9764:
                     _local_5 = (_arg_2 as ISelectableWindow);
                     _local_6 = (this._SafeStr_9768 as ISelectorWindow);
                     if (_local_5){
-                        if (_local_6.ISelectorWindow(_local_5) > -1){
-                            _local_6.ISelectorWindow(_local_5);
+                        if (_local_6.getSelectableIndex(_local_5) > -1){
+                            _local_6.removeSelectable(_local_5);
                         };
-                        _local_6.ISelectorWindow(_local_5, uint(_arg_1));
+                        _local_6.addSelectableAt(_local_5, uint(_arg_1));
                     }
                     else {
                         this._SafeStr_9768.addChildAt(_arg_2, uint(_arg_1));
@@ -142,18 +142,18 @@ package com.sulake.core.window.utils
                 case Iterator._SafeStr_9765:
                     _local_7 = (this._SafeStr_9768 as IItemListWindow);
                     _local_8 = (_arg_2 as IWindow);
-                    if (_local_7.IItemListWindow(_local_8) > -1){
+                    if (_local_7.getListItemIndex(_local_8) > -1){
                         _local_7.removeListItem(_local_8);
                     };
-                    _local_7.IItemListWindow(_local_8, uint(_arg_1));
+                    _local_7.addListItemAt(_local_8, uint(_arg_1));
                     return;
                 case Iterator._SafeStr_9766:
                     _local_9 = (this._SafeStr_9768 as IItemGridWindow);
                     _local_10 = (_arg_2 as IWindow);
                     if (_local_9.getGridItemIndex(_local_10) > -1){
-                        _local_9.IItemGridWindow(_local_10);
+                        _local_9.removeGridItem(_local_10);
                     };
-                    _local_9.IItemGridWindow(_local_10, uint(_arg_1));
+                    _local_9.addGridItemAt(_local_10, uint(_arg_1));
                     return;
                 case Iterator._SafeStr_9763:
                     _local_11 = (this._SafeStr_9768 as IWindowContainer);
@@ -194,13 +194,13 @@ package com.sulake.core.window.utils
         {
             switch (this._type){
                 case Iterator._SafeStr_9767:
-                    return (ITabContextWindow(this._SafeStr_9768).TabContextController((uint(_arg_1) - 1)));
+                    return (ITabContextWindow(this._SafeStr_9768).getTabItemAt((uint(_arg_1) - 1)));
                 case Iterator._SafeStr_9764:
-                    return (ISelectorWindow(this._SafeStr_9768).ISelectorWindow((uint(_arg_1) - 1)));
+                    return (ISelectorWindow(this._SafeStr_9768).getSelectableAt((uint(_arg_1) - 1)));
                 case Iterator._SafeStr_9765:
                     return (IItemListWindow(this._SafeStr_9768).getListItemAt((uint(_arg_1) - 1)));
                 case Iterator._SafeStr_9766:
-                    return (IItemGridWindow(this._SafeStr_9768).IItemGridWindow((uint(_arg_1) - 1)));
+                    return (IItemGridWindow(this._SafeStr_9768).getGridItemAt((uint(_arg_1) - 1)));
                 case Iterator._SafeStr_9763:
                     return (IWindowContainer(this._SafeStr_9768).getChildAt((uint(_arg_1) - 1)));
             };
@@ -217,21 +217,21 @@ package com.sulake.core.window.utils
 // ITabContextWindow = "_-0L6" (String#1455, DoABC#2)
 // IIterator = "_-6K" (String#7788, DoABC#2)
 // Iterator = "_-G2" (String#7994, DoABC#2)
-// IItemListWindow = "_-2CT" (String#6293, DoABC#2)
-// IItemListWindow = "_-6Q" (String#7792, DoABC#2)
-// IItemGridWindow = "_-B9" (String#7890, DoABC#2)
-// IItemGridWindow = "_-1Xz" (String#5519, DoABC#2)
-// IItemGridWindow = "_-3CS" (String#7563, DoABC#2)
+// addListItemAt = "_-2CT" (String#6293, DoABC#2)
+// getListItemIndex = "_-6Q" (String#7792, DoABC#2)
+// getGridItemAt = "_-B9" (String#7890, DoABC#2)
+// addGridItemAt = "_-1Xz" (String#5519, DoABC#2)
+// removeGridItem = "_-3CS" (String#7563, DoABC#2)
 // numSelectables = "_-1pQ" (String#5845, DoABC#2)
-// ISelectorWindow = "_-0Vv" (String#4227, DoABC#2)
-// ISelectorWindow = "_-2Vc" (String#6675, DoABC#2)
-// ISelectorWindow = "_-2bS" (String#6782, DoABC#2)
-// ISelectorWindow = "_-i9" (String#8555, DoABC#2)
+// addSelectableAt = "_-0Vv" (String#4227, DoABC#2)
+// getSelectableAt = "_-2Vc" (String#6675, DoABC#2)
+// getSelectableIndex = "_-2bS" (String#6782, DoABC#2)
+// removeSelectable = "_-i9" (String#8555, DoABC#2)
 // numTabItems = "_-2Dt" (String#6317, DoABC#2)
-// TabContextController = "_-I4" (String#8041, DoABC#2)
-// TabContextController = "_-9k" (String#7858, DoABC#2)
-// TabContextController = "_-0XL" (String#4256, DoABC#2)
-// TabContextController = "_-2kP" (String#6964, DoABC#2)
+// addTabItemAt = "_-I4" (String#8041, DoABC#2)
+// removeTabItem = "_-9k" (String#7858, DoABC#2)
+// getTabItemAt = "_-0XL" (String#4256, DoABC#2)
+// getTabItemIndex = "_-2kP" (String#6964, DoABC#2)
 // _SafeStr_9762 = "_-2GO" (String#19657, DoABC#2)
 // _SafeStr_9763 = "_-3Co" (String#21987, DoABC#2)
 // _SafeStr_9764 = "_-1UH" (String#17678, DoABC#2)

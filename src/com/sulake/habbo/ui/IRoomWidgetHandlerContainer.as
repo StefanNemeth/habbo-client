@@ -51,13 +51,13 @@ package com.sulake.habbo.ui
         function get windowManager():IHabboWindowManager;
         function get userDefinedRoomEvents():IHabboUserDefinedRoomEvents;
         function get connection():IConnection;
-        function IRoomWidgetHandlerContainer(_arg_1:uint, _arg_2:int):void;
-        function IRoomWidgetHandlerContainer():int;
-        function IRoomWidgetHandlerContainer():Rectangle;
-        function IRoomWidgetHandlerContainer():void;
+        function setRoomViewColor(_arg_1:uint, _arg_2:int):void;
+        function getFirstCanvasId():int;
+        function getRoomViewRect():Rectangle;
+        function setInterstitialCompleted():void;
         function processWidgetMessage(_arg_1:RoomWidgetMessage):RoomWidgetUpdateEvent;
-        function IRoomWidgetHandlerContainer(_arg_1:IRoomWidgetHandler):void;
-        function IRoomWidgetHandlerContainer(_arg_1:IRoomWidgetHandler):void;
+        function addUpdateListener(_arg_1:IRoomWidgetHandler):void;
+        function removeUpdateListener(_arg_1:IRoomWidgetHandler):void;
 
     }
 }//package com.sulake.habbo.ui
@@ -66,9 +66,9 @@ package com.sulake.habbo.ui
 // IHabboAvatarEditor = "_-N2" (String#8144, DoABC#2)
 // IRoomSession = "_-2e4" (String#6835, DoABC#2)
 // roomWidgetFactory = "_-1y0" (String#5994, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-1-s" (String#4865, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-0Vt" (String#4226, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-8Y" (String#7833, DoABC#2)
+// setRoomViewColor = "_-1-s" (String#4865, DoABC#2)
+// addUpdateListener = "_-0Vt" (String#4226, DoABC#2)
+// removeUpdateListener = "_-8Y" (String#7833, DoABC#2)
 // IHabboCatalog = "_-1fJ" (String#5651, DoABC#2)
 // RoomWidgetMessage = "_-04U" (String#3654, DoABC#2)
 // RoomWidgetUpdateEvent = "_-0ZP" (String#4289, DoABC#2)
@@ -83,13 +83,13 @@ package com.sulake.habbo.ui
 // avatarEditor = "_-1mJ" (String#5786, DoABC#2)
 // IHabboUserDefinedRoomEvents = "_-2Ae" (String#6258, DoABC#2)
 // moderation = "_-Id" (String#8055, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-iH" (String#8561, DoABC#2)
+// getFirstCanvasId = "_-iH" (String#8561, DoABC#2)
 // habboHelp = "_-015" (String#3584, DoABC#2)
 // habboTracking = "_-1ZQ" (String#5552, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-0lq" (String#4543, DoABC#2)
+// setInterstitialCompleted = "_-0lq" (String#4543, DoABC#2)
 // roomSessionManager = "_-1bj" (String#5594, DoABC#2)
 // userDefinedRoomEvents = "_-2pN" (String#7068, DoABC#2)
-// IRoomWidgetHandlerContainer = "_-1ZD" (String#5545, DoABC#2)
+// getRoomViewRect = "_-1ZD" (String#5545, DoABC#2)
 // IHabboHelp = "_-2o3" (String#7041, DoABC#2)
 // IHabboToolbar = "_-0Wr" (String#4245, DoABC#2)
 // IHabboFriendList = "_-29N" (String#6237, DoABC#2)

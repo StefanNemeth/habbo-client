@@ -63,15 +63,15 @@ package com.sulake.habbo.moderation
             this._connection.addMessageEvent(new ModeratorInitMessageEvent(this.onModeratorInit));
             this._connection.addMessageEvent(new IssuePickFailedMessageEvent(this.onIssuePickFailed));
             this._connection.addMessageEvent(new IssueDeletedMessageEvent(this.onIssueDeleted));
-            this._connection.addMessageEvent(new ModeratorUserInfoEvent(this.InfostandWidget));
-            this._connection.addMessageEvent(new ModeratorRoomInfoEvent(this.IncomingMessages));
+            this._connection.addMessageEvent(new ModeratorUserInfoEvent(this.onUserInfo));
+            this._connection.addMessageEvent(new ModeratorRoomInfoEvent(this.onRoomInfo));
             this._connection.addMessageEvent(new CfhChatlogEvent(this.onCfhChatlog));
             this._connection.addMessageEvent(new UserChatlogEvent(this.onUserChatlog));
             this._connection.addMessageEvent(new RoomChatlogEvent(this.onRoomChatlog));
-            this._connection.addMessageEvent(new RoomVisitsEvent(this.RoomVisitsCtrl));
+            this._connection.addMessageEvent(new RoomVisitsEvent(this.onRoomVisits));
             this._connection.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter));
-            this._connection.addMessageEvent(new PublicSpaceCastLibsEvent(this.IncomingMessages));
-            this._connection.addMessageEvent(new CloseConnectionMessageEvent(this.HabboGroupInfoManager));
+            this._connection.addMessageEvent(new PublicSpaceCastLibsEvent(this.onPublicSpaceCastLibs));
+            this._connection.addMessageEvent(new CloseConnectionMessageEvent(this.onRoomExit));
             this._connection.addMessageEvent(new ModeratorActionResultMessageEvent(this.onModeratorActionResult));
         }
         private function onIssueInfo(_arg_1:IssueInfoMessageEvent):void
@@ -144,21 +144,21 @@ package com.sulake.habbo.moderation
             };
             this._SafeStr_11757.issueManager.removeIssue(_local_2.issueId);
         }
-        private function InfostandWidget(_arg_1:ModeratorUserInfoEvent):void
+        private function onUserInfo(_arg_1:ModeratorUserInfoEvent):void
         {
             var _local_3:UserInfoCtrl;
             var _local_2:ModeratorUserInfoMessageParser = _arg_1.getParser();
             Logger.log(((("GOT USER INFO: " + _local_2.data.userId) + ", ") + _local_2.data.cautionCount));
             for each (_local_3 in this._SafeStr_11758) {
-                _local_3.InfostandWidget(_local_2.data);
+                _local_3.onUserInfo(_local_2.data);
             };
         }
-        private function IncomingMessages(_arg_1:ModeratorRoomInfoEvent):void
+        private function onRoomInfo(_arg_1:ModeratorRoomInfoEvent):void
         {
             var _local_3:RoomToolCtrl;
             var _local_2:ModeratorRoomInfoMessageParser = _arg_1.getParser();
             for each (_local_3 in this._SafeStr_11761) {
-                _local_3.IncomingMessages(_local_2.data);
+                _local_3.onRoomInfo(_local_2.data);
             };
         }
         private function onCfhChatlog(_arg_1:CfhChatlogEvent):void
@@ -169,7 +169,7 @@ package com.sulake.habbo.moderation
             var _local_4:Dictionary = new Dictionary();
             _local_4[_local_2.data.callerUserId] = "yes";
             _local_4[_local_2.data.reportedUserId] = "yes";
-            this.ChatlogCtrl(("Call For Help Chatlog: " + _local_2.data.chatRecordId), WindowTracker._SafeStr_11779, _local_2.data.callId, _local_3, _local_4);
+            this.onChatlog(("Call For Help Chatlog: " + _local_2.data.chatRecordId), WindowTracker._SafeStr_11779, _local_2.data.callId, _local_3, _local_4);
         }
         private function onRoomChatlog(_arg_1:RoomChatlogEvent):void
         {
@@ -177,30 +177,30 @@ package com.sulake.habbo.moderation
             var _local_3:Array = new Array();
             _local_3.push(_local_2.data);
             var _local_4:Dictionary = new Dictionary();
-            this.ChatlogCtrl(("Room Chatlog: " + _local_2.data.roomName), WindowTracker._SafeStr_11755, _local_2.data.roomId, _local_3, _local_4);
+            this.onChatlog(("Room Chatlog: " + _local_2.data.roomName), WindowTracker._SafeStr_11755, _local_2.data.roomId, _local_3, _local_4);
         }
         private function onUserChatlog(_arg_1:UserChatlogEvent):void
         {
             var _local_2:UserChatlogMessageParser = _arg_1.getParser();
             var _local_3:Dictionary = new Dictionary();
             _local_3[_local_2.data.userId] = "yes";
-            this.ChatlogCtrl(("User Chatlog: " + _local_2.data.userName), WindowTracker._SafeStr_11780, _local_2.data.userId, _local_2.data.rooms, _local_3);
+            this.onChatlog(("User Chatlog: " + _local_2.data.userName), WindowTracker._SafeStr_11780, _local_2.data.userId, _local_2.data.rooms, _local_3);
         }
-        private function ChatlogCtrl(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:Array, _arg_5:Dictionary):void
+        private function onChatlog(_arg_1:String, _arg_2:int, _arg_3:int, _arg_4:Array, _arg_5:Dictionary):void
         {
             var _local_6:ChatlogCtrl;
             var _local_7:Array = this._SafeStr_11760.concat();
             for each (_local_6 in _local_7) {
-                _local_6.ChatlogCtrl(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5);
+                _local_6.onChatlog(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5);
             };
         }
-        private function RoomVisitsCtrl(_arg_1:RoomVisitsEvent):void
+        private function onRoomVisits(_arg_1:RoomVisitsEvent):void
         {
             var _local_3:RoomVisitsCtrl;
             var _local_2:RoomVisitsMessageParser = _arg_1.getParser();
             var _local_4:Array = this._SafeStr_11759.concat();
             for each (_local_3 in _local_4) {
-                _local_3.RoomVisitsCtrl(_local_2.data);
+                _local_3.onRoomVisits(_local_2.data);
             };
         }
         private function onRoomEnter(_arg_1:RoomEntryInfoMessageEvent):void
@@ -209,27 +209,27 @@ package com.sulake.habbo.moderation
             var _local_2:RoomEntryInfoMessageParser = _arg_1.getParser();
             if (_local_2.privateRoom){
                 this._SafeStr_11757.currentFlatId = _local_2.guestRoomId;
-                this._SafeStr_11757.startPanel.StartPanelCtrl(_local_2);
+                this._SafeStr_11757.startPanel.guestRoomEntered(_local_2);
             }
             else {
                 this._SafeStr_11757.currentFlatId = 0;
             };
             for each (_local_3 in this._SafeStr_11762) {
-                _local_3.RoomToolCtrl();
+                _local_3.onRoomChange();
             };
         }
-        private function IncomingMessages(_arg_1:PublicSpaceCastLibsEvent):void
+        private function onPublicSpaceCastLibs(_arg_1:PublicSpaceCastLibsEvent):void
         {
             var _local_2:PublicSpaceCastLibsMessageParser = _arg_1.getParser();
-            this._SafeStr_11757.startPanel.StartPanelCtrl(_local_2);
+            this._SafeStr_11757.startPanel.publicSpaceEntered(_local_2);
         }
-        private function HabboGroupInfoManager(_arg_1:CloseConnectionMessageEvent):void
+        private function onRoomExit(_arg_1:CloseConnectionMessageEvent):void
         {
             var _local_2:RoomToolCtrl;
             this._SafeStr_11757.currentFlatId = 0;
-            this._SafeStr_11757.startPanel.StartPanelCtrl();
+            this._SafeStr_11757.startPanel.roomExited();
             for each (_local_2 in this._SafeStr_11762) {
-                _local_2.RoomToolCtrl();
+                _local_2.onRoomChange();
             };
         }
         private function onModeratorActionResult(_arg_1:ModeratorActionResultMessageEvent):void
@@ -240,7 +240,7 @@ package com.sulake.habbo.moderation
                 this._SafeStr_11757.connection.send(new GetModeratorUserInfoMessageComposer(_local_2.userId));
             }
             else {
-                this._SafeStr_11757.windowManager.alert("Alert", "Moderation action failed", 0, this.SessionDataManager);
+                this._SafeStr_11757.windowManager.alert("Alert", "Moderation action failed", 0, this.onAlertClose);
             };
         }
         public function addUserInfoListener(_arg_1:UserInfoCtrl):void
@@ -318,7 +318,7 @@ package com.sulake.habbo.moderation
             };
             this._SafeStr_11760 = _local_2;
         }
-        private function SessionDataManager(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
+        private function onAlertClose(_arg_1:IAlertDialog, _arg_2:WindowEvent):void
         {
             _arg_1.dispose();
         }
@@ -326,10 +326,10 @@ package com.sulake.habbo.moderation
     }
 }//package com.sulake.habbo.moderation
 
-// SessionDataManager = "_-34G" (String#309, DoABC#2)
-// StartPanelCtrl = "_-03g" (String#14190, DoABC#2)
-// StartPanelCtrl = "_-2P5" (String#20006, DoABC#2)
-// StartPanelCtrl = "_-2fB" (String#20654, DoABC#2)
+// onAlertClose = "_-34G" (String#309, DoABC#2)
+// guestRoomEntered = "_-03g" (String#14190, DoABC#2)
+// publicSpaceEntered = "_-2P5" (String#20006, DoABC#2)
+// roomExited = "_-2fB" (String#20654, DoABC#2)
 // initMsg = "_-MD" (String#23092, DoABC#2)
 // _SafeStr_11755 = "_-12Z" (String#16561, DoABC#2)
 // issueManager = "_-277" (String#19296, DoABC#2)
@@ -343,22 +343,22 @@ package com.sulake.habbo.moderation
 // onModeratorInit = "_-0cO" (String#15529, DoABC#2)
 // onIssuePickFailed = "_-GQ" (String#22869, DoABC#2)
 // onIssueDeleted = "_-UB" (String#23414, DoABC#2)
-// IncomingMessages = "_-az" (String#2136, DoABC#2)
+// onRoomInfo = "_-az" (String#2136, DoABC#2)
 // onCfhChatlog = "_-0dX" (String#15566, DoABC#2)
 // onUserChatlog = "_-08d" (String#14392, DoABC#2)
 // onRoomChatlog = "_-fi" (String#23876, DoABC#2)
-// RoomVisitsCtrl = "_-hX" (String#8545, DoABC#2)
-// IncomingMessages = "_-0X3" (String#4251, DoABC#2)
+// onRoomVisits = "_-hX" (String#8545, DoABC#2)
+// onPublicSpaceCastLibs = "_-0X3" (String#4251, DoABC#2)
 // updateIssue = "_-3KL" (String#22296, DoABC#2)
 // startPanel = "_-2XW" (String#20343, DoABC#2)
 // issuePickFailed = "_-1oX" (String#18478, DoABC#2)
 // autoPick = "_-Ot" (String#23201, DoABC#2)
 // removeIssue = "_-25y" (String#19257, DoABC#2)
-// ChatlogCtrl = "_-Ps" (String#2103, DoABC#2)
+// onChatlog = "_-Ps" (String#2103, DoABC#2)
 // _SafeStr_11779 = "_-1Ka" (String#17297, DoABC#2)
 // _SafeStr_11780 = "_-0Xa" (String#15339, DoABC#2)
 // currentFlatId = "_-2HL" (String#19698, DoABC#2)
-// RoomToolCtrl = "_-2JA" (String#19774, DoABC#2)
+// onRoomChange = "_-2JA" (String#19774, DoABC#2)
 // addUserInfoListener = "_-1z6" (String#18931, DoABC#2)
 // removeUserInfoListener = "_-2us" (String#21272, DoABC#2)
 // addRoomInfoListener = "_-33D" (String#21629, DoABC#2)
@@ -407,7 +407,7 @@ package com.sulake.habbo.moderation
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // privateRoom = "_-26S" (String#19271, DoABC#2)
 // guestRoomId = "_-1NR" (String#17415, DoABC#2)
-// InfostandWidget = "_-2pH" (String#623, DoABC#2)
+// onUserInfo = "_-2pH" (String#623, DoABC#2)
 // cautionCount = "_-KY" (String#23025, DoABC#2)
 // callerUserId = "_-0hf" (String#15734, DoABC#2)
 // chatRecordId = "_-M6" (String#23087, DoABC#2)
@@ -418,6 +418,6 @@ package com.sulake.habbo.moderation
 // RoomEntryInfoMessageEvent = "_-nk" (String#24182, DoABC#2)
 // CloseConnectionMessageEvent = "_-2cv" (String#6811, DoABC#2)
 // onRoomEnter = "_-El" (String#460, DoABC#2)
-// HabboGroupInfoManager = "_-0Na" (String#356, DoABC#2)
+// onRoomExit = "_-0Na" (String#356, DoABC#2)
 
 

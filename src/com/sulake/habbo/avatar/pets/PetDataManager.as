@@ -19,7 +19,7 @@ package com.sulake.habbo.avatar.pets
         private var _assets:AssetLibraryCollection;
         private var _SafeStr_8865:Array;
         private var _SafeStr_8954:Array;
-        private var _RoomInstance:AvatarRenderManager;
+        private var _SafeStr_8622:AvatarRenderManager;
         private var _SafeStr_10023:Map;
         private var _SafeStr_10024:Array;
         private var _disposed:Boolean = false;
@@ -28,7 +28,7 @@ package com.sulake.habbo.avatar.pets
         {
             this._species = new Map();
             this._SafeStr_8865 = [];
-            this._RoomInstance = _arg_1;
+            this._SafeStr_8622 = _arg_1;
             this._SafeStr_8954 = [];
             this._assets = _arg_2;
             this._SafeStr_10023 = new Map();
@@ -45,7 +45,7 @@ package com.sulake.habbo.avatar.pets
                 return;
             };
             this._assets = null;
-            this._RoomInstance = null;
+            this._SafeStr_8622 = null;
             this._SafeStr_8865 = null;
             this._species.dispose();
             this._species = null;
@@ -81,7 +81,7 @@ package com.sulake.habbo.avatar.pets
                 };
             };
         }
-        public function PetDataManager(_arg_1:IPetDataListener=null):void
+        public function removeListener(_arg_1:IPetDataListener=null):void
         {
             if ((((_arg_1 == null)) || ((this._SafeStr_8865 == null)))){
                 return;
@@ -91,7 +91,7 @@ package com.sulake.habbo.avatar.pets
                 this._SafeStr_8865.splice(_local_2, 1);
             };
         }
-        private function PetDataManager():void
+        private function notifyListeners():void
         {
             var _local_1:IPetDataListener;
             while (this._SafeStr_8865.length > 0) {
@@ -101,7 +101,7 @@ package com.sulake.habbo.avatar.pets
                 };
             };
         }
-        public function PetDataManager(_arg_1:int, _arg_2:IPetDataListener=null):IPetData
+        public function getPetData(_arg_1:int, _arg_2:IPetDataListener=null):IPetData
         {
             var _local_3:IPetData = (this._species.getValue(_arg_1) as IPetData);
             if (_local_3 == null){
@@ -109,7 +109,7 @@ package com.sulake.habbo.avatar.pets
             };
             return (_local_3);
         }
-        public function PetDataManager(_arg_1:int, _arg_2:int, _arg_3:uint):String
+        public function createPetFigureString(_arg_1:int, _arg_2:int, _arg_3:uint):String
         {
             if (this.disposed){
                 return ("");
@@ -134,7 +134,7 @@ package com.sulake.habbo.avatar.pets
             var _local_8:Array = _local_6.split(".");
             return (_local_8.join((_local_7.figurePartPaletteColorId + ".")));
         }
-        public function PetDataManager(figureData:XML):void
+        public function populateFigureData(figureData:XML):void
         {
             var targetSets:Array;
             var targetPalette:XML;
@@ -308,8 +308,8 @@ package com.sulake.habbo.avatar.pets
                 this.unregisterLoadingAssets(_local_2);
             };
             if (this._SafeStr_8954.length == 0){
-                this._RoomInstance.resetPetData();
-                this.PetDataManager();
+                this._SafeStr_8622.resetPetData();
+                this.notifyListeners();
             };
         }
 
@@ -323,11 +323,11 @@ package com.sulake.habbo.avatar.pets
 // _SafeStr_10024 = "_-3LD" (String#22334, DoABC#2)
 // onLoaderComplete = "_-1gp" (String#5681, DoABC#2)
 // onContentLoadError = "_-2TD" (String#6628, DoABC#2)
-// PetDataManager = "_-dC" (String#23768, DoABC#2)
+// notifyListeners = "_-dC" (String#23768, DoABC#2)
 // assetsReady = "_-0jq" (String#15821, DoABC#2)
-// PetDataManager = "_-0Qm" (String#15092, DoABC#2)
+// createPetFigureString = "_-0Qm" (String#15092, DoABC#2)
 // figurePartPaletteColorId = "_-1K6" (String#17277, DoABC#2)
-// PetDataManager = "_-0OV" (String#15007, DoABC#2)
+// populateFigureData = "_-0OV" (String#15007, DoABC#2)
 // unregisterLoadingAssets = "_-xq" (String#24607, DoABC#2)
 // resetPetData = "_-0tj" (String#16192, DoABC#2)
 // PetData = "_-01G" (String#1387, DoABC#2)
@@ -344,11 +344,11 @@ package com.sulake.habbo.avatar.pets
 // _SafeStr_4337 = "_-1dF" (String#18025, DoABC#2)
 // rgb = "_-1zC" (String#1788, DoABC#2)
 // LibraryLoader = "_-T1" (String#8267, DoABC#2)
-// PetDataManager = "_-2Tw" (String#6646, DoABC#2)
+// getPetData = "_-2Tw" (String#6646, DoABC#2)
 // petDataReady = "_-0Wh" (String#4242, DoABC#2)
-// _RoomInstance = "_-32W" (String#628, DoABC#2)
+// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
 // _SafeStr_8865 = "_-0RW" (String#1471, DoABC#2)
-// PetDataManager = "_-1Hc" (String#1653, DoABC#2)
+// removeListener = "_-1Hc" (String#1653, DoABC#2)
 // _SafeStr_8954 = "_-3CG" (String#2020, DoABC#2)
 
 

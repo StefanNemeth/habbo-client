@@ -6,14 +6,14 @@ package com.sulake.room.utils
 
         private var _x:Number;
         private var _y:Number;
-        private var _Vector3d:Number;
+        private var _z:Number;
         private var _length:Number = NaN;
 
         public function Vector3d(_arg_1:Number=0, _arg_2:Number=0, _arg_3:Number=0)
         {
             this._x = _arg_1;
             this._y = _arg_2;
-            this._Vector3d = _arg_3;
+            this._z = _arg_3;
         }
         public static function sum(_arg_1:IVector3d, _arg_2:IVector3d):Vector3d
         {
@@ -93,12 +93,12 @@ package com.sulake.room.utils
         }
         public function get z():Number
         {
-            return (this._Vector3d);
+            return (this._z);
         }
         public function get length():Number
         {
             if (isNaN(this._length)){
-                this._length = Math.sqrt((((this._x * this._x) + (this._y * this._y)) + (this._Vector3d * this._Vector3d)));
+                this._length = Math.sqrt((((this._x * this._x) + (this._y * this._y)) + (this._z * this._z)));
             };
             return (this._length);
         }
@@ -114,14 +114,14 @@ package com.sulake.room.utils
         }
         public function set z(_arg_1:Number):void
         {
-            this._Vector3d = _arg_1;
+            this._z = _arg_1;
             this._length = NaN;
         }
-        public function Vector3d():void
+        public function negate():void
         {
             this._x = -(this._x);
             this._y = -(this._y);
-            this._Vector3d = -(this._Vector3d);
+            this._z = -(this._z);
         }
         public function add(_arg_1:IVector3d):void
         {
@@ -130,7 +130,7 @@ package com.sulake.room.utils
             };
             this._x = (this._x + _arg_1.x);
             this._y = (this._y + _arg_1.y);
-            this._Vector3d = (this._Vector3d + _arg_1.z);
+            this._z = (this._z + _arg_1.z);
             this._length = NaN;
         }
         public function sub(_arg_1:IVector3d):void
@@ -140,14 +140,14 @@ package com.sulake.room.utils
             };
             this._x = (this._x - _arg_1.x);
             this._y = (this._y - _arg_1.y);
-            this._Vector3d = (this._Vector3d - _arg_1.z);
+            this._z = (this._z - _arg_1.z);
             this._length = NaN;
         }
         public function mul(_arg_1:Number):void
         {
             this._x = (this._x * _arg_1);
             this._y = (this._y * _arg_1);
-            this._Vector3d = (this._Vector3d * _arg_1);
+            this._z = (this._z * _arg_1);
             this._length = NaN;
         }
         public function div(_arg_1:Number):void
@@ -155,7 +155,7 @@ package com.sulake.room.utils
             if (_arg_1 != 0){
                 this._x = (this._x / _arg_1);
                 this._y = (this._y / _arg_1);
-                this._Vector3d = (this._Vector3d / _arg_1);
+                this._z = (this._z / _arg_1);
                 this._length = NaN;
             };
         }
@@ -166,12 +166,12 @@ package com.sulake.room.utils
             };
             this._x = _arg_1.x;
             this._y = _arg_1.y;
-            this._Vector3d = _arg_1.z;
+            this._z = _arg_1.z;
             this._length = NaN;
         }
         public function toString():String
         {
-            return ((("(" + [this._x, this._y, this._Vector3d].join(",")) + ")"));
+            return ((("(" + [this._x, this._y, this._z].join(",")) + ")"));
         }
 
     }
@@ -185,10 +185,10 @@ package com.sulake.room.utils
 // scalarProjection = "_-2p1" (String#21043, DoABC#2)
 // div = "_-2-I" (String#18982, DoABC#2)
 // _y = "_-02f" (String#64, DoABC#2)
-// _Vector3d = "_-0kf" (String#215, DoABC#2)
+// _z = "_-0kf" (String#215, DoABC#2)
 // product = "_-Bd" (String#22675, DoABC#2)
 // sub = "_-2e2" (String#20605, DoABC#2)
 // mul = "_-tH" (String#24418, DoABC#2)
-// Vector3d = "_-Is" (String#22963, DoABC#2)
+// negate = "_-Is" (String#22963, DoABC#2)
 
 

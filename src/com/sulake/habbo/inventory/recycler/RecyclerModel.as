@@ -63,9 +63,9 @@ package com.sulake.habbo.inventory.recycler
                 this._localization = null;
                 this._disposed = true;
             };
-            this.RecyclerModel();
+            this.stopRecycler();
         }
-        public function RecyclerModel():void
+        public function startRecycler():void
         {
             if ((((this._inventory == null)) || ((this._inventory.furniModel == null)))){
                 return;
@@ -74,7 +74,7 @@ package com.sulake.habbo.inventory.recycler
             this._itemList = new Map();
             this._inventory.furniModel.showRecyclable(true);
         }
-        public function RecyclerModel():void
+        public function stopRecycler():void
         {
             var _local_2:int;
             if ((((((this._itemList == null)) || ((this._inventory == null)))) || ((this._inventory.furniModel == null)))){
@@ -85,7 +85,7 @@ package com.sulake.habbo.inventory.recycler
             var _local_1:int;
             while (_local_1 < this._itemList.length) {
                 _local_2 = this._itemList.getKey(_local_1);
-                this._inventory.furniModel.GroupItem(_local_2);
+                this._inventory.furniModel.removeLockFrom(_local_2);
                 _local_1++;
             };
             this._itemList = null;
@@ -95,7 +95,7 @@ package com.sulake.habbo.inventory.recycler
             if ((((((this._itemList == null)) || ((this._inventory == null)))) || ((this._inventory.furniModel == null)))){
                 return (0);
             };
-            var _local_1:IItem = this._inventory.furniModel.HabboInventory();
+            var _local_1:IItem = this._inventory.furniModel.requestSelectedFurniToRecycler();
             if (_local_1 == null){
                 return (0);
             };
@@ -117,7 +117,7 @@ package com.sulake.habbo.inventory.recycler
             if (_local_3 == null){
                 return (false);
             };
-            _local_3.GroupItem(_arg_1);
+            _local_3.removeLockFrom(_arg_1);
             this._itemList.remove(_arg_1);
             return (true);
         }
@@ -134,19 +134,19 @@ package com.sulake.habbo.inventory.recycler
             };
             return (_local_1);
         }
-        public function TradingModel():void
+        public function closingInventoryView():void
         {
         }
-        public function TradingModel(_arg_1:int=0):void
+        public function requestInitialization(_arg_1:int=0):void
         {
         }
         public function categorySwitch(_arg_1:String):void
         {
         }
-        public function TradingModel(_arg_1:String):void
+        public function subCategorySwitch(_arg_1:String):void
         {
         }
-        public function TradingModel():IWindowContainer
+        public function getWindowContainer():IWindowContainer
         {
             return (null);
         }
@@ -158,24 +158,24 @@ package com.sulake.habbo.inventory.recycler
 // IInventoryModel = "_-Fh" (String#7987, DoABC#2)
 // FurniModel = "_-1ur" (String#5936, DoABC#2)
 // RecyclerModel = "_-25-" (String#6140, DoABC#2)
-// TradingModel = "_-v8" (String#313, DoABC#2)
+// getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _inventory = "_-1O" (String#113, DoABC#2)
 // _SafeStr_5891 = "_-1Ny" (String#852, DoABC#2)
 // _running = "_-00c" (String#353, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)
-// RecyclerModel = "_-0jK" (String#15803, DoABC#2)
-// RecyclerModel = "_-1Am" (String#16893, DoABC#2)
+// stopRecycler = "_-0jK" (String#15803, DoABC#2)
+// startRecycler = "_-1Am" (String#16893, DoABC#2)
 // furniModel = "_-Sp" (String#23358, DoABC#2)
 // showRecyclable = "_-38g" (String#21829, DoABC#2)
-// GroupItem = "_-2FC" (String#19612, DoABC#2)
+// removeLockFrom = "_-2FC" (String#19612, DoABC#2)
 // lockSelectedFurni = "_-32j" (String#21607, DoABC#2)
-// HabboInventory = "_-2P" (String#6543, DoABC#2)
+// requestSelectedFurniToRecycler = "_-2P" (String#6543, DoABC#2)
 // releaseFurni = "_-Vk" (String#23482, DoABC#2)
 // getOwnItemsInRecycler = "_-cW" (String#23733, DoABC#2)
-// TradingModel = "_-0Lx" (String#4000, DoABC#2)
-// TradingModel = "_-2eX" (String#6842, DoABC#2)
+// closingInventoryView = "_-0Lx" (String#4000, DoABC#2)
+// requestInitialization = "_-2eX" (String#6842, DoABC#2)
 // categorySwitch = "_-3Ad" (String#7526, DoABC#2)
-// TradingModel = "_-1Gu" (String#5187, DoABC#2)
+// subCategorySwitch = "_-1Gu" (String#5187, DoABC#2)
 // IHabboCommunicationManager = "_-0ls" (String#4545, DoABC#2)
 
 

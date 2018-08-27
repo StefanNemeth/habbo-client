@@ -56,7 +56,7 @@ package com.sulake.habbo.help.help.data
             this._SafeStr_11350.add(_arg_1, _local_4);
             return (_local_4);
         }
-        public function GroupItem(_arg_1:int, _arg_2:int=-1):FaqItem
+        public function getItem(_arg_1:int, _arg_2:int=-1):FaqItem
         {
             if (_arg_2 < 0){
                 return (this.findItem(_arg_1));
@@ -65,25 +65,25 @@ package com.sulake.habbo.help.help.data
             if (_local_3 == null){
                 return (null);
             };
-            return (_local_3.GroupItem(_arg_1));
+            return (_local_3.getItem(_arg_1));
         }
         public function storeAnswerText(_arg_1:int, _arg_2:String):void
         {
             var _local_4:FaqCategory;
             if (this._SafeStr_11347.hasItem(_arg_1)){
-                this._SafeStr_11347.GroupItem(_arg_1).answerText = _arg_2;
+                this._SafeStr_11347.getItem(_arg_1).answerText = _arg_2;
             };
             if (this._SafeStr_11348.hasItem(_arg_1)){
-                this._SafeStr_11348.GroupItem(_arg_1).answerText = _arg_2;
+                this._SafeStr_11348.getItem(_arg_1).answerText = _arg_2;
             };
             if (this._SafeStr_11349.hasItem(_arg_1)){
-                this._SafeStr_11349.GroupItem(_arg_1).answerText = _arg_2;
+                this._SafeStr_11349.getItem(_arg_1).answerText = _arg_2;
             };
             var _local_3:int;
             while (_local_3 < this._SafeStr_11350.length) {
                 _local_4 = this._SafeStr_11350.getWithIndex(_local_3);
                 if (_local_4.hasItem(_arg_1)){
-                    _local_4.GroupItem(_arg_1).answerText = _arg_2;
+                    _local_4.getItem(_arg_1).answerText = _arg_2;
                 };
                 _local_3++;
             };
@@ -129,19 +129,19 @@ package com.sulake.habbo.help.help.data
         {
             var _local_3:FaqCategory;
             if (this._SafeStr_11347.hasItem(_arg_1)){
-                return (this._SafeStr_11347.GroupItem(_arg_1));
+                return (this._SafeStr_11347.getItem(_arg_1));
             };
             if (this._SafeStr_11348.hasItem(_arg_1)){
-                return (this._SafeStr_11348.GroupItem(_arg_1));
+                return (this._SafeStr_11348.getItem(_arg_1));
             };
             if (this._SafeStr_11349.hasItem(_arg_1)){
-                return (this._SafeStr_11349.GroupItem(_arg_1));
+                return (this._SafeStr_11349.getItem(_arg_1));
             };
             var _local_2:int;
             while (_local_2 < this._SafeStr_11350.length) {
                 _local_3 = this._SafeStr_11350.getWithIndex(_local_2);
                 if (_local_3.hasItem(_arg_1)){
-                    return (_local_3.GroupItem(_arg_1));
+                    return (_local_3.getItem(_arg_1));
                 };
                 _local_2++;
             };
@@ -172,7 +172,7 @@ package com.sulake.habbo.help.help.data
 // FaqIndex = "_-3I0" (String#7667, DoABC#2)
 // FaqCategory = "_-0JM" (String#3941, DoABC#2)
 // FaqItem = "_-1u6" (String#5923, DoABC#2)
-// GroupItem = "_-0un" (String#16229, DoABC#2)
+// getItem = "_-0un" (String#16229, DoABC#2)
 // answerText = "_-3JS" (String#22262, DoABC#2)
 
 

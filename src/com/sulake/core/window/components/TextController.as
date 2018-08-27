@@ -5,7 +5,7 @@ package com.sulake.core.window.components
     import com.sulake.core.window.utils.ITextFieldContainer;
     import com.sulake.core.localization.ILocalizable;
     import flash.utils.Dictionary;
-    import _-0Oz.TextController;
+    import _-0Oz.createPropertySetterTable;
     import flash.text.TextField;
     import com.sulake.core.window.utils.TextMargins;
     import com.sulake.core.window.utils.TextStyle;
@@ -37,7 +37,7 @@ package com.sulake.core.window.components
     public class TextController extends WindowController implements ITextWindow, ITextFieldContainer, ILocalizable 
     {
 
-        protected static const _SafeStr_9066:Dictionary = TextController();
+        protected static const _SafeStr_9066:Dictionary = createPropertySetterTable();
 
         protected var _field:TextField;
         protected var _scrollH:Number;
@@ -53,7 +53,7 @@ package com.sulake.core.window.components
         public function TextController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
             this._explicitStyle = new TextStyle();
-            this._margins = new TextMargins(0, 0, 0, 0, this.TextController);
+            this._margins = new TextMargins(0, 0, 0, 0, this.setTextMargins);
             this._SafeStr_9069 = false;
             this._scrollH = 0;
             this._scrollV = 0;
@@ -66,31 +66,31 @@ package com.sulake.core.window.components
                 this._field.mouseWheelEnabled = false;
             };
             super(_arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_7, _arg_8, _arg_9, _arg_10, _arg_11);
-            TextController(this._field, this._SafeStr_9073, this._explicitStyle);
-            TextStyleManager.events.addEventListener(Event.CHANGE, this.TextFieldCache);
+            setTextFormatting(this._field, this._SafeStr_9073, this._explicitStyle);
+            TextStyleManager.events.addEventListener(Event.CHANGE, this.onTextStyleChanged);
             if (this._field.autoSize == TextFieldAutoSize.NONE){
                 this._field.width = _rectangle.width;
                 this._field.height = _rectangle.height;
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setAntiAliasType(_arg_1:TextController, _arg_2:String):void
         {
             _arg_2 = (((_arg_2 == AntiAliasType.ADVANCED)) ? AntiAliasType.ADVANCED : AntiAliasType.NORMAL);
             _arg_1._explicitStyle.antiAliasType = _arg_2;
             _arg_1._field.antiAliasType = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setAlwaysShowSelection(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.alwaysShowSelection = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setAutoSize(_arg_1:TextController, _arg_2:String):void
         {
             _arg_1._autoSize = _arg_2;
             _arg_1._field.autoSize = (((_arg_2)!=TextFieldAutoSize.NONE) ? TextFieldAutoSize.LEFT : TextFieldAutoSize.NONE);
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setTextBackground(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1.background = _arg_2;
         }
@@ -98,7 +98,7 @@ package com.sulake.core.window.components
         {
             _arg_1.color = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setBold(_arg_1:TextController, _arg_2:Boolean):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.bold = _arg_2;
@@ -106,31 +106,31 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.fontWeight = TextStyle.BOLD;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setBorder(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.border = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:uint):void
+        private static function setBorderColor(_arg_1:TextController, _arg_2:uint):void
         {
             _arg_1._field.borderColor = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setCondenseWhite(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.condenseWhite = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:TextFormat):void
+        private static function setDefaultTextFormat(_arg_1:TextController, _arg_2:TextFormat):void
         {
             _arg_1._field.defaultTextFormat = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setEmbedFonts(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.embedFonts = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setFontFace(_arg_1:TextController, _arg_2:String):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.font = _arg_2;
@@ -139,7 +139,7 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.fontFamily = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:uint):void
+        private static function setFontSize(_arg_1:TextController, _arg_2:uint):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.size = _arg_2;
@@ -147,12 +147,12 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.fontSize = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setGridFitType(_arg_1:TextController, _arg_2:String):void
         {
             _arg_1._field.gridFitType = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setHtmlText(_arg_1:TextController, _arg_2:String):void
         {
             if (_arg_2 == null){
                 return;
@@ -169,11 +169,11 @@ package com.sulake.core.window.components
             else {
                 if (_arg_1._field != null){
                     _arg_1._field.htmlText = _arg_1._caption;
-                    _arg_1.TextController();
+                    _arg_1.refreshTextImage();
                 };
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setItalic(_arg_1:TextController, _arg_2:Boolean):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.italic = _arg_2;
@@ -181,7 +181,7 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.fontStyle = ((_arg_2) ? TextStyle.ITALIC : TextStyle.NORMAL);
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setKerning(_arg_1:TextController, _arg_2:Boolean):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.kerning = _arg_2;
@@ -191,64 +191,64 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.kerning = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Map):void
+        private static function setTextMarginMap(_arg_1:TextController, _arg_2:Map):void
         {
             if (_arg_1._margins){
-                _arg_1._margins.assign(int(_arg_2["left"]), int(_arg_2["top"]), int(_arg_2["right"]), int(_arg_2["bottom"]), _arg_1.TextController);
+                _arg_1._margins.assign(int(_arg_2["left"]), int(_arg_2["top"]), int(_arg_2["right"]), int(_arg_2["bottom"]), _arg_1.setTextMargins);
             }
             else {
-                _arg_1._margins = new TextMargins(int(_arg_2["left"]), int(_arg_2["top"]), int(_arg_2["right"]), int(_arg_2["bottom"]), _arg_1.TextController);
+                _arg_1._margins = new TextMargins(int(_arg_2["left"]), int(_arg_2["top"]), int(_arg_2["right"]), int(_arg_2["bottom"]), _arg_1.setTextMargins);
             };
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:int):void
+        private static function setMarginLeft(_arg_1:TextController, _arg_2:int):void
         {
             if (((_arg_1._margins) && (!((_arg_1._margins.left == _arg_2))))){
                 _arg_1.margins.left = _arg_2;
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:int):void
+        private static function setMarginTop(_arg_1:TextController, _arg_2:int):void
         {
             if (((_arg_1._margins) && (!((_arg_1._margins.top == _arg_2))))){
                 _arg_1.margins.top = _arg_2;
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:int):void
+        private static function setMarginRight(_arg_1:TextController, _arg_2:int):void
         {
             if (((_arg_1._margins) && (!((_arg_1._margins.right == _arg_2))))){
                 _arg_1.margins.right = _arg_2;
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:int):void
+        private static function setMarginBottom(_arg_1:TextController, _arg_2:int):void
         {
             if (((_arg_1._margins) && (!((_arg_1._margins.bottom == _arg_2))))){
                 _arg_1.margins.bottom = _arg_2;
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:int):void
+        private static function setMaxChars(_arg_1:TextController, _arg_2:int):void
         {
             _arg_1._field.maxChars = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setMouseWheelEnabled(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.mouseWheelEnabled = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setMultiline(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.multiline = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setRestrict(_arg_1:TextController, _arg_2:String):void
         {
             _arg_1._field.restrict = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Number):void
+        private static function setSharpness(_arg_1:TextController, _arg_2:Number):void
         {
             _arg_1._field.sharpness = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Number):void
+        private static function setSpacing(_arg_1:TextController, _arg_2:Number):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.letterSpacing = _arg_2;
@@ -258,54 +258,54 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.letterSpacing = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:uint):void
+        private static function setTextColor(_arg_1:TextController, _arg_2:uint):void
         {
             _arg_1._field.textColor = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
             _arg_1._explicitStyle.color = _arg_2;
         }
-        private static function TextController(_arg_1:TextController, _arg_2:TextStyle):void
+        private static function setTextStyle(_arg_1:TextController, _arg_2:TextStyle):void
         {
             if (((!(_arg_1)) || (!(_arg_2)))){
                 return;
             };
             var _local_3:TextStyle = TextStyleManager.getStyle(_arg_2.name);
             if (((_local_3) && (!(_local_3.equals(_arg_2))))){
-                _local_3 = TextStyleManager.TextStyleManager(_arg_2.toString());
+                _local_3 = TextStyleManager.findMatchingTextStyle(_arg_2.toString());
             };
             if (_local_3){
                 _arg_1._SafeStr_9073 = _local_3.name;
-                TextController(_arg_1._field, _arg_1._SafeStr_9073, _arg_1._explicitStyle);
-                _arg_1.TextController();
+                setTextFormatting(_arg_1._field, _arg_1._SafeStr_9073, _arg_1._explicitStyle);
+                _arg_1.refreshTextImage();
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:String):void
+        private static function setTextStyleString(_arg_1:TextController, _arg_2:String):void
         {
             var _local_3:TextStyle = TextStyleManager.getStyle(_arg_2);
             if (!_local_3){
-                _local_3 = TextStyleManager.TextStyleManager(_arg_2);
+                _local_3 = TextStyleManager.findMatchingTextStyle(_arg_2);
             };
             if (_local_3){
                 _arg_1._SafeStr_9073 = _local_3.name;
-                TextController(_arg_1._field, _arg_1._SafeStr_9073, _arg_1._explicitStyle);
-                _arg_1.TextController();
+                setTextFormatting(_arg_1._field, _arg_1._SafeStr_9073, _arg_1._explicitStyle);
+                _arg_1.refreshTextImage();
             }
             else {
                 _local_3 = TextStyleManager.parseCSS(_arg_2)[0];
                 if (_local_3){
                     if (!TextStyleManager.getStyle(_local_3.name)){
-                        TextStyleManager.TextStyleManager(_local_3.name, _local_3);
+                        TextStyleManager.setStyle(_local_3.name, _local_3);
                     };
-                    TextController(_arg_1, _local_3);
+                    setTextStyle(_arg_1, _local_3);
                 };
             };
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Number):void
+        private static function setThickness(_arg_1:TextController, _arg_2:Number):void
         {
             _arg_1._field.thickness = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setUnderline(_arg_1:TextController, _arg_2:Boolean):void
         {
             var _local_3:TextFormat = _arg_1.defaultTextFormat;
             _local_3.underline = _arg_2;
@@ -313,12 +313,12 @@ package com.sulake.core.window.components
             _arg_1.defaultTextFormat = _local_3;
             _arg_1._explicitStyle.textDecoration = ((_arg_2) ? TextStyle._SafeStr_9113 : TextStyle.NONE);
         }
-        private static function TextController(_arg_1:TextController, _arg_2:Boolean):void
+        private static function setWordWrap(_arg_1:TextController, _arg_2:Boolean):void
         {
             _arg_1._field.wordWrap = _arg_2;
-            _arg_1.TextController();
+            _arg_1.refreshTextImage();
         }
-        protected static function TextController(_arg_1:TextField, _arg_2:String, _arg_3:TextStyle):void
+        protected static function setTextFormatting(_arg_1:TextField, _arg_2:String, _arg_3:TextStyle):void
         {
             var _local_4:TextStyle = TextStyleManager.getStyle(_arg_2);
             var _local_5:TextFormat = _arg_1.defaultTextFormat;
@@ -398,41 +398,41 @@ package com.sulake.core.window.components
             _arg_1.embedFonts = FontEnum.isEmbeddedFont(_local_5.font);
             _arg_1.defaultTextFormat = _local_5;
         }
-        protected static function TextController():Dictionary
+        protected static function createPropertySetterTable():Dictionary
         {
             var _local_1:Dictionary = new Dictionary();
-            _local_1["always_show_selection"] = TextController;
-            _local_1["background"] = TextController;
+            _local_1["always_show_selection"] = setAlwaysShowSelection;
+            _local_1["background"] = setTextBackground;
             _local_1["background_color"] = setTextBackgroundColor;
-            _local_1["bold"] = TextController;
-            _local_1["border"] = TextController;
-            _local_1["border_color"] = TextController;
-            _local_1["condense_white"] = TextController;
-            _local_1["default_text_format"] = TextController;
-            _local_1["font_face"] = TextController;
-            _local_1["font_size"] = TextController;
-            _local_1["grid_fit_type"] = TextController;
-            _local_1["html_text"] = TextController;
-            _local_1["italic"] = TextController;
-            _local_1["kerning"] = TextController;
-            _local_1["max_chars"] = TextController;
-            _local_1["multiline"] = TextController;
-            _local_1["restrict"] = TextController;
-            _local_1["spacing"] = TextController;
-            _local_1["sharpness"] = TextController;
-            _local_1["thickness"] = TextController;
-            _local_1["underline"] = TextController;
-            _local_1["word_wrap"] = TextController;
-            _local_1["margins"] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9116] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9117] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9118] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9119] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9120] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9121] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9122] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9123] = TextController;
-            _local_1[PropertyDefaults._SafeStr_9124] = TextController;
+            _local_1["bold"] = setBold;
+            _local_1["border"] = setBorder;
+            _local_1["border_color"] = setBorderColor;
+            _local_1["condense_white"] = setCondenseWhite;
+            _local_1["default_text_format"] = setDefaultTextFormat;
+            _local_1["font_face"] = setFontFace;
+            _local_1["font_size"] = setFontSize;
+            _local_1["grid_fit_type"] = setGridFitType;
+            _local_1["html_text"] = setHtmlText;
+            _local_1["italic"] = setItalic;
+            _local_1["kerning"] = setKerning;
+            _local_1["max_chars"] = setMaxChars;
+            _local_1["multiline"] = setMultiline;
+            _local_1["restrict"] = setRestrict;
+            _local_1["spacing"] = setSpacing;
+            _local_1["sharpness"] = setSharpness;
+            _local_1["thickness"] = setThickness;
+            _local_1["underline"] = setUnderline;
+            _local_1["word_wrap"] = setWordWrap;
+            _local_1["margins"] = setTextMarginMap;
+            _local_1[PropertyDefaults._SafeStr_9116] = setAntiAliasType;
+            _local_1[PropertyDefaults._SafeStr_9117] = setAutoSize;
+            _local_1[PropertyDefaults._SafeStr_9118] = setMouseWheelEnabled;
+            _local_1[PropertyDefaults._SafeStr_9119] = setTextColor;
+            _local_1[PropertyDefaults._SafeStr_9120] = setTextStyleString;
+            _local_1[PropertyDefaults._SafeStr_9121] = setMarginLeft;
+            _local_1[PropertyDefaults._SafeStr_9122] = setMarginTop;
+            _local_1[PropertyDefaults._SafeStr_9123] = setMarginRight;
+            _local_1[PropertyDefaults._SafeStr_9124] = setMarginBottom;
             return (_local_1);
         }
 
@@ -590,83 +590,83 @@ package com.sulake.core.window.components
         }
         public function set antiAliasType(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setAntiAliasType(this, _arg_1);
         }
         public function set autoSize(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setAutoSize(this, _arg_1);
         }
         public function set bold(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setBold(this, _arg_1);
         }
         public function set border(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setBorder(this, _arg_1);
         }
         public function set borderColor(_arg_1:uint):void
         {
-            TextController(this, _arg_1);
+            setBorderColor(this, _arg_1);
         }
         public function set defaultTextFormat(_arg_1:TextFormat):void
         {
-            TextController(this, _arg_1);
+            setDefaultTextFormat(this, _arg_1);
         }
         public function set embedFonts(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setEmbedFonts(this, _arg_1);
         }
         public function set fontFace(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setFontFace(this, _arg_1);
         }
         public function set fontSize(_arg_1:uint):void
         {
-            TextController(this, _arg_1);
+            setFontSize(this, _arg_1);
         }
         public function set gridFitType(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setGridFitType(this, _arg_1);
         }
         public function set htmlText(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setHtmlText(this, _arg_1);
         }
         public function set italic(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setItalic(this, _arg_1);
         }
         public function set kerning(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setKerning(this, _arg_1);
         }
         public function set maxChars(_arg_1:int):void
         {
-            TextController(this, _arg_1);
+            setMaxChars(this, _arg_1);
         }
         public function set multiline(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setMultiline(this, _arg_1);
         }
         public function set restrict(_arg_1:String):void
         {
-            TextController(this, _arg_1);
+            setRestrict(this, _arg_1);
         }
         public function set sharpness(_arg_1:Number):void
         {
-            TextController(this, _arg_1);
+            setSharpness(this, _arg_1);
         }
         public function set spacing(_arg_1:Number):void
         {
-            TextController(this, _arg_1);
+            setSpacing(this, _arg_1);
         }
         public function set textColor(_arg_1:uint):void
         {
-            TextController(this, _arg_1);
+            setTextColor(this, _arg_1);
         }
         public function set textBackground(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setTextBackground(this, _arg_1);
         }
         public function set textBackgroundColor(_arg_1:uint):void
         {
@@ -674,38 +674,38 @@ package com.sulake.core.window.components
         }
         public function set textStyle(_arg_1:TextStyle):void
         {
-            TextController(this, _arg_1);
+            setTextStyle(this, _arg_1);
         }
         public function set thickness(_arg_1:Number):void
         {
-            TextController(this, _arg_1);
+            setThickness(this, _arg_1);
         }
         public function set underline(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setUnderline(this, _arg_1);
         }
         public function set wordWrap(_arg_1:Boolean):void
         {
-            TextController(this, _arg_1);
+            setWordWrap(this, _arg_1);
         }
         public function set scrollH(_arg_1:Number):void
         {
             this._scrollH = _arg_1;
             this._field.scrollH = (this._scrollH * Number(this._field.maxScrollH));
-            this.TextController();
+            this.refreshTextImage();
         }
         public function set scrollV(_arg_1:Number):void
         {
             if (_arg_1 > this._scrollV){
                 this._scrollV = _arg_1;
                 this._field.scrollV = Math.max(this._field.scrollV, ((_arg_1 * this._field.maxScrollV) + 1));
-                this.TextController();
+                this.refreshTextImage();
             }
             else {
                 if (_arg_1 < this._scrollV){
                     this._scrollV = _arg_1;
                     this._field.scrollV = Math.min(this._field.scrollV, ((_arg_1 * this._field.maxScrollV) - 1));
-                    this.TextController();
+                    this.refreshTextImage();
                 };
             };
         }
@@ -748,7 +748,7 @@ package com.sulake.core.window.components
             else {
                 if (this._field != null){
                     this._field.text = _caption;
-                    this.TextController();
+                    this.refreshTextImage();
                 };
             };
         }
@@ -770,7 +770,7 @@ package com.sulake.core.window.components
         {
             if (((!((_arg_1 == null))) && (!((this._field == null))))){
                 this._field.text = _arg_1;
-                this.TextController();
+                this.refreshTextImage();
             };
         }
         public function set immediateClickMode(_arg_1:Boolean):void
@@ -782,11 +782,11 @@ package com.sulake.core.window.components
                 if (_local_2){
                     if (this._immediateClickMode){
                         _local_2.mouse = true;
-                        _local_2.addEventListener(MouseEvent.CLICK, this.TextController);
+                        _local_2.addEventListener(MouseEvent.CLICK, this.immediateClickHandler);
                     }
                     else {
                         _local_2.mouse = false;
-                        _local_2.removeEventListener(MouseEvent.CLICK, this.TextController);
+                        _local_2.removeEventListener(MouseEvent.CLICK, this.immediateClickHandler);
                     };
                 };
             };
@@ -798,7 +798,7 @@ package com.sulake.core.window.components
             _local_1._field.background = background;
             _local_1._scrollH = this._scrollH;
             _local_1._scrollV = this._scrollV;
-            _local_1._margins = this._margins.clone(_local_1.TextController);
+            _local_1._margins = this._margins.clone(_local_1.setTextMargins);
             _local_1._autoSize = this._autoSize;
             _local_1._SafeStr_9071 = this._SafeStr_9071;
             return (_local_1);
@@ -806,7 +806,7 @@ package com.sulake.core.window.components
         override public function dispose():void
         {
             this.immediateClickMode = false;
-            TextStyleManager.events.removeEventListener(Event.CHANGE, this.TextFieldCache);
+            TextStyleManager.events.removeEventListener(Event.CHANGE, this.onTextStyleChanged);
             if (this._SafeStr_9071){
                 context.removeLocalizationListener(_caption.slice(2, _caption.indexOf("}")), this);
             };
@@ -821,12 +821,12 @@ package com.sulake.core.window.components
         {
             if (!this._SafeStr_9069){
                 if (_arg_2.type == WindowEvent.WE_RESIZED){
-                    this.TextController(true);
+                    this.refreshTextImage(true);
                 };
             };
             return (super.update(_arg_1, _arg_2));
         }
-        protected function TextController(_arg_1:Event):void
+        protected function immediateClickHandler(_arg_1:Event):void
         {
             var _local_6:IWindow;
             var _local_2:MouseEvent = (_arg_1 as MouseEvent);
@@ -836,11 +836,11 @@ package com.sulake.core.window.components
             while (_local_4.length > 0) {
                 _local_6 = _local_4.pop();
                 if (_local_6 == this) break;
-                if (_local_6.WindowController(WindowParam._SafeStr_7434)){
+                if (_local_6.getParamFlag(WindowParam._SafeStr_7434)){
                     return;
                 };
             };
-            WindowController(_local_3);
+            getRelativeMousePosition(_local_3);
             var _local_5:WindowEvent = WindowMouseEvent.allocate(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this, null, _local_3.x, _local_3.y, _local_2.stageX, _local_2.stageY, _local_2.altKey, _local_2.ctrlKey, _local_2.shiftKey, _local_2.buttonDown, _local_2.delta);
             if (_events){
                 _events.dispatchEvent(_local_5);
@@ -853,7 +853,7 @@ package com.sulake.core.window.components
             _arg_1.stopImmediatePropagation();
             _local_5.recycle();
         }
-        protected function TextController(_arg_1:Boolean=false):void
+        protected function refreshTextImage(_arg_1:Boolean=false):void
         {
             var _local_8:WindowEvent;
             if (this._SafeStr_9069){
@@ -868,7 +868,7 @@ package com.sulake.core.window.components
             var _local_7:Boolean;
             if (_local_6 != _local_4){
                 if (this._autoSize == TextFieldAutoSize.LEFT){
-                    WindowController(_rectangle.x, _rectangle.y, (_local_6 + _local_2), (Math.floor(this._field.height) + _local_3));
+                    setRectangle(_rectangle.x, _rectangle.y, (_local_6 + _local_2), (Math.floor(this._field.height) + _local_3));
                     _local_7 = true;
                 }
                 else {
@@ -908,7 +908,7 @@ package com.sulake.core.window.components
         public function appendText(_arg_1:String):void
         {
             this._field.appendText(_arg_1);
-            this.TextController();
+            this.refreshTextImage();
         }
         public function getCharBoundaries(_arg_1:int):Rectangle
         {
@@ -961,27 +961,27 @@ package com.sulake.core.window.components
         public function replaceText(_arg_1:int, _arg_2:int, _arg_3:String):void
         {
             this._field.replaceText(_arg_1, _arg_2, _arg_3);
-            this.TextController();
+            this.refreshTextImage();
         }
         public function setTextFormat(_arg_1:TextFormat, _arg_2:int=-1, _arg_3:int=-1):void
         {
             this._field.setTextFormat(_arg_1, _arg_2, _arg_3);
-            this.TextController();
+            this.refreshTextImage();
         }
-        public function TextController(_arg_1:IMargins):void
+        public function setTextMargins(_arg_1:IMargins):void
         {
             if (_arg_1 != this._margins){
                 this._margins.dispose();
-                this._margins = new TextMargins(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.TextController);
+                this._margins = new TextMargins(_arg_1.left, _arg_1.top, _arg_1.right, _arg_1.bottom, this.setTextMargins);
             };
-            this.TextController();
+            this.refreshTextImage();
         }
-        private function TextFieldCache(_arg_1:Event):void
+        private function onTextStyleChanged(_arg_1:Event):void
         {
-            TextController(this._field, this._SafeStr_9073, this._explicitStyle);
-            this.TextController();
+            setTextFormatting(this._field, this._SafeStr_9073, this._explicitStyle);
+            this.refreshTextImage();
         }
-        protected function TextController(_arg_1:XML):void
+        protected function parseVariableSet(_arg_1:XML):void
         {
             var _local_2:String;
             var _local_3:Function;
@@ -1012,7 +1012,7 @@ package com.sulake.core.window.components
             };
             this._SafeStr_9069 = false;
             super.properties = _arg_1;
-            this.TextController();
+            this.refreshTextImage();
         }
         override public function get properties():Array
         {
@@ -1087,54 +1087,54 @@ package com.sulake.core.window.components
 // scrollStepV = "_-2Ee" (String#6333, DoABC#2)
 // visibleRegion = "_-MK" (String#8129, DoABC#2)
 // _SafeStr_9066 = "_-YA" (String#23569, DoABC#2)
-// TextController = "_-30Y" (String#21524, DoABC#2)
+// createPropertySetterTable = "_-30Y" (String#21524, DoABC#2)
 // _scrollH = "_-wC" (String#24538, DoABC#2)
 // _SafeStr_9069 = "_-0LE" (String#14883, DoABC#2)
 // _margins = "_-063" (String#1402, DoABC#2)
 // _SafeStr_9071 = "_-2cp" (String#6807, DoABC#2)
 // _immediateClickMode = "_-1Hx" (String#17190, DoABC#2)
 // _SafeStr_9073 = "_-CO" (String#7924, DoABC#2)
-// TextController = "_-2Ui" (String#6660, DoABC#2)
-// TextController = "_-31T" (String#21558, DoABC#2)
-// TextFieldCache = "_-2Jp" (String#1854, DoABC#2)
+// setTextMargins = "_-2Ui" (String#6660, DoABC#2)
+// setTextFormatting = "_-31T" (String#21558, DoABC#2)
+// onTextStyleChanged = "_-2Jp" (String#1854, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
-// TextController = "_-1jG" (String#18255, DoABC#2)
-// TextController = "_-0hP" (String#4454, DoABC#2)
-// TextController = "_-04C" (String#14210, DoABC#2)
-// TextController = "_-1Zp" (String#17883, DoABC#2)
-// TextController = "_-0eS" (String#15604, DoABC#2)
-// TextController = "_-1yK" (String#18901, DoABC#2)
-// TextController = "_-0o5" (String#15980, DoABC#2)
-// TextController = "_-2eY" (String#20627, DoABC#2)
-// TextController = "_-2gT" (String#20708, DoABC#2)
-// TextController = "_-0Vl" (String#15268, DoABC#2)
-// TextController = "_-0Vd" (String#15264, DoABC#2)
-// TextController = "_-0Gf" (String#14708, DoABC#2)
-// TextController = "_-1UU" (String#17685, DoABC#2)
-// TextController = "_-1M8" (String#17364, DoABC#2)
-// TextController = "_-33V" (String#21642, DoABC#2)
-// TextController = "_-0C6" (String#14532, DoABC#2)
-// TextController = "_-1P5" (String#17471, DoABC#2)
-// TextController = "_-sB" (String#8740, DoABC#2)
-// TextController = "_-1Z8" (String#17857, DoABC#2)
-// TextController = "_-0jv" (String#15825, DoABC#2)
-// TextController = "_-229" (String#19097, DoABC#2)
-// TextController = "_-Be" (String#22676, DoABC#2)
-// TextController = "_-2VM" (String#20255, DoABC#2)
-// TextController = "_-qu" (String#24310, DoABC#2)
-// TextController = "_-RH" (String#23295, DoABC#2)
-// TextController = "com.sulake.habbo.communication.messages.outgoing.poll-" (String#17852, DoABC#2)
-// TextController = "_-1a1" (String#17894, DoABC#2)
-// TextController = "_-2fF" (String#20656, DoABC#2)
-// TextController = "_-C-" (String#22690, DoABC#2)
-// TextController = "_-2f7" (String#20651, DoABC#2)
-// TextStyleManager = "_-2x4" (String#21352, DoABC#2)
-// TextController = "_-1Xc" (String#17799, DoABC#2)
-// TextStyleManager = "_-17f" (String#16761, DoABC#2)
-// TextController = "_-2BF" (String#19453, DoABC#2)
-// TextController = "_-2Fd" (String#19628, DoABC#2)
+// setAntiAliasType = "_-1jG" (String#18255, DoABC#2)
+// refreshTextImage = "_-0hP" (String#4454, DoABC#2)
+// setAlwaysShowSelection = "_-04C" (String#14210, DoABC#2)
+// setAutoSize = "_-1Zp" (String#17883, DoABC#2)
+// setTextBackground = "_-0eS" (String#15604, DoABC#2)
+// setBold = "_-1yK" (String#18901, DoABC#2)
+// setBorder = "_-0o5" (String#15980, DoABC#2)
+// setBorderColor = "_-2eY" (String#20627, DoABC#2)
+// setCondenseWhite = "_-2gT" (String#20708, DoABC#2)
+// setDefaultTextFormat = "_-0Vl" (String#15268, DoABC#2)
+// setEmbedFonts = "_-0Vd" (String#15264, DoABC#2)
+// setFontFace = "_-0Gf" (String#14708, DoABC#2)
+// setFontSize = "_-1UU" (String#17685, DoABC#2)
+// setGridFitType = "_-1M8" (String#17364, DoABC#2)
+// setHtmlText = "_-33V" (String#21642, DoABC#2)
+// setItalic = "_-0C6" (String#14532, DoABC#2)
+// setKerning = "_-1P5" (String#17471, DoABC#2)
+// setTextMarginMap = "_-sB" (String#8740, DoABC#2)
+// setMarginLeft = "_-1Z8" (String#17857, DoABC#2)
+// setMarginTop = "_-0jv" (String#15825, DoABC#2)
+// setMarginRight = "_-229" (String#19097, DoABC#2)
+// setMarginBottom = "_-Be" (String#22676, DoABC#2)
+// setMaxChars = "_-2VM" (String#20255, DoABC#2)
+// setMouseWheelEnabled = "_-qu" (String#24310, DoABC#2)
+// setMultiline = "_-RH" (String#23295, DoABC#2)
+// setRestrict = "com.sulake.habbo.communication.messages.outgoing.poll-" (String#17852, DoABC#2)
+// setSharpness = "_-1a1" (String#17894, DoABC#2)
+// setSpacing = "_-2fF" (String#20656, DoABC#2)
+// setTextColor = "_-C-" (String#22690, DoABC#2)
+// setTextStyle = "_-2f7" (String#20651, DoABC#2)
+// findMatchingTextStyle = "_-2x4" (String#21352, DoABC#2)
+// setTextStyleString = "_-1Xc" (String#17799, DoABC#2)
+// setStyle = "_-17f" (String#16761, DoABC#2)
+// setThickness = "_-2BF" (String#19453, DoABC#2)
+// setUnderline = "_-2Fd" (String#19628, DoABC#2)
 // _SafeStr_9113 = "_-059" (String#14249, DoABC#2)
-// TextController = "_-2b2" (String#20489, DoABC#2)
+// setWordWrap = "_-2b2" (String#20489, DoABC#2)
 // _SafeStr_9115 = "_-1hf" (String#18196, DoABC#2)
 // _SafeStr_9116 = "_-hP" (String#23945, DoABC#2)
 // _SafeStr_9117 = "_-1OD" (String#17443, DoABC#2)
@@ -1147,14 +1147,14 @@ package com.sulake.core.window.components
 // _SafeStr_9124 = "_-tF" (String#24416, DoABC#2)
 // textBackground = "_-IA" (String#2081, DoABC#2)
 // mouse = "_-2qv" (String#7094, DoABC#2)
-// TextController = "_-0-p" (String#3559, DoABC#2)
-// WindowController = "_-38B" (String#7475, DoABC#2)
-// WindowController = "_-1wW" (String#1785, DoABC#2)
+// immediateClickHandler = "_-0-p" (String#3559, DoABC#2)
+// getParamFlag = "_-38B" (String#7475, DoABC#2)
+// getRelativeMousePosition = "_-1wW" (String#1785, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // isWindowOperationPrevented = "_-27I" (String#19304, DoABC#2)
-// WindowController = "_-Vb" (String#23476, DoABC#2)
+// setRectangle = "_-Vb" (String#23476, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
-// TextController = "_-288" (String#19335, DoABC#2)
+// parseVariableSet = "_-288" (String#19335, DoABC#2)
 // _SafeStr_9135 = "_-38p" (String#21835, DoABC#2)
 // _SafeStr_9136 = "_-30W" (String#21522, DoABC#2)
 // _SafeStr_9137 = "_-2CQ" (String#19501, DoABC#2)

@@ -27,28 +27,28 @@ package com.sulake.habbo.ui.widget.infostand
         }
         override public function update(_arg_1:RoomWidgetUserInfoUpdateEvent):void
         {
-            InfoStandUserView();
-            InfoStandUserView([]);
-            this.InfoStandUserView(_arg_1);
-            InfoStandUserView(_arg_1);
-            InfoStandUserView();
+            clearBadges();
+            setTags([]);
+            this.updateButtons(_arg_1);
+            updateInfo(_arg_1);
+            updateWindow();
         }
-        override protected function InfoStandUserView(_arg_1:RoomWidgetUserInfoUpdateEvent):void
+        override protected function updateButtons(_arg_1:RoomWidgetUserInfoUpdateEvent):void
         {
-            InfoStandUserView("friend", false);
-            InfoStandUserView("respect", false);
-            InfoStandUserView("ignore", false);
-            InfoStandUserView("unignore", false);
-            InfoStandUserView("kick", _arg_1.canBeKicked);
-            InfoStandUserView("ban", false);
-            InfoStandUserView("whisper", false);
-            InfoStandUserView(false, false);
-            InfoStandUserView("trade", false);
-            InfoStandUserView("report", false);
-            InfoStandUserView("give_badge", false);
+            showButton("friend", false);
+            showButton("respect", false);
+            showButton("ignore", false);
+            showButton("unignore", false);
+            showButton("kick", _arg_1.canBeKicked);
+            showButton("ban", false);
+            showButton("whisper", false);
+            updateRightsButton(false, false);
+            showButton("trade", false);
+            showButton("report", false);
+            showButton("give_badge", false);
             _SafeStr_13989.visible = _arg_1.canBeKicked;
         }
-        override protected function InfoStandUserView(_arg_1:WindowMouseEvent):void
+        override protected function onButtonClicked(_arg_1:WindowMouseEvent):void
         {
             var _local_3:int;
             var _local_2:IWindow = (_arg_1.target as IWindow);
@@ -61,21 +61,21 @@ package com.sulake.habbo.ui.widget.infostand
     }
 }//package com.sulake.habbo.ui.widget.infostand
 
-// InfoStandUserView = "_-jx" (String#8602, DoABC#2)
+// updateInfo = "_-jx" (String#8602, DoABC#2)
 // _SafeStr_13989 = "_-1WU" (String#5481, DoABC#2)
 // _SafeStr_13990 = "_-38U" (String#2009, DoABC#2)
-// InfoStandUserView = "_-37K" (String#21781, DoABC#2)
-// InfoStandUserView = "_-6H" (String#22477, DoABC#2)
-// InfoStandUserView = "_-1Oq" (String#17461, DoABC#2)
+// setTags = "_-37K" (String#21781, DoABC#2)
+// clearBadges = "_-6H" (String#22477, DoABC#2)
+// updateRightsButton = "_-1Oq" (String#17461, DoABC#2)
 // RoomWidgetUserInfoUpdateEvent = "_-28z" (String#6226, DoABC#2)
 // InfoStandUserView = "_-5X" (String#7772, DoABC#2)
 // InfoStandBotView = "_-0DT" (String#3817, DoABC#2)
 // RoomWidgetUserActionMessage = "_-22U" (String#19109, DoABC#2)
 // RWUAM_KICK_BOT = "_-0BZ" (String#14509, DoABC#2)
-// InfoStandUserView = "_-2k0" (String#247, DoABC#2)
-// InfoStandUserView = "_-i5" (String#942, DoABC#2)
+// onButtonClicked = "_-2k0" (String#247, DoABC#2)
+// updateButtons = "_-i5" (String#942, DoABC#2)
 // canBeKicked = "_-34-" (String#21658, DoABC#2)
-// InfoStandUserView = "_-2s1" (String#451, DoABC#2)
-// InfoStandUserView = "_-P4" (String#461, DoABC#2)
+// updateWindow = "_-2s1" (String#451, DoABC#2)
+// showButton = "_-P4" (String#461, DoABC#2)
 
 

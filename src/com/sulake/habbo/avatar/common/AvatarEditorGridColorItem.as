@@ -34,7 +34,7 @@ package com.sulake.habbo.avatar.common
             this._SafeStr_9935 = (_local_5.content as BitmapData);
             var _local_6:BitmapDataAsset = (_arg_2.controller.manager.assets.getAssetByName("editor_clr_40x32_3") as BitmapDataAsset);
             this._SafeStr_9936 = (_local_6.content as BitmapData);
-            this.GroupItem();
+            this.updateThumbData();
         }
         public function dispose():void
         {
@@ -61,9 +61,9 @@ package com.sulake.habbo.avatar.common
         public function set isSelected(_arg_1:Boolean):void
         {
             this._isSelected = _arg_1;
-            this.GroupItem();
+            this.updateThumbData();
         }
-        private function GroupItem():void
+        private function updateThumbData():void
         {
             var _local_5:BitmapData;
             if (this._window == null){
@@ -142,7 +142,7 @@ package com.sulake.habbo.avatar.common
 // _SafeStr_9934 = "_-1LC" (String#5265, DoABC#2)
 // _SafeStr_9935 = "_-0pG" (String#4618, DoABC#2)
 // _SafeStr_9936 = "_-0IR" (String#3923, DoABC#2)
-// GroupItem = "_-rZ" (String#8730, DoABC#2)
+// updateThumbData = "_-rZ" (String#8730, DoABC#2)
 // partColor = "_-1Sa" (String#17605, DoABC#2)
 
 

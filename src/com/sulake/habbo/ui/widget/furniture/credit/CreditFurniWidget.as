@@ -40,15 +40,15 @@ package com.sulake.habbo.ui.widget.furniture.credit
             this.hideInterface();
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetCreditFurniUpdateEvent.RWCFUE_CREDIT_FURNI_UPDATE, this.onObjectUpdate);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -166,9 +166,9 @@ package com.sulake.habbo.ui.widget.furniture.credit
 // _SafeStr_3710 = "_-3-S" (String#908, DoABC#2)
 // _selectedBrightness = "_-2M9" (String#885, DoABC#2)
 // hideInterface = "_-29" (String#304, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // onObjectUpdate = "_-2l-" (String#248, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // showInterface = "_-121" (String#162, DoABC#2)
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)

@@ -96,7 +96,7 @@ package com.sulake.habbo.ui.widget.roomchat
             };
             if (_arg_7 != null){
                 this._component = _arg_7;
-                this._component.IContext(this, 1);
+                this._component.registerUpdateReceiver(this, 1);
             };
         }
         override public function get mainWindow():IWindow
@@ -139,7 +139,7 @@ package com.sulake.habbo.ui.widget.roomchat
             var _local_2:int;
             if ((((getTimer() > this._SafeStr_14158)) && ((this._SafeStr_14158 > 0)))){
                 this._SafeStr_14158 = -1;
-                this.RoomChatWidget();
+                this.animationStart();
             };
             if (this._SafeStr_4426){
                 _local_2 = ((_arg_1 / _SafeStr_14148) * _SafeStr_14151);
@@ -147,14 +147,14 @@ package com.sulake.habbo.ui.widget.roomchat
                     _local_2 = (this._SafeStr_14175 - this._SafeStr_14159);
                 };
                 if (_local_2 > 0){
-                    this.RoomChatWidget(_local_2);
+                    this.moveItemsUp(_local_2);
                     this._SafeStr_14159 = (this._SafeStr_14159 + _local_2);
                 };
                 if (this._SafeStr_14159 >= this._SafeStr_14175){
                     this._SafeStr_14175 = _SafeStr_14144;
                     this._SafeStr_14159 = 0;
-                    this.RoomChatWidget();
-                    this.RoomChatWidget();
+                    this.animationStop();
+                    this.processBuffer();
                     this._SafeStr_14158 = (getTimer() + _SafeStr_14149);
                 };
             };
@@ -162,40 +162,40 @@ package com.sulake.habbo.ui.widget.roomchat
                 this._SafeStr_14171.update(_arg_1);
             };
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.addEventListener(RoomWidgetChatUpdateEvent.RWCUE_EVENT_CHAT, this.RoomChatWidget);
-            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SIZE_CHANGED, this.RoomChatWidget);
-            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_POSITION_CHANGED, this.RoomChatWidget);
-            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SCALE_CHANGED, this.RoomChatWidget);
-            super.RoomChatWidget(_arg_1);
+            _arg_1.addEventListener(RoomWidgetChatUpdateEvent.RWCUE_EVENT_CHAT, this.onChatMessage);
+            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SIZE_CHANGED, this.onRoomViewUpdate);
+            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_POSITION_CHANGED, this.onRoomViewUpdate);
+            _arg_1.addEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SCALE_CHANGED, this.onRoomViewUpdate);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.removeEventListener(RoomWidgetChatUpdateEvent.RWCUE_EVENT_CHAT, this.RoomChatWidget);
-            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SIZE_CHANGED, this.RoomChatWidget);
-            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_POSITION_CHANGED, this.RoomChatWidget);
-            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SCALE_CHANGED, this.RoomChatWidget);
+            _arg_1.removeEventListener(RoomWidgetChatUpdateEvent.RWCUE_EVENT_CHAT, this.onChatMessage);
+            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SIZE_CHANGED, this.onRoomViewUpdate);
+            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_POSITION_CHANGED, this.onRoomViewUpdate);
+            _arg_1.removeEventListener(RoomWidgetRoomViewUpdateEvent.RWRVUE_ROOM_VIEW_SCALE_CHANGED, this.onRoomViewUpdate);
         }
-        private function RoomChatWidget(_arg_1:RoomWidgetChatUpdateEvent):void
+        private function onChatMessage(_arg_1:RoomWidgetChatUpdateEvent):void
         {
-            var _local_2:RoomChatItem = new RoomChatItem(this, windowManager, assets, this.RoomChatWidget(), localizations, this._baseUrl);
+            var _local_2:RoomChatItem = new RoomChatItem(this, windowManager, assets, this.getFreeItemId(), localizations, this._baseUrl);
             _local_2.define(_arg_1);
             if (this._SafeStr_14168 != 1){
                 _local_2.senderX = (_local_2.senderX / this._SafeStr_14168);
             };
             _local_2.senderX = (_local_2.senderX - this._SafeStr_14170.x);
-            this.RoomChatWidget(_local_2);
+            this.setChatItemLocHorizontal(_local_2);
             this._SafeStr_14163.push(_local_2);
-            this.RoomChatWidget();
+            this.processBuffer();
         }
-        private function RoomChatWidget(_arg_1:RoomWidgetRoomViewUpdateEvent):void
+        private function onRoomViewUpdate(_arg_1:RoomWidgetRoomViewUpdateEvent):void
         {
             var _local_2:Rectangle = _arg_1.rect;
             if (_arg_1.scale > 0){
@@ -222,14 +222,14 @@ package com.sulake.habbo.ui.widget.roomchat
                 this._SafeStr_14161.y = this._mainWindow.y;
                 this._SafeStr_14162.width = (this._mainWindow.width - this._SafeStr_14171.scrollbarWidth);
                 this._SafeStr_14162.height = this._SafeStr_14174;
-                if (this.RoomChatWidget()){
-                    this.RoomChatWidget();
+                if (this.historyViewerActive()){
+                    this.reAlignItemsToHistoryContent();
                 };
-                this._SafeStr_14171.RoomChatHistoryViewer(this._mainWindow.rectangle, true);
+                this._SafeStr_14171.containerResized(this._mainWindow.rectangle, true);
             };
-            this.RoomChatWidget();
+            this.alignItems();
         }
-        private function RoomChatWidget():void
+        private function processBuffer():void
         {
             if (this._SafeStr_4426){
                 return;
@@ -237,31 +237,31 @@ package com.sulake.habbo.ui.widget.roomchat
             if (this._SafeStr_14163.length == 0){
                 return;
             };
-            while ((((this._SafeStr_14163.length > _SafeStr_14152)) || (((this.RoomChatWidget()) && ((this._SafeStr_14163.length > 0)))))) {
-                this.RoomChatWidget();
+            while ((((this._SafeStr_14163.length > _SafeStr_14152)) || (((this.historyViewerActive()) && ((this._SafeStr_14163.length > 0)))))) {
+                this.activateItemFromBuffer();
             };
             var _local_1:Boolean;
             if (this._itemList.length == 0){
                 _local_1 = true;
             }
             else {
-                _local_1 = this.RoomChatWidget(this._SafeStr_14163[0]);
+                _local_1 = this.checkLastItemAllowsAdding(this._SafeStr_14163[0]);
             };
             if (_local_1){
-                this.RoomChatWidget();
+                this.activateItemFromBuffer();
                 this._SafeStr_14158 = (getTimer() + _SafeStr_14149);
             }
             else {
                 if ((((this._itemList.length > 0)) && ((this._SafeStr_14163.length > 0)))){
-                    this._SafeStr_14175 = this.RoomChatWidget(this._itemList[(this._itemList.length - 1)], this._SafeStr_14163[0]);
+                    this._SafeStr_14175 = this.getItemSpacing(this._itemList[(this._itemList.length - 1)], this._SafeStr_14163[0]);
                 }
                 else {
                     this._SafeStr_14175 = _SafeStr_14144;
                 };
-                this.RoomChatWidget();
+                this.animationStart();
             };
         }
-        private function RoomChatWidget():void
+        private function activateItemFromBuffer():void
         {
             var _local_1:RoomChatItem;
             var _local_2:IWindowContainer;
@@ -269,17 +269,17 @@ package com.sulake.habbo.ui.widget.roomchat
             if (this._SafeStr_14163.length == 0){
                 return;
             };
-            if (this.RoomChatWidget()){
-                this.RoomChatWidget();
-                this.RoomChatWidget();
+            if (this.historyViewerMinimized()){
+                this.resetArea();
+                this.hideHistoryViewer();
             };
-            if (!this.RoomChatWidget(this._SafeStr_14163[0])){
-                this.RoomChatWidget();
-                this.RoomChatWidget(this.RoomChatWidget(this._itemList[(this._itemList.length - 1)], this._SafeStr_14163[0]));
-                if (!this.RoomChatWidget(this._SafeStr_14163[0])){
+            if (!this.checkLastItemAllowsAdding(this._SafeStr_14163[0])){
+                this.selectItemsToMove();
+                this.moveItemsUp(this.getItemSpacing(this._itemList[(this._itemList.length - 1)], this._SafeStr_14163[0]));
+                if (!this.checkLastItemAllowsAdding(this._SafeStr_14163[0])){
                     this._SafeStr_14162.height = (this._SafeStr_14162.height + _SafeStr_14144);
                     if (this._SafeStr_14171 != null){
-                        this._SafeStr_14171.RoomChatHistoryViewer(this._mainWindow.rectangle);
+                        this._SafeStr_14171.containerResized(this._mainWindow.rectangle);
                     };
                 };
             };
@@ -294,7 +294,7 @@ package com.sulake.habbo.ui.widget.roomchat
                     _local_3 = 0;
                     if (this._itemList.length > 1){
                         _local_3 = this._itemList[(this._itemList.length - 2)].screenLevel;
-                        if (this.RoomChatWidget()){
+                        if (this.historyViewerActive()){
                             _local_1.screenLevel = (_local_3 + 1);
                         }
                         else {
@@ -309,13 +309,13 @@ package com.sulake.habbo.ui.widget.roomchat
                         _local_1.aboveLevels = ((_SafeStr_14153 + _SafeStr_14154) + 2);
                     };
                     this._SafeStr_14167 = 0;
-                    this.RoomChatWidget(_local_1);
-                    this.RoomChatWidget(_local_1);
-                    this.RoomChatWidget(_local_1);
+                    this.setChatItemLocHorizontal(_local_1);
+                    this.setChatItemLocVertical(_local_1);
+                    this.setChatItemRenderable(_local_1);
                 };
             };
         }
-        private function RoomChatWidget(_arg_1:RoomChatItem):Boolean
+        private function checkLastItemAllowsAdding(_arg_1:RoomChatItem):Boolean
         {
             if (this._itemList.length == 0){
                 return (true);
@@ -327,12 +327,12 @@ package com.sulake.habbo.ui.widget.roomchat
             if (_local_2.view == null){
                 return (true);
             };
-            if ((this._SafeStr_14162.rectangle.bottom - ((this._SafeStr_14162.y + _local_2.y) + _local_2.height)) <= this.RoomChatWidget(_local_2, _arg_1)){
+            if ((this._SafeStr_14162.rectangle.bottom - ((this._SafeStr_14162.y + _local_2.y) + _local_2.height)) <= this.getItemSpacing(_local_2, _arg_1)){
                 return (false);
             };
             return (true);
         }
-        private function RoomChatWidget():void
+        private function alignItems():void
         {
             var _local_1:int;
             var _local_2:RoomChatItem;
@@ -344,8 +344,8 @@ package com.sulake.habbo.ui.widget.roomchat
             while (_local_1 >= 0) {
                 _local_2 = this._itemList[_local_1];
                 if (_local_2 != null){
-                    this.RoomChatWidget(_local_2);
-                    this.RoomChatWidget(_local_2);
+                    this.setChatItemLocHorizontal(_local_2);
+                    this.setChatItemLocVertical(_local_2);
                 };
                 _local_1--;
             };
@@ -353,7 +353,7 @@ package com.sulake.habbo.ui.widget.roomchat
             while (_local_1 < this._itemList.length) {
                 _local_2 = this._itemList[_local_1];
                 if (_local_2 != null){
-                    this.RoomChatWidget(_local_2);
+                    this.setChatItemRenderable(_local_2);
                 };
                 _local_1++;
             };
@@ -361,30 +361,30 @@ package com.sulake.habbo.ui.widget.roomchat
             while (_local_1 < this._SafeStr_14163.length) {
                 _local_2 = this._SafeStr_14163[_local_1];
                 if (_local_2 != null){
-                    this.RoomChatWidget(_local_2);
+                    this.setChatItemLocHorizontal(_local_2);
                 };
                 _local_1++;
             };
         }
-        private function RoomChatWidget():void
+        private function animationStart():void
         {
             if (this._SafeStr_4426){
                 return;
             };
-            this.RoomChatWidget();
+            this.selectItemsToMove();
             this._SafeStr_4426 = true;
         }
-        private function RoomChatWidget():void
+        private function animationStop():void
         {
             this._SafeStr_4426 = false;
         }
-        private function RoomChatWidget():void
+        private function selectItemsToMove():void
         {
             var _local_4:RoomChatItem;
             if (this._SafeStr_4426){
                 return;
             };
-            this.RoomChatWidget();
+            this.purgeItems();
             this._SafeStr_14164 = new Array();
             var _local_1:int = new Date().time;
             var _local_2:int;
@@ -392,7 +392,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 this._SafeStr_14167 = 1;
                 return;
             };
-            if (this.RoomChatWidget()){
+            if (this.historyViewerActive()){
                 return;
             };
             this._SafeStr_14167++;
@@ -410,7 +410,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_3--;
             };
         }
-        private function RoomChatWidget(_arg_1:int):void
+        private function moveItemsUp(_arg_1:int):void
         {
             var _local_3:Boolean;
             if (this._SafeStr_14164 == null){
@@ -432,14 +432,14 @@ package com.sulake.habbo.ui.widget.roomchat
                         _local_4++;
                     };
                     _local_3 = true;
-                    if (this.RoomChatWidget()){
+                    if (this.historyViewerActive()){
                         if (((_local_2.y - _arg_1) + _local_2.height) < 0){
                             _local_3 = false;
                         };
                     };
                     if (_local_4 > 0){
                         if (this._itemList[(_local_4 - 1)].view != null){
-                            if (((_local_2.y - _arg_1) - this._itemList[(_local_4 - 1)].y) < this.RoomChatWidget(this._itemList[(_local_4 - 1)], _local_2)){
+                            if (((_local_2.y - _arg_1) - this._itemList[(_local_4 - 1)].y) < this.getItemSpacing(this._itemList[(_local_4 - 1)], _local_2)){
                                 _local_3 = false;
                             };
                         };
@@ -451,7 +451,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_5--;
             };
         }
-        private function RoomChatWidget(_arg_1:RoomChatItem):void
+        private function setChatItemLocHorizontal(_arg_1:RoomChatItem):void
         {
             var _local_9:Number;
             var _local_10:Number;
@@ -479,27 +479,27 @@ package com.sulake.habbo.ui.widget.roomchat
             };
             _arg_1.x = ((_local_9 + (this._mainWindow.width / 2)) + this._mainWindow.x);
             if ((((_local_2 < _local_5)) || ((_local_2 > _local_6)))){
-                _arg_1.RoomChatItem();
+                _arg_1.hidePointer();
             }
             else {
-                _arg_1.RoomChatItem((_local_3 - _local_9));
+                _arg_1.setPointerOffset((_local_3 - _local_9));
             };
         }
-        private function RoomChatWidget(_arg_1:RoomChatItem):void
+        private function setChatItemLocVertical(_arg_1:RoomChatItem):void
         {
             var _local_2:int;
             var _local_3:Number;
             var _local_4:Number;
             if (_arg_1 != null){
                 _local_2 = this._itemList.indexOf(_arg_1);
-                _local_3 = ((this.RoomChatWidget()) ? 0 : this._SafeStr_14167);
+                _local_3 = ((this.historyViewerActive()) ? 0 : this._SafeStr_14167);
                 if (_local_2 == (this._itemList.length - 1)){
-                    _arg_1.y = ((this.RoomChatWidget() - ((_local_3 + 1) * _SafeStr_14144)) - _SafeStr_14156);
+                    _arg_1.y = ((this.getAreaBottom() - ((_local_3 + 1) * _SafeStr_14144)) - _SafeStr_14156);
                 }
                 else {
                     _local_4 = this._itemList[(_local_2 + 1)].aboveLevels;
                     if (_local_4 < 2){
-                        _arg_1.y = (this._itemList[(_local_2 + 1)].y - this.RoomChatWidget(_arg_1, this._itemList[(_local_2 + 1)]));
+                        _arg_1.y = (this._itemList[(_local_2 + 1)].y - this.getItemSpacing(_arg_1, this._itemList[(_local_2 + 1)]));
                     }
                     else {
                         _arg_1.y = (this._itemList[(_local_2 + 1)].y - (_local_4 * _SafeStr_14144));
@@ -507,13 +507,13 @@ package com.sulake.habbo.ui.widget.roomchat
                 };
             };
         }
-        private function RoomChatWidget(_arg_1:RoomChatItem):void
+        private function setChatItemRenderable(_arg_1:RoomChatItem):void
         {
             if (_arg_1 != null){
                 if (_arg_1.y < -(_SafeStr_14147)){
                     if (_arg_1.view != null){
                         this._SafeStr_14162.removeChild(_arg_1.view);
-                        _arg_1.RoomChatItem();
+                        _arg_1.hideView();
                     };
                 }
                 else {
@@ -526,7 +526,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 };
             };
         }
-        public function RoomChatWidget():int
+        public function getTotalContentHeight():int
         {
             var _local_1:RoomChatItem;
             var _local_2:int;
@@ -538,7 +538,7 @@ package com.sulake.habbo.ui.widget.roomchat
                         _local_2 = (_local_2 + _SafeStr_14144);
                     }
                     else {
-                        _local_2 = (_local_2 + this.RoomChatWidget(this._itemList[(_local_3 - 1)], _local_1));
+                        _local_2 = (_local_2 + this.getItemSpacing(this._itemList[(_local_3 - 1)], _local_1));
                     };
                     _local_2 = (_local_2 + ((_local_1.aboveLevels - 1) * _SafeStr_14144));
                 };
@@ -546,24 +546,24 @@ package com.sulake.habbo.ui.widget.roomchat
             };
             return (_local_2);
         }
-        private function RoomChatWidget():Number
+        private function getAreaBottom():Number
         {
-            if (this.RoomChatWidget()){
+            if (this.historyViewerActive()){
                 return (this._SafeStr_14162.height);
             };
             return ((this._SafeStr_14174 + this._mainWindow.y));
         }
-        private function RoomChatWidget(_arg_1:RoomChatItem, _arg_2:RoomChatItem):Number
+        private function getItemSpacing(_arg_1:RoomChatItem, _arg_2:RoomChatItem):Number
         {
-            if (_arg_1.RoomChatItem(_arg_2.x, _arg_1.y, _arg_2.width, _arg_2.height)){
+            if (_arg_1.checkOverlap(_arg_2.x, _arg_1.y, _arg_2.width, _arg_2.height)){
                 return (_SafeStr_14144);
             };
             return (_SafeStr_14145);
         }
-        private function RoomChatWidget():void
+        private function purgeItems():void
         {
             var _local_2:RoomChatItem;
-            if (this.RoomChatWidget()){
+            if (this.historyViewerActive()){
                 return;
             };
             var _local_1:int;
@@ -576,7 +576,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 };
                 if (_local_2.view != null){
                     this._SafeStr_14162.removeChild(_local_2.view);
-                    _local_2.RoomChatItem();
+                    _local_2.hideView();
                 };
                 _local_2.dispose();
                 _local_2 = null;
@@ -594,7 +594,7 @@ package com.sulake.habbo.ui.widget.roomchat
                                 this._SafeStr_14164.splice(_local_3, 1);
                             };
                             this._SafeStr_14162.removeChild(_local_2.view);
-                            _local_2.RoomChatItem();
+                            _local_2.hideView();
                         };
                     }
                     else {
@@ -607,33 +607,33 @@ package com.sulake.habbo.ui.widget.roomchat
             if (this._SafeStr_14163.length > 0){
                 _local_4 = true;
             };
-            if ((((((this.RoomChatWidget() > _SafeStr_14144)) && (!(_local_4)))) && (!(this.RoomChatWidget())))){
+            if ((((((this.getTotalContentHeight() > _SafeStr_14144)) && (!(_local_4)))) && (!(this.historyViewerActive())))){
                 if (this._SafeStr_14171 != null){
-                    this.RoomChatWidget(this._mainWindow.y);
-                    this.RoomChatWidget();
-                    if (!this.RoomChatWidget()){
-                        this._SafeStr_14171.RoomChatHistoryViewer();
+                    this.stretchAreaBottomTo(this._mainWindow.y);
+                    this.alignItems();
+                    if (!this.historyViewerActive()){
+                        this._SafeStr_14171.showHistoryViewer();
                     };
-                    if (!this.RoomChatWidget()){
+                    if (!this.historyViewerVisible()){
                         this._SafeStr_14171.visible = true;
                     };
                 };
             }
             else {
-                if (this.RoomChatWidget()){
+                if (this.historyViewerVisible()){
                     this._SafeStr_14171.visible = false;
                 };
             };
         }
-        private function RoomChatWidget():String
+        private function getFreeItemId():String
         {
             return (((("chat_" + this._SafeStr_14165.toString()) + "_item_") + this._SafeStr_14166++.toString()));
         }
-        public function RoomChatWidget(_arg_1:int, _arg_2:String, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:WindowMouseEvent):void
+        public function onItemMouseClick(_arg_1:int, _arg_2:String, _arg_3:int, _arg_4:int, _arg_5:int, _arg_6:WindowMouseEvent):void
         {
             if (_arg_6.shiftKey){
                 if (this._SafeStr_14171 != null){
-                    this._SafeStr_14171.RoomChatHistoryViewer();
+                    this._SafeStr_14171.toggleHistoryViewer();
                 };
                 return;
             };
@@ -642,91 +642,91 @@ package com.sulake.habbo.ui.widget.roomchat
             var _local_8:RoomWidgetChatSelectAvatarMessage = new RoomWidgetChatSelectAvatarMessage(RoomWidgetChatSelectAvatarMessage.RWCSAM_MESSAGE_SELECT_AVATAR, _arg_1, _arg_2, _arg_4, _arg_5);
             messageListener.processWidgetMessage(_local_8);
         }
-        public function RoomChatWidget(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
+        public function onItemMouseDown(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
         {
-            if (this.RoomChatWidget()){
+            if (this.historyViewerVisible()){
                 return;
             };
             if (this._SafeStr_14171 != null){
-                this._SafeStr_14171.RoomChatHistoryViewer(_arg_5.stageY);
+                this._SafeStr_14171.beginDrag(_arg_5.stageY);
             };
         }
-        public function RoomChatWidget(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
+        public function onItemMouseOver(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
         {
         }
-        public function RoomChatWidget(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
+        public function onItemMouseOut(_arg_1:int, _arg_2:int, _arg_3:int, _arg_4:int, _arg_5:WindowMouseEvent):void
         {
         }
-        public function RoomChatWidget(_arg_1:WindowMouseEvent):void
+        public function onPulldownMouseDown(_arg_1:WindowMouseEvent):void
         {
             if (this._SafeStr_14171 != null){
-                this._SafeStr_14171.RoomChatHistoryViewer(_arg_1.stageY, true);
+                this._SafeStr_14171.beginDrag(_arg_1.stageY, true);
             };
         }
-        public function RoomChatWidget(_arg_1:WindowMouseEvent):void
+        public function onPulldownCloseButtonClicked(_arg_1:WindowMouseEvent):void
         {
             if (this._SafeStr_14171 != null){
-                this._SafeStr_14171.RoomChatWidget();
+                this._SafeStr_14171.hideHistoryViewer();
             };
         }
-        public function RoomChatWidget(_arg_1:Number):void
+        public function stretchAreaBottomBy(_arg_1:Number):void
         {
             var _local_2:Number = ((this._mainWindow.rectangle.bottom + _arg_1) - RoomChatHistoryPulldown._SafeStr_14178);
-            this.RoomChatWidget(_local_2);
+            this.stretchAreaBottomTo(_local_2);
         }
-        public function RoomChatWidget(_arg_1:Number):void
+        public function stretchAreaBottomTo(_arg_1:Number):void
         {
             var _local_2:int = ((this._mainWindow.context.getDesktopWindow().height - RoomChatHistoryPulldown._SafeStr_14178) - _SafeStr_14157);
             _arg_1 = Math.min(_arg_1, _local_2);
             this._SafeStr_14174 = (_arg_1 - this._mainWindow.y);
             this._mainWindow.height = (this._SafeStr_14174 + RoomChatHistoryPulldown._SafeStr_14178);
             if (this._SafeStr_14171 != null){
-                this._SafeStr_14171.RoomChatHistoryViewer(this._mainWindow.rectangle);
+                this._SafeStr_14171.containerResized(this._mainWindow.rectangle);
             };
         }
-        public function RoomChatWidget():void
+        public function resetArea():void
         {
             if (this._SafeStr_14171 == null){
                 return;
             };
-            this.RoomChatWidget();
+            this.animationStop();
             this._SafeStr_14174 = (_SafeStr_14155 + _SafeStr_14156);
             this._mainWindow.height = (this._SafeStr_14174 + this._SafeStr_14171.pulldownBarHeight);
             this._SafeStr_14161.width = (this._mainWindow.width - this._SafeStr_14171.scrollbarWidth);
             this._SafeStr_14161.height = this._SafeStr_14174;
             this._SafeStr_14162.width = (this._mainWindow.width - this._SafeStr_14171.scrollbarWidth);
-            if (this.RoomChatWidget()){
-                this._SafeStr_14162.height = (this.RoomChatWidget() + _SafeStr_14156);
+            if (this.historyViewerActive()){
+                this._SafeStr_14162.height = (this.getTotalContentHeight() + _SafeStr_14156);
             }
             else {
                 this._SafeStr_14162.height = this._SafeStr_14174;
             };
             this._SafeStr_14161.scrollV = 1;
-            if (!this.RoomChatWidget()){
-                this._SafeStr_14171.RoomChatHistoryViewer(this._mainWindow.rectangle);
+            if (!this.historyViewerActive()){
+                this._SafeStr_14171.containerResized(this._mainWindow.rectangle);
             };
-            this.RoomChatWidget();
-            this.RoomChatWidget();
+            this.purgeItems();
+            this.alignItems();
         }
-        private function RoomChatWidget():Boolean
+        private function historyViewerActive():Boolean
         {
             return ((((this._SafeStr_14171)==null) ? false : this._SafeStr_14171.active));
         }
-        private function RoomChatWidget():Boolean
+        private function historyViewerVisible():Boolean
         {
             return ((((this._SafeStr_14171)==null) ? false : this._SafeStr_14171.visible));
         }
-        public function RoomChatWidget():void
+        public function hideHistoryViewer():void
         {
             if (this._SafeStr_14171 != null){
-                this._SafeStr_14171.RoomChatWidget();
+                this._SafeStr_14171.hideHistoryViewer();
             };
         }
-        private function RoomChatWidget():Boolean
+        private function historyViewerMinimized():Boolean
         {
             return ((this._SafeStr_14161.height <= 1));
         }
-        public function RoomChatWidget():void
+        public function resizeContainerToLowestItem():void
         {
             var _local_4:RoomChatItem;
             var _local_1:int;
@@ -749,10 +749,10 @@ package com.sulake.habbo.ui.widget.roomchat
             _local_1 = (_local_1 + _SafeStr_14147);
             _local_1 = (((_local_1 < 0)) ? 0 : _local_1);
             var _local_3:int = this._mainWindow.rectangle.bottom;
-            this.RoomChatWidget((this._mainWindow.rectangle.top + _local_1));
+            this.stretchAreaBottomTo((this._mainWindow.rectangle.top + _local_1));
             _local_3 = (_local_3 - this._mainWindow.rectangle.bottom);
             if (Math.abs(_local_3) < RoomChatHistoryViewer._SafeStr_14224){
-                this.RoomChatWidget();
+                this.resetArea();
                 return;
             };
             _local_2 = 0;
@@ -769,31 +769,31 @@ package com.sulake.habbo.ui.widget.roomchat
             };
             this._SafeStr_14172 = true;
         }
-        public function RoomChatWidget():void
+        public function mouseUp():void
         {
             var _local_1:Number = (this._mainWindow.rectangle.bottom - RoomChatHistoryPulldown._SafeStr_14178);
             if (_local_1 < _SafeStr_14155){
                 if (_local_1 <= (this._SafeStr_14174 + this._mainWindow.y)){
-                    if (this.RoomChatWidget()){
-                        this.RoomChatWidget();
+                    if (this.historyViewerActive()){
+                        this.hideHistoryViewer();
                     };
-                    this.RoomChatWidget();
+                    this.resetArea();
                     return;
                 };
             };
-            if (((this._SafeStr_14172) && (!(this.RoomChatWidget())))){
-                this.RoomChatWidget();
+            if (((this._SafeStr_14172) && (!(this.historyViewerActive())))){
+                this.resetArea();
                 this._SafeStr_14172 = false;
             };
         }
-        public function RoomChatWidget():void
+        public function reAlignItemsToHistoryContent():void
         {
-            if (this.RoomChatWidget()){
-                this._SafeStr_14162.height = (this.RoomChatWidget() + _SafeStr_14156);
-                this.RoomChatWidget();
+            if (this.historyViewerActive()){
+                this._SafeStr_14162.height = (this.getTotalContentHeight() + _SafeStr_14156);
+                this.alignItems();
             };
         }
-        public function RoomChatWidget():void
+        public function enableDragTooltips():void
         {
             var _local_2:int;
             var _local_1:RoomChatItem;
@@ -810,7 +810,7 @@ package com.sulake.habbo.ui.widget.roomchat
                 _local_2++;
             };
         }
-        public function RoomChatWidget():void
+        public function disableDragTooltips():void
         {
             var _local_2:int;
             var _local_1:RoomChatItem;
@@ -869,56 +869,56 @@ package com.sulake.habbo.ui.widget.roomchat
 // _SafeStr_14176 = "_-26L" (String#19267, DoABC#2)
 // _SafeStr_14177 = "_-0fz" (String#15669, DoABC#2)
 // _SafeStr_14178 = "_-fB" (String#23854, DoABC#2)
-// RoomChatWidget = "_-2Kh" (String#19831, DoABC#2)
-// RoomChatWidget = "_-0aX" (String#15456, DoABC#2)
-// RoomChatWidget = "_-I3" (String#22932, DoABC#2)
-// RoomChatWidget = "_-1SX" (String#17602, DoABC#2)
-// RoomChatWidget = "_-2jg" (String#20833, DoABC#2)
-// RoomChatWidget = "_-07Z" (String#14348, DoABC#2)
-// RoomChatWidget = "_-15F" (String#16663, DoABC#2)
+// animationStart = "_-2Kh" (String#19831, DoABC#2)
+// moveItemsUp = "_-0aX" (String#15456, DoABC#2)
+// animationStop = "_-I3" (String#22932, DoABC#2)
+// processBuffer = "_-1SX" (String#17602, DoABC#2)
+// onChatMessage = "_-2jg" (String#20833, DoABC#2)
+// onRoomViewUpdate = "_-07Z" (String#14348, DoABC#2)
+// getFreeItemId = "_-15F" (String#16663, DoABC#2)
 // senderX = "_-DB" (String#22736, DoABC#2)
-// RoomChatWidget = "_-wQ" (String#24551, DoABC#2)
+// setChatItemLocHorizontal = "_-wQ" (String#24551, DoABC#2)
 // pulldownBarHeight = "_-0S" (String#15135, DoABC#2)
 // scrollbarWidth = "_-Pt" (String#23244, DoABC#2)
-// RoomChatWidget = "_-0PV" (String#15042, DoABC#2)
-// RoomChatWidget = "_-0vm" (String#16266, DoABC#2)
-// RoomChatHistoryViewer = "_-7s" (String#22537, DoABC#2)
-// RoomChatWidget = "_-2GR" (String#19659, DoABC#2)
-// RoomChatWidget = "_-qF" (String#24282, DoABC#2)
-// RoomChatWidget = "_-31h" (String#21567, DoABC#2)
-// RoomChatWidget = "_-OS" (String#23186, DoABC#2)
-// RoomChatWidget = "_-1cz" (String#18012, DoABC#2)
-// RoomChatWidget = "_-2XN" (String#20337, DoABC#2)
-// RoomChatWidget = "_-ZU" (String#23615, DoABC#2)
-// RoomChatWidget = "_-kx" (String#24069, DoABC#2)
+// historyViewerActive = "_-0PV" (String#15042, DoABC#2)
+// reAlignItemsToHistoryContent = "_-0vm" (String#16266, DoABC#2)
+// containerResized = "_-7s" (String#22537, DoABC#2)
+// alignItems = "_-2GR" (String#19659, DoABC#2)
+// activateItemFromBuffer = "_-qF" (String#24282, DoABC#2)
+// checkLastItemAllowsAdding = "_-31h" (String#21567, DoABC#2)
+// getItemSpacing = "_-OS" (String#23186, DoABC#2)
+// historyViewerMinimized = "_-1cz" (String#18012, DoABC#2)
+// resetArea = "_-2XN" (String#20337, DoABC#2)
+// hideHistoryViewer = "_-ZU" (String#23615, DoABC#2)
+// selectItemsToMove = "_-kx" (String#24069, DoABC#2)
 // renderView = "_-1xB" (String#18854, DoABC#2)
-// RoomChatWidget = "_-t-" (String#24405, DoABC#2)
-// RoomChatWidget = "_-0vx" (String#16272, DoABC#2)
-// RoomChatWidget = "_-143" (String#16619, DoABC#2)
-// RoomChatItem = "_-35N" (String#21709, DoABC#2)
-// RoomChatItem = "_-1n-" (String#18421, DoABC#2)
-// RoomChatWidget = "_-00b" (String#14079, DoABC#2)
-// RoomChatItem = "_-29-" (String#19367, DoABC#2)
-// RoomChatWidget = "_-2Kv" (String#19841, DoABC#2)
-// RoomChatItem = "_-2GV" (String#19661, DoABC#2)
-// RoomChatWidget = "_-1F-" (String#17070, DoABC#2)
-// RoomChatHistoryViewer = "_-39s" (String#21880, DoABC#2)
-// RoomChatWidget = "_-Zj" (String#23624, DoABC#2)
-// RoomChatWidget = "_-3Dh" (String#22022, DoABC#2)
-// RoomChatHistoryViewer = "_-1DA" (String#16988, DoABC#2)
-// RoomChatWidget = "_-Mg" (String#23112, DoABC#2)
-// RoomChatHistoryViewer = "_-nM" (String#24165, DoABC#2)
-// RoomChatWidget = "_-n0" (String#24154, DoABC#2)
-// RoomChatWidget = "_-2h3" (String#20729, DoABC#2)
-// RoomChatWidget = "_-2Am" (String#6263, DoABC#2)
-// RoomChatWidget = "_-2zb" (String#21443, DoABC#2)
-// RoomChatWidget = "_-1Aa" (String#16882, DoABC#2)
-// RoomChatWidget = "_-1-c" (String#16451, DoABC#2)
+// setChatItemLocVertical = "_-t-" (String#24405, DoABC#2)
+// setChatItemRenderable = "_-0vx" (String#16272, DoABC#2)
+// purgeItems = "_-143" (String#16619, DoABC#2)
+// hidePointer = "_-35N" (String#21709, DoABC#2)
+// setPointerOffset = "_-1n-" (String#18421, DoABC#2)
+// getAreaBottom = "_-00b" (String#14079, DoABC#2)
+// hideView = "_-29-" (String#19367, DoABC#2)
+// getTotalContentHeight = "_-2Kv" (String#19841, DoABC#2)
+// checkOverlap = "_-2GV" (String#19661, DoABC#2)
+// stretchAreaBottomTo = "_-1F-" (String#17070, DoABC#2)
+// showHistoryViewer = "_-39s" (String#21880, DoABC#2)
+// historyViewerVisible = "_-Zj" (String#23624, DoABC#2)
+// onItemMouseClick = "_-3Dh" (String#22022, DoABC#2)
+// toggleHistoryViewer = "_-1DA" (String#16988, DoABC#2)
+// onItemMouseDown = "_-Mg" (String#23112, DoABC#2)
+// beginDrag = "_-nM" (String#24165, DoABC#2)
+// onItemMouseOver = "_-n0" (String#24154, DoABC#2)
+// onItemMouseOut = "_-2h3" (String#20729, DoABC#2)
+// onPulldownMouseDown = "_-2Am" (String#6263, DoABC#2)
+// onPulldownCloseButtonClicked = "_-2zb" (String#21443, DoABC#2)
+// stretchAreaBottomBy = "_-1Aa" (String#16882, DoABC#2)
+// resizeContainerToLowestItem = "_-1-c" (String#16451, DoABC#2)
 // _SafeStr_14224 = "_-1AK" (String#16874, DoABC#2)
-// RoomChatWidget = "_-0IF" (String#14768, DoABC#2)
-// RoomChatWidget = "_-2-H" (String#18981, DoABC#2)
+// mouseUp = "_-0IF" (String#14768, DoABC#2)
+// enableDragTooltips = "_-2-H" (String#18981, DoABC#2)
 // enableTooltip = "_-20U" (String#19029, DoABC#2)
-// RoomChatWidget = "_-02Z" (String#14145, DoABC#2)
+// disableDragTooltips = "_-02Z" (String#14145, DoABC#2)
 // disableTooltip = "_-1Jb" (String#17262, DoABC#2)
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // HabboWindowStyle = "_-0E1" (String#14608, DoABC#2)
@@ -932,12 +932,12 @@ package com.sulake.habbo.ui.widget.roomchat
 // RoomChatItem = "_-2kD" (String#6959, DoABC#2)
 // RWCSAM_MESSAGE_SELECT_AVATAR = "_-2R1" (String#20086, DoABC#2)
 // RWROM_GET_OBJECT_INFO = "_-cp" (String#23747, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _SafeStr_3728 = "_-1IW" (String#5215, DoABC#2)
 // _SafeStr_3729 = "_-06z" (String#14322, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
-// IContext = "_-35P" (String#7415, DoABC#2)
+// registerUpdateReceiver = "_-35P" (String#7415, DoABC#2)
 // _SafeStr_4426 = "_-0wK" (String#594, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)

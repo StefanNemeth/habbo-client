@@ -47,12 +47,12 @@ package com.sulake.habbo.help.hotelmerge
                 this._view = null;
             };
         }
-        public function HotelMergeUI():void
+        public function startNameChange():void
         {
             if (!this._view){
                 this._view = new HotelMergeNameChangeView(this);
             };
-            this._view.NameChangeView();
+            this._view.showMainView();
         }
         public function changeName(_arg_1:String):void
         {
@@ -83,7 +83,7 @@ package com.sulake.habbo.help.hotelmerge
                 this._view.dispose();
             }
             else {
-                this._view.NameChangeView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
+                this._view.setNameNotAvailableView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
             };
         }
         public function onCheckUserNameResult(_arg_1:CheckUserNameResultMessageEvent):void
@@ -96,14 +96,14 @@ package com.sulake.habbo.help.hotelmerge
                 this._view.checkedName = _local_2.name;
             }
             else {
-                this._view.NameChangeView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
+                this._view.setNameNotAvailableView(_local_2.resultCode, _local_2.name, _local_2.nameSuggestions);
             };
         }
         public function get myName():String
         {
             return (this._SafeStr_11411.ownUserName);
         }
-        public function HabboInventory(_arg_1:String):void
+        public function showView(_arg_1:String):void
         {
         }
         public function buildXmlWindow(_arg_1:String, _arg_2:uint=1):IWindow
@@ -122,12 +122,12 @@ package com.sulake.habbo.help.hotelmerge
 }//package com.sulake.habbo.help.hotelmerge
 
 // _SafeStr_11411 = "_-0kl" (String#822, DoABC#2)
-// NameChangeView = "_-2pt" (String#21077, DoABC#2)
+// showMainView = "_-2pt" (String#21077, DoABC#2)
 // changeName = "_-0uN" (String#4733, DoABC#2)
 // checkName = "_-2Fe" (String#6356, DoABC#2)
 // onUserNameChanged = "_-dO" (String#23776, DoABC#2)
 // onChangeUserNameResult = "_-06v" (String#1405, DoABC#2)
-// NameChangeView = "_-oP" (String#24210, DoABC#2)
+// setNameNotAvailableView = "_-oP" (String#24210, DoABC#2)
 // onCheckUserNameResult = "_-2F9" (String#6344, DoABC#2)
 // checkedName = "_-11W" (String#16518, DoABC#2)
 // myName = "_-0Kp" (String#3971, DoABC#2)
@@ -145,8 +145,8 @@ package com.sulake.habbo.help.hotelmerge
 // CheckUserNameMessageComposer = "_-pJ" (String#24245, DoABC#2)
 // getParser = "_-0B0" (String#1418, DoABC#2)
 // _SafeStr_7096 = "_-OP" (String#23184, DoABC#2)
-// HotelMergeUI = "_-1qU" (String#5864, DoABC#2)
-// HabboInventory = "_-1gE" (String#860, DoABC#2)
+// startNameChange = "_-1qU" (String#5864, DoABC#2)
+// showView = "_-1gE" (String#860, DoABC#2)
 // resultCode = "_-09c" (String#14431, DoABC#2)
 // nameSuggestions = "_-2Cy" (String#19520, DoABC#2)
 

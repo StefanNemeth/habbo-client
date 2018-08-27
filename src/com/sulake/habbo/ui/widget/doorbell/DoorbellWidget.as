@@ -45,34 +45,34 @@ package com.sulake.habbo.ui.widget.doorbell
             this._users = null;
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_RINGING, this.DoorbellWidget);
-            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_REJECTED, this.DoorbellWidget);
-            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_ACCEPTED, this.DoorbellWidget);
-            super.RoomChatWidget(_arg_1);
+            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_RINGING, this.onDoorbellRinging);
+            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_REJECTED, this.onDoorbellHandled);
+            _arg_1.addEventListener(RoomWidgetDoorbellEvent.RWDE_ACCEPTED, this.onDoorbellHandled);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
             };
-            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_RINGING, this.DoorbellWidget);
-            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_REJECTED, this.DoorbellWidget);
-            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_ACCEPTED, this.DoorbellWidget);
+            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_RINGING, this.onDoorbellRinging);
+            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_REJECTED, this.onDoorbellHandled);
+            _arg_1.removeEventListener(RoomWidgetDoorbellEvent.RWDE_ACCEPTED, this.onDoorbellHandled);
         }
-        private function DoorbellWidget(_arg_1:RoomWidgetDoorbellEvent):void
+        private function onDoorbellRinging(_arg_1:RoomWidgetDoorbellEvent):void
         {
-            this.DoorbellWidget(_arg_1.userName);
+            this.addUser(_arg_1.userName);
         }
-        private function DoorbellWidget(_arg_1:RoomWidgetDoorbellEvent):void
+        private function onDoorbellHandled(_arg_1:RoomWidgetDoorbellEvent):void
         {
-            this.DoorbellWidget(_arg_1.userName);
+            this.removeUser(_arg_1.userName);
         }
-        public function DoorbellWidget(_arg_1:String):void
+        public function addUser(_arg_1:String):void
         {
             if (this._users.indexOf(_arg_1) != -1){
                 return;
@@ -84,7 +84,7 @@ package com.sulake.habbo.ui.widget.doorbell
             this._users.push(_arg_1);
             this._view.update();
         }
-        public function DoorbellWidget(_arg_1:String):void
+        public function removeUser(_arg_1:String):void
         {
             var _local_2:int = this._users.indexOf(_arg_1);
             if (_local_2 == -1){
@@ -97,15 +97,15 @@ package com.sulake.habbo.ui.widget.doorbell
         {
             var _local_2:RoomWidgetLetUserInMessage = new RoomWidgetLetUserInMessage(_arg_1, true);
             messageListener.processWidgetMessage(_local_2);
-            this.DoorbellWidget(_arg_1);
+            this.removeUser(_arg_1);
         }
         public function deny(_arg_1:String):void
         {
             var _local_2:RoomWidgetLetUserInMessage = new RoomWidgetLetUserInMessage(_arg_1, false);
             messageListener.processWidgetMessage(_local_2);
-            this.DoorbellWidget(_arg_1);
+            this.removeUser(_arg_1);
         }
-        public function DoorbellWidget():void
+        public function denyAll():void
         {
             while (this._users.length > 0) {
                 this.deny(this._users[0]);
@@ -120,18 +120,18 @@ package com.sulake.habbo.ui.widget.doorbell
 // RoomWidgetDoorbellEvent = "_-3CX" (String#7566, DoABC#2)
 // DoorbellView = "_-0Va" (String#4219, DoABC#2)
 // RoomWidgetLetUserInMessage = "_-2Tq" (String#6644, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // RWDE_ACCEPTED = "_-1OB" (String#17441, DoABC#2)
 // RWDE_REJECTED = "_-1MV" (String#17378, DoABC#2)
 // _SafeStr_5086 = "_-0Ys" (String#15396, DoABC#2)
 // users = "_-0nL" (String#15950, DoABC#2)
 // RWDE_RINGING = "_-3FK" (String#22090, DoABC#2)
-// DoorbellWidget = "_-0zL" (String#16401, DoABC#2)
-// DoorbellWidget = "_-2wD" (String#21319, DoABC#2)
-// DoorbellWidget = "_-Ho" (String#22923, DoABC#2)
-// DoorbellWidget = "_-1m8" (String#18385, DoABC#2)
-// DoorbellWidget = "_-sw" (String#24401, DoABC#2)
+// onDoorbellRinging = "_-0zL" (String#16401, DoABC#2)
+// onDoorbellHandled = "_-2wD" (String#21319, DoABC#2)
+// addUser = "_-Ho" (String#22923, DoABC#2)
+// removeUser = "_-1m8" (String#18385, DoABC#2)
+// denyAll = "_-sw" (String#24401, DoABC#2)
 
 

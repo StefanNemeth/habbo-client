@@ -16,7 +16,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             super.dispose();
             this._SafeStr_12693 = null;
         }
-        override protected function FurnitureVisualization(_arg_1:IRoomObjectModel):String
+        override protected function getAdClickUrl(_arg_1:IRoomObjectModel):String
         {
             return (null);
         }
@@ -40,7 +40,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         }
         private function _SafeStr_12694(_arg_1:int, _arg_2:int, _arg_3:int):void
         {
-            var _local_4:int = FurnitureVisualization(_arg_1);
+            var _local_4:int = getSize(_arg_1);
             var _local_5:DirectionalOffsetData = new DirectionalOffsetData();
             _local_5.setOffset(1, 0, -(_arg_2));
             _local_5.setOffset(3, 0, 0);
@@ -54,7 +54,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             var _local_4:int;
             var _local_5:DirectionalOffsetData;
             if (this._SafeStr_12693 != null){
-                _local_4 = FurnitureVisualization(_arg_1);
+                _local_4 = getSize(_arg_1);
                 _local_5 = this._SafeStr_12693[_local_4];
                 if (_local_5 != null){
                     return ((_local_5.getOffsetX(_arg_2, 0) + _SafeStr_12659));
@@ -67,7 +67,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             var _local_4:int;
             var _local_5:DirectionalOffsetData;
             if (this._SafeStr_12693 != null){
-                _local_4 = FurnitureVisualization(_arg_1);
+                _local_4 = getSize(_arg_1);
                 _local_5 = this._SafeStr_12693[_local_4];
                 if (_local_5 != null){
                     return ((_local_5.getOffsetY(_arg_2, 0) + _SafeStr_12660));
@@ -75,11 +75,11 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             return ((super.getSpriteYOffset(_arg_1, _arg_2, _arg_3) + _SafeStr_12660));
         }
-        override protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Number
+        override protected function getSpriteZOffset(_arg_1:int, _arg_2:int, _arg_3:int):Number
         {
-            return ((super.FurnitureVisualization(_arg_1, _arg_2, _arg_3) + (_paramOffsetZ * -1)));
+            return ((super.getSpriteZOffset(_arg_1, _arg_2, _arg_3) + (_paramOffsetZ * -1)));
         }
-        override protected function FurnitureVisualization(_arg_1:int, _arg_2:int, _arg_3:int):Boolean
+        override protected function getSpriteMouseCapture(_arg_1:int, _arg_2:int, _arg_3:int):Boolean
         {
             return (false);
         }
@@ -87,11 +87,11 @@ package com.sulake.habbo.room.object.visualization.furniture
     }
 }//package com.sulake.habbo.room.object.visualization.furniture
 
-// FurnitureVisualization = "_-0z5" (String#438, DoABC#2)
+// getAdClickUrl = "_-0z5" (String#438, DoABC#2)
 // setOffset = "_-2O1" (String#19966, DoABC#2)
 // getOffsetX = "_-7U" (String#22522, DoABC#2)
 // getOffsetY = "_-1ox" (String#18498, DoABC#2)
-// FurnitureVisualization = "_-1sk" (String#5897, DoABC#2)
+// getSpriteMouseCapture = "_-1sk" (String#5897, DoABC#2)
 // _SafeStr_12659 = "_-Hj" (String#22921, DoABC#2)
 // _SafeStr_12660 = "_-1-i" (String#16455, DoABC#2)
 // _SafeStr_12693 = "_-0j6" (String#15797, DoABC#2)
@@ -102,7 +102,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // DirectionalOffsetData = "_-0oK" (String#4599, DoABC#2)
 // getSpriteXOffset = "_-03Y" (String#354, DoABC#2)
 // getSpriteYOffset = "_-3IZ" (String#251, DoABC#2)
-// FurnitureVisualization = "_-25C" (String#614, DoABC#2)
-// FurnitureVisualization = "_-1GK" (String#5174, DoABC#2)
+// getSpriteZOffset = "_-25C" (String#614, DoABC#2)
+// getSize = "_-1GK" (String#5174, DoABC#2)
 
 

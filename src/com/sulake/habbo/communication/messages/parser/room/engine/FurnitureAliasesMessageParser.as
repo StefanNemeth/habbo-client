@@ -25,7 +25,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
             };
             return (this._SafeStr_3791.getKey(_arg_1));
         }
-        public function FurnitureAliasesMessageParser(_arg_1:int):String
+        public function getAlias(_arg_1:int):String
         {
             if ((((_arg_1 < 0)) || ((_arg_1 >= this.aliasCount)))){
                 return (null);
@@ -63,7 +63,7 @@ package com.sulake.habbo.communication.messages.parser.room.engine
 // _SafeStr_3791 = "_-Xm" (String#8363, DoABC#2)
 // aliasCount = "_-2Xv" (String#20355, DoABC#2)
 // getName = "_-D1" (String#931, DoABC#2)
-// FurnitureAliasesMessageParser = "_-30C" (String#21508, DoABC#2)
+// getAlias = "_-30C" (String#21508, DoABC#2)
 // IMessageParser = "_-5U" (String#7770, DoABC#2)
 
 

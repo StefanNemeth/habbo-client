@@ -58,8 +58,8 @@ package com.sulake.core.window.services
                 this._mouse.x = this._root.mouseX;
                 this._mouse.y = this._root.mouseY;
                 this._window = WindowController(_arg_1);
-                this.WindowMouseOperator(_arg_1, this._mouse, this._offset);
-                this._window.addEventListener(WindowEvent.WE_DESTROYED, this.GestureAgentService);
+                this.getMousePositionRelativeTo(_arg_1, this._mouse, this._offset);
+                this._window.addEventListener(WindowEvent.WE_DESTROYED, this.clientWindowDestroyed);
                 this._working = true;
             };
             return (_local_3);
@@ -73,7 +73,7 @@ package com.sulake.core.window.services
                     this._root.removeEventListener(MouseEvent.MOUSE_UP, this.handler, false);
                     this._root.removeEventListener(Event.ENTER_FRAME, this.handler);
                     if (!this._window.disposed){
-                        this._window.removeEventListener(WindowEvent.WE_DESTROYED, this.GestureAgentService);
+                        this._window.removeEventListener(WindowEvent.WE_DESTROYED, this.clientWindowDestroyed);
                     };
                     this._window = null;
                     this._working = false;
@@ -91,7 +91,7 @@ package com.sulake.core.window.services
                     }
                     else {
                         if (((!((this._mouse.x == this._root.mouseX))) || (!((this._mouse.y == this._root.mouseY))))){
-                            this.GestureAgentService(this._root.mouseX, this._root.mouseY);
+                            this.operate(this._root.mouseX, this._root.mouseY);
                             this._mouse.x = this._root.mouseX;
                             this._mouse.y = this._root.mouseY;
                         };
@@ -108,18 +108,18 @@ package com.sulake.core.window.services
                 };
             };
         }
-        public function GestureAgentService(_arg_1:int, _arg_2:int):void
+        public function operate(_arg_1:int, _arg_2:int):void
         {
             this._mouse.x = _arg_1;
             this._mouse.y = _arg_2;
-            this.WindowMouseOperator(this._window, this._mouse, this._SafeStr_9646);
+            this.getMousePositionRelativeTo(this._window, this._mouse, this._SafeStr_9646);
             this._window.offset((this._SafeStr_9646.x - this._offset.x), (this._SafeStr_9646.y - this._offset.y));
         }
-        private function GestureAgentService(_arg_1:WindowEvent):void
+        private function clientWindowDestroyed(_arg_1:WindowEvent):void
         {
             this.end(this._window);
         }
-        protected function WindowMouseOperator(_arg_1:IWindow, _arg_2:Point, _arg_3:Point):void
+        protected function getMousePositionRelativeTo(_arg_1:IWindow, _arg_2:Point, _arg_3:Point):void
         {
             _arg_1.getGlobalPosition(_arg_3);
             _arg_3.x = (_arg_2.x - _arg_3.x);
@@ -136,8 +136,8 @@ package com.sulake.core.window.services
 // _SafeStr_8916 = "_-27n" (String#877, DoABC#2)
 // WE_DESTROYED = "_-2PT" (String#20021, DoABC#2)
 // _SafeStr_9646 = "_-SB" (String#23332, DoABC#2)
-// WindowMouseOperator = "_-1xh" (String#18875, DoABC#2)
-// GestureAgentService = "_-1b2" (String#5578, DoABC#2)
-// GestureAgentService = "_-0n2" (String#4567, DoABC#2)
+// getMousePositionRelativeTo = "_-1xh" (String#18875, DoABC#2)
+// clientWindowDestroyed = "_-1b2" (String#5578, DoABC#2)
+// operate = "_-0n2" (String#4567, DoABC#2)
 
 

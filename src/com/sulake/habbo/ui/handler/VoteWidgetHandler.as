@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.handler
             this._disposed = true;
             this._container = null;
         }
-        public function IRoomWidgetHandler():Array
+        public function getWidgetMessages():Array
         {
             return ([RoomWidgetVoteMessage.RWE_ROOM_VOTE]);
         }
@@ -47,19 +47,19 @@ package com.sulake.habbo.ui.handler
                     if (_local_2 == null){
                         return (null);
                     };
-                    this._container.roomSession.RoomSession(_local_2.vote);
+                    this._container.roomSession.sendVote(_local_2.vote);
                     break;
             };
             return (null);
         }
-        public function IRoomWidgetHandler():Array
+        public function getProcessedEvents():Array
         {
             var _local_1:Array = [];
             _local_1.push(RoomSessionVoteEvent.RWPUE_VOTE_QUESTION);
             _local_1.push(RoomSessionVoteEvent.RWPUE_VOTE_RESULT);
             return (_local_1);
         }
-        public function IRoomWidgetHandler(_arg_1:Event):void
+        public function processEvent(_arg_1:Event):void
         {
             var _local_3:RoomWidgetVoteUpdateEvent;
             if ((((this._container == null)) || ((this._container.events == null)))){
@@ -103,9 +103,9 @@ package com.sulake.habbo.ui.handler
 // votes = "_-2a2" (String#20443, DoABC#2)
 // totalVotes = "_-0EU" (String#14625, DoABC#2)
 // roomSession = "_-0cq" (String#4363, DoABC#2)
-// IRoomWidgetHandler = "_-1dr" (String#5626, DoABC#2)
-// IRoomWidgetHandler = "_-0gb" (String#4436, DoABC#2)
-// IRoomWidgetHandler = "_-xT" (String#2223, DoABC#2)
-// RoomSession = "_-2W0" (String#6684, DoABC#2)
+// getWidgetMessages = "_-1dr" (String#5626, DoABC#2)
+// getProcessedEvents = "_-0gb" (String#4436, DoABC#2)
+// processEvent = "_-xT" (String#2223, DoABC#2)
+// sendVote = "_-2W0" (String#6684, DoABC#2)
 
 

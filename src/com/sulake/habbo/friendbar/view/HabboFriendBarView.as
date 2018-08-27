@@ -100,7 +100,7 @@ package com.sulake.habbo.friendbar.view
             super(_arg_1, _arg_2, _arg_3);
             this._SafeStr_11108 = new TextCropper();
             this._SafeStr_11105 = new Vector.<ITab>();
-            queueInterface(new IIDHabboFriendBarData(), this.HabboFriendBarView);
+            queueInterface(new IIDHabboFriendBarData(), this.onFriendBarDataAvailable);
         }
         public function setMessengerIconNotify(_arg_1:Boolean):void
         {
@@ -153,11 +153,11 @@ package com.sulake.habbo.friendbar.view
                 if (this._SafeStr_11102){
                     if (!this._SafeStr_11102.disposed){
                         if (this._SafeStr_11102.events){
-                            this._SafeStr_11102.events.removeEventListener(FriendBarUpdateEvent.FBE_UPDATED, this.HabboFriendBarView);
-                            this._SafeStr_11102.events.removeEventListener(FindFriendsNotificationEvent.TYPE, this.HabboFriendBarView);
-                            this._SafeStr_11102.events.removeEventListener(FriendRequestUpdateEvent.FBE_REQUESTS, this.HabboFriendBarView);
-                            this._SafeStr_11102.events.removeEventListener(NewMessageEvent.FBE_MESSAGE, this.HabboFriendBarView);
-                            this._SafeStr_11102.events.removeEventListener(NotificationEvent.FBE_NOTIFICATION_EVENT, this.HabboFriendBarView);
+                            this._SafeStr_11102.events.removeEventListener(FriendBarUpdateEvent.FBE_UPDATED, this.onRefreshView);
+                            this._SafeStr_11102.events.removeEventListener(FindFriendsNotificationEvent.TYPE, this.onFindFriendsNotification);
+                            this._SafeStr_11102.events.removeEventListener(FriendRequestUpdateEvent.FBE_REQUESTS, this.onFriendRequestUpdate);
+                            this._SafeStr_11102.events.removeEventListener(NewMessageEvent.FBE_MESSAGE, this.onNewInstantMessage);
+                            this._SafeStr_11102.events.removeEventListener(NotificationEvent.FBE_NOTIFICATION_EVENT, this.onFriendNotification);
                         };
                         this._SafeStr_11102.release(new IIDHabboFriendBarData());
                         this._SafeStr_11102 = null;
@@ -165,7 +165,7 @@ package com.sulake.habbo.friendbar.view
                 };
                 if (_windowManager){
                     if (!_windowManager.disposed){
-                        _windowManager.getWindowContext(_SafeStr_11079).getDesktopWindow().removeEventListener(WindowEvent.WE_RESIZED, this.HabboFriendBarView);
+                        _windowManager.getWindowContext(_SafeStr_11079).getDesktopWindow().removeEventListener(WindowEvent.WE_RESIZED, this.onDesktopResized);
                     };
                 };
                 this._SafeStr_11108.dispose();
@@ -208,7 +208,7 @@ package com.sulake.habbo.friendbar.view
             var _local_4:int = _local_3.numListItems;
             _local_5 = _local_4;
             while (_local_5 > 0) {
-                _local_3.IItemListWindow((_local_5 - 1));
+                _local_3.removeListItemAt((_local_5 - 1));
                 _local_5--;
             };
             while (this._SafeStr_11105.length > 0) {
@@ -227,14 +227,14 @@ package com.sulake.habbo.friendbar.view
                 if (this._startIndex == 0){
                     if (this._SafeStr_11105.length < _local_8){
                         if (_local_7 == 1){
-                            _local_12 = this._SafeStr_11102.HabboFriendBarData(0);
+                            _local_12 = this._SafeStr_11102.getFriendRequestAt(0);
                             _local_14 = FriendRequestTab.allocate(_local_12);
                             this._SafeStr_11105.push(_local_14);
                             _local_3.addListItem(_local_14.window);
                         }
                         else {
                             if (_local_7 > 1){
-                                _local_14 = FriendRequestsTab.allocate(this._SafeStr_11102.HabboFriendBarData());
+                                _local_14 = FriendRequestsTab.allocate(this._SafeStr_11102.getFriendRequestList());
                                 this._SafeStr_11105.push(_local_14);
                                 _local_3.addListItem(_local_14.window);
                             };
@@ -249,7 +249,7 @@ package com.sulake.habbo.friendbar.view
             while (_local_5 < (_local_6 + _local_11)) {
                 if (_local_5 >= _local_6) break;
                 if (this._SafeStr_11105.length >= _local_8) break;
-                _local_13 = this._SafeStr_11102.HabboFriendBarData(_local_5);
+                _local_13 = this._SafeStr_11102.getFriendAt(_local_5);
                 _local_14 = FriendEntityTab.allocate(_local_13);
                 this._SafeStr_11105.push(_local_14);
                 _local_3.addListItem(_local_14.window);
@@ -271,12 +271,12 @@ package com.sulake.habbo.friendbar.view
             };
             _local_3.autoArrangeItems = true;
             if (_local_1 > -1){
-                this.HabboFriendBarView(_local_1);
+                this.selectFriendEntity(_local_1);
             };
             _local_2.visible = (this._SafeStr_11105.length > 0);
-            this.HabboFriendBarView((this._SafeStr_11105.length < _local_9), !((this._startIndex == 0)), ((this._startIndex + this._SafeStr_11105.length) < _local_9));
+            this.toggleArrowButtons((this._SafeStr_11105.length < _local_9), !((this._startIndex == 0)), ((this._startIndex + this._SafeStr_11105.length) < _local_9));
         }
-        private function HabboFriendBarView(_arg_1:int):FriendEntityTab
+        private function getFriendEntityTabByID(_arg_1:int):FriendEntityTab
         {
             var _local_2:FriendEntityTab;
             var _local_3:int = this._SafeStr_11105.length;
@@ -292,20 +292,20 @@ package com.sulake.habbo.friendbar.view
             };
             return (null);
         }
-        private function HabboFriendBarView(_arg_1:IID, _arg_2:IUnknown):void
+        private function onFriendBarDataAvailable(_arg_1:IID, _arg_2:IUnknown):void
         {
             this._SafeStr_11102 = (_arg_2 as IHabboFriendBarData);
-            this._SafeStr_11102.events.addEventListener(FriendBarUpdateEvent.FBE_UPDATED, this.HabboFriendBarView);
-            this._SafeStr_11102.events.addEventListener(FindFriendsNotificationEvent.TYPE, this.HabboFriendBarView);
-            this._SafeStr_11102.events.addEventListener(FriendRequestUpdateEvent.FBE_REQUESTS, this.HabboFriendBarView);
-            this._SafeStr_11102.events.addEventListener(NewMessageEvent.FBE_MESSAGE, this.HabboFriendBarView);
-            this._SafeStr_11102.events.addEventListener(NotificationEvent.FBE_NOTIFICATION_EVENT, this.HabboFriendBarView);
+            this._SafeStr_11102.events.addEventListener(FriendBarUpdateEvent.FBE_UPDATED, this.onRefreshView);
+            this._SafeStr_11102.events.addEventListener(FindFriendsNotificationEvent.TYPE, this.onFindFriendsNotification);
+            this._SafeStr_11102.events.addEventListener(FriendRequestUpdateEvent.FBE_REQUESTS, this.onFriendRequestUpdate);
+            this._SafeStr_11102.events.addEventListener(NewMessageEvent.FBE_MESSAGE, this.onNewInstantMessage);
+            this._SafeStr_11102.events.addEventListener(NotificationEvent.FBE_NOTIFICATION_EVENT, this.onFriendNotification);
         }
-        private function HabboFriendBarView():Boolean
+        private function isUserInterfaceReady():Boolean
         {
             return (((this._SafeStr_11103) && (!(this._SafeStr_11103.disposed))));
         }
-        private function HabboFriendBarView():void
+        private function buildUserInterface():void
         {
             var _local_2:IWindowContainer;
             Tab._SafeStr_11013 = this._SafeStr_11102;
@@ -322,7 +322,7 @@ package com.sulake.habbo.friendbar.view
             this._SafeStr_11103.y = (this._SafeStr_11103.parent.height - (this._SafeStr_11103.height + _SafeStr_11080));
             this._SafeStr_11103.width = (this._SafeStr_11103.parent.width - (_SafeStr_11081 + _SafeStr_11082));
             this._SafeStr_11103.setParamFlag(WindowParam._SafeStr_7458, true);
-            this._SafeStr_11103.procedure = this.HabboFriendBarView;
+            this._SafeStr_11103.procedure = this.barWindowEventProc;
             if (_SafeStr_11083){
                 _local_1 = assets.getAssetByName(_SafeStr_11089);
                 this._SafeStr_11104 = (_windowManager.buildFromXML((_local_1.content as XML), _SafeStr_11079) as IWindowContainer);
@@ -330,26 +330,26 @@ package com.sulake.habbo.friendbar.view
                 this._SafeStr_11104.y = this._SafeStr_11103.y;
                 this._SafeStr_11104.setParamFlag(WindowParam._SafeStr_7458, true);
                 this._SafeStr_11104.visible = false;
-                this._SafeStr_11104.procedure = this.HabboFriendBarView;
+                this._SafeStr_11104.procedure = this.toggleWindowEventProc;
             };
             _local_2 = IWindowContainer(this._SafeStr_11103.findChildByName(_SafeStr_11099));
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.ToolbarView);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.onIconMouseEvent);
             this._SafeStr_11109 = new FriendListIcon(assets, (_local_2.getChildByName(ICON) as IBitmapWrapperWindow));
             _local_2 = IWindowContainer(this._SafeStr_11103.findChildByName(_SafeStr_11098));
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.ToolbarView);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.onIconMouseEvent);
             this._SafeStr_11110 = new MessengerIcon(assets, (_local_2.getChildByName(ICON) as IBitmapWrapperWindow));
             this._SafeStr_11110.enable(false);
             this.visible = true;
-            _windowManager.getWindowContext(_SafeStr_11079).getDesktopWindow().addEventListener(WindowEvent.WE_RESIZED, this.HabboFriendBarView);
+            _windowManager.getWindowContext(_SafeStr_11079).getDesktopWindow().addEventListener(WindowEvent.WE_RESIZED, this.onDesktopResized);
             this._SafeStr_11103.findChildByName(_SafeStr_11100).visible = (_SafeStr_10977.getBoolean("friendbar.stream.enabled", false) == true);
             _local_2 = IWindowContainer(this._SafeStr_11103.findChildByName(_SafeStr_11100));
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.ToolbarView);
-            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.ToolbarView);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onIconMouseEvent);
+            _local_2.addEventListener(WindowMouseEvent.WME_OUT, this.onIconMouseEvent);
             this._SafeStr_11111 = new StreamIcon(assets, (_local_2.getChildByName(ICON) as IBitmapWrapperWindow));
         }
         public function getAvatarFaceBitmap(_arg_1:String):BitmapData
@@ -379,11 +379,11 @@ package com.sulake.habbo.friendbar.view
             var _local_4:int = this._SafeStr_11102.numFriends;
             var _local_5:int;
             while (_local_5 < _local_4) {
-                _local_2 = this._SafeStr_11102.HabboFriendBarData(_local_5);
+                _local_2 = this._SafeStr_11102.getFriendAt(_local_5);
                 if (_local_2.figure == _arg_1){
                     _local_8 = this.getAvatarFaceBitmap(_arg_1);
                     if (_local_8){
-                        _local_9 = (_local_3.IItemListWindow(_local_2.id) as IWindowContainer);
+                        _local_9 = (_local_3.getListItemByID(_local_2.id) as IWindowContainer);
                         if (_local_9){
                             _local_10 = (_local_9.getChildByName(_SafeStr_11057) as IItemListWindow);
                             if (_local_10){
@@ -401,7 +401,7 @@ package com.sulake.habbo.friendbar.view
                 };
                 _local_5++;
             };
-            var _local_6:Array = this._SafeStr_11102.HabboFriendBarData();
+            var _local_6:Array = this._SafeStr_11102.getFriendRequestList();
             for each (_local_7 in _local_6) {
                 if (_local_7.figure == _arg_1){
                     for each (_local_13 in this._SafeStr_11105) {
@@ -417,10 +417,10 @@ package com.sulake.habbo.friendbar.view
                 };
             };
         }
-        public function HabboFriendBarView(_arg_1:BitmapData):void
+        public function faceBookImageReady(_arg_1:BitmapData):void
         {
         }
-        private function HabboFriendBarView(_arg_1:IFriendEntity):Boolean
+        private function isFriendSelected(_arg_1:IFriendEntity):Boolean
         {
             return ((this._SafeStr_11107 == _arg_1.id));
         }
@@ -437,12 +437,12 @@ package com.sulake.habbo.friendbar.view
                 };
             };
         }
-        public function HabboFriendBarView(_arg_1:int):void
+        public function selectFriendEntity(_arg_1:int):void
         {
             if (this._SafeStr_11107 == _arg_1){
                 return;
             };
-            var _local_2:FriendEntityTab = this.HabboFriendBarView(_arg_1);
+            var _local_2:FriendEntityTab = this.getFriendEntityTabByID(_arg_1);
             if (_local_2){
                 this.selectTab(_local_2, false);
                 this._SafeStr_11107 = _arg_1;
@@ -451,19 +451,19 @@ package com.sulake.habbo.friendbar.view
         public function deSelect(_arg_1:Boolean):void
         {
             if (this._SafeStr_11106){
-                this._SafeStr_11106.ITab(_arg_1);
+                this._SafeStr_11106.deselect(_arg_1);
                 this._SafeStr_11106 = null;
                 this._SafeStr_11107 = -1;
             };
         }
-        private function HabboFriendBarView(_arg_1:Event):void
+        private function onRefreshView(_arg_1:Event):void
         {
-            if (!this.HabboFriendBarView()){
-                this.HabboFriendBarView();
+            if (!this.isUserInterfaceReady()){
+                this.buildUserInterface();
             };
-            this.HabboFriendBarView(true);
+            this.resizeAndPopulate(true);
         }
-        private function HabboFriendBarView(event:FindFriendsNotificationEvent):void
+        private function onFindFriendsNotification(event:FindFriendsNotificationEvent):void
         {
             var title:String = ((event.success) ? "${friendbar.find.success.title}" : "${friendbar.find.error.title}");
             var text:String = ((event.success) ? "${friendbar.find.success.text}" : "${friendbar.find.error.text}");
@@ -472,14 +472,14 @@ package com.sulake.habbo.friendbar.view
                 _arg_1.dispose();
             }, HabboAlertDialogFlag._SafeStr_7586);
         }
-        private function HabboFriendBarView(_arg_1:FriendRequestUpdateEvent):void
+        private function onFriendRequestUpdate(_arg_1:FriendRequestUpdateEvent):void
         {
             if (this._SafeStr_11109){
                 this._SafeStr_11109.notify((this._SafeStr_11102.numFriendRequests > 0));
             };
             this.populate();
         }
-        private function HabboFriendBarView(_arg_1:NewMessageEvent):void
+        private function onNewInstantMessage(_arg_1:NewMessageEvent):void
         {
             if (this._SafeStr_11110){
                 if (_arg_1.notify){
@@ -490,15 +490,15 @@ package com.sulake.habbo.friendbar.view
                 };
             };
         }
-        private function HabboFriendBarView(_arg_1:NotificationEvent):void
+        private function onFriendNotification(_arg_1:NotificationEvent):void
         {
-            var _local_2:FriendEntityTab = this.HabboFriendBarView(_arg_1.friendId);
+            var _local_2:FriendEntityTab = this.getFriendEntityTabByID(_arg_1.friendId);
             if (!_local_2){
                 return;
             };
             _local_2.addNotificationToken(_arg_1.notification, true);
         }
-        private function HabboFriendBarView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function barWindowEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             var _local_3:int;
             var _local_4:int;
@@ -537,14 +537,14 @@ package com.sulake.habbo.friendbar.view
                 if (_local_3 != this._startIndex){
                     this.deSelect(true);
                     this._startIndex = _local_3;
-                    this.HabboFriendBarView(true);
+                    this.resizeAndPopulate(true);
                 };
             };
             if (_arg_1.type == WindowEvent.WE_DEACTIVATED){
                 this.deSelect(true);
             };
         }
-        private function ToolbarView(_arg_1:WindowMouseEvent):void
+        private function onIconMouseEvent(_arg_1:WindowMouseEvent):void
         {
             var _local_2:Icon;
             switch (_arg_1.window.name){
@@ -588,7 +588,7 @@ package com.sulake.habbo.friendbar.view
                     return;
             };
         }
-        private function HabboFriendBarView(_arg_1:WindowEvent, _arg_2:IWindow):void
+        private function toggleWindowEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
             if (this._SafeStr_11104.visible){
                 if (_arg_1.type == WindowMouseEvent.WME_DOWN){
@@ -600,18 +600,18 @@ package com.sulake.habbo.friendbar.view
                 };
             };
         }
-        private function HabboFriendBarView(_arg_1:Boolean, _arg_2:Boolean, _arg_3:Boolean):void
+        private function toggleArrowButtons(_arg_1:Boolean, _arg_2:Boolean, _arg_3:Boolean):void
         {
             var _local_4:IWindow;
             var _local_5:Array;
             var _local_6:IWindowContainer = (this._SafeStr_11103.findChildByName(_SafeStr_11090) as IWindowContainer);
             _local_5 = [];
-            _local_6.WindowController(_SafeStr_11085, _local_5);
+            _local_6.groupChildrenWithTag(_SafeStr_11085, _local_5);
             for each (_local_4 in _local_5) {
                 _local_4.visible = _arg_1;
             };
             _local_5 = [];
-            _local_6.WindowController(_SafeStr_11086, _local_5);
+            _local_6.groupChildrenWithTag(_SafeStr_11086, _local_5);
             for each (_local_4 in _local_5) {
                 if (_arg_2){
                     _local_4.enable();
@@ -621,7 +621,7 @@ package com.sulake.habbo.friendbar.view
                 };
             };
             _local_5 = [];
-            _local_6.WindowController(_SafeStr_11087, _local_5);
+            _local_6.groupChildrenWithTag(_SafeStr_11087, _local_5);
             for each (_local_4 in _local_5) {
                 if (_arg_3){
                     _local_4.enable();
@@ -631,7 +631,7 @@ package com.sulake.habbo.friendbar.view
                 };
             };
         }
-        private function HabboFriendBarView(_arg_1:Boolean=false):void
+        private function resizeAndPopulate(_arg_1:Boolean=false):void
         {
             var _local_2:int;
             if (!disposed){
@@ -685,9 +685,9 @@ package com.sulake.habbo.friendbar.view
             var _local_4:int = (_local_2.width - _local_3.width);
             return (((_local_1.width - _local_4) / (_SafeStr_11078 + _local_3.spacing)));
         }
-        private function HabboFriendBarView(_arg_1:WindowEvent):void
+        private function onDesktopResized(_arg_1:WindowEvent):void
         {
-            this.HabboFriendBarView(false);
+            this.resizeAndPopulate(false);
         }
 
     }
@@ -695,16 +695,16 @@ package com.sulake.habbo.friendbar.view
 
 // IID = "_-3KV" (String#7712, DoABC#2)
 // numFriends = "_-nN" (String#8666, DoABC#2)
-// HabboFriendBarData = "_-1K4" (String#5244, DoABC#2)
+// getFriendAt = "_-1K4" (String#5244, DoABC#2)
 // numFriendRequests = "_-0" (String#3548, DoABC#2)
-// HabboFriendBarData = "_-3-l" (String#7299, DoABC#2)
-// HabboFriendBarData = "_-0Wl" (String#4243, DoABC#2)
+// getFriendRequestAt = "_-3-l" (String#7299, DoABC#2)
+// getFriendRequestList = "_-0Wl" (String#4243, DoABC#2)
 // toggleFriendList = "_-tA" (String#8753, DoABC#2)
 // toggleMessenger = "_-2E7" (String#1838, DoABC#2)
 // toggleOfflineStream = "_-2ED" (String#6325, DoABC#2)
 // refreshOfflineStream = "_-ul" (String#8779, DoABC#2)
 // refreshEventStream = "_-1Zw" (String#1711, DoABC#2)
-// HabboFriendBarView = "_-Mx" (String#8141, DoABC#2)
+// onFriendNotification = "_-Mx" (String#8141, DoABC#2)
 // _SafeStr_10932 = "_-1bg" (String#5593, DoABC#2)
 // ASSETS = "_-391" (String#21846, DoABC#2)
 // _localization = "_-07" (String#3703, DoABC#2)
@@ -757,24 +757,24 @@ package com.sulake.habbo.friendbar.view
 // _SafeStr_11110 = "_-1jc" (String#18269, DoABC#2)
 // _SafeStr_11111 = "_-5L" (String#22436, DoABC#2)
 // _SafeStr_11112 = "_-1JU" (String#17256, DoABC#2)
-// HabboFriendBarView = "_-0Xk" (String#15345, DoABC#2)
-// HabboFriendBarView = "_-OL" (String#23181, DoABC#2)
-// HabboFriendBarView = "_-0IE" (String#14767, DoABC#2)
-// HabboFriendBarView = "_-aM" (String#23647, DoABC#2)
-// HabboFriendBarView = "_-1cr" (String#18006, DoABC#2)
-// HabboFriendBarView = "_-2rT" (String#21136, DoABC#2)
+// onFriendBarDataAvailable = "_-0Xk" (String#15345, DoABC#2)
+// onRefreshView = "_-OL" (String#23181, DoABC#2)
+// onFindFriendsNotification = "_-0IE" (String#14767, DoABC#2)
+// onFriendRequestUpdate = "_-aM" (String#23647, DoABC#2)
+// onNewInstantMessage = "_-1cr" (String#18006, DoABC#2)
+// onDesktopResized = "_-2rT" (String#21136, DoABC#2)
 // maxNumOfTabsVisible = "_-0sL" (String#16137, DoABC#2)
-// HabboFriendBarView = "_-gq" (String#23924, DoABC#2)
-// HabboFriendBarView = "_-1IY" (String#17215, DoABC#2)
-// HabboFriendBarView = "_-2S7" (String#20124, DoABC#2)
-// HabboFriendBarView = "_-0JW" (String#14822, DoABC#2)
-// HabboFriendBarView = "_-1fa" (String#18121, DoABC#2)
-// HabboFriendBarView = "_-2Ie" (String#19753, DoABC#2)
-// HabboFriendBarView = "_-1sH" (String#18643, DoABC#2)
-// ToolbarView = "_-1ZI" (String#5547, DoABC#2)
-// HabboFriendBarView = "_-2CN" (String#19499, DoABC#2)
-// HabboFriendBarView = "_-11N" (String#16512, DoABC#2)
-// HabboFriendBarView = "_-0vo" (String#16267, DoABC#2)
+// selectFriendEntity = "_-gq" (String#23924, DoABC#2)
+// toggleArrowButtons = "_-1IY" (String#17215, DoABC#2)
+// getFriendEntityTabByID = "_-2S7" (String#20124, DoABC#2)
+// isUserInterfaceReady = "_-0JW" (String#14822, DoABC#2)
+// buildUserInterface = "_-1fa" (String#18121, DoABC#2)
+// barWindowEventProc = "_-2Ie" (String#19753, DoABC#2)
+// toggleWindowEventProc = "_-1sH" (String#18643, DoABC#2)
+// onIconMouseEvent = "_-1ZI" (String#5547, DoABC#2)
+// faceBookImageReady = "_-2CN" (String#19499, DoABC#2)
+// isFriendSelected = "_-11N" (String#16512, DoABC#2)
+// resizeAndPopulate = "_-0vo" (String#16267, DoABC#2)
 // numFriendEntityTabsVisible = "_-2Mq" (String#19920, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
@@ -810,8 +810,8 @@ package com.sulake.habbo.friendbar.view
 // getCroppedImage = "_-2Ez" (String#6342, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // WE_DEACTIVATED = "_-1oi" (String#18485, DoABC#2)
-// ITab = "_-05I" (String#3671, DoABC#2)
-// IItemListWindow = "_-Td" (String#8279, DoABC#2)
+// deselect = "_-05I" (String#3671, DoABC#2)
+// removeListItemAt = "_-Td" (String#8279, DoABC#2)
 // IAvatarImageListener = "_-06N" (String#3688, DoABC#2)
 // _SafeStr_7458 = "_-cq" (String#23748, DoABC#2)
 // _SafeStr_7540 = "_-1l4" (String#444, DoABC#2)
@@ -822,7 +822,7 @@ package com.sulake.habbo.friendbar.view
 // FBE_MESSAGE = "_-28K" (String#19344, DoABC#2)
 // FBE_UPDATED = "_-06G" (String#14296, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
-// WindowController = "_-cU" (String#2141, DoABC#2)
-// IItemListWindow = "_-29k" (String#6245, DoABC#2)
+// groupChildrenWithTag = "_-cU" (String#2141, DoABC#2)
+// getListItemByID = "_-29k" (String#6245, DoABC#2)
 
 

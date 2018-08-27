@@ -27,7 +27,7 @@ package com.sulake.habbo.ui.widget.chooser
             };
             super.dispose();
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -35,9 +35,9 @@ package com.sulake.habbo.ui.widget.chooser
             _arg_1.addEventListener(RoomWidgetChooserContentEvent.RWCCE_FURNI_CHOOSER_CONTENT, this.onChooserContent);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_REMOVED, this.onUpdateFurniChooser);
             _arg_1.addEventListener(RoomWidgetRoomObjectUpdateEvent.RWROUE_FURNI_ADDED, this.onUpdateFurniChooser);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -58,7 +58,7 @@ package com.sulake.habbo.ui.widget.chooser
         }
         private function onUpdateFurniChooser(_arg_1:RoomWidgetRoomObjectUpdateEvent):void
         {
-            if ((((this._SafeStr_6592 == null)) || (!(this._SafeStr_6592.IssueBrowser())))){
+            if ((((this._SafeStr_6592 == null)) || (!(this._SafeStr_6592.isOpen())))){
                 return;
             };
             var _local_2:RoomWidgetRequestWidgetMessage = new RoomWidgetRequestWidgetMessage(RoomWidgetRequestWidgetMessage.RWRWM_FURNI_CHOOSER);
@@ -75,10 +75,10 @@ package com.sulake.habbo.ui.widget.chooser
 // RoomWidgetRequestWidgetMessage = "_-XQ" (String#8356, DoABC#2)
 // ChooserView = "_-2b-" (String#6772, DoABC#2)
 // RWRWM_FURNI_CHOOSER = "_-0pQ" (String#16032, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // RWROUE_FURNI_REMOVED = "_-2L6" (String#19851, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
 // _SafeStr_6592 = "_-11H" (String#16508, DoABC#2)
 // RWCCE_FURNI_CHOOSER_CONTENT = "_-2tc" (String#21225, DoABC#2)
 // onChooserContent = "_-2U6" (String#6648, DoABC#2)

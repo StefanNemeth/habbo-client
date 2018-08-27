@@ -27,7 +27,7 @@ package com.sulake.habbo.roomevents
             };
             return (_local_2);
         }
-        public static function InfostandWidget(_arg_1:IWindowContainer):void
+        public static function hideChildren(_arg_1:IWindowContainer):void
         {
             var _local_2:int;
             while (_local_2 < _arg_1.numChildren) {
@@ -77,7 +77,7 @@ package com.sulake.habbo.roomevents
 // HabboWindowParam = "_-29D" (String#6233, DoABC#2)
 // Util = "_-1ve" (String#445, DoABC#2)
 // _SafeStr_3731 = "_-B" (String#22654, DoABC#2)
-// InfostandWidget = "_-14q" (String#1615, DoABC#2)
+// hideChildren = "_-14q" (String#1615, DoABC#2)
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // moveChildrenToColumn = "_-fI" (String#23859, DoABC#2)
 // setProcDirectly = "_-24s" (String#19218, DoABC#2)

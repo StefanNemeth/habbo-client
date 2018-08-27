@@ -16,7 +16,7 @@ package com.sulake.habbo.catalog.viewer
     public class ProductGridItem implements IGridItem 
     {
 
-        private static const _ProductGridItem:String = "bg";
+        private static const _SafeStr_4999:String = "bg";
 
         protected var _view:IWindowContainer;
         private var _grid:IItemGrid;
@@ -51,11 +51,11 @@ package com.sulake.habbo.catalog.viewer
         }
         public function activate():void
         {
-            this._view.getChildByName(_ProductGridItem).style = HabboWindowStyle._SafeStr_3729;
+            this._view.getChildByName(_SafeStr_4999).style = HabboWindowStyle._SafeStr_3729;
         }
         public function deActivate():void
         {
-            this._view.getChildByName(_ProductGridItem).style = 3;
+            this._view.getChildByName(_SafeStr_4999).style = 3;
         }
         public function set view(_arg_1:IWindowContainer):void
         {
@@ -70,7 +70,7 @@ package com.sulake.habbo.catalog.viewer
                 _local_2.visible = false;
             };
         }
-        public function ProductGridItem(_arg_1:Boolean):void
+        public function setDraggable(_arg_1:Boolean):void
         {
             if (((this._view) && (_arg_1))){
                 (this._view as IInteractiveWindow).setMouseCursorForState(WindowState._SafeStr_5004, MouseCursorType._SafeStr_5005);
@@ -117,7 +117,7 @@ package com.sulake.habbo.catalog.viewer
                 };
             };
         }
-        protected function ProductGridItem(_arg_1:BitmapData, _arg_2:Boolean):void
+        protected function setIconImage(_arg_1:BitmapData, _arg_2:Boolean):void
         {
             var _local_3:int;
             var _local_4:int;
@@ -155,8 +155,8 @@ package com.sulake.habbo.catalog.viewer
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
 // _SafeStr_4586 = "_-22X" (String#19111, DoABC#2)
-// ProductGridItem = "_-2tF" (String#7142, DoABC#2)
-// _ProductGridItem = "_-Gm" (String#22881, DoABC#2)
+// setDraggable = "_-2tF" (String#7142, DoABC#2)
+// _SafeStr_4999 = "_-Gm" (String#22881, DoABC#2)
 // _grid = "_-CU" (String#2073, DoABC#2)
 // _SafeStr_5001 = "_-1CR" (String#1632, DoABC#2)
 // eventProc = "_-0xb" (String#1584, DoABC#2)
@@ -165,6 +165,6 @@ package com.sulake.habbo.catalog.viewer
 // _SafeStr_5005 = "_-0xz" (String#16354, DoABC#2)
 // startDragAndDrop = "_-Di" (String#7945, DoABC#2)
 // WME_DOUBLE_CLICK = "_-Y3" (String#23564, DoABC#2)
-// ProductGridItem = "_-0p8" (String#16022, DoABC#2)
+// setIconImage = "_-0p8" (String#16022, DoABC#2)
 
 

@@ -20,7 +20,7 @@ package com.sulake.habbo.room.object.logic.furniture
         override public function getEventTypes():Array
         {
             var _local_1:Array = [RoomObjectWidgetRequestEvent.REOE_WIDGET_REQUEST_DIMMER, RoomObjectWidgetRequestEvent.REOR_REMOVE_DIMMER, RoomObjectDimmerStateUpdateEvent.RWDSUE_DIMMER_STATE];
-            return (ObjectLogicBase(super.getEventTypes(), _local_1));
+            return (getAllEventTypes(super.getEventTypes(), _local_1));
         }
         override public function mouseEvent(_arg_1:RoomSpriteMouseEvent, _arg_2:IRoomGeometry):void
         {
@@ -168,7 +168,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // RoomSpriteMouseEvent = "_-wc" (String#8815, DoABC#2)
 // RoomObjectWidgetRequestEvent = "_-0Oy" (String#15023, DoABC#2)
 // RoomObjectDimmerStateUpdateEvent = "_-08I" (String#14375, DoABC#2)
-// ObjectLogicBase = "_-uN" (String#24466, DoABC#2)
+// getAllEventTypes = "_-uN" (String#24466, DoABC#2)
 // processUpdateMessage = "_-FX" (String#7984, DoABC#2)
 // mouseEvent = "_-0Um" (String#4199, DoABC#2)
 // REOE_WIDGET_REQUEST_DIMMER = "_-2Sl" (String#20149, DoABC#2)

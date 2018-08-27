@@ -110,15 +110,15 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
                 case this._SafeStr_7992:
                     this.addClickHandler(this._view.findChildByName("edit"), this.changeEmail);
                     this.setBitmap("email_icon", "email_icon");
-                    this.IssueHandler("title", "${welcome.gift.title.email.unverified}");
-                    this.IssueHandler("text", "${welcome.gift.text.email.unverified}");
+                    this.setCaption("title", "${welcome.gift.title.email.unverified}");
+                    this.setCaption("text", "${welcome.gift.text.email.unverified}");
                     this._view.findChildByName("edit_text").visible = this._allowEmailChange;
                     this._view.findChildByName("edit").setParamFlag(WindowParam._SafeStr_7434, this._allowEmailChange);
                     break;
                 case this._SafeStr_7993:
                     this.setBitmap("email_icon", "ok_icon");
-                    this.IssueHandler("title", "${welcome.gift.title.email.verified}");
-                    this.IssueHandler("text", "${welcome.gift.text.email.verified}");
+                    this.setCaption("title", "${welcome.gift.title.email.verified}");
+                    this.setCaption("text", "${welcome.gift.text.email.verified}");
                     break;
                 case this._SafeStr_7994:
                     this.addClickHandler(this._view.findChildByName("cancel_email_change"), this.cancelEmailChange);
@@ -149,7 +149,7 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
             this.addClickHandler(this._view.findChildByName("open"), this.openGift);
             this._SafeStr_8000 = _arg_1;
         }
-        private function IssueHandler(_arg_1:String, _arg_2:String):void
+        private function setCaption(_arg_1:String, _arg_2:String):void
         {
             if (!this._view){
                 return;
@@ -223,16 +223,16 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
                 };
             };
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (!_arg_1){
                 return;
             };
             _arg_1.addEventListener(RoomWidgetWelcomeGiftUpdateEvent._SafeStr_8012, this.updateEventHandler);
             _arg_1.addEventListener(RoomWidgetChangeEmailResultEvent._SafeStr_8013, this.emailChangeHandler);
-            super.RoomChatWidget(_arg_1);
+            super.registerUpdateEvents(_arg_1);
         }
-        override public function RoomChatWidget(_arg_1:IEventDispatcher):void
+        override public function unregisterUpdateEvents(_arg_1:IEventDispatcher):void
         {
             if (_arg_1 == null){
                 return;
@@ -252,12 +252,12 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
                         this.createMainView();
                     }
                     else {
-                        this.ProgressBar();
+                        this.updateView();
                     };
                     return;
             };
         }
-        private function ProgressBar():void
+        private function updateView():void
         {
             if (!this._view){
                 return;
@@ -292,8 +292,8 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
             if (_local_2){
                 _local_2.color = 0xFFFF8888;
             };
-            this.IssueHandler("email_input", this._SafeStr_7997);
-            this.IssueHandler("email_change_instructions", ((("$" + "{welcome.gift.email.error.") + _arg_1) + "}"));
+            this.setCaption("email_input", this._SafeStr_7997);
+            this.setCaption("email_change_instructions", ((("$" + "{welcome.gift.email.error.") + _arg_1) + "}"));
         }
 
     }
@@ -309,11 +309,11 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
 // RoomWidgetChangeEmailResultEvent = "_-1i2" (String#5710, DoABC#2)
 // furniId = "_-2KO" (String#6454, DoABC#2)
 // RWFAM_OPEN_WELCOME_GIFT = "_-2ef" (String#20633, DoABC#2)
-// RoomChatWidget = "_-1yD" (String#1787, DoABC#2)
-// RoomChatWidget = "_-0-c" (String#3556, DoABC#2)
+// registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
+// unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
 // updateEventHandler = "_-et" (String#8495, DoABC#2)
-// ProgressBar = "_-1Js" (String#847, DoABC#2)
+// updateView = "_-1Js" (String#847, DoABC#2)
 // isVerified = "_-0hd" (String#15732, DoABC#2)
 // allowEmailChange = "_-FE" (String#22823, DoABC#2)
 // requestedByUser = "_-1cw" (String#18009, DoABC#2)
@@ -333,7 +333,7 @@ package com.sulake.habbo.ui.widget.furniture.welcomegift
 // disposeView = "_-jU" (String#2169, DoABC#2)
 // addClickHandler = "_-2wp" (String#21338, DoABC#2)
 // changeEmail = "_-32H" (String#21592, DoABC#2)
-// IssueHandler = "_-rz" (String#8735, DoABC#2)
+// setCaption = "_-rz" (String#8735, DoABC#2)
 // cancelEmailChange = "_-25n" (String#19250, DoABC#2)
 // saveEmail = "_-0Sz" (String#15169, DoABC#2)
 // setButtonState = "_-0CM" (String#14544, DoABC#2)

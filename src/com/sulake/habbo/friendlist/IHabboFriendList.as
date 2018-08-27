@@ -17,10 +17,10 @@ package com.sulake.habbo.friendlist
         function openFriendRequests():void;
         function openFriendSearch():void;
         function close():void;
-        function IssueBrowser():Boolean;
+        function isOpen():Boolean;
         function getFriendCount(_arg_1:Boolean, _arg_2:Boolean):int;
         function openHabboWebPage(_arg_1:String, _arg_2:Dictionary, _arg_3:int, _arg_4:int):void;
-        function HabboFriendList():Array;
+        function getFriendNames():Array;
         function acceptFriendRequest(_arg_1:int):void;
         function acceptAllFriendRequests():void;
         function declineFriendRequest(_arg_1:int):void;
@@ -36,8 +36,8 @@ package com.sulake.habbo.friendlist
 // openFriendSearch = "_-yV" (String#8846, DoABC#2)
 // IFriend = "_-2ET" (String#6332, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
-// IssueBrowser = "_-2i4" (String#897, DoABC#2)
-// HabboFriendList = "_-3BP" (String#7538, DoABC#2)
+// isOpen = "_-2i4" (String#897, DoABC#2)
+// getFriendNames = "_-3BP" (String#7538, DoABC#2)
 // askForAFriend = "_-3Iw" (String#7688, DoABC#2)
 // canBeAskedForAFriend = "_-di" (String#8480, DoABC#2)
 // getFriend = "_-WG" (String#8329, DoABC#2)

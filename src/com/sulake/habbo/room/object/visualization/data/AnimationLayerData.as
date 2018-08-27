@@ -128,13 +128,13 @@ package com.sulake.habbo.room.object.visualization.data
             var _local_14:Boolean;
             var _local_15:AnimationFrame;
             if (_arg_2 != null){
-                _local_6 = _arg_2.AnimationFrameSequenceData(_arg_4);
+                _local_6 = _arg_2.getFrameIndex(_arg_4);
                 _local_7 = _arg_2.getFrame(_local_6);
                 if (_local_7 == null){
                     return (null);
                 };
-                _local_8 = _local_7.AnimationFrameData(_arg_1);
-                _local_9 = _local_7.AnimationFrameData(_arg_1);
+                _local_8 = _local_7.getX(_arg_1);
+                _local_9 = _local_7.getY(_arg_1);
                 _local_10 = _local_7.randomX;
                 _local_11 = _local_7.randomY;
                 if (_local_10 != 0){
@@ -145,7 +145,7 @@ package com.sulake.habbo.room.object.visualization.data
                 };
                 _local_12 = _local_7.repeats;
                 if (_local_12 > 1){
-                    _local_12 = _arg_2.AnimationFrameSequenceData(_local_6);
+                    _local_12 = _arg_2.getRepeats(_local_6);
                 };
                 _local_13 = (this._SafeStr_12519 * _local_12);
                 if (_arg_5){
@@ -165,8 +165,8 @@ package com.sulake.habbo.room.object.visualization.data
     }
 }//package com.sulake.habbo.room.object.visualization.data
 
-// AnimationFrameData = "_-bw" (String#8454, DoABC#2)
-// AnimationFrameData = "_-2Wq" (String#6697, DoABC#2)
+// getX = "_-bw" (String#8454, DoABC#2)
+// getY = "_-2Wq" (String#6697, DoABC#2)
 // _frameCount = "_-LD" (String#8106, DoABC#2)
 // addFrameSequence = "_-XJ" (String#23535, DoABC#2)
 // calculateLength = "_-2L8" (String#19853, DoABC#2)
@@ -176,7 +176,7 @@ package com.sulake.habbo.room.object.visualization.data
 // _isRandom = "_-04W" (String#3656, DoABC#2)
 // getFrameFromSpecificSequence = "_-0Bu" (String#14523, DoABC#2)
 // repeats = "_-0Lv" (String#14909, DoABC#2)
-// AnimationFrameSequenceData = "_-0CB" (String#14536, DoABC#2)
+// getRepeats = "_-0CB" (String#14536, DoABC#2)
 // _SafeStr_12524 = "_-35J" (String#21706, DoABC#2)
 // isRandom = "_-pm" (String#24264, DoABC#2)
 // AnimationLayerData = "_-3DH" (String#919, DoABC#2)
@@ -184,7 +184,7 @@ package com.sulake.habbo.room.object.visualization.data
 // AnimationFrameSequenceData = "_-34t" (String#7406, DoABC#2)
 // AnimationFrameData = "_-19W" (String#5067, DoABC#2)
 // getFrame = "_-3Jk" (String#923, DoABC#2)
-// AnimationFrameSequenceData = "_-38K" (String#21816, DoABC#2)
+// getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // frameCount = "_-0C7" (String#14533, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 

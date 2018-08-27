@@ -9,7 +9,7 @@ package com.sulake.room.renderer.utils
     {
 
         private var _alphaTolerance:int = 128;
-        private var _ExtendedSprite:Boolean = false;
+        private var _alphaActive:Boolean = false;
         private var _SafeStr_14441:Point;
         private var _tag:String = "";
         private var _identifier:String = "";
@@ -29,7 +29,7 @@ package com.sulake.room.renderer.utils
         }
         public function get alphaActive():Boolean
         {
-            return (this._ExtendedSprite);
+            return (this._alphaActive);
         }
         public function get alphaTolerance():int
         {
@@ -93,7 +93,7 @@ package com.sulake.room.renderer.utils
                 this._height = _arg_1.height;
                 _local_2 = (_arg_1 as ExtendedBitmapData);
                 if (_local_2 != null){
-                    _local_2.ExtendedBitmapData();
+                    _local_2.addReference();
                     this._bitmapData = _local_2;
                 };
             }
@@ -105,7 +105,7 @@ package com.sulake.room.renderer.utils
             };
             super.bitmapData = _arg_1;
         }
-        public function ExtendedSprite(_arg_1:int, _arg_2:int):Boolean
+        public function needsUpdate(_arg_1:int, _arg_2:int):Boolean
         {
             if (((!((_arg_1 == this._SafeStr_14442))) || (!((_arg_2 == this._SafeStr_14443))))){
                 this._SafeStr_14442 = _arg_1;
@@ -117,14 +117,14 @@ package com.sulake.room.renderer.utils
             };
             return (false);
         }
-        public function ExtendedSprite():void
+        public function disableAlpha():void
         {
-            this._ExtendedSprite = false;
+            this._alphaActive = false;
         }
         public function enableAlpha():void
         {
-            this.ExtendedSprite();
-            this._ExtendedSprite = true;
+            this.disableAlpha();
+            this._alphaActive = true;
         }
         override public function hitTestPoint(_arg_1:Number, _arg_2:Number, _arg_3:Boolean=false):Boolean
         {
@@ -145,7 +145,7 @@ package com.sulake.room.renderer.utils
             var pixel:uint;
             var retVal:Boolean;
             try {
-                if (((!(this._ExtendedSprite)) || (!(bitmapData.transparent)))){
+                if (((!(this._alphaActive)) || (!(bitmapData.transparent)))){
                     retVal = true;
                 }
                 else {
@@ -162,22 +162,22 @@ package com.sulake.room.renderer.utils
     }
 }//package com.sulake.room.renderer.utils
 
-// ExtendedSprite = "_-2cQ" (String#20541, DoABC#2)
+// needsUpdate = "_-2cQ" (String#20541, DoABC#2)
 // _alphaTolerance = "_-u" (String#24449, DoABC#2)
-// _ExtendedSprite = "_-5t" (String#22459, DoABC#2)
+// _alphaActive = "_-5t" (String#22459, DoABC#2)
 // _SafeStr_14441 = "_-2dr" (String#20595, DoABC#2)
 // _SafeStr_14442 = "_-0iD" (String#15759, DoABC#2)
 // _SafeStr_14443 = "_-M0" (String#23083, DoABC#2)
 // enableAlpha = "_-01h" (String#14118, DoABC#2)
 // alphaActive = "_-jM" (String#24013, DoABC#2)
 // alphaTolerance = "_-2KR" (String#19819, DoABC#2)
-// ExtendedSprite = "_-2B0" (String#19445, DoABC#2)
+// disableAlpha = "_-2B0" (String#19445, DoABC#2)
 // hitTestBitmapData = "_-0Dm" (String#14599, DoABC#2)
 // ExtendedSprite = "_-1mI" (String#5785, DoABC#2)
 // ExtendedBitmapData = "_-11w" (String#4915, DoABC#2)
 // _tag = "_-1Gy" (String#601, DoABC#2)
 // _width = "_-0Uq" (String#92, DoABC#2)
-// ExtendedBitmapData = "_-2F" (String#6343, DoABC#2)
+// addReference = "_-2F" (String#6343, DoABC#2)
 // varyingDepth = "_-11d" (String#4909, DoABC#2)
 // clickHandling = "_-2fU" (String#6858, DoABC#2)
 // _varyingDepth = "_-1g2" (String#5664, DoABC#2)
