@@ -19,7 +19,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         private var _needsShoreUpdate:Boolean = false;
         private var _sizeX:int = 0;
         private var _sizeY:int = 0;
-        private var _SafeStr_12704:int = 0;
+        private var _shoreSpriteIndex:int = 0;
         private var _SafeStr_12705:int = -1;
         private var _SafeStr_12706:int = -1;
         private var _SafeStr_12707:BitmapData = null;
@@ -78,15 +78,15 @@ package com.sulake.habbo.room.object.visualization.furniture
         private function getShoreSpriteIndex(_arg_1:int):int
         {
             if ((((this._SafeStr_12705 == _arg_1)) && ((this._SafeStr_12706 == direction)))){
-                return (this._SafeStr_12704);
+                return (this._shoreSpriteIndex);
             };
             var _local_2:int = (spriteCount - 1);
             while (_local_2 >= 0) {
                 if (getSpriteTag(_arg_1, direction, _local_2) == _SafeStr_12699){
-                    this._SafeStr_12704 = _local_2;
+                    this._shoreSpriteIndex = _local_2;
                     this._SafeStr_12705 = _arg_1;
                     this._SafeStr_12706 = direction;
-                    return (this._SafeStr_12704);
+                    return (this._shoreSpriteIndex);
                 };
                 _local_2--;
             };
@@ -441,7 +441,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_12701 = "_-0fI" (String#15642, DoABC#2)
 // _SafeStr_12702 = "_-xI" (String#24580, DoABC#2)
 // _SafeStr_12703 = "_-2su" (String#21194, DoABC#2)
-// _SafeStr_12704 = "_-2zG" (String#21431, DoABC#2)
+// _shoreSpriteIndex = "_-2zG" (String#21431, DoABC#2)
 // _SafeStr_12705 = "_-0We" (String#15302, DoABC#2)
 // _SafeStr_12706 = "_-2HC" (String#19693, DoABC#2)
 // _SafeStr_12707 = "_-15f" (String#4989, DoABC#2)

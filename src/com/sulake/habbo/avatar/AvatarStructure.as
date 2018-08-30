@@ -51,7 +51,7 @@ package com.sulake.habbo.avatar
         private var _SafeStr_10146:PartSetsData;
         private var _animationData:AnimationData;
         private var _animationManager:AnimationManager;
-        private var _SafeStr_9918:ActionDefinition;
+        private var _defaultAction:ActionDefinition;
         private var _avatarType:String;
         private var _SafeStr_10148:PartOffsetData;
         private var _SafeStr_10149:Dictionary;
@@ -98,7 +98,7 @@ package com.sulake.habbo.avatar
                 return;
             };
             this._SafeStr_10144 = new AvatarActionManager(_arg_1, this._avatarType, _arg_2);
-            this._SafeStr_9918 = this._SafeStr_10144.getDefaultAction();
+            this._defaultAction = this._SafeStr_10144.getDefaultAction();
         }
         public function initPartSets(_arg_1:XML):Boolean
         {
@@ -377,7 +377,7 @@ package com.sulake.habbo.avatar
                                     };
                                     _local_33 = _arg_3.definition;
                                     if (_local_8.indexOf(_local_32.type) == -1){
-                                        _local_33 = this._SafeStr_9918;
+                                        _local_33 = this._defaultAction;
                                     };
                                     _local_12 = this._SafeStr_10146.getPartDefinition(_local_32.type);
                                     _local_34 = (((_local_12)==null) ? _local_32.type : _local_12.flippedSetType);
@@ -651,7 +651,7 @@ package com.sulake.habbo.avatar
 // isBlended = "_-1h4" (String#18179, DoABC#2)
 // registerAnimation = "_-3Jo" (String#22276, DoABC#2)
 // _avatarType = "_-Ms" (String#8138, DoABC#2)
-// _SafeStr_9918 = "_-1ni" (String#862, DoABC#2)
+// _defaultAction = "_-1ni" (String#862, DoABC#2)
 // getActionDefinitionWithState = "_-K4" (String#23008, DoABC#2)
 // getDefaultAction = "_-2dH" (String#20575, DoABC#2)
 // sortActions = "_-OU" (String#2099, DoABC#2)

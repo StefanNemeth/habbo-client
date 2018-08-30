@@ -45,7 +45,7 @@ package com.sulake.core.window
         public static var _SafeStr_9783:IEventQueue;
         private static var _SafeStr_9784:IEventProcessor;
         private static var _SafeStr_9785:uint = _SafeStr_9776;//0
-        private static var _SafeStr_8622:IWindowRenderer;
+        private static var _renderer:IWindowRenderer;
         private static var stage:Stage;
 
         private var _SafeStr_9786:EventProcessorState;
@@ -53,12 +53,12 @@ package com.sulake.core.window
         protected var _localization:ICoreLocalizationManager;
         protected var _SafeStr_9788:DisplayObjectContainer;
         protected var _SafeStr_9789:Boolean = true;
-        protected var _SafeStr_8959:Error;
-        protected var _SafeStr_9790:int = -1;
-        protected var _SafeStr_9791:IInternalWindowServices;
-        protected var _SafeStr_9792:IWindowParser;
-        protected var _SafeStr_9793:IWindowFactory;
-        protected var _SafeStr_8617:IDesktopWindow;
+        protected var _lastError:Error;
+        protected var _lastErrorCode:int = -1;
+        protected var _windowServices:IInternalWindowServices;
+        protected var _windowParser:IWindowParser;
+        protected var _windowFactory:IWindowFactory;
+        protected var _desktopWindow:IDesktopWindow;
         protected var _SafeStr_9794:SubstituteParentController;
         private var _disposed:Boolean = false;
         private var _SafeStr_9299:Boolean = false;
@@ -68,12 +68,12 @@ package com.sulake.core.window
         public function WindowContext(_arg_1:String, _arg_2:IWindowRenderer, _arg_3:IWindowFactory, _arg_4:ICoreLocalizationManager, _arg_5:DisplayObjectContainer, _arg_6:Rectangle)
         {
             this._name = _arg_1;
-            _SafeStr_8622 = _arg_2;
+            _renderer = _arg_2;
             this._localization = _arg_4;
             this._SafeStr_9788 = _arg_5;
-            this._SafeStr_9791 = new ServiceManager(this, _arg_5);
-            this._SafeStr_9793 = _arg_3;
-            this._SafeStr_9792 = new WindowParser(this);
+            this._windowServices = new ServiceManager(this, _arg_5);
+            this._windowFactory = _arg_3;
+            this._windowParser = new WindowParser(this);
             this._SafeStr_9787 = new Vector.<IWindowContextStateListener>();
             if (!stage){
                 if ((this._SafeStr_9788 is Stage)){
@@ -89,13 +89,13 @@ package com.sulake.core.window
             if (_arg_6 == null){
                 _arg_6 = new Rectangle(0, 0, 800, 600);
             };
-            this._SafeStr_8617 = new DesktopController(("_CONTEXT_DESKTOP_" + this._name), this, _arg_6);
-            this._SafeStr_8617.limits.maxWidth = _arg_6.width;
-            this._SafeStr_8617.limits.maxHeight = _arg_6.height;
-            this._SafeStr_9788.addChild(this._SafeStr_8617.getDisplayObject());
+            this._desktopWindow = new DesktopController(("_CONTEXT_DESKTOP_" + this._name), this, _arg_6);
+            this._desktopWindow.limits.maxWidth = _arg_6.width;
+            this._desktopWindow.limits.maxHeight = _arg_6.height;
+            this._SafeStr_9788.addChild(this._desktopWindow.getDisplayObject());
             this._SafeStr_9788.doubleClickEnabled = true;
             this._SafeStr_9788.addEventListener(Event.RESIZE, this.stageResizedHandler);
-            this._SafeStr_9786 = new EventProcessorState(_SafeStr_8622, this._SafeStr_8617, this._SafeStr_8617, null, this._SafeStr_9787);
+            this._SafeStr_9786 = new EventProcessorState(_renderer, this._desktopWindow, this._desktopWindow, null, this._SafeStr_9787);
             inputMode = _SafeStr_9776;
             this._SafeStr_9794 = new SubstituteParentController(this);
         }
@@ -147,60 +147,60 @@ package com.sulake.core.window
             if (!this._disposed){
                 this._disposed = true;
                 this._SafeStr_9788.removeEventListener(Event.RESIZE, this.stageResizedHandler);
-                this._SafeStr_9788.removeChild((IGraphicContextHost(this._SafeStr_8617).getGraphicContext(true) as DisplayObject));
-                this._SafeStr_8617.destroy();
-                this._SafeStr_8617 = null;
+                this._SafeStr_9788.removeChild((IGraphicContextHost(this._desktopWindow).getGraphicContext(true) as DisplayObject));
+                this._desktopWindow.destroy();
+                this._desktopWindow = null;
                 this._SafeStr_9794.destroy();
                 this._SafeStr_9794 = null;
-                if ((this._SafeStr_9791 is IDisposable)){
-                    IDisposable(this._SafeStr_9791).dispose();
+                if ((this._windowServices is IDisposable)){
+                    IDisposable(this._windowServices).dispose();
                 };
-                this._SafeStr_9791 = null;
-                this._SafeStr_9792.dispose();
-                this._SafeStr_9792 = null;
-                _SafeStr_8622 = null;
+                this._windowServices = null;
+                this._windowParser.dispose();
+                this._windowParser = null;
+                _renderer = null;
             };
         }
         public function getLastError():Error
         {
-            return (this._SafeStr_8959);
+            return (this._lastError);
         }
         public function getLastErrorCode():int
         {
-            return (this._SafeStr_9790);
+            return (this._lastErrorCode);
         }
         public function handleError(_arg_1:int, _arg_2:Error):void
         {
-            this._SafeStr_8959 = _arg_2;
-            this._SafeStr_9790 = _arg_1;
+            this._lastError = _arg_2;
+            this._lastErrorCode = _arg_1;
             if (this._SafeStr_9789){
                 throw (_arg_2);
             };
         }
         public function flushError():void
         {
-            this._SafeStr_8959 = null;
-            this._SafeStr_9790 = -1;
+            this._lastError = null;
+            this._lastErrorCode = -1;
         }
         public function getWindowServices():IInternalWindowServices
         {
-            return (this._SafeStr_9791);
+            return (this._windowServices);
         }
         public function getWindowParser():IWindowParser
         {
-            return (this._SafeStr_9792);
+            return (this._windowParser);
         }
         public function getWindowFactory():IWindowFactory
         {
-            return (this._SafeStr_9793);
+            return (this._windowFactory);
         }
         public function getDesktopWindow():IDesktopWindow
         {
-            return (this._SafeStr_8617);
+            return (this._desktopWindow);
         }
         public function findWindowByName(_arg_1:String):IWindow
         {
-            return (this._SafeStr_8617.findChildByName(_arg_1));
+            return (this._desktopWindow.findChildByName(_arg_1));
         }
         public function registerLocalizationListener(_arg_1:String, _arg_2:IWindow):void
         {
@@ -223,7 +223,7 @@ package com.sulake.core.window
                     _arg_8 = this._SafeStr_9794;
                 };
             };
-            _local_12 = new (_local_13)(_arg_1, _arg_3, _arg_4, _arg_5, this, _arg_6, (((_arg_8)!=null) ? _arg_8 : this._SafeStr_8617), _arg_7, _arg_10, _arg_11, _arg_9);
+            _local_12 = new (_local_13)(_arg_1, _arg_3, _arg_4, _arg_5, this, _arg_6, (((_arg_8)!=null) ? _arg_8 : this._desktopWindow), _arg_7, _arg_10, _arg_11, _arg_9);
             if (((_arg_2) && (_arg_2.length))){
                 _local_12.caption = _arg_2;
             };
@@ -231,8 +231,8 @@ package com.sulake.core.window
         }
         public function destroy(_arg_1:IWindow):Boolean
         {
-            if (_arg_1 == this._SafeStr_8617){
-                this._SafeStr_8617 = null;
+            if (_arg_1 == this._desktopWindow){
+                this._desktopWindow = null;
             };
             if (_arg_1.state != WindowState._SafeStr_9480){
                 _arg_1.destroy();
@@ -242,14 +242,14 @@ package com.sulake.core.window
         public function invalidate(_arg_1:IWindow, _arg_2:Rectangle, _arg_3:uint):void
         {
             if (!this.disposed){
-                _SafeStr_8622.addToRenderQueue(WindowController(_arg_1), _arg_2, _arg_3);
+                _renderer.addToRenderQueue(WindowController(_arg_1), _arg_2, _arg_3);
             };
         }
         public function update(_arg_1:uint):void
         {
             this._SafeStr_9299 = true;
-            if (this._SafeStr_8959){
-                throw (this._SafeStr_8959);
+            if (this._lastError){
+                throw (this._lastError);
             };
             _SafeStr_9784.process(this._SafeStr_9786, _SafeStr_9783);
             this._SafeStr_9299 = false;
@@ -257,23 +257,23 @@ package com.sulake.core.window
         public function render(_arg_1:uint):void
         {
             this._SafeStr_9795 = true;
-            _SafeStr_8622.update(_arg_1);
+            _renderer.update(_arg_1);
             this._SafeStr_9795 = false;
         }
         private function stageResizedHandler(_arg_1:Event):void
         {
-            if (((!((this._SafeStr_8617 == null))) && (!(this._SafeStr_8617.disposed)))){
+            if (((!((this._desktopWindow == null))) && (!(this._desktopWindow.disposed)))){
                 if ((this._SafeStr_9788 is Stage)){
-                    this._SafeStr_8617.limits.maxWidth = Stage(this._SafeStr_9788).stageWidth;
-                    this._SafeStr_8617.limits.maxHeight = Stage(this._SafeStr_9788).stageHeight;
-                    this._SafeStr_8617.width = Stage(this._SafeStr_9788).stageWidth;
-                    this._SafeStr_8617.height = Stage(this._SafeStr_9788).stageHeight;
+                    this._desktopWindow.limits.maxWidth = Stage(this._SafeStr_9788).stageWidth;
+                    this._desktopWindow.limits.maxHeight = Stage(this._SafeStr_9788).stageHeight;
+                    this._desktopWindow.width = Stage(this._SafeStr_9788).stageWidth;
+                    this._desktopWindow.height = Stage(this._SafeStr_9788).stageHeight;
                 }
                 else {
-                    this._SafeStr_8617.limits.maxWidth = this._SafeStr_9788.width;
-                    this._SafeStr_8617.limits.maxHeight = this._SafeStr_9788.height;
-                    this._SafeStr_8617.width = this._SafeStr_9788.width;
-                    this._SafeStr_8617.height = this._SafeStr_9788.height;
+                    this._desktopWindow.limits.maxWidth = this._SafeStr_9788.width;
+                    this._desktopWindow.limits.maxHeight = this._SafeStr_9788.height;
+                    this._desktopWindow.width = this._SafeStr_9788.width;
+                    this._desktopWindow.height = this._SafeStr_9788.height;
                 };
             };
         }
@@ -320,11 +320,11 @@ package com.sulake.core.window
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // IUpdateReceiver = "_-Qe" (String#8218, DoABC#2)
 // process = "_-3Fw" (String#2032, DoABC#2)
-// _SafeStr_8617 = "_-1WY" (String#5483, DoABC#2)
-// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
+// _desktopWindow = "_-1WY" (String#5483, DoABC#2)
+// _renderer = "_-32W" (String#628, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
 // removeListener = "_-1Hc" (String#1653, DoABC#2)
-// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
+// _lastError = "_-0NR" (String#4029, DoABC#2)
 // _SafeStr_9169 = "_-2Nz" (String#19963, DoABC#2)
 // _SafeStr_9299 = "_-2FT" (String#6353, DoABC#2)
 // limits = "_-2BM" (String#6274, DoABC#2)
@@ -350,10 +350,10 @@ package com.sulake.core.window
 // _SafeStr_9787 = "_-1y" (String#18887, DoABC#2)
 // _SafeStr_9788 = "_-2xb" (String#21378, DoABC#2)
 // _SafeStr_9789 = "_-0Ra" (String#15123, DoABC#2)
-// _SafeStr_9790 = "_-2zJ" (String#21432, DoABC#2)
-// _SafeStr_9791 = "_-dP" (String#23777, DoABC#2)
-// _SafeStr_9792 = "_-3F6" (String#22082, DoABC#2)
-// _SafeStr_9793 = "_-2nm" (String#20990, DoABC#2)
+// _lastErrorCode = "_-2zJ" (String#21432, DoABC#2)
+// _windowServices = "_-dP" (String#23777, DoABC#2)
+// _windowParser = "_-3F6" (String#22082, DoABC#2)
+// _windowFactory = "_-2nm" (String#20990, DoABC#2)
 // _SafeStr_9794 = "_-0XZ" (String#15338, DoABC#2)
 // _SafeStr_9795 = "_-Wk" (String#23515, DoABC#2)
 // stageResizedHandler = "_-2Un" (String#20229, DoABC#2)

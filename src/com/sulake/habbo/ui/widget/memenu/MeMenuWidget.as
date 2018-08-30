@@ -44,7 +44,7 @@ package com.sulake.habbo.ui.widget.memenu
         private static const _SafeStr_3863:Point = new Point(95, 440);
 
         private var _SafeStr_3864:IMeMenuView;
-        private var _mainWindow:IWindowContainer;
+        private var _window:IWindowContainer;
         private var _eventDispatcher:IEventDispatcher;
         private var _habboClubDays:int = 0;
         private var _habboClubPeriods:int = 0;
@@ -84,7 +84,7 @@ package com.sulake.habbo.ui.widget.memenu
                 this._SafeStr_3864.dispose();
                 this._SafeStr_3864 = null;
             };
-            this._mainWindow = null;
+            this._window = null;
             this._config = null;
             super.dispose();
         }
@@ -94,19 +94,19 @@ package com.sulake.habbo.ui.widget.memenu
         }
         override public function get mainWindow():IWindow
         {
-            return (this._mainWindow);
+            return (this._window);
         }
         private function get mainContainer():IWindowContainer
         {
             var _local_1:IAsset;
-            if (this._mainWindow == null){
+            if (this._window == null){
                 _local_1 = _assets.getAssetByName("memenu");
                 if (_local_1){
-                    this._mainWindow = (windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
+                    this._window = (windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
                 };
             };
-            if (this._mainWindow){
-                return ((this._mainWindow.findChildByTag("MAIN_CONTENT") as IWindowContainer));
+            if (this._window){
+                return ((this._window.findChildByTag("MAIN_CONTENT") as IWindowContainer));
             };
             return (null);
         }
@@ -140,8 +140,8 @@ package com.sulake.habbo.ui.widget.memenu
                 this._SafeStr_3864.init(this, _arg_1);
                 this.mainContainer.removeChildAt(0);
                 this.mainContainer.addChildAt(this._SafeStr_3864.window, 0);
-                this._mainWindow.visible = true;
-                this._mainWindow.activate();
+                this._window.visible = true;
+                this._window.activate();
             };
             this.updateSize();
         }
@@ -149,19 +149,19 @@ package com.sulake.habbo.ui.widget.memenu
         {
             var _local_1:int;
             var _local_2:Rectangle;
-            if (((((this._SafeStr_3864) && (this._SafeStr_3864.window))) && (this._mainWindow))){
+            if (((((this._SafeStr_3864) && (this._SafeStr_3864.window))) && (this._window))){
                 _local_1 = 5;
                 this._SafeStr_3864.window.position = new Point(_local_1, _local_1);
                 this.mainContainer.width = (this._SafeStr_3864.window.width + (_local_1 * 2));
                 this.mainContainer.height = (this._SafeStr_3864.window.height + (_local_1 * 2));
                 if (((((((this._config.getBoolean("simple.memenu.enabled", false)) && (this.handler))) && (this.handler.container))) && (this.handler.container.toolbar))){
                     _local_2 = this.handler.container.toolbar.getRect();
-                    this._mainWindow.x = (_local_2.right + _local_1);
-                    this._mainWindow.y = (_local_2.bottom - this._mainWindow.height);
+                    this._window.x = (_local_2.right + _local_1);
+                    this._window.y = (_local_2.bottom - this._window.height);
                 }
                 else {
-                    this._mainWindow.x = _SafeStr_3863.x;
-                    this._mainWindow.y = (_SafeStr_3863.y - this.mainContainer.height);
+                    this._window.x = _SafeStr_3863.x;
+                    this._window.y = (_SafeStr_3863.y - this.mainContainer.height);
                 };
             };
         }
@@ -211,11 +211,11 @@ package com.sulake.habbo.ui.widget.memenu
         public function hide(_arg_1:RoomWidgetRoomObjectUpdateEvent=null):void
         {
             if (this._SafeStr_3864 != null){
-                this._mainWindow.removeChild(this._SafeStr_3864.window);
+                this._window.removeChild(this._SafeStr_3864.window);
                 this._SafeStr_3864.dispose();
                 this._SafeStr_3864 = null;
             };
-            this._mainWindow.visible = false;
+            this._window.visible = false;
             this._isActive = false;
             this._eventDispatcher.dispatchEvent(new Event(HabboMeMenuTrackingEvent.HABBO_MEMENU_TRACKING_EVENT_CLOSE));
         }
@@ -262,8 +262,8 @@ package com.sulake.habbo.ui.widget.memenu
         {
             var _local_2:RoomWidgetMeMenuMessage;
             if (this._isActive){
-                if (((!((this._mainWindow == null))) && (WindowToggle.isHiddenByOtherWindows(this._mainWindow)))){
-                    this._mainWindow.activate();
+                if (((!((this._window == null))) && (WindowToggle.isHiddenByOtherWindows(this._window)))){
+                    this._window.activate();
                     return;
                 };
                 this._isActive = false;
@@ -429,7 +429,7 @@ package com.sulake.habbo.ui.widget.memenu
 // _SafeStr_3862 = "_-0X-" (String#15314, DoABC#2)
 // _SafeStr_3863 = "_-27S" (String#19310, DoABC#2)
 // _SafeStr_3864 = "_-2-T" (String#446, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // _habboClubDays = "_-PZ" (String#23229, DoABC#2)
 // _habboClubPeriods = "_-Wm" (String#23516, DoABC#2)
 // _SafeStr_3868 = "_-2K1" (String#19808, DoABC#2)

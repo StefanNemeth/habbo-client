@@ -18,12 +18,12 @@ package com.sulake.habbo.avatar.hotlooks
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
         private var _window:IWindowContainer;
-        private var _SafeStr_4830:HotLooksModel;
+        private var _modelController:HotLooksModel;
         private var _SafeStr_4831:IItemGridWindow;
 
         public function HotLooksView(_arg_1:HotLooksModel, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._assetLibrary = _arg_3;
             this._windowManager = _arg_2;
         }
@@ -48,7 +48,7 @@ package com.sulake.habbo.avatar.hotlooks
             };
             this._window.dispose();
             this._window = null;
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             this._assetLibrary = null;
             this._windowManager = null;
         }
@@ -57,7 +57,7 @@ package com.sulake.habbo.avatar.hotlooks
             var _local_1:IWindow;
             var _local_2:Outfit;
             this._SafeStr_4831.removeGridItems();
-            for each (_local_2 in this._SafeStr_4830.hotLooks) {
+            for each (_local_2 in this._modelController.hotLooks) {
                 _local_1 = _local_2.view.window;
                 this._SafeStr_4831.addGridItem(_local_1);
                 _local_1.procedure = this.hotLooksEventProc;
@@ -75,7 +75,7 @@ package com.sulake.habbo.avatar.hotlooks
             };
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 _local_3 = this._SafeStr_4831.getGridItemIndex(_arg_2.parent);
-                this._SafeStr_4830.selectHotLook(_local_3);
+                this._modelController.selectHotLook(_local_3);
             };
         }
         public function switchCategory(_arg_1:String):void
@@ -95,7 +95,7 @@ package com.sulake.habbo.avatar.hotlooks
 // IItemGridWindow = "_-265" (String#1809, DoABC#2)
 // IAvatarEditorCategoryView = "_-0Au" (String#3774, DoABC#2)
 // HotLooksView = "_-K1" (String#8084, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_4831 = "_-wt" (String#24565, DoABC#2)
 // removeGridItems = "_-1Bp" (String#5106, DoABC#2)
 // removeGridItemAt = "_-Rm" (String#8243, DoABC#2)

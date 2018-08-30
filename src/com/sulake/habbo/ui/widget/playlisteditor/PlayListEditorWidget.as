@@ -42,7 +42,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         private var _catalog:IHabboCatalog;
         private var _configuration:IHabboConfigurationManager;
         private var _soundManager:IHabboSoundManager;
-        private var _mainWindow:MainWindowHandler;
+        private var _window:MainWindowHandler;
         private var _furniId:int;
 
         public function PlayListEditorWidget(_arg_1:IRoomWidgetHandler, _arg_2:IHabboWindowManager, _arg_3:IHabboSoundManager, _arg_4:IAssetLibrary, _arg_5:IHabboLocalizationManager, _arg_6:IHabboConfigurationManager, _arg_7:IHabboCatalog)
@@ -51,14 +51,14 @@ package com.sulake.habbo.ui.widget.playlisteditor
             this._soundManager = _arg_3;
             this._configuration = _arg_6;
             this._catalog = _arg_7;
-            this._mainWindow = null;
+            this._window = null;
         }
         override public function dispose():void
         {
             if (!disposed){
-                if (this._mainWindow){
-                    this._mainWindow.destroy();
-                    this._mainWindow = null;
+                if (this._window){
+                    this._window.destroy();
+                    this._window = null;
                 };
                 this._soundManager = null;
                 super.dispose();
@@ -66,10 +66,10 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         override public function get mainWindow():IWindow
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 return (null);
             };
-            return (this._mainWindow.window);
+            return (this._window.window);
         }
         override public function registerUpdateEvents(_arg_1:IEventDispatcher):void
         {
@@ -97,7 +97,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         public function get mainWindowHandler():MainWindowHandler
         {
-            return (this._mainWindow);
+            return (this._window);
         }
         public function getDiskColorTransformFromSongData(_arg_1:String):ColorTransform
         {
@@ -147,8 +147,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
         public function sendTogglePlayPauseStateMessage():void
         {
             var _local_1:int;
-            if (((!((this._mainWindow == null))) && (!((this._mainWindow.playListEditorView == null))))){
-                _local_1 = (((this._mainWindow.playListEditorView.selectedItemIndex)!=-1) ? this._mainWindow.playListEditorView.selectedItemIndex : 0);
+            if (((!((this._window == null))) && (!((this._window.playListEditorView == null))))){
+                _local_1 = (((this._window.playListEditorView.selectedItemIndex)!=-1) ? this._window.playListEditorView.selectedItemIndex : 0);
             };
             var _local_2:RoomWidgetPlayListPlayStateMessage = new RoomWidgetPlayListPlayStateMessage(RoomWidgetPlayListPlayStateMessage.RWPLPS_TOGGLE_PLAY_PAUSE, this._furniId, _local_1);
             if (messageListener != null){
@@ -210,12 +210,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
         {
             var _local_2:IPlayListController;
             this._furniId = _arg_1.furniId;
-            if (!this._mainWindow){
-                this._mainWindow = new MainWindowHandler(this, this._soundManager.musicController);
-                this._mainWindow.window.visible = false;
+            if (!this._window){
+                this._window = new MainWindowHandler(this, this._soundManager.musicController);
+                this._window.window.visible = false;
             };
-            if (!this._mainWindow.window.visible){
-                this._mainWindow.show();
+            if (!this._window.window.visible){
+                this._window.show();
                 this._soundManager.musicController.requestUserSongDisks();
                 _local_2 = this._soundManager.musicController.getRoomItemPlaylist();
                 if (_local_2 != null){
@@ -225,18 +225,18 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         private function onHidePlayListEditorEvent(_arg_1:RoomWidgetPlayListEditorEvent):void
         {
-            if (this._mainWindow != null){
-                if (this._mainWindow.window.visible){
-                    this._mainWindow.hide();
+            if (this._window != null){
+                if (this._window.window.visible){
+                    this._window.hide();
                 };
             };
         }
         private function onInventoryUpdatedEvent(_arg_1:RoomWidgetPlayListEditorEvent):void
         {
-            if (!this._mainWindow){
+            if (!this._window){
                 return;
             };
-            if (this._mainWindow.window.visible){
+            if (this._window.window.visible){
                 this._soundManager.musicController.requestUserSongDisks();
             };
         }
@@ -246,22 +246,22 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (_arg_1.type == AssetLoaderEvent.ASSET_LOADER_EVENT_COMPLETE){
                 _local_2 = (_arg_1.target as AssetLoaderStruct);
                 if (_local_2 != null){
-                    if (this._mainWindow != null){
-                        this._mainWindow.refreshLoadableAsset(_local_2.assetName);
+                    if (this._window != null){
+                        this._window.refreshLoadableAsset(_local_2.assetName);
                     };
                 };
             };
         }
         private function onSongDiskInventoryUpdatedEvent(_arg_1:RoomWidgetPlayListEditorEvent):void
         {
-            if (this._mainWindow){
-                this._mainWindow.onSongDiskInventoryReceived();
+            if (this._window){
+                this._window.onSongDiskInventoryReceived();
             };
         }
         private function onPlayListUpdatedEvent(_arg_1:RoomWidgetPlayListEditorEvent):void
         {
-            if (this._mainWindow){
-                this._mainWindow.onPlayListUpdated();
+            if (this._window){
+                this._window.onPlayListUpdated();
             };
         }
         private function onPlayListFullEvent(_arg_1:RoomWidgetPlayListEditorEvent):void
@@ -270,8 +270,8 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         private function onNowPlayingChangedEvent(_arg_1:RoomWidgetPlayListEditorNowPlayingEvent):void
         {
-            if (this._mainWindow){
-                this._mainWindow.onNowPlayingChanged(_arg_1);
+            if (this._window){
+                this._window.onNowPlayingChanged(_arg_1);
             };
         }
 
@@ -300,7 +300,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // furniId = "_-2KO" (String#6454, DoABC#2)
 // registerUpdateEvents = "_-1yD" (String#1787, DoABC#2)
 // unregisterUpdateEvents = "_-0-c" (String#3556, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // fadeOutSeconds = "_-0GD" (String#3874, DoABC#2)
 // IHabboSoundManager = "_-0vD" (String#4750, DoABC#2)

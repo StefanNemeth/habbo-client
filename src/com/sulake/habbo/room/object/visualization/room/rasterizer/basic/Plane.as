@@ -9,8 +9,8 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 
         private var _SafeStr_12877:Map;
         private var _sizes:Array;
-        private var _SafeStr_12878:PlaneVisualization = null;
-        private var _SafeStr_12605:int = -1;
+        private var _planeVisualization:PlaneVisualization = null;
+        private var _size:int = -1;
 
         public function Plane()
         {
@@ -39,7 +39,7 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
                 this._SafeStr_12877.dispose();
                 this._SafeStr_12877 = null;
             };
-            this._SafeStr_12878 = null;
+            this._planeVisualization = null;
             this._sizes = null;
         }
         public function clearCache():void
@@ -83,27 +83,27 @@ package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
         }
         protected function getPlaneVisualization(_arg_1:int):PlaneVisualization
         {
-            if (_arg_1 == this._SafeStr_12605){
-                return (this._SafeStr_12878);
+            if (_arg_1 == this._size){
+                return (this._planeVisualization);
             };
             var _local_2:int = this.getSizeIndex(_arg_1);
             if (_local_2 < this._sizes.length){
-                this._SafeStr_12878 = (this._SafeStr_12877.getValue(String(this._sizes[_local_2])) as PlaneVisualization);
+                this._planeVisualization = (this._SafeStr_12877.getValue(String(this._sizes[_local_2])) as PlaneVisualization);
             }
             else {
-                this._SafeStr_12878 = null;
+                this._planeVisualization = null;
             };
-            this._SafeStr_12605 = _arg_1;
-            return (this._SafeStr_12878);
+            this._size = _arg_1;
+            return (this._planeVisualization);
         }
 
     }
 }//package com.sulake.habbo.room.object.visualization.room.rasterizer.basic
 
-// _SafeStr_12605 = "_-iJ" (String#2164, DoABC#2)
+// _size = "_-iJ" (String#2164, DoABC#2)
 // getSizeIndex = "_-0Wx" (String#1494, DoABC#2)
 // _SafeStr_12877 = "_-2zK" (String#21433, DoABC#2)
-// _SafeStr_12878 = "_-cL" (String#23728, DoABC#2)
+// _planeVisualization = "_-cL" (String#23728, DoABC#2)
 // IRoomGeometry = "_-0z9" (String#4829, DoABC#2)
 // Plane = "_-0S9" (String#4141, DoABC#2)
 // createPlaneVisualization = "_-8X" (String#22562, DoABC#2)

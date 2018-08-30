@@ -19,7 +19,7 @@ package com.sulake.habbo.avatar.pets
         private var _assets:AssetLibraryCollection;
         private var _SafeStr_8865:Array;
         private var _SafeStr_8954:Array;
-        private var _SafeStr_8622:AvatarRenderManager;
+        private var _renderer:AvatarRenderManager;
         private var _SafeStr_10023:Map;
         private var _SafeStr_10024:Array;
         private var _disposed:Boolean = false;
@@ -28,7 +28,7 @@ package com.sulake.habbo.avatar.pets
         {
             this._species = new Map();
             this._SafeStr_8865 = [];
-            this._SafeStr_8622 = _arg_1;
+            this._renderer = _arg_1;
             this._SafeStr_8954 = [];
             this._assets = _arg_2;
             this._SafeStr_10023 = new Map();
@@ -45,7 +45,7 @@ package com.sulake.habbo.avatar.pets
                 return;
             };
             this._assets = null;
-            this._SafeStr_8622 = null;
+            this._renderer = null;
             this._SafeStr_8865 = null;
             this._species.dispose();
             this._species = null;
@@ -308,7 +308,7 @@ package com.sulake.habbo.avatar.pets
                 this.unregisterLoadingAssets(_local_2);
             };
             if (this._SafeStr_8954.length == 0){
-                this._SafeStr_8622.resetPetData();
+                this._renderer.resetPetData();
                 this.notifyListeners();
             };
         }
@@ -346,7 +346,7 @@ package com.sulake.habbo.avatar.pets
 // LibraryLoader = "_-T1" (String#8267, DoABC#2)
 // getPetData = "_-2Tw" (String#6646, DoABC#2)
 // petDataReady = "_-0Wh" (String#4242, DoABC#2)
-// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
+// _renderer = "_-32W" (String#628, DoABC#2)
 // _SafeStr_8865 = "_-0RW" (String#1471, DoABC#2)
 // removeListener = "_-1Hc" (String#1653, DoABC#2)
 // _SafeStr_8954 = "_-3CG" (String#2020, DoABC#2)

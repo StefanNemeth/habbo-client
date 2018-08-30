@@ -22,7 +22,7 @@ package com.sulake.habbo.catalog.recycler
         private var _catalog:IHabboCatalog;
         private var _windowManager:IHabboWindowManager;
         private var _view:IRecyclerVisualization;
-        private var _prizes:Array;
+        private var _prizeTable:Array;
 
         public function RecyclerLogic(_arg_1:IHabboCatalog, _arg_2:IHabboWindowManager)
         {
@@ -300,21 +300,21 @@ package com.sulake.habbo.catalog.recycler
         public function storePrizeTable(_arg_1:Array):void
         {
             var _local_3:PrizeLevelContainer;
-            this._prizes = new Array();
+            this._prizeTable = new Array();
             var _local_2:int;
             while (_local_2 < _arg_1.length) {
                 _local_3 = new PrizeLevelContainer(_arg_1[_local_2], this._catalog);
-                this._prizes.push(_local_3);
+                this._prizeTable.push(_local_3);
                 _local_2++;
             };
         }
         public function getPrizeTable():Array
         {
-            if (this._prizes == null){
+            if (this._prizeTable == null){
                 this._catalog.getRecyclerPrizes();
                 return (null);
             };
-            return (this._prizes);
+            return (this._prizeTable);
         }
 
     }
@@ -372,7 +372,7 @@ package com.sulake.habbo.catalog.recycler
 // _SafeStr_8289 = "_-30N" (String#21516, DoABC#2)
 // _SafeStr_8290 = "_-0Oe" (String#15014, DoABC#2)
 // _SafeStr_8291 = "_-2kW" (String#20866, DoABC#2)
-// _prizes = "_-1ct" (String#855, DoABC#2)
+// _prizeTable = "_-1ct" (String#855, DoABC#2)
 // updateSlots = "_-1Dr" (String#5140, DoABC#2)
 
 

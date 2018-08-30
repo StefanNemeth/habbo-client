@@ -26,7 +26,7 @@ package com.sulake.core.runtime
         public static const _SafeStr_8979:uint = 4;
 
         protected var _references:uint = 0;
-        protected var _SafeStr_8959:String = "";
+        protected var _lastError:String = "";
         protected var _SafeStr_8955:String = "";
         protected var _lastWarning:String = "";
         private var _assets:IAssetLibrary;
@@ -99,8 +99,8 @@ package com.sulake.core.runtime
             };
             var _local_2:InterfaceStruct = this._SafeStr_8981.getStructByInterface(_arg_1);
             if (_local_2 == null){
-                this._SafeStr_8959 = (("Attempting to release unknown interface:" + _arg_1) + "!");
-                throw (new Error(this._SafeStr_8959));
+                this._lastError = (("Attempting to release unknown interface:" + _arg_1) + "!");
+                throw (new Error(this._lastError));
             };
             var _local_3:uint = _local_2.release();
             if ((this._SafeStr_8916 & _SafeStr_8979)){
@@ -194,7 +194,7 @@ package com.sulake.core.runtime
 // _SafeStr_8916 = "_-27n" (String#877, DoABC#2)
 // detachComponent = "_-28T" (String#6212, DoABC#2)
 // _SafeStr_8955 = "_-0qy" (String#16083, DoABC#2)
-// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
+// _lastError = "_-0NR" (String#4029, DoABC#2)
 // getInterfaceStructList = "_-1xl" (String#18879, DoABC#2)
 // _INTERNAL_EVENT_UNLOCKED = "_-1Ik" (String#17224, DoABC#2)
 // iis = "_-2RW" (String#20099, DoABC#2)

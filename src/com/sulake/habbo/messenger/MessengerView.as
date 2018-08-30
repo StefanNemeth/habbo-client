@@ -22,7 +22,7 @@ package com.sulake.habbo.messenger
         private var _messenger:HabboMessenger;
         private var _SafeStr_11707:ConversationsTabView;
         private var _SafeStr_11284:ITextFieldWindow;
-        private var _mainWindow:IFrameWindow;
+        private var _window:IFrameWindow;
         private var _SafeStr_11708:ConversationView;
         private var _SafeStr_4247:Timer;
         private var _disposed:Boolean = false;
@@ -51,12 +51,12 @@ package com.sulake.habbo.messenger
         }
         public function isMessengerOpen():Boolean
         {
-            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
+            return (((!((this._window == null))) && (this._window.visible)));
         }
         public function close():void
         {
-            if (this._mainWindow != null){
-                this._mainWindow.visible = false;
+            if (this._window != null){
+                this._window.visible = false;
             };
         }
         public function openMessenger():void
@@ -64,32 +64,32 @@ package com.sulake.habbo.messenger
             if (this._messenger.conversations.openConversations.length < 1){
                 return;
             };
-            if (this._mainWindow == null){
+            if (this._window == null){
                 this.prepareContent();
                 this.refresh();
             }
             else {
                 this.refresh();
-                this._mainWindow.visible = true;
-                this._mainWindow.activate();
+                this._window.visible = true;
+                this._window.activate();
             };
         }
         public function refresh():void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 return;
             };
             var _local_1:Conversation = this._messenger.conversations.findSelectedConversation();
-            this._mainWindow.caption = (((_local_1 == null)) ? "" : _local_1.name);
+            this._window.caption = (((_local_1 == null)) ? "" : _local_1.name);
             this._SafeStr_11707.refresh();
             this._SafeStr_11708.refresh();
             if (this._messenger.conversations.openConversations.length < 1){
-                this._mainWindow.visible = false;
+                this._window.visible = false;
             };
         }
         public function addMsgToView(_arg_1:Conversation, _arg_2:Message):void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 return;
             };
             if (!_arg_1.selected){
@@ -99,20 +99,20 @@ package com.sulake.habbo.messenger
         }
         private function prepareContent():void
         {
-            this._mainWindow = IFrameWindow(this._messenger.getXmlWindow("main_window"));
-            var _local_1:IWindow = this._mainWindow.findChildByTag("close");
+            this._window = IFrameWindow(this._messenger.getXmlWindow("main_window"));
+            var _local_1:IWindow = this._window.findChildByTag("close");
             _local_1.procedure = this.onWindowClose;
-            this._mainWindow.procedure = this.onWindow;
-            this._mainWindow.title.color = 0xFFFAC200;
-            this._mainWindow.title.textColor = 4287851525;
-            this._SafeStr_11707 = new ConversationsTabView(this._messenger, this._mainWindow);
+            this._window.procedure = this.onWindow;
+            this._window.title.color = 0xFFFAC200;
+            this._window.title.textColor = 4287851525;
+            this._SafeStr_11707 = new ConversationsTabView(this._messenger, this._window);
             this._SafeStr_11707.refresh();
-            this._SafeStr_11284 = ITextFieldWindow(this._mainWindow.findChildByName("message_input"));
+            this._SafeStr_11284 = ITextFieldWindow(this._window.findChildByName("message_input"));
             this._SafeStr_11284.addEventListener(WindowKeyboardEvent.WKE_KEY_DOWN, this.onMessageInput);
-            this._SafeStr_11708 = new ConversationView(this._messenger, this._mainWindow);
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, true);
-            this._mainWindow.center();
+            this._SafeStr_11708 = new ConversationView(this._messenger, this._window);
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, true);
+            this._window.center();
         }
         private function onMessageInput(_arg_1:WindowKeyboardEvent):void
         {
@@ -131,7 +131,7 @@ package com.sulake.habbo.messenger
         }
         private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
-            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._mainWindow))))){
+            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._window))))){
                 return;
             };
             if (!this._SafeStr_4247.running){
@@ -151,7 +151,7 @@ package com.sulake.habbo.messenger
                 return;
             };
             Logger.log("Close window");
-            this._mainWindow.visible = false;
+            this._window.visible = false;
         }
         private function sendMsg():void
         {
@@ -205,7 +205,7 @@ package com.sulake.habbo.messenger
 // ConversationView = "_-2jb" (String#6947, DoABC#2)
 // SendMsgMessageComposer = "_-2Gh" (String#19668, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // _SafeStr_4247 = "_-0RI" (String#586, DoABC#2)
 // onWindowClose = "_-2tr" (String#136, DoABC#2)

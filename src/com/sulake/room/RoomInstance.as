@@ -19,7 +19,7 @@ package com.sulake.room
         private var _SafeStr_14412:Array;
         private var _SafeStr_14529:Map;
         private var _updateCategories:Array;
-        private var _SafeStr_8622:IRoomRendererBase;
+        private var _renderer:IRoomRendererBase;
         private var _container:IRoomInstanceContainer;
         private var _id:String;
 
@@ -55,9 +55,9 @@ package com.sulake.room
                 this._SafeStr_14529.dispose();
                 this._SafeStr_14529 = null;
             };
-            if (this._SafeStr_8622 != null){
-                this._SafeStr_8622.dispose();
-                this._SafeStr_8622 = null;
+            if (this._renderer != null){
+                this._renderer.dispose();
+                this._renderer = null;
             };
             this._container = null;
             this._updateCategories = null;
@@ -164,8 +164,8 @@ package com.sulake.room
             var _local_5:IRoomObjectManager = this.createObjectManager(_arg_4);
             if (_local_5 != null){
                 _local_6 = _local_5.createObject(_arg_1, _arg_2, _arg_3);
-                if (this._SafeStr_8622 != null){
-                    this._SafeStr_8622.feedRoomObject(_local_6);
+                if (this._renderer != null){
+                    this._renderer.feedRoomObject(_local_6);
                 };
                 return (_local_6);
             };
@@ -218,8 +218,8 @@ package com.sulake.room
             if (_local_3 != null){
                 _local_4 = _local_3.getObject(_arg_1);
                 if (_local_4 != null){
-                    if (this._SafeStr_8622){
-                        this._SafeStr_8622.removeRoomObject(_local_4.getInstanceId());
+                    if (this._renderer){
+                        this._renderer.removeRoomObject(_local_4.getInstanceId());
                     };
                     return (_local_3.disposeObject(_arg_1));
                 };
@@ -241,8 +241,8 @@ package com.sulake.room
                     if (_local_5 != null){
                         _local_6 = _local_5.getInstanceId();
                         _local_5.dispose();
-                        if (this._SafeStr_8622){
-                            this._SafeStr_8622.removeRoomObject(_local_6);
+                        if (this._renderer){
+                            this._renderer.removeRoomObject(_local_6);
                         };
                     };
                     _local_4++;
@@ -257,17 +257,17 @@ package com.sulake.room
             var _local_5:int;
             var _local_6:int;
             var _local_7:IRoomObjectController;
-            if (_arg_1 == this._SafeStr_8622){
+            if (_arg_1 == this._renderer){
                 return;
             };
-            if (this._SafeStr_8622 != null){
-                this._SafeStr_8622.dispose();
+            if (this._renderer != null){
+                this._renderer.dispose();
             };
-            this._SafeStr_8622 = _arg_1;
-            if (this._SafeStr_8622 == null){
+            this._renderer = _arg_1;
+            if (this._renderer == null){
                 return;
             };
-            this._SafeStr_8622.reset();
+            this._renderer.reset();
             var _local_2:Array = this.getObjectManagerIds();
             var _local_3:int = (_local_2.length - 1);
             while (_local_3 >= 0) {
@@ -277,7 +277,7 @@ package com.sulake.room
                 while (_local_6 >= 0) {
                     _local_7 = (this.getObjectWithIndex(_local_6, _local_4) as IRoomObjectController);
                     if (_local_7 != null){
-                        this._SafeStr_8622.feedRoomObject(_local_7);
+                        this._renderer.feedRoomObject(_local_7);
                     };
                     _local_6--;
                 };
@@ -286,7 +286,7 @@ package com.sulake.room
         }
         public function getRenderer():IRoomRendererBase
         {
-            return (this._SafeStr_8622);
+            return (this._renderer);
         }
         public function getObjectManagerIds():Array
         {
@@ -362,6 +362,6 @@ package com.sulake.room
 // IRoomRendererBase = "_-0Eq" (String#3847, DoABC#2)
 // getObjectCount = "_-09y" (String#1415, DoABC#2)
 // getObject = "_-1GT" (String#844, DoABC#2)
-// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
+// _renderer = "_-32W" (String#628, DoABC#2)
 
 

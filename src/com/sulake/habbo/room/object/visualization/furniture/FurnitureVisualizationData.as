@@ -16,9 +16,9 @@ package com.sulake.habbo.room.object.visualization.furniture
 
         private var _SafeStr_12602:Map;
         private var _sizes:Array;
-        private var _SafeStr_12603:SizeData = null;
+        private var _sizeData:SizeData = null;
         private var _SafeStr_12604:int = -1;
-        private var _SafeStr_12605:int = -1;
+        private var _size:int = -1;
         private var _SafeStr_12606:int = -1;
         private var _type:String = "";
 
@@ -45,7 +45,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 this._SafeStr_12602.dispose();
                 this._SafeStr_12602 = null;
             };
-            this._SafeStr_12603 = null;
+            this._sizeData = null;
             this._sizes = null;
         }
         public function initialize(_arg_1:XML):Boolean
@@ -79,7 +79,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             };
             this._SafeStr_12602.reset();
             this._sizes = [];
-            this._SafeStr_12603 = null;
+            this._sizeData = null;
             this._SafeStr_12604 = -1;
         }
         protected function defineVisualizations(_arg_1:XML):Boolean
@@ -188,7 +188,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         public function getSize(_arg_1:int):int
         {
             if (_arg_1 == this._SafeStr_12606){
-                return (this._SafeStr_12605);
+                return (this._size);
             };
             var _local_2:int = this.getSizeIndex(_arg_1);
             var _local_3:int = -1;
@@ -196,7 +196,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                 _local_3 = this._sizes[_local_2];
             };
             this._SafeStr_12606 = _arg_1;
-            this._SafeStr_12605 = _local_3;
+            this._size = _local_3;
             return (_local_3);
         }
         public function getLayerCount(_arg_1:int):int
@@ -282,17 +282,17 @@ package com.sulake.habbo.room.object.visualization.furniture
         protected function getSizeData(_arg_1:int):SizeData
         {
             if (_arg_1 == this._SafeStr_12604){
-                return (this._SafeStr_12603);
+                return (this._sizeData);
             };
             var _local_2:int = this.getSizeIndex(_arg_1);
             if (_local_2 < this._sizes.length){
-                this._SafeStr_12603 = (this._SafeStr_12602.getValue(String(this._sizes[_local_2])) as SizeData);
+                this._sizeData = (this._SafeStr_12602.getValue(String(this._sizes[_local_2])) as SizeData);
             }
             else {
-                this._SafeStr_12603 = null;
+                this._sizeData = null;
             };
             this._SafeStr_12604 = _arg_1;
-            return (this._SafeStr_12603);
+            return (this._sizeData);
         }
 
     }
@@ -314,9 +314,9 @@ package com.sulake.habbo.room.object.visualization.furniture
 // getYOffset = "_-In" (String#22959, DoABC#2)
 // _SafeStr_12556 = "_-35D" (String#21702, DoABC#2)
 // _SafeStr_12602 = "_-z2" (String#24652, DoABC#2)
-// _SafeStr_12603 = "_-0ze" (String#16414, DoABC#2)
+// _sizeData = "_-0ze" (String#16414, DoABC#2)
 // _SafeStr_12604 = "_-1lv" (String#18371, DoABC#2)
-// _SafeStr_12605 = "_-iJ" (String#2164, DoABC#2)
+// _size = "_-iJ" (String#2164, DoABC#2)
 // _SafeStr_12606 = "_-2ZZ" (String#20422, DoABC#2)
 // defineVisualizations = "_-2W8" (String#20287, DoABC#2)
 // getSizeIndex = "_-0Wx" (String#1494, DoABC#2)

@@ -48,8 +48,8 @@ package com.sulake.core.utils
         protected var _ready:Boolean = false;
         protected var _debug:Boolean = false;
         protected var _paused:Boolean = false;
-        protected var _SafeStr_9035:String = "";
-        protected var _SafeStr_9036:String = "";
+        protected var _lastErrorMessage:String = "";
+        protected var _lastDebugMessage:String = "";
         protected var _SafeStr_9037:int;
         protected var _SafeStr_9038:int;
         protected var _SafeStr_9039:int;
@@ -468,7 +468,7 @@ package com.sulake.core.utils
         protected function debug(_arg_1:String):void
         {
             Core.debug(_arg_1);
-            this._SafeStr_9036 = _arg_1;
+            this._lastDebugMessage = _arg_1;
             if (this._debug){
                 dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_DEBUG, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));
             };
@@ -476,18 +476,18 @@ package com.sulake.core.utils
         protected function failure(_arg_1:String):void
         {
             Core.warning(_arg_1);
-            this._SafeStr_9035 = _arg_1;
+            this._lastErrorMessage = _arg_1;
             throttle();
             dispatchEvent(new LibraryLoaderEvent(LibraryLoaderEvent.LIBRARY_LOADER_EVENT_ERROR, this._status, this.bytesTotal, this.bytesLoaded, this.elapsedTime));
             dispatchEvent(new Event(LIBRARY_LOADER_FINALIZE));
         }
         public function getLastDebugMessage():String
         {
-            return (this._SafeStr_9036);
+            return (this._lastDebugMessage);
         }
         public function getLastErrorMessage():String
         {
-            return (this._SafeStr_9035);
+            return (this._lastErrorMessage);
         }
 
     }
@@ -519,8 +519,8 @@ package com.sulake.core.utils
 // _request = "_-2Uq" (String#20231, DoABC#2)
 // _SafeStr_9033 = "_-2mh" (String#20948, DoABC#2)
 // _paused = "_-0fL" (String#15645, DoABC#2)
-// _SafeStr_9035 = "_-1Sx" (String#17622, DoABC#2)
-// _SafeStr_9036 = "_-28o" (String#19363, DoABC#2)
+// _lastErrorMessage = "_-1Sx" (String#17622, DoABC#2)
+// _lastDebugMessage = "_-28o" (String#19363, DoABC#2)
 // _SafeStr_9037 = "_-1se" (String#18661, DoABC#2)
 // _SafeStr_9038 = "_-28n" (String#19362, DoABC#2)
 // _SafeStr_9039 = "_-2Z4" (String#20400, DoABC#2)

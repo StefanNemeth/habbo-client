@@ -26,11 +26,11 @@ package com.sulake.core.window.components
         }
         override public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
-            if (((_arg_1) && (!(_SafeStr_9166)))){
-                _SafeStr_9166 = new GraphicContext((("GC {" + _name) + "}"), ((testParamFlag(WindowParam._SafeStr_7443)) ? GraphicContext.GC_TYPE_CONTAINER : GraphicContext.GC_TYPE_BITMAP), _rectangle);
-                _SafeStr_9166.visible = _visible;
+            if (((_arg_1) && (!(_graphicContext)))){
+                _graphicContext = new GraphicContext((("GC {" + _name) + "}"), ((testParamFlag(WindowParam._SafeStr_7443)) ? GraphicContext.GC_TYPE_CONTAINER : GraphicContext.GC_TYPE_BITMAP), _rectangle);
+                _graphicContext.visible = _visible;
             };
-            return (_SafeStr_9166);
+            return (_graphicContext);
         }
 
     }
@@ -48,7 +48,7 @@ package com.sulake.core.window.components
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
 // _background = "_-35x" (String#21726, DoABC#2)
-// _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
+// _graphicContext = "_-1or" (String#18492, DoABC#2)
 // testParamFlag = "_-1ml" (String#5794, DoABC#2)
 
 

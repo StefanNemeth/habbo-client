@@ -25,14 +25,14 @@ package com.sulake.habbo.inventory.effects
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
         private var _view:IWindowContainer;
-        private var _SafeStr_4830:EffectsModel;
+        private var _modelController:EffectsModel;
         private var _SafeStr_8117:ThumbListManager;
         private var _SafeStr_8118:ThumbListManager;
         private var _disposed:Boolean = false;
 
         public function EffectsView(_arg_1:EffectsModel, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary, _arg_4:IHabboLocalizationManager, _arg_5:IThumbListDataProvider, _arg_6:IThumbListDataProvider)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._assetLibrary = _arg_3;
             this._windowManager = _arg_2;
             var _local_7:IAsset = this._assetLibrary.getAssetByName("inventory_effects_xml");
@@ -56,7 +56,7 @@ package com.sulake.habbo.inventory.effects
         {
             if (!this._disposed){
                 this._windowManager = null;
-                this._SafeStr_4830 = null;
+                this._modelController = null;
                 this._view = null;
                 if (this._SafeStr_8117 != null){
                     this._SafeStr_8117.dispose();
@@ -150,7 +150,7 @@ package com.sulake.habbo.inventory.effects
             if (_local_2 == null){
                 return;
             };
-            var _local_3:Effect = this._SafeStr_4830.getSelectedEffect(-1);
+            var _local_3:Effect = this._modelController.getSelectedEffect(-1);
             if (_local_3 == null){
                 _local_1.disable();
                 this.setEffectDescriptionImage(null);
@@ -217,9 +217,9 @@ package com.sulake.habbo.inventory.effects
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 _local_3 = new Point(WindowMouseEvent(_arg_1).localX, WindowMouseEvent(_arg_1).localY);
                 _local_4 = this._SafeStr_8117.resolveIndexFromImageLocation(_local_3);
-                _local_5 = this._SafeStr_4830.getItemInIndex(_local_4, 1);
+                _local_5 = this._modelController.getItemInIndex(_local_4, 1);
                 if (_local_5 != null){
-                    this._SafeStr_4830.toggleEffectSelected(_local_5.type);
+                    this._modelController.toggleEffectSelected(_local_5.type);
                 };
             };
         }
@@ -231,9 +231,9 @@ package com.sulake.habbo.inventory.effects
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 _local_3 = new Point(WindowMouseEvent(_arg_1).localX, WindowMouseEvent(_arg_1).localY);
                 _local_4 = this._SafeStr_8118.resolveIndexFromImageLocation(_local_3);
-                _local_5 = this._SafeStr_4830.getItemInIndex(_local_4, 0);
+                _local_5 = this._modelController.getItemInIndex(_local_4, 0);
                 if (_local_5 != null){
-                    this._SafeStr_4830.toggleEffectSelected(_local_5.type);
+                    this._modelController.toggleEffectSelected(_local_5.type);
                 };
             };
         }
@@ -242,9 +242,9 @@ package com.sulake.habbo.inventory.effects
             var _local_3:Effect;
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 if (_arg_2.name == "activateEffect_button"){
-                    _local_3 = this._SafeStr_4830.getSelectedEffect(0);
+                    _local_3 = this._modelController.getSelectedEffect(0);
                     if (_local_3 != null){
-                        this._SafeStr_4830.requestEffectActivated(_local_3.type);
+                        this._modelController.requestEffectActivated(_local_3.type);
                     };
                 };
             };
@@ -263,7 +263,7 @@ package com.sulake.habbo.inventory.effects
 // effectsInInventory = "_-0U0" (String#4183, DoABC#2)
 // secondsLeft = "_-I-" (String#8040, DoABC#2)
 // isActive = "_-0q4" (String#4638, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // getWindowContainer = "_-v8" (String#313, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // updateImageFromList = "_-eL" (String#23815, DoABC#2)

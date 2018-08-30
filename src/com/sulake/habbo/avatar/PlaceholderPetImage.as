@@ -47,7 +47,7 @@ package com.sulake.habbo.avatar
             if (_disposed){
                 return (null);
             };
-            var _local_2:BitmapData = this.getPlaceHolderImage(_SafeStr_10077, _scale);
+            var _local_2:BitmapData = this.getPlaceHolderImage(_direction, _scale);
             if (!_local_2){
                 return (null);
             };
@@ -58,7 +58,7 @@ package com.sulake.habbo.avatar
             if (_disposed){
                 return (null);
             };
-            var _local_3:BitmapData = this.getPlaceHolderImage(_SafeStr_10077, _scale);
+            var _local_3:BitmapData = this.getPlaceHolderImage(_direction, _scale);
             if (((!(_local_3)) || (!(this._image)))){
                 return (null);
             };
@@ -100,7 +100,7 @@ package com.sulake.habbo.avatar
     }
 }//package com.sulake.habbo.avatar
 
-// _SafeStr_10077 = "_-2jr" (String#6951, DoABC#2)
+// _direction = "_-2jr" (String#6951, DoABC#2)
 // _SafeStr_10078 = "_-0hg" (String#4461, DoABC#2)
 // _SafeStr_10103 = "_-1TU" (String#17644, DoABC#2)
 // getPlaceHolderImage = "_-fO" (String#23863, DoABC#2)

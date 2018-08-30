@@ -8,19 +8,19 @@ package com.sulake.habbo.help.cfh.data
 
         private static const _SafeStr_5386:int = 80;
 
-        private var _SafeStr_5387:Map;
+        private var _registry:Map;
         private var _roomName:String = "";
         private var _SafeStr_5389:Array;
 
         public function UserRegistry()
         {
-            this._SafeStr_5387 = new Map();
+            this._registry = new Map();
             this._SafeStr_5389 = new Array();
             super();
         }
         public function getRegistry():Map
         {
-            return (this._SafeStr_5387);
+            return (this._registry);
         }
         public function registerRoom(_arg_1:String):void
         {
@@ -36,8 +36,8 @@ package com.sulake.habbo.help.cfh.data
         public function registerUser(_arg_1:int, _arg_2:String, _arg_3:Boolean=true):void
         {
             var _local_4:UserRegistryItem;
-            if (this._SafeStr_5387.getValue(_arg_1) != null){
-                this._SafeStr_5387.remove(_arg_1);
+            if (this._registry.getValue(_arg_1) != null){
+                this._registry.remove(_arg_1);
             };
             if (_arg_3){
                 _local_4 = new UserRegistryItem(_arg_1, _arg_2, this._roomName);
@@ -48,22 +48,22 @@ package com.sulake.habbo.help.cfh.data
             if (((_arg_3) && ((this._roomName == "")))){
                 this._SafeStr_5389.push(_arg_1);
             };
-            this._SafeStr_5387.add(_arg_1, _local_4);
+            this._registry.add(_arg_1, _local_4);
             this.purgeUserIndex();
         }
         private function purgeUserIndex():void
         {
             var _local_1:int;
-            while (this._SafeStr_5387.length > _SafeStr_5386) {
-                _local_1 = this._SafeStr_5387.getKey(0);
-                this._SafeStr_5387.remove(_local_1);
+            while (this._registry.length > _SafeStr_5386) {
+                _local_1 = this._registry.getKey(0);
+                this._registry.remove(_local_1);
             };
         }
         private function addRoomNameForMissing():void
         {
             var _local_1:UserRegistryItem;
             while (this._SafeStr_5389.length > 0) {
-                _local_1 = this._SafeStr_5387.getValue(this._SafeStr_5389.shift());
+                _local_1 = this._registry.getValue(this._SafeStr_5389.shift());
                 if (_local_1 != null){
                     _local_1.roomName = this._roomName;
                 };
@@ -76,7 +76,7 @@ package com.sulake.habbo.help.cfh.data
 // UserRegistry = "_-1w-" (String#18798, DoABC#2)
 // UserRegistryItem = "_-27a" (String#6193, DoABC#2)
 // _SafeStr_5386 = "_-2Sr" (String#20154, DoABC#2)
-// _SafeStr_5387 = "_-2nR" (String#20975, DoABC#2)
+// _registry = "_-2nR" (String#20975, DoABC#2)
 // _roomName = "_-bX" (String#253, DoABC#2)
 // _SafeStr_5389 = "_-2Nk" (String#19954, DoABC#2)
 // registerRoom = "_-30l" (String#21530, DoABC#2)

@@ -6,18 +6,18 @@ package com.sulake.habbo.help.help.data
     public class FaqIndex 
     {
 
-        private var _SafeStr_11347:FaqCategory;
-        private var _SafeStr_11348:FaqCategory;
-        private var _SafeStr_11349:FaqCategory;
+        private var _frontPageUrgentCategory:FaqCategory;
+        private var _frontPageNormalCategory:FaqCategory;
+        private var _searchResultCategory:FaqCategory;
         private var _SafeStr_11350:Map;
         private var _lastUpdatedQuestionId:int;
         private var _lastUpdatedCategoryId:int;
 
         public function FaqIndex()
         {
-            this._SafeStr_11347 = new FaqCategory(-999, "${help.faq.title.urgent}");
-            this._SafeStr_11348 = new FaqCategory(-9999, "${help.faq.title.normal}");
-            this._SafeStr_11349 = new FaqCategory(-99999, "${help.faq.title.searchresults}");
+            this._frontPageUrgentCategory = new FaqCategory(-999, "${help.faq.title.urgent}");
+            this._frontPageNormalCategory = new FaqCategory(-9999, "${help.faq.title.normal}");
+            this._searchResultCategory = new FaqCategory(-99999, "${help.faq.title.searchresults}");
             this._SafeStr_11350 = new Map();
         }
         public function get lastUpdatedQuestionId():int
@@ -42,9 +42,9 @@ package com.sulake.habbo.help.help.data
                 this._SafeStr_11350.dispose();
                 this._SafeStr_11350 = null;
             };
-            this._SafeStr_11347.dispose();
-            this._SafeStr_11348.dispose();
-            this._SafeStr_11349.dispose();
+            this._frontPageUrgentCategory.dispose();
+            this._frontPageNormalCategory.dispose();
+            this._searchResultCategory.dispose();
         }
         public function getCategory(_arg_1:int, _arg_2:String=null, _arg_3:Boolean=false):FaqCategory
         {
@@ -70,14 +70,14 @@ package com.sulake.habbo.help.help.data
         public function storeAnswerText(_arg_1:int, _arg_2:String):void
         {
             var _local_4:FaqCategory;
-            if (this._SafeStr_11347.hasItem(_arg_1)){
-                this._SafeStr_11347.getItem(_arg_1).answerText = _arg_2;
+            if (this._frontPageUrgentCategory.hasItem(_arg_1)){
+                this._frontPageUrgentCategory.getItem(_arg_1).answerText = _arg_2;
             };
-            if (this._SafeStr_11348.hasItem(_arg_1)){
-                this._SafeStr_11348.getItem(_arg_1).answerText = _arg_2;
+            if (this._frontPageNormalCategory.hasItem(_arg_1)){
+                this._frontPageNormalCategory.getItem(_arg_1).answerText = _arg_2;
             };
-            if (this._SafeStr_11349.hasItem(_arg_1)){
-                this._SafeStr_11349.getItem(_arg_1).answerText = _arg_2;
+            if (this._searchResultCategory.hasItem(_arg_1)){
+                this._searchResultCategory.getItem(_arg_1).answerText = _arg_2;
             };
             var _local_3:int;
             while (_local_3 < this._SafeStr_11350.length) {
@@ -90,15 +90,15 @@ package com.sulake.habbo.help.help.data
         }
         public function getFrontPageUrgentCategory():FaqCategory
         {
-            return (this._SafeStr_11347);
+            return (this._frontPageUrgentCategory);
         }
         public function getFrontPageNormalCategory():FaqCategory
         {
-            return (this._SafeStr_11348);
+            return (this._frontPageNormalCategory);
         }
         public function getSearchResultCategory():FaqCategory
         {
-            return (this._SafeStr_11349);
+            return (this._searchResultCategory);
         }
         public function getCategoryCount():int
         {
@@ -128,14 +128,14 @@ package com.sulake.habbo.help.help.data
         private function findItem(_arg_1:int):FaqItem
         {
             var _local_3:FaqCategory;
-            if (this._SafeStr_11347.hasItem(_arg_1)){
-                return (this._SafeStr_11347.getItem(_arg_1));
+            if (this._frontPageUrgentCategory.hasItem(_arg_1)){
+                return (this._frontPageUrgentCategory.getItem(_arg_1));
             };
-            if (this._SafeStr_11348.hasItem(_arg_1)){
-                return (this._SafeStr_11348.getItem(_arg_1));
+            if (this._frontPageNormalCategory.hasItem(_arg_1)){
+                return (this._frontPageNormalCategory.getItem(_arg_1));
             };
-            if (this._SafeStr_11349.hasItem(_arg_1)){
-                return (this._SafeStr_11349.getItem(_arg_1));
+            if (this._searchResultCategory.hasItem(_arg_1)){
+                return (this._searchResultCategory.getItem(_arg_1));
             };
             var _local_2:int;
             while (_local_2 < this._SafeStr_11350.length) {
@@ -151,9 +151,9 @@ package com.sulake.habbo.help.help.data
     }
 }//package com.sulake.habbo.help.help.data
 
-// _SafeStr_11347 = "_-1zb" (String#18952, DoABC#2)
-// _SafeStr_11348 = "_-2rV" (String#21137, DoABC#2)
-// _SafeStr_11349 = "_-1PP" (String#17484, DoABC#2)
+// _frontPageUrgentCategory = "_-1zb" (String#18952, DoABC#2)
+// _frontPageNormalCategory = "_-2rV" (String#21137, DoABC#2)
+// _searchResultCategory = "_-1PP" (String#17484, DoABC#2)
 // _SafeStr_11350 = "_-2dK" (String#6818, DoABC#2)
 // _lastUpdatedCategoryId = "_-2ui" (String#21266, DoABC#2)
 // lastUpdatedQuestionId = "_-3IF" (String#22212, DoABC#2)

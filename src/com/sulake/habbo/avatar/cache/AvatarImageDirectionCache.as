@@ -8,13 +8,13 @@ package com.sulake.habbo.avatar.cache
     public class AvatarImageDirectionCache 
     {
 
-        private var _SafeStr_7988:Array;
+        private var _partList:Array;
         private var _images:Dictionary;
 
         public function AvatarImageDirectionCache(_arg_1:Array)
         {
             this._images = new Dictionary();
-            this._SafeStr_7988 = _arg_1;
+            this._partList = _arg_1;
         }
         public function dispose():void
         {
@@ -28,7 +28,7 @@ package com.sulake.habbo.avatar.cache
         }
         public function getPartList():Array
         {
-            return (this._SafeStr_7988);
+            return (this._partList);
         }
         public function getImageContainer(_arg_1:int):AvatarImageBodyPartContainer
         {
@@ -51,7 +51,7 @@ package com.sulake.habbo.avatar.cache
         {
             var _local_3:AvatarImagePartContainer;
             var _local_2:String = "";
-            for each (_local_3 in this._SafeStr_7988) {
+            for each (_local_3 in this._partList) {
                 _local_2 = ((((_local_2 + _local_3.partId) + ":") + _local_3.getFrameIndex(_arg_1)) + "/");
             };
             return (_local_2);
@@ -72,7 +72,7 @@ package com.sulake.habbo.avatar.cache
 // partId = "_-0hk" (String#15738, DoABC#2)
 // getFrameIndex = "_-38K" (String#21816, DoABC#2)
 // debugInfo = "_-3g" (String#924, DoABC#2)
-// _SafeStr_7988 = "_-2wX" (String#21328, DoABC#2)
+// _partList = "_-2wX" (String#21328, DoABC#2)
 // getCacheKey = "_-UG" (String#23419, DoABC#2)
 
 

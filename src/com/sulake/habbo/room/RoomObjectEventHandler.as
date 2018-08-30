@@ -67,7 +67,7 @@ package com.sulake.habbo.room
 
         private var _roomEngine:IRoomEngineServices = null;
         private var _eventIds:Map = null;
-        private var _SafeStr_13238:int = -1;
+        private var _selectedAvatarId:int = -1;
 
         public function RoomObjectEventHandler(_arg_1:IRoomEngineServices)
         {
@@ -1145,10 +1145,10 @@ package com.sulake.habbo.room
                 return;
             };
             var category:int = RoomObjectCategoryEnum.OBJECT_CATEGORY_USER;
-            var object:IRoomObjectController = (this._roomEngine.getRoomObject(roomId, roomCategory, this._SafeStr_13238, category) as IRoomObjectController);
+            var object:IRoomObjectController = (this._roomEngine.getRoomObject(roomId, roomCategory, this._selectedAvatarId, category) as IRoomObjectController);
             if (((!((object == null))) && (!((object.getEventHandler() == null))))){
                 object.getEventHandler().processUpdateMessage(new RoomObjectAvatarSelectedMessage(false));
-                this._SafeStr_13238 = -1;
+                this._selectedAvatarId = -1;
             };
             var wasSelected:Boolean;
             if (isSelected){
@@ -1156,7 +1156,7 @@ package com.sulake.habbo.room
                 if (((!((object == null))) && (!((object.getEventHandler() == null))))){
                     object.getEventHandler().processUpdateMessage(new RoomObjectAvatarSelectedMessage(true));
                     wasSelected = true;
-                    this._SafeStr_13238 = objectId;
+                    this._selectedAvatarId = objectId;
                     try {
                         this._roomEngine.connection.send(new LookToMessageComposer(object.getLocation().x, object.getLocation().y));
                     }
@@ -1176,7 +1176,7 @@ package com.sulake.habbo.room
         }
         public function getSelectedAvatarId():int
         {
-            return (this._SafeStr_13238);
+            return (this._selectedAvatarId);
         }
         private function getValidFurnitureDirection(_arg_1:IRoomObjectController, _arg_2:Boolean):int
         {
@@ -1477,7 +1477,7 @@ package com.sulake.habbo.room
 // getIsPlayingGame = "_-xX" (String#8834, DoABC#2)
 // requestRoomAdImage = "_-296" (String#6229, DoABC#2)
 // requestMouseCursor = "_-11O" (String#4903, DoABC#2)
-// _SafeStr_13238 = "_-3FH" (String#22087, DoABC#2)
+// _selectedAvatarId = "_-3FH" (String#22087, DoABC#2)
 // resetSelectedObjectData = "_-2yz" (String#21426, DoABC#2)
 // updateSelectedObjectData = "_-04t" (String#14237, DoABC#2)
 // setObjectAlphaMultiplier = "_-1ew" (String#18094, DoABC#2)

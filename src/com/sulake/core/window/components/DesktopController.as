@@ -42,12 +42,12 @@ package com.sulake.core.window.components
         }
         override public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
-            if (((_arg_1) && (!(_SafeStr_9166)))){
-                _SafeStr_9166 = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_DESKTOP, _rectangle);
-                GraphicContext(_SafeStr_9166).mouseEnabled = true;
-                GraphicContext(_SafeStr_9166).doubleClickEnabled = true;
+            if (((_arg_1) && (!(_graphicContext)))){
+                _graphicContext = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_DESKTOP, _rectangle);
+                GraphicContext(_graphicContext).mouseEnabled = true;
+                GraphicContext(_graphicContext).doubleClickEnabled = true;
             };
-            return (_SafeStr_9166);
+            return (_graphicContext);
         }
         public function getActiveWindow():IWindow
         {
@@ -83,7 +83,7 @@ package com.sulake.core.window.components
 // ActivatorController = "_-Wd" (String#8339, DoABC#2)
 // DesktopController = "_-03D" (String#3633, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
-// _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
+// _graphicContext = "_-1or" (String#18492, DoABC#2)
 // setActiveChild = "_-lC" (String#24077, DoABC#2)
 // getActiveChild = "_-1cK" (String#17983, DoABC#2)
 // defaultProcedure = "_-SI" (String#23336, DoABC#2)

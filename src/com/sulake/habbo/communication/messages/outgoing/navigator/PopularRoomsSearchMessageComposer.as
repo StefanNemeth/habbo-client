@@ -7,22 +7,22 @@ package com.sulake.habbo.communication.messages.outgoing.navigator
     public class PopularRoomsSearchMessageComposer implements IMessageComposer, IDisposable 
     {
 
-        private var _SafeStr_3708:Array;
+        private var _messageArray:Array;
 
         public function PopularRoomsSearchMessageComposer(_arg_1:String, _arg_2:int)
         {
-            this._SafeStr_3708 = new Array();
+            this._messageArray = new Array();
             super();
-            this._SafeStr_3708.push(_arg_1);
-            this._SafeStr_3708.push(_arg_2);
+            this._messageArray.push(_arg_1);
+            this._messageArray.push(_arg_2);
         }
         public function getMessageArray():Array
         {
-            return (this._SafeStr_3708);
+            return (this._messageArray);
         }
         public function dispose():void
         {
-            this._SafeStr_3708 = null;
+            this._messageArray = null;
         }
         public function get disposed():Boolean
         {
@@ -34,7 +34,7 @@ package com.sulake.habbo.communication.messages.outgoing.navigator
 
 // PopularRoomsSearchMessageComposer = "_-WK" (String#23503, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _SafeStr_3708 = "_-2oC" (String#11, DoABC#2)
+// _messageArray = "_-2oC" (String#11, DoABC#2)
 // getMessageArray = "_-2vs" (String#7197, DoABC#2)
 
 

@@ -45,12 +45,12 @@ package com.sulake.habbo.sound.music
         private var _SafeStr_7699:Map;
         private var _SafeStr_7700:Map;
         private var _SafeStr_7701:Array;
-        private var _SafeStr_7702:IPlayListController = null;
+        private var _roomItemPlaylist:IPlayListController = null;
         private var _disposed:Boolean = false;
         private var _SafeStr_7703:Array;
         private var _SafeStr_7704:Array;
         private var _priorityPlaying:int = -1;
-        private var _SafeStr_7705:int = -1;
+        private var _songIdPlayingAtPriority:int = -1;
         private var _SafeStr_7706:int = -1;
         private var _SafeStr_7707:Timer;
         private var _SafeStr_5522:Map;
@@ -136,9 +136,9 @@ package com.sulake.habbo.sound.music
                     this._SafeStr_7204 = null;
                     this._connection = null;
                 };
-                if (this._SafeStr_7702){
-                    this._SafeStr_7702.dispose();
-                    this._SafeStr_7702 = null;
+                if (this._roomItemPlaylist){
+                    this._roomItemPlaylist.dispose();
+                    this._roomItemPlaylist = null;
                 };
                 if (this._SafeStr_7699){
                     _local_2 = 0;
@@ -175,7 +175,7 @@ package com.sulake.habbo.sound.music
         }
         public function getRoomItemPlaylist(_arg_1:int=-1):IPlayListController
         {
-            return (this._SafeStr_7702);
+            return (this._roomItemPlaylist);
         }
         private function addSongStartRequest(_arg_1:int, _arg_2:int, _arg_3:Number, _arg_4:Number, _arg_5:Number, _arg_6:Number):Boolean
         {
@@ -267,7 +267,7 @@ package com.sulake.habbo.sound.music
         {
             var _local_3:int;
             this._priorityPlaying = -1;
-            this._SafeStr_7705 = -1;
+            this._songIdPlayingAtPriority = -1;
             this._SafeStr_7706 = -1;
             var _local_1:int = this.getTopRequestPriority();
             var _local_2:int = _local_1;
@@ -408,7 +408,7 @@ package com.sulake.habbo.sound.music
             if (_arg_1 != this._priorityPlaying){
                 return (-1);
             };
-            return (this._SafeStr_7705);
+            return (this._songIdPlayingAtPriority);
         }
         public function samplesUnloaded(_arg_1:Array):void
         {
@@ -420,7 +420,7 @@ package com.sulake.habbo.sound.music
             while (_local_2 < this._SafeStr_7699.length) {
                 _local_3 = (this._SafeStr_7699.getWithIndex(_local_2) as SongDataEntry);
                 _local_4 = (_local_3.soundObject as TraxSequencer);
-                if (((((!((_local_3.id == this._SafeStr_7705))) && (!((_local_4 == null))))) && (_local_4.ready))){
+                if (((((!((_local_3.id == this._songIdPlayingAtPriority))) && (!((_local_4 == null))))) && (_local_4.ready))){
                     _local_5 = _local_4.traxData.getSampleIds();
                     _local_6 = 0;
                     while (_local_6 < _arg_1.length) {
@@ -557,7 +557,7 @@ package com.sulake.habbo.sound.music
             _local_5.play(_local_7);
             this._priorityPlaying = _arg_1;
             this._SafeStr_7706 = this.getSongRequestCountAtPriority(_arg_1);
-            this._SafeStr_7705 = _arg_2;
+            this._songIdPlayingAtPriority = _arg_2;
             if (this._priorityPlaying <= _SafeStr_7698){
                 this.notifySongPlaying(_local_4);
             };
@@ -609,7 +609,7 @@ package com.sulake.habbo.sound.music
         private function onSoundMachineInit(_arg_1:Event):void
         {
             this.disposeRoomPlaylist();
-            this._SafeStr_7702 = (new SoundMachinePlayListController(this._soundManager, this, this._events, this._SafeStr_5221, this._connection) as IPlayListController);
+            this._roomItemPlaylist = (new SoundMachinePlayListController(this._soundManager, this, this._events, this._SafeStr_5221, this._connection) as IPlayListController);
         }
         private function onSoundMachineDispose(_arg_1:Event):void
         {
@@ -618,7 +618,7 @@ package com.sulake.habbo.sound.music
         private function onJukeboxInit(_arg_1:Event):void
         {
             this.disposeRoomPlaylist();
-            this._SafeStr_7702 = (new JukeboxPlayListController(this._soundManager, this, this._events, this._connection) as IPlayListController);
+            this._roomItemPlaylist = (new JukeboxPlayListController(this._soundManager, this, this._events, this._connection) as IPlayListController);
             this._connection.send(new GetNowPlayingMessageComposer());
         }
         private function onJukeboxDispose(_arg_1:Event):void
@@ -627,9 +627,9 @@ package com.sulake.habbo.sound.music
         }
         private function disposeRoomPlaylist():void
         {
-            if (this._SafeStr_7702 != null){
-                this._SafeStr_7702.dispose();
-                this._SafeStr_7702 = null;
+            if (this._roomItemPlaylist != null){
+                this._roomItemPlaylist.dispose();
+                this._roomItemPlaylist = null;
             };
         }
 
@@ -696,10 +696,10 @@ package com.sulake.habbo.sound.music
 // _SafeStr_7699 = "_-0l1" (String#15866, DoABC#2)
 // _SafeStr_7700 = "_-1Qt" (String#17545, DoABC#2)
 // _SafeStr_7701 = "_-31t" (String#21574, DoABC#2)
-// _SafeStr_7702 = "_-077" (String#14329, DoABC#2)
+// _roomItemPlaylist = "_-077" (String#14329, DoABC#2)
 // _SafeStr_7703 = "_-145" (String#16620, DoABC#2)
 // _SafeStr_7704 = "_-2PL" (String#20016, DoABC#2)
-// _SafeStr_7705 = "_-20m" (String#19043, DoABC#2)
+// _songIdPlayingAtPriority = "_-20m" (String#19043, DoABC#2)
 // _SafeStr_7706 = "_-1NF" (String#17408, DoABC#2)
 // _SafeStr_7707 = "_-33O" (String#21638, DoABC#2)
 // _SafeStr_7708 = "_-0-j" (String#14042, DoABC#2)

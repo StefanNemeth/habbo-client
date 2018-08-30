@@ -20,14 +20,14 @@ package com.sulake.habbo.avatar.common
         private var _assetLibrary:IAssetLibrary;
         private var _view:IWindowContainer;
         private var _firstView:Boolean = true;
-        private var _SafeStr_4830:IAvatarEditorCategoryModel;
+        private var _modelController:IAvatarEditorCategoryModel;
         private var _categoryId:String;
         private var _SafeStr_9969:IItemGridWindow;
         private var _SafeStr_9970:Array;
 
         public function AvatarEditorGridView(_arg_1:IAvatarEditorCategoryModel, _arg_2:String, _arg_3:IHabboWindowManager, _arg_4:IAssetLibrary)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._categoryId = _arg_2;
             this._assetLibrary = _arg_4;
             this._windowManager = _arg_3;
@@ -56,7 +56,7 @@ package com.sulake.habbo.avatar.common
                 };
                 this._SafeStr_9970 = null;
             };
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             if (this._view){
                 this._view.dispose();
                 this._view = null;
@@ -81,7 +81,7 @@ package com.sulake.habbo.avatar.common
             var _local_4:Array;
             var _local_5:IItemGridWindow;
             var _local_6:AvatarEditorGridColorItem;
-            var _local_1:CategoryData = this._SafeStr_4830.getCategoryData(this._categoryId);
+            var _local_1:CategoryData = this._modelController.getCategoryData(this._categoryId);
             if (!_local_1){
                 return;
             };
@@ -154,7 +154,7 @@ package com.sulake.habbo.avatar.common
             var _local_3:int;
             if (_arg_1.type == WindowMouseEvent.WME_DOWN){
                 _local_3 = this._SafeStr_9969.getGridItemIndex(_arg_1.window);
-                this._SafeStr_4830._SafeStr_4847(this._categoryId, _local_3);
+                this._modelController._SafeStr_4847(this._categoryId, _local_3);
             };
         }
         private function paletteEventProc(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -172,7 +172,7 @@ package com.sulake.habbo.avatar.common
                         _local_4 = (this._SafeStr_9970[_local_7] as IItemGridWindow);
                         _local_5 = _local_4.getGridItemIndex(_local_6);
                         if (_local_5 > -1){
-                            this._SafeStr_4830.selectColor(this._categoryId, _local_5, _local_7);
+                            this._modelController.selectColor(this._categoryId, _local_5, _local_7);
                             return;
                         };
                     };
@@ -192,7 +192,7 @@ package com.sulake.habbo.avatar.common
 // AvatarEditorGridPartItem = "_-xW" (String#8833, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // removeGridItems = "_-1Bp" (String#5106, DoABC#2)
 // addGridItem = "_-2vh" (String#7192, DoABC#2)
 // showPalettes = "_-3AL" (String#7520, DoABC#2)

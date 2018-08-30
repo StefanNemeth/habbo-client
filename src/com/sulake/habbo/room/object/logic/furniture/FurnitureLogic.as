@@ -36,12 +36,12 @@ package com.sulake.habbo.room.object.logic.furniture
         private var _SafeStr_12437:Boolean = false;
         private var _SafeStr_12438:int = 0;
         private var _SafeStr_12439:RoomObjectUpdateMessage;
-        private var _SafeStr_12440:Vector3d;
+        private var _locationOffset:Vector3d;
         private var _SafeStr_12441:Array;
 
         public function FurnitureLogic()
         {
-            this._SafeStr_12440 = new Vector3d();
+            this._locationOffset = new Vector3d();
             this._SafeStr_12441 = [];
             super();
         }
@@ -269,10 +269,10 @@ package com.sulake.habbo.room.object.logic.furniture
         override protected function getLocationOffset():IVector3d
         {
             if (this._SafeStr_12438 > 0){
-                this._SafeStr_12440.x = 0;
-                this._SafeStr_12440.y = 0;
+                this._locationOffset.x = 0;
+                this._locationOffset.y = 0;
                 if (this._SafeStr_12438 <= (_SafeStr_12430 / 2)){
-                    this._SafeStr_12440.z = (_SafeStr_12431 * this._SafeStr_12438);
+                    this._locationOffset.z = (_SafeStr_12431 * this._SafeStr_12438);
                 }
                 else {
                     if (this._SafeStr_12438 <= _SafeStr_12430){
@@ -280,10 +280,10 @@ package com.sulake.habbo.room.object.logic.furniture
                             super.processUpdateMessage(this._SafeStr_12439);
                             this._SafeStr_12439 = null;
                         };
-                        this._SafeStr_12440.z = (_SafeStr_12431 * (_SafeStr_12430 - this._SafeStr_12438));
+                        this._locationOffset.z = (_SafeStr_12431 * (_SafeStr_12430 - this._SafeStr_12438));
                     };
                 };
-                return (this._SafeStr_12440);
+                return (this._locationOffset);
             };
             return (null);
         }
@@ -311,7 +311,7 @@ package com.sulake.habbo.room.object.logic.furniture
 // _SafeStr_12437 = "_-25v" (String#19255, DoABC#2)
 // _SafeStr_12438 = "_-0Kw" (String#14874, DoABC#2)
 // _SafeStr_12439 = "_-0eU" (String#15605, DoABC#2)
-// _SafeStr_12440 = "_-1vz" (String#18796, DoABC#2)
+// _locationOffset = "_-1vz" (String#18796, DoABC#2)
 // _SafeStr_12441 = "_-0pY" (String#1556, DoABC#2)
 // _SafeStr_12442 = "_-0vN" (String#16252, DoABC#2)
 // _SafeStr_12443 = "_-7h" (String#22530, DoABC#2)

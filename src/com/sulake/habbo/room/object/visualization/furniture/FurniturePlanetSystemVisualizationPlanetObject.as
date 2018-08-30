@@ -15,12 +15,12 @@ package com.sulake.habbo.room.object.visualization.furniture
         private var _SafeStr_12817:Number;
         private var _height:Number;
         private var _position:Number;
-        private var _SafeStr_12818:Vector3d;
+        private var _positionVector:Vector3d;
         private var _children:Array;
 
         public function FurniturePlanetSystemVisualizationPlanetObject(_arg_1:String, _arg_2:int, _arg_3:Number, _arg_4:Number, _arg_5:Number, _arg_6:Number)
         {
-            this._SafeStr_12818 = new Vector3d(0, 0, 0);
+            this._positionVector = new Vector3d(0, 0, 0);
             this._children = new Array();
             super();
             this._name = _arg_1;
@@ -53,7 +53,7 @@ package com.sulake.habbo.room.object.visualization.furniture
             var _local_5:int;
             while (_local_5 < this._children.length) {
                 _local_4 = this._children[_local_5];
-                _local_4.update(_arg_1, this._SafeStr_12818, _arg_3);
+                _local_4.update(_arg_1, this._positionVector, _arg_3);
                 _local_5++;
             };
         }
@@ -62,13 +62,13 @@ package com.sulake.habbo.room.object.visualization.furniture
             var _local_3:Number = (this._radius * Math.cos((this._position + this._SafeStr_12817)));
             var _local_4:Number = (this._radius * Math.sin((this._position + this._SafeStr_12817)));
             var _local_5:Number = this._height;
-            this._SafeStr_12818.x = ((_local_3 - _local_4) * (_arg_2 / 2));
-            this._SafeStr_12818.y = ((((_local_4 + _local_3) * (_arg_2 / 2)) * 0.5) - (this._height * (_arg_2 / 2)));
-            this._SafeStr_12818.z = -(int(((4 * (_local_3 + _local_4)) - 0.7)));
+            this._positionVector.x = ((_local_3 - _local_4) * (_arg_2 / 2));
+            this._positionVector.y = ((((_local_4 + _local_3) * (_arg_2 / 2)) * 0.5) - (this._height * (_arg_2 / 2)));
+            this._positionVector.z = -(int(((4 * (_local_3 + _local_4)) - 0.7)));
             if (_arg_1 != null){
-                this._SafeStr_12818.add(_arg_1);
+                this._positionVector.add(_arg_1);
             };
-            return (this._SafeStr_12818);
+            return (this._positionVector);
         }
         public function addChild(_arg_1:FurniturePlanetSystemVisualizationPlanetObject):void
         {
@@ -117,7 +117,7 @@ package com.sulake.habbo.room.object.visualization.furniture
 // _SafeStr_12815 = "_-mu" (String#24148, DoABC#2)
 // _SafeStr_12816 = "_-05-" (String#14242, DoABC#2)
 // _SafeStr_12817 = "_-oH" (String#24203, DoABC#2)
-// _SafeStr_12818 = "_-20i" (String#19040, DoABC#2)
+// _positionVector = "_-20i" (String#19040, DoABC#2)
 // getPositionVector = "_-13-" (String#16580, DoABC#2)
 // Vector3d = "_-1Rb" (String#17568, DoABC#2)
 // _position = "_-0Pf" (String#433, DoABC#2)

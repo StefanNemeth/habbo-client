@@ -76,7 +76,7 @@ package com.sulake.core.runtime
         }
         public function error(_arg_1:String, _arg_2:Boolean, _arg_3:int=-1, _arg_4:Error=null):void
         {
-            _SafeStr_8959 = _arg_1;
+            _lastError = _arg_1;
             if (events == null){
                 Logger.log(("Failed to dispatch an error because events was null.\nMessage: " + _arg_1));
             }
@@ -86,7 +86,7 @@ package com.sulake.core.runtime
         }
         public function getLastErrorMessage():String
         {
-            return (_SafeStr_8959);
+            return (_lastError);
         }
         final public function loadFromFile(_arg_1:URLRequest, _arg_2:LoaderContext):LibraryLoader
         {
@@ -497,7 +497,7 @@ package com.sulake.core.runtime
 // getLastDebugMessage = "_-0Gl" (String#3889, DoABC#2)
 // warning = "_-1MU" (String#5283, DoABC#2)
 // getLastWarningMessage = "_-5e" (String#7775, DoABC#2)
-// _SafeStr_8959 = "_-0NR" (String#4029, DoABC#2)
+// _lastError = "_-0NR" (String#4029, DoABC#2)
 // loadReadyHandler = "_-1kP" (String#18305, DoABC#2)
 // loadDebugHandler = "_-0NG" (String#14965, DoABC#2)
 // removeLibraryLoader = "_-1yS" (String#18907, DoABC#2)

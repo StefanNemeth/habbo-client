@@ -113,8 +113,8 @@ package com.sulake.habbo.room
         private var _SafeStr_13373:int = -1;
         private var _SafeStr_13374:Boolean = true;
         private var _SafeStr_13375:int = -1000000000;
-        private var _SafeStr_13376:int = 0;
-        private var _SafeStr_13377:int = 0;
+        private var _roomId:int = 0;
+        private var _roomCategory:int = 0;
         private var _SafeStr_13378:Object;
 
         public function RoomMessageHandler(_arg_1:IRoomCreator)
@@ -136,26 +136,26 @@ package com.sulake.habbo.room
         }
         public function setCurrentRoom(_arg_1:int, _arg_2:int):void
         {
-            if (((!((this._SafeStr_13376 == 0))) || (!((this._SafeStr_13377 == 0))))){
+            if (((!((this._roomId == 0))) || (!((this._roomCategory == 0))))){
                 if (this._SafeStr_13372 != null){
-                    this._SafeStr_13372.disposeRoom(this._SafeStr_13376, this._SafeStr_13377);
+                    this._SafeStr_13372.disposeRoom(this._roomId, this._roomCategory);
                 };
             };
-            this._SafeStr_13376 = _arg_1;
-            this._SafeStr_13377 = _arg_2;
+            this._roomId = _arg_1;
+            this._roomCategory = _arg_2;
         }
         public function resetCurrentRoom():void
         {
-            this._SafeStr_13376 = 0;
-            this._SafeStr_13377 = 0;
+            this._roomId = 0;
+            this._roomCategory = 0;
         }
         private function getRoomId(_arg_1:int):int
         {
-            return (this._SafeStr_13376);
+            return (this._roomId);
         }
         private function getRoomCategory(_arg_1:int):int
         {
-            return (this._SafeStr_13377);
+            return (this._roomCategory);
         }
         private function isPublicRoom(_arg_1:int, _arg_2:int):Boolean
         {
@@ -233,7 +233,7 @@ package com.sulake.habbo.room
                 return;
             };
             var _local_3:RoomReadyMessageParser = _local_2.getParser();
-            if (((!((this._SafeStr_13376 == _local_3.roomId))) || (!((this._SafeStr_13377 == _local_3.roomCategory))))){
+            if (((!((this._roomId == _local_3.roomId))) || (!((this._roomCategory == _local_3.roomCategory))))){
                 this.setCurrentRoom(_local_3.roomId, _local_3.roomCategory);
             };
             var _local_4:String = _local_3.roomType;
@@ -1203,8 +1203,8 @@ package com.sulake.habbo.room
 // _SafeStr_13373 = "_-0MC" (String#14923, DoABC#2)
 // _SafeStr_13374 = "_-2wg" (String#21334, DoABC#2)
 // _SafeStr_13375 = "_-2Au" (String#19439, DoABC#2)
-// _SafeStr_13376 = "_-005" (String#14056, DoABC#2)
-// _SafeStr_13377 = "_-1T9" (String#17631, DoABC#2)
+// _roomId = "_-005" (String#14056, DoABC#2)
+// _roomCategory = "_-1T9" (String#17631, DoABC#2)
 // _SafeStr_13378 = "_-122" (String#16538, DoABC#2)
 // setCurrentRoom = "_-0HS" (String#14737, DoABC#2)
 // disposeRoom = "_-2ya" (String#904, DoABC#2)

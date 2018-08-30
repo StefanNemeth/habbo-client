@@ -18,7 +18,7 @@ package com.sulake.habbo.avatar.wardrobe
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
         private var _window:IWindowContainer;
-        private var _SafeStr_7922:IBitmapWrapperWindow;
+        private var _imageContainer:IBitmapWrapperWindow;
 
         public function OutfitView(_arg_1:IHabboWindowManager, _arg_2:IAssetLibrary, _arg_3:Boolean)
         {
@@ -27,7 +27,7 @@ package com.sulake.habbo.avatar.wardrobe
             var _local_4:XmlAsset = (this._assetLibrary.getAssetByName("Outfit") as XmlAsset);
             this._window = IWindowContainer(this._windowManager.buildFromXML((_local_4.content as XML)));
             if (this._window != null){
-                this._SafeStr_7922 = (this._window.findChildByName("bitmap") as IBitmapWrapperWindow);
+                this._imageContainer = (this._window.findChildByName("bitmap") as IBitmapWrapperWindow);
             };
             if (!_arg_3){
                 this._window.findChildByName("button").disable();
@@ -41,17 +41,17 @@ package com.sulake.habbo.avatar.wardrobe
                 this._window.dispose();
             };
             this._window = null;
-            if (this._SafeStr_7922){
-                this._SafeStr_7922.dispose();
+            if (this._imageContainer){
+                this._imageContainer.dispose();
             };
-            this._SafeStr_7922 = null;
+            this._imageContainer = null;
         }
         public function udpate(_arg_1:BitmapData):void
         {
-            this._SafeStr_7922.bitmap = new BitmapData(this._SafeStr_7922.width, this._SafeStr_7922.height, true, 0xFFFFFF);
-            var _local_2:int = ((this._SafeStr_7922.width - _arg_1.width) / 2);
-            var _local_3:int = (this._SafeStr_7922.height - _arg_1.height);
-            this._SafeStr_7922.bitmap.copyPixels(_arg_1, _arg_1.rect, new Point(_local_2, _local_3));
+            this._imageContainer.bitmap = new BitmapData(this._imageContainer.width, this._imageContainer.height, true, 0xFFFFFF);
+            var _local_2:int = ((this._imageContainer.width - _arg_1.width) / 2);
+            var _local_3:int = (this._imageContainer.height - _arg_1.height);
+            this._imageContainer.bitmap.copyPixels(_arg_1, _arg_1.rect, new Point(_local_2, _local_3));
         }
         public function get window():IWindowContainer
         {
@@ -80,7 +80,7 @@ package com.sulake.habbo.avatar.wardrobe
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // OutfitView = "_-06R" (String#3691, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// _SafeStr_7922 = "_-3AP" (String#2014, DoABC#2)
+// _imageContainer = "_-3AP" (String#2014, DoABC#2)
 // udpate = "_-Rw" (String#23322, DoABC#2)
 
 

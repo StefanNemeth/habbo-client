@@ -16,7 +16,7 @@ package com.sulake.habbo.moderation
 
         private var _help:ModerationManager;
         private var _SafeStr_11909:int;
-        private var _SafeStr_11910:String;
+        private var _id:String;
         private var _SafeStr_11848:String;
         private var _frame:IFrameWindow;
         private var _SafeStr_11822:IDropMenuWindow;
@@ -28,7 +28,7 @@ package com.sulake.habbo.moderation
         {
             this._help = _arg_1;
             this._SafeStr_11909 = _arg_2;
-            this._SafeStr_11910 = _arg_3;
+            this._id = _arg_3;
             this._SafeStr_11848 = _arg_4;
         }
         public function get disposed():Boolean
@@ -38,7 +38,7 @@ package com.sulake.habbo.moderation
         public function show():void
         {
             this._frame = IFrameWindow(this._help.getXmlWindow("send_msgs"));
-            this._frame.caption = ("Msg To: " + this._SafeStr_11910);
+            this._frame.caption = ("Msg To: " + this._id);
             this._frame.findChildByName("send_message_but").procedure = this.onSendMessageButton;
             this._SafeStr_11823 = ITextFieldWindow(this._frame.findChildByName("message_input"));
             this._SafeStr_11823.procedure = this.onInputClick;
@@ -55,7 +55,7 @@ package com.sulake.habbo.moderation
         }
         public function getId():String
         {
-            return (this._SafeStr_11910);
+            return (this._id);
         }
         public function getFrame():IFrameWindow
         {
@@ -142,7 +142,7 @@ package com.sulake.habbo.moderation
 // onSelectTemplate = "_-1ke" (String#5762, DoABC#2)
 // _SafeStr_11848 = "_-2-7" (String#1795, DoABC#2)
 // _SafeStr_11909 = "_-1OJ" (String#5319, DoABC#2)
-// _SafeStr_11910 = "_-US" (String#8292, DoABC#2)
+// _id = "_-US" (String#8292, DoABC#2)
 // onSendMessageButton = "_-2FK" (String#19617, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)

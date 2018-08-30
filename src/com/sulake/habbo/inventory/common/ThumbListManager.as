@@ -14,7 +14,7 @@ package com.sulake.habbo.inventory.common
         private var _SafeStr_5101:IThumbListDataProvider;
         private var _SafeStr_5102:int;
         private var _SafeStr_5103:int = 1;
-        private var _SafeStr_5104:BitmapData;
+        private var _listImage:BitmapData;
         private var _SafeStr_5105:int;
         private var _SafeStr_5106:int;
         private var _SafeStr_5107:int;
@@ -41,12 +41,12 @@ package com.sulake.habbo.inventory.common
             this._SafeStr_5107 = _arg_5;
             this._SafeStr_5108 = _arg_6;
             this._SafeStr_5102 = Math.floor((this._SafeStr_5107 / this._thumbWidth));
-            this._SafeStr_5104 = new BitmapData(this._SafeStr_5107, this._SafeStr_5108);
+            this._listImage = new BitmapData(this._SafeStr_5107, this._SafeStr_5108);
         }
         public function dispose():void
         {
             this._SafeStr_5101 = null;
-            this._SafeStr_5104 = null;
+            this._listImage = null;
         }
         public function updateImageFromList():void
         {
@@ -55,11 +55,11 @@ package com.sulake.habbo.inventory.common
             var _local_6:BitmapData;
             this._SafeStr_5103 = this.resolveRowCountFromList();
             if (this._SafeStr_5103 == 0){
-                this._SafeStr_5104 = new BitmapData(this._SafeStr_5107, this._SafeStr_5108);
+                this._listImage = new BitmapData(this._SafeStr_5107, this._SafeStr_5108);
                 return;
             };
-            this._SafeStr_5104 = new BitmapData(Math.max((this._SafeStr_5102 * this._thumbWidth), this._SafeStr_5107), Math.max((this._SafeStr_5103 * this._SafeStr_5109), this._SafeStr_5108), true, 0xFFFFFF);
-            this._SafeStr_5104.fillRect(this._SafeStr_5104.rect, 0xFFFFFFFF);
+            this._listImage = new BitmapData(Math.max((this._SafeStr_5102 * this._thumbWidth), this._SafeStr_5107), Math.max((this._SafeStr_5103 * this._SafeStr_5109), this._SafeStr_5108), true, 0xFFFFFF);
+            this._listImage.fillRect(this._listImage.rect, 0xFFFFFFFF);
             var _local_1:int;
             var _local_2:Array = this.getList();
             var _local_3:int;
@@ -70,7 +70,7 @@ package com.sulake.habbo.inventory.common
                         _local_5 = _local_2[_local_1];
                         if (_local_5 != null){
                             _local_6 = this.createThumbImage(_local_5.iconImage, _local_5.isSelected);
-                            this._SafeStr_5104.copyPixels(_local_6, _local_6.rect, new Point((_local_4 * this._thumbWidth), (_local_3 * this._SafeStr_5109)), null, null, true);
+                            this._listImage.copyPixels(_local_6, _local_6.rect, new Point((_local_4 * this._thumbWidth), (_local_3 * this._SafeStr_5109)), null, null, true);
                         };
                         _local_1++;
                     };
@@ -87,21 +87,21 @@ package com.sulake.habbo.inventory.common
                 return;
             };
             var _local_3:Point = this.resolveLastItemGridLoc();
-            if ((((_local_3.x == this._SafeStr_5102)) && ((this._SafeStr_5104.height < (_local_3.y * this._SafeStr_5109))))){
-                _local_2 = new BitmapData(this._SafeStr_5104.width, (this._SafeStr_5104.height + this._SafeStr_5109));
+            if ((((_local_3.x == this._SafeStr_5102)) && ((this._listImage.height < (_local_3.y * this._SafeStr_5109))))){
+                _local_2 = new BitmapData(this._listImage.width, (this._listImage.height + this._SafeStr_5109));
             }
             else {
-                _local_2 = new BitmapData(this._SafeStr_5104.width, this._SafeStr_5104.height);
+                _local_2 = new BitmapData(this._listImage.width, this._listImage.height);
             };
             var _local_5:BitmapData = this.createThumbImage(_arg_1.iconImage, _arg_1.isSelected);
             _local_2.copyPixels(_local_5, _local_5.rect, new Point(0, 0), null, null, true);
             _local_4 = new Rectangle(0, 0, (this._thumbWidth * (this._SafeStr_5102 - 1)), this._SafeStr_5109);
-            _local_2.copyPixels(this._SafeStr_5104, _local_4, new Point(this._thumbWidth, 0), null, null, true);
-            _local_4 = new Rectangle((this._thumbWidth * (this._SafeStr_5102 - 1)), 0, this._thumbWidth, this._SafeStr_5104.height);
-            _local_2.copyPixels(this._SafeStr_5104, _local_4, new Point(0, this._SafeStr_5109), null, null, true);
-            _local_4 = new Rectangle(0, this._SafeStr_5109, (this._thumbWidth * (this._SafeStr_5102 - 1)), (this._SafeStr_5104.height - this._SafeStr_5109));
-            _local_2.copyPixels(this._SafeStr_5104, _local_4, new Point(this._thumbWidth, this._SafeStr_5109), null, null, true);
-            this._SafeStr_5104 = _local_2;
+            _local_2.copyPixels(this._listImage, _local_4, new Point(this._thumbWidth, 0), null, null, true);
+            _local_4 = new Rectangle((this._thumbWidth * (this._SafeStr_5102 - 1)), 0, this._thumbWidth, this._listImage.height);
+            _local_2.copyPixels(this._listImage, _local_4, new Point(0, this._SafeStr_5109), null, null, true);
+            _local_4 = new Rectangle(0, this._SafeStr_5109, (this._thumbWidth * (this._SafeStr_5102 - 1)), (this._listImage.height - this._SafeStr_5109));
+            _local_2.copyPixels(this._listImage, _local_4, new Point(this._thumbWidth, this._SafeStr_5109), null, null, true);
+            this._listImage = _local_2;
         }
         public function replaceItemImage(_arg_1:int, _arg_2:IThumbListDrawableItem):void
         {
@@ -111,11 +111,11 @@ package com.sulake.habbo.inventory.common
             var _local_3:Point = this.resolveGridLocationFromIndex(_arg_1);
             var _local_4:Point = new Point((_local_3.x * this._thumbWidth), (_local_3.y * this._SafeStr_5109));
             var _local_5:BitmapData = this.createThumbImage(_arg_2.iconImage, _arg_2.isSelected);
-            this._SafeStr_5104.copyPixels(_local_5, _local_5.rect, _local_4, null, null, true);
+            this._listImage.copyPixels(_local_5, _local_5.rect, _local_4, null, null, true);
         }
         public function getListImage():BitmapData
         {
-            return (this._SafeStr_5104);
+            return (this._listImage);
         }
         public function removeItemInIndex(_arg_1:int):void
         {
@@ -196,40 +196,40 @@ package com.sulake.habbo.inventory.common
             _local_3 = new Point((_arg_1.x * this._thumbWidth), (_arg_1.y * this._SafeStr_5109));
             var _local_5:BitmapData = new BitmapData((_local_2.width + this._thumbWidth), _local_2.height);
             _local_5.fillRect(_local_5.rect, 0xFFFFFFFF);
-            _local_5.copyPixels(this._SafeStr_5104, _local_2, new Point(0, 0), null, null, true);
-            this._SafeStr_5104.copyPixels(_local_5, _local_5.rect, _local_3, null, null, true);
+            _local_5.copyPixels(this._listImage, _local_2, new Point(0, 0), null, null, true);
+            this._listImage.copyPixels(_local_5, _local_5.rect, _local_3, null, null, true);
             if (_arg_1.y < (this._SafeStr_5103 - 1)){
-                _local_7 = (this._SafeStr_5104.width - this._thumbWidth);
-                _local_8 = (this._SafeStr_5104.height - ((_arg_1.y + 1) * this._SafeStr_5109));
+                _local_7 = (this._listImage.width - this._thumbWidth);
+                _local_8 = (this._listImage.height - ((_arg_1.y + 1) * this._SafeStr_5109));
                 _local_9 = new BitmapData(_local_7, _local_8);
                 _local_2 = new Rectangle(this._thumbWidth, ((_arg_1.y + 1) * this._SafeStr_5109), _local_9.width, _local_9.height);
-                _local_9.copyPixels(this._SafeStr_5104, _local_2, new Point(0, 0), null, null, true);
+                _local_9.copyPixels(this._listImage, _local_2, new Point(0, 0), null, null, true);
                 _local_10 = new BitmapData(this._thumbWidth, _local_2.height);
                 _local_2.x = 0;
                 _local_2.width = this._thumbWidth;
-                _local_10.copyPixels(this._SafeStr_5104, _local_2, new Point(0, 0), null, null, true);
-                this._SafeStr_5104.fillRect(new Rectangle(0, (this._SafeStr_5104.height - this._SafeStr_5109), this._SafeStr_5104.width, this._SafeStr_5109), 0xFFFFFFFF);
-                _local_3 = new Point((this._SafeStr_5104.width - this._thumbWidth), (_local_2.y - this._SafeStr_5109));
-                this._SafeStr_5104.copyPixels(_local_10, _local_10.rect, _local_3, null, null, true);
+                _local_10.copyPixels(this._listImage, _local_2, new Point(0, 0), null, null, true);
+                this._listImage.fillRect(new Rectangle(0, (this._listImage.height - this._SafeStr_5109), this._listImage.width, this._SafeStr_5109), 0xFFFFFFFF);
+                _local_3 = new Point((this._listImage.width - this._thumbWidth), (_local_2.y - this._SafeStr_5109));
+                this._listImage.copyPixels(_local_10, _local_10.rect, _local_3, null, null, true);
                 _local_3 = new Point(0, _local_2.y);
-                this._SafeStr_5104.copyPixels(_local_9, _local_9.rect, _local_3, null, null, true);
+                this._listImage.copyPixels(_local_9, _local_9.rect, _local_3, null, null, true);
             };
             var _local_6:int = (this.getList().length - 1);
             if (_local_6 > 0){
                 _arg_1 = this.resolveGridLocationFromIndex(_local_6);
                 if (_arg_1.x == (this._SafeStr_5102 - 1)){
-                    _local_11 = new BitmapData(this._SafeStr_5104.width, (this._SafeStr_5104.height - this._SafeStr_5109));
-                    _local_2 = new Rectangle(0, 0, this._SafeStr_5104.width, (this._SafeStr_5104.height - this._SafeStr_5109));
-                    _local_11.copyPixels(this._SafeStr_5104, _local_2, new Point(0, 0), null, null, true);
-                    this._SafeStr_5104 = _local_11;
+                    _local_11 = new BitmapData(this._listImage.width, (this._listImage.height - this._SafeStr_5109));
+                    _local_2 = new Rectangle(0, 0, this._listImage.width, (this._listImage.height - this._SafeStr_5109));
+                    _local_11.copyPixels(this._listImage, _local_2, new Point(0, 0), null, null, true);
+                    this._listImage = _local_11;
                     this._SafeStr_5103--;
                 };
             };
-            if (this._SafeStr_5104.height < this._SafeStr_5108){
-                _local_12 = new BitmapData(this._SafeStr_5104.width, this._SafeStr_5108);
+            if (this._listImage.height < this._SafeStr_5108){
+                _local_12 = new BitmapData(this._listImage.width, this._SafeStr_5108);
                 _local_12.fillRect(_local_12.rect, 0xFFFFFFFF);
-                _local_12.copyPixels(this._SafeStr_5104, this._SafeStr_5104.rect, new Point(0, 0), null, null, true);
-                this._SafeStr_5104 = _local_12;
+                _local_12.copyPixels(this._listImage, this._listImage.rect, new Point(0, 0), null, null, true);
+                this._listImage = _local_12;
             };
         }
         private function createThumbImage(_arg_1:BitmapData=null, _arg_2:Boolean=false):BitmapData
@@ -261,7 +261,7 @@ package com.sulake.habbo.inventory.common
 // _SafeStr_5101 = "_-2hR" (String#20749, DoABC#2)
 // _SafeStr_5102 = "_-3Jj" (String#22273, DoABC#2)
 // _SafeStr_5103 = "_-1C" (String#16941, DoABC#2)
-// _SafeStr_5104 = "_-0TL" (String#15184, DoABC#2)
+// _listImage = "_-0TL" (String#15184, DoABC#2)
 // _SafeStr_5105 = "_-pA" (String#24240, DoABC#2)
 // _SafeStr_5106 = "_-Ja" (String#22987, DoABC#2)
 // _SafeStr_5107 = "_-2ii" (String#20795, DoABC#2)

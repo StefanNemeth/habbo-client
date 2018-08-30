@@ -10,7 +10,7 @@ package com.sulake.habbo.avatar.actions
         private var _assets:IAssetLibrary;
         private var _SafeStr_5141:Dictionary;
         private var _avatarType:String;
-        private var _SafeStr_9918:ActionDefinition;
+        private var _defaultAction:ActionDefinition;
 
         public function AvatarActionManager(_arg_1:IAssetLibrary, _arg_2:String, _arg_3:XML)
         {
@@ -76,12 +76,12 @@ package com.sulake.habbo.avatar.actions
         public function getDefaultAction():ActionDefinition
         {
             var _local_1:ActionDefinition;
-            if (this._SafeStr_9918){
-                return (this._SafeStr_9918);
+            if (this._defaultAction){
+                return (this._defaultAction);
             };
             for each (_local_1 in this._SafeStr_5141) {
                 if (_local_1.isDefault){
-                    this._SafeStr_9918 = _local_1;
+                    this._defaultAction = _local_1;
                     return (_local_1);
                 };
             };
@@ -181,7 +181,7 @@ package com.sulake.habbo.avatar.actions
 // isDefault = "_-Dn" (String#7947, DoABC#2)
 // getPrevents = "_-0Rn" (String#4130, DoABC#2)
 // _avatarType = "_-Ms" (String#8138, DoABC#2)
-// _SafeStr_9918 = "_-1ni" (String#862, DoABC#2)
+// _defaultAction = "_-1ni" (String#862, DoABC#2)
 // parseActionOffsets = "_-1Bu" (String#16936, DoABC#2)
 // getActionDefinitionWithState = "_-K4" (String#23008, DoABC#2)
 // getDefaultAction = "_-2dH" (String#20575, DoABC#2)

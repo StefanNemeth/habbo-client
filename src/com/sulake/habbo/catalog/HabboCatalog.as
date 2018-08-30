@@ -211,9 +211,9 @@ package com.sulake.habbo.catalog
         private var _initialized:Boolean = false;
         private var _SafeStr_10584:CatalogViewer;
         private var _SafeStr_10585:ICatalogNavigator;
-        private var _SafeStr_10586:Purse;
-        private var _SafeStr_10587:RecyclerLogic;
-        private var _SafeStr_10588:IMarketPlace;
+        private var _purse:Purse;
+        private var _recycler:RecyclerLogic;
+        private var _marketPlace:IMarketPlace;
         private var _mainContainer:IWindowContainer;
         private var _SafeStr_5427:PurchaseConfirmationDialog;
         private var _chargeConfirmationDialog:ChargeConfirmationDialog;
@@ -224,9 +224,9 @@ package com.sulake.habbo.catalog
         private var _SafeStr_10593:Boolean = true;
         private var _privateRoomSessionActive:Boolean = false;
         private var _giftWrappingConfiguration:GiftWrappingConfiguration;
-        private var _SafeStr_10596:ClubGiftController;
-        private var _SafeStr_10597:ClubBuyController;
-        private var _SafeStr_10598:ClubExtendController;
+        private var _clubGiftController:ClubGiftController;
+        private var _clubBuyController:ClubBuyController;
+        private var _clubExtendController:ClubExtendController;
         private var _SafeStr_10599:Map;
         private var _SafeStr_7797:Boolean = false;
         private var _SafeStr_10600:IPurchasableOffer;
@@ -240,7 +240,7 @@ package com.sulake.habbo.catalog
         {
             this._SafeStr_10599 = new Map();
             super(_arg_1, _arg_2, _arg_3);
-            this._SafeStr_10586 = new Purse();
+            this._purse = new Purse();
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationReady);
             queueInterface(new IIDHabboToolbar(), this.onToolbarReady);
@@ -387,19 +387,19 @@ package com.sulake.habbo.catalog
                 this._chargeConfirmationDialog.dispose();
                 this._chargeConfirmationDialog = null;
             };
-            if (this._SafeStr_10587 != null){
-                this._SafeStr_10587.dispose();
-                this._SafeStr_10587 = null;
+            if (this._recycler != null){
+                this._recycler.dispose();
+                this._recycler = null;
             };
-            this._SafeStr_10586 = null;
-            this._SafeStr_10588 = null;
-            if (this._SafeStr_10597 != null){
-                this._SafeStr_10597.dispose();
-                this._SafeStr_10597 = null;
+            this._purse = null;
+            this._marketPlace = null;
+            if (this._clubBuyController != null){
+                this._clubBuyController.dispose();
+                this._clubBuyController = null;
             };
-            if (this._SafeStr_10598 != null){
-                this._SafeStr_10598.dispose();
-                this._SafeStr_10598 = null;
+            if (this._clubExtendController != null){
+                this._clubExtendController.dispose();
+                this._clubExtendController = null;
             };
             if (this._SafeStr_10599 != null){
                 this._SafeStr_10599.dispose();
@@ -523,11 +523,11 @@ package com.sulake.habbo.catalog
         {
             var _local_5:Array;
             Logger.log(("buy: " + [_arg_1.offerId, _arg_3]));
-            if ((((_arg_1.priceInCredits > 0)) && ((_arg_1.priceInCredits > this._SafeStr_10586.credits)))){
+            if ((((_arg_1.priceInCredits > 0)) && ((_arg_1.priceInCredits > this._purse.credits)))){
                 this.showNotEnoughCreditsAlert();
                 return;
             };
-            if ((((_arg_1.priceInActivityPoints > 0)) && ((_arg_1.priceInActivityPoints > this._SafeStr_10586.getActivityPointsForType(_arg_1.activityPointType))))){
+            if ((((_arg_1.priceInActivityPoints > 0)) && ((_arg_1.priceInActivityPoints > this._purse.getActivityPointsForType(_arg_1.activityPointType))))){
                 this.showNotEnoughActivityPointsAlert(_arg_1.activityPointType);
                 return;
             };
@@ -546,7 +546,7 @@ package com.sulake.habbo.catalog
             }
             else {
                 if ((_arg_1 is ClubBuyOfferData)){
-                    this._SafeStr_10597.showConfirmation((_arg_1 as ClubBuyOfferData), _arg_2);
+                    this._clubBuyController.showConfirmation((_arg_1 as ClubBuyOfferData), _arg_2);
                 };
             };
         }
@@ -772,27 +772,27 @@ package com.sulake.habbo.catalog
         }
         public function getPurse():IPurse
         {
-            return (this._SafeStr_10586);
+            return (this._purse);
         }
         public function getRecycler():IRecycler
         {
-            return (this._SafeStr_10587);
+            return (this._recycler);
         }
         public function getMarketPlace():IMarketPlace
         {
-            return (this._SafeStr_10588);
+            return (this._marketPlace);
         }
         public function getClubGiftController():ClubGiftController
         {
-            return (this._SafeStr_10596);
+            return (this._clubGiftController);
         }
         public function getClubBuyController():ClubBuyController
         {
-            return (this._SafeStr_10597);
+            return (this._clubBuyController);
         }
         public function getClubExtendController():ClubExtendController
         {
-            return (this._SafeStr_10598);
+            return (this._clubExtendController);
         }
         public function getPublicMarketPlaceOffers(_arg_1:int, _arg_2:int, _arg_3:String, _arg_4:int):void
         {
@@ -856,22 +856,22 @@ package com.sulake.habbo.catalog
             if (this._mainContainer == null){
                 return;
             };
-            this._localization.registerParameter("catalog.purse.creditbalance", "balance", String(this._SafeStr_10586.credits));
-            this._localization.registerParameter("catalog.purse.pixelbalance", "balance", String(this._SafeStr_10586.getActivityPointsForType(ActivityPointTypeEnum.PIXEL)));
+            this._localization.registerParameter("catalog.purse.creditbalance", "balance", String(this._purse.credits));
+            this._localization.registerParameter("catalog.purse.pixelbalance", "balance", String(this._purse.getActivityPointsForType(ActivityPointTypeEnum.PIXEL)));
             var _local_1:uint = HabboIconType._SafeStr_7426;
-            if (!this._SafeStr_10586.hasClubLeft){
+            if (!this._purse.hasClubLeft){
                 _local_2 = "catalog.purse.club.join";
             }
             else {
-                if (this._SafeStr_10586.isVIP){
+                if (this._purse.isVIP){
                     _local_2 = "catalog.purse.vipdays";
                     _local_1 = HabboIconType._SafeStr_7427;
                 }
                 else {
                     _local_2 = "catalog.purse.clubdays";
                 };
-                this._localization.registerParameter(_local_2, "days", String(this._SafeStr_10586.clubDays));
-                this._localization.registerParameter(_local_2, "months", String(this._SafeStr_10586.clubPeriods));
+                this._localization.registerParameter(_local_2, "days", String(this._purse.clubDays));
+                this._localization.registerParameter(_local_2, "months", String(this._purse.clubPeriods));
             };
             var _local_3:IIconWindow = (this._mainContainer.findChildByName("clubIcon") as IIconWindow);
             if (_local_3){
@@ -913,17 +913,17 @@ package com.sulake.habbo.catalog
             };
             if (this.mainWindowVisible()){
                 events.dispatchEvent(new Event(HabboCatalogTrackingEvent.HABBO_CATALOG_TRACKING_EVENT_OPEN));
-                if (((!((this._SafeStr_10587 == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
-                    this._SafeStr_10587.activate();
+                if (((!((this._recycler == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
+                    this._recycler.activate();
                 };
             }
             else {
                 events.dispatchEvent(new Event(HabboCatalogTrackingEvent.HABBO_CATALOG_TRACKING_EVENT_CLOSE));
-                if (((!((this._SafeStr_10587 == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
-                    this._SafeStr_10587.cancel();
+                if (((!((this._recycler == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
+                    this._recycler.cancel();
                 };
             };
-            this.setupInventoryForRecycler(((this._SafeStr_10587.active) && (this.mainWindowVisible())));
+            this.setupInventoryForRecycler(((this._recycler.active) && (this.mainWindowVisible())));
         }
         private function getCurrentLayoutCode():String
         {
@@ -986,46 +986,46 @@ package com.sulake.habbo.catalog
                 case RoomSessionEvent.RSE_STARTED:
                     this._privateRoomSessionActive = _arg_1.session.isPrivateRoom;
                     this._roomSession = _arg_1.session;
-                    if (this._SafeStr_10587 != null){
-                        this._SafeStr_10587.setRoomSessionActive(true);
+                    if (this._recycler != null){
+                        this._recycler.setRoomSessionActive(true);
                     };
                     return;
                 case RoomSessionEvent.RSE_ENDED:
                     this._privateRoomSessionActive = false;
                     this._roomSession = null;
-                    if (this._SafeStr_10587 != null){
-                        this._SafeStr_10587.setRoomSessionActive(false);
+                    if (this._recycler != null){
+                        this._recycler.setRoomSessionActive(false);
                     };
                     return;
             };
         }
         private function createRecycler():void
         {
-            this._SafeStr_10587 = new RecyclerLogic(this, this._windowManager);
+            this._recycler = new RecyclerLogic(this, this._windowManager);
             this.getRecyclerPrizes();
         }
         private function createMarketPlace():void
         {
-            if (this._SafeStr_10588 == null){
-                this._SafeStr_10588 = new MarketPlaceLogic(this, this._windowManager, this._roomEngine);
+            if (this._marketPlace == null){
+                this._marketPlace = new MarketPlaceLogic(this, this._windowManager, this._roomEngine);
             };
         }
         private function createClubGiftController():void
         {
-            if (this._SafeStr_10596 == null){
-                this._SafeStr_10596 = new ClubGiftController(this);
+            if (this._clubGiftController == null){
+                this._clubGiftController = new ClubGiftController(this);
             };
         }
         private function createClubBuyController():void
         {
-            if (this._SafeStr_10597 == null){
-                this._SafeStr_10597 = new ClubBuyController(this);
+            if (this._clubBuyController == null){
+                this._clubBuyController = new ClubBuyController(this);
             };
         }
         private function createClubExtendController():void
         {
-            if (this._SafeStr_10598 == null){
-                this._SafeStr_10598 = new ClubExtendController(this);
+            if (this._clubExtendController == null){
+                this._clubExtendController = new ClubExtendController(this);
             };
         }
         private function getGiftWrappingConfiguration():void
@@ -1061,8 +1061,8 @@ package com.sulake.habbo.catalog
             if (this._SafeStr_10584 != null){
                 this._SafeStr_10584.catalogWindowClosed();
             };
-            if (((!((this._SafeStr_10587 == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
-                this._SafeStr_10587.cancel();
+            if (((!((this._recycler == null))) && ((this.getCurrentLayoutCode() == "recycler")))){
+                this._recycler.cancel();
                 this.setupInventoryForRecycler(false);
             };
         }
@@ -1224,7 +1224,7 @@ package com.sulake.habbo.catalog
         {
             var _local_2:CreditBalanceEvent = (_arg_1 as CreditBalanceEvent);
             var _local_3:CreditBalanceParser = _local_2.getParser();
-            this._SafeStr_10586.credits = _local_3.balance;
+            this._purse.credits = _local_3.balance;
             this.updatePurse();
             if (((!(this._SafeStr_10592)) && (!((this._soundManager == null))))){
                 this._soundManager.playSound(HabboSoundTypesEnum._SafeStr_10666);
@@ -1233,13 +1233,13 @@ package com.sulake.habbo.catalog
             if (((!((this._chargeConfirmationDialog == null))) && (!(this._chargeConfirmationDialog.disposed)))){
                 this._chargeConfirmationDialog.refresh();
             };
-            events.dispatchEvent(new PurseEvent(PurseEvent.RWPUE_CREDIT_BALANCE, this._SafeStr_10586.credits));
+            events.dispatchEvent(new PurseEvent(PurseEvent.RWPUE_CREDIT_BALANCE, this._purse.credits));
             events.dispatchEvent(new PurseUpdateEvent());
         }
         private function onActivityPointNotification(_arg_1:IMessageEvent):void
         {
             var _local_2:HabboActivityPointNotificationMessageEvent = (_arg_1 as HabboActivityPointNotificationMessageEvent);
-            this._SafeStr_10586.activityPoints[_local_2.type] = _local_2.amount;
+            this._purse.activityPoints[_local_2.type] = _local_2.amount;
             this.updatePurse();
             if (((!(this._SafeStr_10593)) && (!((this._soundManager == null))))){
                 this._soundManager.playSound(HabboSoundTypesEnum._SafeStr_10667);
@@ -1259,7 +1259,7 @@ package com.sulake.habbo.catalog
         private function onActivityPoints(_arg_1:IMessageEvent):void
         {
             var _local_2:ActivityPointsMessageEvent = (_arg_1 as ActivityPointsMessageEvent);
-            this._SafeStr_10586.activityPoints = _local_2.points;
+            this._purse.activityPoints = _local_2.points;
             this.updatePurse();
             if (_local_2.points[ActivityPointTypeEnum.PIXEL] != null){
                 events.dispatchEvent(new PurseEvent(PurseEvent.RWPUE_PIXEL_BALANCE, _local_2.points[ActivityPointTypeEnum.PIXEL]));
@@ -1272,12 +1272,12 @@ package com.sulake.habbo.catalog
         private function onSubscriptionInfo(_arg_1:IMessageEvent):void
         {
             var _local_2:ScrSendUserInfoMessageParser = (_arg_1 as ScrSendUserInfoEvent).getParser();
-            this._SafeStr_10586.clubDays = Math.max(0, _local_2.daysToPeriodEnd);
-            this._SafeStr_10586.clubPeriods = Math.max(0, _local_2.periodsSubscribedAhead);
-            this._SafeStr_10586.isVIP = _local_2.isVIP;
-            this._SafeStr_10586.pastClubDays = _local_2.pastClubDays;
-            this._SafeStr_10586.pastVipDays = _local_2.pastVipDays;
-            this._SafeStr_10586.isExpiring = (((_local_2.responseType)==ScrSendUserInfoMessageParser._SafeStr_5852) ? true : false);
+            this._purse.clubDays = Math.max(0, _local_2.daysToPeriodEnd);
+            this._purse.clubPeriods = Math.max(0, _local_2.periodsSubscribedAhead);
+            this._purse.isVIP = _local_2.isVIP;
+            this._purse.pastClubDays = _local_2.pastClubDays;
+            this._purse.pastVipDays = _local_2.pastVipDays;
+            this._purse.isExpiring = (((_local_2.responseType)==ScrSendUserInfoMessageParser._SafeStr_5852) ? true : false);
             this.updatePurse();
             if (_local_2.responseType == ScrSendUserInfoMessageParser.RESPONSE_TYPE_PURCHASE){
                 this.reset();
@@ -1285,61 +1285,61 @@ package com.sulake.habbo.catalog
         }
         private function onClubGiftInfo(_arg_1:ClubGiftInfoEvent):void
         {
-            if (((!(_arg_1)) || (!(this._SafeStr_10596)))){
+            if (((!(_arg_1)) || (!(this._clubGiftController)))){
                 return;
             };
             var _local_2:ClubGiftInfoParser = _arg_1.getParser();
             if (!_local_2){
                 return;
             };
-            this._SafeStr_10596.setInfo(_local_2.daysUntilNextGift, _local_2.giftsAvailable, _local_2.offers, _local_2.giftData);
+            this._clubGiftController.setInfo(_local_2.daysUntilNextGift, _local_2.giftsAvailable, _local_2.offers, _local_2.giftData);
         }
         private function onRecyclerStatus(_arg_1:IMessageEvent):void
         {
             var _local_2:RecyclerStatusMessageParser = (_arg_1 as RecyclerStatusMessageEvent).getParser();
-            if ((((_local_2 == null)) || ((this._SafeStr_10587 == null)))){
+            if ((((_local_2 == null)) || ((this._recycler == null)))){
                 return;
             };
-            this._SafeStr_10587.setSystemStatus(_local_2.recyclerStatus, _local_2.recyclerTimeoutSeconds);
+            this._recycler.setSystemStatus(_local_2.recyclerStatus, _local_2.recyclerTimeoutSeconds);
         }
         private function onRecyclerFinished(_arg_1:IMessageEvent):void
         {
             var _local_2:RecyclerFinishedMessageParser = (_arg_1 as RecyclerFinishedMessageEvent).getParser();
-            if ((((_local_2 == null)) || ((this._SafeStr_10587 == null)))){
+            if ((((_local_2 == null)) || ((this._recycler == null)))){
                 return;
             };
-            this._SafeStr_10587.setFinished(_local_2.recyclerFinishedStatus, _local_2.prizeId);
+            this._recycler.setFinished(_local_2.recyclerFinishedStatus, _local_2.prizeId);
         }
         private function onRecyclerPrizes(_arg_1:IMessageEvent):void
         {
             var _local_2:RecyclerPrizesMessageParser = (_arg_1 as RecyclerPrizesMessageEvent).getParser();
-            if ((((_local_2 == null)) || ((this._SafeStr_10587 == null)))){
+            if ((((_local_2 == null)) || ((this._recycler == null)))){
                 return;
             };
-            this._SafeStr_10587.storePrizeTable(_local_2.prizeLevels);
+            this._recycler.storePrizeTable(_local_2.prizeLevels);
         }
         private function onMarketPlaceOffers(_arg_1:IMessageEvent):void
         {
-            if (this._SafeStr_10588 != null){
-                this._SafeStr_10588.onOffers(_arg_1);
+            if (this._marketPlace != null){
+                this._marketPlace.onOffers(_arg_1);
             };
         }
         private function onMarketPlaceOwnOffers(_arg_1:IMessageEvent):void
         {
-            if (this._SafeStr_10588 != null){
-                this._SafeStr_10588.onOwnOffers(_arg_1);
+            if (this._marketPlace != null){
+                this._marketPlace.onOwnOffers(_arg_1);
             };
         }
         private function onMarketPlaceBuyResult(_arg_1:IMessageEvent):void
         {
-            if (this._SafeStr_10588 != null){
-                this._SafeStr_10588.onBuyResult(_arg_1);
+            if (this._marketPlace != null){
+                this._marketPlace.onBuyResult(_arg_1);
             };
         }
         private function onMarketPlaceCancelResult(_arg_1:IMessageEvent):void
         {
-            if (this._SafeStr_10588 != null){
-                this._SafeStr_10588.onCancelResult(_arg_1);
+            if (this._marketPlace != null){
+                this._marketPlace.onCancelResult(_arg_1);
             };
         }
         private function onGiftWrappingConfiguration(_arg_1:GiftWrappingConfigurationEvent):void
@@ -1360,7 +1360,7 @@ package com.sulake.habbo.catalog
         }
         private function onMarketplaceItemStats(_arg_1:MarketplaceItemStatsEvent):void
         {
-            if (((!(_arg_1)) || (!(this._SafeStr_10588)))){
+            if (((!(_arg_1)) || (!(this._marketPlace)))){
                 return;
             };
             var _local_2:MarketplaceItemStatsParser = _arg_1.getParser();
@@ -1376,22 +1376,22 @@ package com.sulake.habbo.catalog
             _local_3.soldAmounts = _local_2.soldAmounts;
             _local_3.furniCategoryId = _local_2.furniCategoryId;
             _local_3.furniTypeId = _local_2.furniTypeId;
-            this._SafeStr_10588.itemStats = _local_3;
+            this._marketPlace.itemStats = _local_3;
         }
         private function onMarketplaceConfiguration(_arg_1:MarketplaceConfigurationEvent):void
         {
-            if (((!(_arg_1)) || (!(this._SafeStr_10588)))){
+            if (((!(_arg_1)) || (!(this._marketPlace)))){
                 return;
             };
             var _local_2:MarketplaceConfigurationParser = _arg_1.getParser();
             if (!_local_2){
                 return;
             };
-            this._SafeStr_10588.averagePricePeriod = _local_2.averagePricePeriod;
+            this._marketPlace.averagePricePeriod = _local_2.averagePricePeriod;
         }
         private function onMarketplaceMakeOfferResult(_arg_1:MarketplaceMakeOfferResult):void
         {
-            if (((!(_arg_1)) || (!(this._SafeStr_10588)))){
+            if (((!(_arg_1)) || (!(this._marketPlace)))){
                 return;
             };
             var _local_2:MarketplaceMakeOfferResultParser = _arg_1.getParser();
@@ -1399,18 +1399,18 @@ package com.sulake.habbo.catalog
                 return;
             };
             if (_local_2.result == 1){
-                this._SafeStr_10588.refreshOffers();
+                this._marketPlace.refreshOffers();
             };
         }
         private function onHabboClubOffers(_arg_1:HabboClubOffersMessageEvent):void
         {
-            if (this._SafeStr_10597 != null){
-                this._SafeStr_10597.onOffers(_arg_1);
+            if (this._clubBuyController != null){
+                this._clubBuyController.onOffers(_arg_1);
             };
         }
         private function onHabboClubExtendOffer(_arg_1:HabboClubExtendOfferMessageEvent):void
         {
-            this._SafeStr_10598.onOffer(_arg_1);
+            this._clubExtendController.onOffer(_arg_1);
         }
         private function onChargeInfo(_arg_1:ChargeInfoMessageEvent):void
         {
@@ -1834,9 +1834,9 @@ package com.sulake.habbo.catalog
 // _roomSession = "_-2CB" (String#1832, DoABC#2)
 // _SafeStr_10584 = "_-2Zh" (String#20428, DoABC#2)
 // _SafeStr_10585 = "_-0Np" (String#14983, DoABC#2)
-// _SafeStr_10586 = "_-1kp" (String#5763, DoABC#2)
-// _SafeStr_10587 = "_-08U" (String#14385, DoABC#2)
-// _SafeStr_10588 = "_-3LE" (String#22335, DoABC#2)
+// _purse = "_-1kp" (String#5763, DoABC#2)
+// _recycler = "_-08U" (String#14385, DoABC#2)
+// _marketPlace = "_-3LE" (String#22335, DoABC#2)
 // _SafeStr_10589 = "_-2yG" (String#21404, DoABC#2)
 // _SafeStr_10590 = "_-1g5" (String#18143, DoABC#2)
 // _SafeStr_10591 = "_-37m" (String#21796, DoABC#2)
@@ -1844,9 +1844,9 @@ package com.sulake.habbo.catalog
 // _SafeStr_10593 = "_-0nR" (String#15954, DoABC#2)
 // _privateRoomSessionActive = "_-2g-" (String#20692, DoABC#2)
 // _giftWrappingConfiguration = "_-07j" (String#14352, DoABC#2)
-// _SafeStr_10596 = "_-1gZ" (String#18161, DoABC#2)
-// _SafeStr_10597 = "_-2Vb" (String#20265, DoABC#2)
-// _SafeStr_10598 = "_-37u" (String#21801, DoABC#2)
+// _clubGiftController = "_-1gZ" (String#18161, DoABC#2)
+// _clubBuyController = "_-2Vb" (String#20265, DoABC#2)
+// _clubExtendController = "_-37u" (String#21801, DoABC#2)
 // _SafeStr_10599 = "_-1pi" (String#18532, DoABC#2)
 // _SafeStr_10600 = "_-1y8" (String#18893, DoABC#2)
 // _SafeStr_10601 = "_-UE" (String#23417, DoABC#2)

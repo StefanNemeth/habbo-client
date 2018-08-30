@@ -51,7 +51,7 @@ package com.sulake.habbo.inventory.trading
         private var _soundManager:IHabboSoundManager;
         private var _disposed:Boolean = false;
         private var _visible:Boolean;
-        private var _SafeStr_11578:IWindowContainer;
+        private var _windowContainer:IWindowContainer;
         private var _SafeStr_11579:IWindowContainer;
         private var _SafeStr_5297:Timer;
         private var _SafeStr_11580:GroupItem;
@@ -87,9 +87,9 @@ package com.sulake.habbo.inventory.trading
         public function dispose():void
         {
             if (!this._disposed){
-                if (((this._SafeStr_11578) && (!(this._SafeStr_11578.disposed)))){
-                    this._SafeStr_11578.dispose();
-                    this._SafeStr_11578 = null;
+                if (((this._windowContainer) && (!(this._windowContainer.disposed)))){
+                    this._windowContainer.dispose();
+                    this._windowContainer = null;
                 };
                 if (this._SafeStr_5297){
                     this._SafeStr_5297.removeEventListener(TimerEvent.TIMER, this.timerEventHandler);
@@ -138,14 +138,14 @@ package com.sulake.habbo.inventory.trading
         }
         public function getWindowContainer():IWindowContainer
         {
-            if (this._SafeStr_11578 == null){
-                this._SafeStr_11578 = this.createNormalWindow();
+            if (this._windowContainer == null){
+                this._windowContainer = this.createNormalWindow();
             };
             if (this._SafeStr_11579 == null){
                 this._SafeStr_11579 = this.createMinimizedWindow();
             };
             if (!this._SafeStr_6827){
-                return (this._SafeStr_11578);
+                return (this._windowContainer);
             };
             return (this._SafeStr_11579);
         }
@@ -193,11 +193,11 @@ package com.sulake.habbo.inventory.trading
         }
         protected function getOwnUsersItemGrid():IItemGridWindow
         {
-            return ((this._SafeStr_11578.findChildByTag("OWN_USER_GRID") as IItemGridWindow));
+            return ((this._windowContainer.findChildByTag("OWN_USER_GRID") as IItemGridWindow));
         }
         protected function getOtherUsersItemGrid():IItemGridWindow
         {
-            return ((this._SafeStr_11578.findChildByTag("OTHER_USER_GRID") as IItemGridWindow));
+            return ((this._windowContainer.findChildByTag("OTHER_USER_GRID") as IItemGridWindow));
         }
         public function updateItemList(_arg_1:int):void
         {
@@ -266,17 +266,17 @@ package com.sulake.habbo.inventory.trading
             var _local_1:IWindow;
             var _local_2:ITextWindow;
             var _local_3:IBitmapWrapperWindow;
-            if (this._SafeStr_11578){
+            if (this._windowContainer){
                 this.updateActionState();
-                _local_2 = (this._SafeStr_11578.findChildByTag("OTHER_USER_NAME") as ITextWindow);
+                _local_2 = (this._windowContainer.findChildByTag("OTHER_USER_NAME") as ITextWindow);
                 if (_local_2){
                     _local_2.text = this._SafeStr_11577.otherUserName;
                 };
-                _local_1 = this._SafeStr_11578.findChildByTag("OWN_USER_BORDER");
+                _local_1 = this._windowContainer.findChildByTag("OWN_USER_BORDER");
                 if (_local_1){
                     _local_1.color = ((this._SafeStr_11577.ownUserAccepts) ? _SafeStr_11574 : _SafeStr_11575);
                 };
-                _local_3 = (this._SafeStr_11578.findChildByTag("OWN_USER_LOCK") as IBitmapWrapperWindow);
+                _local_3 = (this._windowContainer.findChildByTag("OWN_USER_LOCK") as IBitmapWrapperWindow);
                 if (_local_3){
                     if (_local_3.bitmap == null){
                         _local_3.bitmap = new BitmapData(_local_3.width, _local_3.height, true);
@@ -285,11 +285,11 @@ package com.sulake.habbo.inventory.trading
                     _local_3.bitmap.copyPixels((this._assetLibrary.getAssetByName(((this._SafeStr_11577.ownUserAccepts) ? "trading_locked_icon_png" : "trading_unlocked_icon_png")).content as BitmapData), _local_3.bitmap.rect, new Point());
                     _local_3.invalidate();
                 };
-                _local_1 = this._SafeStr_11578.findChildByTag("OTHER_USER_BORDER");
+                _local_1 = this._windowContainer.findChildByTag("OTHER_USER_BORDER");
                 if (_local_1){
                     _local_1.color = ((this._SafeStr_11577.otherUserAccepts) ? _SafeStr_11574 : _SafeStr_11575);
                 };
-                _local_3 = (this._SafeStr_11578.findChildByTag("OTHER_USER_LOCK") as IBitmapWrapperWindow);
+                _local_3 = (this._windowContainer.findChildByTag("OTHER_USER_LOCK") as IBitmapWrapperWindow);
                 if (_local_3){
                     if (_local_3.bitmap == null){
                         _local_3.bitmap = new BitmapData(_local_3.width, _local_3.height, true);
@@ -303,8 +303,8 @@ package com.sulake.habbo.inventory.trading
         public function updateActionState():void
         {
             var _local_1:IWindow;
-            if (this._SafeStr_11578){
-                _local_1 = this._SafeStr_11578.findChildByName("button_accept");
+            if (this._windowContainer){
+                _local_1 = this._windowContainer.findChildByName("button_accept");
                 if (!_local_1){
                     return;
                 };
@@ -356,44 +356,44 @@ package com.sulake.habbo.inventory.trading
         }
         public function showInfoMessage(_arg_1:String):void
         {
-            var _local_2:ITextWindow = (this._SafeStr_11578.findChildByName("help_text") as ITextWindow);
+            var _local_2:ITextWindow = (this._windowContainer.findChildByName("help_text") as ITextWindow);
             _local_2.text = _arg_1;
             _local_2.visible = true;
         }
         public function showOwnUserNotification(_arg_1:String):void
         {
-            var _local_2:ITextWindow = (this._SafeStr_11578.findChildByName("info_text_0") as ITextWindow);
+            var _local_2:ITextWindow = (this._windowContainer.findChildByName("info_text_0") as ITextWindow);
             _local_2.text = _arg_1;
             _local_2.visible = true;
-            var _local_3:IItemGridWindow = (this._SafeStr_11578.findChildByName("item_grid_0") as IItemGridWindow);
+            var _local_3:IItemGridWindow = (this._windowContainer.findChildByName("item_grid_0") as IItemGridWindow);
             if (_local_3){
                 _local_3.visible = false;
             };
         }
         public function hideOwnUserNotification():void
         {
-            var _local_1:ITextWindow = (this._SafeStr_11578.findChildByName("info_text_0") as ITextWindow);
+            var _local_1:ITextWindow = (this._windowContainer.findChildByName("info_text_0") as ITextWindow);
             _local_1.visible = false;
-            var _local_2:IItemGridWindow = (this._SafeStr_11578.findChildByName("item_grid_0") as IItemGridWindow);
+            var _local_2:IItemGridWindow = (this._windowContainer.findChildByName("item_grid_0") as IItemGridWindow);
             if (_local_2){
                 _local_2.visible = true;
             };
         }
         public function showOtherUserNotification(_arg_1:String):void
         {
-            var _local_2:ITextWindow = (this._SafeStr_11578.findChildByName("info_text_1") as ITextWindow);
+            var _local_2:ITextWindow = (this._windowContainer.findChildByName("info_text_1") as ITextWindow);
             _local_2.text = _arg_1;
             _local_2.visible = true;
-            var _local_3:IItemGridWindow = (this._SafeStr_11578.findChildByName("item_grid_1") as IItemGridWindow);
+            var _local_3:IItemGridWindow = (this._windowContainer.findChildByName("item_grid_1") as IItemGridWindow);
             if (_local_3){
                 _local_3.visible = false;
             };
         }
         public function hideOtherUserNotification():void
         {
-            var _local_1:ITextWindow = (this._SafeStr_11578.findChildByName("info_text_1") as ITextWindow);
+            var _local_1:ITextWindow = (this._windowContainer.findChildByName("info_text_1") as ITextWindow);
             _local_1.visible = false;
-            var _local_2:IItemGridWindow = (this._SafeStr_11578.findChildByName("item_grid_1") as IItemGridWindow);
+            var _local_2:IItemGridWindow = (this._windowContainer.findChildByName("item_grid_1") as IItemGridWindow);
             if (_local_2){
                 _local_2.visible = true;
             };
@@ -764,7 +764,7 @@ package com.sulake.habbo.inventory.trading
 // _SafeStr_11575 = "_-16G" (String#16707, DoABC#2)
 // _SafeStr_11576 = "_-2Qi" (String#20074, DoABC#2)
 // _SafeStr_11577 = "_-04M" (String#14217, DoABC#2)
-// _SafeStr_11578 = "_-ci" (String#23742, DoABC#2)
+// _windowContainer = "_-ci" (String#23742, DoABC#2)
 // _SafeStr_11579 = "_-2ac" (String#20470, DoABC#2)
 // _SafeStr_11580 = "_-0ba" (String#15498, DoABC#2)
 // _SafeStr_11581 = "_-0e3" (String#15587, DoABC#2)

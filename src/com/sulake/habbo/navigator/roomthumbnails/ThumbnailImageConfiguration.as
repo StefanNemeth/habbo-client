@@ -14,7 +14,7 @@ package com.sulake.habbo.navigator.roomthumbnails
         private var _id:int;
         private var _type:int;
         private var _picName:String;
-        private var _SafeStr_6047:BitmapData;
+        private var _img:BitmapData;
         private var _selected:Boolean;
         private var _SafeStr_6042:BitmapData;
         private var _SafeStr_6048:IBitmapWrapperWindow;
@@ -39,10 +39,10 @@ package com.sulake.habbo.navigator.roomthumbnails
         }
         public function getImg():BitmapData
         {
-            if (this._SafeStr_6047 == null){
-                this._SafeStr_6047 = this._navigator.getButtonImage(this._picName);
+            if (this._img == null){
+                this._img = this._navigator.getButtonImage(this._picName);
             };
-            return (this._SafeStr_6047);
+            return (this._img);
         }
         public function registerListImg(_arg_1:IBitmapWrapperWindow):void
         {
@@ -85,7 +85,7 @@ package com.sulake.habbo.navigator.roomthumbnails
 // getImg = "_-sM" (String#24375, DoABC#2)
 // _SafeStr_6042 = "_-1jt" (String#5751, DoABC#2)
 // _picName = "_-1PD" (String#17477, DoABC#2)
-// _SafeStr_6047 = "_-0ON" (String#15003, DoABC#2)
+// _img = "_-0ON" (String#15003, DoABC#2)
 // _SafeStr_6048 = "_-oM" (String#24207, DoABC#2)
 // _SafeStr_6049 = "_-31f" (String#21565, DoABC#2)
 // _SafeStr_6050 = "_-2f" (String#20644, DoABC#2)

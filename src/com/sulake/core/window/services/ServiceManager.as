@@ -12,50 +12,50 @@ package com.sulake.core.window.services
         private var _root:DisplayObject;
         private var _disposed:Boolean = false;
         private var _SafeStr_9637:IWindowContext;
-        private var _SafeStr_9638:IMouseDraggingService;
-        private var _SafeStr_9639:IMouseScalingService;
-        private var _SafeStr_9640:IMouseListenerService;
-        private var _SafeStr_9641:IFocusManagerService;
-        private var _SafeStr_9642:IToolTipAgentService;
-        private var _SafeStr_9643:IGestureAgentService;
+        private var _mouseDraggingService:IMouseDraggingService;
+        private var _mouseScalingService:IMouseScalingService;
+        private var _mouseListenerService:IMouseListenerService;
+        private var _focusManagerService:IFocusManagerService;
+        private var _toolTipAgentService:IToolTipAgentService;
+        private var _gestureAgentService:IGestureAgentService;
 
         public function ServiceManager(_arg_1:IWindowContext, _arg_2:DisplayObject)
         {
             this._SafeStr_9636 = 0;
             this._root = _arg_2;
             this._SafeStr_9637 = _arg_1;
-            this._SafeStr_9638 = new WindowMouseDragger(_arg_2);
-            this._SafeStr_9639 = new WindowMouseScaler(_arg_2);
-            this._SafeStr_9640 = new WindowMouseListener(_arg_2);
-            this._SafeStr_9641 = new FocusManager(_arg_2);
-            this._SafeStr_9642 = new WindowToolTipAgent(_arg_2);
-            this._SafeStr_9643 = new GestureAgentService();
+            this._mouseDraggingService = new WindowMouseDragger(_arg_2);
+            this._mouseScalingService = new WindowMouseScaler(_arg_2);
+            this._mouseListenerService = new WindowMouseListener(_arg_2);
+            this._focusManagerService = new FocusManager(_arg_2);
+            this._toolTipAgentService = new WindowToolTipAgent(_arg_2);
+            this._gestureAgentService = new GestureAgentService();
         }
         public function dispose():void
         {
-            if (this._SafeStr_9638 != null){
-                this._SafeStr_9638.dispose();
-                this._SafeStr_9638 = null;
+            if (this._mouseDraggingService != null){
+                this._mouseDraggingService.dispose();
+                this._mouseDraggingService = null;
             };
-            if (this._SafeStr_9639 != null){
-                this._SafeStr_9639.dispose();
-                this._SafeStr_9639 = null;
+            if (this._mouseScalingService != null){
+                this._mouseScalingService.dispose();
+                this._mouseScalingService = null;
             };
-            if (this._SafeStr_9640 != null){
-                this._SafeStr_9640.dispose();
-                this._SafeStr_9640 = null;
+            if (this._mouseListenerService != null){
+                this._mouseListenerService.dispose();
+                this._mouseListenerService = null;
             };
-            if (this._SafeStr_9641 != null){
-                this._SafeStr_9641.dispose();
-                this._SafeStr_9641 = null;
+            if (this._focusManagerService != null){
+                this._focusManagerService.dispose();
+                this._focusManagerService = null;
             };
-            if (this._SafeStr_9642 != null){
-                this._SafeStr_9642.dispose();
-                this._SafeStr_9642 = null;
+            if (this._toolTipAgentService != null){
+                this._toolTipAgentService.dispose();
+                this._toolTipAgentService = null;
             };
-            if (this._SafeStr_9643 != null){
-                this._SafeStr_9643.dispose();
-                this._SafeStr_9643 = null;
+            if (this._gestureAgentService != null){
+                this._gestureAgentService.dispose();
+                this._gestureAgentService = null;
             };
             this._root = null;
             this._SafeStr_9637 = null;
@@ -63,27 +63,27 @@ package com.sulake.core.window.services
         }
         public function getMouseDraggingService():IMouseDraggingService
         {
-            return (this._SafeStr_9638);
+            return (this._mouseDraggingService);
         }
         public function getMouseScalingService():IMouseScalingService
         {
-            return (this._SafeStr_9639);
+            return (this._mouseScalingService);
         }
         public function getMouseListenerService():IMouseListenerService
         {
-            return (this._SafeStr_9640);
+            return (this._mouseListenerService);
         }
         public function getFocusManagerService():IFocusManagerService
         {
-            return (this._SafeStr_9641);
+            return (this._focusManagerService);
         }
         public function getToolTipAgentService():IToolTipAgentService
         {
-            return (this._SafeStr_9642);
+            return (this._toolTipAgentService);
         }
         public function getGestureAgentService():IGestureAgentService
         {
-            return (this._SafeStr_9643);
+            return (this._gestureAgentService);
         }
         public function get disposed():Boolean
         {
@@ -111,11 +111,11 @@ package com.sulake.core.window.services
 // WindowMouseDragger = "_-AB" (String#7870, DoABC#2)
 // _SafeStr_9636 = "_-1Rz" (String#17581, DoABC#2)
 // _SafeStr_9637 = "_-2Xg" (String#1895, DoABC#2)
-// _SafeStr_9638 = "_-29I" (String#19376, DoABC#2)
-// _SafeStr_9639 = "_-2QN" (String#20061, DoABC#2)
-// _SafeStr_9640 = "_-0hm" (String#15739, DoABC#2)
-// _SafeStr_9641 = "_-1nD" (String#18433, DoABC#2)
-// _SafeStr_9642 = "_-0VZ" (String#15262, DoABC#2)
-// _SafeStr_9643 = "_-2xR" (String#21368, DoABC#2)
+// _mouseDraggingService = "_-29I" (String#19376, DoABC#2)
+// _mouseScalingService = "_-2QN" (String#20061, DoABC#2)
+// _mouseListenerService = "_-0hm" (String#15739, DoABC#2)
+// _focusManagerService = "_-1nD" (String#18433, DoABC#2)
+// _toolTipAgentService = "_-0VZ" (String#15262, DoABC#2)
+// _gestureAgentService = "_-2xR" (String#21368, DoABC#2)
 
 

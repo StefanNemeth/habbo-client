@@ -19,9 +19,9 @@ package com.sulake.habbo.avatar.actions
         private var _isAnimation:Boolean = false;
         private var _prevents:Array;
         private var _preventHeadTurn:Boolean;
-        private var _SafeStr_9904:Map;
+        private var _canvasOffsets:Map;
         private var _types:Dictionary;
-        private var _SafeStr_6969:Dictionary;
+        private var _messageArray:Dictionary;
         private var _SafeStr_9905:String = "";
 
         public function ActionDefinition(_arg_1:XML)
@@ -33,7 +33,7 @@ package com.sulake.habbo.avatar.actions
             var _local_7:String;
             this._prevents = new Array();
             this._types = new Dictionary();
-            this._SafeStr_6969 = new Dictionary();
+            this._messageArray = new Dictionary();
             super();
             this._id = String(_arg_1.@id);
             this._state = String(_arg_1.@state);
@@ -57,7 +57,7 @@ package com.sulake.habbo.avatar.actions
                     this._SafeStr_9905 = _local_6;
                 }
                 else {
-                    this._SafeStr_6969[_local_5] = _local_6;
+                    this._messageArray[_local_5] = _local_6;
                 };
             };
             for each (_local_4 in _arg_1.type) {
@@ -67,21 +67,21 @@ package com.sulake.habbo.avatar.actions
         }
         public function setOffsets(_arg_1:String, _arg_2:int, _arg_3:Array):void
         {
-            if (this._SafeStr_9904 == null){
-                this._SafeStr_9904 = new Map();
+            if (this._canvasOffsets == null){
+                this._canvasOffsets = new Map();
             };
-            if (this._SafeStr_9904.getValue(_arg_1) == null){
-                this._SafeStr_9904.add(_arg_1, new Map());
+            if (this._canvasOffsets.getValue(_arg_1) == null){
+                this._canvasOffsets.add(_arg_1, new Map());
             };
-            var _local_4:Map = this._SafeStr_9904.getValue(_arg_1);
+            var _local_4:Map = this._canvasOffsets.getValue(_arg_1);
             _local_4.add(_arg_2, _arg_3);
         }
         public function getOffsets(_arg_1:String, _arg_2:int):Array
         {
-            if (this._SafeStr_9904 == null){
+            if (this._canvasOffsets == null){
                 return (null);
             };
-            var _local_3:Map = (this._SafeStr_9904.getValue(_arg_1) as Map);
+            var _local_3:Map = (this._canvasOffsets.getValue(_arg_1) as Map);
             if (_local_3 == null){
                 return (null);
             };
@@ -92,7 +92,7 @@ package com.sulake.habbo.avatar.actions
             if (_arg_1 == ""){
                 return ("");
             };
-            var _local_2:String = this._SafeStr_6969[_arg_1];
+            var _local_2:String = this._messageArray[_arg_1];
             if (_local_2 == null){
                 _local_2 = this._SafeStr_9905;
             };
@@ -187,7 +187,7 @@ package com.sulake.habbo.avatar.actions
 // ActionDefinition = "_-1nw" (String#864, DoABC#2)
 // IActionDefinition = "_-2ON" (String#6527, DoABC#2)
 // _types = "_-2L9" (String#1860, DoABC#2)
-// _SafeStr_6969 = "_-0uz" (String#1576, DoABC#2)
+// _messageArray = "_-0uz" (String#1576, DoABC#2)
 // isMain = "_-00N" (String#3570, DoABC#2)
 // _isMain = "_-37V" (String#7459, DoABC#2)
 // _geometryType = "_-2pF" (String#7065, DoABC#2)
@@ -201,7 +201,7 @@ package com.sulake.habbo.avatar.actions
 // _lay = "_-2uW" (String#21262, DoABC#2)
 // _isDefault = "_-mC" (String#24118, DoABC#2)
 // _isAnimation = "_-1cP" (String#17987, DoABC#2)
-// _SafeStr_9904 = "_-16y" (String#1623, DoABC#2)
+// _canvasOffsets = "_-16y" (String#1623, DoABC#2)
 // _SafeStr_9905 = "_-0Z6" (String#15407, DoABC#2)
 // _SafeStr_9906 = "default" (String#139, DoABC#2)
 // setOffsets = "_-30r" (String#7323, DoABC#2)

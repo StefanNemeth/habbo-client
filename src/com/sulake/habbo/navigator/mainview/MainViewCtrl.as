@@ -58,7 +58,7 @@ package com.sulake.habbo.navigator.mainview
         private const _SafeStr_4231:Point = new Point(100, 10);
 
         private var _navigator:HabboNavigator;
-        private var _mainWindow:IFrameWindow;
+        private var _window:IFrameWindow;
         private var _content:IWindowContainer;
         private var _SafeStr_4232:IWindowContainer;
         private var _SafeStr_4233:IWindowContainer;
@@ -94,12 +94,12 @@ package com.sulake.habbo.navigator.mainview
         }
         public function onNavigatorToolBarIconClick():Boolean
         {
-            if (!this._mainWindow){
+            if (!this._window){
                 this.reloadData();
                 return (true);
             };
             if (((!(this._SafeStr_4248)) || (this._SafeStr_4248.disposed))){
-                this._SafeStr_4248 = new WindowToggle(this._mainWindow, this._mainWindow.desktop, this.reloadData, this.close);
+                this._SafeStr_4248 = new WindowToggle(this._window, this._window.desktop, this.reloadData, this.close);
             };
             var _local_1:int = this._SafeStr_4248.toggle();
             return ((_local_1 == WindowToggle.RESULT_SHOW));
@@ -114,9 +114,9 @@ package com.sulake.habbo.navigator.mainview
             if (!this._disposed){
                 this._disposed = true;
                 this._navigator = null;
-                if (this._mainWindow){
-                    this._mainWindow.dispose();
-                    this._mainWindow = null;
+                if (this._window){
+                    this._window.dispose();
+                    this._window = null;
                 };
                 if (this._SafeStr_4248){
                     this._SafeStr_4248.dispose();
@@ -151,50 +151,50 @@ package com.sulake.habbo.navigator.mainview
         }
         public function open():void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 this.prepare();
             };
             this.refresh();
-            this._mainWindow.visible = true;
-            this._mainWindow.activate();
+            this._window.visible = true;
+            this._window.activate();
         }
         public function isOpen():Boolean
         {
-            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
+            return (((!((this._window == null))) && (this._window.visible)));
         }
         public function close():void
         {
-            if (this._mainWindow != null){
-                this._mainWindow.visible = false;
+            if (this._window != null){
+                this._window.visible = false;
             };
         }
         public function get mainWindow():IFrameWindow
         {
-            return (this._mainWindow);
+            return (this._window);
         }
         private function prepare():void
         {
             var _local_2:Tab;
             var _local_3:ITabButtonWindow;
-            this._mainWindow = IFrameWindow(this._navigator.getXmlWindow("grs_main_window"));
-            this._SafeStr_4238 = ITabContextWindow(this._mainWindow.findChildByName("tab_context"));
-            this._content = IWindowContainer(this._mainWindow.findChildByName("tab_content"));
-            this._SafeStr_4232 = IWindowContainer(this._mainWindow.findChildByName("custom_content"));
-            this._SafeStr_4234 = IWindowContainer(this._mainWindow.findChildByName("list_content"));
-            this._SafeStr_4233 = IWindowContainer(this._mainWindow.findChildByName("custom_footer"));
-            this._SafeStr_4243 = this._mainWindow.findChildByName("loading_text");
-            var _local_1:IWindow = this._mainWindow.findChildByTag("close");
+            this._window = IFrameWindow(this._navigator.getXmlWindow("grs_main_window"));
+            this._SafeStr_4238 = ITabContextWindow(this._window.findChildByName("tab_context"));
+            this._content = IWindowContainer(this._window.findChildByName("tab_content"));
+            this._SafeStr_4232 = IWindowContainer(this._window.findChildByName("custom_content"));
+            this._SafeStr_4234 = IWindowContainer(this._window.findChildByName("list_content"));
+            this._SafeStr_4233 = IWindowContainer(this._window.findChildByName("custom_footer"));
+            this._SafeStr_4243 = this._window.findChildByName("loading_text");
+            var _local_1:IWindow = this._window.findChildByTag("close");
             if (_local_1 != null){
                 _local_1.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onWindowClose);
             };
-            this._SafeStr_4244 = IRegionWindow(this._mainWindow.findChildByName("to_hotel_view"));
+            this._SafeStr_4244 = IRegionWindow(this._window.findChildByName("to_hotel_view"));
             if (this._SafeStr_4244 != null){
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onHotelViewMouseOver);
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WME_OUT, this.onHotelViewMouseOut);
                 this._SafeStr_4244.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onHotelViewMouseClick);
             };
             this.refreshToHotelViewButton(false);
-            this._mainWindow.addEventListener(WindowEvent.WE_RESIZED, this.onWindowResized);
+            this._window.addEventListener(WindowEvent.WE_RESIZED, this.onWindowResized);
             for each (_local_2 in this._navigator.tabs.tabs) {
                 _local_3 = this._SafeStr_4238.getTabItemByID(_local_2.id);
                 if (_local_3 != null){
@@ -202,9 +202,9 @@ package com.sulake.habbo.navigator.mainview
                     _local_2.button = _local_3;
                 };
             };
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4268, true);
-            this._mainWindow.position = this._SafeStr_4231;
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_4268, true);
+            this._window.position = this._SafeStr_4231;
             this.createSearchInput();
         }
         private function createSearchInput():void
@@ -212,15 +212,15 @@ package com.sulake.habbo.navigator.mainview
             var _local_3:IWindowContainer;
             var _local_1:String = "search_header";
             if (this._SafeStr_4246 == null){
-                _local_3 = (this._mainWindow.findChildByName(_local_1) as IWindowContainer);
+                _local_3 = (this._window.findChildByName(_local_1) as IWindowContainer);
                 this._SafeStr_4246 = new TextSearchInputs(this._navigator, _local_3);
             };
-            var _local_2:IWindowContainer = (this._mainWindow.findChildByName(_local_1) as IWindowContainer);
+            var _local_2:IWindowContainer = (this._window.findChildByName(_local_1) as IWindowContainer);
             _local_2.visible = true;
         }
         public function refresh():void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 return;
             };
             this.refreshTab();
@@ -503,7 +503,7 @@ package com.sulake.habbo.navigator.mainview
         private function onWindowResized(_arg_1:WindowEvent):void
         {
             var _local_2:IWindow = _arg_1.target;
-            if (_local_2 != this._mainWindow){
+            if (_local_2 != this._window){
                 return;
             };
             if (!this._SafeStr_4247.running){
@@ -599,7 +599,7 @@ package com.sulake.habbo.navigator.mainview
 // GetOfficialRoomsMessageComposer = "_-30z" (String#21537, DoABC#2)
 // MyRoomsSearchMessageComposer = "_-d3" (String#23759, DoABC#2)
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // adIndex = "_-0RB" (String#15110, DoABC#2)

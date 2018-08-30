@@ -14,7 +14,7 @@ package com.sulake.habbo.avatar.common
     public class AvatarEditorGridColorItem 
     {
 
-        private var _SafeStr_4830:IAvatarEditorCategoryModel;
+        private var _modelController:IAvatarEditorCategoryModel;
         private var _window:IWindowContainer;
         private var _partColor:IPartColor;
         private var _isSelected:Boolean = false;
@@ -24,7 +24,7 @@ package com.sulake.habbo.avatar.common
 
         public function AvatarEditorGridColorItem(_arg_1:IWindowContainer, _arg_2:IAvatarEditorCategoryModel, _arg_3:IPartColor)
         {
-            this._SafeStr_4830 = _arg_2;
+            this._modelController = _arg_2;
             this._window = _arg_1;
             this._window.background = true;
             this._partColor = _arg_3;
@@ -38,7 +38,7 @@ package com.sulake.habbo.avatar.common
         }
         public function dispose():void
         {
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             if (this._window != null){
                 if (!this._window.disposed){
                     this._window.dispose();
@@ -135,7 +135,7 @@ package com.sulake.habbo.avatar.common
 // _SafeStr_3939 = "_-2gR" (String#20706, DoABC#2)
 // _SafeStr_3942 = "_-0G0" (String#14684, DoABC#2)
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_7426 = "_-3Ki" (String#22312, DoABC#2)
 // _SafeStr_7427 = "_-4r" (String#22412, DoABC#2)
 // _partColor = "_-0tM" (String#16174, DoABC#2)

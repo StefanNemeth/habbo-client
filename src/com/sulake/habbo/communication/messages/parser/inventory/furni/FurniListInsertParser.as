@@ -8,15 +8,15 @@ package com.sulake.habbo.communication.messages.parser.inventory.furni
     public class FurniListInsertParser implements IMessageParser 
     {
 
-        protected var _SafeStr_6450:Array;
+        protected var _furni:Array;
 
         public function parse(_arg_1:IMessageDataWrapper):Boolean
         {
-            this._SafeStr_6450 = new Array();
+            this._furni = new Array();
             var _local_2:int = 1;
             var _local_3:int;
             while (_local_3 < _local_2) {
-                this._SafeStr_6450.push(this.parseItem(_arg_1));
+                this._furni.push(this.parseItem(_arg_1));
                 _local_3++;
             };
             return (true);
@@ -46,12 +46,12 @@ package com.sulake.habbo.communication.messages.parser.inventory.furni
         }
         public function flush():Boolean
         {
-            this._SafeStr_6450 = null;
+            this._furni = null;
             return (true);
         }
         public function getFurni():Array
         {
-            return (this._SafeStr_6450);
+            return (this._furni);
         }
 
     }
@@ -62,7 +62,7 @@ package com.sulake.habbo.communication.messages.parser.inventory.furni
 // FurniListInsertParser = "_-2oG" (String#21013, DoABC#2)
 // readString = "_-2y7" (String#1973, DoABC#2)
 // readBoolean = "_-0ZR" (String#1499, DoABC#2)
-// _SafeStr_6450 = "_-0nQ" (String#4579, DoABC#2)
+// _furni = "_-0nQ" (String#4579, DoABC#2)
 // parseItem = "_-2t0" (String#21201, DoABC#2)
 // setExtraData = "_-2NQ" (String#19941, DoABC#2)
 // getFurni = "_-0B5" (String#3779, DoABC#2)

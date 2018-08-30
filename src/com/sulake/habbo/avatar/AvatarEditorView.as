@@ -41,7 +41,7 @@ package com.sulake.habbo.avatar
         private var _SafeStr_10178:IWindowContainer;
         private var _SafeStr_10179:String;
         private var _SafeStr_10180:ITabSelectorWindow;
-        private var _SafeStr_10181:IFrameWindow;
+        private var _frame:IFrameWindow;
         private var _SafeStr_9637:IWindowContainer;
         private var _SafeStr_10182:IFrameWindow;
         private var _saveTimer:Timer;
@@ -103,9 +103,9 @@ package com.sulake.habbo.avatar
                 this._SafeStr_9637.dispose();
                 this._SafeStr_9637 = null;
             };
-            if (this._SafeStr_10181){
-                this._SafeStr_10181.dispose();
-                this._SafeStr_10181 = null;
+            if (this._frame){
+                this._frame.dispose();
+                this._frame = null;
             };
             if (this._SafeStr_10178 != null){
                 _local_1 = (this._SafeStr_10178.findChildByName("figureContainer") as IWindowContainer);
@@ -131,35 +131,35 @@ package com.sulake.habbo.avatar
         }
         public function getFrame(_arg_1:Array, _arg_2:String=null):IFrameWindow
         {
-            if (this._SafeStr_10181){
-                this._SafeStr_10181.visible = true;
-                this._SafeStr_10181.activate();
-                return (this._SafeStr_10181);
+            if (this._frame){
+                this._frame.visible = true;
+                this._frame.activate();
+                return (this._frame);
             };
-            if (this._SafeStr_10181){
-                this._SafeStr_10181.dispose();
-                this._SafeStr_10181 = null;
+            if (this._frame){
+                this._frame.dispose();
+                this._frame = null;
             };
             var _local_3:XmlAsset = (this._SafeStr_10177.manager.assets.getAssetByName("AvatarEditorFrame") as XmlAsset);
             if (_local_3){
-                this._SafeStr_10181 = (this._SafeStr_10177.manager.windowManager.buildFromXML((_local_3.content as XML)) as IFrameWindow);
+                this._frame = (this._SafeStr_10177.manager.windowManager.buildFromXML((_local_3.content as XML)) as IFrameWindow);
             };
-            if (this._SafeStr_10181 == null){
+            if (this._frame == null){
                 Logger.log("Failed to construct Avatar editor window!");
                 return (null);
             };
-            var _local_4:IWindowContainer = (this._SafeStr_10181.findChildByName("maincontent") as IWindowContainer);
+            var _local_4:IWindowContainer = (this._frame.findChildByName("maincontent") as IWindowContainer);
             if (!this.embedToContext(_local_4, _arg_1)){
-                this._SafeStr_10181.dispose();
-                this._SafeStr_10181 = null;
+                this._frame.dispose();
+                this._frame = null;
                 return (null);
             };
             if (_arg_2){
-                this._SafeStr_10181.header.title.text = _arg_2;
+                this._frame.header.title.text = _arg_2;
             };
-            this._SafeStr_10181.position = _SafeStr_10176;
-            this._SafeStr_10181.findChildByName("header_button_close").procedure = this.windowEventProc;
-            return (this._SafeStr_10181);
+            this._frame.position = _SafeStr_10176;
+            this._frame.findChildByName("header_button_close").procedure = this.windowEventProc;
+            return (this._frame);
         }
         public function embedToContext(_arg_1:IWindowContainer, _arg_2:Array):Boolean
         {
@@ -213,8 +213,8 @@ package com.sulake.habbo.avatar
         }
         public function show():void
         {
-            if (this._SafeStr_10181){
-                this._SafeStr_10181.visible = true;
+            if (this._frame){
+                this._frame.visible = true;
             }
             else {
                 if (this._SafeStr_10178){
@@ -224,8 +224,8 @@ package com.sulake.habbo.avatar
         }
         public function hide():void
         {
-            if (this._SafeStr_10181){
-                this._SafeStr_10181.visible = false;
+            if (this._frame){
+                this._frame.visible = false;
             }
             else {
                 if (this._SafeStr_10178){
@@ -361,9 +361,9 @@ package com.sulake.habbo.avatar
                 _local_2.width = 0;
             };
             this._SafeStr_10183 = _arg_1;
-            if (this._SafeStr_10181){
+            if (this._frame){
                 _local_5 = 8;
-                this._SafeStr_10181.content.width = (this._SafeStr_10178.width + _local_5);
+                this._frame.content.width = (this._SafeStr_10178.width + _local_5);
             };
         }
         private function setViewToCategory(_arg_1:String):void
@@ -491,7 +491,7 @@ package com.sulake.habbo.avatar
 // _SafeStr_10178 = "_-P" (String#23206, DoABC#2)
 // _SafeStr_10179 = "_-2HD" (String#6390, DoABC#2)
 // _SafeStr_10180 = "_-1lk" (String#18364, DoABC#2)
-// _SafeStr_10181 = "_-2NA" (String#19930, DoABC#2)
+// _frame = "_-2NA" (String#19930, DoABC#2)
 // _SafeStr_10182 = "_-21E" (String#19061, DoABC#2)
 // _SafeStr_10183 = "_-3C5" (String#21964, DoABC#2)
 // _SafeStr_10184 = "_-2y1" (String#21394, DoABC#2)

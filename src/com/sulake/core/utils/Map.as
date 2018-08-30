@@ -13,7 +13,7 @@ package com.sulake.core.utils
 
         private var _length:uint;
         private var _SafeStr_8890:Dictionary;
-        private var _SafeStr_3708:Array;
+        private var _messageArray:Array;
         private var _keys:Array;
         private var _singleWrite:Boolean = false;
 
@@ -22,7 +22,7 @@ package com.sulake.core.utils
             this._singleWrite = _arg_1;
             this._length = 0;
             this._SafeStr_8890 = new Dictionary();
-            this._SafeStr_3708 = [];
+            this._messageArray = [];
             this._keys = [];
         }
         public function get length():uint
@@ -43,7 +43,7 @@ package com.sulake.core.utils
                 this._SafeStr_8890 = null;
             };
             this._length = 0;
-            this._SafeStr_3708 = null;
+            this._messageArray = null;
             this._keys = null;
         }
         public function reset():void
@@ -53,7 +53,7 @@ package com.sulake.core.utils
                 delete this._SafeStr_8890[_local_1];
             };
             this._length = 0;
-            this._SafeStr_3708 = [];
+            this._messageArray = [];
             this._keys = [];
         }
         public function unshift(_arg_1:*, _arg_2:*):Boolean
@@ -62,7 +62,7 @@ package com.sulake.core.utils
                 return (false);
             };
             this._SafeStr_8890[_arg_1] = _arg_2;
-            this._SafeStr_3708.unshift(_arg_2);
+            this._messageArray.unshift(_arg_2);
             this._keys.unshift(_arg_1);
             this._length++;
             return (true);
@@ -73,7 +73,7 @@ package com.sulake.core.utils
                 return (false);
             };
             this._SafeStr_8890[_arg_1] = _arg_2;
-            this._SafeStr_3708[this._length] = _arg_2;
+            this._messageArray[this._length] = _arg_2;
             this._keys[this._length] = _arg_1;
             this._length++;
             return (true);
@@ -88,9 +88,9 @@ package com.sulake.core.utils
             if (_local_2 == null){
                 return (null);
             };
-            var _local_3:int = this._SafeStr_3708.indexOf(_local_2);
+            var _local_3:int = this._messageArray.indexOf(_local_2);
             if (_local_3 >= 0){
-                this._SafeStr_3708.splice(_local_3, 1);
+                this._messageArray.splice(_local_3, 1);
                 this._keys.splice(_local_3, 1);
                 this._length--;
             };
@@ -102,7 +102,7 @@ package com.sulake.core.utils
             if ((((_arg_1 < 0)) || ((_arg_1 >= this._length)))){
                 return (null);
             };
-            return (this._SafeStr_3708[_arg_1]);
+            return (this._messageArray[_arg_1]);
         }
         public function getKey(_arg_1:int)
         {
@@ -117,7 +117,7 @@ package com.sulake.core.utils
         }
         public function getValues():Array
         {
-            return (this._SafeStr_3708.slice());
+            return (this._messageArray.slice());
         }
         override flash_proxy function getProperty(_arg_1:*)
         {
@@ -139,12 +139,12 @@ package com.sulake.core.utils
             this._SafeStr_8890[_arg_1] = _arg_2;
             var _local_3:int = this._keys.indexOf(_arg_1);
             if (_local_3 == -1){
-                this._SafeStr_3708[this._length] = _arg_2;
+                this._messageArray[this._length] = _arg_2;
                 this._keys[this._length] = _arg_1;
                 this._length++;
             }
             else {
-                this._SafeStr_3708.splice(_local_3, 1, _arg_2);
+                this._messageArray.splice(_local_3, 1, _arg_2);
             };
         }
         override flash_proxy function nextNameIndex(_arg_1:int):int
@@ -160,7 +160,7 @@ package com.sulake.core.utils
         }
         override flash_proxy function nextValue(_arg_1:int)
         {
-            return (this._SafeStr_3708[(_arg_1 - 1)]);
+            return (this._messageArray[(_arg_1 - 1)]);
         }
         override flash_proxy function callProperty(_arg_1:*, ... _args)
         {
@@ -175,7 +175,7 @@ package com.sulake.core.utils
 }//package com.sulake.core.utils
 
 // IDisposable = "_-0dY" (String#4382, DoABC#2)
-// _SafeStr_3708 = "_-2oC" (String#11, DoABC#2)
+// _messageArray = "_-2oC" (String#11, DoABC#2)
 // getValues = "_-2U9" (String#20205, DoABC#2)
 // _SafeStr_8890 = "_-0EV" (String#3839, DoABC#2)
 // _SafeStr_9058 = "_-MM" (String#23098, DoABC#2)

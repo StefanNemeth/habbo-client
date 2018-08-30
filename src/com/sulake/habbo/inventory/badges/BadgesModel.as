@@ -31,7 +31,7 @@ package com.sulake.habbo.inventory.badges
         public static const _SafeStr_8541:int = 0;
         public static const _SafeStr_8542:int = 1;
 
-        private const _SafeStr_8543:int = 5;
+        private const _maxActiveCount:int = 5;
 
         private var _controller:HabboInventory;
         private var _view:BadgesView;
@@ -94,7 +94,7 @@ package com.sulake.habbo.inventory.badges
         }
         public function getMaxActiveCount():int
         {
-            return (this._SafeStr_8543);
+            return (this._maxActiveCount);
         }
         public function updateView():void
         {
@@ -420,7 +420,7 @@ package com.sulake.habbo.inventory.badges
 // _SafeStr_8540 = "_-TH" (String#23376, DoABC#2)
 // _SafeStr_8541 = "_-2aE" (String#20452, DoABC#2)
 // _SafeStr_8542 = "_-0uS" (String#16219, DoABC#2)
-// _SafeStr_8543 = "_-Sf" (String#23352, DoABC#2)
+// _maxActiveCount = "_-Sf" (String#23352, DoABC#2)
 // _SafeStr_8544 = "_-2s2" (String#21159, DoABC#2)
 // _SafeStr_8545 = "_-0QP" (String#15077, DoABC#2)
 // _sessionDataManager = "_-0kq" (String#149, DoABC#2)

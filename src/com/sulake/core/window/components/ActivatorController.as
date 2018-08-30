@@ -10,7 +10,7 @@ package com.sulake.core.window.components
     public class ActivatorController extends ContainerController 
     {
 
-        protected var _SafeStr_9223:IWindow;
+        protected var _activeChild:IWindow;
 
         public function ActivatorController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function=null, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
@@ -30,7 +30,7 @@ package com.sulake.core.window.components
         }
         public function getActiveChild():IWindow
         {
-            return (this._SafeStr_9223);
+            return (this._activeChild);
         }
         public function setActiveChild(_arg_1:IWindow):IWindow
         {
@@ -43,14 +43,14 @@ package com.sulake.core.window.components
                     if (_arg_1.parent == this) break;
                 };
             };
-            var _local_2:IWindow = this._SafeStr_9223;
-            if (this._SafeStr_9223 != _arg_1){
-                if (this._SafeStr_9223 != null){
-                    if (!this._SafeStr_9223.disposed){
-                        this._SafeStr_9223.deactivate();
+            var _local_2:IWindow = this._activeChild;
+            if (this._activeChild != _arg_1){
+                if (this._activeChild != null){
+                    if (!this._activeChild.disposed){
+                        this._activeChild.deactivate();
                     };
                 };
-                this._SafeStr_9223 = _arg_1;
+                this._activeChild = _arg_1;
                 if (getChildIndex(_arg_1) != (numChildren - 1)){
                     setChildIndex(_arg_1, (numChildren - 1));
                 };
@@ -65,7 +65,7 @@ package com.sulake.core.window.components
 // WindowContext = "_-2K8" (String#6447, DoABC#2)
 // ContainerController = "_-1v4" (String#5943, DoABC#2)
 // ActivatorController = "_-Wd" (String#8339, DoABC#2)
-// _SafeStr_9223 = "_-0x2" (String#16314, DoABC#2)
+// _activeChild = "_-0x2" (String#16314, DoABC#2)
 // WE_CHILD_ACTIVATED = "_-f-" (String#23845, DoABC#2)
 // setActiveChild = "_-lC" (String#24077, DoABC#2)
 // WE_PARENT_ACTIVATED = "_-1o3" (String#18465, DoABC#2)

@@ -26,7 +26,7 @@ package com.sulake.habbo.moderation
         private var _window:IFrameWindow;
         private var _SafeStr_4238:ITabContextWindow;
         private var _SafeStr_11873:IIssueBrowserView;
-        private var _SafeStr_11874:IIssueBrowserView;
+        private var _view:IIssueBrowserView;
         private var _SafeStr_11875:IIssueBrowserView;
         private var _SafeStr_11876:PickedIssuesView;
 
@@ -121,10 +121,10 @@ package com.sulake.habbo.moderation
         {
             switch (_arg_1){
                 case this._SafeStr_11869:
-                    if (this._SafeStr_11874 == null){
-                        this._SafeStr_11874 = new MyIssuesView(this.issueManager, this, this._SafeStr_4238.container);
+                    if (this._view == null){
+                        this._view = new MyIssuesView(this.issueManager, this, this._SafeStr_4238.container);
                     };
-                    return (this._SafeStr_11874);
+                    return (this._view);
                 case this._SafeStr_11870:
                     if (this._SafeStr_11875 == null){
                         this._SafeStr_11875 = new OpenIssuesView(this.issueManager, this, this._SafeStr_4238.container);
@@ -188,7 +188,7 @@ package com.sulake.habbo.moderation
 // _SafeStr_11871 = "_-eG" (String#23812, DoABC#2)
 // _SafeStr_11872 = "_-0M4" (String#14918, DoABC#2)
 // _SafeStr_11873 = "_-1gD" (String#18149, DoABC#2)
-// _SafeStr_11874 = "_-1iL" (String#18222, DoABC#2)
+// _view = "_-1iL" (String#18222, DoABC#2)
 // _SafeStr_11875 = "_-0W0" (String#15276, DoABC#2)
 // _SafeStr_11876 = "_-31H" (String#21550, DoABC#2)
 // createMainFrame = "_-1KJ" (String#17286, DoABC#2)

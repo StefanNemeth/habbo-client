@@ -19,7 +19,7 @@ package com.sulake.habbo.friendlist
 
         private var _friendList:HabboFriendList;
         private var _SafeStr_11215:FriendListTabsView;
-        private var _mainWindow:IFrameWindow;
+        private var _window:IFrameWindow;
         private var _SafeStr_11216:IWindowContainer;
         private var _SafeStr_4233:IWindowContainer;
         private var _SafeStr_11217:ITextWindow;
@@ -34,17 +34,17 @@ package com.sulake.habbo.friendlist
         }
         public function isFriendListOpen():Boolean
         {
-            return (((!((this._mainWindow == null))) && (this._mainWindow.visible)));
+            return (((!((this._window == null))) && (this._window.visible)));
         }
         public function openFriendList():void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 this.prepare();
-                this._mainWindow.position = _SafeStr_10176;
+                this._window.position = _SafeStr_10176;
             }
             else {
-                this._mainWindow.visible = true;
-                this._mainWindow.activate();
+                this._window.visible = true;
+                this._window.activate();
             };
         }
         public function showInfo(_arg_1:WindowEvent, _arg_2:String):void
@@ -64,7 +64,7 @@ package com.sulake.habbo.friendlist
         }
         public function refresh(_arg_1:String):void
         {
-            if (this._mainWindow == null){
+            if (this._window == null){
                 return;
             };
             this._SafeStr_11215.refresh(_arg_1);
@@ -72,37 +72,37 @@ package com.sulake.habbo.friendlist
         }
         public function close():void
         {
-            if (this._mainWindow != null){
-                this._mainWindow.visible = false;
+            if (this._window != null){
+                this._window.visible = false;
             };
         }
         public function isOpen():Boolean
         {
-            return (((this._mainWindow) && (this._mainWindow.visible)));
+            return (((this._window) && (this._window.visible)));
         }
         private function prepare():void
         {
-            this._mainWindow = IFrameWindow(this._friendList.getXmlWindow("main_window"));
-            this._mainWindow.findChildByTag("close").procedure = this.onWindowClose;
-            this._SafeStr_11216 = IWindowContainer(this._mainWindow.content.findChildByName("main_content"));
-            this._SafeStr_4233 = IWindowContainer(this._mainWindow.content.findChildByName("footer"));
+            this._window = IFrameWindow(this._friendList.getXmlWindow("main_window"));
+            this._window.findChildByTag("close").procedure = this.onWindowClose;
+            this._SafeStr_11216 = IWindowContainer(this._window.content.findChildByName("main_content"));
+            this._SafeStr_4233 = IWindowContainer(this._window.content.findChildByName("footer"));
             this._SafeStr_11215.prepare(this._SafeStr_11216);
-            this._mainWindow.procedure = this.onWindow;
-            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7463, false);
-            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7455, true);
-            this._mainWindow.header.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._mainWindow.header.setParamFlag(HabboWindowParam._SafeStr_7446, true);
-            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._mainWindow.content.setParamFlag(HabboWindowParam._SafeStr_7446, true);
-            this._mainWindow.findChildByName("open_edit_ctgs_but").procedure = this.onEditCategoriesButtonClick;
-            this._SafeStr_11217 = ITextWindow(this._mainWindow.findChildByName("info_text"));
+            this._window.procedure = this.onWindow;
+            this._window.content.setParamFlag(HabboWindowParam._SafeStr_7463, false);
+            this._window.content.setParamFlag(HabboWindowParam._SafeStr_7455, true);
+            this._window.header.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._window.header.setParamFlag(HabboWindowParam._SafeStr_7446, true);
+            this._window.content.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._window.content.setParamFlag(HabboWindowParam._SafeStr_7446, true);
+            this._window.findChildByName("open_edit_ctgs_but").procedure = this.onEditCategoriesButtonClick;
+            this._SafeStr_11217 = ITextWindow(this._window.findChildByName("info_text"));
             this._SafeStr_11217.text = "";
-            this._friendList.refreshButton(this._mainWindow, "open_edit_ctgs", true, null, 0);
-            this._mainWindow.title.color = 0xFFFAC200;
-            this._mainWindow.title.textColor = 4287851525;
+            this._friendList.refreshButton(this._window, "open_edit_ctgs", true, null, 0);
+            this._window.title.color = 0xFFFAC200;
+            this._window.title.textColor = 4287851525;
             this.refresh("prepare");
-            this._mainWindow.height = 350;
-            this._mainWindow.width = 230;
+            this._window.height = 350;
+            this._window.width = 230;
         }
         private function onWindowClose(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
@@ -110,19 +110,19 @@ package com.sulake.habbo.friendlist
                 return;
             };
             Logger.log("Close window");
-            this._mainWindow.visible = false;
+            this._window.visible = false;
             this._friendList.trackFriendListEvent(HabboFriendListTrackingEvent.HABBO_FRIENDLIST_TRACKIG_EVENT_CLOSED);
         }
         private function onWindow(_arg_1:WindowEvent, _arg_2:IWindow):void
         {
-            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._mainWindow))))){
+            if (((!((_arg_1.type == WindowEvent.WE_RESIZED))) || (!((_arg_2 == this._window))))){
                 return;
             };
             if (this._SafeStr_11220){
                 return;
             };
-            var _local_3:int = (((this._SafeStr_11218 == -1)) ? 0 : (this._mainWindow.height - this._SafeStr_11218));
-            var _local_4:int = (((this._SafeStr_11219 == -1)) ? 0 : (this._mainWindow.width - this._SafeStr_11219));
+            var _local_3:int = (((this._SafeStr_11218 == -1)) ? 0 : (this._window.height - this._SafeStr_11218));
+            var _local_4:int = (((this._SafeStr_11219 == -1)) ? 0 : (this._window.width - this._SafeStr_11219));
             this._friendList.tabs.tabContentHeight = Math.max(100, (this._friendList.tabs.tabContentHeight + _local_3));
             this._friendList.tabs.windowWidth = Math.max(147, (this._friendList.tabs.windowWidth + _local_4));
             this.refresh(("resize: " + _local_3));
@@ -131,23 +131,23 @@ package com.sulake.habbo.friendlist
         {
             this._SafeStr_11220 = true;
             this._SafeStr_4233.visible = false;
-            this._SafeStr_4233.y = Util.getLowestPoint(this._mainWindow.content);
+            this._SafeStr_4233.y = Util.getLowestPoint(this._window.content);
             this._SafeStr_4233.width = this._friendList.tabs.windowWidth;
             this._SafeStr_4233.visible = true;
-            this._mainWindow.content.height = Util.getLowestPoint(this._mainWindow.content);
-            this._mainWindow.content.width = (this._friendList.tabs.windowWidth - 10);
-            this._mainWindow.header.width = (this._friendList.tabs.windowWidth - 10);
-            this._mainWindow.height = (this._mainWindow.content.height + 30);
-            this._mainWindow.width = this._friendList.tabs.windowWidth;
+            this._window.content.height = Util.getLowestPoint(this._window.content);
+            this._window.content.width = (this._friendList.tabs.windowWidth - 10);
+            this._window.header.width = (this._friendList.tabs.windowWidth - 10);
+            this._window.height = (this._window.content.height + 30);
+            this._window.width = this._friendList.tabs.windowWidth;
             this._SafeStr_11220 = false;
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, !((this._friendList.tabs.findSelectedTab() == null)));
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7453, false);
-            this._mainWindow.scaler.setParamFlag(HabboWindowParam._SafeStr_7463, false);
-            this._mainWindow.scaler.x = (this._mainWindow.width - this._mainWindow.scaler.width);
-            this._mainWindow.scaler.y = (this._mainWindow.height - this._mainWindow.scaler.height);
-            this._SafeStr_11218 = this._mainWindow.height;
-            this._SafeStr_11219 = this._mainWindow.width;
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_4267, false);
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_7493, !((this._friendList.tabs.findSelectedTab() == null)));
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_7453, false);
+            this._window.scaler.setParamFlag(HabboWindowParam._SafeStr_7463, false);
+            this._window.scaler.x = (this._window.width - this._window.scaler.width);
+            this._window.scaler.y = (this._window.height - this._window.scaler.height);
+            this._SafeStr_11218 = this._window.height;
+            this._SafeStr_11219 = this._window.width;
             Logger.log(("RESIZED: " + this._friendList.tabs.windowWidth));
         }
         private function onEditCategoriesButtonClick(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -162,7 +162,7 @@ package com.sulake.habbo.friendlist
         }
         public function get mainWindow():IWindowContainer
         {
-            return (this._mainWindow);
+            return (this._window);
         }
 
     }
@@ -190,7 +190,7 @@ package com.sulake.habbo.friendlist
 // Util = "_-1ve" (String#445, DoABC#2)
 // FriendListView = "_-1CA" (String#5113, DoABC#2)
 // FriendListTabsView = "_-2wH" (String#7206, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // mainWindow = "_-2Lh" (String#1862, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)

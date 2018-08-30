@@ -45,7 +45,7 @@ package com.sulake.habbo.avatar.generic
             };
             if (!_SafeStr_5402){
                 _SafeStr_5402 = new Dictionary();
-                _SafeStr_5402[FigureData._SafeStr_5401] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_5401, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_5401] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_5401, _windowManager, _assetLibrary);
             }
             else {
                 for each (_local_2 in _SafeStr_5402) {
@@ -67,10 +67,10 @@ package com.sulake.habbo.avatar.generic
         }
         public function updateGenderTab():void
         {
-            if (_SafeStr_4830 == null){
+            if (_modelController == null){
                 return;
             };
-            switch (_SafeStr_4830.controller.gender){
+            switch (_modelController.controller.gender){
                 case FigureData.M:
                     activateTab(this._SafeStr_5398);
                     inactivateTab(this._SafeStr_5399);
@@ -90,11 +90,11 @@ package com.sulake.habbo.avatar.generic
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case this._SafeStr_5398:
-                        _SafeStr_4830.controller.gender = FigureData.M;
+                        _modelController.controller.gender = FigureData.M;
                         _arg_1.stopPropagation();
                         break;
                     case this._SafeStr_5399:
-                        _SafeStr_4830.controller.gender = FigureData.FEMALE;
+                        _modelController.controller.gender = FigureData.FEMALE;
                         _arg_1.stopPropagation();
                         break;
                 };
@@ -132,7 +132,7 @@ package com.sulake.habbo.avatar.generic
 // BodyView = "_-FU" (String#7983, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // getWindowContainer = "_-v8" (String#313, DoABC#2)
 // M = "_-1c3" (String#17974, DoABC#2)
 // _SafeStr_5398 = "_-k" (String#24032, DoABC#2)

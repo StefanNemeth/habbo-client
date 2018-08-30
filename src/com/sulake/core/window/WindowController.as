@@ -37,7 +37,7 @@ package com.sulake.core.window
         private static const _SafeStr_9835:Point = new Point();
 
         protected var _events:WindowEventDispatcher;
-        protected var _SafeStr_9166:IGraphicContext;
+        protected var _graphicContext:IGraphicContext;
         protected var _procedure:Function;
         protected var _SafeStr_9161:Boolean = true;
         protected var _parent:WindowController;
@@ -57,8 +57,8 @@ package com.sulake.core.window
                 _arg_6 = new Rectangle(0, 0, ((_local_12) ? int(_local_12.attribute("width")) : 10), ((_local_12) ? int(_local_12.attribute("height")) : 10));
             };
             super(_arg_11, _arg_1, _arg_2, _arg_3, _arg_4, _arg_5, _arg_6, _arg_10);
-            if (!this._SafeStr_9166){
-                this._SafeStr_9166 = this.getGraphicContext(!(testParamFlag(WindowParam._SafeStr_7443)));
+            if (!this._graphicContext){
+                this._graphicContext = this.getGraphicContext(!(testParamFlag(WindowParam._SafeStr_7443)));
             };
             this._children = new Array();
             this._SafeStr_9838 = new Rectangle();
@@ -97,7 +97,7 @@ package com.sulake.core.window
             if (_arg_7 != null){
                 this._parent = (_arg_7 as WindowController);
                 WindowController(_arg_7).addChild(this);
-                if (this._SafeStr_9166){
+                if (this._graphicContext){
                     _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
                 };
             };
@@ -318,8 +318,8 @@ package com.sulake.core.window
         {
             if (_arg_1 != _visible){
                 _visible = _arg_1;
-                if (this._SafeStr_9166){
-                    this._SafeStr_9166.visible = _arg_1;
+                if (this._graphicContext){
+                    this._graphicContext.visible = _arg_1;
                 };
                 _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
             };
@@ -448,39 +448,39 @@ package com.sulake.core.window
         }
         public function hasGraphicsContext():Boolean
         {
-            return (((!((this._SafeStr_9166 == null))) || (!(testParamFlag(WindowParam._SafeStr_7443)))));
+            return (((!((this._graphicContext == null))) || (!(testParamFlag(WindowParam._SafeStr_7443)))));
         }
         public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
-            if (((_arg_1) && (!(this._SafeStr_9166)))){
-                this._SafeStr_9166 = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_BITMAP, _rectangle);
-                this._SafeStr_9166.visible = _visible;
+            if (((_arg_1) && (!(this._graphicContext)))){
+                this._graphicContext = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_BITMAP, _rectangle);
+                this._graphicContext.visible = _visible;
             };
-            return (this._SafeStr_9166);
+            return (this._graphicContext);
         }
         public function setupGraphicsContext():IGraphicContext
         {
             var _local_1:int;
             var _local_2:WindowController;
-            this._SafeStr_9166 = this.getGraphicContext(true);
+            this._graphicContext = this.getGraphicContext(true);
             if (this._parent){
                 this._parent.setupGraphicsContext();
             };
             if (this._children.length > 0){
-                if (this._SafeStr_9166.numChildContexts != this.numChildren){
+                if (this._graphicContext.numChildContexts != this.numChildren){
                     _local_1 = 0;
                     for each (_local_2 in this._children) {
-                        this._SafeStr_9166.addChildContextAt(_local_2.getGraphicContext(true), _local_1++);
+                        this._graphicContext.addChildContextAt(_local_2.getGraphicContext(true), _local_1++);
                     };
                 };
             };
             this._SafeStr_9837 = true;
-            return (this._SafeStr_9166);
+            return (this._graphicContext);
         }
         public function releaseGraphicsContext():void
         {
             this._SafeStr_9837 = false;
-            if (this._SafeStr_9166){
+            if (this._graphicContext){
             };
         }
         public function clone():IWindow
@@ -549,9 +549,9 @@ package com.sulake.core.window
                         this._events = null;
                     };
                 };
-                if (this._SafeStr_9166 != null){
-                    this._SafeStr_9166.dispose();
-                    this._SafeStr_9166 = null;
+                if (this._graphicContext != null){
+                    this._graphicContext.dispose();
+                    this._graphicContext = null;
                 };
                 super.dispose();
             };
@@ -1381,14 +1381,14 @@ package com.sulake.core.window
             _param = ((_arg_2) ? _param = (_param | _arg_1) : _param = (_param & ~(_arg_1)));
             if (_param != _local_3){
                 if (!(_param & WindowParam._SafeStr_7443)){
-                    if (!this._SafeStr_9166){
+                    if (!this._graphicContext){
                         this.setupGraphicsContext();
                         _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
                     };
                 }
                 else {
                     if ((_param & WindowParam._SafeStr_7443)){
-                        if (this._SafeStr_9166){
+                        if (this._graphicContext){
                             _context.invalidate(this, _rectangle, WindowRedrawFlag._SafeStr_9133);
                         };
                     };
@@ -1816,8 +1816,8 @@ package com.sulake.core.window
             _local_2.parent = this;
             if (((this._SafeStr_9837) || (_local_2.hasGraphicsContext()))){
                 this.setupGraphicsContext();
-                if (_local_2.getGraphicContext(true).parent != this._SafeStr_9166){
-                    this._SafeStr_9166.addChildContext(_local_2.getGraphicContext(true));
+                if (_local_2.getGraphicContext(true).parent != this._graphicContext){
+                    this._graphicContext.addChildContext(_local_2.getGraphicContext(true));
                 };
             };
             var _local_3:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, _arg_1);
@@ -1835,8 +1835,8 @@ package com.sulake.core.window
             _local_3.parent = this;
             if (((this._SafeStr_9837) || (_local_3.hasGraphicsContext()))){
                 this.setupGraphicsContext();
-                if (_local_3.getGraphicContext(true).parent != this._SafeStr_9166){
-                    this._SafeStr_9166.addChildContextAt(_local_3.getGraphicContext(true), _arg_2);
+                if (_local_3.getGraphicContext(true).parent != this._graphicContext){
+                    this._graphicContext.addChildContextAt(_local_3.getGraphicContext(true), _arg_2);
                 };
             };
             var _local_4:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, _arg_1);
@@ -1922,7 +1922,7 @@ package com.sulake.core.window
             var _local_3:WindowController = WindowController(_arg_1);
             _local_3.parent = null;
             if (_local_3.hasGraphicsContext()){
-                this._SafeStr_9166.removeChildContext(_local_3.getGraphicContext(true));
+                this._graphicContext.removeChildContext(_local_3.getGraphicContext(true));
             };
             var _local_4:WindowEvent = WindowEvent.allocate(WindowEvent.WE_CHILD_REMOVED, this, _arg_1);
             this.update(this, _local_4);
@@ -1942,7 +1942,7 @@ package com.sulake.core.window
                 this._children.splice(_arg_2, 0, _arg_1);
                 _local_4 = WindowController(_arg_1);
                 if (_local_4.hasGraphicsContext()){
-                    this._SafeStr_9166.setChildContextIndex(_local_4.getGraphicContext(true), this.getChildIndex(_local_4));
+                    this._graphicContext.setChildContextIndex(_local_4.getGraphicContext(true), this.getChildIndex(_local_4));
                 };
             };
         }
@@ -1974,14 +1974,14 @@ package com.sulake.core.window
                 this._children.splice(_local_3, 0, _arg_2);
                 this._children.splice(_local_4, 0, _arg_1);
                 if (((WindowController(_arg_1).hasGraphicsContext()) || (WindowController(_arg_2).hasGraphicsContext()))){
-                    this._SafeStr_9166.swapChildContexts(WindowController(_arg_1).getGraphicContext(true), WindowController(_arg_2).getGraphicContext(true));
+                    this._graphicContext.swapChildContexts(WindowController(_arg_1).getGraphicContext(true), WindowController(_arg_2).getGraphicContext(true));
                 };
             };
         }
         public function swapChildrenAt(_arg_1:int, _arg_2:int):void
         {
             this.swapChildren(this._children[_arg_1], this._children[_arg_2]);
-            this._SafeStr_9166.swapChildContextsAt(_arg_1, _arg_2);
+            this._graphicContext.swapChildContextsAt(_arg_1, _arg_2);
         }
         public function groupChildrenWithID(_arg_1:uint, _arg_2:Array, _arg_3:Boolean=false):uint
         {
@@ -2115,7 +2115,7 @@ package com.sulake.core.window
 // _background = "_-35x" (String#21726, DoABC#2)
 // _background = "_-zD" (String#24660, DoABC#2)
 // _SafeStr_9165 = "_-2Yy" (String#20394, DoABC#2)
-// _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
+// _graphicContext = "_-1or" (String#18492, DoABC#2)
 // WE_ACTIVATE = "_-3Ek" (String#22065, DoABC#2)
 // _SafeStr_9170 = "_-2FR" (String#19621, DoABC#2)
 // setupGraphicsContext = "_-0r-" (String#16084, DoABC#2)

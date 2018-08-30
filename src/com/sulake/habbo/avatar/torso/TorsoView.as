@@ -35,10 +35,10 @@ package com.sulake.habbo.avatar.torso
             };
             if (!_SafeStr_5402){
                 _SafeStr_5402 = new Dictionary();
-                _SafeStr_5402[FigureData._SafeStr_6611] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6611, _windowManager, _assetLibrary);
-                _SafeStr_5402[FigureData._SafeStr_6612] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6612, _windowManager, _assetLibrary);
-                _SafeStr_5402[FigureData._SafeStr_6613] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6613, _windowManager, _assetLibrary);
-                _SafeStr_5402[FigureData.CHEST_PRINTS] = new AvatarEditorGridView(_SafeStr_4830, FigureData.CHEST_PRINTS, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6611] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6611, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6612] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6612, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6613] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6613, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData.CHEST_PRINTS] = new AvatarEditorGridView(_modelController, FigureData.CHEST_PRINTS, _windowManager, _assetLibrary);
             }
             else {
                 for each (_local_2 in _SafeStr_5402) {
@@ -47,14 +47,14 @@ package com.sulake.habbo.avatar.torso
             };
             _isInitialized = true;
             attachImages();
-            if (((_SafeStr_4830) && ((_SafeStr_5400 == "")))){
-                _SafeStr_4830.switchCategory(FigureData._SafeStr_6612);
+            if (((_modelController) && ((_SafeStr_5400 == "")))){
+                _modelController.switchCategory(FigureData._SafeStr_6612);
             };
         }
         override public function dispose():void
         {
             super.dispose();
-            _SafeStr_4830 = null;
+            _modelController = null;
         }
         public function switchCategory(_arg_1:String):void
         {
@@ -148,7 +148,7 @@ package com.sulake.habbo.avatar.torso
 // TorsoView = "_-0cS" (String#4352, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)
 // _SafeStr_5402 = "_-0Lb" (String#14897, DoABC#2)
 // initFromList = "_-ME" (String#23093, DoABC#2)

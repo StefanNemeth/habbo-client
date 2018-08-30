@@ -22,14 +22,14 @@ package com.sulake.habbo.inventory.badges
 
         private var _windowManager:IHabboWindowManager;
         private var _view:IWindowContainer;
-        private var _SafeStr_4830:BadgesModel;
+        private var _modelController:BadgesModel;
         private var _SafeStr_8564:IItemGridWindow;
         private var _SafeStr_8565:IItemGridWindow;
         private var _disposed:Boolean = false;
 
         public function BadgesView(_arg_1:BadgesModel, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._windowManager = _arg_2;
             var _local_4:IAsset = _arg_3.getAssetByName("inventory_badges_xml");
             var _local_5:XmlAsset = XmlAsset(_local_4);
@@ -55,7 +55,7 @@ package com.sulake.habbo.inventory.badges
             };
             this._disposed = true;
             this._windowManager = null;
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             this._SafeStr_8564 = null;
             this._SafeStr_8565 = null;
             if (this._view){
@@ -88,7 +88,7 @@ package com.sulake.habbo.inventory.badges
             var _local_1:Number = this._SafeStr_8564.scrollV;
             this._SafeStr_8564.removeGridItems();
             this._SafeStr_8565.removeGridItems();
-            var _local_2:Array = this._SafeStr_4830.getBadges(BadgesModel._SafeStr_8541);
+            var _local_2:Array = this._modelController.getBadges(BadgesModel._SafeStr_8541);
             var _local_4:int;
             while (_local_4 < _local_2.length) {
                 _local_3 = (_local_2[_local_4] as Badge);
@@ -101,7 +101,7 @@ package com.sulake.habbo.inventory.badges
             if (_local_1 > 0){
                 this._SafeStr_8564.scrollV = _local_1;
             };
-            var _local_5:Array = this._SafeStr_4830.getBadges(BadgesModel._SafeStr_8542);
+            var _local_5:Array = this._modelController.getBadges(BadgesModel._SafeStr_8542);
             _local_4 = 0;
             while (_local_4 < _local_5.length) {
                 _local_3 = (_local_5[_local_4] as Badge);
@@ -120,7 +120,7 @@ package com.sulake.habbo.inventory.badges
             if (_local_1 == null){
                 return;
             };
-            var _local_2:Badge = this._SafeStr_4830.getSelectedBadge();
+            var _local_2:Badge = this._modelController.getSelectedBadge();
             if (_local_2 == null){
                 _local_1.disable();
                 this.setBadgeName(null);
@@ -134,11 +134,11 @@ package com.sulake.habbo.inventory.badges
                 else {
                     _local_1.caption = "${inventory.badges.wearbadge}";
                 };
-                this.setBadgeName(this._SafeStr_4830.controller.localization.getBadgeName(_local_2.type));
-                this.setBadgeDescriptionText(this._SafeStr_4830.controller.localization.getBadgeDesc(_local_2.type));
+                this.setBadgeName(this._modelController.controller.localization.getBadgeName(_local_2.type));
+                this.setBadgeDescriptionText(this._modelController.controller.localization.getBadgeDesc(_local_2.type));
                 this.setBadgeDescriptionImage(_local_2.iconImage);
-                _local_3 = this._SafeStr_4830.getBadges(BadgesModel._SafeStr_8542);
-                if (((((!((_local_3 == null))) && ((_local_3.length >= this._SafeStr_4830.getMaxActiveCount())))) && (!(_local_2.isInUse)))){
+                _local_3 = this._modelController.getBadges(BadgesModel._SafeStr_8542);
+                if (((((!((_local_3 == null))) && ((_local_3.length >= this._modelController.getMaxActiveCount())))) && (!(_local_2.isInUse)))){
                     _local_1.disable();
                 }
                 else {
@@ -204,24 +204,24 @@ package com.sulake.habbo.inventory.badges
         private function onInactiveBadgeClick(_arg_1:WindowEvent):void
         {
             var _local_2:int = this._SafeStr_8564.getGridItemIndex(_arg_1.window);
-            var _local_3:Badge = this._SafeStr_4830.getBadgeFromInactive(_local_2);
+            var _local_3:Badge = this._modelController.getBadgeFromInactive(_local_2);
             if (_local_3 != null){
-                this._SafeStr_4830.setBadgeSelected(_local_3.type);
+                this._modelController.setBadgeSelected(_local_3.type);
             };
         }
         private function onActiveBadgeClick(_arg_1:WindowEvent):void
         {
             var _local_2:int = this._SafeStr_8565.getGridItemIndex(_arg_1.window);
-            var _local_3:Badge = this._SafeStr_4830.getBadgeFromActive(_local_2);
+            var _local_3:Badge = this._modelController.getBadgeFromActive(_local_2);
             if (_local_3 != null){
-                this._SafeStr_4830.setBadgeSelected(_local_3.type);
+                this._modelController.setBadgeSelected(_local_3.type);
             };
         }
         private function onWearBadgeClick(_arg_1:WindowEvent):void
         {
-            var _local_2:Badge = this._SafeStr_4830.getSelectedBadge();
+            var _local_2:Badge = this._modelController.getSelectedBadge();
             if (_local_2 != null){
-                this._SafeStr_4830.toggleBadgeWearing(_local_2.type);
+                this._modelController.toggleBadgeWearing(_local_2.type);
             };
         }
 
@@ -234,7 +234,7 @@ package com.sulake.habbo.inventory.badges
 // IInventoryView = "_-1g8" (String#5665, DoABC#2)
 // Badge = "_-244" (String#19179, DoABC#2)
 // isInUse = "_-2LN" (String#6469, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // removeGridItems = "_-1Bp" (String#5106, DoABC#2)
 // addGridItem = "_-2vh" (String#7192, DoABC#2)
 // getWindowContainer = "_-v8" (String#313, DoABC#2)

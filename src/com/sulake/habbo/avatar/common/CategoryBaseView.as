@@ -22,14 +22,14 @@ package com.sulake.habbo.avatar.common
         protected var _SafeStr_5402:Dictionary;
         protected var _SafeStr_5400:String = "";
         protected var _SafeStr_6466:String = "";
-        protected var _SafeStr_4830:IAvatarEditorCategoryModel;
+        protected var _modelController:IAvatarEditorCategoryModel;
         protected var _isInitialized:Boolean;
 
         public function CategoryBaseView(_arg_1:IHabboWindowManager, _arg_2:IAssetLibrary, _arg_3:IAvatarEditorCategoryModel)
         {
             this._assetLibrary = _arg_2;
             this._windowManager = _arg_1;
-            this._SafeStr_4830 = _arg_3;
+            this._modelController = _arg_3;
         }
         public function dispose():void
         {
@@ -47,7 +47,7 @@ package com.sulake.habbo.avatar.common
             };
             this._assetLibrary = null;
             this._windowManager = null;
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             this._isInitialized = false;
         }
         public function init():void
@@ -185,7 +185,7 @@ package com.sulake.habbo.avatar.common
 // CategoryBaseView = "_-2Mf" (String#6492, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // setElementImage = "_-1IU" (String#302, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // getWindowContainer = "_-v8" (String#313, DoABC#2)
 // showPalettes = "_-3AL" (String#7520, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)

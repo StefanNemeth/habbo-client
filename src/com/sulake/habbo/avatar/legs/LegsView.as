@@ -36,9 +36,9 @@ package com.sulake.habbo.avatar.legs
             };
             if (!_SafeStr_5402){
                 _SafeStr_5402 = new Dictionary();
-                _SafeStr_5402[FigureData._SafeStr_6463] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6463, _windowManager, _assetLibrary);
-                _SafeStr_5402[FigureData._SafeStr_6464] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6464, _windowManager, _assetLibrary);
-                _SafeStr_5402[FigureData._SafeStr_6465] = new AvatarEditorGridView(_SafeStr_4830, FigureData._SafeStr_6465, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6463] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6463, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6464] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6464, _windowManager, _assetLibrary);
+                _SafeStr_5402[FigureData._SafeStr_6465] = new AvatarEditorGridView(_modelController, FigureData._SafeStr_6465, _windowManager, _assetLibrary);
             }
             else {
                 for each (_local_2 in _SafeStr_5402) {
@@ -47,8 +47,8 @@ package com.sulake.habbo.avatar.legs
             };
             _isInitialized = true;
             attachImages();
-            if (((_SafeStr_4830) && ((_SafeStr_5400 == "")))){
-                _SafeStr_4830.switchCategory(FigureData._SafeStr_6463);
+            if (((_modelController) && ((_SafeStr_5400 == "")))){
+                _modelController.switchCategory(FigureData._SafeStr_6463);
             };
         }
         public function switchCategory(_arg_1:String):void
@@ -135,7 +135,7 @@ package com.sulake.habbo.avatar.legs
 // LegsView = "_-0hu" (String#4465, DoABC#2)
 // AvatarEditorGridView = "_-28U" (String#6213, DoABC#2)
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // _SafeStr_5400 = "_-1zp" (String#18961, DoABC#2)
 // _SafeStr_5402 = "_-0Lb" (String#14897, DoABC#2)
 // initFromList = "_-ME" (String#23093, DoABC#2)

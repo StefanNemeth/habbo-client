@@ -29,7 +29,7 @@ package com.sulake.habbo.avatar.common
         private const _SafeStr_9949:int = 0xFFFFFF;
         private const _SafeStr_9950:Array = [2, 6, 0, 4, 3, 1];
 
-        private var _SafeStr_4830:IAvatarEditorCategoryModel;
+        private var _modelController:IAvatarEditorCategoryModel;
         private var _window:IWindowContainer;
         private var _SafeStr_8491:IWindow;
         private var _partSet:IFigurePartSet;
@@ -75,7 +75,7 @@ package com.sulake.habbo.avatar.common
             var _local_6:IFigurePart;
             var _local_7:Array;
             super();
-            this._SafeStr_4830 = _arg_2;
+            this._modelController = _arg_2;
             this._partSet = _arg_3;
             this._window = _arg_1;
             this._SafeStr_8491 = this._window.findChildByTag("BG_COLOR");
@@ -90,12 +90,12 @@ package com.sulake.habbo.avatar.common
                     this._colorLayerCount = Math.max(this._colorLayerCount, _local_6.colorLayerIndex);
                 };
             };
-            this._renderManager = this._SafeStr_4830.controller.manager.avatarRenderManager;
+            this._renderManager = this._modelController.controller.manager.avatarRenderManager;
             this.updateThumbVisualization();
         }
         public function dispose():void
         {
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             this._partSet = null;
             if (this._window != null){
                 if (!this._window.disposed){
@@ -218,7 +218,7 @@ package com.sulake.habbo.avatar.common
             var _local_3:String;
             var _local_4:BitmapDataAsset;
             var _local_5:BitmapData;
-            if (this._SafeStr_4830 == null){
+            if (this._modelController == null){
                 this._SafeStr_9953 = null;
                 return (false);
             };
@@ -281,13 +281,13 @@ package com.sulake.habbo.avatar.common
             if (this.partSet == null){
                 return (null);
             };
-            if (this._SafeStr_4830 == null){
+            if (this._modelController == null){
                 return (null);
             };
             if (this._SafeStr_9953 == null){
                 if (!this.analyzePartLayers()){
                     if (!this._SafeStr_9956){
-                        _local_9 = this._SafeStr_4830.controller.manager.assets.getAssetByName("avatar_editor_download_icon");
+                        _local_9 = this._modelController.controller.manager.assets.getAssetByName("avatar_editor_download_icon");
                         this._SafeStr_9956 = (_local_9.content as BitmapData);
                     };
                     return (this._SafeStr_9956);
@@ -380,7 +380,7 @@ package com.sulake.habbo.avatar.common
 // _SafeStr_3943 = "_-xn" (String#24604, DoABC#2)
 // IAvatarRenderManager = "_-C9" (String#7915, DoABC#2)
 // _disposed = "_-6m" (String#31, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // iconImage = "_-0Pn" (String#4088, DoABC#2)
 // avatarImageReady = "_-i" (String#8553, DoABC#2)
 // colorLayerIndex = "_-05t" (String#3683, DoABC#2)

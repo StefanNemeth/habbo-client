@@ -13,7 +13,7 @@ package com.sulake.habbo.room.object.visualization.pet
 
         private var _SafeStr_4487:Map;
         private var _SafeStr_4488:Map;
-        private var _SafeStr_4489:String;
+        private var _postureForAnimation:String;
 
         public function PetAnimationSizeData(_arg_1:int, _arg_2:int)
         {
@@ -30,10 +30,10 @@ package com.sulake.habbo.room.object.visualization.pet
                 return (false);
             };
             if (XMLValidator.checkRequiredAttributes(_arg_1, ["defaultPosture"])){
-                this._SafeStr_4489 = _arg_1.@defaultPosture;
+                this._postureForAnimation = _arg_1.@defaultPosture;
             }
             else {
-                this._SafeStr_4489 = null;
+                this._postureForAnimation = null;
             };
             var _local_2:Array = ["id", "animationId"];
             var _local_3:XMLList = _arg_1.posture;
@@ -46,12 +46,12 @@ package com.sulake.habbo.room.object.visualization.pet
                 _local_6 = String(_local_5.@id);
                 _local_7 = int(_local_5.@animationId);
                 this._SafeStr_4487.add(_local_6, _local_7);
-                if (this._SafeStr_4489 == null){
-                    this._SafeStr_4489 = _local_6;
+                if (this._postureForAnimation == null){
+                    this._postureForAnimation = _local_6;
                 };
                 _local_4++;
             };
-            if (this._SafeStr_4487.getValue(this._SafeStr_4489) == null){
+            if (this._SafeStr_4487.getValue(this._postureForAnimation) == null){
                 return (false);
             };
             return (true);
@@ -82,7 +82,7 @@ package com.sulake.habbo.room.object.visualization.pet
         public function getAnimationForPosture(_arg_1:String):int
         {
             if (this._SafeStr_4487.getValue(_arg_1) == null){
-                _arg_1 = this._SafeStr_4489;
+                _arg_1 = this._postureForAnimation;
             };
             return (this._SafeStr_4487.getValue(_arg_1));
         }
@@ -98,7 +98,7 @@ package com.sulake.habbo.room.object.visualization.pet
             if ((((_arg_1 >= 0)) && ((_arg_1 < this._SafeStr_4487.length)))){
                 return (this._SafeStr_4487.getKey(_arg_1));
             };
-            return (this._SafeStr_4489);
+            return (this._postureForAnimation);
         }
         public function getGestureForAnimation(_arg_1:int):String
         {
@@ -132,6 +132,6 @@ package com.sulake.habbo.room.object.visualization.pet
 // _SafeStr_4414 = "_-0MY" (String#14934, DoABC#2)
 // _SafeStr_4487 = "_-vV" (String#24508, DoABC#2)
 // _SafeStr_4488 = "_-0AM" (String#14462, DoABC#2)
-// _SafeStr_4489 = "_-1mk" (String#18411, DoABC#2)
+// _postureForAnimation = "_-1mk" (String#18411, DoABC#2)
 
 

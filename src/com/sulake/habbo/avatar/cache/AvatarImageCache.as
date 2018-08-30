@@ -35,12 +35,12 @@ package com.sulake.habbo.avatar.cache
         private var _avatar:IAvatarImage;
         private var _assets:AssetAliasCollection;
         private var _scale:String;
-        private var _SafeStr_7920:Map;
+        private var _cache:Map;
         private var _canvas:AvatarCanvas;
         private var _disposed:Boolean;
         private var _bodyPartCache:AvatarImageBodyPartCache;
         private var _SafeStr_7921:IActiveActionData;
-        private var _SafeStr_7922:AvatarImageBodyPartContainer;
+        private var _imageContainer:AvatarImageBodyPartContainer;
         private var _bodyPartId:String;
         private var _SafeStr_7924:AvatarImagePartContainer;
         private var _SafeStr_7925:Point;
@@ -66,7 +66,7 @@ package com.sulake.habbo.avatar.cache
             this._avatar = _arg_2;
             this._assets = _arg_3;
             this._scale = _arg_4;
-            this._SafeStr_7920 = new Map();
+            this._cache = new Map();
         }
         public function dispose():void
         {
@@ -79,16 +79,16 @@ package com.sulake.habbo.avatar.cache
             this._structure = null;
             this._avatar = null;
             this._assets = null;
-            if (this._SafeStr_7920 != null){
-                _local_2 = this._SafeStr_7920.getKeys();
+            if (this._cache != null){
+                _local_2 = this._cache.getKeys();
                 for each (_local_3 in _local_2) {
-                    _local_1 = (this._SafeStr_7920.getValue(_local_3) as AvatarImageBodyPartCache);
+                    _local_1 = (this._cache.getValue(_local_3) as AvatarImageBodyPartCache);
                     if (_local_1 != null){
                         _local_1.dispose();
                     };
                 };
-                this._SafeStr_7920.dispose();
-                this._SafeStr_7920 = null;
+                this._cache.dispose();
+                this._cache = null;
             };
             this._canvas = null;
             this._asset = null;
@@ -104,9 +104,9 @@ package com.sulake.habbo.avatar.cache
             var _local_3:AvatarImageBodyPartCache;
             var _local_5:String;
             var _local_2:int = getTimer();
-            var _local_4:Array = this._SafeStr_7920.getKeys();
+            var _local_4:Array = this._cache.getKeys();
             for each (_local_5 in _local_4) {
-                _local_3 = (this._SafeStr_7920.getValue(_local_5) as AvatarImageBodyPartCache);
+                _local_3 = (this._cache.getValue(_local_5) as AvatarImageBodyPartCache);
                 if (_local_3 != null){
                     _local_3.disposeActions(_arg_1, _local_2);
                 };
@@ -116,9 +116,9 @@ package com.sulake.habbo.avatar.cache
         {
             var _local_2:AvatarImageBodyPartCache;
             var _local_4:String;
-            var _local_3:Array = this._SafeStr_7920.getKeys();
+            var _local_3:Array = this._cache.getKeys();
             for each (_local_4 in _local_3) {
-                _local_2 = (this._SafeStr_7920.getValue(_local_4) as AvatarImageBodyPartCache);
+                _local_2 = (this._cache.getValue(_local_4) as AvatarImageBodyPartCache);
                 if (_local_2 != null){
                     _local_2.setAction(_arg_1, 0);
                 };
@@ -173,7 +173,7 @@ package com.sulake.habbo.avatar.cache
             this._bodyPartCache = this.getBodyPartCache(_arg_1);
             if (this._bodyPartCache == null){
                 this._bodyPartCache = new AvatarImageBodyPartCache();
-                this._SafeStr_7920.add(_arg_1, this._bodyPartCache);
+                this._cache.add(_arg_1, this._bodyPartCache);
             };
             var _local_3:int = this._bodyPartCache.getDirection();
             var _local_4:int = _arg_2;
@@ -251,26 +251,26 @@ package com.sulake.habbo.avatar.cache
                 _local_10 = new AvatarImageDirectionCache(_local_15);
                 _local_9.updateDirectionCache(_local_3, _local_10);
             };
-            this._SafeStr_7922 = _local_10.getImageContainer(_local_4);
-            if (this._SafeStr_7922 == null){
+            this._imageContainer = _local_10.getImageContainer(_local_4);
+            if (this._imageContainer == null){
                 _local_16 = _local_10.getPartList();
-                this._SafeStr_7922 = this.renderBodyPart(_local_3, _local_16, _local_4, this._SafeStr_7921);
-                if (this._SafeStr_7922 != null){
-                    _local_10.updateImageContainer(this._SafeStr_7922, _local_4);
+                this._imageContainer = this.renderBodyPart(_local_3, _local_16, _local_4, this._SafeStr_7921);
+                if (this._imageContainer != null){
+                    _local_10.updateImageContainer(this._imageContainer, _local_4);
                 }
                 else {
                     return (null);
                 };
             };
-            this._SafeStr_7922.offset = _local_8;
-            return (this._SafeStr_7922);
+            this._imageContainer.offset = _local_8;
+            return (this._imageContainer);
         }
         public function getBodyPartCache(_arg_1:String):AvatarImageBodyPartCache
         {
-            var _local_2:AvatarImageBodyPartCache = (this._SafeStr_7920.getValue(_arg_1) as AvatarImageBodyPartCache);
+            var _local_2:AvatarImageBodyPartCache = (this._cache.getValue(_arg_1) as AvatarImageBodyPartCache);
             if (_local_2 == null){
                 _local_2 = new AvatarImageBodyPartCache();
-                this._SafeStr_7920.add(_arg_1, _local_2);
+                this._cache.add(_arg_1, _local_2);
             };
             return (_local_2);
         }
@@ -487,9 +487,9 @@ package com.sulake.habbo.avatar.cache
 // isColorable = "_-0df" (String#4384, DoABC#2)
 // _SafeStr_7388 = "_-0YE" (String#15366, DoABC#2)
 // _SafeStr_7919 = "_-3KT" (String#22303, DoABC#2)
-// _SafeStr_7920 = "_-Fe" (String#636, DoABC#2)
+// _cache = "_-Fe" (String#636, DoABC#2)
 // _SafeStr_7921 = "_-2bn" (String#20514, DoABC#2)
-// _SafeStr_7922 = "_-3AP" (String#2014, DoABC#2)
+// _imageContainer = "_-3AP" (String#2014, DoABC#2)
 // _bodyPartId = "_-Ys" (String#8390, DoABC#2)
 // _SafeStr_7924 = "_-kj" (String#24058, DoABC#2)
 // _SafeStr_7925 = "_-0Yt" (String#15397, DoABC#2)

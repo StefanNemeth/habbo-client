@@ -15,14 +15,14 @@ package com.sulake.habbo.navigator.roomsettings
         private var _window:IFrameWindow;
         private var _SafeStr_6967:Function;
         private var _SafeStr_6968:Object;
-        private var _SafeStr_6969:Array;
+        private var _messageArray:Array;
 
         public function ConfirmDialogView(_arg_1:IFrameWindow, _arg_2:Object, _arg_3:Function, _arg_4:Array)
         {
             this._window = _arg_1;
             this._SafeStr_6967 = _arg_3;
             this._SafeStr_6968 = _arg_2;
-            this._SafeStr_6969 = _arg_4;
+            this._messageArray = _arg_4;
             this._window.findChildByTag("close").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
             this._window.findChildByName("cancel").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onCancel);
             this._window.findChildByName("ok").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onOk);
@@ -33,7 +33,7 @@ package com.sulake.habbo.navigator.roomsettings
         }
         private function onOk(_arg_1:WindowMouseEvent):void
         {
-            this._SafeStr_6967.apply(this._SafeStr_6968, [_arg_1].concat(this._SafeStr_6969));
+            this._SafeStr_6967.apply(this._SafeStr_6968, [_arg_1].concat(this._messageArray));
             this.dispose();
         }
         public function show():void
@@ -76,7 +76,7 @@ package com.sulake.habbo.navigator.roomsettings
 // getLocationRelativeTo = "_-2tz" (String#21236, DoABC#2)
 // _SafeStr_6967 = "_-1Ff" (String#17102, DoABC#2)
 // _SafeStr_6968 = "_-1Kg" (String#17301, DoABC#2)
-// _SafeStr_6969 = "_-0uz" (String#1576, DoABC#2)
+// _messageArray = "_-0uz" (String#1576, DoABC#2)
 // onCancel = "_-3JX" (String#633, DoABC#2)
 // onOk = "_-39j" (String#457, DoABC#2)
 

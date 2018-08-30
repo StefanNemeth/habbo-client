@@ -10,8 +10,8 @@ package com.sulake.habbo.room.object.visualization.room.mask
 
         private var _SafeStr_12845:Map;
         private var _sizes:Array;
-        private var _SafeStr_12846:PlaneMaskVisualization = null;
-        private var _SafeStr_12605:int = -1;
+        private var _maskVisualization:PlaneMaskVisualization = null;
+        private var _size:int = -1;
 
         public function PlaneMask()
         {
@@ -36,7 +36,7 @@ package com.sulake.habbo.room.object.visualization.room.mask
                 this._SafeStr_12845.dispose();
                 this._SafeStr_12845 = null;
             };
-            this._SafeStr_12846 = null;
+            this._maskVisualization = null;
             this._sizes = null;
         }
         public function createMaskVisualization(_arg_1:int):PlaneMaskVisualization
@@ -68,18 +68,18 @@ package com.sulake.habbo.room.object.visualization.room.mask
         }
         protected function getMaskVisualization(_arg_1:int):PlaneMaskVisualization
         {
-            if (_arg_1 == this._SafeStr_12605){
-                return (this._SafeStr_12846);
+            if (_arg_1 == this._size){
+                return (this._maskVisualization);
             };
             var _local_2:int = this.getSizeIndex(_arg_1);
             if (_local_2 < this._sizes.length){
-                this._SafeStr_12846 = (this._SafeStr_12845.getValue(String(this._sizes[_local_2])) as PlaneMaskVisualization);
+                this._maskVisualization = (this._SafeStr_12845.getValue(String(this._sizes[_local_2])) as PlaneMaskVisualization);
             }
             else {
-                this._SafeStr_12846 = null;
+                this._maskVisualization = null;
             };
-            this._SafeStr_12605 = _arg_1;
-            return (this._SafeStr_12846);
+            this._size = _arg_1;
+            return (this._maskVisualization);
         }
         public function getGraphicAsset(_arg_1:Number, _arg_2:IVector3d):IGraphicAsset
         {
@@ -93,12 +93,12 @@ package com.sulake.habbo.room.object.visualization.room.mask
     }
 }//package com.sulake.habbo.room.object.visualization.room.mask
 
-// _SafeStr_12605 = "_-iJ" (String#2164, DoABC#2)
+// _size = "_-iJ" (String#2164, DoABC#2)
 // getSizeIndex = "_-0Wx" (String#1494, DoABC#2)
 // createMaskVisualization = "_-0nN" (String#15951, DoABC#2)
 // getGraphicAsset = "_-2Gu" (String#19679, DoABC#2)
 // _SafeStr_12845 = "_-1wR" (String#18818, DoABC#2)
-// _SafeStr_12846 = "_-2vk" (String#21304, DoABC#2)
+// _maskVisualization = "_-2vk" (String#21304, DoABC#2)
 // getMaskVisualization = "_-rW" (String#24339, DoABC#2)
 // IVector3d = "_-hf" (String#8547, DoABC#2)
 // IGraphicAsset = "_-1HF" (String#5195, DoABC#2)

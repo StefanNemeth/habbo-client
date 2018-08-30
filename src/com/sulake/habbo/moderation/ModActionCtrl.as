@@ -25,7 +25,7 @@ package com.sulake.habbo.moderation
 
         private var _help:ModerationManager;
         private var _SafeStr_11909:int;
-        private var _SafeStr_11910:String;
+        private var _id:String;
         private var _SafeStr_11848:String;
         private var _frame:IFrameWindow;
         private var _SafeStr_11913:IDropMenuWindow;
@@ -41,7 +41,7 @@ package com.sulake.habbo.moderation
         {
             this._help = _arg_1;
             this._SafeStr_11909 = _arg_2;
-            this._SafeStr_11910 = _arg_3;
+            this._id = _arg_3;
             this._SafeStr_11848 = _arg_4;
             if (_SafeStr_11912 == null){
                 _SafeStr_11912 = new Array();
@@ -79,7 +79,7 @@ package com.sulake.habbo.moderation
         public function show():void
         {
             this._frame = IFrameWindow(this._help.getXmlWindow("modact_summary"));
-            this._frame.caption = ("Mod action on: " + this._SafeStr_11910);
+            this._frame.caption = ("Mod action on: " + this._id);
             this._frame.findChildByName("send_caution_but").procedure = this.onSendCautionButton;
             this._frame.findChildByName("kick_but").procedure = this.onKickButton;
             this._frame.findChildByName("ban_but").procedure = this.onBanButton;
@@ -155,7 +155,7 @@ package com.sulake.habbo.moderation
         }
         public function getId():String
         {
-            return (this._SafeStr_11910);
+            return (this._id);
         }
         public function getFrame():IFrameWindow
         {
@@ -315,7 +315,7 @@ package com.sulake.habbo.moderation
 // onInputClick = "_-2zA" (String#907, DoABC#2)
 // _SafeStr_11848 = "_-2-7" (String#1795, DoABC#2)
 // _SafeStr_11909 = "_-1OJ" (String#5319, DoABC#2)
-// _SafeStr_11910 = "_-US" (String#8292, DoABC#2)
+// _id = "_-US" (String#8292, DoABC#2)
 // _SafeStr_11912 = "_-12V" (String#16559, DoABC#2)
 // _SafeStr_11913 = "_-0Pg" (String#15049, DoABC#2)
 // _SafeStr_11914 = "_-EY" (String#22794, DoABC#2)

@@ -161,10 +161,10 @@ package com.sulake.core.window.components
         }
         override public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
-            if (((_arg_1) && (!(_SafeStr_9166)))){
-                _SafeStr_9166 = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_TEXTFIELD, _rectangle);
+            if (((_arg_1) && (!(_graphicContext)))){
+                _graphicContext = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_TEXTFIELD, _rectangle);
             };
-            return (_SafeStr_9166);
+            return (_graphicContext);
         }
         override public function dispose():void
         {
@@ -429,7 +429,7 @@ package com.sulake.core.window.components
 // _background = "_-35x" (String#21726, DoABC#2)
 // _background = "_-zD" (String#24660, DoABC#2)
 // _SafeStr_9165 = "_-2Yy" (String#20394, DoABC#2)
-// _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
+// _graphicContext = "_-1or" (String#18492, DoABC#2)
 // WE_ACTIVATE = "_-3Ek" (String#22065, DoABC#2)
 // processInteractiveWindowEvents = "_-10V" (String#16483, DoABC#2)
 // _SafeStr_9169 = "_-2Nz" (String#19963, DoABC#2)

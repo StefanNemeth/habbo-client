@@ -20,7 +20,7 @@ package com.sulake.core.window.graphics
         private static const _SafeStr_9605:uint = 2;
 
         private var _buffer:BitmapData;
-        private var _SafeStr_8622:WindowRenderer;
+        private var _renderer:WindowRenderer;
         private var _skinContainer:ISkinContainer;
         private var _drawBufferAllocator:DrawBufferAllocator;
         private var _disposed:Boolean;
@@ -34,7 +34,7 @@ package com.sulake.core.window.graphics
         public function WindowRendererItem(_arg_1:WindowRenderer, _arg_2:DrawBufferAllocator, _arg_3:ISkinContainer)
         {
             this._disposed = false;
-            this._SafeStr_8622 = _arg_1;
+            this._renderer = _arg_1;
             this._skinContainer = _arg_3;
             this._drawBufferAllocator = _arg_2;
             this._SafeStr_9609 = 0xFFFFFFFF;
@@ -59,7 +59,7 @@ package com.sulake.core.window.graphics
         {
             if (!this._disposed){
                 this._disposed = true;
-                this._SafeStr_8622 = null;
+                this._renderer = null;
                 this._skinContainer = null;
                 if (this._buffer != null){
                     this._drawBufferAllocator.free(this._buffer);
@@ -260,7 +260,7 @@ package com.sulake.core.window.graphics
 // _SafeStr_4063 = "_-09E" (String#808, DoABC#2)
 // _colorTransform = "_-0yf" (String#300, DoABC#2)
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
-// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
+// _renderer = "_-32W" (String#628, DoABC#2)
 // allocate = "_-08G" (String#14374, DoABC#2)
 // _SafeStr_9133 = "_-2xy" (String#21391, DoABC#2)
 // testParamFlag = "_-1ml" (String#5794, DoABC#2)

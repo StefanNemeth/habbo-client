@@ -18,7 +18,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
     public class SliderWindowController extends EventDispatcher 
     {
 
-        private var _SafeStr_4312:Number = 0;
+        private var _value:Number = 0;
         private var _sliderContainer:IWindowContainer;
         private var _SafeStr_4313:Boolean = false;
         private var _SafeStr_3956:BitmapData;
@@ -35,7 +35,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             this._minValue = _arg_4;
             this._max = _arg_5;
             this._SafeStr_4314 = _arg_6;
-            this._SafeStr_4312 = 0;
+            this._value = 0;
             this.storeAssets(_arg_3);
             this.displaySlider();
         }
@@ -50,7 +50,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
         {
             _arg_1 = Math.max(this._minValue, _arg_1);
             _arg_1 = Math.min(this._max, _arg_1);
-            this._SafeStr_4312 = _arg_1;
+            this._value = _arg_1;
             if (_arg_2){
                 this.updateSliderPosition();
             };
@@ -58,7 +58,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
         }
         public function getValue():Number
         {
-            return (this._SafeStr_4312);
+            return (this._value);
         }
         public function set min(_arg_1:Number):void
         {
@@ -75,7 +75,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             };
             var _local_1:IWindow = this._sliderContainer.findChildByName("slider_button");
             if (_local_1 != null){
-                _local_1.x = this.getSliderPosition(this._SafeStr_4312);
+                _local_1.x = this.getSliderPosition(this._value);
             };
             _local_1.parent.invalidate();
         }
@@ -114,7 +114,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this._SafeStr_4313 = false;
                 if (this._SafeStr_4314 != 0){
-                    _local_3 = (this._SafeStr_4312 + this._SafeStr_4314);
+                    _local_3 = (this._value + this._SafeStr_4314);
                     this.setValue(_local_3);
                 };
             };
@@ -125,7 +125,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 this._SafeStr_4313 = false;
                 if (this._SafeStr_4314 != 0){
-                    _local_3 = (this._SafeStr_4312 - this._SafeStr_4314);
+                    _local_3 = (this._value - this._SafeStr_4314);
                     this.setValue(_local_3);
                 };
             };
@@ -189,7 +189,7 @@ package com.sulake.habbo.roomevents.userdefinedroomevents.common
 // displaySlider = "_-2mk" (String#1938, DoABC#2)
 // getSliderPosition = "_-0BT" (String#1421, DoABC#2)
 // WE_RELOCATED = "_-13s" (String#16612, DoABC#2)
-// _SafeStr_4312 = "_-Mi" (String#23114, DoABC#2)
+// _value = "_-Mi" (String#23114, DoABC#2)
 // _SafeStr_4313 = "_-1uK" (String#18730, DoABC#2)
 // _SafeStr_4314 = "_-1l6" (String#18335, DoABC#2)
 // updateSliderPosition = "_-0So" (String#15161, DoABC#2)

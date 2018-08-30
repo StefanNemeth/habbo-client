@@ -15,7 +15,7 @@ package com.sulake.habbo.room.object.visualization.data
         private var _SafeStr_12530:DirectionData = null;
         private var _SafeStr_12441:Map;
         private var _colors:Map;
-        private var _SafeStr_12531:DirectionData = null;
+        private var _directionData:DirectionData = null;
         private var _SafeStr_12532:int = -1;
 
         public function SizeData(_arg_1:int, _arg_2:int)
@@ -60,7 +60,7 @@ package com.sulake.habbo.room.object.visualization.data
                 this._SafeStr_12441.dispose();
                 this._SafeStr_12441 = null;
             };
-            this._SafeStr_12531 = null;
+            this._directionData = null;
             if (this._colors != null){
                 _local_3 = null;
                 _local_1 = 0;
@@ -114,7 +114,7 @@ package com.sulake.habbo.room.object.visualization.data
                 this.defineDirection(_local_3, _local_8);
                 this._SafeStr_12441.add(String(_local_7), _local_3);
                 this._SafeStr_12532 = -1;
-                this._SafeStr_12531 = null;
+                this._directionData = null;
                 _local_5++;
             };
             return (true);
@@ -262,7 +262,7 @@ package com.sulake.habbo.room.object.visualization.data
         private function getDirectionData(_arg_1:int):DirectionData
         {
             if (_arg_1 == this._SafeStr_12532){
-                return (this._SafeStr_12531);
+                return (this._directionData);
             };
             var _local_2:DirectionData;
             _local_2 = (this._SafeStr_12441.getValue(String(_arg_1)) as DirectionData);
@@ -270,8 +270,8 @@ package com.sulake.habbo.room.object.visualization.data
                 _local_2 = this._SafeStr_12530;
             };
             this._SafeStr_12532 = _arg_1;
-            this._SafeStr_12531 = _local_2;
-            return (this._SafeStr_12531);
+            this._directionData = _local_2;
+            return (this._directionData);
         }
         public function getTag(_arg_1:int, _arg_2:int):String
         {
@@ -355,7 +355,7 @@ package com.sulake.habbo.room.object.visualization.data
 // _layerCount = "_-1NH" (String#850, DoABC#2)
 // _SafeStr_12529 = "_-Dq" (String#22763, DoABC#2)
 // _SafeStr_12530 = "_-0yj" (String#16381, DoABC#2)
-// _SafeStr_12531 = "_-pI" (String#24244, DoABC#2)
+// _directionData = "_-pI" (String#24244, DoABC#2)
 // _SafeStr_12532 = "_-BY" (String#22673, DoABC#2)
 // defineLayers = "_-vv" (String#24524, DoABC#2)
 // defineDirection = "_-8j" (String#22570, DoABC#2)

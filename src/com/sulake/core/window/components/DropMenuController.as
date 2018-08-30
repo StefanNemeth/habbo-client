@@ -24,7 +24,7 @@ package com.sulake.core.window.components
         private var _SafeStr_9260:Array;
         private var _selection:int = -1;
         private var _SafeStr_9262:Boolean = false;
-        private var _SafeStr_9263:DropMenuController;
+        private var _subMenu:DropMenuController;
 
         public function DropMenuController(_arg_1:String, _arg_2:uint, _arg_3:uint, _arg_4:uint, _arg_5:WindowContext, _arg_6:Rectangle, _arg_7:IWindow, _arg_8:Function, _arg_9:Array=null, _arg_10:Array=null, _arg_11:uint=0)
         {
@@ -59,9 +59,9 @@ package com.sulake.core.window.components
         }
         override public function dispose():void
         {
-            if (((!((this._SafeStr_9263 == null))) && (!(this._SafeStr_9263.disposed)))){
-                this._SafeStr_9263.destroy();
-                this._SafeStr_9263 = null;
+            if (((!((this._subMenu == null))) && (!(this._subMenu.disposed)))){
+                this._subMenu.destroy();
+                this._subMenu = null;
             };
             super.dispose();
         }
@@ -80,14 +80,14 @@ package com.sulake.core.window.components
         {
             var _local_1:Rectangle = new Rectangle();
             getGlobalRectangle(_local_1);
-            if ((((this._SafeStr_9263 == null)) || (this._SafeStr_9263.disposed))){
-                this._SafeStr_9263 = (context.create((name + "::submenu"), "", WindowType._SafeStr_7548, _style, (WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN | WindowParam._SafeStr_7433), _local_1, this.subMenuEventProc, null, 0, null, [WindowController.TAG_EXCLUDE]) as DropMenuController);
+            if ((((this._subMenu == null)) || (this._subMenu.disposed))){
+                this._subMenu = (context.create((name + "::submenu"), "", WindowType._SafeStr_7548, _style, (WindowParam.WINDOW_PARAM_EXPAND_TO_ACCOMMODATE_CHILDREN | WindowParam._SafeStr_7433), _local_1, this.subMenuEventProc, null, 0, null, [WindowController.TAG_EXCLUDE]) as DropMenuController);
             }
             else {
-                this._SafeStr_9263.setGlobalRectangle(_local_1);
+                this._subMenu.setGlobalRectangle(_local_1);
             };
-            this._SafeStr_9263.activate();
-            return (this._SafeStr_9263);
+            this._subMenu.activate();
+            return (this._subMenu);
         }
         override public function populate(_arg_1:Array):void
         {
@@ -111,8 +111,8 @@ package com.sulake.core.window.components
                 _local_2 = _local_3.getListItemIndex(_arg_1);
             };
             if (_local_2 == -1){
-                if (this._SafeStr_9263 != null){
-                    _local_2 = this._SafeStr_9263.getMenuItemIndex(_arg_1);
+                if (this._subMenu != null){
+                    _local_2 = this._subMenu.getMenuItemIndex(_arg_1);
                 };
             };
             return (_local_2);
@@ -131,9 +131,9 @@ package com.sulake.core.window.components
         protected function closeMenuView():void
         {
             if (this.close()){
-                if (this._SafeStr_9263 != null){
-                    this._SafeStr_9263.destroy();
-                    this._SafeStr_9263 = null;
+                if (this._subMenu != null){
+                    this._subMenu.destroy();
+                    this._subMenu = null;
                 };
                 this._SafeStr_9262 = false;
                 this.getTitleLabel().text = (((((this._selection < this._SafeStr_9260.length)) && ((this._selection > -1)))) ? this._SafeStr_9260[this._selection] : caption);
@@ -221,7 +221,7 @@ package com.sulake.core.window.components
                     };
                     return;
                 case WindowEvent.WE_DEACTIVATED:
-                    if (_arg_2 == this._SafeStr_9263){
+                    if (_arg_2 == this._subMenu){
                         this.closeMenuView();
                     };
                     return;
@@ -362,7 +362,7 @@ package com.sulake.core.window.components
 // _SafeStr_9260 = "_-20c" (String#19035, DoABC#2)
 // _selection = "_-rB" (String#24323, DoABC#2)
 // _SafeStr_9262 = "_-oT" (String#24212, DoABC#2)
-// _SafeStr_9263 = "_-25Q" (String#19236, DoABC#2)
+// _subMenu = "_-25Q" (String#19236, DoABC#2)
 // closeMenuView = "_-2NK" (String#19936, DoABC#2)
 // getTitleLabel = "_-2K5" (String#19810, DoABC#2)
 // getSubMenu = "_-22A" (String#19098, DoABC#2)

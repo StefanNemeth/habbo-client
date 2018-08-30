@@ -34,7 +34,7 @@ package com.sulake.habbo.inventory.marketplace
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
         private var _view:IFrameWindow;
-        private var _SafeStr_4830:MarketplaceModel;
+        private var _modelController:MarketplaceModel;
         private var _roomEngine:IRoomEngine;
         private var _localization:IHabboLocalizationManager;
         private var _config:IHabboConfigurationManager;
@@ -45,7 +45,7 @@ package com.sulake.habbo.inventory.marketplace
 
         public function MarketplaceView(_arg_1:MarketplaceModel, _arg_2:IHabboWindowManager, _arg_3:IAssetLibrary, _arg_4:IRoomEngine, _arg_5:IHabboLocalizationManager, _arg_6:IHabboConfigurationManager)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._assetLibrary = _arg_3;
             this._windowManager = _arg_2;
             this._roomEngine = _arg_4;
@@ -59,7 +59,7 @@ package com.sulake.habbo.inventory.marketplace
         public function dispose():void
         {
             if (!this._disposed){
-                this._SafeStr_4830 = null;
+                this._modelController = null;
                 this._assetLibrary = null;
                 this._windowManager = null;
                 this._roomEngine = null;
@@ -96,7 +96,7 @@ package com.sulake.habbo.inventory.marketplace
             var _local_4:ImageResult;
             var _local_5:String;
             var _local_6:String;
-            if (((((((!(_arg_1)) || (!(this._localization)))) || (!(this._roomEngine)))) || (!(this._SafeStr_4830)))){
+            if (((((((!(_arg_1)) || (!(this._localization)))) || (!(this._roomEngine)))) || (!(this._modelController)))){
                 return;
             };
             this._view = (this.createWindow("make_marketplace_offer_xml") as IFrameWindow);
@@ -108,9 +108,9 @@ package com.sulake.habbo.inventory.marketplace
                 _local_2.restrict = "0-9";
             };
             this.checkPrice();
-            this._localization.registerParameter("inventory.marketplace.make_offer.expiration_info", "time", this._SafeStr_4830.expirationHours.toString());
-            this._localization.registerParameter("inventory.marketplace.make_offer.min_price", "minprice", this._SafeStr_4830.offerMinPrice.toString());
-            this._localization.registerParameter("inventory.marketplace.make_offer.max_price", "maxprice", this._SafeStr_4830.offerMaxPrice.toString());
+            this._localization.registerParameter("inventory.marketplace.make_offer.expiration_info", "time", this._modelController.expirationHours.toString());
+            this._localization.registerParameter("inventory.marketplace.make_offer.min_price", "minprice", this._modelController.offerMinPrice.toString());
+            this._localization.registerParameter("inventory.marketplace.make_offer.max_price", "maxprice", this._modelController.offerMaxPrice.toString());
             var _local_3:uint = 4293848814;
             if ((_arg_1 is FloorItem)){
                 _local_4 = this._roomEngine.getFurnitureImage(_arg_1.type, new Vector3d(180, 0, 0), 32, this, _local_3, String(_arg_1.extra));
@@ -144,7 +144,7 @@ package com.sulake.habbo.inventory.marketplace
             if (_local_7){
                 _local_7.visible = false;
             };
-            this._SafeStr_4830.getItemStats();
+            this._modelController.getItemStats();
         }
         private function setFurniImage(_arg_1:BitmapData):void
         {
@@ -198,13 +198,13 @@ package com.sulake.habbo.inventory.marketplace
                 return;
             };
             _arg_1.dispose();
-            if (this._SafeStr_4830 == null){
+            if (this._modelController == null){
                 return;
             };
             if (_arg_2.type == WindowEvent.WE_OK){
-                this._SafeStr_4830.makeOffer(this._SafeStr_8589);
+                this._modelController.makeOffer(this._SafeStr_8589);
             };
-            this._SafeStr_4830.releaseItem();
+            this._modelController.releaseItem();
         }
         private function createWindow(_arg_1:String):IWindow
         {
@@ -223,14 +223,14 @@ package com.sulake.habbo.inventory.marketplace
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "buy_tokens_button":
-                        this._SafeStr_4830.buyMarketplaceTokens();
+                        this._modelController.buyMarketplaceTokens();
                         this.disposeView();
                         break;
                     case "cancel_buy_tokens_button":
                     case "cancel_make_offer_button":
                     case "cancel_no_credits_button":
                     case "header_button_close":
-                        this._SafeStr_4830.releaseItem();
+                        this._modelController.releaseItem();
                         this.disposeView();
                         break;
                     case "make_offer_button":
@@ -242,7 +242,7 @@ package com.sulake.habbo.inventory.marketplace
                         this.disposeView();
                         break;
                     case "get_credits_button":
-                        this._SafeStr_4830.releaseItem();
+                        this._modelController.releaseItem();
                         this.openCreditsPage();
                         this.disposeView();
                         break;
@@ -278,11 +278,11 @@ package com.sulake.habbo.inventory.marketplace
                 return;
             };
             var _local_2:int = parseInt(_local_1.text);
-            if (_local_2 > this._SafeStr_4830.offerMaxPrice){
-                _local_1.text = this._SafeStr_4830.offerMaxPrice.toString();
-                _local_2 = this._SafeStr_4830.offerMaxPrice;
+            if (_local_2 > this._modelController.offerMaxPrice){
+                _local_1.text = this._modelController.offerMaxPrice.toString();
+                _local_2 = this._modelController.offerMaxPrice;
             };
-            var _local_3:int = Math.max(Math.ceil(((this._SafeStr_4830.commission * 0.01) * _local_2)), 1);
+            var _local_3:int = Math.max(Math.ceil(((this._modelController.commission * 0.01) * _local_2)), 1);
             var _local_4:int = (_local_2 + _local_3);
             var _local_5:IButtonWindow = (this._view.findChildByName("make_offer_button") as IButtonWindow);
             var _local_6:ITextWindow = (this._view.findChildByName("final_price") as ITextWindow);
@@ -291,7 +291,7 @@ package com.sulake.habbo.inventory.marketplace
             };
             this._localization.registerParameter("inventory.marketplace.make_offer.final_price", "commission", _local_3.toString());
             this._localization.registerParameter("inventory.marketplace.make_offer.final_price", "finalprice", _local_4.toString());
-            if (_local_2 < this._SafeStr_4830.offerMinPrice){
+            if (_local_2 < this._modelController.offerMinPrice){
                 _local_6.text = ("$" + "{inventory.marketplace.make_offer.min_price}");
                 _local_5.disable();
             }
@@ -317,7 +317,7 @@ package com.sulake.habbo.inventory.marketplace
             if (_arg_1 == null){
                 return;
             };
-            this._SafeStr_4830.releaseItem();
+            this._modelController.releaseItem();
             _arg_1.dispose();
         }
         public function imageReady(_arg_1:int, _arg_2:BitmapData):void
@@ -332,14 +332,14 @@ package com.sulake.habbo.inventory.marketplace
         }
         public function updateAveragePrice(_arg_1:int, _arg_2:int):void
         {
-            if (((((!(this._view)) || (!(this._localization)))) || (!(this._SafeStr_4830)))){
+            if (((((!(this._view)) || (!(this._localization)))) || (!(this._modelController)))){
                 return;
             };
             var _local_3:ITextWindow = (this._view.findChildByName("average_price") as ITextWindow);
             if (!_local_3){
                 return;
             };
-            var _local_4:int = Math.floor((_arg_1 / (1 + (this._SafeStr_4830.commission * 0.01))));
+            var _local_4:int = Math.floor((_arg_1 / (1 + (this._modelController.commission * 0.01))));
             this._localization.registerParameter("inventory.marketplace.make_offer.average_price", "days", _arg_2.toString());
             var _local_5:String = (((_arg_1 == 0)) ? " - " : _arg_1.toString());
             this._localization.registerParameter("inventory.marketplace.make_offer.average_price", "price", _local_5);
@@ -367,7 +367,7 @@ package com.sulake.habbo.inventory.marketplace
 // extra = "_-2We" (String#6693, DoABC#2)
 // stuffData = "_-0vz" (String#1580, DoABC#2)
 // clickHandler = "_-34y" (String#630, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // WE_CHANGE = "_-1sp" (String#18670, DoABC#2)
 // setText = "_-1vu" (String#243, DoABC#2)
 // _SafeStr_7055 = "_-0z3" (String#16396, DoABC#2)

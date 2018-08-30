@@ -76,7 +76,7 @@ package com.sulake.habbo.inventory
         private var _roomEngine:IRoomEngine;
         private var _roomSession:IRoomSession;
         private var _SafeStr_11681:Array;
-        private var _SafeStr_10586:Purse;
+        private var _purse:Purse;
         private var _avatarRenderer:IAvatarRenderManager;
         private var _catalog:IHabboCatalog;
         private var _toolbar:IHabboToolbar;
@@ -88,7 +88,7 @@ package com.sulake.habbo.inventory
         {
             super(_arg_1, _arg_2, _arg_3);
             this._assetLibrary = _arg_3;
-            this._SafeStr_10586 = new Purse();
+            this._purse = new Purse();
             this._SafeStr_11681 = new Array();
             queueInterface(new IIDHabboCommunicationManager(), this.onCommunicationComponentInit);
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
@@ -250,30 +250,30 @@ package com.sulake.habbo.inventory
         }
         public function get clubDays():int
         {
-            return (this._SafeStr_10586.clubDays);
+            return (this._purse.clubDays);
         }
         public function get clubPeriods():int
         {
-            return (this._SafeStr_10586.clubPeriods);
+            return (this._purse.clubPeriods);
         }
         public function get clubPastPeriods():int
         {
-            return (this._SafeStr_10586.clubPastPeriods);
+            return (this._purse.clubPastPeriods);
         }
         public function get clubHasEverBeenMember():Boolean
         {
-            return (this._SafeStr_10586.clubHasEverBeenMember);
+            return (this._purse.clubHasEverBeenMember);
         }
         public function get clubIsExpiring():Boolean
         {
-            return (this._SafeStr_10586.clubIsExpiring);
+            return (this._purse.clubIsExpiring);
         }
         public function get clubLevel():int
         {
             if ((((this.clubDays == 0)) && ((this.clubPeriods == 0)))){
                 return (HabboClubLevelEnum._SafeStr_3942);
             };
-            if (this._SafeStr_10586.isVIP){
+            if (this._purse.isVIP){
                 return (HabboClubLevelEnum._SafeStr_3939);
             };
             return (HabboClubLevelEnum._SafeStr_3943);
@@ -292,11 +292,11 @@ package com.sulake.habbo.inventory
         }
         public function setClubStatus(_arg_1:int, _arg_2:int, _arg_3:Boolean, _arg_4:Boolean, _arg_5:Boolean):void
         {
-            this._SafeStr_10586.clubPeriods = _arg_1;
-            this._SafeStr_10586.clubDays = _arg_2;
-            this._SafeStr_10586.clubHasEverBeenMember = _arg_3;
-            this._SafeStr_10586.isVIP = _arg_4;
-            this._SafeStr_10586.clubIsExpiring = _arg_5;
+            this._purse.clubPeriods = _arg_1;
+            this._purse.clubDays = _arg_2;
+            this._purse.clubHasEverBeenMember = _arg_3;
+            this._purse.isVIP = _arg_4;
+            this._purse.clubIsExpiring = _arg_5;
             this._view.setClubStatus(this.clubPeriods, this.clubDays);
         }
         private function onCommunicationComponentInit(_arg_1:IID=null, _arg_2:IUnknown=null):void
@@ -677,7 +677,7 @@ package com.sulake.habbo.inventory
 // tradingActive = "_-1-4" (String#1595, DoABC#2)
 // _roomSessionManager = "_-2nJ" (String#249, DoABC#2)
 // _roomSession = "_-2CB" (String#1832, DoABC#2)
-// _SafeStr_10586 = "_-1kp" (String#5763, DoABC#2)
+// _purse = "_-1kp" (String#5763, DoABC#2)
 // onToolbarReady = "_-3Ep" (String#218, DoABC#2)
 // setupRecycler = "_-2Iv" (String#6420, DoABC#2)
 // onAuthenticationOK = "_-20A" (String#612, DoABC#2)

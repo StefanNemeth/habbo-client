@@ -30,7 +30,7 @@ package com.sulake.habbo.navigator.roomthumbnails
         private var _navigator:HabboNavigator;
         private var _window:IWindowContainer;
         private var _active:Boolean;
-        private var _SafeStr_4830:ThumbnailEditorModel;
+        private var _modelController:ThumbnailEditorModel;
         private var _SafeStr_6054:IButtonWindow;
         private var _SafeStr_6055:IButtonWindow;
         private var _SafeStr_6056:IButtonWindow;
@@ -40,13 +40,13 @@ package com.sulake.habbo.navigator.roomthumbnails
         public function RoomThumbnailCtrl(_arg_1:HabboNavigator)
         {
             this._navigator = _arg_1;
-            this._SafeStr_4830 = new ThumbnailEditorModel();
+            this._modelController = new ThumbnailEditorModel();
         }
         public function set active(_arg_1:Boolean):void
         {
             this._active = _arg_1;
             if (this._active){
-                this._SafeStr_4830.data = this._navigator.data.enteredGuestRoom.thumbnail.getCopy();
+                this._modelController.data = this._navigator.data.enteredGuestRoom.thumbnail.getCopy();
             };
         }
         public function get active():Boolean
@@ -96,12 +96,12 @@ package com.sulake.habbo.navigator.roomthumbnails
             };
             Logger.log("save clicked");
             var _local_3:Array = new Array();
-            for each (_local_4 in this._SafeStr_4830.data.objects) {
+            for each (_local_4 in this._modelController.data.objects) {
                 if (_local_4.imgId > 0){
                     _local_3.push(_local_4);
                 };
             };
-            _local_5 = new UpdateRoomThumbnailMessageComposer(this._navigator.data.enteredGuestRoom.flatId, this._SafeStr_4830.data.bgImgId, this._SafeStr_4830.data.frontImgId, _local_3.length);
+            _local_5 = new UpdateRoomThumbnailMessageComposer(this._navigator.data.enteredGuestRoom.flatId, this._modelController.data.bgImgId, this._modelController.data.frontImgId, _local_3.length);
             for each (_local_4 in _local_3) {
                 _local_5.addObj(_local_4.pos, _local_4.imgId);
             };
@@ -121,7 +121,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             Logger.log("bg tab clicked");
-            this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6034;
+            this._modelController.mode = ThumbnailEditorModel._SafeStr_6034;
             this.reload();
         }
         private function onTopTabButton(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -130,7 +130,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             Logger.log("top tab clicked");
-            this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6036;
+            this._modelController.mode = ThumbnailEditorModel._SafeStr_6036;
             this.reload();
         }
         private function onObjTabButton(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -139,7 +139,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             Logger.log("obj tab clicked");
-            this._SafeStr_4830.mode = ThumbnailEditorModel._SafeStr_6037;
+            this._modelController.mode = ThumbnailEditorModel._SafeStr_6037;
             this.reload();
         }
         private function onSelectPos(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -148,7 +148,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             Logger.log(("obj pos clicked: " + _arg_2.id));
-            this._SafeStr_4830.setPos(_arg_2.id);
+            this._modelController.setPos(_arg_2.id);
             this.reload();
         }
         private function onImgSel(_arg_1:WindowEvent, _arg_2:IWindow):void
@@ -157,7 +157,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 return;
             };
             Logger.log(("img selected: " + _arg_2.id));
-            this._SafeStr_4830.setImg(_arg_2.id);
+            this._modelController.setImg(_arg_2.id);
             this.reload();
         }
         public function refresh(_arg_1:IWindowContainer):void
@@ -179,18 +179,18 @@ package com.sulake.habbo.navigator.roomthumbnails
         }
         private function refreshTab():void
         {
-            this.setEnabled(this._SafeStr_6054, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6034)));
-            this.setEnabled(this._SafeStr_6055, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6036)));
-            this.setEnabled(this._SafeStr_6056, !((this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037)));
+            this.setEnabled(this._SafeStr_6054, !((this._modelController.mode == ThumbnailEditorModel._SafeStr_6034)));
+            this.setEnabled(this._SafeStr_6055, !((this._modelController.mode == ThumbnailEditorModel._SafeStr_6036)));
+            this.setEnabled(this._SafeStr_6056, !((this._modelController.mode == ThumbnailEditorModel._SafeStr_6037)));
         }
         private function refreshEditArea():void
         {
             var _local_1:IWindowContainer = this._SafeStr_6058;
             Util.hideChildren(_local_1);
-            this.refreshEditImg(_local_1, "edit_bg", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6034));
-            this.refreshEditImg(_local_1, "edit_top", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6036));
-            this.refreshEditImg(_local_1, "edit_obj", (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037), false);
-            if (this._SafeStr_4830.mode == ThumbnailEditorModel._SafeStr_6037){
+            this.refreshEditImg(_local_1, "edit_bg", (this._modelController.mode == ThumbnailEditorModel._SafeStr_6034));
+            this.refreshEditImg(_local_1, "edit_top", (this._modelController.mode == ThumbnailEditorModel._SafeStr_6036));
+            this.refreshEditImg(_local_1, "edit_obj", (this._modelController.mode == ThumbnailEditorModel._SafeStr_6037), false);
+            if (this._modelController.mode == ThumbnailEditorModel._SafeStr_6037){
                 this.refreshPositionGrid();
             };
         }
@@ -232,18 +232,18 @@ package com.sulake.habbo.navigator.roomthumbnails
                 _local_1.addChild(this._navigator.getButton("selected", "rico_tile_s", null, 0, 0));
             };
             var _local_2:IBitmapWrapperWindow = IBitmapWrapperWindow(_local_1.findChildByName("selected"));
-            if (this._SafeStr_4830.selected == null){
+            if (this._modelController.selected == null){
                 _local_2.visible = false;
                 return;
             };
             _local_2.visible = true;
-            this.refreshTileLoc(_local_2, this._SafeStr_4830.selected.pos);
+            this.refreshTileLoc(_local_2, this._modelController.selected.pos);
             this.refreshBlockedTiles(_local_1);
         }
         private function refreshBlockedTiles(_arg_1:IWindowContainer):void
         {
             var _local_3:int;
-            var _local_2:Dictionary = this._SafeStr_4830.getBlockedPositions();
+            var _local_2:Dictionary = this._modelController.getBlockedPositions();
             while (_local_3 <= RoomThumbnailRenderer._SafeStr_6010) {
                 _arg_1.findChildByName(("block_" + _local_3)).visible = !((_local_2[_local_3] == null));
                 _local_3++;
@@ -265,7 +265,7 @@ package com.sulake.habbo.navigator.roomthumbnails
         {
             var _local_7:ThumbnailImageConfiguration;
             var _local_2:IWindowContainer = this.getImgSelectorContainer(_arg_1);
-            if (this._SafeStr_4830.mode != _arg_1){
+            if (this._modelController.mode != _arg_1){
                 _local_2.visible = false;
                 return;
             };
@@ -275,7 +275,7 @@ package com.sulake.habbo.navigator.roomthumbnails
                 this.populateImgList(_local_3, _arg_1);
             };
             var _local_4:Array = this._navigator.thumbRenderer.imageConfigurations.getImageList(_arg_1);
-            var _local_5:int = this._SafeStr_4830.getImgId();
+            var _local_5:int = this._modelController.getImgId();
             var _local_6:int;
             while (_local_6 < _local_4.length) {
                 _local_7 = _local_4[_local_6];
@@ -324,7 +324,7 @@ package com.sulake.habbo.navigator.roomthumbnails
         }
         private function refreshHeader():void
         {
-            this._navigator.thumbRenderer.refreshThumbnail(IWindowContainer(this._window.findChildByName("picframe")), this._SafeStr_4830.data, false);
+            this._navigator.thumbRenderer.refreshThumbnail(IWindowContainer(this._window.findChildByName("picframe")), this._modelController.data, false);
         }
 
     }
@@ -353,7 +353,7 @@ package com.sulake.habbo.navigator.roomthumbnails
 // getLowestPoint = "_-0t0" (String#16161, DoABC#2)
 // refreshTab = "_-26v" (String#6182, DoABC#2)
 // _SafeStr_4662 = "_-0g1" (String#15673, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // addObj = "_-1Uy" (String#17703, DoABC#2)
 // _SafeStr_6010 = "_-1wP" (String#18817, DoABC#2)
 // imageConfigurations = "_-2yE" (String#21403, DoABC#2)

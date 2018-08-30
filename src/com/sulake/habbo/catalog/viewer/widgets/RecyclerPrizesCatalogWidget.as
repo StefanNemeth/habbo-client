@@ -17,7 +17,7 @@ package com.sulake.habbo.catalog.viewer.widgets
     public class RecyclerPrizesCatalogWidget extends CatalogWidget implements ICatalogWidget, IItemGrid 
     {
 
-        private var _prizes:Array;
+        private var _prizeTable:Array;
         private var _viewer:PrizeViewer;
         private var _itemList:IItemListWindow;
         private var _SafeStr_10422:XML;
@@ -35,7 +35,7 @@ package com.sulake.habbo.catalog.viewer.widgets
                 this._viewer.dispose();
                 this._viewer = null;
             };
-            this._prizes = null;
+            this._prizeTable = null;
             this._itemList = null;
             this._SafeStr_10422 = null;
             this._SafeStr_10496 = null;
@@ -48,8 +48,8 @@ package com.sulake.habbo.catalog.viewer.widgets
                 return (false);
             };
             this._viewer = new PrizeViewer();
-            this._prizes = this.recycler.getPrizeTable();
-            if (this._prizes == null){
+            this._prizeTable = this.recycler.getPrizeTable();
+            if (this._prizeTable == null){
                 return (false);
             };
             this._itemList = (_window.findChildByName("itemList") as IItemListWindow);
@@ -58,16 +58,16 @@ package com.sulake.habbo.catalog.viewer.widgets
             _local_1 = (page.viewer.catalog.assets.getAssetByName("recyclerPrizesWidgetLevelItem") as XmlAsset);
             this._SafeStr_10496 = (_local_1.content as XML);
             this.populateItemGrid();
-            if ((((this._prizes.length > 0)) && ((this._prizes[0].prizes.length > 0)))){
-                this.select((this._prizes[0].prizes[0] as IGridItem));
+            if ((((this._prizeTable.length > 0)) && ((this._prizeTable[0].prizes.length > 0)))){
+                this.select((this._prizeTable[0].prizes[0] as IGridItem));
             };
             return (true);
         }
         private function populateItemGrid(_arg_1:TimerEvent=null):void
         {
             var _local_2:int;
-            while (_local_2 < this._prizes.length) {
-                this.createLevelItem(this._prizes[_local_2]);
+            while (_local_2 < this._prizeTable.length) {
+                this.createLevelItem(this._prizeTable[_local_2]);
                 _local_2++;
             };
         }
@@ -150,7 +150,7 @@ package com.sulake.habbo.catalog.viewer.widgets
 // startDragAndDrop = "_-Di" (String#7945, DoABC#2)
 // populateItemGrid = "_-2Ws" (String#892, DoABC#2)
 // _itemList = "_-Tp" (String#310, DoABC#2)
-// _prizes = "_-1ct" (String#855, DoABC#2)
+// _prizeTable = "_-1ct" (String#855, DoABC#2)
 // prizeLevelId = "_-BF" (String#22664, DoABC#2)
 // productItemType = "_-0fq" (String#15665, DoABC#2)
 // productItemTypeId = "_-0y9" (String#16357, DoABC#2)

@@ -31,7 +31,7 @@ package com.sulake.habbo.ui.widget.infostand
         private var _SafeStr_14055:IFrameWindow;
         private var _SafeStr_14056:IFrameWindow;
         private var _enabledCommands:Map;
-        private var _SafeStr_13992:int;
+        private var _currentPetId:int;
         private var _SafeStr_14057:String;
         private var _SafeStr_14058:Timer;
 
@@ -85,7 +85,7 @@ package com.sulake.habbo.ui.widget.infostand
         }
         public function getPetId():int
         {
-            return (this._SafeStr_13992);
+            return (this._currentPetId);
         }
         public function isVisible():Boolean
         {
@@ -98,10 +98,10 @@ package com.sulake.habbo.ui.widget.infostand
         {
             var _local_7:BitmapData;
             var _local_8:Point;
-            if (this._SafeStr_13992 == _arg_1){
+            if (this._currentPetId == _arg_1){
                 return;
             };
-            this._SafeStr_13992 = _arg_1;
+            this._currentPetId = _arg_1;
             this._SafeStr_14057 = _arg_2;
             if (this._SafeStr_14055 == null){
                 return;
@@ -128,7 +128,7 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_6:CommandConfiguration = (this._enabledCommands.getValue(_arg_1) as CommandConfiguration);
             if (_local_6 == null){
                 this.disableAllButtons();
-                this.requestEnabledCommands(this._SafeStr_13992);
+                this.requestEnabledCommands(this._currentPetId);
             }
             else {
                 this.updateCommandButtonsViewState(_local_6);
@@ -136,7 +136,7 @@ package com.sulake.habbo.ui.widget.infostand
         }
         private function onButtonDisableTimeout(_arg_1:TimerEvent):void
         {
-            var _local_2:CommandConfiguration = (this._enabledCommands.getValue(this._SafeStr_13992) as CommandConfiguration);
+            var _local_2:CommandConfiguration = (this._enabledCommands.getValue(this._currentPetId) as CommandConfiguration);
             this.updateCommandButtonsViewState(_local_2);
             this._SafeStr_14058.stop();
         }
@@ -144,7 +144,7 @@ package com.sulake.habbo.ui.widget.infostand
         {
             this._enabledCommands.remove(_arg_1);
             this._enabledCommands.add(_arg_1, _arg_2);
-            if (_arg_1 != this._SafeStr_13992){
+            if (_arg_1 != this._currentPetId){
                 return;
             };
             this.updateCommandButtonsViewState(_arg_2);
@@ -286,14 +286,14 @@ package com.sulake.habbo.ui.widget.infostand
                     }
                     else {
                         if (_arg_2.name == "avatar_image"){
-                            this._widget.messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._SafeStr_13992));
+                            this._widget.messageListener.processWidgetMessage(new RoomWidgetUserActionMessage(RoomWidgetUserActionMessage.RWUAM_REQUEST_PET_UPDATE, this._currentPetId));
                         }
                         else {
                             if (_arg_2.name.indexOf("btn_cmd_") > -1){
                                 _local_4 = int(_arg_2.name.substring(8));
                                 _local_5 = ("pet.command." + _local_4);
                                 _local_6 = this._widget.localizations.getKey(_local_5);
-                                _local_7 = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._SafeStr_13992, ((this._SafeStr_14057 + " ") + _local_6));
+                                _local_7 = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._currentPetId, ((this._SafeStr_14057 + " ") + _local_6));
                                 this._widget.messageListener.processWidgetMessage(_local_7);
                                 this.disableAllButtons();
                                 this._SafeStr_14058.start();
@@ -311,7 +311,7 @@ package com.sulake.habbo.ui.widget.infostand
             var _local_3:int = _arg_2.id;
             var _local_4:String = ("pet.command." + _local_3);
             var _local_5:String = this._widget.localizations.getKey(_local_4);
-            var _local_6:RoomWidgetPetCommandMessage = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._SafeStr_13992, ((this._SafeStr_14057 + " ") + _local_5));
+            var _local_6:RoomWidgetPetCommandMessage = new RoomWidgetPetCommandMessage(RoomWidgetPetCommandMessage.RWPCM_PET_COMMAND, this._currentPetId, ((this._SafeStr_14057 + " ") + _local_5));
             this._widget.messageListener.processWidgetMessage(_local_6);
             this.disableAllButtons();
             this._SafeStr_14058.start();
@@ -348,7 +348,7 @@ package com.sulake.habbo.ui.widget.infostand
 
 // _SafeStr_10176 = "_-25d" (String#875, DoABC#2)
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
-// _SafeStr_13992 = "_-2l0" (String#6980, DoABC#2)
+// _currentPetId = "_-2l0" (String#6980, DoABC#2)
 // showCommandToolForPet = "_-19V" (String#16837, DoABC#2)
 // setEnabledCommands = "_-3A2" (String#21886, DoABC#2)
 // getPetId = "_-2AE" (String#19413, DoABC#2)

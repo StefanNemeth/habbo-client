@@ -52,7 +52,7 @@ package com.sulake.habbo.ui.widget.infostand
         private var _SafeStr_13990:IItemListWindow;
         private var _SafeStr_13991:PetCommandTool;
         private var _petData:Map;
-        private var _SafeStr_13992:int;
+        private var _currentPetId:int;
 
         public function InfoStandPetView(_arg_1:InfostandWidget, _arg_2:String, _arg_3:IHabboCatalog)
         {
@@ -125,7 +125,7 @@ package com.sulake.habbo.ui.widget.infostand
             this.showButton("kick", _arg_1.canOwnerBeKicked);
             this.updateRespectButton();
             this.updateWindow();
-            this._SafeStr_13992 = _arg_1.id;
+            this._currentPetId = _arg_1.id;
             this._petData.remove(_arg_1.id);
             this._petData.add(_arg_1.id, _arg_1);
             if (((((this._SafeStr_13991) && (this._SafeStr_13991.isVisible()))) && (_arg_1.isOwnPet))){
@@ -134,7 +134,7 @@ package com.sulake.habbo.ui.widget.infostand
         }
         public function getCurrentPetId():int
         {
-            return (this._SafeStr_13992);
+            return (this._currentPetId);
         }
         public function updateEnabledTrainingCommands(_arg_1:int, _arg_2:CommandConfiguration):void
         {
@@ -173,7 +173,7 @@ package com.sulake.habbo.ui.widget.infostand
             if (this._SafeStr_13991 == null){
                 this._SafeStr_13991 = new PetCommandTool(this._widget);
             };
-            var _local_1:InfoStandPetData = (this._petData.getValue(this._SafeStr_13992) as InfoStandPetData);
+            var _local_1:InfoStandPetData = (this._petData.getValue(this._currentPetId) as InfoStandPetData);
             if (_local_1 != null){
                 this._SafeStr_13991.showWindow(true);
                 this._SafeStr_13991.showCommandToolForPet(_local_1.id, _local_1.name, _local_1.image);
@@ -377,7 +377,7 @@ package com.sulake.habbo.ui.widget.infostand
             switch (_local_4.name){
                 case "btn_pick":
                     _local_3 = RoomWidgetUserActionMessage.RWUAM_PICKUP_PET;
-                    if (((this._SafeStr_13991) && ((this._SafeStr_13991.getPetId() == this._SafeStr_13992)))){
+                    if (((this._SafeStr_13991) && ((this._SafeStr_13991.getPetId() == this._currentPetId)))){
                         this._SafeStr_13991.showWindow(false);
                     };
                     break;
@@ -490,7 +490,7 @@ package com.sulake.habbo.ui.widget.infostand
 // _SafeStr_13989 = "_-1WU" (String#5481, DoABC#2)
 // _SafeStr_13990 = "_-38U" (String#2009, DoABC#2)
 // _SafeStr_13991 = "_-28A" (String#19336, DoABC#2)
-// _SafeStr_13992 = "_-2l0" (String#6980, DoABC#2)
+// _currentPetId = "_-2l0" (String#6980, DoABC#2)
 // refreshContainer = "_-Ez" (String#22811, DoABC#2)
 // raceText = "_-1CL" (String#16958, DoABC#2)
 // ageText = "_-2aY" (String#20466, DoABC#2)

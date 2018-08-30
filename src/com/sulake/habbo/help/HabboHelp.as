@@ -43,7 +43,7 @@ package com.sulake.habbo.help
         private var _localization:IHabboLocalizationManager;
         private var _SafeStr_10977:IHabboConfigurationManager;
         private var _sessionDataManager:ISessionDataManager;
-        private var _SafeStr_11491:FaqIndex;
+        private var _faq:FaqIndex;
         private var _SafeStr_11492:IncomingMessages;
         private var _SafeStr_11493:HelpUI;
         private var _tutorialUI:TutorialUI;
@@ -59,7 +59,7 @@ package com.sulake.habbo.help
             this._userRegistry = new UserRegistry();
             super(_arg_1, _arg_2, _arg_3);
             this._assetLibrary = _arg_3;
-            this._SafeStr_11491 = new FaqIndex();
+            this._faq = new FaqIndex();
             queueInterface(new IIDHabboWindowManager(), this.onWindowManagerReady);
             queueInterface(new IIDSessionDataManager(), this.onSessionDataManagerReady);
         }
@@ -124,9 +124,9 @@ package com.sulake.habbo.help
                 this._hotelMergeUI.dispose();
                 this._hotelMergeUI = null;
             };
-            if (this._SafeStr_11491 != null){
-                this._SafeStr_11491.dispose();
-                this._SafeStr_11491 = null;
+            if (this._faq != null){
+                this._faq.dispose();
+                this._faq = null;
             };
             this._SafeStr_11492 = null;
             if (this._toolbar){
@@ -191,7 +191,7 @@ package com.sulake.habbo.help
         }
         public function getFaq():FaqIndex
         {
-            return (this._SafeStr_11491);
+            return (this._faq);
         }
         public function sendMessage(_arg_1:IMessageComposer):void
         {
@@ -386,7 +386,7 @@ package com.sulake.habbo.help
 // updateTutorial = "_-3KM" (String#22297, DoABC#2)
 // initHotelMergeUI = "_-2MZ" (String#19909, DoABC#2)
 // showWelcomeScreen = "_-QV" (String#8213, DoABC#2)
-// _SafeStr_11491 = "_-aK" (String#23646, DoABC#2)
+// _faq = "_-aK" (String#23646, DoABC#2)
 // _SafeStr_11492 = "_-0aZ" (String#589, DoABC#2)
 // _SafeStr_11493 = "_-1GE" (String#17125, DoABC#2)
 // _tutorialUI = "_-25J" (String#19230, DoABC#2)

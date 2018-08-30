@@ -9,7 +9,7 @@ package com.sulake.habbo.room.object.visualization.furniture
     public class FurnitureGiftWrappedVisualization extends FurnitureVisualization 
     {
 
-        private var _SafeStr_12678:int = 0;
+        private var _frameNumber:int = 0;
         private var _SafeStr_12679:int = 0;
 
         override public function update(_arg_1:IRoomGeometry, _arg_2:int, _arg_3:Boolean, _arg_4:Boolean):void
@@ -30,7 +30,7 @@ package com.sulake.habbo.room.object.visualization.furniture
                     _local_3 = 1000;
                     _local_4 = _local_2.getString(RoomObjectVariableEnum._SafeStr_7295);
                     _local_5 = parseInt(_local_4);
-                    this._SafeStr_12678 = Math.floor((_local_5 / _local_3));
+                    this._frameNumber = Math.floor((_local_5 / _local_3));
                     this._SafeStr_12679 = (_local_5 % _local_3);
                 };
             };
@@ -38,7 +38,7 @@ package com.sulake.habbo.room.object.visualization.furniture
         override protected function getFrameNumber(_arg_1:int, _arg_2:int):int
         {
             if (_arg_2 <= 1){
-                return (this._SafeStr_12678);
+                return (this._frameNumber);
             };
             return (this._SafeStr_12679);
         }
@@ -61,7 +61,7 @@ package com.sulake.habbo.room.object.visualization.furniture
     }
 }//package com.sulake.habbo.room.object.visualization.furniture
 
-// _SafeStr_12678 = "_-1HV" (String#17169, DoABC#2)
+// _frameNumber = "_-1HV" (String#17169, DoABC#2)
 // _SafeStr_12679 = "_-377" (String#21772, DoABC#2)
 // updateTypes = "_-2c" (String#20523, DoABC#2)
 // RoomObjectVariableEnum = "_-1MH" (String#17370, DoABC#2)

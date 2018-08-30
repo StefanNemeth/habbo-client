@@ -29,8 +29,8 @@ package com.sulake.core.window.utils
         protected var _SafeStr_9722:Point;
         protected var _SafeStr_8620:WindowController;
         protected var _SafeStr_8618:WindowController;
-        protected var _SafeStr_8622:IWindowRenderer;
-        protected var _SafeStr_8617:IDesktopWindow;
+        protected var _renderer:IWindowRenderer;
+        protected var _desktopWindow:IDesktopWindow;
         protected var _SafeStr_8623:Vector.<IWindowContextStateListener>;
         private var _disposed:Boolean = false;
 
@@ -143,10 +143,10 @@ package com.sulake.core.window.utils
             if (eventQueue.length == 0){
                 return;
             };
-            this._SafeStr_8617 = state.desktop;
+            this._desktopWindow = state.desktop;
             this._SafeStr_8618 = (state._SafeStr_8619 as WindowController);
             this._SafeStr_8620 = (state._SafeStr_8621 as WindowController);
-            this._SafeStr_8622 = state.renderer;
+            this._renderer = state.renderer;
             this._SafeStr_8623 = state._SafeStr_8624;
             eventQueue.begin();
             this._SafeStr_9722.x = -1;
@@ -159,22 +159,22 @@ package com.sulake.core.window.utils
                     this._SafeStr_9722.x = event.stageX;
                     this._SafeStr_9722.y = event.stageY;
                     array = new Array();
-                    this._SafeStr_8617.groupParameterFilteredChildrenUnderPoint(this._SafeStr_9722, array, WindowParam._SafeStr_7434);
+                    this._desktopWindow.groupParameterFilteredChildrenUnderPoint(this._SafeStr_9722, array, WindowParam._SafeStr_7434);
                 };
                 index = (((array)!=null) ? array.length : 0);
                 if (index == 0){
                     switch (event.type){
                         case MouseEvent.MOUSE_MOVE:
-                            if (((!((this._SafeStr_8618 == this._SafeStr_8617))) && (!(this._SafeStr_8618.disposed)))){
+                            if (((!((this._SafeStr_8618 == this._desktopWindow))) && (!(this._SafeStr_8618.disposed)))){
                                 this._SafeStr_8618.getGlobalPosition(_SafeStr_9721);
                                 tempWindowEvent = WindowMouseEvent.allocate(WindowMouseEvent.WME_OUT, this._SafeStr_8618, null, (event.stageX - _SafeStr_9721.x), (event.stageY - _SafeStr_9721.y), event.stageX, event.stageY, event.altKey, event.ctrlKey, event.shiftKey, event.buttonDown, event.delta);
                                 this._SafeStr_8618.update(this._SafeStr_8618, tempWindowEvent);
-                                this._SafeStr_8618 = WindowController(this._SafeStr_8617);
+                                this._SafeStr_8618 = WindowController(this._desktopWindow);
                                 tempWindowEvent.recycle();
                             };
                             break;
                         case MouseEvent.MOUSE_DOWN:
-                            window = this._SafeStr_8617.getActiveWindow();
+                            window = this._desktopWindow.getActiveWindow();
                             if (window){
                                 window.deactivate();
                             };
@@ -246,7 +246,7 @@ package com.sulake.core.window.utils
                                 mouseCursorType = MouseCursorType._SafeStr_3729;
                             };
                         };
-                        if (child != this._SafeStr_8617){
+                        if (child != this._desktopWindow){
                             event.stopPropagation();
                             eventQueue.remove();
                         };
@@ -256,10 +256,10 @@ package com.sulake.core.window.utils
             };
             eventQueue.end();
             MouseCursorControl.type = mouseCursorType;
-            state.desktop = this._SafeStr_8617;
+            state.desktop = this._desktopWindow;
             state._SafeStr_8619 = this._SafeStr_8618;
             state._SafeStr_8621 = this._SafeStr_8620;
-            state.renderer = this._SafeStr_8622;
+            state.renderer = this._renderer;
             state._SafeStr_8624 = this._SafeStr_8623;
         }
         private function passMouseEvent(_arg_1:WindowController, _arg_2:MouseEvent, _arg_3:Boolean=false):WindowController
@@ -289,7 +289,7 @@ package com.sulake.core.window.utils
                 };
             };
             if (!_local_4){
-                _local_9 = this._SafeStr_8622.getDrawBufferForRenderable(_arg_1);
+                _local_9 = this._renderer.getDrawBufferForRenderable(_arg_1);
                 if (!_arg_1.validateLocalPointIntersection(_local_5, _local_9)){
                     return (null);
                 };
@@ -358,12 +358,12 @@ package com.sulake.core.window.utils
 // _SafeStr_7434 = "_-2xA" (String#21356, DoABC#2)
 // _SafeStr_7438 = "_-2pe" (String#21065, DoABC#2)
 // process = "_-3Fw" (String#2032, DoABC#2)
-// _SafeStr_8617 = "_-1WY" (String#5483, DoABC#2)
+// _desktopWindow = "_-1WY" (String#5483, DoABC#2)
 // _SafeStr_8618 = "_-3JL" (String#22257, DoABC#2)
 // _SafeStr_8619 = "_-0fY" (String#15653, DoABC#2)
 // _SafeStr_8620 = "_-1pW" (String#18526, DoABC#2)
 // _SafeStr_8621 = "_-1ek" (String#18088, DoABC#2)
-// _SafeStr_8622 = "_-32W" (String#628, DoABC#2)
+// _renderer = "_-32W" (String#628, DoABC#2)
 // _SafeStr_8623 = "_-20v" (String#19048, DoABC#2)
 // _SafeStr_8624 = "_-3ED" (String#22044, DoABC#2)
 // getMouseCursorByState = "_-0Bd" (String#3788, DoABC#2)

@@ -19,7 +19,7 @@ package com.sulake.habbo.navigator
         private var _SafeStr_11217:String = "";
         private var _SafeStr_12022:int;
         private var _SafeStr_12023:Function;
-        private var _SafeStr_12024:String = "";
+        private var _text:String = "";
         private var _SafeStr_12025:IWindowContainer;
         private var _orgTextBackground:Boolean;
         private var _SafeStr_12026:uint;
@@ -109,7 +109,7 @@ package com.sulake.habbo.navigator
         public function getText():String
         {
             if (this._SafeStr_11824){
-                return (this._SafeStr_12024);
+                return (this._text);
             };
             return (this._input.text);
         }
@@ -141,7 +141,7 @@ package com.sulake.habbo.navigator
             if (!this._SafeStr_11824){
                 return;
             };
-            this._input.text = this._SafeStr_12024;
+            this._input.text = this._text;
             this._SafeStr_11824 = false;
             this.restoreBackground();
         }
@@ -171,7 +171,7 @@ package com.sulake.habbo.navigator
 // _input = "_-0I9" (String#14764, DoABC#2)
 // _SafeStr_12022 = "_-2Ql" (String#20077, DoABC#2)
 // _SafeStr_12023 = "_-2li" (String#20907, DoABC#2)
-// _SafeStr_12024 = "_-3Hd" (String#22185, DoABC#2)
+// _text = "_-3Hd" (String#22185, DoABC#2)
 // _SafeStr_12025 = "_-32X" (String#21598, DoABC#2)
 // _SafeStr_12026 = "_-2xD" (String#21358, DoABC#2)
 // checkEnterPress = "_-2OB" (String#19973, DoABC#2)

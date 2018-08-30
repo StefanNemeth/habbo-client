@@ -22,10 +22,10 @@ package com.sulake.core.window.components
         }
         override public function getGraphicContext(_arg_1:Boolean):IGraphicContext
         {
-            if (((_arg_1) && (!(_SafeStr_9166)))){
-                _SafeStr_9166 = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_CONTAINER, _rectangle);
+            if (((_arg_1) && (!(_graphicContext)))){
+                _graphicContext = new GraphicContext((("GC {" + _name) + "}"), GraphicContext.GC_TYPE_CONTAINER, _rectangle);
             };
-            return (_SafeStr_9166);
+            return (_graphicContext);
         }
         public function getDisplayObject():DisplayObject
         {
@@ -48,6 +48,6 @@ package com.sulake.core.window.components
 // _SafeStr_7443 = "_-0YX" (String#15382, DoABC#2)
 // _rectangle = "_-0-q" (String#3560, DoABC#2)
 // _SafeStr_9161 = "_-2-n" (String#19004, DoABC#2)
-// _SafeStr_9166 = "_-1or" (String#18492, DoABC#2)
+// _graphicContext = "_-1or" (String#18492, DoABC#2)
 
 

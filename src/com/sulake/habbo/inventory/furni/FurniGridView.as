@@ -17,7 +17,7 @@ package com.sulake.habbo.inventory.furni
         private var _windowManager:IHabboWindowManager;
         private var _assetLibrary:IAssetLibrary;
         private var _view:IWindowContainer;
-        private var _SafeStr_4830:FurniModel;
+        private var _modelController:FurniModel;
         private var _roomEngine:IRoomEngine;
         private var _category:String;
         private var _grid:IItemGridWindow;
@@ -25,7 +25,7 @@ package com.sulake.habbo.inventory.furni
 
         public function FurniGridView(_arg_1:FurniModel, _arg_2:String, _arg_3:IHabboWindowManager, _arg_4:IAssetLibrary, _arg_5:IRoomEngine)
         {
-            this._SafeStr_4830 = _arg_1;
+            this._modelController = _arg_1;
             this._category = _arg_2;
             this._assetLibrary = _arg_4;
             this._windowManager = _arg_3;
@@ -38,7 +38,7 @@ package com.sulake.habbo.inventory.furni
         }
         public function dispose():void
         {
-            this._SafeStr_4830 = null;
+            this._modelController = null;
             this._windowManager = null;
             this._assetLibrary = null;
             this._roomEngine = null;
@@ -107,19 +107,19 @@ package com.sulake.habbo.inventory.furni
             var _local_3:Boolean;
             if (_arg_1.type == WindowMouseEvent.WME_UP){
                 this._SafeStr_5001 = null;
-                this._SafeStr_4830.cancelFurniInMover();
+                this._modelController.cancelFurniInMover();
             }
             else {
                 if (_arg_1.type == WindowMouseEvent.WME_DOWN){
                     if (_arg_2 == null){
                         return;
                     };
-                    this._SafeStr_4830.toggleItemSelection(this._category, this._grid.getGridItemIndex(_arg_1.window));
+                    this._modelController.toggleItemSelection(this._category, this._grid.getGridItemIndex(_arg_1.window));
                     this._SafeStr_5001 = _arg_2;
                 }
                 else {
-                    if ((((((((_arg_1.type == WindowMouseEvent.WME_OUT)) && (!((this._SafeStr_5001 == null))))) && ((this._SafeStr_5001 == _arg_2)))) && (!(this._SafeStr_4830.isTradingOpen)))){
-                        _local_3 = this._SafeStr_4830.requestSelectedFurniPlacement(true);
+                    if ((((((((_arg_1.type == WindowMouseEvent.WME_OUT)) && (!((this._SafeStr_5001 == null))))) && ((this._SafeStr_5001 == _arg_2)))) && (!(this._modelController.isTradingOpen)))){
+                        _local_3 = this._modelController.requestSelectedFurniPlacement(true);
                         if (_local_3){
                             this._SafeStr_5001 = null;
                         };
@@ -134,7 +134,7 @@ package com.sulake.habbo.inventory.furni
                             }
                             else {
                                 if (_arg_1.type == WindowMouseEvent.WME_DOUBLE_CLICK){
-                                    this._SafeStr_4830.requestCurrentActionOnSelection();
+                                    this._modelController.requestCurrentActionOnSelection();
                                     this._SafeStr_5001 = null;
                                 };
                             };
@@ -154,7 +154,7 @@ package com.sulake.habbo.inventory.furni
 // WME_OUT = "_-0h2" (String#15712, DoABC#2)
 // WME_DOWN = "_-hL" (String#23944, DoABC#2)
 // WME_UP = "_-0Cs" (String#14566, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // removeGridItems = "_-1Bp" (String#5106, DoABC#2)
 // removeGridItemAt = "_-Rm" (String#8243, DoABC#2)
 // addGridItem = "_-2vh" (String#7192, DoABC#2)

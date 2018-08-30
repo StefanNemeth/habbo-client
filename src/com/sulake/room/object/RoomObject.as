@@ -17,12 +17,12 @@ package com.sulake.room.object
         private var _type:String = "";
         private var _loc:Vector3d;
         private var _dir:Vector3d;
-        private var _SafeStr_14403:Vector3d;
-        private var _SafeStr_14404:Vector3d;
+        private var _location:Vector3d;
+        private var _direction:Vector3d;
         private var _SafeStr_14405:Array;
-        private var _SafeStr_4830:RoomObjectModel;
+        private var _modelController:RoomObjectModel;
         private var _visualization:IRoomObjectVisualization;
-        private var _SafeStr_14406:IRoomObjectEventHandler;
+        private var _eventHandler:IRoomObjectEventHandler;
         private var _updateID:int;
         private var _instanceId:int = 0;
 
@@ -31,8 +31,8 @@ package com.sulake.room.object
             this._id = _arg_1;
             this._loc = new Vector3d();
             this._dir = new Vector3d();
-            this._SafeStr_14403 = new Vector3d();
-            this._SafeStr_14404 = new Vector3d();
+            this._location = new Vector3d();
+            this._direction = new Vector3d();
             this._SafeStr_14405 = new Array(_arg_2);
             var _local_4:Number = (_arg_2 - 1);
             while (_local_4 >= 0) {
@@ -40,9 +40,9 @@ package com.sulake.room.object
                 _local_4--;
             };
             this._type = _arg_3;
-            this._SafeStr_4830 = new RoomObjectModel();
+            this._modelController = new RoomObjectModel();
             this._visualization = null;
-            this._SafeStr_14406 = null;
+            this._eventHandler = null;
             this._updateID = 0;
             this._instanceId = _SafeStr_5547++;
         }
@@ -50,9 +50,9 @@ package com.sulake.room.object
         {
             this._loc = null;
             this._dir = null;
-            if (this._SafeStr_4830 != null){
-                this._SafeStr_4830.dispose();
-                this._SafeStr_4830 = null;
+            if (this._modelController != null){
+                this._modelController.dispose();
+                this._modelController = null;
             };
             this._SafeStr_14405 = null;
             this.setVisualization(null);
@@ -72,21 +72,21 @@ package com.sulake.room.object
         }
         public function getLocation():IVector3d
         {
-            this._SafeStr_14403.assign(this._loc);
-            return (this._SafeStr_14403);
+            this._location.assign(this._loc);
+            return (this._location);
         }
         public function getDirection():IVector3d
         {
-            this._SafeStr_14404.assign(this._dir);
-            return (this._SafeStr_14404);
+            this._direction.assign(this._dir);
+            return (this._direction);
         }
         public function getModel():IRoomObjectModel
         {
-            return (this._SafeStr_4830);
+            return (this._modelController);
         }
         public function getModelController():IRoomObjectModelController
         {
-            return (this._SafeStr_4830);
+            return (this._modelController);
         }
         public function getState(_arg_1:int):int
         {
@@ -148,22 +148,22 @@ package com.sulake.room.object
         }
         public function setEventHandler(_arg_1:IRoomObjectEventHandler):void
         {
-            if (_arg_1 == this._SafeStr_14406){
+            if (_arg_1 == this._eventHandler){
                 return;
             };
-            var _local_2:IRoomObjectEventHandler = this._SafeStr_14406;
+            var _local_2:IRoomObjectEventHandler = this._eventHandler;
             if (_local_2 != null){
-                this._SafeStr_14406 = null;
+                this._eventHandler = null;
                 _local_2.object = null;
             };
-            this._SafeStr_14406 = _arg_1;
-            if (this._SafeStr_14406 != null){
-                this._SafeStr_14406.object = this;
+            this._eventHandler = _arg_1;
+            if (this._eventHandler != null){
+                this._eventHandler.object = this;
             };
         }
         public function getEventHandler():IRoomObjectEventHandler
         {
-            return (this._SafeStr_14406);
+            return (this._eventHandler);
         }
         public function getUpdateID():int
         {
@@ -183,10 +183,10 @@ package com.sulake.room.object
 // getEventHandler = "_-1dG" (String#5618, DoABC#2)
 // IRoomObjectController = "_-17p" (String#5034, DoABC#2)
 // getVisualization = "_-1At" (String#5090, DoABC#2)
-// _SafeStr_14403 = "_-0O2" (String#14990, DoABC#2)
-// _SafeStr_14404 = "_-0Fz" (String#14683, DoABC#2)
+// _location = "_-0O2" (String#14990, DoABC#2)
+// _direction = "_-0Fz" (String#14683, DoABC#2)
 // _SafeStr_14405 = "_-0aw" (String#15471, DoABC#2)
-// _SafeStr_14406 = "_-Po" (String#23240, DoABC#2)
+// _eventHandler = "_-Po" (String#23240, DoABC#2)
 // IRoomObjectMouseHandler = "_-2xI" (String#7227, DoABC#2)
 // IRoomObjectEventHandler = "_-2c8" (String#6797, DoABC#2)
 // IRoomObjectVisualization = "_-3D2" (String#7575, DoABC#2)
@@ -194,7 +194,7 @@ package com.sulake.room.object
 // IRoomObjectModelController = "_-1yp" (String#6010, DoABC#2)
 // _dir = "_-1kY" (String#187, DoABC#2)
 // getUpdateID = "_-Ga" (String#932, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // _loc = "_-0OE" (String#185, DoABC#2)
 // _SafeStr_5547 = "_-2iI" (String#1928, DoABC#2)
 // _instanceId = "_-1cJ" (String#854, DoABC#2)

@@ -34,7 +34,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
         protected static var _SafeStr_6827:Boolean = false;
 
         protected var _window:IWindowContainer;
-        protected var _SafeStr_6828:IWindowContainer;
+        protected var _minimizedView:IWindowContainer;
         protected var _activeView:IWindowContainer;
         private var _SafeStr_6830:Boolean;
         protected var _widget:AvatarInfoWidget;
@@ -119,9 +119,9 @@ package com.sulake.habbo.ui.widget.avatarinfo
                 this._window.dispose();
                 this._window = null;
             };
-            if (this._SafeStr_6828){
-                this._SafeStr_6828.dispose();
-                this._SafeStr_6828 = null;
+            if (this._minimizedView){
+                this._minimizedView.dispose();
+                this._minimizedView = null;
             };
             if (this._SafeStr_6834){
                 this._SafeStr_6834.removeEventListener(TimerEvent.TIMER_COMPLETE, this.onTimerComplete);
@@ -286,16 +286,16 @@ package com.sulake.habbo.ui.widget.avatarinfo
         protected function getMinimizedView():IWindowContainer
         {
             var _local_1:XML;
-            if (!this._SafeStr_6828){
+            if (!this._minimizedView){
                 _local_1 = (XmlAsset(this._widget.assets.getAssetByName("minimized_menu")).content as XML);
-                this._SafeStr_6828 = (this._widget.windowManager.buildFromXML(_local_1, 0) as IWindowContainer);
-                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMaximize);
-                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMinimizeHover);
-                this._SafeStr_6828.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, this.onMinimizeHover);
-                this._SafeStr_6828.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseHoverEvent);
-                this._SafeStr_6828.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseHoverEvent);
+                this._minimizedView = (this._widget.windowManager.buildFromXML(_local_1, 0) as IWindowContainer);
+                this._minimizedView.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onMaximize);
+                this._minimizedView.findChildByName("minimize").addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMinimizeHover);
+                this._minimizedView.findChildByName("minimize").addEventListener(WindowMouseEvent.WME_OUT, this.onMinimizeHover);
+                this._minimizedView.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_OVER, this.onMouseHoverEvent);
+                this._minimizedView.addEventListener(WindowMouseEvent.WME_OUT, this.onMouseHoverEvent);
             };
-            return (this._SafeStr_6828);
+            return (this._minimizedView);
         }
         private function onMaximize(_arg_1:WindowMouseEvent):void
         {
@@ -368,7 +368,7 @@ package com.sulake.habbo.ui.widget.avatarinfo
 // _SafeStr_6825 = "_-0FW" (String#14666, DoABC#2)
 // _SafeStr_6826 = "_-2If" (String#19754, DoABC#2)
 // _SafeStr_6827 = "_-0Pc" (String#4085, DoABC#2)
-// _SafeStr_6828 = "_-3Gz" (String#22162, DoABC#2)
+// _minimizedView = "_-3Gz" (String#22162, DoABC#2)
 // _activeView = "_-0q0" (String#16052, DoABC#2)
 // _SafeStr_6830 = "_-0fx" (String#15668, DoABC#2)
 // _allowNameChange = "_-21h" (String#1802, DoABC#2)

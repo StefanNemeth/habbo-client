@@ -27,7 +27,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
 
         private var _widget:PlayListEditorWidget;
         private var _musicController:IHabboMusicController;
-        private var _mainWindow:IWindowContainer;
+        private var _window:IWindowContainer;
         private var _SafeStr_6679:IBorderWindow;
         private var _SafeStr_6680:IBorderWindow;
         private var _musicInventoryView:MusicInventoryGridView;
@@ -63,7 +63,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
         }
         public function get window():IWindow
         {
-            return (this._mainWindow);
+            return (this._window);
         }
         public function get musicInventoryView():MusicInventoryGridView
         {
@@ -95,12 +95,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 this._SafeStr_6683.destroy();
                 this._SafeStr_6683 = null;
             };
-            this._mainWindow.destroy();
-            this._mainWindow = null;
+            this._window.destroy();
+            this._window = null;
         }
         public function hide():void
         {
-            this._mainWindow.visible = false;
+            this._window.visible = false;
             if (this._widget != null){
                 this._widget.stopUserSong();
             };
@@ -113,7 +113,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
                 _local_1.requestPlayList();
                 this.selectPlayListStatusViewByFurniPlayListState();
             };
-            this._mainWindow.visible = true;
+            this._window.visible = true;
         }
         public function refreshLoadableAsset(_arg_1:String=""):void
         {
@@ -153,12 +153,12 @@ package com.sulake.habbo.ui.widget.playlisteditor
             };
             var _local_1:XmlAsset = (this._widget.assets.getAssetByName("playlisteditor_main_window") as XmlAsset);
             Logger.log(("Show window: " + _local_1));
-            this._mainWindow = (this._widget.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
-            if (this._mainWindow == null){
+            this._window = (this._widget.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
+            if (this._window == null){
                 throw (new Error("Failed to construct window from XML!"));
             };
-            this._mainWindow.position = new Point(80, 0);
-            var _local_2:IWindowContainer = (this._mainWindow.getChildByName("content_area") as IWindowContainer);
+            this._window.position = new Point(80, 0);
+            var _local_2:IWindowContainer = (this._window.getChildByName("content_area") as IWindowContainer);
             if (_local_2 == null){
                 throw (new Error("Window is missing 'content_area' element"));
             };
@@ -178,7 +178,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
             if (this._SafeStr_6686 == null){
                 throw (new Error("Window content area is missing 'playlist_scrollbar' window element"));
             };
-            var _local_3:IWindow = this._mainWindow.findChildByTag("close");
+            var _local_3:IWindow = this._window.findChildByTag("close");
             if (_local_3 != null){
                 _local_3.addEventListener(WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK, this.onClose);
             };
@@ -328,7 +328,7 @@ package com.sulake.habbo.ui.widget.playlisteditor
 // PlayListStatusView = "_-1Nn" (String#5307, DoABC#2)
 // PlayListEditorItemListView = "_-0tv" (String#4722, DoABC#2)
 // PlayListEditorWidgetAssetsEnum = "_-0jk" (String#4497, DoABC#2)
-// _mainWindow = "_-1P" (String#361, DoABC#2)
+// _window = "_-1P" (String#361, DoABC#2)
 // getEntry = "_-ig" (String#2166, DoABC#2)
 // refresh = "_-s9" (String#189, DoABC#2)
 // onClose = "_-2Ts" (String#54, DoABC#2)

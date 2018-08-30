@@ -12,18 +12,18 @@ package com.sulake.habbo.avatar.promo
     public class ClubPromoView implements ISideContentView 
     {
 
-        private var _SafeStr_4830:ClubPromoModel;
+        private var _modelController:ClubPromoModel;
         private var _window:IWindowContainer;
 
         public function ClubPromoView(_arg_1:ClubPromoModel)
         {
             var _local_2:XmlAsset;
             super();
-            this._SafeStr_4830 = _arg_1;
-            if (((((this._SafeStr_4830) && (this._SafeStr_4830.controller))) && (this._SafeStr_4830.controller.manager.assets))){
-                _local_2 = (this._SafeStr_4830.controller.manager.assets.getAssetByName("avatareditor_club_promo_try") as XmlAsset);
+            this._modelController = _arg_1;
+            if (((((this._modelController) && (this._modelController.controller))) && (this._modelController.controller.manager.assets))){
+                _local_2 = (this._modelController.controller.manager.assets.getAssetByName("avatareditor_club_promo_try") as XmlAsset);
                 if (_local_2){
-                    this._window = (this._SafeStr_4830.controller.manager.windowManager.buildFromXML((_local_2.content as XML)) as IWindowContainer);
+                    this._window = (this._modelController.controller.manager.windowManager.buildFromXML((_local_2.content as XML)) as IWindowContainer);
                     this._window.visible = false;
                     this._window.procedure = this.windowEventProc;
                 };
@@ -31,7 +31,7 @@ package com.sulake.habbo.avatar.promo
         }
         public function dispose():void
         {
-            this._SafeStr_4830 = null;
+            this._modelController = null;
         }
         public function getWindowContainer():IWindowContainer
         {
@@ -40,10 +40,10 @@ package com.sulake.habbo.avatar.promo
         public function showBuyView():void
         {
             var _local_1:XmlAsset;
-            if (((((this._SafeStr_4830) && (this._SafeStr_4830.controller))) && (this._SafeStr_4830.controller.manager.assets))){
-                _local_1 = (this._SafeStr_4830.controller.manager.assets.getAssetByName("avatareditor_club_promo_buy") as XmlAsset);
+            if (((((this._modelController) && (this._modelController.controller))) && (this._modelController.controller.manager.assets))){
+                _local_1 = (this._modelController.controller.manager.assets.getAssetByName("avatareditor_club_promo_buy") as XmlAsset);
                 if (_local_1){
-                    this._window = (this._SafeStr_4830.controller.manager.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
+                    this._window = (this._modelController.controller.manager.windowManager.buildFromXML((_local_1.content as XML)) as IWindowContainer);
                     this._window.visible = false;
                     this._window.procedure = this.windowEventProc;
                 };
@@ -54,13 +54,13 @@ package com.sulake.habbo.avatar.promo
             if (_arg_1.type == WindowMouseEvent.WINDOW_EVENT_MOUSE_CLICK){
                 switch (_arg_2.name){
                     case "try_clothes_btn":
-                        if (this._SafeStr_4830){
-                            this._SafeStr_4830.tryClubClothes();
+                        if (this._modelController){
+                            this._modelController.tryClubClothes();
                         };
                         return;
                     case "club_info_btn":
-                        if (((((this._SafeStr_4830) && (this._SafeStr_4830.controller))) && (this._SafeStr_4830.controller.manager.catalog))){
-                            this._SafeStr_4830.controller.manager.catalog.openCatalogPage(CatalogPageName._SafeStr_5382, true);
+                        if (((((this._modelController) && (this._modelController.controller))) && (this._modelController.controller.manager.catalog))){
+                            this._modelController.controller.manager.catalog.openCatalogPage(CatalogPageName._SafeStr_5382, true);
                         };
                         return;
                     default:
@@ -77,7 +77,7 @@ package com.sulake.habbo.avatar.promo
 // ClubPromoModel = "_-1zj" (String#6027, DoABC#2)
 // ISideContentView = "_-1Yh" (String#5537, DoABC#2)
 // ClubPromoView = "_-28r" (String#6221, DoABC#2)
-// _SafeStr_4830 = "_-0XB" (String#112, DoABC#2)
+// _modelController = "_-0XB" (String#112, DoABC#2)
 // getWindowContainer = "_-v8" (String#313, DoABC#2)
 // _SafeStr_5382 = "_-lc" (String#24094, DoABC#2)
 // tryClubClothes = "_-0Mo" (String#14944, DoABC#2)

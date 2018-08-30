@@ -18,7 +18,7 @@ package com.sulake.core.localization
     {
 
         private var _localizations:Dictionary;
-        private var _SafeStr_8873:Map;
+        private var _localizationDefinitions:Map;
         private var _SafeStr_8874:String;
         private var _SafeStr_8875:String = "";
         private var _SafeStr_8876:Array;
@@ -28,19 +28,19 @@ package com.sulake.core.localization
             this._SafeStr_8876 = [];
             super(_arg_1, _arg_2, _arg_3);
             this._localizations = new Dictionary();
-            this._SafeStr_8873 = new Map();
+            this._localizationDefinitions = new Map();
         }
         public function registerLocalizationDefinition(_arg_1:String, _arg_2:String, _arg_3:String):void
         {
-            var _local_4:LocalizationDefinition = this._SafeStr_8873[_arg_1];
+            var _local_4:LocalizationDefinition = this._localizationDefinitions[_arg_1];
             if (_local_4 == null){
                 _local_4 = new LocalizationDefinition(_arg_1, _arg_2, _arg_3);
-                this._SafeStr_8873[_arg_1] = _local_4;
+                this._localizationDefinitions[_arg_1] = _local_4;
             };
         }
         public function activateLocalization(_arg_1:String):Boolean
         {
-            var _local_2:LocalizationDefinition = this._SafeStr_8873[_arg_1];
+            var _local_2:LocalizationDefinition = this._localizationDefinitions[_arg_1];
             if (_local_2 != null){
                 this._SafeStr_8874 = _arg_1;
                 this.loadLocalizationFromURL(_local_2.url);
@@ -50,11 +50,11 @@ package com.sulake.core.localization
         }
         public function getLocalizationDefinitions():Map
         {
-            return (this._SafeStr_8873);
+            return (this._localizationDefinitions);
         }
         public function getLocalizationDefinition(_arg_1:String):ILocalizationDefinition
         {
-            return ((this._SafeStr_8873[_arg_1] as ILocalizationDefinition));
+            return ((this._localizationDefinitions[_arg_1] as ILocalizationDefinition));
         }
         public function getActiveLocalizationDefinition():ILocalizationDefinition
         {
@@ -247,7 +247,7 @@ package com.sulake.core.localization
 // updateListeners = "_-1i" (String#18210, DoABC#2)
 // registerListener = "_-6e" (String#7798, DoABC#2)
 // removeListener = "_-1Hc" (String#1653, DoABC#2)
-// _SafeStr_8873 = "_-Zg" (String#23623, DoABC#2)
+// _localizationDefinitions = "_-Zg" (String#23623, DoABC#2)
 // _SafeStr_8874 = "_-2vG" (String#21288, DoABC#2)
 // _SafeStr_8875 = "_-R7" (String#23288, DoABC#2)
 // _SafeStr_8876 = "_-0T4" (String#15173, DoABC#2)

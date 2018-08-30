@@ -23,7 +23,7 @@ package com.sulake.habbo.session
         private var _communication:IHabboCommunicationManager;
         private var _events:IEventDispatcher;
         private var _badges:Map;
-        private var _SafeStr_13622:GroupDetailsView;
+        private var _groupDetailsView:GroupDetailsView;
 
         public function HabboGroupInfoManager(_arg_1:SessionDataManager, _arg_2:IEventDispatcher)
         {
@@ -84,16 +84,16 @@ package com.sulake.habbo.session
         }
         private function onRoomExit(_arg_1:IMessageEvent):void
         {
-            if (this._SafeStr_13622 != null){
-                this._SafeStr_13622.close();
+            if (this._groupDetailsView != null){
+                this._groupDetailsView.close();
             };
         }
         private function getGroupDetailsView():GroupDetailsView
         {
-            if (this._SafeStr_13622 == null){
-                this._SafeStr_13622 = new GroupDetailsView(this._SafeStr_13621);
+            if (this._groupDetailsView == null){
+                this._groupDetailsView = new GroupDetailsView(this._SafeStr_13621);
             };
-            return (this._SafeStr_13622);
+            return (this._groupDetailsView);
         }
         public function getBadgeId(_arg_1:int):String
         {
@@ -111,7 +111,7 @@ package com.sulake.habbo.session
 // WindowEvent = "_-Jh" (String#2085, DoABC#2)
 // IAlertDialog = "_-2LY" (String#6472, DoABC#2)
 // _SafeStr_13621 = "_-2nA" (String#7025, DoABC#2)
-// _SafeStr_13622 = "_-0Gs" (String#14713, DoABC#2)
+// _groupDetailsView = "_-0Gs" (String#14713, DoABC#2)
 // onHabboGroupBadges = "_-9l" (String#22608, DoABC#2)
 // onGroupDetails = "_-u1" (String#8767, DoABC#2)
 // onGroupsWhereMember = "_-uh" (String#24479, DoABC#2)

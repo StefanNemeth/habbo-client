@@ -22,7 +22,7 @@ package com.sulake.habbo.avatar
             if (!_disposed){
                 _structure = null;
                 _assets = null;
-                _SafeStr_7920 = null;
+                _cache = null;
                 _SafeStr_10078 = null;
                 _figure = null;
                 _avatarSpriteData = null;
@@ -36,7 +36,7 @@ package com.sulake.habbo.avatar
                     _local_1.dispose();
                     _local_1 = null;
                 };
-                _SafeStr_9904 = null;
+                _canvasOffsets = null;
                 _disposed = true;
             };
         }
@@ -116,9 +116,9 @@ package com.sulake.habbo.avatar
 // _SafeStr_6562 = "_-R2" (String#23284, DoABC#2)
 // _SafeStr_6563 = "_-07B" (String#14332, DoABC#2)
 // _SafeStr_6564 = "_-1eZ" (String#18081, DoABC#2)
-// _SafeStr_7920 = "_-Fe" (String#636, DoABC#2)
+// _cache = "_-Fe" (String#636, DoABC#2)
 // _SafeStr_7966 = "_-q1" (String#24274, DoABC#2)
 // _SafeStr_7967 = "_-2fy" (String#20690, DoABC#2)
-// _SafeStr_9904 = "_-16y" (String#1623, DoABC#2)
+// _canvasOffsets = "_-16y" (String#1623, DoABC#2)
 
 
